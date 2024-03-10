@@ -238,18 +238,18 @@ void KileLyxServer::processLine(const QString &line)
 
     auto match = reCite.match(line);
     if(match.hasMatch()) {
-        emit(insert(KileAction::TagData(i18n("Cite"), "\\cite{"+match.captured(1)+'}')));
+        Q_EMIT(insert(KileAction::TagData(i18n("Cite"), "\\cite{"+match.captured(1)+'}')));
         return;
     }
 
     match = reBibtexdbadd.match(line);
     if(match.hasMatch()) {
-        emit(insert(KileAction::TagData(i18n("Add BibTeX database"), "\\bibliography{"+ match.captured(1) + '}')));
+        Q_EMIT(insert(KileAction::TagData(i18n("Add BibTeX database"), "\\bibliography{"+ match.captured(1) + '}')));
     }
 
     match = rePaste.match(line);
     if (match.hasMatch()) {
-        emit(insert(KileAction::TagData(i18n("Paste"), match.captured(1))));
+        Q_EMIT(insert(KileAction::TagData(i18n("Paste"), match.captured(1))));
     }
 }
 

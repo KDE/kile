@@ -341,7 +341,7 @@ QIcon SelectFrameAction::generateIcon()
 
 void SelectFrameAction::slotTriggered()
 {
-    emit borderSelected(m_CurrentBorder);
+    Q_EMIT borderSelected(m_CurrentBorder);
 }
 
 void SelectFrameAction::slotNoneClicked()
@@ -371,7 +371,7 @@ void SelectFrameAction::slotDoneClicked()
         m_CurrentBorder = newBorder;
         setIcon(generateIcon());
     }
-    emit borderSelected(newBorder);
+    Q_EMIT borderSelected(newBorder);
     menu()->hide();
 }
 

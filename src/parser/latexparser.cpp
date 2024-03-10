@@ -127,7 +127,7 @@ ParserOutput* LaTeXParser::parse()
     bool fireSuspended; // found an item, but it should not be fired (this time)
     TodoResult todo;
 
-// 	emit(parsingStarted(m_doc->lines()));
+// 	Q_EMIT(parsingStarted(m_doc->lines()));
     for(int i = 0; i < m_textLines.size(); ++i) {
         if(!m_parserThread->shouldContinueDocumentParsing()) {
             qCDebug(LOG_KILE_PARSER) << "stopping...";
@@ -135,7 +135,7 @@ ParserOutput* LaTeXParser::parse()
             return Q_NULLPTR;
         }
 
-//		emit(parsingUpdate(i));
+//		Q_EMIT(parsingUpdate(i));
 
         int tagStart = 0, tagEnd = 0;
         bool fire = true; //whether or not we should emit a foundItem signal

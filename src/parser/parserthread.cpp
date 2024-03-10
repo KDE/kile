@@ -151,7 +151,7 @@ void ParserThread::run()
         // thread is woken up only after it has been removed again.
         while(m_parserQueue.size() == 0 && m_keepParserThreadAlive) {
             qCDebug(LOG_KILE_PARSER) << "going to sleep...";
-            emit(parsingQueueEmpty());
+            Q_EMIT(parsingQueueEmpty());
             m_queueEmptyWaitCondition.wait(&m_parserMutex);
             qCDebug(LOG_KILE_PARSER) << "woken up...";
         }
@@ -169,7 +169,7 @@ void ParserThread::run()
 
         m_keepParsingDocument = true;
         m_currentlyParsedUrl = currentParsedItem->url;
-        emit(parsingStarted());
+        Q_EMIT(parsingStarted());
         m_parserMutex.unlock();
 
         Parser *parser = createParser(currentParsedItem);
@@ -185,7 +185,7 @@ void ParserThread::run()
         // we also emit when 'parserOutput == Q_NULLPTR' as this will be used to indicate
         // that some error has occurred;
         // as this call will be blocking, one has to make sure that no mutex is held
-        emit(parsingComplete(m_currentlyParsedUrl, parserOutput));
+        Q_EMIT(parsingComplete(m_currentlyParsedUrl, parserOutput));
     }
     qCDebug(LOG_KILE_PARSER) << "leaving...";
     // remaining queue elements are deleted in the destructor

@@ -149,7 +149,7 @@ void CommandViewToolBox::slotItemActivated(QListWidgetItem *item)
         int xpos,ypos;
         QString text = m_latexCompletionModel->filterLatexCommand(item->text(),ypos,xpos);
         if(!text.isEmpty()) {
-            emit(sendText(text));
+            Q_EMIT(sendText(text));
 
             // place cursor
             if(KileConfig::completeCursor() && (xpos > 0 || ypos > 0) ) {

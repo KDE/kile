@@ -137,6 +137,6 @@ void QuickToolConfigWidget::changed()
         sequence = sequence.left(sequence.length()-1);
     }
     m_sequence = sequence;
-    emit sequenceChanged(m_sequence);
+    Q_EMIT sequenceChanged(m_sequence);
 }
 

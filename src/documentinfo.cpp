@@ -394,7 +394,7 @@ void Info::updateBibItems()
 void Info::slotCompleted()
 {
     setDirty(true);
-    emit completed(this);
+    Q_EMIT completed(this);
 }
 
 TextInfo::TextInfo(Extensions* extensions,
@@ -414,7 +414,7 @@ TextInfo::TextInfo(Extensions* extensions,
 
 TextInfo::~TextInfo()
 {
-    emit(aboutToBeDestroyed(this));
+    Q_EMIT(aboutToBeDestroyed(this));
     detach();
     delete [] m_arStatistics;
 }
@@ -476,7 +476,7 @@ void TextInfo::detach()
         removeInstalledEventFilters();
         removeSignalConnections();
         unregisterCodeCompletionModels();
-        emit(documentDetached(m_doc));
+        Q_EMIT(documentDetached(m_doc));
     }
     m_doc = Q_NULLPTR;
 }
@@ -668,7 +668,7 @@ void TextInfo::startAbbreviationCompletion(KTextEditor::View *view)
 
 void TextInfo::slotFileNameChanged()
 {
-    emit urlChanged(this, url());
+    Q_EMIT urlChanged(this, url());
 }
 
 void TextInfo::installEventFilters(KTextEditor::View *view)
@@ -1055,7 +1055,7 @@ void LaTeXInfo::checkChangedDeps()
 {
     if(m_depsPrev != m_deps) {
         KILE_DEBUG_MAIN << "===void LaTeXInfo::checkChangedDeps()===, deps have changed"<< Qt::endl;
-        emit(depChanged());
+        Q_EMIT(depChanged());
         m_depsPrev = m_deps;
     }
 }
@@ -1081,9 +1081,9 @@ void LaTeXInfo::installParserOutput(KileParser::ParserOutput *parserOutput)
     m_bIsRoot = latexParserOutput->bIsRoot;
 
     checkChangedDeps();
-    emit(isrootChanged(isLaTeXRoot()));
+    Q_EMIT(isrootChanged(isLaTeXRoot()));
     setDirty(false);
-    emit(parsingComplete());
+    Q_EMIT(parsingComplete());
 }
 
 BibInfo::BibInfo(Extensions* extensions,
@@ -1122,7 +1122,7 @@ void BibInfo::installParserOutput(KileParser::ParserOutput *parserOutput)
     m_bibItems = bibtexParserOutput->bibItems;
 
     setDirty(false);
-    emit(parsingComplete());
+    Q_EMIT(parsingComplete());
 }
 
 Type BibInfo::getType()

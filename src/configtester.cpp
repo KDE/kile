@@ -138,13 +138,13 @@ void Tester::runTests()
 #endif
     KIO::CopyJob *copyJob = KIO::copyAs(QUrl::fromLocalFile(testDirectory), QUrl::fromLocalFile(destinationDirectory), KIO::HideProgressInfo | KIO::Overwrite);
     connect(copyJob, SIGNAL(result(KJob*)), this, SLOT(handleFileCopyResult(KJob*)));
-    emit(percentageDone(0));
+    Q_EMIT(percentageDone(0));
 }
 
 void Tester::handleFileCopyResult(KJob* job)
 {
     if(job->error()) {
-        emit(finished(false));
+        Q_EMIT(finished(false));
     }
     else {
         startNextTest();
@@ -200,8 +200,8 @@ void Tester::startNextTest()
         m_currentTest->call();
     }
     else {
-        emit(percentageDone(100));
-        emit(finished(true));
+        Q_EMIT(percentageDone(100));
+        Q_EMIT(finished(true));
     }
 }
 
@@ -212,7 +212,7 @@ void Tester::handleTestComplete(ConfigTest *test)
         addResult(test->testGroup(), test);
     }
     ++m_testsDone;
-    emit(percentageDone((m_testsDone / (float) m_testList.size()) * 100.0));
+    Q_EMIT(percentageDone((m_testsDone / (float) m_testList.size()) * 100.0));
     startNextTest();
 }
 
@@ -248,7 +248,7 @@ void TestToolInKileTest::call()
                             "Kile is not configured correctly. Go to Settings->Configure Kile->Tools "
                             "and either fix the problem or change to the default settings."
                            );
-        emit(testComplete(this));
+        Q_EMIT(testComplete(this));
         return;
     }
     // We don't want the tool to spawn subtools (especially, for LaTeX-style tools).
@@ -267,7 +267,7 @@ void TestToolInKileTest::reportSuccess()
 
     m_status = Success;
     m_resultText = i18n("Passed");
-    emit(testComplete(this));
+    Q_EMIT(testComplete(this));
 }
 
 void TestToolInKileTest::reportFailure()
@@ -277,7 +277,7 @@ void TestToolInKileTest::reportFailure()
 
     m_status = Failure;
     m_resultText = i18n("Failed");
-    emit(testComplete(this));
+    Q_EMIT(testComplete(this));
 }
 
 
@@ -329,7 +329,7 @@ void OkularVersionTest::call()
 
     pluginLoader.unload();
 
-    emit(testComplete(this));
+    Q_EMIT(testComplete(this));
 }
 
 
@@ -381,7 +381,7 @@ void FindProgramTest::call()
         m_status = Success;
         m_resultText = i18nc("executable => path", "Found (%1 => %2)", m_programName, execPath);
     }
-    emit(testComplete(this));
+    Q_EMIT(testComplete(this));
 }
 
 void FindProgramTest::setAdditionalFailureMessage(const QString& s)
@@ -463,7 +463,7 @@ void ProgramTest::reportSuccess()
 {
     m_resultText = i18n("Passed");
     m_status = Success;
-    emit(testComplete(this));
+    Q_EMIT(testComplete(this));
 }
 
 void ProgramTest::reportFailure()
@@ -475,7 +475,7 @@ void ProgramTest::reportFailure()
         m_resultText = i18n("Failed");
     }
     m_status = Failure;
-    emit(testComplete(this));
+    Q_EMIT(testComplete(this));
 }
 
 
@@ -518,14 +518,14 @@ void LaTeXSrcSpecialsSupportTest::reportSuccess()
 {
     m_resultText = i18n("Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse and forward search capabilities.");
     m_status = Success;
-    emit(testComplete(this));
+    Q_EMIT(testComplete(this));
 }
 
 void LaTeXSrcSpecialsSupportTest::reportFailure()
 {
     m_resultText = i18n("Not supported, use the srcltx package to enable the inverse and forward search capabilities.");
     m_status = Failure;
-    emit(testComplete(this));
+    Q_EMIT(testComplete(this));
 }
 
 
@@ -545,14 +545,14 @@ void SyncTeXSupportTest::reportSuccess()
 {
     m_resultText = i18n("Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-enable inverse and forward search capabilities.");
     m_status = Success;
-    emit(testComplete(this));
+    Q_EMIT(testComplete(this));
 }
 
 void SyncTeXSupportTest::reportFailure()
 {
     m_resultText = i18n("Not supported");
     m_status = Failure;
-    emit(testComplete(this));
+    Q_EMIT(testComplete(this));
 }
 
 void SyncTeXSupportTest::processFinishedSuccessfully()

@@ -98,7 +98,7 @@ void AbbreviationView::slotItemClicked(QTreeWidgetItem *item, int /* column */)
     if(item) {
         QString s = item->text(AbbreviationView::ALVexpansion);
         s.replace("%n","\n");
-        emit( sendText(s) );
+        Q_EMIT( sendText(s) );
     }
 }
 

@@ -90,13 +90,13 @@ DocumentViewerWindow::~DocumentViewerWindow()
 void DocumentViewerWindow::showEvent(QShowEvent *event)
 {
     KMainWindow::showEvent(event);
-    emit visibilityChanged(true);
+    Q_EMIT visibilityChanged(true);
 }
 
 void DocumentViewerWindow::closeEvent(QCloseEvent *event)
 {
     KMainWindow::closeEvent(event);
-    emit visibilityChanged(false);
+    Q_EMIT visibilityChanged(false);
 }
 
 //END DocumentViewerWindow
@@ -342,10 +342,10 @@ void Manager::currentTabChanged(int index)
     }
     m_widgetStack->insertWidget(1, newlyActivatedWidget);
     m_widgetStack->setCurrentIndex(1);
-    emit currentViewChanged(newlyActivatedWidget);
+    Q_EMIT currentViewChanged(newlyActivatedWidget);
     KTextEditor::View *view = dynamic_cast<KTextEditor::View*>(newlyActivatedWidget);
     if(view) {
-        emit textViewActivated(view);
+        Q_EMIT textViewActivated(view);
     }
 }
 
@@ -453,9 +453,9 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
     }
 
     //activate the newly created view
-    emit(textViewCreated(view));
-    emit(activateView(view, false));
-    emit(updateCaption());  //make sure the caption gets updated
+    Q_EMIT(textViewCreated(view));
+    Q_EMIT(activateView(view, false));
+    Q_EMIT(updateCaption());  //make sure the caption gets updated
 
     reflectDocumentModificationStatus(view->document(), false, KTextEditor::Document::OnDiskUnmodified);
 
@@ -602,13 +602,13 @@ void Manager::removeView(KTextEditor::View *view)
         const bool isActiveView = (KTextEditor::Editor::instance()->application()->activeMainWindow()->activeView() == view);
         m_tabBar->removeTab(tabIndexOf(view));
 
-        emit(updateCaption());  //make sure the caption gets updated
+        Q_EMIT(updateCaption());  //make sure the caption gets updated
         if(m_tabBar->count() == 0) {
             m_ki->structureWidget()->clear();
             m_widgetStack->setCurrentIndex(0); // if there are no open views, then show the DropWidget
         }
 
-        emit(textViewClosed(view, isActiveView));
+        Q_EMIT(textViewClosed(view, isActiveView));
         delete view;
     }
     else {
@@ -993,13 +993,13 @@ void Manager::quickPreviewPopup()
     }
 
     if(view->selection()) {
-        emit(startQuickPreview(KileTool::qpSelection));
+        Q_EMIT(startQuickPreview(KileTool::qpSelection));
     }
     else if(m_ki->editorExtension()->hasMathgroup(view)) {
-        emit(startQuickPreview(KileTool::qpMathgroup));
+        Q_EMIT(startQuickPreview(KileTool::qpMathgroup));
     }
     else if(m_ki->editorExtension()->hasEnvironment(view)) {
-        emit(startQuickPreview(KileTool::qpEnvironment));
+        Q_EMIT(startQuickPreview(KileTool::qpEnvironment));
     }
 }
 
@@ -1065,7 +1065,7 @@ DropWidget::~DropWidget()
 void DropWidget::dragEnterEvent(QDragEnterEvent *e)
 {
     bool b;
-    emit testCanDecode(e, b);
+    Q_EMIT testCanDecode(e, b);
     if(b) {
         e->acceptProposedAction();
     }
@@ -1073,13 +1073,13 @@ void DropWidget::dragEnterEvent(QDragEnterEvent *e)
 
 void DropWidget::dropEvent(QDropEvent *e)
 {
-    emit receivedDropEvent(e);
+    Q_EMIT receivedDropEvent(e);
 }
 
 void DropWidget::mouseDoubleClickEvent(QMouseEvent *e)
 {
     Q_UNUSED(e);
-    emit mouseDoubleClick();
+    Q_EMIT mouseDoubleClick();
 }
 
 void Manager::installEventFilter(KTextEditor::View *view, QObject *eventFilter)

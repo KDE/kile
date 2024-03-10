@@ -483,7 +483,7 @@ void ToolConfig::switchClass(const QString & cls)
 {
     if(m_map["class"] != cls) {
         setClass(cls);
-        emit(changed());
+        Q_EMIT(changed());
     }
 }
 
@@ -506,7 +506,7 @@ void ToolConfig::switchType(int index)
         m_map["type"] = "Process";
         break;
     }
-    emit(changed());
+    Q_EMIT(changed());
 }
 
 void ToolConfig::setCommand(const QString & command) {

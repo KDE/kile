@@ -120,7 +120,7 @@ void Tag::init(const QObject *receiver, const char *slot)
 
 void Tag::emitData()
 {
-    emit(triggered(m_data));
+    Q_EMIT(triggered(m_data));
 }
 
 ////////////////
@@ -211,7 +211,7 @@ void InputTag::emitData()
         }
 
         // insert tag
-        emit(triggered(td));
+        Q_EMIT(triggered(td));
         // refresh document structure and project tree when a file was inserted
         if(dlg->useAddProjectFile()) {
             m_ki->docManager()->projectAddFile(QFileInfo(m_ki->getCompileName()).absolutePath() + '/' + dlg->tag());
@@ -385,7 +385,7 @@ void InputDialog::slotBrowse()
         }
 
         setTag(path);
-        emit(setInput(path));
+        Q_EMIT(setInput(path));
     }
 }
 
@@ -443,14 +443,14 @@ VariantSelection::VariantSelection(const QString &text, const QVariant& value, Q
 
 void VariantSelection::slotTriggered()
 {
-    emit(triggered(m_variant));
+    Q_EMIT(triggered(m_variant));
 
     if(m_variant.canConvert<QUrl>()) {
-        emit(triggered(m_variant.value<QUrl>()));
+        Q_EMIT(triggered(m_variant.value<QUrl>()));
     }
 
     if(m_variant.canConvert<QString>()) {
-        emit(triggered(m_variant.value<QString>()));
+        Q_EMIT(triggered(m_variant.value<QString>()));
     }
 }
 
@@ -576,7 +576,7 @@ void ToolbarSelectAction::slotMainButtonPressed()
 {
     QAction *curAction = currentAction();
     if (!curAction) {
-        emit(mainButtonWithNoActionPressed());
+        Q_EMIT(mainButtonWithNoActionPressed());
     }
 }
 

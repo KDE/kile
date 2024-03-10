@@ -218,7 +218,7 @@ int Manager::runImmediately(Base *tool, bool insertNext /*= false*/, bool block 
     }
 
     if(parent) {
-        emit(childToolSpawned(parent,tool));
+        Q_EMIT(childToolSpawned(parent,tool));
     }
 
     KILE_DEBUG_MAIN << "\tin queue: " << m_queue.count() << Qt::endl;
@@ -264,7 +264,7 @@ int Manager::runNextInQueue()
         }
 
         m_ki->errorHandler()->startToolLogOutput();
-        emit(toolStarted());
+        Q_EMIT(toolStarted());
 
         return Running;
     }
@@ -494,7 +494,7 @@ bool Manager::configure(Base *tool, const QString& cfg /* = QString() */)
 void Manager::wantGUIState(const QString & state)
 {
     KILE_DEBUG_MAIN << "REQUESTED state: " << state << Qt::endl;
-    emit(requestGUIState(state));
+    Q_EMIT(requestGUIState(state));
 }
 
 KileView::Manager* Manager::viewManager()

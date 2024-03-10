@@ -430,7 +430,7 @@ void TexDocDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStat
 
     if (exitStatus == QProcess::NormalExit) {
         //showFile(m_filename);
-        emit(processFinished());
+        Q_EMIT(processFinished());
     }
     else {
         KMessageBox::error(this, i18n("<center>") + i18n("Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'.<br/>"

@@ -158,7 +158,7 @@ void SideBar::shrink()
     // deselect the currect tab
     m_tabBar->setTab(currentIndex, false);
 
-    emit visibilityChanged(false);
+    Q_EMIT visibilityChanged(false);
 }
 
 void SideBar::expand()
@@ -183,7 +183,7 @@ void SideBar::expand()
     m_tabStack->setVisible(true);
     m_minimized = false;
 
-    emit visibilityChanged(true);
+    Q_EMIT visibilityChanged(true);
 }
 
 void SideBar::tabClicked(int i)

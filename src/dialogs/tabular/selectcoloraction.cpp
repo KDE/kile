@@ -36,7 +36,7 @@ void SelectColorAction::showDialog()
 {
     QColor color = QColorDialog::getColor();
     if (color.isValid()) {
-        emit colorSelected(color);
+        Q_EMIT colorSelected(color);
     }
 }
 

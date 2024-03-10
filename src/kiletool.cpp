@@ -70,7 +70,7 @@ Base::Base(const QString &name, Manager *manager, bool prepare /* = true */) :
 Base::~Base()
 {
     KILE_DEBUG_MAIN << "DELETING TOOL: " << name() << this;
-    emit(aboutToBeDestroyed(this));
+    Q_EMIT(aboutToBeDestroyed(this));
     delete m_launcher;
 }
 
@@ -181,39 +181,39 @@ int Base::run()
     KILE_DEBUG_MAIN << "==KileTool::Base::run()=================";
 
     if(m_nPreparationResult != 0) {
-        emit(failedToRun(this, m_nPreparationResult));
+        Q_EMIT(failedToRun(this, m_nPreparationResult));
         return m_nPreparationResult;
     }
 
     if(!checkSource()) {
-        emit(failedToRun(this, NoValidSource));
+        Q_EMIT(failedToRun(this, NoValidSource));
         return NoValidSource;
     }
 
     if(!checkTarget()) {
-        emit(failedToRun(this, TargetHasWrongPermissions));
+        Q_EMIT(failedToRun(this, TargetHasWrongPermissions));
         return TargetHasWrongPermissions;
     }
 
     if (!checkPrereqs()) {
-        emit(failedToRun(this, NoValidPrereqs));
+        Q_EMIT(failedToRun(this, NoValidPrereqs));
         return NoValidPrereqs;
     }
 
-    emit(start(this));
+    Q_EMIT(start(this));
 
     if (!m_launcher || !m_launcher->launch()) {
         KILE_DEBUG_MAIN << "\tlaunching failed";
         if(!m_launcher) {
-            emit(failedToRun(this, CouldNotLaunch));
+            Q_EMIT(failedToRun(this, CouldNotLaunch));
             return CouldNotLaunch;
         }
         if(!m_launcher->selfCheck()) {
-            emit(failedToRun(this, SelfCheckFailed));
+            Q_EMIT(failedToRun(this, SelfCheckFailed));
             return SelfCheckFailed;
         }
         else {
-            emit(failedToRun(this, CouldNotLaunch));
+            Q_EMIT(failedToRun(this, CouldNotLaunch));
             return CouldNotLaunch;
         }
     }
@@ -466,7 +466,7 @@ void Base::stop()
         m_launcher->kill();
     }
 
-    emit(done(this, Aborted, m_childToolSpawned));
+    Q_EMIT(done(this, Aborted, m_childToolSpawned));
 }
 
 bool Base::finish(int result)
@@ -484,7 +484,7 @@ bool Base::finish(int result)
         sendMessage(Info,"Done!");
 
     KILE_DEBUG_MAIN << "\temitting done(KileTool::Base*, int) " << name();
-    emit(done(this, result, m_childToolSpawned));
+    Q_EMIT(done(this, result, m_childToolSpawned));
 
     //we will only get here if the done() signal is not connected to the manager (who will destroy this object)
     if (result == Success) {
@@ -563,7 +563,7 @@ void Base::setupAsChildTool(KileTool::Base *child)
 
 void Base::sendMessage(int type, const QString &msg)
 {
-    emit(message(type, msg, name()));
+    Q_EMIT(message(type, msg, name()));
 }
 
 void Base::filterOutput(const QString & str)
@@ -574,7 +574,7 @@ void Base::filterOutput(const QString & str)
     //idea: store the buffer until a complete line (or more) has been received then parse these lines
     //just send the buf immediately to the output widget, the results of the parsing are displayed in
     //the log widget anyway.
-    emit(output(str));
+    Q_EMIT(output(str));
 }
 
 bool Base::addDict(const QString & key, const QString & value)
@@ -817,7 +817,7 @@ int Sequence::run()
     if(!m_unknownToolSpec.isEmpty()) {
         // 'm_tools' is empty
         sendMessage(Error, i18n("Unknown tool %1.", m_unknownToolSpec));
-        emit(done(this, Failed, m_childToolSpawned));
+        Q_EMIT(done(this, Failed, m_childToolSpawned));
         return ConfigureFailed;
     }
 
@@ -837,7 +837,7 @@ int Sequence::run()
     }
 
     m_tools.clear(); // the tools will be deleted by the tool manager from now on
-    emit(done(this, Silent, m_childToolSpawned));
+    Q_EMIT(done(this, Silent, m_childToolSpawned));
 
     return Success;
 }

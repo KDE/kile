@@ -166,43 +166,43 @@ inline QIcon TabularHeaderItem::iconForAlignment(int alignment) const
 void TabularHeaderItem::slotAlignLeft()
 {
     setAlignment(Qt::AlignLeft);
-    emit alignColumn(Qt::AlignLeft);
+    Q_EMIT alignColumn(Qt::AlignLeft);
 }
 
 void TabularHeaderItem::slotAlignCenter()
 {
     setAlignment(Qt::AlignHCenter);
-    emit alignColumn(Qt::AlignHCenter);
+    Q_EMIT alignColumn(Qt::AlignHCenter);
 }
 
 void TabularHeaderItem::slotAlignRight()
 {
     setAlignment(Qt::AlignRight);
-    emit alignColumn(Qt::AlignRight);
+    Q_EMIT alignColumn(Qt::AlignRight);
 }
 
 void TabularHeaderItem::slotAlignP()
 {
     setAlignment(AlignP);
-    emit alignColumn(AlignP);
+    Q_EMIT alignColumn(AlignP);
 }
 
 void TabularHeaderItem::slotAlignB()
 {
     setAlignment(AlignB);
-    emit alignColumn(AlignB);
+    Q_EMIT alignColumn(AlignB);
 }
 
 void TabularHeaderItem::slotAlignM()
 {
     setAlignment(AlignM);
-    emit alignColumn(AlignM);
+    Q_EMIT alignColumn(AlignM);
 }
 
 void TabularHeaderItem::slotAlignX()
 {
     setAlignment(AlignX);
-    emit alignColumn(AlignX);
+    Q_EMIT alignColumn(AlignX);
 }
 
 void TabularHeaderItem::slotDeclPre()

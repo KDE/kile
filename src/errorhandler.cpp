@@ -292,7 +292,7 @@ void KileErrorHandler::updateCurrentLaTeXOutputHandler()
         setOutputActionsEnabled(true);
         updateForCompilationResult();
     }
-    emit(currentLaTeXOutputHandlerChanged(m_currentLaTeXOutputHandler));
+    Q_EMIT(currentLaTeXOutputHandlerChanged(m_currentLaTeXOutputHandler));
 }
 
 void KileErrorHandler::updateForCompilationResult()

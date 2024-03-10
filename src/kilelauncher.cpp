@@ -162,7 +162,7 @@ bool ProcessLauncher::launch()
 
     msg += " (" + m_cmd + ')';
 
-    emit(message(Info, msg));
+    Q_EMIT(message(Info, msg));
 
     QString teXInputPaths = tool()->teXInputPaths();
     QString bibInputPaths = tool()->bibInputPaths();
@@ -193,7 +193,7 @@ bool ProcessLauncher::launch()
     }
 
     out += "*****\n";
-    emit(output(out));
+    Q_EMIT(output(out));
 
     if(tool()->manager()->shouldBlock()) {
         KILE_DEBUG_MAIN << "About to execute: " << m_proc->program();
@@ -217,8 +217,8 @@ void ProcessLauncher::kill(bool emitSignals)
     else {
         KILE_DEBUG_MAIN << "\tno process or process not running";
         if(emitSignals) {
-            emit(message(Error, i18n("terminated")));
-            emit(done(AbnormalExit));
+            Q_EMIT(message(Error, i18n("terminated")));
+            Q_EMIT(done(AbnormalExit));
         }
     }
 }
@@ -226,16 +226,16 @@ void ProcessLauncher::kill(bool emitSignals)
 // FIXME: this should be done in the 'launch()' method itself
 bool ProcessLauncher::selfCheck()
 {
-    emit(message(Error, i18n("Launching failed, diagnostics:")));
+    Q_EMIT(message(Error, i18n("Launching failed, diagnostics:")));
 
     KShell::Errors err;
     QStringList arguments = KShell::splitArgs(m_options, KShell::AbortOnMeta | KShell::TildeExpand, &err);
     if(err == KShell::BadQuoting) {
-        emit(message(Error, i18n("An error occurred while parsing the options given to the tool.")));
+        Q_EMIT(message(Error, i18n("An error occurred while parsing the options given to the tool.")));
         return false;
     }
     else if(err == KShell::FoundMeta) {
-        emit(message(Error, i18n("Shell meta characters that cannot be handled are present in the options given to the tool.")));
+        Q_EMIT(message(Error, i18n("Shell meta characters that cannot be handled are present in the options given to the tool.")));
         return false;
     }
 
@@ -244,25 +244,25 @@ bool ProcessLauncher::selfCheck()
     QString path = QStandardPaths::findExecutable(exe);
 
     if(path.isEmpty()) {
-        emit(message(Error, i18n("There is no executable named \"%1\" in your path.", exe)));
+        Q_EMIT(message(Error, i18n("There is no executable named \"%1\" in your path.", exe)));
         return false;
     }
     else {
         QFileInfo fi(path);
         if(!fi.isExecutable()) {
-            emit(message(Error, i18n("You do not have permission to run %1.", path)));
+            Q_EMIT(message(Error, i18n("You do not have permission to run %1.", path)));
             return false;
         }
     }
 
-    emit(message(Info, i18n("Diagnostics could not find any obvious problems.")));
+    Q_EMIT(message(Info, i18n("Diagnostics could not find any obvious problems.")));
     return true;
 }
 
 void ProcessLauncher::slotProcessOutput()
 {
     QByteArray buf = m_proc->readAllStandardOutput();
-    emit output(QString::fromLocal8Bit(buf, buf.size()));
+    Q_EMIT output(QString::fromLocal8Bit(buf, buf.size()));
 }
 
 void ProcessLauncher::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
@@ -276,25 +276,25 @@ void ProcessLauncher::slotProcessExited(int exitCode, QProcess::ExitStatus exitS
             int type = Info;
             if(exitCode != 0) {
                 type = Error;
-                emit(message(type, i18n("finished with exit code %1", exitCode)));
+                Q_EMIT(message(type, i18n("finished with exit code %1", exitCode)));
             }
 
             if (type == Info) {
-                emit(done(Success));
+                Q_EMIT(done(Success));
             }
             else {
-                emit(done(Failed));
+                Q_EMIT(done(Failed));
             }
         }
         else {
             KILE_DEBUG_MAIN << "\tabnormal exit";
-            emit(message(Error, i18n("finished abruptly")));
-            emit(done(AbnormalExit));
+            Q_EMIT(message(Error, i18n("finished abruptly")));
+            Q_EMIT(done(AbnormalExit));
         }
     }
     else {
         qWarning() << "\tNO PROCESS, emitting done";
-        emit(done(Success));
+        Q_EMIT(done(Success));
     }
 }
 
@@ -313,8 +313,8 @@ void ProcessLauncher::slotProcessError(QProcess::ProcessError error)
         errorString = i18n("failed (error code %1)", error);
         break;
     }
-    emit(message(Error, errorString));
-    emit(done(AbnormalExit));
+    Q_EMIT(message(Error, errorString));
+    Q_EMIT(done(AbnormalExit));
 }
 
 KonsoleLauncher::KonsoleLauncher() : ProcessLauncher()
@@ -351,11 +351,11 @@ bool DocumentViewerLauncher::selfCheck()
 bool DocumentViewerLauncher::launch()
 {
     if(!tool()->manager()->viewManager()->viewerPart()) {
-        emit(message(Error, i18n("The document viewer is not available")));
+        Q_EMIT(message(Error, i18n("The document viewer is not available")));
         return false;
     }
     if(tool()->manager()->livePreviewManager() && tool()->manager()->livePreviewManager()->isLivePreviewActive()) {
-        emit(message(Error, i18n("Please disable the live preview before launching this tool")));
+        Q_EMIT(message(Error, i18n("Please disable the live preview before launching this tool")));
         return false;
     }
     const QString fileName = tool()->paramDict()["%dir_target"] + '/' + tool()->paramDict()["%target"];
@@ -366,7 +366,7 @@ bool DocumentViewerLauncher::launch()
         const QString lineString = tool()->paramDict()["%sourceLine"];
         tool()->manager()->viewManager()->showSourceLocationInDocumentViewer(sourceFileName, lineString.toInt(), 0);
     }
-    emit(done(Success));
+    Q_EMIT(done(Success));
 
     return true;
 }

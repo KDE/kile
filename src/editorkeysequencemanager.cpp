@@ -42,7 +42,7 @@ void Manager::addAction(const QString& seq, Action *action)
     if(m_actionMap.find(seq) == m_actionMap.end()) {
         m_actionMap[seq] = action;
         m_watchedKeySequencesList.push_back(seq);
-        emit watchedKeySequencesChanged();
+        Q_EMIT watchedKeySequencesChanged();
     }
 }
 
@@ -56,7 +56,7 @@ void Manager::removeKeySequence(const QString& seq)
         delete (it.value());
         m_actionMap.erase(it);
         m_watchedKeySequencesList.removeAll(seq);
-        emit watchedKeySequencesChanged();
+        Q_EMIT watchedKeySequencesChanged();
     }
 }
 
@@ -76,7 +76,7 @@ void Manager::removeKeySequence(const QStringList& l)
         }
     }
     if(changed) {
-        emit watchedKeySequencesChanged();
+        Q_EMIT watchedKeySequencesChanged();
     }
 }
 
@@ -93,7 +93,7 @@ void Manager::addActionMap(const QMap<QString, Action*>& map)
         }
     }
     if(changed) {
-        emit watchedKeySequencesChanged();
+        Q_EMIT watchedKeySequencesChanged();
     }
 }
 
@@ -126,7 +126,7 @@ void Manager::clear()
 {
     m_watchedKeySequencesList.clear();
     m_actionMap.clear();
-    emit watchedKeySequencesChanged();
+    Q_EMIT watchedKeySequencesChanged();
 }
 
 
@@ -207,7 +207,7 @@ bool Recorder::seekForKeySequence(const QString& s)
         if(m_watchedKeySequencesList.contains(toCheck)) {
             m_view->document()->removeText(KTextEditor::Range(m_oldLine, m_oldCol - (s.length() - i - 1), m_oldLine, m_oldCol));
             m_typedSequence.clear(); // clean m_typedSequence to avoid wrong action triggering if one presses keys without printable character
-            emit detectedTypedKeySequence(toCheck);
+            Q_EMIT detectedTypedKeySequence(toCheck);
             return true;
         }
     }

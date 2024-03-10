@@ -267,10 +267,10 @@ void ProjectView::slotClicked(QTreeWidgetItem *item)
     ProjectViewItem *itm = static_cast<ProjectViewItem*>(item);
     if(itm) {
         if(itm->type() == KileType::File) {
-            emit(fileSelected(itm->url()));
+            Q_EMIT(fileSelected(itm->url()));
         }
         else if(itm->type() == KileType::ProjectItem) {
-            emit(fileSelected(itm->projectItem()));
+            Q_EMIT(fileSelected(itm->projectItem()));
         }
         else if(itm->type() != KileType::Folder) {
             // don't open project configuration files (*.kilepr)
@@ -279,7 +279,7 @@ void ProjectView::slotClicked(QTreeWidgetItem *item)
                 QMimeDatabase db;
                 QMimeType pMime = db.mimeTypeForUrl(itm->url());
                 if(pMime.name().startsWith(QLatin1String("text/"))) {
-                    emit(fileSelected(itm->url()));
+                    Q_EMIT(fileSelected(itm->url()));
                 }
                 else {
                     auto *job = new KIO::OpenUrlJob(itm->url(), pMime.name());
@@ -299,16 +299,16 @@ void ProjectView::slotFile(int id)
         if(item->type() == KileType::File) {
             switch(id) {
             case KPV_ID_OPEN:
-                emit(fileSelected(item->url()));
+                Q_EMIT(fileSelected(item->url()));
                 break;
             case KPV_ID_SAVE:
-                emit(saveURL(item->url()));
+                Q_EMIT(saveURL(item->url()));
                 break;
             case KPV_ID_ADD:
-                emit(addToProject(item->url()));
+                Q_EMIT(addToProject(item->url()));
                 break;
             case KPV_ID_CLOSE:
-                emit(closeURL(item->url()));
+                Q_EMIT(closeURL(item->url()));
                 return; //don't access "item" later on
             default:
                 break;
@@ -324,13 +324,13 @@ void ProjectView::slotProjectItem(int id)
         if(item->type() == KileType::ProjectItem || item->type() == KileType::ProjectExtra) {
             switch(id) {
             case KPV_ID_OPEN:
-                emit(fileSelected(item->projectItem()));
+                Q_EMIT(fileSelected(item->projectItem()));
                 break;
             case KPV_ID_SAVE:
-                emit(saveURL(item->url()));
+                Q_EMIT(saveURL(item->url()));
                 break;
             case KPV_ID_REMOVE:
-                emit(removeFromProject(item->projectItem()));
+                Q_EMIT(removeFromProject(item->projectItem()));
                 break;
             case KPV_ID_INCLUDE :
                 if(item->text(1) == "*") {
@@ -339,10 +339,10 @@ void ProjectView::slotProjectItem(int id)
                 else {
                     item->setText(1, "*");
                 }
-                emit(toggleArchive(item->projectItem()));
+                Q_EMIT(toggleArchive(item->projectItem()));
                 break;
             case KPV_ID_CLOSE:
-                emit(closeURL(item->url()));
+                Q_EMIT(closeURL(item->url()));
                 break; //we can access "item" later as it isn't deleted
             case KPV_ID_OPENWITH:
             {
@@ -366,22 +366,22 @@ void ProjectView::slotProject(int id)
         if(item->type() == KileType::Project) {
             switch(id) {
             case KPV_ID_BUILDTREE:
-                emit(buildProjectTree(item->url()));
+                Q_EMIT(buildProjectTree(item->url()));
                 break;
             case KPV_ID_OPTIONS:
-                emit(projectOptions(item->url()));
+                Q_EMIT(projectOptions(item->url()));
                 break;
             case KPV_ID_CLOSE:
-                emit(closeProject(item->url()));
+                Q_EMIT(closeProject(item->url()));
                 return; //don't access "item" later on
             case KPV_ID_ARCHIVE:
-                emit(projectArchive(item->url()));
+                Q_EMIT(projectArchive(item->url()));
                 break;
             case KPV_ID_ADDFILES:
-                emit(addFiles(item->url()));
+                Q_EMIT(addFiles(item->url()));
                 break;
             case KPV_ID_OPENALLFILES:
-                emit(openAllFiles(item->url()));
+                Q_EMIT(openAllFiles(item->url()));
                 break;
             default:
                 break;

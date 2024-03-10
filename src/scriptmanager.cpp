@@ -190,7 +190,7 @@ void Manager::scanScriptDirectories()
     //rewrite the IDs that are currently in use
     writeIDs();
     m_actionCollection->readSettings();
-    emit scriptsChanged();
+    Q_EMIT scriptsChanged();
 }
 
 void Manager::deleteScripts()
@@ -215,7 +215,7 @@ void Manager::deleteScripts()
         }
         delete *it;
     }
-    emit scriptsChanged();
+    Q_EMIT scriptsChanged();
 }
 
 QList<Script*> Manager::getScripts()

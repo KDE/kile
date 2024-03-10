@@ -218,7 +218,7 @@ void PostscriptDialog::execute()
                     + i18n("***** output file: ") + to.fileName()+ '\n'
                     + i18n("***** viewer:      ") + ((m_PostscriptDialog.m_cbView->isChecked()) ? i18n("yes") : i18n("no")) + '\n'
                     + "*****\n";
-        emit( output(s) );
+        Q_EMIT( output(s) );
 
         // delete old KProcess
         if (m_proc)
@@ -244,8 +244,8 @@ void PostscriptDialog::execute()
 
 void PostscriptDialog::slotProcessOutput()
 {
-    emit(output(m_proc->readAllStandardOutput()));
-    emit(output(m_proc->readAllStandardError()));
+    Q_EMIT(output(m_proc->readAllStandardOutput()));
+    Q_EMIT(output(m_proc->readAllStandardError()));
 }
 
 

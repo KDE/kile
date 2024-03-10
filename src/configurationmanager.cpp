@@ -30,7 +30,7 @@ Manager::~Manager() {
 
 void Manager::emitConfigChanged()
 {
-    emit configChanged();
+    Q_EMIT configChanged();
 }
 }
 

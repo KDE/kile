@@ -335,7 +335,7 @@ void LaTeX::checqCriticals()
     // jump to first error
     if(!isPartOfLivePreview() && m_nErrors > 0 && (readEntry("jumpToFirstError") == "yes")) {
         connect(this, SIGNAL(jumpToFirstError()), manager(), SIGNAL(jumpToFirstError()));
-        emit(jumpToFirstError());
+        Q_EMIT(jumpToFirstError());
     }
 }
 

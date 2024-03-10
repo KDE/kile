@@ -938,7 +938,7 @@ void PdfDialog::executeAction()
                 + i18n("***** command:     ") + command + '\n'
                 + i18n("***** viewer:      ") + ((m_PdfDialog.m_cbView->isChecked()) ? i18n("yes") : i18n("no")) + '\n'
                 + "*****\n";
-    emit( output(s) );
+    Q_EMIT( output(s) );
 
     // run Process
     executeScript(command, m_tempdir->path(), PDF_SCRIPTMODE_ACTION);
@@ -1047,7 +1047,7 @@ void PdfDialog::showLogs(const QString &title, const QString &inputfile, const Q
                 + i18n("***** input file:  ") + input.fileName()+ '\n'
                 + i18n("***** param:       ") + param + '\n'
                 + "*****\n";
-    emit( output(s) );
+    Q_EMIT( output(s) );
 }
 
 void PdfDialog::executeScript(const QString &command, const QString &dir, int scriptmode)
@@ -1125,7 +1125,7 @@ void PdfDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 void PdfDialog::finishPdfAction(bool state)
 {
     // output window
-    emit( output(m_outputtext) );
+    Q_EMIT( output(m_outputtext) );
 
     // log window
     QString program = (m_scriptmode==PDF_SCRIPTMODE_ACTION && m_execLatex) ? "LaTeX with 'pdfpages' package" : "pdftk";

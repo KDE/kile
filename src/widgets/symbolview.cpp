@@ -276,8 +276,8 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
                 code_symbol = '{' + code_symbol + '}';
             }
         }
-        emit(insertText(code_symbol, packages));
-        emit(addToList(item));
+        Q_EMIT(insertText(code_symbol, packages));
+        Q_EMIT(addToList(item));
         m_ki->focusEditor();
     }
 

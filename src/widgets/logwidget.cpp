@@ -151,7 +151,7 @@ void LogWidget::slotItemClicked(QListWidgetItem *item)
 
     OutputInfo info = variant.value<OutputInfo>();
 
-    emit(outputInfoSelected(info));
+    Q_EMIT(outputInfoSelected(info));
 }
 
 void LogWidget::enterEvent(QEnterEvent *)
@@ -224,7 +224,7 @@ void LogWidget::printMessageLine(int type, const QString& message, const QString
 {
     if(type == KileTool::Error) {
         KILE_DEBUG_MAIN << "showing error message emitted";
-        emit showingErrorMessage(this);
+        Q_EMIT showingErrorMessage(this);
     }
 
     QString myMsg = message.toHtmlEscaped();

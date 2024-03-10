@@ -367,7 +367,7 @@ void UserMenu::installXmlFile(const QString &filename)
             }
         }
         KileConfig::setUserMenuFile(xmlfile);
-        emit (updateStatus());
+        Q_EMIT (updateStatus());
 
         // add changed context menu to all existing views
         KileView::Manager* viewManager = m_ki->viewManager();
@@ -386,7 +386,7 @@ void UserMenu::removeXmlFile()
     m_currentXmlFile.clear();
 
     KileConfig::setUserMenuFile(m_currentXmlFile);
-    emit (updateStatus());
+    Q_EMIT (updateStatus());
 }
 
 ///////////////////////////// install usermenu from XML //////////////////////////////
@@ -949,7 +949,7 @@ void UserMenu::insertText(KTextEditor::View *view, const QString &text, bool rep
 
     // insert new text
     KTextEditor::Cursor cursor1 = view->cursorPosition();
-    emit( sendText(ins) );
+    Q_EMIT( sendText(ins) );
 
     // select inserted text
     if(selectInsertion) {

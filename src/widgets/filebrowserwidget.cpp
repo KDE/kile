@@ -183,7 +183,7 @@ void FileBrowserWidget::emitFileSelectedSignal()
 {
     KFileItemList itemList = m_dirOperator->selectedItems();
     for(KFileItemList::iterator it = itemList.begin(); it != itemList.end(); ++it) {
-        emit(fileSelected(*it));
+        Q_EMIT(fileSelected(*it));
     }
 
     m_dirOperator->view()->clearSelection();

@@ -55,7 +55,7 @@ void Manager::updateLocalAbbreviation(const QString& text, const QString& replac
     }
     m_abbreviationMap[text] = createLocalAbbreviationPair(replacement);
     m_abbreviationsDirty = true;
-    emit(abbreviationsChanged());
+    Q_EMIT(abbreviationsChanged());
 }
 
 void Manager::removeLocalAbbreviation(const QString& text)
@@ -69,7 +69,7 @@ void Manager::removeLocalAbbreviation(const QString& text)
         m_abbreviationMap.erase(it);
         m_abbreviationsDirty = true;
     }
-    emit(abbreviationsChanged());
+    Q_EMIT(abbreviationsChanged());
 }
 
 void Manager::readAbbreviationFiles()
@@ -85,7 +85,7 @@ void Manager::readAbbreviationFiles()
     list = m_kileInfo->codeCompletionManager()->readCWLFile(m_localAbbreviationFile, true);
     addAbbreviationListToMap(list, false);
 
-    emit(abbreviationsChanged());
+    Q_EMIT(abbreviationsChanged());
 }
 
 void Manager::saveLocalAbbreviations()

@@ -60,7 +60,7 @@ bool TabularTable::eventFilter(QObject *obj, QEvent *event)
                     setCurrentItem(item(row, column + 1));
                 } else {
                     if(row == (rowCount() - 1)) {
-                        emit rowAppended();
+                        Q_EMIT rowAppended();
                     }
                     selectedItem->setSelected(false);
                     item(row + 1, 0)->setSelected(true);
@@ -235,11 +235,11 @@ void KileDialog::TabularTable::paste()
     int cell = 0;
     for(int row = 0; row < rows; ++row) {
         if(selectedRow + row > (rowCount() - 1)) {
-            emit rowAppended();
+            Q_EMIT rowAppended();
         }
         for(int col = 0; col < cols; ++col, ++cell) {
             if(selectedCol + col > (columnCount() - 1)) {
-                emit colAppended();
+                Q_EMIT colAppended();
             }
             item(selectedRow + row, selectedCol + col)->setText(cells[cell]);
         }

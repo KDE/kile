@@ -2636,7 +2636,7 @@ void Kile::setMasterDocumentFileName(const QString& fileName)
     ModeAction->setChecked(true);
     m_singlemode = false;
     updateModeStatus();
-    emit masterDocumentChanged();
+    Q_EMIT masterDocumentChanged();
     KILE_DEBUG_MAIN << "SETTING master to " << m_masterDocumentFileName << " singlemode = " << m_singlemode << Qt::endl;
 }
 
@@ -2647,7 +2647,7 @@ void Kile::clearMasterDocument()
     m_singlemode = true;
     m_masterDocumentFileName.clear();
     updateModeStatus();
-    emit masterDocumentChanged();
+    Q_EMIT masterDocumentChanged();
     KILE_DEBUG_MAIN << "CLEARING master document";
 }
 

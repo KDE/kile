@@ -231,7 +231,7 @@ void KileProjectItem::changeURL(const QUrl &url)
     if(!url.isEmpty() && m_url != url)
     {
         m_url = url;
-        emit(urlChanged(this));
+        Q_EMIT(urlChanged(this));
     }
 }
 
@@ -272,7 +272,7 @@ KileProject::KileProject(const QUrl &url, KileDocument::Extensions *extensions)
 KileProject::~KileProject()
 {
     KILE_DEBUG_MAIN << "DELETING KILEPROJECT " <<  m_projecturl.url();
-    emit(aboutToBeDestroyed(this));
+    Q_EMIT(aboutToBeDestroyed(this));
     delete m_guiConfig;
     delete m_config;
 
@@ -730,7 +730,7 @@ void KileProject::buildProjectTree()
         }
     }
 
-    emit(projectTreeChanged(this));
+    Q_EMIT(projectTreeChanged(this));
 }
 
 KileProjectItem* KileProject::item(const QUrl &url)
@@ -768,7 +768,7 @@ void KileProject::add(KileProjectItem* projectItem)
 
     m_projectItems.append(projectItem);
 
-    emit projectItemAdded(this, projectItem);
+    Q_EMIT projectItemAdded(this, projectItem);
 
     // dump();
 }
@@ -779,7 +779,7 @@ void KileProject::remove(KileProjectItem* projectItem)
     removeConfigGroupsForItem(projectItem);
     m_projectItems.removeAll(projectItem);
 
-    emit projectItemRemoved(this, projectItem);
+    Q_EMIT projectItemRemoved(this, projectItem);
 
     // dump();
 }
@@ -903,7 +903,7 @@ void KileProject::setMasterDocument(const QString & master) {
         m_masterDocument.clear();
     }
 
-    emit (masterDocumentChanged(m_masterDocument));
+    Q_EMIT (masterDocumentChanged(m_masterDocument));
 }
 
 namespace {

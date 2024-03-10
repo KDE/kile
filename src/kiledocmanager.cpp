@@ -455,7 +455,7 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const QUrl &u
                                    m_ki->parserManager());
         }
         docinfo->setBaseDirectory(baseDirectory);
-        emit(documentInfoCreated(docinfo));
+        Q_EMIT(documentInfoCreated(docinfo));
         m_textInfoList.append(docinfo);
     }
 
@@ -477,7 +477,7 @@ void Manager::recreateTextDocumentInfo(TextInfo *oldinfo)
 
     removeTextDocumentInfo(oldinfo);
 
-    emit(updateStructure(false, newinfo));
+    Q_EMIT(updateStructure(false, newinfo));
 }
 
 bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* = false */)
@@ -500,7 +500,7 @@ bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* =
 
         m_textInfoList.removeAll(docinfo);
 
-        emit(closingDocument(docinfo));
+        Q_EMIT(closingDocument(docinfo));
 
         cleanupDocumentInfoForProjectItems(docinfo);
         delete docinfo;
@@ -558,7 +558,7 @@ KTextEditor::Document* Manager::createDocument(const QUrl &url, TextInfo *docinf
         }
         // don't add scripts to the recent files
         if(r && docinfo->getType() != Script) {
-            emit(addToRecentFiles(url));
+            Q_EMIT(addToRecentFiles(url));
         }
     }
 
@@ -708,16 +708,16 @@ KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocu
 KTextEditor::View* Manager::createNewJScript()
 {
     KTextEditor::View *view = createDocumentWithText(QString(), Script, "js", QUrl::fromLocalFile(m_ki->scriptManager()->getLocalScriptDirectory()));
-    emit(updateStructure(false, Q_NULLPTR));
-    emit(updateModeStatus());
+    Q_EMIT(updateStructure(false, Q_NULLPTR));
+    Q_EMIT(updateModeStatus());
     return view;
 }
 
 KTextEditor::View* Manager::createNewLaTeXDocument()
 {
     KTextEditor::View *view = createDocumentWithText(QString(), LaTeX);
-    emit(updateStructure(false, Q_NULLPTR));
-    emit(updateModeStatus());
+    Q_EMIT(updateStructure(false, Q_NULLPTR));
+    Q_EMIT(updateModeStatus());
     return view;
 }
 
@@ -772,10 +772,10 @@ void Manager::fileNew(KileDocument::Type type)
         KTextEditor::View *view = loadTemplate(nfw->getSelection());
         if(view) {
             if(nfw->useWizard()) {
-                emit(startWizard());
+                Q_EMIT(startWizard());
             }
-            emit(updateStructure(false, Q_NULLPTR));
-            emit(updateModeStatus());
+            Q_EMIT(updateStructure(false, Q_NULLPTR));
+            Q_EMIT(updateModeStatus());
         }
     }
     delete nfw;
@@ -875,7 +875,7 @@ void Manager::newDocumentStatus(KTextEditor::Document *doc)
     // sync terminal
     m_ki->texKonsole()->sync();
 
-    emit(documentModificationStatusChanged(doc, doc->isModified(), KTextEditor::Document::OnDiskUnmodified));
+    Q_EMIT(documentModificationStatusChanged(doc, doc->isModified(), KTextEditor::Document::OnDiskUnmodified));
 }
 
 bool Manager::fileSaveAll(bool disUntitled)
@@ -919,7 +919,7 @@ bool Manager::fileSaveAll(bool disUntitled)
      This may look superfluos but actually it is not, in the case of multiple modified docs it ensures that the structure view keeps synchronized with the currentTextView
      And if we only have one masterdoc or none nothing goes wrong.
     */
-    emit(updateStructure(false, Q_NULLPTR));
+    Q_EMIT(updateStructure(false, Q_NULLPTR));
     m_currentlySavingAll = false;
     return !oneSaveFailed;
 }
@@ -1001,7 +1001,7 @@ TextInfo* Manager::fileOpen(const QUrl &url, const QString& encoding, int index)
     }
 
     if(itemList.isEmpty()) {
-        emit addToProjectView(realurl);
+        Q_EMIT addToProjectView(realurl);
         loadDocumentAndViewSettings(textInfo);
     }
     else if(view) {
@@ -1009,12 +1009,12 @@ TextInfo* Manager::fileOpen(const QUrl &url, const QString& encoding, int index)
         item->loadDocumentAndViewSettings();
     }
 
-    emit(updateStructure(false, Q_NULLPTR));
-    emit(updateModeStatus());
+    Q_EMIT(updateStructure(false, Q_NULLPTR));
+    Q_EMIT(updateModeStatus());
     // update undefined references in this file
-    emit(updateReferences(textInfoFor(realurl)));
+    Q_EMIT(updateReferences(textInfoFor(realurl)));
     m_currentlyOpeningFile = false;
-    emit documentOpened(textInfo);
+    Q_EMIT documentOpened(textInfo);
     return textInfo;
 }
 
@@ -1042,7 +1042,7 @@ bool Manager::fileSave(KTextEditor::View *view)
     }
     else {
         bool ret = view->document()->documentSave();
-        emit(updateStructure(false, textInfoFor(view->document())));
+        Q_EMIT(updateStructure(false, textInfoFor(view->document())));
         return ret;
     }
 }
@@ -1113,10 +1113,10 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
             info = textInfoFor(doc);
         }
         m_ki->structureWidget()->updateUrl(info);
-        emit addToRecentFiles(saveAsUrl);
-        emit addToProjectView(doc->url());
+        Q_EMIT addToRecentFiles(saveAsUrl);
+        Q_EMIT addToProjectView(doc->url());
     }
-    emit(documentSavedAs(view, info));
+    Q_EMIT(documentSavedAs(view, info));
     return true;
 }
 
@@ -1276,8 +1276,8 @@ bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingprojec
         m_ki->structureWidget()->clean(docinfo);
         removeTextDocumentInfo(docinfo, closingproject);
 
-        emit removeFromProjectView(url);
-        emit updateModeStatus();
+        Q_EMIT removeFromProjectView(url);
+        Q_EMIT updateModeStatus();
     }
     else {
         return false;
@@ -1349,7 +1349,7 @@ void Manager::projectNew()
                 //save the new file
                 //FIXME: this needs proper error handling
                 view->document()->saveAs(url);
-                emit(documentModificationStatusChanged(view->document(),
+                Q_EMIT(documentModificationStatusChanged(view->document(),
                                                        false, KTextEditor::Document::OnDiskUnmodified));
 
                 //add this file to the project
@@ -1357,7 +1357,7 @@ void Manager::projectNew()
                 item->setInfo(newTextInfo);
 
                 //docinfo->updateStruct(m_kwStructure->level());
-                emit(updateStructure(false, newTextInfo));
+                Q_EMIT(updateStructure(false, newTextInfo));
             }
 
             m_currentlyOpeningFile = false;
@@ -1367,11 +1367,11 @@ void Manager::projectNew()
         project->save();
         addProject(project);
 
-        emit(updateModeStatus());
-        emit(addToRecentProjects(project->url()));
+        Q_EMIT(updateModeStatus());
+        Q_EMIT(addToRecentProjects(project->url()));
 
         if(newTextInfo) {
-            emit documentOpened(newTextInfo);
+            Q_EMIT documentOpened(newTextInfo);
         }
     }
 }
@@ -1381,7 +1381,7 @@ void Manager::addProject(KileProject *project)
     KILE_DEBUG_MAIN << "==void Manager::addProject(const KileProject *project)==========";
     m_projects.append(project);
     KILE_DEBUG_MAIN << "\tnow " << m_projects.count() << " projects";
-    emit addToProjectView(project);
+    Q_EMIT addToProjectView(project);
     connect(project, SIGNAL(projectTreeChanged(const KileProject*)), this, SIGNAL(projectTreeChanged(const KileProject*)));
 }
 
@@ -1450,7 +1450,7 @@ void Manager::addToProject(KileProject* project, const QUrl &url)
     createTextInfoForProjectItem(item);
     item->setOpenState(m_ki->isOpen(realurl));
     projectOpenItem(item);
-    emit addToProjectView(item);
+    Q_EMIT addToProjectView(item);
     buildProjectTree(project);
 }
 
@@ -1464,7 +1464,7 @@ void Manager::removeFromProject(KileProjectItem *item)
             return;
         }
 
-        emit removeItemFromProjectView(item, m_ki->isOpen(item->url()));
+        Q_EMIT removeItemFromProjectView(item, m_ki->isOpen(item->url()));
 
         KileProject *project = item->project();
         project->remove(item);
@@ -1482,7 +1482,7 @@ void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
     KILE_DEBUG_MAIN << "\titem:" << item->url().toLocalFile();
 
     if (m_ki->isOpen(item->url())) { //remove item from projectview (this file was opened before as a normal file)
-        emit removeFromProjectView(item->url());
+        Q_EMIT removeFromProjectView(item->url());
     }
 
     KileDocument::TextInfo* itemInfo = item->getInfo();
@@ -1546,7 +1546,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
                                                 url.fileName()),
                                            i18n("Could Not Open Project"),
                                            KStandardGuiItem::remove(), KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction) {
-            emit(removeFromRecentProjects(realurl));
+            Q_EMIT(removeFromRecentProjects(realurl));
         }
         return;
     }
@@ -1600,7 +1600,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
                                                "<p>Do you want to remove this project from the recent projects list?</p>", url.fileName()),
                                                i18n("Could Not Update Project File"),
                                                KStandardGuiItem::remove(), KStandardGuiItem::cancel())  == KMessageBox::PrimaryAction) {
-                emit(removeFromRecentProjects(realurl));
+                Q_EMIT(removeFromRecentProjects(realurl));
             }
             delete kp;
             return;
@@ -1619,7 +1619,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
         return;
     }
 
-    emit(addToRecentProjects(realurl));
+    Q_EMIT(addToRecentProjects(realurl));
 
     QList<KileProjectItem*> list = kp->items();
     int project_steps = list.count();
@@ -1677,15 +1677,15 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
 
     kp->buildProjectTree();
 
-    emit(updateStructure(false, Q_NULLPTR));
-    emit(updateModeStatus());
+    Q_EMIT(updateStructure(false, Q_NULLPTR));
+    Q_EMIT(updateModeStatus());
 
     // update undefined references in all project files
     updateProjectReferences(kp);
 
     m_ki->viewManager()->switchToTextView(kp->lastDocument());
 
-    emit(projectOpened(kp));
+    Q_EMIT(projectOpened(kp));
 }
 
 // as all labels are gathered in the project, we can check for unsolved references
@@ -1693,7 +1693,7 @@ void Manager::updateProjectReferences(KileProject *project)
 {
     QList<KileProjectItem*> list = project->items();
     for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
-        emit(updateReferences((*it)->getInfo()));
+        Q_EMIT(updateReferences((*it)->getInfo()));
     }
 }
 
@@ -1929,9 +1929,9 @@ bool Manager::projectClose(const QUrl &url)
 
         if (close) {
             m_projects.removeAll(project);
-            emit removeFromProjectView(project);
+            Q_EMIT removeFromProjectView(project);
             delete project;
-            emit(updateModeStatus());
+            Q_EMIT(updateModeStatus());
             return true;
         }
         else

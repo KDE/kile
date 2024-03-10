@@ -289,7 +289,7 @@ void TemplateIconView::slotProcessOutput()
 void TemplateIconView::slotProcessError()
 {
     addTemplateIcons(KileDocument::LaTeX);
-    emit classFileSearchFinished();
+    Q_EMIT classFileSearchFinished();
 }
 
 void TemplateIconView::slotProcessExited(int /*exitCode*/, QProcess::ExitStatus exitStatus)
@@ -299,7 +299,7 @@ void TemplateIconView::slotProcessExited(int /*exitCode*/, QProcess::ExitStatus 
     }
 
     addTemplateIcons(KileDocument::LaTeX);
-    emit classFileSearchFinished();
+    Q_EMIT classFileSearchFinished();
 }
 
 void TemplateIconView::addTemplateIcons(KileDocument::Type type)

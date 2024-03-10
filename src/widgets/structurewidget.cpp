@@ -635,10 +635,10 @@ void StructureWidget::slotClicked(QTreeWidgetItem * itm)
     }
 
     if(!(item->type() & KileStruct::None)) {
-        emit(setCursor(item->url(), item->line()-1, item->column()));
+        Q_EMIT(setCursor(item->url(), item->line()-1, item->column()));
     }
     else if(!item->parent()) { //root item
-        emit(setCursor(item->url(), 0, 0));
+        Q_EMIT(setCursor(item->url(), 0, 0));
     }
 }
 
@@ -718,7 +718,7 @@ void StructureWidget::slotDoubleClicked(QTreeWidgetItem * itm)
                 job->start();
             }
             else {
-                emit(fileOpen(url, QString()));
+                Q_EMIT(fileOpen(url, QString()));
             }
         }
         else {
@@ -734,7 +734,7 @@ void StructureWidget::slotDoubleClicked(QTreeWidgetItem * itm)
             fi.setFile(otherFilename);
 
             if(fi.isReadable()) {
-                emit(fileOpen(QUrl::fromLocalFile(otherFilename), QString()));
+                Q_EMIT(fileOpen(QUrl::fromLocalFile(otherFilename), QString()));
             }
             else {
                 if(KMessageBox::warningTwoActions(this,
@@ -743,7 +743,7 @@ void StructureWidget::slotDoubleClicked(QTreeWidgetItem * itm)
                                                   KStandardGuiItem::ok(),
                                                   KStandardGuiItem::cancel())
                         == KMessageBox::PrimaryAction) {
-                    emit(fileNew(QUrl::fromLocalFile(fname)));
+                    Q_EMIT(fileNew(QUrl::fromLocalFile(fname)));
                 }
             }
         }
@@ -810,9 +810,9 @@ void StructureWidget::viewContextMenuEvent(StructureView *view, QContextMenuEven
 
     if(hasLabel) {
         popup.addSection(i18n("Insert Label"));
-        popup.addAction(i18n("As &reference"), this, [this] { emit(sendText("\\ref{" + m_popupItem->label() + '}')); });
-        popup.addAction(i18n("As &page reference"), this, [this] { emit(sendText("\\pageref{" + m_popupItem->label() + '}')); });
-        popup.addAction(i18n("Only the &label"), this, [this] { emit(sendText(m_popupItem->label())); });
+        popup.addAction(i18n("As &reference"), this, [this] { Q_EMIT(sendText("\\ref{" + m_popupItem->label() + '}')); });
+        popup.addAction(i18n("As &page reference"), this, [this] { Q_EMIT(sendText("\\pageref{" + m_popupItem->label() + '}')); });
+        popup.addAction(i18n("Only the &label"), this, [this] { Q_EMIT(sendText(m_popupItem->label())); });
         popup.addSeparator();
         popup.addSection(i18n("Copy Label to Clipboard"));
         popup.addAction(i18n("As reference"), this, [this] { QApplication::clipboard()->setText("\\ref{" + m_popupItem->label() + '}'); });
@@ -832,7 +832,7 @@ void StructureWidget::slotPopupSectioning(int id)
 {
     KILE_DEBUG_MAIN << "\tStructureWidget::slotPopupSectioning (" << id << ")"<< Qt::endl;
     if(m_popupItem->level() >= 1 && m_popupItem->level() <= 7) {
-        emit(sectioningPopup(m_popupItem, id));
+        Q_EMIT(sectioningPopup(m_popupItem, id));
     }
 }
 

@@ -462,13 +462,13 @@ void FindFilesDialog::slotItemSelected(const QString& item)
             QString linenumber = str.left(pos);
             QFileInfo fileInfo(filename);
             if(fileInfo.isAbsolute()) {
-                emit itemSelected(filename, linenumber.toInt());
+                Q_EMIT itemSelected(filename, linenumber.toInt());
             }
             else if(m_mode == KileGrep::Project) {
-                emit itemSelected(m_projectdir + QDir::separator() + filename, linenumber.toInt());
+                Q_EMIT itemSelected(m_projectdir + QDir::separator() + filename, linenumber.toInt());
             }
             else {
-                emit itemSelected(dir_combo->comboBox()->itemText(0) + QDir::separator() + filename, linenumber.toInt());
+                Q_EMIT itemSelected(dir_combo->comboBox()->itemText(0) + QDir::separator() + filename, linenumber.toInt());
             }
         }
     }

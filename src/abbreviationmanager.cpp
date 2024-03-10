@@ -24,7 +24,7 @@ namespace KileAbbreviation {
 Manager::Manager(KileInfo* kileInfo, QObject *parent) : QObject(parent), m_kileInfo(kileInfo), m_abbreviationsDirty(false)
 {
     setObjectName("KileAbbreviation::Manager");
-    m_localAbbreviationFile = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + '/' + "complete/abbreviation/" + "kile-abbrevs.cwl";
+    m_localAbbreviationFile = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + QLatin1Char('/') + QLatin1String("complete/abbreviation/kile-abbrevs.cwl");
     QDir testDir(m_localAbbreviationFile);
     if (!testDir.exists()) {
         testDir.mkpath(m_localAbbreviationFile);
@@ -78,7 +78,7 @@ void Manager::readAbbreviationFiles()
         saveLocalAbbreviations();
     }
     m_abbreviationMap.clear();
-    QStringList list = m_kileInfo->codeCompletionManager()->readCWLFiles(KileConfig::completeAbbrev(), "abbreviation");
+    QStringList list = m_kileInfo->codeCompletionManager()->readCWLFiles(KileConfig::completeAbbrev(), QStringLiteral("abbreviation"));
     addAbbreviationListToMap(list, true);
 
     // read local wordlist
@@ -113,7 +113,7 @@ void Manager::saveLocalAbbreviations()
             i != m_abbreviationMap.end(); ++i) {
         StringBooleanPair pair = i.value();
         if(!pair.second) {
-            stream << QString(i.key()).replace('=', "\\=")
+            stream << QString(i.key()).replace(QLatin1Char('='), QLatin1String("\\="))
                    << '=' << pair.first << '\n';
         }
     }
@@ -127,12 +127,12 @@ void Manager::addAbbreviationListToMap(const QStringList& list, bool global)
     // a '=' symbol in the left-hand side is encoded by '\='
     for(QStringList::const_iterator i = list.begin(); i != list.end(); ++i) {
         QString entry = *i;
-        int delimiter = entry.indexOf(QRegularExpression("[^\\\\]="));
+        int delimiter = entry.indexOf(QRegularExpression(QLatin1String("[^\\\\]=")));
         if(delimiter < 0) {
             continue;
         }
         QString left = entry.left(delimiter + 1); // [^\\\\]= has length 2.
-        left.replace("\\=", "=");
+        left.replace(QLatin1String("\\="), QLatin1String("="));
         QString right = entry.mid(delimiter + 2); // [^\\\\]= has length 2.
         if(right.isEmpty()) {
             continue;

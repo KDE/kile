@@ -10,9 +10,9 @@ You will need recent versions of
 
 - a C++ compiler that supports lambda expressions (like GCC 6.x)
 - CMake
-- Qt 5 (and corresponding development packages if installed from binary packages)
-- KDE Frameworks 5 (and corresponding development packages if installed from binary packages)
-- Okular 5 (and corresponding development packages if installed from binary packages)
+- Qt 6 (and corresponding development packages if installed from binary packages)
+- KDE Frameworks 6 (and corresponding development packages if installed from binary packages)
+- Okular 6 (and corresponding development packages if installed from binary packages)
 
 (2) Building Kile from source on Linux systems
 ==============================================

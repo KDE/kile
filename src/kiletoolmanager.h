@@ -221,7 +221,7 @@ QString configName(const QString &tool, KConfig *config);
 void setConfigName(const QString &tool, const QString &name, KConfig *config);
 
 QString groupFor(const QString& tool, KConfig *config);
-QString groupFor(const QString& tool, const QString& cfg = "Default");
+QString groupFor(const QString& tool, const QString& cfg = QStringLiteral("Default"));
 
 void extract(const QString& str, QString &tool, QString &cfg);
 QString format(const QString& tool, const QString &cfg);

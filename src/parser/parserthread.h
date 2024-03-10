@@ -115,7 +115,7 @@ public:
 public Q_SLOTS:
     void addLaTeXLogFile(const QString& logFile, const QString& sourceFile,
                          // for QuickPreview
-                         const QString& texFileName = "", int selrow = -1, int docrow = -1);
+                         const QString& texFileName = QString(), int selrow = -1, int docrow = -1);
     void removeFile(const QString& fileName);
 
 protected:

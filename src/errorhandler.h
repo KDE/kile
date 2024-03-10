@@ -77,7 +77,7 @@ public Q_SLOTS:
 
 
     void printMessage(const QString& message);
-    void printMessage(int type, const QString& message, const QString &tool = "Kile",
+    void printMessage(int type, const QString& message, const QString &tool = QStringLiteral("Kile"),
                       const OutputInfo& outputInfo = OutputInfo(), bool allowSelection = false,
                       bool scroll = true);
     void printProblem(int type, const QString& problem, const OutputInfo& outputInfo = OutputInfo());

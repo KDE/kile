@@ -74,26 +74,26 @@ public:
 
     bool isMathEnv(const QString &name);
     bool isListEnv(const QString &name) {
-        return isType(name,'l');
+        return isType(name, QLatin1Char('l'));
     }
     bool isTabularEnv(const QString &name) {
-        return isType(name,'t');
+        return isType(name, QLatin1Char('t'));
     }
     bool isVerbatimEnv(const QString &name) {
-        return isType(name,'v');
+        return isType(name, QLatin1Char('v'));
     }
 
     bool isLabelCmd(const QString &name) {
-        return isType(name,'L');
+        return isType(name, QLatin1Char('L'));
     }
     bool isReferenceCmd(const QString &name) {
-        return isType(name,'R');
+        return isType(name, QLatin1Char('R'));
     }
     bool isCitationCmd(const QString &name) {
-        return isType(name,'C');
+        return isType(name, QLatin1Char('C'));
     }
     bool isInputCmd(const QString &name) {
-        return isType(name,'I');
+        return isType(name, QLatin1Char('I'));
     }
 
     bool isStarredEnv(const QString &name);

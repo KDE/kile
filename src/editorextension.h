@@ -189,7 +189,7 @@ public Q_SLOTS:
     void initDoubleQuotes();
 
     bool insertLatexFromUnicode(unsigned short rep, KTextEditor::View *view);
-    bool insertSpecialCharacter(const QString& texString, KTextEditor::View *view = Q_NULLPTR, const QString& dep = "");
+    bool insertSpecialCharacter(const QString& texString, KTextEditor::View *view = Q_NULLPTR, const QString& dep = QString());
 
     void insertIntelligentTabulator(KTextEditor::View *view = Q_NULLPTR);
 

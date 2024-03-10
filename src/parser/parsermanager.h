@@ -50,7 +50,7 @@ public:
 
     void parseOutput(KileTool::Base *tool, const QString& fileName, const QString& sourceFile,
                      // for QuickPreview
-                     const QString& texFileName = "", int selrow = -1, int docrow = -1);
+                     const QString& texFileName = QString(), int selrow = -1, int docrow = -1);
 
     bool isDocumentParsingComplete();
 

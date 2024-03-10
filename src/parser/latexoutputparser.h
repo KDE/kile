@@ -30,7 +30,7 @@ public:
     LaTeXOutputParserInput(const QUrl &url, KileDocument::Extensions *extensions,
                            const QString& sourceFile,
                            // for QuickPreview
-                           const QString &texfilename = "", int selrow = -1, int docrow = -1);
+                           const QString &texfilename = QString(), int selrow = -1, int docrow = -1);
 
     KileDocument::Extensions *extensions;
     QString sourceFile;

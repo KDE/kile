@@ -19,8 +19,8 @@
 
 #include <QString>
 
-const QString kileVersion="3.0 beta 4";
-const QString kileFullVersion="2.9.94"; // only use numbers and '.'
+const QString kileVersion = QStringLiteral("3.0 beta 4");
+const QString kileFullVersion = QStringLiteral("2.9.94"); // only use numbers and '.'
 #define KILE_PROJECTFILE_VERSION 3
 #define KILERC_VERSION 9
 

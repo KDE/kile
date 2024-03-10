@@ -210,7 +210,7 @@ public:
 
     void setName(const QString & name) {
         m_name = name;
-        emit (nameChanged(name));
+        Q_EMIT(nameChanged(name));
     }
     const QString& name() const {
         return m_name;
@@ -320,7 +320,7 @@ public:
 
     static inline QString getPathForPrivateKileDirectory(const QFileInfo& projectFilePath)
     {
-        return projectFilePath.dir().absoluteFilePath(".kile");
+        return projectFilePath.dir().absoluteFilePath(QStringLiteral(".kile"));
     }
 
     static inline QString getPathForPrivateKileDirectory(const QString& projectFilePath)
@@ -330,7 +330,7 @@ public:
 
     static inline bool ensurePrivateKileDirectoryExists(const QUrl& projectUrl)
     {
-        return QFileInfo(projectUrl.toLocalFile()).dir().mkpath(".kile");
+        return QFileInfo(projectUrl.toLocalFile()).dir().mkpath(QStringLiteral(".kile"));
     }
 
 Q_SIGNALS:

@@ -86,7 +86,7 @@ public:
     /**
      * Allows you to set the source file and working directory explicitly (absolute path).
      **/
-    virtual void setSource(const QString& source, const QString& workingDir = "");
+    virtual void setSource(const QString& source, const QString& workingDir = QString());
 
     /**
      * @returns the source file that is used to run the tool on.
@@ -106,10 +106,10 @@ public:
         return m_targetdir;
     }
     inline QString from() const {
-        return readEntry("from");
+        return readEntry(QStringLiteral("from"));
     }
     inline QString to() const {
-        return readEntry("to");
+        return readEntry(QStringLiteral("to"));
     }
     QString target() const {
         return m_target;
@@ -433,7 +433,7 @@ protected:
 public:
     ~Archive();
     virtual bool checkPrereqs() override;
-    virtual void setSource(const QString & source, const QString& workingDir = "") override;
+    virtual void setSource(const QString & source, const QString& workingDir = QString()) override;
 private:
     KileProject *m_project;
     QString m_fileList;

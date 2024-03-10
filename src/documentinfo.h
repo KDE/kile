@@ -95,7 +95,7 @@ enum
 class KileStructData
 {
 public:
-    explicit KileStructData(int lvl = 0, int tp = KileStruct::None, const QString &px = QString(), const QString &fldr = "root" )
+    explicit KileStructData(int lvl = 0, int tp = KileStruct::None, const QString &px = QString(), const QString &fldr = QStringLiteral("root"))
         : level(lvl), type(tp), pix(px), folder(fldr) {}
     /** At which level the element should be visible **/
     int				level;

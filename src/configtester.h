@@ -138,7 +138,7 @@ public:
     ProgramTest(const QString& testGroup, const QString& programName, const QString& workingDir,
                 const QString& arg0,
                 const QString& arg1,
-                const QString& arg2 = "",
+                const QString& arg2 = QString(),
                 bool isCritical = false);
     ~ProgramTest();
 

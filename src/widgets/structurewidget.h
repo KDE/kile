@@ -145,7 +145,7 @@ public:
 
 public Q_SLOTS:
     void addItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,
-                 const QString &pix, const QString &folder = "root");
+                 const QString &pix, const QString &folder = QStringLiteral("root"));
     void slotConfigChanged();
 
 protected:

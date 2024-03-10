@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-04 01:36+0000\n"
+"POT-Creation-Date: 2024-03-10 01:58+0000\n"
 "PO-Revision-Date: 2024-02-09 23:42+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -41,12 +41,12 @@ msgstr ""
 msgid "Saving Problem"
 msgstr "저장 문제"
 
-#: configtester.cpp:222
+#: configtester.cpp:223
 #, kde-format
 msgid "Running in Kile"
 msgstr "Kile에서 실행 중"
 
-#: configtester.cpp:246
+#: configtester.cpp:247
 #, kde-format
 msgid ""
 "Tool not found.\n"
@@ -57,75 +57,75 @@ msgstr ""
 "Kile이 올바르게 설정되지 않았습니다. 설정 -> Kile 설정 -> 도구 페이지로 이동"
 "하여 문제점이나 기본 설정의 변경 사항을 수정하십시오."
 
-#: configtester.cpp:268 configtester.cpp:465 dialogs/configcheckerdialog.cpp:80
+#: configtester.cpp:269 configtester.cpp:464 dialogs/configcheckerdialog.cpp:80
 #, kde-format
 msgid "Passed"
 msgstr "통과함"
 
-#: configtester.cpp:278 configtester.cpp:476
+#: configtester.cpp:279 configtester.cpp:475
 #, kde-format
 msgid "Failed"
 msgstr "실패함"
 
-#: configtester.cpp:297
+#: configtester.cpp:298
 #, kde-format
 msgid "Version"
 msgstr "버전"
 
-#: configtester.cpp:324
+#: configtester.cpp:325
 #, kde-format
 msgid "Embedding of Okular is supported"
 msgstr "Okular 임베드 지원함"
 
-#: configtester.cpp:336
+#: configtester.cpp:337
 #, kde-format
 msgid "Binary"
 msgstr "실행 파일"
 
-#: configtester.cpp:363
+#: configtester.cpp:364
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
 msgstr "이 필수 도구 실행 파일을 찾을 수 없습니다. %1"
 
-#: configtester.cpp:367
+#: configtester.cpp:368
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "No executable '%1' found. %2"
 msgstr "'%1' 실행 파일을 찾을 수 없습니다. %2"
 
-#: configtester.cpp:372
+#: configtester.cpp:373
 #, kde-format
 msgid "Could not find the binary for this essential tool"
 msgstr "이 필수 도구 실행 파일을 찾을 수 없음"
 
-#: configtester.cpp:375
+#: configtester.cpp:376
 #, kde-format
 msgid "No executable '%1' found"
 msgstr "'%1' 실행 파일을 찾을 수 없음"
 
-#: configtester.cpp:381
+#: configtester.cpp:382
 #, kde-format
 msgctxt "executable => path"
 msgid "Found (%1 => %2)"
 msgstr "찾았음(%1 => %2)"
 
-#: configtester.cpp:396
+#: configtester.cpp:397
 #, kde-format
 msgid "Simple Test"
 msgstr "간단한 테스트"
 
-#: configtester.cpp:473
+#: configtester.cpp:472
 #, kde-format
 msgid "This essential tool does not work; please check your installation."
 msgstr "이 필수 도구가 작동하지 않습니다. 설치 상태를 확인하십시오."
 
-#: configtester.cpp:488
+#: configtester.cpp:487
 #, kde-format
 msgid "Source Specials Switch"
 msgstr "소스 스페셜 전환"
 
-#: configtester.cpp:520
+#: configtester.cpp:519
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
@@ -134,7 +134,7 @@ msgstr ""
 "지원함, (La)TeX의 'Modern' 설정을 사용하여 후방 및 전방 검색 기능을 자동으로 "
 "사용하십시오."
 
-#: configtester.cpp:527
+#: configtester.cpp:526
 #, kde-format
 msgid ""
 "Not supported, use the srcltx package to enable the inverse and forward "
@@ -143,12 +143,12 @@ msgstr ""
 "지원하지 않음, 후방 및 전방 검색 기능을 사용하려면 srcltx 패키지를 사용하십시"
 "오."
 
-#: configtester.cpp:538
+#: configtester.cpp:537
 #, kde-format
 msgid "SyncTeX Support"
 msgstr "SyncTeX 지원"
 
-#: configtester.cpp:547
+#: configtester.cpp:546
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
@@ -157,17 +157,17 @@ msgstr ""
 "지원함, PDFLaTeX 및 XeLaTeX의 'Modern' 설정을 사용하여 후방 및 전방 검색 기능"
 "을 자동으로 사용하십시오."
 
-#: configtester.cpp:554
+#: configtester.cpp:553
 #, kde-format
 msgid "Not supported"
 msgstr "지원하지 않음"
 
-#: configtester.cpp:796
+#: configtester.cpp:795
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr "아래쪽 미리 보기 패널의 수식 그룹에서 PNG 미리 보기를 사용할 수 없음"
 
-#: configtester.cpp:806
+#: configtester.cpp:805
 #, kde-format
 msgid ""
 "PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' "
@@ -206,7 +206,7 @@ msgstr "파일 삭제"
 msgid "Do you really want to delete these files?"
 msgstr "이 파일을 지우시겠습니까?"
 
-#: dialogs/cleandialog.cpp:70 dialogs/listselector.cpp:59
+#: dialogs/cleandialog.cpp:70 dialogs/listselector.cpp:60
 #, kde-format
 msgid "Files"
 msgstr "파일"
@@ -348,14 +348,14 @@ msgstr ""
 msgid "Configure"
 msgstr "설정"
 
-#: dialogs/configurationdialog.cpp:69 main.cpp:107
+#: dialogs/configurationdialog.cpp:69 main.cpp:101
 #, kde-format
 msgid "Kile"
 msgstr "Kile"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLatexConfig)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetEnvironmentConfig)
-#: dialogs/configurationdialog.cpp:70 kile.cpp:693 kile.cpp:1066
+#: dialogs/configurationdialog.cpp:70 kile.cpp:695 kile.cpp:1074
 #: kileinfo.cpp:355 widgets/environmentconfigwidget.ui:20
 #: widgets/latexconfigwidget.ui:14
 #, kde-format
@@ -378,7 +378,7 @@ msgstr "편집기"
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetGeneralConfig)
 #: dialogs/configurationdialog.cpp:200 dialogs/configurationdialog.cpp:287
 #: widgets/appearanceconfigwidget.ui:20 widgets/generalconfigwidget.ui:26
-#: widgets/maintoolconfigwidget.ui:265
+#: widgets/maintoolconfigwidget.ui:245
 #, kde-format
 msgid "General"
 msgstr "일반"
@@ -405,7 +405,7 @@ msgid "Scripting"
 msgstr "스크립팅"
 
 #. i18n: ectx: Menu (menu_usermenu)
-#: dialogs/configurationdialog.cpp:229 kileui.rc:484 usermenu/usermenu.cpp:69
+#: dialogs/configurationdialog.cpp:229 kileui.rc:484 usermenu/usermenu.cpp:68
 #, kde-format
 msgid "User Menu"
 msgstr "사용자 메뉴"
@@ -426,7 +426,7 @@ msgstr "코드 자동 완성"
 msgid "Quick Preview"
 msgstr "빠른 미리 보기"
 
-#: dialogs/configurationdialog.cpp:251 kile.cpp:743
+#: dialogs/configurationdialog.cpp:251 kile.cpp:751
 #, kde-format
 msgid "Preview"
 msgstr "미리 보기"
@@ -501,7 +501,7 @@ msgstr "이름:"
 msgid "Directory:"
 msgstr "디렉터리:"
 
-#: dialogs/findfilesdialog.cpp:118 dialogs/texdocumentationdialog.cpp:71
+#: dialogs/findfilesdialog.cpp:118 dialogs/texdocumentationdialog.cpp:70
 #, kde-format
 msgid "Search"
 msgstr "찾기"
@@ -536,7 +536,7 @@ msgstr "명령[]"
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
-#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:988
+#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:996
 #, kde-format
 msgid "Environment"
 msgstr "환경"
@@ -547,13 +547,13 @@ msgid "Image"
 msgstr "그림"
 
 #: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:128
-#: kilestdactions.cpp:129 usermenu/usermenu.cpp:907
+#: kilestdactions.cpp:129 usermenu/usermenu.cpp:909
 #, kde-format
 msgid "Label"
 msgstr "이름표"
 
 #: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:134
-#: usermenu/usermenu.cpp:912
+#: usermenu/usermenu.cpp:914
 #, kde-format
 msgid "Reference"
 msgstr "참조"
@@ -581,7 +581,7 @@ msgid "Scan directories recursively"
 msgstr "재귀적으로 디렉터리 탐색"
 
 #: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:584
-#: dialogs/texdocumentationdialog.cpp:80
+#: dialogs/texdocumentationdialog.cpp:79
 #, kde-format
 msgid "&Search"
 msgstr "찾기(&S)"
@@ -1286,7 +1286,7 @@ msgstr "AMS 수식"
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1021 kileui.rc:569
+#: kile.cpp:1029 kileui.rc:569
 #, kde-format
 msgid "Math"
 msgstr "수식"
@@ -1296,7 +1296,7 @@ msgstr "수식"
 msgid "Lists"
 msgstr "목록"
 
-#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1017 kilestdactions.cpp:80
+#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1025 kilestdactions.cpp:80
 #, kde-format
 msgid "Tabular"
 msgstr "표"
@@ -1331,13 +1331,13 @@ msgstr "인용"
 msgid "Includes"
 msgstr "포함"
 
-#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1068
+#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1076
 #, kde-format
 msgid "LaTeX Environments"
 msgstr "LaTeX 환경"
 
 #: dialogs/latexcommanddialog.cpp:628 dialogs/latexcommanddialog.cpp:700
-#: kile.cpp:1067
+#: kile.cpp:1075
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "LaTeX 명령"
@@ -1489,60 +1489,60 @@ msgstr "편집(&E)..."
 msgid "Show only user-defined environments and commands"
 msgstr "사용자 정의 환경과 명령만 표시"
 
-#: dialogs/listselector.cpp:64
+#: dialogs/listselector.cpp:65
 #, kde-format
 msgid "1 item found."
 msgid_plural "%1 items found."
 msgstr[0] "항목 %1개를 찾았습니다."
 
-#: dialogs/listselector.cpp:150
+#: dialogs/listselector.cpp:151
 #, kde-format
 msgid "File Name"
 msgstr "파일 이름"
 
-#: dialogs/listselector.cpp:150 widgets/codecompletionconfigwidget.cpp:96
+#: dialogs/listselector.cpp:151 widgets/codecompletionconfigwidget.cpp:96
 #, kde-format
 msgid "Local File"
 msgstr "로컬 파일"
 
-#: dialogs/listselector.cpp:150
+#: dialogs/listselector.cpp:151
 #, kde-format
 msgid "Add File?"
 msgstr "파일을 추가하시겠습니까?"
 
-#: dialogs/listselector.cpp:170
+#: dialogs/listselector.cpp:171
 #, kde-format
 msgid "Add selected files"
 msgstr "선택한 파일 추가"
 
-#: dialogs/listselector.cpp:171
+#: dialogs/listselector.cpp:172
 #, kde-format
 msgid "Add all the selected files"
 msgstr "선택한 모든 파일 추가"
 
-#: dialogs/listselector.cpp:172
+#: dialogs/listselector.cpp:173
 #, kde-format
 msgid "Install custom files"
 msgstr "사용자 정의 파일 설치"
 
-#: dialogs/listselector.cpp:173
+#: dialogs/listselector.cpp:174
 #, kde-format
 msgid "Install your own completion files"
 msgstr "사용자 정의 자동 완성 파일 설치"
 
-#: dialogs/listselector.cpp:174
+#: dialogs/listselector.cpp:175
 #, kde-format
 msgid "Manage custom files"
 msgstr "사용자 정의 파일 관리"
 
-#: dialogs/listselector.cpp:175
+#: dialogs/listselector.cpp:176
 #, kde-format
 msgid "Manage the local completion files in the file manager"
 msgstr "파일 관리자에서 로컬 자동 완성 파일 관리"
 
-#: dialogs/listselector.cpp:209 dialogs/listselector.cpp:263
-#: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/postscriptdialog.cpp:219
+#: dialogs/listselector.cpp:210 dialogs/listselector.cpp:264
+#: dialogs/listselector.cpp:269 dialogs/pdf-wizard/pdfdialog.cpp:283
+#: dialogs/pdf-wizard/pdfdialog.cpp:939 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:196
 #: widgets/codecompletionconfigwidget.cpp:353
 #, kde-format
@@ -1550,8 +1550,8 @@ msgid "yes"
 msgstr "예"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbEncryption)
-#: dialogs/listselector.cpp:213 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:945
+#: dialogs/listselector.cpp:214 dialogs/pdf-wizard/pdfdialog.cpp:283
+#: dialogs/pdf-wizard/pdfdialog.cpp:939
 #: dialogs/pdf-wizard/pdfdialog_base.ui:518 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:200
 #: widgets/codecompletionconfigwidget.cpp:356
@@ -1559,17 +1559,17 @@ msgstr "예"
 msgid "no"
 msgstr "아니요"
 
-#: dialogs/listselector.cpp:229
+#: dialogs/listselector.cpp:230
 #, kde-format
 msgid "Select Completion Files to Install Locally"
 msgstr "로컬에 설치할 자동 완성 파일 선택"
 
-#: dialogs/listselector.cpp:229
+#: dialogs/listselector.cpp:230
 #, kde-format
 msgid "Completion files (*.cwl)"
 msgstr "자동 완성 파일 (*.cwl)"
 
-#: dialogs/listselector.cpp:240
+#: dialogs/listselector.cpp:241
 #, kde-format
 msgid ""
 "A local completion file with the name \"%1\" already exists.\n"
@@ -1578,12 +1578,12 @@ msgstr ""
 "이름이 \"%1\"인 로컬 자동 완성 파일이 이미 존재합니다.\n"
 "덮어쓰시겠습니까?"
 
-#: dialogs/listselector.cpp:241
+#: dialogs/listselector.cpp:242
 #, kde-format
 msgid "Replace Local File?"
 msgstr "로컬 파일을 덮어쓰시겠습니까?"
 
-#: dialogs/listselector.cpp:244
+#: dialogs/listselector.cpp:245
 #, kde-format
 msgid ""
 "An error occurred while removing the file \"%1\".\n"
@@ -1592,12 +1592,12 @@ msgstr ""
 "파일 \"%1\"을(를) 삭제하는 중 오류가 발생했습니다.\n"
 "파일 권한을 확인하십시오."
 
-#: dialogs/listselector.cpp:245
+#: dialogs/listselector.cpp:246
 #, kde-format
 msgid "Remove Error"
 msgstr "삭제 오류"
 
-#: dialogs/listselector.cpp:256
+#: dialogs/listselector.cpp:257
 #, kde-format
 msgid ""
 "Cannot copy the file to the local directory!\n"
@@ -1606,17 +1606,17 @@ msgstr ""
 "로컬 디렉터리로 파일을 복사할 수 없습니다!\n"
 "\"%1\" 디렉터리 접근 권한을 확인하십시오."
 
-#: dialogs/listselector.cpp:257
+#: dialogs/listselector.cpp:258
 #, kde-format
 msgid "Copy Error"
 msgstr "복사 오류"
 
-#: dialogs/listselector.cpp:280
+#: dialogs/listselector.cpp:281
 #, kde-format
 msgid "The custom files have been installed and preselected for adding."
 msgstr "사용자 정의 파일을 설치했으며 추가 작업에 사전 선택되었습니다."
 
-#: dialogs/listselector.cpp:281
+#: dialogs/listselector.cpp:282
 #, kde-format
 msgid "Installation Successful"
 msgstr "설치 성공"
@@ -1888,32 +1888,32 @@ msgstr "BibTeX 문서"
 msgid "Kile Script"
 msgstr "Kile 스크립트"
 
-#: dialogs/newtoolwizard.cpp:23
+#: dialogs/newtoolwizard.cpp:24
 #, kde-format
 msgid "Tool Name"
 msgstr "도구 이름"
 
-#: dialogs/newtoolwizard.cpp:27
+#: dialogs/newtoolwizard.cpp:28
 #, kde-format
 msgid "Class"
 msgstr "클래스"
 
-#: dialogs/newtoolwizard.cpp:47
+#: dialogs/newtoolwizard.cpp:48
 #, kde-format
 msgid "<Custom>"
 msgstr "<사용자 정의>"
 
-#: dialogs/newtoolwizard.cpp:66
+#: dialogs/newtoolwizard.cpp:67
 #, kde-format
 msgid "Error: A tool by this name exists already."
 msgstr "오류: 같은 이름의 도구가 이미 존재합니다."
 
-#: dialogs/newtoolwizard.cpp:70
+#: dialogs/newtoolwizard.cpp:71
 #, kde-format
 msgid "Error: The name may not contain a slash '/'."
 msgstr "오류: 이름에는 '/' 문자가 들어갈 수 없습니다."
 
-#: dialogs/newtoolwizard.cpp:74
+#: dialogs/newtoolwizard.cpp:75
 #, kde-format
 msgid "Error: The name may not contain a (, ), [, or ]."
 msgstr "오류: 이름에는 (, ), [, ] 문자가 들어갈 수 없습니다."
@@ -1949,8 +1949,8 @@ msgstr "도구의 짧은 설명을 입력하십시오(&T):"
 msgid "PDF Wizard"
 msgstr "PDF 마법사"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:727
-#: dialogs/pdf-wizard/pdfdialog.cpp:852
+#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:721
+#: dialogs/pdf-wizard/pdfdialog.cpp:846
 #, kde-format
 msgid "Re&arrange"
 msgstr "재배열(&A)"
@@ -2050,23 +2050,23 @@ msgstr "pdftk: 인자 선택"
 msgid "pdfpages: Choose Parameter"
 msgstr "pdfpages: 인자 선택"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:404
+#: dialogs/pdf-wizard/pdfdialog.cpp:398
 #, kde-format
 msgctxt "%1 is the number of pages"
 msgid "%1 (encrypted)"
 msgstr "%1(암호화됨)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:412
+#: dialogs/pdf-wizard/pdfdialog.cpp:406
 #, kde-format
 msgid "Error: unknown number of pages"
 msgstr "오류: 쪽 수를 알 수 없음"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:425
+#: dialogs/pdf-wizard/pdfdialog.cpp:419
 #, kde-format
 msgid "PDFTK-Password"
 msgstr "PDFTK 암호"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:426
+#: dialogs/pdf-wizard/pdfdialog.cpp:420
 #, kde-format
 msgid ""
 "This PDF file is encrypted and 'pdftk' cannot open it.\n"
@@ -2077,54 +2077,54 @@ msgstr ""
 "PDF 파일의 암호를 입력하십시오.\n"
 "비워 두면 다른 방법을 사용합니다:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:572
+#: dialogs/pdf-wizard/pdfdialog.cpp:566
 #, kde-format
 msgid "A password is necessary to set or change the current settings."
 msgstr "현재 설정을 적용하거나 변경하려면 암호가 필요합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:576
+#: dialogs/pdf-wizard/pdfdialog.cpp:570
 #, kde-format
 msgid "The permissions of this document can be changed with <i>pdftk</i>."
 msgstr "이 문서의 권한을 <i>pdftk</i>로 변경할 수 있습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:577
+#: dialogs/pdf-wizard/pdfdialog.cpp:571
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no permission can be changed."
 msgstr "<i>pdftk</i>를 사용할 수 없어서 권한을 변경할 수 없습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:581
+#: dialogs/pdf-wizard/pdfdialog.cpp:575
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no property can be changed."
 msgstr "<i>pdftk</i>를 사용할 수 없어서 속성을 변경할 수 없습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:584
+#: dialogs/pdf-wizard/pdfdialog.cpp:578
 #, kde-format
 msgid "The properties of this document can be changed with <i>pdftk</i>."
 msgstr "이 문서의 속성을 <i>pdftk</i>로 변경할 수 있습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:592
+#: dialogs/pdf-wizard/pdfdialog.cpp:586
 #, kde-format
 msgid "This input file is encrypted, so only <i>pdftk</i> works."
 msgstr "입력 파일이 암호화되어 있어서 <i>pdftk</i>만 사용할 수 있습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:593
+#: dialogs/pdf-wizard/pdfdialog.cpp:587
 #, kde-format
 msgid "A password is necessary to rearrange pages."
 msgstr "쪽을 재정렬하려면 암호가 필요합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:594
+#: dialogs/pdf-wizard/pdfdialog.cpp:588
 #, kde-format
 msgid "This input file is encrypted, but <i>pdftk</i> is not installed."
 msgstr "입력 파일이 암호화되어 있지만 <i>pdftk</i>가 설치되어 있지 않습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:598
+#: dialogs/pdf-wizard/pdfdialog.cpp:592
 #, kde-format
 msgid ""
 "This wizard will use <i>pdftk</i> and the LaTeX package <i>pdfpages</i>."
 msgstr ""
 "이 마법사에서는 <i>pdftk</i>와 LaTeX 패키지 <i>pdfpages</i>를 사용합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:599
+#: dialogs/pdf-wizard/pdfdialog.cpp:593
 #, kde-format
 msgid ""
 "This wizard will only use <i>pdftk</i> (<i>pdfpages.sty</i> is not "
@@ -2133,7 +2133,7 @@ msgstr ""
 "이 마법사에서는 <i>pdftk</i>만 사용합니다(<i>pdfpages.sty</i>가 설치되어 있"
 "지 않음)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:602
+#: dialogs/pdf-wizard/pdfdialog.cpp:596
 #, kde-format
 msgid ""
 "This wizard will only use the LaTeX package <i>pdfpages</i> (<i>pdftk</i> "
@@ -2142,13 +2142,13 @@ msgstr ""
 "이 마법사에서는 LaTeX <i>pdfpages</i>만 사용합니다(<i>pdftk</i>가 설치되어 있"
 "지 않음)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:603
+#: dialogs/pdf-wizard/pdfdialog.cpp:597
 #, kde-format
 msgid "This wizard can't work, because no tool was found (see help section)."
 msgstr ""
 "도구를 찾을 수 없어서 이 마법사를 사용할 수 없습니다(도움말을 참조하십시오)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:608
+#: dialogs/pdf-wizard/pdfdialog.cpp:602
 #, kde-format
 msgid ""
 "<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</"
@@ -2157,24 +2157,24 @@ msgstr ""
 "<i>(libpoppler PDF 라이브러리를 제외하고 컴파일되었습니다. 모든 작업을 사용"
 "할 수는 없습니다.)</i>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:727
+#: dialogs/pdf-wizard/pdfdialog.cpp:721
 #, kde-format
 msgid "&Update"
 msgstr "업데이트(&U)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: dialogs/pdf-wizard/pdfdialog.cpp:790 dialogs/pdf-wizard/pdfdialog_base.ui:55
+#: dialogs/pdf-wizard/pdfdialog.cpp:784 dialogs/pdf-wizard/pdfdialog_base.ui:55
 #, kde-format
 msgid "Pages:"
 msgstr "쪽:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:791
+#: dialogs/pdf-wizard/pdfdialog.cpp:785
 #, kde-format
 msgid "Comma separated page list: 1,4-7,9"
 msgstr "쉼표로 구분한 쪽 목록: 1,4-7,9"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameter)
-#: dialogs/pdf-wizard/pdfdialog.cpp:796 dialogs/pdf-wizard/pdfdialog.cpp:801
+#: dialogs/pdf-wizard/pdfdialog.cpp:790 dialogs/pdf-wizard/pdfdialog.cpp:795
 #: dialogs/pdf-wizard/pdfdialog_base.ui:274 dialogs/postscriptdialog.cpp:503
 #: dialogs/postscriptdialog_base.ui:147
 #: dialogs/tabular/newtabulardialog.cpp:132
@@ -2183,17 +2183,17 @@ msgstr "쉼표로 구분한 쪽 목록: 1,4-7,9"
 msgid "Parameter:"
 msgstr "인자:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:797
+#: dialogs/pdf-wizard/pdfdialog.cpp:791
 #, kde-format
 msgid "All options for 'pdftk'"
 msgstr "모든 'pdftk' 옵션"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:802
+#: dialogs/pdf-wizard/pdfdialog.cpp:796
 #, kde-format
 msgid "All options for 'pdfpages'"
 msgstr "모든 'pdfpages' 옵션"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:824
+#: dialogs/pdf-wizard/pdfdialog.cpp:818
 #, kde-format
 msgid ""
 "Applies a PDF watermark to the background of a single input PDF. Pdftk uses "
@@ -2205,7 +2205,7 @@ msgstr ""
 "쪽을 사용하여 해당 내용을 입력 PDF 파일의 매 쪽마다 적용합니다. 입력 쪽에 맞"
 "도록 크기를 조절하고 필요한 경우 회전합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:829
+#: dialogs/pdf-wizard/pdfdialog.cpp:823
 #, kde-format
 msgid ""
 "Applies a foreground stamp on top of the input PDF document's pages. Pdftk "
@@ -2218,12 +2218,12 @@ msgstr ""
 "록 크기를 조절하고 필요한 경우 회전합니다. 스탬프 PDF 쪽에 투명 배경이 있을 "
 "때 가장 잘 작동합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:849
+#: dialogs/pdf-wizard/pdfdialog.cpp:843
 #, kde-format
 msgid "&Apply"
 msgstr "적용(&A)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:867
+#: dialogs/pdf-wizard/pdfdialog.cpp:861
 #, kde-format
 msgid ""
 "Failed to create a temporary directory.\n"
@@ -2234,7 +2234,7 @@ msgstr ""
 "\n"
 "마법사를 사용할 수 없습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:895
+#: dialogs/pdf-wizard/pdfdialog.cpp:889
 #, kde-format
 msgid ""
 "<center>PDF-Wizard</center><br>This wizard uses 'pdftk' and the LaTeX "
@@ -2264,7 +2264,7 @@ msgstr ""
 "는 알려져 있습니다. 작성자의 의도를 존중해 달라는 요청으로 생각해야 합니다.</"
 "p>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:912
+#: dialogs/pdf-wizard/pdfdialog.cpp:906
 #, kde-format
 msgid ""
 "<p><i>Information: </i>This version of Kile was compiled without libpoppler "
@@ -2274,110 +2274,110 @@ msgstr ""
 "<p><i>정보:</i> 이 Kile 버전은 libpoppler 지원 없이 컴파일되었습니다. 속성 "
 "및 권한 설정, 변경, 삭제가 불가능합니다.</p>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:916 dialogs/pdf-wizard/pdfdialog.cpp:1704
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 kile.cpp:1023
+#: dialogs/pdf-wizard/pdfdialog.cpp:910 dialogs/pdf-wizard/pdfdialog.cpp:1698
+#: dialogs/pdf-wizard/pdfdialog.cpp:1768 kile.cpp:1031
 #, kde-format
 msgid "PDF Tools"
 msgstr "PDF 도구"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:931
+#: dialogs/pdf-wizard/pdfdialog.cpp:925
 #, kde-format
 msgid "LaTeX with 'pdfpages' package"
 msgstr "'pdfpages' 패키지가 포함된 LaTeX"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:931
+#: dialogs/pdf-wizard/pdfdialog.cpp:925
 #, kde-format
 msgid "pdftk"
 msgstr "pdftk"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:932
+#: dialogs/pdf-wizard/pdfdialog.cpp:926
 #, kde-format
 msgid "Rearranging PDF file: %1"
 msgstr "PDF 파일 재정렬 중: %1"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:940 dialogs/pdf-wizard/pdfdialog.cpp:1052
+#: dialogs/pdf-wizard/pdfdialog.cpp:934 dialogs/pdf-wizard/pdfdialog.cpp:1046
 #: dialogs/postscriptdialog.cpp:216
 #, kde-format
 msgid "***** tool:        "
 msgstr "***** 도구:        "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:941 dialogs/pdf-wizard/pdfdialog.cpp:1053
+#: dialogs/pdf-wizard/pdfdialog.cpp:935 dialogs/pdf-wizard/pdfdialog.cpp:1047
 #: dialogs/postscriptdialog.cpp:217
 #, kde-format
 msgid "***** input file:  "
 msgstr "***** 입력 파일:  "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:942 dialogs/postscriptdialog.cpp:218
+#: dialogs/pdf-wizard/pdfdialog.cpp:936 dialogs/postscriptdialog.cpp:218
 #, kde-format
 msgid "***** output file: "
 msgstr "***** 출력 파일: "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:943 dialogs/pdf-wizard/pdfdialog.cpp:1054
+#: dialogs/pdf-wizard/pdfdialog.cpp:937 dialogs/pdf-wizard/pdfdialog.cpp:1048
 #, kde-format
 msgid "***** param:       "
 msgstr "***** 인자:       "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:944
+#: dialogs/pdf-wizard/pdfdialog.cpp:938
 #, kde-format
 msgid "***** command:     "
 msgstr "***** 명령:     "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/postscriptdialog.cpp:219
+#: dialogs/pdf-wizard/pdfdialog.cpp:939 dialogs/postscriptdialog.cpp:219
 #, kde-format
 msgid "***** viewer:      "
 msgstr "***** 뷰어:      "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1107
+#: dialogs/pdf-wizard/pdfdialog.cpp:1101
 #, kde-format
 msgid "An error occurred while executing the task."
 msgstr "작업을 실행하는 중 오류가 발생했습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1163
+#: dialogs/pdf-wizard/pdfdialog.cpp:1157
 #, kde-format
 msgid "Finished with an error (wrong password)"
 msgstr "오류를 반환하고 종료됨(암호가 잘못됨)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1166
+#: dialogs/pdf-wizard/pdfdialog.cpp:1160
 #, kde-format
 msgid "Finished with an error"
 msgstr "오류를 반환하고 종료됨"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1180
+#: dialogs/pdf-wizard/pdfdialog.cpp:1174
 #, kde-format
 msgid "Could not create the ViewPDF tool"
 msgstr "ViewPDF 도구를 만들 수 없음"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1180
+#: dialogs/pdf-wizard/pdfdialog.cpp:1174
 #, kde-format
 msgid "ViewPDF"
 msgstr "ViewPDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1620
+#: dialogs/pdf-wizard/pdfdialog.cpp:1614
 #, kde-format
 msgid "The utility needs some parameters in this mode."
 msgstr "이 유틸리티는 이 모드에서 인자가 필요합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1638
+#: dialogs/pdf-wizard/pdfdialog.cpp:1632
 #, kde-format
 msgid "Illegal page list 'from-to': %1 is bigger than %2."
 msgstr "잘못된 쪽 목록 'from-to': %1이(가) %2보다 큽니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1642 dialogs/pdf-wizard/pdfdialog.cpp:1649
+#: dialogs/pdf-wizard/pdfdialog.cpp:1636 dialogs/pdf-wizard/pdfdialog.cpp:1643
 #, kde-format
 msgid "Illegal pagenumber: %1."
 msgstr "잘못된 쪽 번호: %1."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1662
+#: dialogs/pdf-wizard/pdfdialog.cpp:1656
 #, kde-format
 msgid "You need to define a PDF file as foreground stamp."
 msgstr "PDF 파일을 전경 스탬프로 지정해야 합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1663
+#: dialogs/pdf-wizard/pdfdialog.cpp:1657
 #, kde-format
 msgid "You need to define a PDF file as background watermark."
 msgstr "PDF 파일을 배경 워터마크로 지정해야 합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1670
+#: dialogs/pdf-wizard/pdfdialog.cpp:1664
 #, kde-format
 msgid ""
 "Unknown file format: only '.pdf' is accepted as image file in this mode."
@@ -2385,60 +2385,60 @@ msgstr ""
 "알 수 없는 파일 형식: 이 모드에서는 '.pdf' 형식만 그림으로 사용할 수 있습니"
 "다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1675
+#: dialogs/pdf-wizard/pdfdialog.cpp:1669
 #, kde-format
 msgid "The given file doesn't exist."
 msgstr "지정한 파일이 없습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1688
+#: dialogs/pdf-wizard/pdfdialog.cpp:1682
 #, kde-format
 msgid "You need to define an output file."
 msgstr "출력 파일을 지정해야 합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1695
+#: dialogs/pdf-wizard/pdfdialog.cpp:1689
 #, kde-format
 msgid "Unknown file format: only '.pdf' is accepted as output file."
 msgstr "알 수 없는 파일 형식: '.pdf' 파일만 출력 형식으로 사용할 수 있습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1701 dialogs/postscriptdialog.cpp:477
+#: dialogs/pdf-wizard/pdfdialog.cpp:1695 dialogs/postscriptdialog.cpp:477
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
 msgstr "파일 \"%1\"이(가) 이미 존재합니다. 덮어쓰시겠습니까?"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1736 dialogs/postscriptdialog.cpp:435
+#: dialogs/pdf-wizard/pdfdialog.cpp:1730 dialogs/postscriptdialog.cpp:435
 #, kde-format
 msgid "No input file is given."
 msgstr "입력 파일을 지정하지 않았습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1743
+#: dialogs/pdf-wizard/pdfdialog.cpp:1737
 #, kde-format
 msgid "Unknown file format: only '.pdf' are accepted for input files."
 msgstr "알 수 없는 파일 형식: '.pdf' 파일만 입력 형식으로 사용할 수 있습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1748 dialogs/postscriptdialog.cpp:447
+#: dialogs/pdf-wizard/pdfdialog.cpp:1742 dialogs/postscriptdialog.cpp:447
 #, kde-format
 msgid "This input file does not exist."
 msgstr "입력 파일이 없습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1760
+#: dialogs/pdf-wizard/pdfdialog.cpp:1754
 #, kde-format
 msgid "No password is given."
 msgstr "암호를 지정하지 않았습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1765
+#: dialogs/pdf-wizard/pdfdialog.cpp:1759
 #, kde-format
 msgid "The password should be at least 6 characters long."
 msgstr "암호는 최소 6글자 이상이어야 합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:517
-#: dialogs/texdocumentationdialog.cpp:437
+#: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
+#: dialogs/texdocumentationdialog.cpp:436
 #, kde-format
 msgid "<center>"
 msgstr "<center>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:517
-#: dialogs/texdocumentationdialog.cpp:438
+#: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
+#: dialogs/texdocumentationdialog.cpp:437
 #, kde-format
 msgid "</center>"
 msgstr "</center>"
@@ -2853,7 +2853,7 @@ msgstr "알 수 없는 파일 형식: '.ps' 파일만 출력 형식으로 사용
 msgid "Copies:"
 msgstr "복사 부수:"
 
-#: dialogs/postscriptdialog.cpp:517 kile.cpp:1022
+#: dialogs/postscriptdialog.cpp:517 kile.cpp:1030
 #, kde-format
 msgid "Postscript Tools"
 msgstr "포스트스크립트 도구"
@@ -3037,7 +3037,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "프로젝트 이름을 입력하지 않았음"
 
-#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1048
+#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1047
 #, kde-format
 msgid "Untitled"
 msgstr "제목 없음"
@@ -4647,18 +4647,18 @@ msgstr "클립보드가 비어 있어서 표에 삽입할 내용이 없습니다
 msgid "Empty Clipboard"
 msgstr "빈 클립보드"
 
-#: dialogs/texdocumentationdialog.cpp:59 kile.cpp:1070
+#: dialogs/texdocumentationdialog.cpp:58 kile.cpp:1078
 #, kde-format
 msgid "Documentation Browser"
 msgstr "문서 탐색기"
 
-#: dialogs/texdocumentationdialog.cpp:68 dialogs/texdocumentationdialog.cpp:387
+#: dialogs/texdocumentationdialog.cpp:67 dialogs/texdocumentationdialog.cpp:386
 #: kilestdactions.cpp:43
 #, kde-format
 msgid "Table of Contents"
 msgstr "목차"
 
-#: dialogs/texdocumentationdialog.cpp:85
+#: dialogs/texdocumentationdialog.cpp:84
 #, kde-format
 msgid ""
 "<p>A list of the documentation provided by the installed TeX distribution.</"
@@ -4670,59 +4670,59 @@ msgstr ""
 "거나 Space 키를 누르면 해당하는 파일을 뷰어에 표시합니다.</p><p>회색으로 표시"
 "된 항목은 설치되어 있지 않습니다.</p>"
 
-#: dialogs/texdocumentationdialog.cpp:88
+#: dialogs/texdocumentationdialog.cpp:87
 #, kde-format
 msgid ""
 "You can choose a keyword to show only document files that are related to "
 "this keyword."
 msgstr "키워드를 지정하면 해당 키워드와 일치하는 문서 파일만 표시합니다."
 
-#: dialogs/texdocumentationdialog.cpp:89
+#: dialogs/texdocumentationdialog.cpp:88
 #, kde-format
 msgid "Start the search for the chosen keyword."
 msgstr "지정한 키워드로 검색을 시작합니다."
 
-#: dialogs/texdocumentationdialog.cpp:91
+#: dialogs/texdocumentationdialog.cpp:90
 #, kde-format
 msgid "Reset list to all available documentation files."
 msgstr "사용 가능한 모든 문서 파일로 목록을 초기화합니다."
 
-#: dialogs/texdocumentationdialog.cpp:92
+#: dialogs/texdocumentationdialog.cpp:91
 #, kde-format
 msgid "Cancel &Search"
 msgstr "검색 취소(&S)"
 
-#: dialogs/texdocumentationdialog.cpp:139
+#: dialogs/texdocumentationdialog.cpp:138
 #, kde-format
 msgid "Could not read 'texdoctk.dat'."
 msgstr "'texdoctk.dat' 파일을 읽을 수 없습니다."
 
-#: dialogs/texdocumentationdialog.cpp:302
+#: dialogs/texdocumentationdialog.cpp:301
 #, kde-format
 msgid "No KDE service found for this file."
 msgstr "이 파일에 대한 KDE 서비스를 찾을 수 없습니다."
 
-#: dialogs/texdocumentationdialog.cpp:334
+#: dialogs/texdocumentationdialog.cpp:333
 #, kde-format
 msgid "Could not find the documentation file '%1'"
 msgstr "문서 파일 '%1'을(를) 찾을 수 없음"
 
-#: dialogs/texdocumentationdialog.cpp:350
+#: dialogs/texdocumentationdialog.cpp:349
 #, kde-format
 msgid "No keyword given."
 msgstr "키워드를 지정하지 않았습니다."
 
-#: dialogs/texdocumentationdialog.cpp:376
+#: dialogs/texdocumentationdialog.cpp:375
 #, kde-format
 msgid "Search results for keyword '%1'"
 msgstr "키워드 '%1' 검색 결과"
 
-#: dialogs/texdocumentationdialog.cpp:379
+#: dialogs/texdocumentationdialog.cpp:378
 #, kde-format
 msgid "No documents found for keyword '%1'."
 msgstr "키워드 '%1'와(과) 일치하는 문서를 찾을 수 없습니다."
 
-#: dialogs/texdocumentationdialog.cpp:437
+#: dialogs/texdocumentationdialog.cpp:436
 #, kde-format
 msgid ""
 "Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'."
@@ -4731,12 +4731,12 @@ msgstr ""
 "TexLive/teTeX 검색 경로나 'texdoctk.dat' 파일의 위치를 확인할 수 없습니다."
 "<br/>Kile에서 유용한 정보를 표시할 수 없습니다."
 
-#: dialogs/texdocumentationdialog.cpp:438
+#: dialogs/texdocumentationdialog.cpp:437
 #, kde-format
 msgid "TexDoc Dialog"
 msgstr "TexDoc 대화 상자"
 
-#: dialogs/texdocumentationdialog.cpp:450
+#: dialogs/texdocumentationdialog.cpp:449
 #, kde-format
 msgid ""
 "Could not determine the installation path of your TeX distribution or find "
@@ -4752,7 +4752,7 @@ msgid "Configure User Help"
 msgstr "사용자 도움말 설정"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbUserHelp)
-#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1082
+#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1090
 #: widgets/helpconfigwidget.ui:86
 #, kde-format
 msgid "User Help"
@@ -4764,7 +4764,7 @@ msgid "&Menu item:"
 msgstr "메뉴 항목(&M):"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbRemove)
-#: dialogs/userhelpdialog.cpp:76 widgets/quicktoolconfigwidget.ui:104
+#: dialogs/userhelpdialog.cpp:76 widgets/quicktoolconfigwidget.ui:116
 #, kde-format
 msgid "&Remove"
 msgstr "삭제(&R)"
@@ -4837,19 +4837,19 @@ msgstr ""
 "웹사이트(HTML) (*.html *.htm);;문서(PDF, PS, DVI, EPUB) (*.ps *.pdf *.dvi *."
 "epub);;모든 파일 (*)"
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2150
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2148
 #, kde-format
 msgid "Select File"
 msgstr "파일 선택"
 
 #: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:299
-#: dialogs/usermenu/usermenutree.cpp:245 usermenu/usermenu.cpp:338
+#: dialogs/usermenu/usermenutree.cpp:234 usermenu/usermenu.cpp:339
 #: widgets/usermenuconfigwidget.cpp:74
 #, kde-format
 msgid "File '%1' does not exist."
 msgstr "'%1' 파일이 없습니다."
 
-#: dialogs/usermenu/usermenudialog.cpp:42 usermenu/usermenu.cpp:108
+#: dialogs/usermenu/usermenudialog.cpp:42 usermenu/usermenu.cpp:107
 #, kde-format
 msgid "Edit User Menu"
 msgstr "사용자 메뉴 편집"
@@ -4992,13 +4992,13 @@ msgid "Discard tree"
 msgstr "트리 버리기"
 
 #: dialogs/usermenu/usermenudialog.cpp:288
-#: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:330
+#: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:331
 #: widgets/usermenuconfigwidget.cpp:62
 #, kde-format
 msgid "User Menu Files (*.xml)"
 msgstr "사용자 메뉴 파일 (*.xml)"
 
-#: dialogs/usermenu/usermenudialog.cpp:290 usermenu/usermenu.cpp:332
+#: dialogs/usermenu/usermenudialog.cpp:290 usermenu/usermenu.cpp:333
 #: widgets/usermenuconfigwidget.cpp:64
 #, kde-format
 msgid "Select Menu File"
@@ -5353,157 +5353,157 @@ msgstr "???"
 msgid "  >"
 msgstr "  >"
 
-#: dialogs/usermenu/usermenutree.cpp:178
+#: dialogs/usermenu/usermenutree.cpp:167
 #, kde-format
 msgid "Insert above"
 msgstr "위에 삽입"
 
-#: dialogs/usermenu/usermenutree.cpp:179
+#: dialogs/usermenu/usermenutree.cpp:168
 #, kde-format
 msgid "Insert below"
 msgstr "아래에 삽입"
 
-#: dialogs/usermenu/usermenutree.cpp:184
+#: dialogs/usermenu/usermenutree.cpp:173
 #, kde-format
 msgid "Insert a separator above"
 msgstr "위에 구분선 삽입"
 
-#: dialogs/usermenu/usermenutree.cpp:185
+#: dialogs/usermenu/usermenutree.cpp:174
 #, kde-format
 msgid "Insert a separator below"
 msgstr "아래에 구분선 삽입"
 
-#: dialogs/usermenu/usermenutree.cpp:190
+#: dialogs/usermenu/usermenutree.cpp:179
 #, kde-format
 msgid "Insert a submenu above"
 msgstr "위에 하위 메뉴 삽입"
 
-#: dialogs/usermenu/usermenutree.cpp:191
+#: dialogs/usermenu/usermenutree.cpp:180
 #, kde-format
 msgid "Insert a submenu below"
 msgstr "아래에 하위 메뉴 삽입"
 
-#: dialogs/usermenu/usermenutree.cpp:196
+#: dialogs/usermenu/usermenutree.cpp:185
 #, kde-format
 msgid "Insert into this submenu"
 msgstr "이 하위 메뉴에 삽입"
 
-#: dialogs/usermenu/usermenutree.cpp:197
+#: dialogs/usermenu/usermenutree.cpp:186
 #, kde-format
 msgid "Insert a separator into this submenu"
 msgstr "이 하위 메뉴에 구분선 삽입"
 
-#: dialogs/usermenu/usermenutree.cpp:198
+#: dialogs/usermenu/usermenutree.cpp:187
 #, kde-format
 msgid "Insert a submenu into this submenu"
 msgstr "이 하위 메뉴에 하위 메뉴 삽입"
 
-#: dialogs/usermenu/usermenutree.cpp:203
+#: dialogs/usermenu/usermenutree.cpp:192
 #, kde-format
 msgid "Delete this item"
 msgstr "이 항목 삭제"
 
-#: dialogs/usermenu/usermenutree.cpp:205
+#: dialogs/usermenu/usermenutree.cpp:194
 #, kde-format
 msgid "Delete the complete tree"
 msgstr "전체 트리 삭제"
 
-#: dialogs/usermenu/usermenutree.cpp:211
+#: dialogs/usermenu/usermenutree.cpp:200
 #, kde-format
 msgid "Collapse submenu"
 msgstr "하위 메뉴 접기"
 
-#: dialogs/usermenu/usermenutree.cpp:214
+#: dialogs/usermenu/usermenutree.cpp:203
 #, kde-format
 msgid "Expand submenu"
 msgstr "하위 메뉴 펼치기"
 
-#: dialogs/usermenu/usermenutree.cpp:217
+#: dialogs/usermenu/usermenutree.cpp:206
 #, kde-format
 msgid "Collapse complete tree"
 msgstr "전체 트리 접기"
 
-#: dialogs/usermenu/usermenutree.cpp:218
+#: dialogs/usermenu/usermenutree.cpp:207
 #, kde-format
 msgid "Expand complete tree"
 msgstr "전체 트리 펼치기"
 
-#: dialogs/usermenu/usermenutree.cpp:225
+#: dialogs/usermenu/usermenutree.cpp:214
 #, kde-format
 msgid "Info"
 msgstr "정보"
 
-#: dialogs/usermenu/usermenutree.cpp:449
+#: dialogs/usermenu/usermenutree.cpp:438
 #, kde-format
 msgid "File '%1' could not be opened to save the usermenu file."
 msgstr "사용자 메뉴 파일을 저장할 수 있도록 파일 '%1'을(를) 열 수 없습니다."
 
-#: dialogs/usermenu/usermenutree.cpp:693
+#: dialogs/usermenu/usermenutree.cpp:682
 #, kde-format
 msgid "Please enter a label for this menu item:"
 msgstr "이 메뉴 항목의 이름표를 입력하십시오:"
 
-#: dialogs/usermenu/usermenutree.cpp:710
+#: dialogs/usermenu/usermenutree.cpp:699
 #, kde-format
 msgid "Please enter a label for this submenu:"
 msgstr "이 하위 메뉴의 이름표를 입력하십시오:"
 
-#: dialogs/usermenu/usermenutree.cpp:768
+#: dialogs/usermenu/usermenutree.cpp:757
 #, kde-format
 msgid "Please enter a label for this entry:"
 msgstr "이 항목의 이름표를 입력하십시오:"
 
-#: dialogs/usermenu/usermenutree.cpp:924
+#: dialogs/usermenu/usermenutree.cpp:913
 #, kde-format
 msgid "Do you really want to clear the complete menutree?"
 msgstr "메뉴 트리를 전부 삭제하시겠습니까?"
 
-#: dialogs/usermenu/usermenutree.cpp:925
+#: dialogs/usermenu/usermenutree.cpp:914
 #, kde-format
 msgid "Clear menutree"
 msgstr "메뉴 트리 지우기"
 
-#: dialogs/usermenu/usermenutree.cpp:942
+#: dialogs/usermenu/usermenutree.cpp:931
 #, kde-format
 msgid "This menuitem has no title."
 msgstr "이 메뉴 항목에 제목이 없습니다."
 
-#: dialogs/usermenu/usermenutree.cpp:946
+#: dialogs/usermenu/usermenutree.cpp:935
 #, kde-format
 msgid "This submenu item is useless without children."
 msgstr "이 하위 메뉴 항목은 자식 항목이 없으면 안 됩니다."
 
-#: dialogs/usermenu/usermenutree.cpp:950
+#: dialogs/usermenu/usermenutree.cpp:939
 #, kde-format
 msgid "This item offers no text to insert."
 msgstr "이 항목에서 삽입할 문자열을 지정하지 않았습니다."
 
-#: dialogs/usermenu/usermenutree.cpp:954
+#: dialogs/usermenu/usermenutree.cpp:943
 #, kde-format
 msgid "No file is given for this task."
 msgstr "이 작업에 파일을 지정하지 않았습니다."
 
-#: dialogs/usermenu/usermenutree.cpp:958
+#: dialogs/usermenu/usermenutree.cpp:947
 #, kde-format
 msgid "The file for this item does not exist."
 msgstr "이 항목에 해당하는 파일이 없습니다."
 
-#: dialogs/usermenu/usermenutree.cpp:962
+#: dialogs/usermenu/usermenutree.cpp:951
 #, kde-format
 msgid "The file for this item is not executable."
 msgstr "이 항목에 해당하는 파일을 실행할 수 없습니다."
 
-#: dialogs/usermenu/usermenutree.cpp:965
+#: dialogs/usermenu/usermenutree.cpp:954
 #, kde-format
 msgid "<p><strong>Error:</strong>"
 msgstr "<p><strong>오류:</strong>"
 
-#: dialogs/usermenu/usermenutree.cpp:977
+#: dialogs/usermenu/usermenutree.cpp:966
 #, kde-format
 msgid "Menutree Error"
 msgstr "메뉴 트리 오류"
 
-#: dialogs/usermenu/usermenutree.cpp:1028
+#: dialogs/usermenu/usermenutree.cpp:1017
 #, kde-format
 msgid "Name"
 msgstr "이름"
@@ -5574,47 +5574,47 @@ msgstr "문서를 저장할 수 없습니다."
 msgid "Saving failed and quitting canceled."
 msgstr "저장할 수 없어서 끝내기 작업이 취소되었습니다."
 
-#: editorextension.cpp:61
+#: editorextension.cpp:60
 #, kde-format
 msgid "English quotes:   ``   &apos;&apos;"
 msgstr "영어/한국어 따옴표:   ``   &apos;&apos;"
 
-#: editorextension.cpp:62
+#: editorextension.cpp:61
 #, kde-format
 msgid "French quotes:   &quot;&lt;   &quot;&gt;"
 msgstr "프랑스어 따옴표:   &quot;&lt;   &quot;&gt;"
 
-#: editorextension.cpp:63
+#: editorextension.cpp:62
 #, kde-format
 msgid "German quotes:   &quot;`   &quot;&apos;"
 msgstr "독일어 따옴표:   &quot;`   &quot;&apos;"
 
-#: editorextension.cpp:64
+#: editorextension.cpp:63
 #, kde-format
 msgid "French quotes (long):   \\flqq   \\frqq"
 msgstr "프랑스어 따옴표(긴 형식):   \\flqq   \\frqq"
 
-#: editorextension.cpp:65
+#: editorextension.cpp:64
 #, kde-format
 msgid "German quotes (long):   \\glqq   \\grqq"
 msgstr "독일어 따옴표(긴 형식):   \\glqq   \\grqq"
 
-#: editorextension.cpp:66
+#: editorextension.cpp:65
 #, kde-format
 msgid "Icelandic quotes (v1):   \\ilqq   \\irqq"
 msgstr "아이슬란드어 따옴표(v1):   \\ilqq   \\irqq"
 
-#: editorextension.cpp:67
+#: editorextension.cpp:66
 #, kde-format
 msgid "Icelandic quotes (v2):   \\iflqq   \\ifrqq"
 msgstr "아이슬란드어 따옴표(v2):   \\iflqq   \\ifrqq"
 
-#: editorextension.cpp:68
+#: editorextension.cpp:67
 #, kde-format
 msgid "Czech quotes:   \\uv{}"
 msgstr "체코어 따옴표:   \\uv{}"
 
-#: editorextension.cpp:69
+#: editorextension.cpp:68
 #, kde-format
 msgid "csquotes package:   \\enquote{}"
 msgstr "csquotes 패키지:   \\enquote{}"
@@ -5624,7 +5624,7 @@ msgstr "csquotes 패키지:   \\enquote{}"
 msgid "You have to include the package %1 to use %2."
 msgstr "%2을(를) 사용하려면 %1 패키지를 포함해야 합니다."
 
-#: editorextension.cpp:3506
+#: editorextension.cpp:3505
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5632,7 +5632,7 @@ msgid ""
 msgstr ""
 "문서가 수정되었으며 작업을 시작하기 전에 구조 보기를 업데이트해야 합니다."
 
-#: editorextension.cpp:3507
+#: editorextension.cpp:3506
 #, kde-format
 msgid "Structure View Error"
 msgstr "구조 보기 오류"
@@ -5723,7 +5723,7 @@ msgstr "%1  %2  %3"
 msgid "No information about warnings or errors is available."
 msgstr "경고나 오류 정보가 없습니다."
 
-#: errorhandler.cpp:455 parser/latexoutputparser.cpp:690
+#: errorhandler.cpp:455 parser/latexoutputparser.cpp:664
 #, kde-format
 msgid "Cannot open log file; did you run LaTeX?"
 msgstr "로그 파일을 열 수 없습니다. LaTeX를 실행했습니까?"
@@ -5733,7 +5733,7 @@ msgstr "로그 파일을 열 수 없습니다. LaTeX를 실행했습니까?"
 msgid "No LaTeX warnings/errors detected."
 msgstr "LaTeX 경고 또는 오류가 발생하지 않았습니다."
 
-#: kile.cpp:390
+#: kile.cpp:392
 #, kde-format
 msgid ""
 "You have defined some tools in the User menu. From now on these tools will "
@@ -5747,12 +5747,12 @@ msgstr ""
 "있습니다. 필요한 경우 빠른 빌드 명령에 사용자 정의 도구를 사용할 수 있는 등"
 "의 장점이 있습니다."
 
-#: kile.cpp:390
+#: kile.cpp:392
 #, kde-format
 msgid "User Tools Detected"
 msgstr "사용자 정의 도구 감지됨"
 
-#: kile.cpp:399
+#: kile.cpp:401
 #, kde-format
 msgid ""
 "<p>The tool settings need to be reset for this version of Kile to function "
@@ -5762,93 +5762,93 @@ msgstr ""
 "<p>이 버전의 Kile이 올바르게 작동하려면 도구 설정을 초기화해야 합니다.<br/>도"
 "구 변경 사항이 초기화됩니다.</p><p>지금 도구 설정을 초기화하시겠습니까?</p>"
 
-#: kile.cpp:402
+#: kile.cpp:404
 #, kde-format
 msgid "Tools need to be reset"
 msgstr "초기화해야 할 도구"
 
-#: kile.cpp:478
+#: kile.cpp:480
 #, kde-format
 msgid "Open File"
 msgstr "파일 열기"
 
-#: kile.cpp:498
+#: kile.cpp:500
 #, kde-format
 msgid "Files and Projects"
 msgstr "파일과 프로젝트"
 
-#: kile.cpp:563 widgets/structurewidget.cpp:142
+#: kile.cpp:565 widgets/structurewidget.cpp:142
 #, kde-format
 msgid "Structure"
 msgstr "구조"
 
-#: kile.cpp:586
+#: kile.cpp:588
 #, kde-format
 msgid "Scripts"
 msgstr "스크립트"
 
-#: kile.cpp:625
+#: kile.cpp:627
 #, kde-format
 msgid "Symbols"
 msgstr "기호"
 
-#: kile.cpp:628
+#: kile.cpp:630
 #, kde-format
 msgid "Most Frequently Used"
 msgstr "자주 사용됨"
 
-#: kile.cpp:634
+#: kile.cpp:636
 #, kde-format
 msgid "Relation"
 msgstr "관계"
 
-#: kile.cpp:639
+#: kile.cpp:641
 #, kde-format
 msgid "Operators"
 msgstr "연산자"
 
-#: kile.cpp:644
+#: kile.cpp:646
 #, kde-format
 msgid "Arrows"
 msgstr "화살표"
 
-#: kile.cpp:649
+#: kile.cpp:651
 #, kde-format
 msgid "Miscellaneous Math"
 msgstr "기타 수식"
 
-#: kile.cpp:654
+#: kile.cpp:656
 #, kde-format
 msgid "Miscellaneous Text"
 msgstr "기타 텍스트"
 
-#: kile.cpp:659
+#: kile.cpp:661
 #, kde-format
 msgid "Delimiters"
 msgstr "구분자"
 
-#: kile.cpp:664
+#: kile.cpp:666
 #, kde-format
 msgid "Greek"
 msgstr "그리스 문자"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: kile.cpp:669 widgets/latexconfigwidget.ui:133
+#: kile.cpp:671 widgets/latexconfigwidget.ui:133
 #, kde-format
 msgid "Special Characters"
 msgstr "특수 문자"
 
-#: kile.cpp:674
+#: kile.cpp:676
 #, kde-format
 msgid "Cyrillic Characters"
 msgstr "키릴 문자"
 
-#: kile.cpp:679
+#: kile.cpp:681
 #, kde-format
 msgid "User Defined"
 msgstr "사용자 정의"
 
-#: kile.cpp:684
+#: kile.cpp:686
 #, kde-format
 msgid ""
 "<p>Move the mouse over the icons to see the corresponding LaTeX commands.<br/"
@@ -5860,462 +5860,462 @@ msgstr ""
 "<br/> 그림을 클릭하면 해당하는 명령을 삽입하고, \"Shift\" 키를 누르고 있으면 "
 "수식 모드로 삽입하고, \"Ctrl\" 키를 누르면 중괄호로 둘러쌉니다.</p>"
 
-#: kile.cpp:704 widgets/codecompletionconfigwidget.cpp:55
+#: kile.cpp:706 widgets/codecompletionconfigwidget.cpp:55
 #, kde-format
 msgid "Abbreviation"
 msgstr "축약형"
 
-#: kile.cpp:729
+#: kile.cpp:737
 #, kde-format
 msgid "Log and Messages"
 msgstr "로그와 메시지"
 
-#: kile.cpp:735
+#: kile.cpp:743
 #, kde-format
 msgid "Output"
 msgstr "출력"
 
-#: kile.cpp:738
+#: kile.cpp:746
 #, kde-format
 msgid "Konsole"
 msgstr "Konsole"
 
-#: kile.cpp:840
+#: kile.cpp:848
 #, kde-format
 msgid "Save All"
 msgstr "모두 저장"
 
-#: kile.cpp:842
+#: kile.cpp:850
 #, kde-format
 msgid "Create Template From Document..."
 msgstr "문서에서 서식 만들기..."
 
-#: kile.cpp:843
+#: kile.cpp:851
 #, kde-format
 msgid "&Remove Template..."
 msgstr "서식 삭제(&R)..."
 
-#: kile.cpp:845 kile.cpp:975
+#: kile.cpp:853 kile.cpp:983
 #, kde-format
 msgid "Close All"
 msgstr "모두 닫기"
 
-#: kile.cpp:846
+#: kile.cpp:854
 #, kde-format
 msgid "Close All Ot&hers"
 msgstr "나머지 모두 닫기(&H)"
 
-#: kile.cpp:847
+#: kile.cpp:855
 #, kde-format
 msgid "S&tatistics"
 msgstr "통계(&T)"
 
-#: kile.cpp:848
+#: kile.cpp:856
 #, kde-format
 msgid "&ASCII"
 msgstr "ASCII(&A)"
 
-#: kile.cpp:849
+#: kile.cpp:857
 #, kde-format
 msgid "Latin-&1 (iso 8859-1)"
 msgstr "Latin-1(ISO 8859-1)(&1)"
 
-#: kile.cpp:850
+#: kile.cpp:858
 #, kde-format
 msgid "Latin-&2 (iso 8859-2)"
 msgstr "Latin-2(ISO 8859-2)(&2)"
 
-#: kile.cpp:851
+#: kile.cpp:859
 #, kde-format
 msgid "Latin-&3 (iso 8859-3)"
 msgstr "Latin-3(ISO 8859-3)(&3)"
 
-#: kile.cpp:852
+#: kile.cpp:860
 #, kde-format
 msgid "Latin-&4 (iso 8859-4)"
 msgstr "Latin-4(ISO 8859-4)(&4)"
 
-#: kile.cpp:853
+#: kile.cpp:861
 #, kde-format
 msgid "Latin-&5 (iso 8859-5)"
 msgstr "Latin-5(ISO 8859-5)(&5)"
 
-#: kile.cpp:854
+#: kile.cpp:862
 #, kde-format
 msgid "Latin-&9 (iso 8859-9)"
 msgstr "Latin-9(ISO 8859-9)(&9)"
 
-#: kile.cpp:855
+#: kile.cpp:863
 #, kde-format
 msgid "&Central European (cp-1250)"
 msgstr "중부 유럽(CP1250)(&C)"
 
-#: kile.cpp:856
+#: kile.cpp:864
 #, kde-format
 msgid "&Western European (cp-1252)"
 msgstr "서유럽(CP1252)(&W)"
 
-#: kile.cpp:859
+#: kile.cpp:867
 #, kde-format
 msgid "Move Tab Left"
 msgstr "탭 왼쪽으로 이동"
 
-#: kile.cpp:860
+#: kile.cpp:868
 #, kde-format
 msgid "Move Tab Right"
 msgstr "탭 오른쪽으로 이동"
 
-#: kile.cpp:862
+#: kile.cpp:870
 #, kde-format
 msgid "Next section"
 msgstr "다음 절"
 
-#: kile.cpp:864
+#: kile.cpp:872
 #, kde-format
 msgid "Prev section"
 msgstr "이전 절"
 
-#: kile.cpp:866
+#: kile.cpp:874
 #, kde-format
 msgid "Next paragraph"
 msgstr "다음 문단"
 
-#: kile.cpp:868
+#: kile.cpp:876
 #, kde-format
 msgid "Prev paragraph"
 msgstr "이전 문단"
 
-#: kile.cpp:871
+#: kile.cpp:879
 #, kde-format
 msgid "Find &in Files..."
 msgstr "파일에서 찾기(&I)..."
 
-#: kile.cpp:873
+#: kile.cpp:881
 #, kde-format
 msgid "Refresh Str&ucture"
 msgstr "구조 새로 고침(&U)"
 
-#: kile.cpp:876
+#: kile.cpp:884
 #, kde-format
 msgid "&New Project..."
 msgstr "새 프로젝트(&N)..."
 
-#: kile.cpp:877
+#: kile.cpp:885
 #, kde-format
 msgid "&Open Project..."
 msgstr "프로젝트 열기(&O)..."
 
-#: kile.cpp:879
+#: kile.cpp:887
 #, kde-format
 msgid "Open &Recent Project"
 msgstr "최근 프로젝트 열기(&R)"
 
-#: kile.cpp:886
+#: kile.cpp:894
 #, kde-format
 msgid "A&dd Files to Project..."
 msgstr "프로젝트에 파일 추가(&D)..."
 
-#: kile.cpp:887 widgets/projectview.cpp:870
+#: kile.cpp:895 widgets/projectview.cpp:870
 #, kde-format
 msgid "Refresh Project &Tree"
 msgstr "프로젝트 트리 새로 고침(&T)"
 
-#: kile.cpp:888 widgets/projectview.cpp:872
+#: kile.cpp:896 widgets/projectview.cpp:872
 #, kde-format
 msgid "&Archive"
 msgstr "보관(&A)"
 
-#: kile.cpp:889 widgets/projectview.cpp:871
+#: kile.cpp:897 widgets/projectview.cpp:871
 #, kde-format
 msgid "Project &Options"
 msgstr "프로젝트 옵션(&O)"
 
-#: kile.cpp:890
+#: kile.cpp:898
 #, kde-format
 msgid "&Close Project"
 msgstr "프로젝트 닫기(&C)"
 
-#: kile.cpp:893
+#: kile.cpp:901
 #, kde-format
 msgid "&Show Projects..."
 msgstr "프로젝트 표시(&S)..."
 
-#: kile.cpp:894
+#: kile.cpp:902
 #, kde-format
 msgid "Re&move Files From Project..."
 msgstr "프로젝트에서 파일 삭제(&M)..."
 
-#: kile.cpp:895
+#: kile.cpp:903
 #, kde-format
 msgid "Show Project &Files..."
 msgstr "프로젝트 파일 표시(&F)..."
 
-#: kile.cpp:897 widgets/projectview.cpp:868
+#: kile.cpp:905 widgets/projectview.cpp:868
 #, kde-format
 msgid "Open All &Project Files"
 msgstr "모든 프로젝트 파일 열기(&P)"
 
-#: kile.cpp:898
+#: kile.cpp:906
 #, kde-format
 msgid "Find in &Project..."
 msgstr "프로젝트에서 찾기(&P)..."
 
-#: kile.cpp:901 kile.cpp:999 kile.cpp:2119 kiledocmanager.cpp:1999
-#: kiledocmanager.cpp:2009
+#: kile.cpp:909 kile.cpp:1007 kile.cpp:2129 kiledocmanager.cpp:1997
+#: kiledocmanager.cpp:2007
 #, kde-format
 msgid "Clean"
 msgstr "비우기"
 
-#: kile.cpp:906
+#: kile.cpp:914
 #, kde-format
 msgid "Next Document"
 msgstr "다음 문서"
 
-#: kile.cpp:912
+#: kile.cpp:920
 #, kde-format
 msgid "Previous Document"
 msgstr "이전 문서"
 
-#: kile.cpp:915
+#: kile.cpp:923
 #, kde-format
 msgid "Focus Log/Messages View"
 msgstr "로그/메시지 보기에 포커스 맞추기"
 
-#: kile.cpp:916
+#: kile.cpp:924
 #, kde-format
 msgid "Focus Output View"
 msgstr "출력 보기에 포커스 맞추기"
 
-#: kile.cpp:917
+#: kile.cpp:925
 #, kde-format
 msgid "Focus Konsole View"
 msgstr "Konsole 보기에 포커스 맞추기"
 
-#: kile.cpp:918
+#: kile.cpp:926
 #, kde-format
 msgid "Focus Editor View"
 msgstr "편집기 보기에 포커스 맞추기"
 
-#: kile.cpp:920
+#: kile.cpp:928
 #, kde-format
 msgctxt "@action: Starts the completion of the current LaTeX command"
 msgid "Complete (La)TeX Command"
 msgstr "(La)TeX 명령 자동 완성"
 
-#: kile.cpp:922
+#: kile.cpp:930
 #, kde-format
 msgctxt "@action: Starts the input (and completion) of a LaTeX environment"
 msgid "Complete LaTeX Environment"
 msgstr "LaTeX 환경 자동 완성"
 
-#: kile.cpp:924
+#: kile.cpp:932
 #, kde-format
 msgctxt "@action: Starts the completion of the current abbreviation"
 msgid "Complete Abbreviation"
 msgstr "축약형 자동 완성"
 
-#: kile.cpp:927
+#: kile.cpp:935
 #, kde-format
 msgid "Next Bullet"
 msgstr "다음 불릿"
 
-#: kile.cpp:929
+#: kile.cpp:937
 #, kde-format
 msgid "Prev Bullet"
 msgstr "이전 불릿"
 
-#: kile.cpp:933 kile.cpp:950
+#: kile.cpp:941 kile.cpp:958
 #, kde-format
 msgid "Environment (inside)"
 msgstr "환경(내부)"
 
-#: kile.cpp:935 kile.cpp:952
+#: kile.cpp:943 kile.cpp:960
 #, kde-format
 msgid "Environment (outside)"
 msgstr "환경(외부)"
 
-#: kile.cpp:937 kile.cpp:954
+#: kile.cpp:945 kile.cpp:962
 #, kde-format
 msgid "TeX Group (inside)"
 msgstr "TeX 그룹(내부)"
 
-#: kile.cpp:939 kile.cpp:956
+#: kile.cpp:947 kile.cpp:964
 #, kde-format
 msgid "TeX Group (outside)"
 msgstr "TeX 그룹(외부)"
 
-#: kile.cpp:941 kile.cpp:958
+#: kile.cpp:949 kile.cpp:966
 #, kde-format
 msgid "Math Group"
 msgstr "수식 그룹"
 
-#: kile.cpp:943 kile.cpp:960
+#: kile.cpp:951 kile.cpp:968
 #, kde-format
 msgid "Paragraph"
 msgstr "문단"
 
-#: kile.cpp:945
+#: kile.cpp:953
 #, kde-format
 msgid "Line"
 msgstr "줄"
 
-#: kile.cpp:947 kile.cpp:964
+#: kile.cpp:955 kile.cpp:972
 #, kde-format
 msgid "TeX Word"
 msgstr "TeX 단어"
 
-#: kile.cpp:962
+#: kile.cpp:970
 #, kde-format
 msgid "To End of Line"
 msgstr "줄 끝으로"
 
-#: kile.cpp:967 kile.cpp:978
+#: kile.cpp:975 kile.cpp:986
 #, kde-format
 msgid "Go to Begin"
 msgstr "시작으로 이동"
 
-#: kile.cpp:969 kile.cpp:980
+#: kile.cpp:977 kile.cpp:988
 #, kde-format
 msgid "Go to End"
 msgstr "끝으로 이동"
 
-#: kile.cpp:971 kile.cpp:982
+#: kile.cpp:979 kile.cpp:990
 #, kde-format
 msgid "Match"
 msgstr "일치"
 
-#: kile.cpp:973 kile.cpp:984
+#: kile.cpp:981 kile.cpp:992
 #, kde-format
 msgid "Close"
 msgstr "닫기"
 
-#: kile.cpp:987
+#: kile.cpp:995
 #, kde-format
 msgid "Selection"
 msgstr "선택"
 
-#: kile.cpp:989
+#: kile.cpp:997
 #, kde-format
 msgid "Subdocument"
 msgstr "하위 문서"
 
-#: kile.cpp:990
+#: kile.cpp:998
 #, kde-format
 msgid "Mathgroup"
 msgstr "수식 그룹"
 
-#: kile.cpp:995
+#: kile.cpp:1003
 #, kde-format
 msgid "&Bibliography"
 msgstr "서지 정보 목록(&B)"
 
 #. i18n: ectx: Menu (settings)
-#: kile.cpp:1001 kileui.rc:503
+#: kile.cpp:1009 kileui.rc:503
 #, kde-format
 msgid "&Settings"
 msgstr "설정(&S)"
 
-#: kile.cpp:1004
+#: kile.cpp:1012
 #, kde-format
 msgid "Settings for BibTeX"
 msgstr "BibTeX 설정"
 
-#: kile.cpp:1008
+#: kile.cpp:1016
 #, kde-format
 msgid "Settings for Biblatex"
 msgstr "Biblatex 설정"
 
-#: kile.cpp:1015 kile.cpp:2225
+#: kile.cpp:1023 kile.cpp:2235
 #, kde-format
 msgid "Quick Start"
 msgstr "빠른 시작"
 
-#: kile.cpp:1018 kilestdactions.cpp:384
+#: kile.cpp:1026 kilestdactions.cpp:384
 #, kde-format
 msgid "Array"
 msgstr "배열"
 
-#: kile.cpp:1019 kile.cpp:2277 kilestdactions.cpp:79
+#: kile.cpp:1027 kile.cpp:2287 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "탭 지정"
 
-#: kile.cpp:1020
+#: kile.cpp:1028
 #, kde-format
 msgid "Floats"
 msgstr "플로트"
 
-#: kile.cpp:1025
+#: kile.cpp:1033
 #, kde-format
 msgid "Define Current Document as '&Master Document'"
 msgstr "현재 문서를 '마스터 문서'로 지정(&M)"
 
-#: kile.cpp:1030
+#: kile.cpp:1038
 #, kde-format
 msgid "Show Document Viewer"
 msgstr "문서 뷰어 표시"
 
-#: kile.cpp:1037
+#: kile.cpp:1045
 #, kde-format
 msgid "Show S&ide Bar"
 msgstr "사이드바 표시(&I)"
 
-#: kile.cpp:1043
+#: kile.cpp:1051
 #, kde-format
 msgid "Show Mess&ages Bar"
 msgstr "메시지 표시줄 표시(&A)"
 
-#: kile.cpp:1055
+#: kile.cpp:1063
 #, kde-format
 msgid "Watch File Mode"
 msgstr "파일 감시 모드"
 
-#: kile.cpp:1069
+#: kile.cpp:1077
 #, kde-format
 msgid "Context Help"
 msgstr "문맥 도움말"
 
-#: kile.cpp:1072
+#: kile.cpp:1080
 #, kde-format
 msgid "&About Editor Component"
 msgstr "편집기 구성 요소 정보(&A)"
 
-#: kile.cpp:1080
+#: kile.cpp:1088
 #, kde-format
 msgid "&System Check..."
 msgstr "시스템 검사(&S)..."
 
-#: kile.cpp:1098 kileinfo.cpp:357
+#: kile.cpp:1106 kileinfo.cpp:357
 #, kde-format
 msgid "BibTeX"
 msgstr "BibTeX"
 
-#: kile.cpp:1101
+#: kile.cpp:1109
 #, kde-format
 msgid "Biblatex"
 msgstr "BibLaTeX"
 
-#: kile.cpp:1248 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1256 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Compile"
 msgstr "컴파일"
 
-#: kile.cpp:1249 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1257 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "View"
 msgstr "보기"
 
-#: kile.cpp:1250 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1258 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Convert"
 msgstr "변환"
 
-#: kile.cpp:1251 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1259 widgets/toolconfigwidget.cpp:73
 #, kde-format
 msgid "Quick"
 msgstr "빠르게"
 
-#: kile.cpp:1429
+#: kile.cpp:1435
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6326,234 +6326,234 @@ msgstr ""
 "\n"
 "Kile 설치 상태를 확인하고 다시 설정하십시오."
 
-#: kile.cpp:1431
+#: kile.cpp:1437
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr "압축 파일 생성 도구를 만들 수 없음"
 
-#: kile.cpp:1500
+#: kile.cpp:1506
 #, kde-format
 msgid "Project: %1"
 msgstr "프로젝트: %1"
 
-#: kile.cpp:1503
+#: kile.cpp:1509
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "프로젝트: %1(마스터 문서: %2)"
 
-#: kile.cpp:1508
+#: kile.cpp:1514
 #, kde-format
 msgid "Normal mode"
 msgstr "일반 모드"
 
-#: kile.cpp:1511
+#: kile.cpp:1517
 #, kde-format
 msgid "Master document: %1"
 msgstr "마스터 문서: %1"
 
-#: kile.cpp:1516 kile.cpp:2635
+#: kile.cpp:1522 kile.cpp:2645
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "현재 문서를 '마스터 문서'로 지정"
 
-#: kile.cpp:1520 kile.cpp:2625
+#: kile.cpp:1526 kile.cpp:2635
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "일반 모드(현재 마스터 문서: %1)"
 
-#: kile.cpp:1738
+#: kile.cpp:1744
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr "%1 [읽기 전용]"
 
-#: kile.cpp:2112
+#: kile.cpp:2122
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "활성화된 문서가 없거나 저장되지 않았습니다."
 
-#: kile.cpp:2196
+#: kile.cpp:2206
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "%1 패키지를 포함해야 합니다."
 
-#: kile.cpp:2196 kile.cpp:2199
+#: kile.cpp:2206 kile.cpp:2209
 #, kde-format
 msgid "Insert text"
 msgstr "문자열 삽입"
 
-#: kile.cpp:2199
+#: kile.cpp:2209
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "%1 패키지를 포함해야 합니다."
 
-#: kile.cpp:2420
+#: kile.cpp:2430
 #, kde-format
 msgid "No Name"
 msgstr "이름 없음"
 
-#: kile.cpp:2456
+#: kile.cpp:2466
 #, kde-format
 msgid "no name"
 msgstr "이름 없음"
 
-#: kile.cpp:2653
+#: kile.cpp:2663
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr "현재 문서를 마스터 문서로 지정하려면 먼저 저장해야 합니다."
 
-#: kile.cpp:2995
+#: kile.cpp:3005
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "블록"
 
-#: kile.cpp:2996
+#: kile.cpp:3006
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "줄"
 
-#: kile.cpp:3003
+#: kile.cpp:3013
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "구조 새로 고치는 중..."
 
-#: kile.cpp:3021
+#: kile.cpp:3031
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr "메뉴 표시줄을 완전히 숨깁니다. %1 키를 눌러서 다시 볼 수 있습니다."
 
-#: kile.cpp:3024
+#: kile.cpp:3034
 #, kde-format
 msgid "Hide menu bar"
 msgstr "메뉴 표시줄 숨기기"
 
 #. i18n: ectx: label, entry (RCVersion), group (VersionInfo)
-#: kile.kcfg:18
+#: kile.kcfg:17
 #, kde-format
 msgid "The resource file version."
 msgstr "자원 파일 버전입니다."
 
 #. i18n: ectx: label, entry (MainwindowWidth), group (Geometries)
-#: kile.kcfg:40
+#: kile.kcfg:39
 #, kde-format
 msgid "The main window's width."
 msgstr "주 창의 너비입니다."
 
 #. i18n: ectx: label, entry (MainwindowHeight), group (Geometries)
-#: kile.kcfg:46
+#: kile.kcfg:45
 #, kde-format
 msgid "The main window's height."
 msgstr "주 창의 높이입니다."
 
 #. i18n: ectx: label, entry (DefaultLevel), group (Structure)
-#: kile.kcfg:54
+#: kile.kcfg:53
 #, kde-format
 msgid "The expansion level for the structure view."
 msgstr "구조 보기의 확장 단계입니다."
 
 #. i18n: ectx: label, entry (SvShowLabels), group (Structure)
-#: kile.kcfg:58
+#: kile.kcfg:57
 #, kde-format
 msgid "Show label commands in the structure view"
 msgstr "구조 보기에 label 명령 표시"
 
 #. i18n: ectx: label, entry (SvShowReferences), group (Structure)
-#: kile.kcfg:62
+#: kile.kcfg:61
 #, kde-format
 msgid "Show undefined references in the structure view"
 msgstr "구조 보기에 정의되지 않은 참조 표시"
 
 #. i18n: ectx: label, entry (SvShowBibitems), group (Structure)
-#: kile.kcfg:66
+#: kile.kcfg:65
 #, kde-format
 msgid "Show bibitems commands in the structure view"
 msgstr "구조 보기에 bibitems 명령 표시"
 
 #. i18n: ectx: label, entry (SvShowGraphics), group (Structure)
-#: kile.kcfg:70
+#: kile.kcfg:69
 #, kde-format
 msgid "Show includegraphics commands in the structure view"
 msgstr "구조 보기에 includegraphics 명령 표시"
 
 #. i18n: ectx: label, entry (SvShowFloats), group (Structure)
-#: kile.kcfg:74
+#: kile.kcfg:73
 #, kde-format
 msgid "Show float environments in the structure view"
 msgstr "구조 보기에 플로트 환경 표시"
 
 #. i18n: ectx: label, entry (SvShowInputFiles), group (Structure)
-#: kile.kcfg:78
+#: kile.kcfg:77
 #, kde-format
 msgid "Show file input commands in the structure view"
 msgstr "구조 보기에 파일 input 명령 표시"
 
 #. i18n: ectx: label, entry (SvShowSectioningLabels), group (Structure)
-#: kile.kcfg:82
+#: kile.kcfg:81
 #, kde-format
 msgid "Show labels as child of sectioning items in the structure view"
 msgstr "구조 보기에 label 항목을 장/절 구분 항목의 하위 항목으로 표시"
 
 #. i18n: ectx: label, entry (SvShowTodo), group (Structure)
-#: kile.kcfg:86
+#: kile.kcfg:85
 #, kde-format
 msgid "Show TODO and FIXME comments"
 msgstr "TODO/FIXME 주석 표시"
 
 #. i18n: ectx: label, entry (SvOpenLabels), group (Structure)
-#: kile.kcfg:90
+#: kile.kcfg:89
 #, kde-format
 msgid "Open the parent item for all labels in the structure view as default"
 msgstr "모든 이름표의 부모 항목을 구조 보기에서 기본값으로 열기"
 
 #. i18n: ectx: label, entry (SvOpenReferences), group (Structure)
-#: kile.kcfg:94
+#: kile.kcfg:93
 #, kde-format
 msgid "Open the parent item for all undefined references in the structure view"
 msgstr "모든 정의되지 않은 참조의 부모 항목을 구조 보기에서 기본값으로 열기"
 
 #. i18n: ectx: label, entry (SvOpenBibitems), group (Structure)
-#: kile.kcfg:98
+#: kile.kcfg:97
 #, kde-format
 msgid "Open the parent item for all bibitems in the structure view as default"
 msgstr "모든 bibitems의 부모 항목을 구조 보기에서 기본값으로 열기"
 
 #. i18n: ectx: label, entry (SvOpenTodo), group (Structure)
-#: kile.kcfg:102
+#: kile.kcfg:101
 #, kde-format
 msgid "Open the parent item for all TODO and FIXME comments as default"
 msgstr "모든 TODO 및 FIXME 주석의 부모 항목을 기본값으로 열기"
 
 #. i18n: ectx: label, entry (SvDefaultGraphicExt), group (Structure)
-#: kile.kcfg:106
+#: kile.kcfg:105
 #, kde-format
 msgid "Default extension to use when opening graphic files with no extension"
 msgstr "확장자가 없는 그림 파일을 열 때 사용할 기본 확장자"
 
 #. i18n: ectx: label, entry (BibliographyType), group (BibliographyMenu)
-#: kile.kcfg:112
+#: kile.kcfg:111
 #, kde-format
 msgid "What type of bibliography (bibtex or biblatex) kile should show."
 msgstr "Kile에서 표시할 서지 정보 종류(bibtex 또는 biblatex)입니다."
 
 #. i18n: ectx: label, entry (RunLyxServer), group (Tools)
-#: kile.kcfg:118
+#: kile.kcfg:117
 #, kde-format
 msgid "Whether to run the Lyx server."
 msgstr "LyX 서버를 실행할지 여부입니다."
 
 #. i18n: ectx: label, entry (TeXPaths), group (Tools)
-#: kile.kcfg:122
+#: kile.kcfg:121
 #, kde-format
 msgid "Holds the TEXINPUTS environment variable."
 msgstr "TEXINPUTS 환경 변수를 저장합니다."
 
 #. i18n: ectx: whatsthis, entry (TeXPaths), group (Tools)
-#: kile.kcfg:123
+#: kile.kcfg:122
 #, kde-format
 msgid ""
 "Set the TEXINPUTS environment variable here. TEXINPUTS should be a colon-"
@@ -6565,13 +6565,13 @@ msgstr ""
 "자열을 추가하지 않아도 됩니다."
 
 #. i18n: ectx: label, entry (PreviewTeXPaths), group (Tools)
-#: kile.kcfg:127
+#: kile.kcfg:126
 #, kde-format
 msgid "Holds the TEXINPUTS environment variable for QuickPreview tools."
 msgstr "빠른 미리 보기 도구에 사용할 TEXINPUTS 환경 변수를 저장합니다."
 
 #. i18n: ectx: whatsthis, entry (PreviewTeXPaths), group (Tools)
-#: kile.kcfg:128
+#: kile.kcfg:127
 #, kde-format
 msgid ""
 "Set the TEXINPUTS environment variable for QuickPreview tools here. "
@@ -6584,13 +6584,13 @@ msgstr ""
 "록입니다. 끝에 :$TEXINPUTS 문자열을 추가하지 않아도 됩니다."
 
 #. i18n: ectx: label, entry (BibInputPaths), group (Tools)
-#: kile.kcfg:132
+#: kile.kcfg:131
 #, kde-format
 msgid "Holds the BIBINPUTS environment variable."
 msgstr "BIBINPUTS 환경 변수를 저장합니다."
 
 #. i18n: ectx: whatsthis, entry (BibInputPaths), group (Tools)
-#: kile.kcfg:133
+#: kile.kcfg:132
 #, kde-format
 msgid ""
 "Set the BIBINPUTS environment variable here. BIBINPUTS should be a colon-"
@@ -6602,13 +6602,13 @@ msgstr ""
 "$BIBINPUTS 문자열을 추가하지 않아도 됩니다."
 
 #. i18n: ectx: label, entry (PreviewBibInputPaths), group (Tools)
-#: kile.kcfg:137
+#: kile.kcfg:136
 #, kde-format
 msgid "Holds the BIBINPUTS environment variable for QuickPreview tools."
 msgstr "빠른 미리 보기 도구에 사용할 BIBINPUTS 환경 변수를 저장합니다."
 
 #. i18n: ectx: whatsthis, entry (PreviewBibInputPaths), group (Tools)
-#: kile.kcfg:138
+#: kile.kcfg:137
 #, kde-format
 msgid ""
 "Set the BIBINPUTS environment variable for QuickPreview tools here. "
@@ -6622,13 +6622,13 @@ msgstr ""
 "아도 됩니다."
 
 #. i18n: ectx: label, entry (BstInputPaths), group (Tools)
-#: kile.kcfg:142
+#: kile.kcfg:141
 #, kde-format
 msgid "Holds the BSTINPUTS environment variable."
 msgstr "BSTINPUTS 환경 변수를 저장합니다."
 
 #. i18n: ectx: whatsthis, entry (BstInputPaths), group (Tools)
-#: kile.kcfg:143
+#: kile.kcfg:142
 #, kde-format
 msgid ""
 "Set the BSTINPUTS environment variable here. BSTINPUTS should be a colon-"
@@ -6640,289 +6640,289 @@ msgstr ""
 "가하지 않아도 됩니다."
 
 #. i18n: ectx: label, entry (BottomBar), group (Show)
-#: kile.kcfg:149
+#: kile.kcfg:148
 #, kde-format
 msgid "Whether to show the bottom bar."
 msgstr "아래쪽 바를 표시할지 여부입니다."
 
 #. i18n: ectx: label, entry (BottomBarSize), group (Show)
-#: kile.kcfg:153
+#: kile.kcfg:152
 #, kde-format
 msgid "Height of the bottom bar."
 msgstr "아래쪽 바의 높이입니다."
 
 #. i18n: ectx: label, entry (BottomBarIndex), group (Show)
-#: kile.kcfg:157
+#: kile.kcfg:156
 #, kde-format
 msgid "Which tab of the bottom bar to show."
 msgstr "아래쪽 바에 표시할 탭입니다."
 
 #. i18n: ectx: label, entry (SideBarSize), group (Show)
-#: kile.kcfg:161
+#: kile.kcfg:160
 #, kde-format
 msgid "Width of the sidebar."
 msgstr "사이드바의 너비입니다."
 
 #. i18n: ectx: label, entry (SideBar), group (Show)
-#: kile.kcfg:165
+#: kile.kcfg:164
 #, kde-format
 msgid "Whether to show the side bar."
 msgstr "사이드바를 표시할지 여부입니다."
 
 #. i18n: ectx: label, entry (ShowDocumentViewer), group (Show)
-#: kile.kcfg:169
+#: kile.kcfg:168
 #, kde-format
 msgid "Whether to show the document viewer."
 msgstr "문서 뷰어를 표시할지 여부입니다."
 
 #. i18n: ectx: label, entry (ShowDocumentViewerInExternalWindow), group (Show)
-#: kile.kcfg:173
+#: kile.kcfg:172
 #, kde-format
 msgid "Whether to show the document viewer in a separate external window."
 msgstr "문서 뷰어를 별도의 외부 창으로 표시할지 여부입니다."
 
 #. i18n: ectx: label, entry (HideProblemBadBox), group (Show)
-#: kile.kcfg:177
+#: kile.kcfg:176
 #, kde-format
 msgid "Whether to show Bad Box warnings in the LogMsg view."
 msgstr "로그 메시지 보기에 (La)TeX 잘못된 상자를 표시할지 여부입니다."
 
 #. i18n: ectx: label, entry (HideProblemWarning), group (Show)
-#: kile.kcfg:181
+#: kile.kcfg:180
 #, kde-format
 msgid "Whether to show (La)TeX warnings in the LogMsg view."
 msgstr "로그 메시지 보기에 (La)TeX 경고를 표시할지 여부입니다."
 
 #. i18n: ectx: label, entry (SelectedLeftView), group (Show)
-#: kile.kcfg:185
+#: kile.kcfg:184
 #, kde-format
 msgid "The identifier of the selected view in the left pane."
 msgstr "왼쪽 패널에서 선택한 보기의 식별자입니다."
 
 #. i18n: ectx: label, entry (ShowSplashScreen), group (Show)
-#: kile.kcfg:189
+#: kile.kcfg:188
 #, kde-format
 msgid "Whether to show the splash screen on startup."
 msgstr "시작할 때 시작 화면을 표시할지 여부입니다."
 
 #. i18n: ectx: label, entry (SystemCheckLastVersionRunForAtStartUp), group (Show)
-#: kile.kcfg:193
+#: kile.kcfg:192
 #, kde-format
 msgid "Last version of Kile for which the system check was run at start up"
 msgstr "시작할 때 시스템 검사를 실행한 Kile의 마지막 버전"
 
 #. i18n: ectx: label, entry (CompleteEnvironment), group (Editor Ext)
-#: kile.kcfg:199
+#: kile.kcfg:198
 #, kde-format
 msgid "Automatic completion \\begin{env} with \\end{env}."
 msgstr "\\begin{env}를 입력했을 때 자동으로 \\end{env}를 입력합니다."
 
 #. i18n: ectx: label, entry (envIndentation), group (Editor Ext)
-#: kile.kcfg:203
+#: kile.kcfg:202
 #, kde-format
 msgid "Enable auto indentation of environments"
 msgstr "환경 내에서 자동으로 들여쓰기"
 
 #. i18n: ectx: label, entry (envIndentSpaces), group (Editor Ext)
-#: kile.kcfg:207
+#: kile.kcfg:206
 #, kde-format
 msgid "Use spaces instead of a tabulator to autoindent environments"
 msgstr "환경에서 자동 들여 쓰기를 사용할 때 탭 문자 대신 공백 문자 사용"
 
 #. i18n: ectx: label, entry (envIndentNumSpaces), group (Editor Ext)
-#: kile.kcfg:211
+#: kile.kcfg:210
 #, kde-format
 msgid "Use this number of spaces to autoindent environments"
 msgstr "환경에서 자동 들여 쓰기를 사용할 때 다음 개수만큼 공백 문자 삽입"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
-#: kile.kcfg:219
+#: kile.kcfg:218
 #, kde-format
 msgid "Automatic insertion of double quotes."
 msgstr "자동으로 큰따옴표를 삽입합니다."
 
 #. i18n: ectx: label, entry (DoubleQuotes), group (Editor Ext)
-#: kile.kcfg:223
+#: kile.kcfg:222
 #, kde-format
 msgid "Language dependent type of double quotes."
 msgstr "언어별 큰따옴표 형식입니다."
 
 #. i18n: ectx: label, entry (InsertSpecialCharacters), group (Editor Ext)
-#: kile.kcfg:227
+#: kile.kcfg:226
 #, kde-format
 msgid "Automatic insertion of special characters."
 msgstr "자동으로 특수 문자를 삽입합니다."
 
 #. i18n: ectx: label, entry (igCenter), group (IncludeGraphics)
-#: kile.kcfg:233
+#: kile.kcfg:232
 #, kde-format
 msgid "Center the graphics."
 msgstr "그림을 가운데 정렬합니다."
 
 #. i18n: ectx: label, entry (igBoundingBox), group (IncludeGraphics)
-#: kile.kcfg:237
+#: kile.kcfg:236
 #, kde-format
 msgid "Insert the bounding box as an option for the includegraphics command."
 msgstr "includegraphics 명령에 경계 상자를 옵션으로 지정합니다."
 
 #. i18n: ectx: label, entry (igGraphicspath), group (IncludeGraphics)
-#: kile.kcfg:241
+#: kile.kcfg:240
 #, kde-format
 msgid "Filename is relative to a path given in graphicspath command."
 msgstr "파일 이름은 graphicspath에 지정한 경로에 대한 상대 경로입니다."
 
 #. i18n: ectx: label, entry (igFigure), group (IncludeGraphics)
-#: kile.kcfg:245
+#: kile.kcfg:244
 #, kde-format
 msgid "Embed the graphics in a figure environment."
 msgstr "figure 환경에 그림을 임베드합니다."
 
 #. i18n: ectx: label, entry (igTop), group (IncludeGraphics)
-#: kile.kcfg:249
+#: kile.kcfg:248
 #, kde-format
 msgid "Set preferred figure position to top of page."
 msgstr "선호하는 그림 위치를 쪽의 위쪽으로 설정합니다."
 
 #. i18n: ectx: label, entry (igBottom), group (IncludeGraphics)
-#: kile.kcfg:253
+#: kile.kcfg:252
 #, kde-format
 msgid "Set preferred figure position to bottom of page."
 msgstr "선호하는 그림 위치를 쪽의 아래쪽으로 설정합니다."
 
 #. i18n: ectx: label, entry (igHere), group (IncludeGraphics)
-#: kile.kcfg:257
+#: kile.kcfg:256
 #, kde-format
 msgid "Set preferred figure position to \"exactly here\" on page."
 msgstr "선호하는 그림 위치를 \"정확히 여기\"로 설정합니다."
 
 #. i18n: ectx: label, entry (igPage), group (IncludeGraphics)
-#: kile.kcfg:261
+#: kile.kcfg:260
 #, kde-format
 msgid "Set preferred figure position to be on separate page."
 msgstr "선호하는 그림 위치를 별도 쪽으로 설정합니다."
 
 #. i18n: ectx: label, entry (igForce), group (IncludeGraphics)
-#: kile.kcfg:265
+#: kile.kcfg:264
 #, kde-format
 msgid "Force figure position."
 msgstr "그림 위치를 강제합니다."
 
 #. i18n: ectx: label, entry (igWrapFigure), group (IncludeGraphics)
-#: kile.kcfg:269
+#: kile.kcfg:268
 #, kde-format
 msgid "Enable the wrapfigure environment."
 msgstr "wrapfigure 환경을 활성화합니다."
 
 #. i18n: ectx: label, entry (igWrapRight), group (IncludeGraphics)
-#: kile.kcfg:273
+#: kile.kcfg:272
 #, kde-format
 msgid "Set preferred wrapfigure position to the right of text."
 msgstr "선호하는 wrapfigure 위치를 본문 오른쪽으로 설정합니다."
 
 #. i18n: ectx: label, entry (igWrapLeft), group (IncludeGraphics)
-#: kile.kcfg:277
+#: kile.kcfg:276
 #, kde-format
 msgid "Set preferred wrapfigure position to the left of text."
 msgstr "선호하는 wrapfigure 위치를 본문 왼쪽으로 설정합니다."
 
 #. i18n: ectx: label, entry (igWrapInside), group (IncludeGraphics)
-#: kile.kcfg:281
+#: kile.kcfg:280
 #, kde-format
 msgid "Set preferred wrapfigure position to the inside of the page."
 msgstr "선호하는 wrapfigure 위치를 쪽 내부로 설정합니다."
 
 #. i18n: ectx: label, entry (igWrapOutside), group (IncludeGraphics)
-#: kile.kcfg:285
+#: kile.kcfg:284
 #, kde-format
 msgid "Set preferred wrapfigure position to the outside of the page."
 msgstr "선호하는 wrapfigure 위치를 쪽 외부로 설정합니다."
 
 #. i18n: ectx: label, entry (igWrapFloat), group (IncludeGraphics)
-#: kile.kcfg:289
+#: kile.kcfg:288
 #, kde-format
 msgid "Allow wrapped figures to float."
 msgstr "둘러싼 그림이 떠다니도록 허용합니다."
 
 #. i18n: ectx: label, entry (imagemagick), group (IncludeGraphics)
-#: kile.kcfg:293
+#: kile.kcfg:292
 #, kde-format
 msgid "Whether ImageMagick is installed."
 msgstr "ImageMagick 설치 여부입니다."
 
 #. i18n: ectx: label, entry (boundingbox), group (IncludeGraphics)
-#: kile.kcfg:297
+#: kile.kcfg:296
 #, kde-format
 msgid "Try to determine the bounding box from the picture."
 msgstr "그림에서 경계 상자 결정을 시도할지 여부입니다."
 
 #. i18n: ectx: label, entry (resolution), group (IncludeGraphics)
-#: kile.kcfg:301
+#: kile.kcfg:300
 #, kde-format
 msgid "The default image resolution."
 msgstr "기본 그림 해상도입니다."
 
 #. i18n: ectx: label, entry (kilerefs), group (Help)
-#: kile.kcfg:307
+#: kile.kcfg:306
 #, kde-format
 msgid "Use the Kile LaTeX reference for the contextual help."
 msgstr "문맥 도움말에 Kile LaTeX 참조를 사용합니다."
 
 #. i18n: ectx: label, entry (latex2erefs), group (Help)
-#: kile.kcfg:311
+#: kile.kcfg:310
 #, kde-format
 msgid "Use the system's TexLive LaTeX2e reference for the contextual help."
 msgstr "문맥 도움말에 시스템 TexLive LaTeX2e 문서를 사용합니다."
 
 #. i18n: ectx: label, entry (Restore), group (Files)
-#: kile.kcfg:317
+#: kile.kcfg:316
 #, kde-format
 msgid "Reopen files and projects on startup."
 msgstr "시작할 때 파일과 프로젝트를 다시 엽니다."
 
 #. i18n: ectx: label, entry (CleanUpAfterClose), group (Files)
-#: kile.kcfg:321
+#: kile.kcfg:320
 #, kde-format
 msgid "Automatically clean-up files after close."
 msgstr "끝낸 후 자동으로 파일을 정리합니다."
 
 #. i18n: ectx: label, entry (CleanUpFileExtensions), group (Files)
-#: kile.kcfg:325
+#: kile.kcfg:324
 #, kde-format
 msgid "The file extensions to clean on exit."
 msgstr "끝낼 때 지울 파일 확장자입니다."
 
 #. i18n: ectx: label, entry (showLaTeXFilesOnly), group (Files)
-#: kile.kcfg:337
+#: kile.kcfg:336
 #, kde-format
 msgid "Only show LaTeX files in the file browser widget"
 msgstr "파일 탐색기 위젯에 LaTeX 파일만 표시"
 
 #. i18n: ectx: label, entry (Author), group (User)
-#: kile.kcfg:347
+#: kile.kcfg:346
 #, kde-format
 msgid "The Author template variable."
 msgstr "작성자 템플릿 인자입니다."
 
 #. i18n: ectx: label, entry (DocumentClassOptions), group (User)
-#: kile.kcfg:351
+#: kile.kcfg:350
 #, kde-format
 msgid "The Documentclass template variable."
 msgstr "문서 클래스 템플릿 인자입니다."
 
 #. i18n: ectx: label, entry (TemplateEncoding), group (User)
-#: kile.kcfg:355
+#: kile.kcfg:354
 #, kde-format
 msgid "The Input encoding template variable."
 msgstr "입력 인코딩 템플릿 인자입니다."
 
 #. i18n: ectx: label, entry (DefaultProjectLocation), group (User)
-#: kile.kcfg:359
+#: kile.kcfg:358
 #, kde-format
 msgid "The default location where the projects must be created."
 msgstr "프로젝트를 저장할 기본 위치입니다."
 
 #. i18n: ectx: label, entry (SyncConsoleDirWithTabs), group (User)
-#: kile.kcfg:365
+#: kile.kcfg:364
 #, kde-format
 msgid ""
 "Whether the current directory shown in the console is kept synchronized with "
@@ -6930,91 +6930,91 @@ msgid ""
 msgstr "현재 콘솔에 표시한 디렉터리를 열린 탭과 동기화할지 여부입니다"
 
 #. i18n: ectx: label, entry (WatchFileForDocumentViewer), group (User)
-#: kile.kcfg:369
+#: kile.kcfg:368
 #, kde-format
 msgid "Whether the watch-file mode is enabled for the document viewer"
 msgstr "문서 뷰어에 파일 감시 모드를 활성화할지 여부입니다"
 
 #. i18n: ectx: label, entry (ShowFullPathInWindowTitle), group (User)
-#: kile.kcfg:373
+#: kile.kcfg:372
 #, kde-format
 msgid "Whether to show the full path of file names in the window title."
 msgstr "창 제목 표시줄에 파일 전체 경로를 표시할지 여부입니다."
 
 #. i18n: ectx: label, entry (dvipng), group (QuickPreview)
-#: kile.kcfg:441
+#: kile.kcfg:440
 #, kde-format
 msgid "Whether Dvipng is installed."
 msgstr "dvipng 도구 설치 여부입니다."
 
 #. i18n: ectx: label, entry (convert), group (QuickPreview)
-#: kile.kcfg:445
+#: kile.kcfg:444
 #, kde-format
 msgid "Whether Convert is installed."
 msgstr "convert 도구 설치 여부입니다."
 
 #. i18n: ectx: label, entry (envPreviewInWidget), group (QuickPreview)
-#: kile.kcfg:453
+#: kile.kcfg:452
 #, kde-format
 msgid "Show preview of environments in bottom bar."
 msgstr "아래쪽 표시줄에 환경 미리 보기를 표시합니다."
 
 #. i18n: ectx: label, entry (selPreviewInWidget), group (QuickPreview)
-#: kile.kcfg:457
+#: kile.kcfg:456
 #, kde-format
 msgid "Show preview of selected text in bottom bar."
 msgstr "아래쪽 표시줄에서 선택한 문자열을 미리 봅니다."
 
 #. i18n: ectx: label, entry (mathgroupPreviewInWidget), group (QuickPreview)
-#: kile.kcfg:461
+#: kile.kcfg:460
 #, kde-format
 msgid "Show preview of mathgroups in bottom bar."
 msgstr "아래쪽 표시줄에서 수식 그룹을 미리 봅니다."
 
 #. i18n: ectx: label, entry (envPreviewTool), group (QuickPreview)
-#: kile.kcfg:465
+#: kile.kcfg:464
 #, kde-format
 msgid "Conversion tool for preview of environments in bottom bar."
 msgstr "아래쪽 표시줄에 환경 미리 보기 변환 도구를 표시합니다."
 
 #. i18n: ectx: label, entry (selPreviewTool), group (QuickPreview)
-#: kile.kcfg:469
+#: kile.kcfg:468
 #, kde-format
 msgid "Conversion tool for preview of selected text in bottom bar."
 msgstr "아래쪽 표시줄에 선택한 문자열 미리 보기 변환 도구를 표시합니다."
 
 #. i18n: ectx: label, entry (mathgroupPreviewTool), group (QuickPreview)
-#: kile.kcfg:473
+#: kile.kcfg:472
 #, kde-format
 msgid "Conversion tool for preview of mathgroups in bottom bar."
 msgstr "아래쪽 표시줄에 수식 그룹 미리 보기 변환 도구를 표시합니다."
 
 #. i18n: ectx: label, entry (previewPaneBackgroundColor), group (QuickPreview)
-#: kile.kcfg:477
+#: kile.kcfg:476
 #, kde-format
 msgid "The background color of the quick preview pane."
 msgstr "빠른 미리 보기 패널의 배경색입니다."
 
 #. i18n: ectx: label, entry (ScriptingEnabled), group (Scripting)
-#: kile.kcfg:557
+#: kile.kcfg:556
 #, kde-format
 msgid "Enable the scripting support."
 msgstr "스크립팅 지원을 활성화합니다."
 
 #. i18n: ectx: label, entry (TimeLimitEnabled), group (Scripting)
-#: kile.kcfg:561
+#: kile.kcfg:560
 #, kde-format
 msgid "Set a time limit for the execution of scripts."
 msgstr "스크립트 실행 제한 시간을 설정합니다."
 
 #. i18n: ectx: label, entry (TimeLimit), group (Scripting)
-#: kile.kcfg:565
+#: kile.kcfg:564
 #, kde-format
 msgid "Time limit for the execution of scripts."
 msgstr "초 단위의 스크립트 실행 제한 시간입니다."
 
 #. i18n: ectx: label, entry (ScriptNameColumnWidth), group (Scripting)
-#: kile.kcfg:569
+#: kile.kcfg:568
 #, kde-format
 msgid ""
 "Width of the column containing the script name in the scripts management "
@@ -7022,43 +7022,43 @@ msgid ""
 msgstr "스크립트 관리 위젯에서 스크립트 이름을 표시하는 열 목록 너비입니다."
 
 #. i18n: ectx: label, entry (pdfWizardLastTask), group (PdfWizard)
-#: kile.kcfg:575
+#: kile.kcfg:574
 #, kde-format
 msgid "Last task used by the PdfWizard."
 msgstr "PDF 마법사에서 사용한 마지막 작업입니다."
 
 #. i18n: ectx: label, entry (numSymbolsMFUS), group (MostUsedSymbols)
-#: kile.kcfg:581
+#: kile.kcfg:580
 #, kde-format
 msgid "Number of symbols to store in the Most Frequently Used Symbols view."
 msgstr "가장 자주 사용한 기호 목록에 저장할 기호 개수입니다."
 
 #. i18n: ectx: label, entry (displayMFUS), group (MostUsedSymbols)
-#: kile.kcfg:585
+#: kile.kcfg:584
 #, kde-format
 msgid "Display the Most Frequently Used Symbols view."
 msgstr "가장 자주 사용한 기호 목록을 표시합니다."
 
 #. i18n: ectx: label, entry (clearMFUS), group (MostUsedSymbols)
-#: kile.kcfg:589
+#: kile.kcfg:588
 #, kde-format
 msgid "Clear the list of the most frequently used symbols whilst closing Kile."
 msgstr "Kile을 끝낼 때 자주 사용한 기호 목록을 비웁니다."
 
 #. i18n: ectx: label, entry (symbolViewUTF8), group (MostUsedSymbols)
-#: kile.kcfg:593
+#: kile.kcfg:592
 #, kde-format
 msgid "Should UTF-8 characters instead of commands be inserted"
 msgstr "명령 대신 UTF-8 문자열을 삽입할지 여부"
 
 #. i18n: ectx: label, entry (userMenuFile), group (UserMenu)
-#: kile.kcfg:599
+#: kile.kcfg:598
 #, kde-format
 msgid "XML file for the user menu"
 msgstr "사용자 메뉴 XML 파일"
 
 #. i18n: ectx: label, entry (userMenuLocation), group (UserMenu)
-#: kile.kcfg:603
+#: kile.kcfg:602
 #, kde-format
 msgid ""
 "Use the main menubar (value 0) or the LaTeX menu (value 1) for the location "
@@ -7066,25 +7066,25 @@ msgid ""
 msgstr "주 도구 모음(값: 0)이나 LaTeX 메뉴(값: 1)에 사용자 메뉴 두기"
 
 #. i18n: ectx: label, entry (livePreviewEnabled), group (LivePreview)
-#: kile.kcfg:609
+#: kile.kcfg:608
 #, kde-format
 msgid "Activate live preview functionality."
 msgstr "즉시 미리 보기 기능을 활성화합니다."
 
 #. i18n: ectx: label, entry (synchronizeCursorWithView), group (LivePreview)
-#: kile.kcfg:613
+#: kile.kcfg:612
 #, kde-format
 msgid "Synchronize the cursor position with the view."
 msgstr "커서 위치와 보기를 동기화합니다."
 
 #. i18n: ectx: label, entry (previewEnabledForFreshlyOpenedDocuments), group (LivePreview)
-#: kile.kcfg:617
+#: kile.kcfg:616
 #, kde-format
 msgid "Enable preview for freshly opened documents."
 msgstr "새로 연 문서의 미리 보기를 활성화합니다."
 
 #. i18n: ectx: label, entry (livePreviewCompilationDelay), group (LivePreview)
-#: kile.kcfg:621
+#: kile.kcfg:620
 #, kde-format
 msgid ""
 "Number of milliseconds after which the compilation is started when a change "
@@ -7092,13 +7092,13 @@ msgid ""
 msgstr "변경 사항이 추가된 후 컴파일을 시작할 밀리초 단위의 시간입니다."
 
 #. i18n: ectx: label, entry (livePreviewCompileOnlyAfterSaving), group (LivePreview)
-#: kile.kcfg:625
+#: kile.kcfg:624
 #, kde-format
 msgid "Only compile documents after saving."
 msgstr "문서를 저장한 다음에만 컴파일하십시오."
 
 #. i18n: ectx: label, entry (livePreviewDefaultTool), group (LivePreview)
-#: kile.kcfg:629
+#: kile.kcfg:628
 #, kde-format
 msgid "default livepreview tool."
 msgstr "기본 즉시 미리 보기 도구입니다."
@@ -7108,17 +7108,17 @@ msgstr "기본 즉시 미리 보기 도구입니다."
 msgid "&Label:"
 msgstr "이름표(&L):"
 
-#: kiledocmanager.cpp:92
+#: kiledocmanager.cpp:94
 #, kde-format
 msgid "No editor component found. Please check your KDE installation."
 msgstr "편집기 구성 요소를 찾을 수 없습니다. 설치 상태를 확인하십시오."
 
-#: kiledocmanager.cpp:93
+#: kiledocmanager.cpp:95
 #, kde-format
 msgid "No editor component found."
 msgstr "편집기 구성 요소를 찾을 수 없습니다."
 
-#: kiledocmanager.cpp:144
+#: kiledocmanager.cpp:146
 #, kde-format
 msgid ""
 "The internal structure of Kile is corrupted (probably due to a bug in Kile). "
@@ -7130,7 +7130,7 @@ msgstr ""
 "저장을 선택한 다음 Kile을 끝내십시오.\n"
 "불편을 끼쳐 드려 죄송합니다. 버그 보고를 해 주시면 감사히 받겠습니다."
 
-#: kiledocmanager.cpp:536
+#: kiledocmanager.cpp:538
 #, kde-format
 msgid ""
 "The URL \"%1\" couldn't be opened.\n"
@@ -7141,57 +7141,57 @@ msgstr ""
 "\n"
 "%2"
 
-#: kiledocmanager.cpp:537 kiledocmanager.cpp:540
+#: kiledocmanager.cpp:539 kiledocmanager.cpp:542
 #, kde-format
 msgid "Cannot open URL"
 msgstr "URL을 열 수 없음"
 
-#: kiledocmanager.cpp:540
+#: kiledocmanager.cpp:542
 #, kde-format
 msgid "The URL \"%1\" couldn't be opened."
 msgstr "URL \"%1\"을(를) 열 수 없습니다."
 
-#: kiledocmanager.cpp:683
+#: kiledocmanager.cpp:681
 #, kde-format
 msgid "Could not find template: %1"
 msgstr "서식을 찾을 수 없음: %1"
 
-#: kiledocmanager.cpp:683
+#: kiledocmanager.cpp:681
 #, kde-format
 msgid "File Not Found"
 msgstr "파일을 찾을 수 없음"
 
-#: kiledocmanager.cpp:743
+#: kiledocmanager.cpp:741
 #, kde-format
 msgid "Please save the file first."
 msgstr "먼저 파일을 저장하십시오."
 
-#: kiledocmanager.cpp:748
+#: kiledocmanager.cpp:746
 #, kde-format
 msgid "Open/create a document first."
 msgstr "먼저 문서를 열거나 만드십시오."
 
-#: kiledocmanager.cpp:756
+#: kiledocmanager.cpp:754
 #, kde-format
 msgid "A template for this type of document cannot be created."
 msgstr "이 형식 문서에 대한 서식을 만들 수 없습니다."
 
-#: kiledocmanager.cpp:760
+#: kiledocmanager.cpp:758
 #, kde-format
 msgid "Create Template From Document"
 msgstr "문서에서 서식 만들기"
 
-#: kiledocmanager.cpp:766
+#: kiledocmanager.cpp:764
 #, kde-format
 msgid "Remove Template"
 msgstr "서식 삭제"
 
-#: kiledocmanager.cpp:831
+#: kiledocmanager.cpp:829
 #, kde-format
 msgid "Open Files"
 msgstr "파일 열기"
 
-#: kiledocmanager.cpp:913
+#: kiledocmanager.cpp:911
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
@@ -7200,22 +7200,22 @@ msgstr ""
 "Kile에서 파일 %1에 저장하는 중 문제가 발생했습니다. 디스크에 남은 공간을 확인"
 "해 보십시오."
 
-#: kiledocmanager.cpp:914
+#: kiledocmanager.cpp:912
 #, kde-format
 msgid "Saving"
 msgstr "저장 중"
 
-#: kiledocmanager.cpp:947
+#: kiledocmanager.cpp:945
 #, kde-format
 msgid "Any files (*)"
 msgstr "임의 파일 (*)"
 
-#: kiledocmanager.cpp:949
+#: kiledocmanager.cpp:947
 #, kde-format
 msgid "Save Compiled Document As..."
 msgstr "컴파일된 문서를 다른 이름으로 저장..."
 
-#: kiledocmanager.cpp:974
+#: kiledocmanager.cpp:972
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
@@ -7224,33 +7224,33 @@ msgstr ""
 "URL \"%1\"이(가) 디렉터리이기 때문에\n"
 "열 수 없습니다."
 
-#: kiledocmanager.cpp:975
+#: kiledocmanager.cpp:973
 #, kde-format
 msgid "Cannot open directory"
 msgstr "디렉터리를 열 수 없음"
 
-#: kiledocmanager.cpp:1093
+#: kiledocmanager.cpp:1091
 #, kde-format
 msgid "Save File"
 msgstr "파일 저장"
 
-#: kiledocmanager.cpp:1130
+#: kiledocmanager.cpp:1128
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "이름이 \"%1\"인 파일이 이미 존재합니다. 덮어쓰시겠습니까?"
 
-#: kiledocmanager.cpp:1131
+#: kiledocmanager.cpp:1129
 #, kde-format
 msgid "Overwrite File?"
 msgstr "파일을 덮어쓰시겠습니까?"
 
-#: kiledocmanager.cpp:1307
+#: kiledocmanager.cpp:1305
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "프로젝트 트리 새로 고침"
 
-#: kiledocmanager.cpp:1315
+#: kiledocmanager.cpp:1313
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7260,34 +7260,34 @@ msgstr ""
 "현재 문서가 프로젝트에 속해 있지 않습니다. 트리를 생성할 프로젝트에 속해 있"
 "는 문서를 활성화한 다음 프로젝트 트리 새로 고침을 다시 실행하십시오."
 
-#: kiledocmanager.cpp:1315
+#: kiledocmanager.cpp:1313
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "프로젝트 트리를 새로 고칠 수 없음"
 
-#: kiledocmanager.cpp:1400 kiledocmanager.cpp:2171 kiledocmanager.cpp:2245
-#: kiledocmanager.cpp:2282
+#: kiledocmanager.cpp:1398 kiledocmanager.cpp:2169 kiledocmanager.cpp:2243
+#: kiledocmanager.cpp:2280
 #, kde-format
 msgid "Select Project"
 msgstr "프로젝트 선택"
 
-#: kiledocmanager.cpp:1425 kiledocmanager.cpp:1440 kiledocmanager.cpp:1447
+#: kiledocmanager.cpp:1423 kiledocmanager.cpp:1438 kiledocmanager.cpp:1445
 #, kde-format
 msgid "Add to Project"
 msgstr "프로젝트에 추가"
 
-#: kiledocmanager.cpp:1439
+#: kiledocmanager.cpp:1437
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "파일 %1이(가) 이미 프로젝트 %2에 포함되어 있음"
 
-#: kiledocmanager.cpp:1446
+#: kiledocmanager.cpp:1444
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr "파일 %1이(가) 없거나 읽을 수 없어서 프로젝트에 추가할 수 없음"
 
-#: kiledocmanager.cpp:1465
+#: kiledocmanager.cpp:1463
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
@@ -7296,12 +7296,12 @@ msgstr ""
 "이 파일은 프로젝트 정보가 들어 있는 프로젝트 파일입니다. 프로젝트에서 삭제할 "
 "수 없습니다."
 
-#: kiledocmanager.cpp:1465
+#: kiledocmanager.cpp:1463
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "프로젝트에서 파일을 삭제할 수 없음"
 
-#: kiledocmanager.cpp:1533
+#: kiledocmanager.cpp:1531
 #, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
@@ -7310,12 +7310,12 @@ msgstr ""
 "<p>프로젝트 \"%1\"이(가) 이미 열려 있습니다.</p><p>프로젝트를 다시 불러오려"
 "면 다시 열기 전에 프로젝트를 닫으십시오.</p>"
 
-#: kiledocmanager.cpp:1535
+#: kiledocmanager.cpp:1533
 #, kde-format
 msgid "Project Already Open"
 msgstr "프로젝트가 이미 열림"
 
-#: kiledocmanager.cpp:1546
+#: kiledocmanager.cpp:1544
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7325,12 +7325,12 @@ msgstr ""
 "<p>프로젝트 \"%1\"의 프로젝트 파일이 없거나 읽을 수 없습니다.</p> <p>이 프로"
 "젝트를 최근 프로젝트 목록에서 삭제하시겠습니까?</p>"
 
-#: kiledocmanager.cpp:1549
+#: kiledocmanager.cpp:1547
 #, kde-format
 msgid "Could Not Open Project"
 msgstr "프로젝트를 열 수 없음"
 
-#: kiledocmanager.cpp:1567
+#: kiledocmanager.cpp:1565
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
@@ -7339,12 +7339,12 @@ msgstr ""
 "<p>파일 \"%1\"이(가) 올바른 프로젝트 파일이 아닌 것 같아서 열 수 없습니다.</"
 "p>"
 
-#: kiledocmanager.cpp:1569
+#: kiledocmanager.cpp:1567
 #, kde-format
 msgid "Impossible to Open Project File"
 msgstr "프로젝트 파일을 열 수 없음"
 
-#: kiledocmanager.cpp:1579
+#: kiledocmanager.cpp:1577
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
@@ -7353,12 +7353,12 @@ msgstr ""
 "<p>프로젝트 \"%1\"을(를) 열 수 없습니다. 새로운 버전의<br/>Kile에서 생성되었"
 "습니다.</p>"
 
-#: kiledocmanager.cpp:1581
+#: kiledocmanager.cpp:1579
 #, kde-format
 msgid "Impossible to Open Project"
 msgstr "프로젝트를 열 수 없음"
 
-#: kiledocmanager.cpp:1591
+#: kiledocmanager.cpp:1589
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7368,12 +7368,12 @@ msgstr ""
 "<p>프로젝트 파일 \"%1\"이(가) 이전 버전 Kile에서 생성되었습니다.<br/>파일을 "
 "열려면 업데이트해야 합니다.</p><p>지금 업데이트하시겠습니까?</p>"
 
-#: kiledocmanager.cpp:1594
+#: kiledocmanager.cpp:1592
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr "프로젝트 파일을 업데이트해야 함"
 
-#: kiledocmanager.cpp:1601
+#: kiledocmanager.cpp:1599
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
@@ -7382,22 +7382,22 @@ msgstr ""
 "<p>프로젝트 파일 \"%1\"을(를) 업데이트할 수 없습니다.</p> <p>이 프로젝트를 최"
 "근 프로젝트 목록에서 삭제하시겠습니까?</p>"
 
-#: kiledocmanager.cpp:1603
+#: kiledocmanager.cpp:1601
 #, kde-format
 msgid "Could Not Update Project File"
 msgstr "프로젝트 파일을 업데이트할 수 없음"
 
-#: kiledocmanager.cpp:1705
+#: kiledocmanager.cpp:1703
 #, kde-format
 msgid "Open Project"
 msgstr "프로젝트 열기"
 
-#: kiledocmanager.cpp:1724
+#: kiledocmanager.cpp:1722
 #, kde-format
 msgid "Save Project"
 msgstr "프로젝트 저장"
 
-#: kiledocmanager.cpp:1776
+#: kiledocmanager.cpp:1774
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7407,27 +7407,27 @@ msgstr ""
 "현재 문서가 프로젝트에 속해 있지 않습니다. 저장할 프로젝트에 속해 있는 문서"
 "를 활성화한 다음 프로젝트 저장을 다시 실행하십시오."
 
-#: kiledocmanager.cpp:1776
+#: kiledocmanager.cpp:1774
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "활성 프로젝트를 결정할 수 있음"
 
-#: kiledocmanager.cpp:1797
+#: kiledocmanager.cpp:1795
 #, kde-format
 msgid "Add Files to Project"
 msgstr "프로젝트에 파일 추가"
 
-#: kiledocmanager.cpp:1810
+#: kiledocmanager.cpp:1808
 #, kde-format
 msgid "Add Files"
 msgstr "파일 추가"
 
-#: kiledocmanager.cpp:1813
+#: kiledocmanager.cpp:1811
 #, kde-format
 msgid "Add"
 msgstr "추가"
 
-#: kiledocmanager.cpp:1828
+#: kiledocmanager.cpp:1826
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
@@ -7436,17 +7436,17 @@ msgstr ""
 "연 프로젝트가 없습니다. 파일을 추가할 프로젝트를 연 다음 파일 추가 작업을 다"
 "시 실행하십시오."
 
-#: kiledocmanager.cpp:1828 kiledocmanager.cpp:1863
+#: kiledocmanager.cpp:1826 kiledocmanager.cpp:1861
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "활성 프로젝트를 결정할 수 없음"
 
-#: kiledocmanager.cpp:1854
+#: kiledocmanager.cpp:1852
 #, kde-format
 msgid "Project Options For"
 msgstr "다음의 프로젝트 옵션"
 
-#: kiledocmanager.cpp:1863
+#: kiledocmanager.cpp:1861
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7456,12 +7456,12 @@ msgstr ""
 "현재 문서가 프로젝트에 속해 있지 않습니다. 수정할 프로젝트에 속해 있는 문서"
 "를 활성화한 다음 프로젝트 옵션을 다시 실행하십시오."
 
-#: kiledocmanager.cpp:1889
+#: kiledocmanager.cpp:1887
 #, kde-format
 msgid "Close Project"
 msgstr "프로젝트 닫기"
 
-#: kiledocmanager.cpp:1943
+#: kiledocmanager.cpp:1941
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7471,77 +7471,77 @@ msgstr ""
 "현재 문서가 프로젝트에 속해 있지 않습니다. 닫을 프로젝트에 속해 있는 문서를 "
 "활성화한 다음 프로젝트 닫기를 다시 실행하십시오."
 
-#: kiledocmanager.cpp:1943
+#: kiledocmanager.cpp:1941
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "프로젝트를 닫을 수 없음"
 
-#: kiledocmanager.cpp:1998
+#: kiledocmanager.cpp:1996
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr "%1에서 청소할 항목 없음"
 
-#: kiledocmanager.cpp:2008
+#: kiledocmanager.cpp:2006
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "%1 청소 중: %2"
 
-#: kiledocmanager.cpp:2082
+#: kiledocmanager.cpp:2080
 #, kde-format
 msgid "Switch Project"
 msgstr "프로젝트 전환"
 
-#: kiledocmanager.cpp:2140
+#: kiledocmanager.cpp:2138
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "삭제할 파일 선택"
 
-#: kiledocmanager.cpp:2153 kiledocmanager.cpp:2156
+#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2154
 #, kde-format
 msgid "Show Project Files"
 msgstr "프로젝트 파일 표시"
 
-#: kiledocmanager.cpp:2153 kiledocmanager.cpp:2201
+#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2199
 #, kde-format
 msgid "project configuration file"
 msgstr "프로젝트 설정 파일"
 
-#: kiledocmanager.cpp:2156 kiledocmanager.cpp:2204
+#: kiledocmanager.cpp:2154 kiledocmanager.cpp:2202
 #, kde-format
 msgid "graphics file"
 msgstr "그림 파일"
 
-#: kiledocmanager.cpp:2201 kiledocmanager.cpp:2204
+#: kiledocmanager.cpp:2199 kiledocmanager.cpp:2202
 #, kde-format
 msgid "Open All Project Files"
 msgstr "모든 프로젝트 파일 열기"
 
-#: kiledocmanager.cpp:2238
+#: kiledocmanager.cpp:2236
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "열지 않음: %1(%2)"
 
-#: kiledocmanager.cpp:2263 kiledocmanager.cpp:2300
+#: kiledocmanager.cpp:2261 kiledocmanager.cpp:2298
 #, kde-format
 msgid "Project Files"
 msgstr "프로젝트 파일"
 
-#: kiledocmanager.cpp:2271 kiledocmanager.cpp:2310
+#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "선택한 파일을 결정할 수 없습니다."
 
-#: kiledocmanager.cpp:2271 kiledocmanager.cpp:2310
+#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
 #, kde-format
 msgid "Project Error"
 msgstr "프로젝트 오류"
 
-#: kiledocmanager.cpp:2377
+#: kiledocmanager.cpp:2375
 #, kde-format
 msgid "Opening Project..."
 msgstr "프로젝트 여는 중..."
 
-#: kiledocmanager.cpp:2380
+#: kiledocmanager.cpp:2378
 #, kde-format
 msgid "Scanning project files..."
 msgstr "프로젝트 파일 검사 중..."
@@ -7682,17 +7682,17 @@ msgstr "문서 뷰어를 사용할 수 없음"
 msgid "Please disable the live preview before launching this tool"
 msgstr "이 도구를 실행하기 전에 즉시 미리 보기를 비활성화하십시오"
 
-#: kilelyxserver.cpp:240
+#: kilelyxserver.cpp:241
 #, kde-format
 msgid "Cite"
 msgstr "인용"
 
-#: kilelyxserver.cpp:243
+#: kilelyxserver.cpp:247
 #, kde-format
 msgid "Add BibTeX database"
 msgstr "BibTeX 데이터베이스 추가"
 
-#: kilelyxserver.cpp:246
+#: kilelyxserver.cpp:252
 #, kde-format
 msgid "Paste"
 msgstr "붙여넣기"
@@ -8492,7 +8492,7 @@ msgstr ""
 "\\input 명령을 사용하면 지정한 파일을 읽어서 파일의 내용이 해당 지점에 삽입"
 "된 것처럼 처리합니다."
 
-#: kilestdactions.cpp:98 widgets/structurewidget.cpp:773
+#: kilestdactions.cpp:98 widgets/structurewidget.cpp:774
 #, kde-format
 msgid "Sectioning"
 msgstr "장과 절 나누기"
@@ -8667,7 +8667,7 @@ msgid "Huge"
 msgstr "Huge"
 
 #: kilestdactions.cpp:125 widgets/projectview.cpp:481
-#: widgets/toolconfigwidget.cpp:78
+#: widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "Other"
 msgstr "기타"
@@ -10084,40 +10084,40 @@ msgid "Bmatrix"
 msgstr "Bmatrix"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
-#: kilestdtools.cpp:327
+#: kilestdtools.cpp:328
 #, kde-format
 msgid "0 errors"
 msgstr "오류 0개"
 
-#: kilestdtools.cpp:327
+#: kilestdtools.cpp:328
 #, kde-format
 msgid "1 error"
 msgid_plural "%1 errors"
 msgstr[0] "오류 %1개"
 
-#: kilestdtools.cpp:328
+#: kilestdtools.cpp:329
 #, kde-format
 msgid "0 warnings"
 msgstr "경고 0개"
 
-#: kilestdtools.cpp:328
+#: kilestdtools.cpp:329
 #, kde-format
 msgid "1 warning"
 msgid_plural "%1 warnings"
 msgstr[0] "경고 %1개"
 
-#: kilestdtools.cpp:329
+#: kilestdtools.cpp:330
 #, kde-format
 msgid "0 badboxes"
 msgstr "잘못된 상자 0개"
 
-#: kilestdtools.cpp:329
+#: kilestdtools.cpp:330
 #, kde-format
 msgid "1 badbox"
 msgid_plural "%1 badboxes"
 msgstr[0] "잘못된 상자 %1개"
 
-#: kilestdtools.cpp:332
+#: kilestdtools.cpp:333
 #, kde-format
 msgctxt ""
 "String displayed in the log panel showing the number of errors/warnings/"
@@ -10125,14 +10125,14 @@ msgctxt ""
 msgid "%1, %2, %3"
 msgstr "%1, %2, %3"
 
-#: kilestdtools.cpp:375
+#: kilestdtools.cpp:376
 #, kde-format
 msgid ""
 "Manually selected bibliography tool does not exist: trying to auto-detect it "
 "now."
 msgstr "수동으로 선택한 서지 정보 도구가 없음: 자동 감지를 시도합니다."
 
-#: kilestdtools.cpp:659
+#: kilestdtools.cpp:660
 #, kde-format
 msgid ""
 "The version %1.%2.%3 of okular is too old for ForwardDVI. Please update "
@@ -10141,27 +10141,27 @@ msgstr ""
 "ForwardDVI 기능을 사용하기에 Okular 버전 %1.%2.%3이(가) 너무 오래되었습니다. "
 "Okular 0.8.6 이상으로 업그레이드하십시오"
 
-#: kilestdtools.cpp:726
+#: kilestdtools.cpp:727
 #, kde-format
 msgid "Select Bibliography"
 msgstr "서지 정보 선택"
 
-#: kilestdtools.cpp:726
+#: kilestdtools.cpp:727
 #, kde-format
 msgid "Select a bibliography"
 msgstr "서지 정보 선택"
 
-#: kilestdtools.cpp:735
+#: kilestdtools.cpp:736
 #, kde-format
 msgid "No bibliography selected."
 msgstr "서지 정보를 선택하지 않았습니다."
 
-#: kilestdtools.cpp:747
+#: kilestdtools.cpp:748
 #, kde-format
 msgid "No bibliographies found."
 msgstr "서지 정보를 찾을 수 없습니다."
 
-#: kilestdtools.cpp:783
+#: kilestdtools.cpp:784
 #, kde-format
 msgid ""
 "Unable to find %1 or %2; if you are trying to view some other HTML file, go "
@@ -10170,26 +10170,26 @@ msgstr ""
 "%1 또는 %2을(를) 찾을 수 없습니다. 다른 HTML 파일을 보려면 설정 -> Kile 설정 "
 "-> 도구 -> ViewHTML -> 고급으로 이동하십시오."
 
-#: kiletool.cpp:58
+#: kiletool.cpp:57
 #, kde-format
 msgid "Could not change to the folder %1."
 msgstr "폴더 %1(으)로 변경할 수 없습니다."
 
-#: kiletool.cpp:59
+#: kiletool.cpp:58
 #, kde-format
 msgid ""
 "The folder %1 is not writable, therefore %2 will not be able to save its "
 "results."
 msgstr "폴더 %1에 쓸 수 없습니다. %2에서 결과를 저장할 수 없습니다."
 
-#: kiletool.cpp:60
+#: kiletool.cpp:59
 #, kde-format
 msgid ""
 "The file %1/%2 does not exist. If this is unexpected, check the file "
 "permissions."
 msgstr "파일 %1/%2이(가) 없습니다. 예상하지 못한 경우라면 권한을 확인하십시오."
 
-#: kiletool.cpp:61
+#: kiletool.cpp:60
 #, kde-format
 msgid ""
 "The file %1/%2 is not readable. If this is unexpected, check the file "
@@ -10197,7 +10197,7 @@ msgid ""
 msgstr ""
 "파일 %1/%2에서 읽을 수 없습니다. 예상하지 못한 경우라면 권한을 확인하십시오."
 
-#: kiletool.cpp:62
+#: kiletool.cpp:61
 #, kde-format
 msgid ""
 "Could not determine on which file to run %1, because there is no active "
@@ -10205,43 +10205,43 @@ msgid ""
 msgstr ""
 "활성 문서가 없어서 %1을(를) 실행할 때 사용할 파일을 결정할 수 없습니다."
 
-#: kiletool.cpp:63
+#: kiletool.cpp:62
 #, kde-format
 msgid "Could not determine the master file for this document."
 msgstr "이 문서의 마스터 파일을 결정할 수 없습니다."
 
-#: kiletool.cpp:64
+#: kiletool.cpp:63
 #, kde-format
 msgid "Please save the untitled document first."
 msgstr "제목 없는 문서를 먼저 저장하십시오."
 
-#: kiletool.cpp:65
+#: kiletool.cpp:64
 #, kde-format
 msgid "The file %1 does not exist."
 msgstr "파일 %1이(가) 없습니다."
 
-#: kiletool.cpp:66
+#: kiletool.cpp:65
 #, kde-format
 msgid "The file %1 is not readable."
 msgstr "파일 %1에서 읽을 수 없습니다."
 
-#: kiletool.cpp:642
+#: kiletool.cpp:641
 #, kde-format
 msgid "The document %1 is not a LaTeX root document; continue anyway?"
 msgstr ""
 "문서 %1이(가) LaTeX 주 문서가 아닌 것 같습니다. 그래도 진행하시겠습니까?"
 
-#: kiletool.cpp:642
+#: kiletool.cpp:641
 #, kde-format
 msgid "Continue?"
 msgstr "계속 진행하시겠습니까?"
 
-#: kiletool.cpp:654
+#: kiletool.cpp:653
 #, kde-format
 msgid "The file %1/%2 does not exist; did you compile the source file?"
 msgstr "파일 %1/%2이(가) 없습니다. 원본 파일을 컴파일했습니까?"
 
-#: kiletool.cpp:674
+#: kiletool.cpp:673
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -10251,57 +10251,57 @@ msgstr ""
 "현재 문서가 프로젝트에 속해 있지 않습니다. 보관할 프로젝트에 속해 있는 파일"
 "을 선택하고 작업을 다시 실행하십시오."
 
-#: kiletool.cpp:678
+#: kiletool.cpp:677
 #, kde-format
 msgid "No files have been chosen for archiving."
 msgstr "보관할 파일을 선택하지 않았습니다."
 
-#: kiletool.cpp:694
+#: kiletool.cpp:693
 #, kde-format
 msgid "Archive Project"
 msgstr "프로젝트 보관"
 
-#: kiletool.cpp:820 kiletoolmanager.cpp:285
+#: kiletool.cpp:819 kiletoolmanager.cpp:284
 #, kde-format
 msgid "Unknown tool %1."
 msgstr "알 수 없는 도구 %1."
 
-#: kiletoolmanager.cpp:279
+#: kiletoolmanager.cpp:278
 #, kde-format
 msgid "No factory installed, contact the author of Kile."
 msgstr "팩토리가 설치되지 않았습니다. Kile 개발자에게 연락하십시오."
 
-#: kiletoolmanager.cpp:362
+#: kiletoolmanager.cpp:361
 #, kde-format
 msgid "Aborted"
 msgstr "중단됨"
 
-#: kiletoolmanager.cpp:486
+#: kiletoolmanager.cpp:485
 #, kde-format
 msgid "Cannot find the tool \"%1\" in the configuration database."
 msgstr "설정 데이터베이스에서 \"%1\" 도구를 찾을 수 없습니다."
 
-#: kiletoolmanager.cpp:742
+#: kiletoolmanager.cpp:741
 #, kde-format
 msgid "&Stop"
 msgstr "정지(&S)"
 
-#: kiletoolmanager.cpp:751
+#: kiletoolmanager.cpp:750
 #, kde-format
 msgid "Bibliography Back End"
 msgstr "서지 정보 백엔드"
 
-#: kiletoolmanager.cpp:752
+#: kiletoolmanager.cpp:751
 #, kde-format
 msgid "Auto-Detect"
 msgstr "자동 감지"
 
-#: kiletoolmanager.cpp:753
+#: kiletoolmanager.cpp:752
 #, kde-format
 msgid "Auto-detect the bibliography back end from LaTeX output"
 msgstr "LaTeX 출력에서 서지 정보 백엔드 자동 감지"
 
-#: kiletoolmanager.cpp:758
+#: kiletoolmanager.cpp:757
 #, kde-format
 msgid "Reset Auto-Detected Back End"
 msgstr "자동으로 감지된 백엔드 초기화"
@@ -10337,7 +10337,7 @@ msgid "&Bullets"
 msgstr "불릿(&B)"
 
 #. i18n: ectx: Menu (select)
-#: kileui.rc:70 widgets/structurewidget.cpp:779
+#: kileui.rc:70 widgets/structurewidget.cpp:780
 #, kde-format
 msgid "&Select"
 msgstr "선택(&S)"
@@ -10375,7 +10375,7 @@ msgstr "보기(&V)"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1165 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1162 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10645,62 +10645,62 @@ msgstr "주"
 msgid "Edit"
 msgstr "편집"
 
-#: kileviewmanager.cpp:123
+#: kileviewmanager.cpp:125
 #, kde-format
 msgid "Show Cursor Position in Viewer"
 msgstr "뷰어에 커서 위치 표시"
 
-#: kileviewmanager.cpp:127
+#: kileviewmanager.cpp:129
 #, kde-format
 msgid "Synchronize Cursor Position with Viewer"
 msgstr "뷰어와 커서 위치 동기화"
 
-#: kileviewmanager.cpp:180
+#: kileviewmanager.cpp:182
 #, kde-format
 msgid "Paste as LaTe&X"
 msgstr "LaTeX으로 붙여넣기(&X)"
 
-#: kileviewmanager.cpp:184
+#: kileviewmanager.cpp:186
 #, kde-format
 msgid "Convert Selection to &LaTeX"
 msgstr "선택 영역을 LaTeX으로 변환(&L)"
 
-#: kileviewmanager.cpp:255
+#: kileviewmanager.cpp:257
 #, kde-format
 msgid "Show sorted list of opened documents"
 msgstr "연 문서의 정렬된 목록 보기"
 
-#: kileviewmanager.cpp:375
+#: kileviewmanager.cpp:377
 #, kde-format
 msgid "Could not create an editor view."
 msgstr "편집기 보기를 만들 수 없습니다."
 
-#: kileviewmanager.cpp:375
+#: kileviewmanager.cpp:377
 #, kde-format
 msgid "Fatal Error"
 msgstr "치명적 오류"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:845
 #, kde-format
 msgid "&QuickPreview Selection"
 msgstr "선택 영역 빠른 미리 보기(&Q)"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:846
 #, kde-format
 msgid "&QuickPreview Environment"
 msgstr "환경 빠른 미리 보기(&Q)"
 
-#: kileviewmanager.cpp:848
+#: kileviewmanager.cpp:847
 #, kde-format
 msgid "&QuickPreview Math"
 msgstr "수식 빠른 미리 보기(&Q)"
 
-#: kileviewmanager.cpp:1138
+#: kileviewmanager.cpp:1135
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "컴파일된 문서 인쇄..."
 
-#: kileviewmanager.cpp:1144
+#: kileviewmanager.cpp:1141
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "컴파일된 문서 미리 보기 인쇄..."
@@ -10720,18 +10720,18 @@ msgstr "즉시 미리 보기 다시 컴파일"
 msgid "Save Compiled Document..."
 msgstr "컴파일된 문서 저장..."
 
-#: livepreview.cpp:910
+#: livepreview.cpp:908
 #, kde-format
 msgid "Some documents could not be saved correctly"
 msgstr "일부 문서를 올바르게 저장할 수 없음"
 
-#: livepreview.cpp:916
+#: livepreview.cpp:914
 #, kde-format
 msgid ""
 "The document must have been saved before the live preview can be started"
 msgstr "즉시 미리 보기를 시작하기 전에 문서를 저장해야 함"
 
-#: livepreview.cpp:942
+#: livepreview.cpp:940
 #, kde-format
 msgid ""
 "The location of one project item is not relative to the project's base "
@@ -10741,158 +10741,158 @@ msgstr ""
 "프로젝트 항목 위치가 프로젝트 기반 디렉터리에 대한 상대 경로가 아님\n"
 "프로젝트 즉시 미리 보기가 비활성화됨"
 
-#: livepreview.cpp:946
+#: livepreview.cpp:944
 #, kde-format
 msgid "Failed to create the subdirectory structure"
 msgstr "하위 디렉터리 구조를 만들 수 없음"
 
-#: livepreview.cpp:1406
+#: livepreview.cpp:1404
 #, kde-format
 msgid "LivePreview"
 msgstr "즉시 미리 보기"
 
-#: main.cpp:63
+#: main.cpp:61
 #, kde-format
 msgid "StandardInput.tex"
 msgstr "표준 입력.tex"
 
-#: main.cpp:108
+#: main.cpp:102
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
 msgstr "KDE 통합 LaTeX 환경"
 
-#: main.cpp:110
+#: main.cpp:104
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
 msgstr "개발: Kile 팀 (2003 - %1)"
 
-#: main.cpp:113
+#: main.cpp:107
 #, kde-format
 msgid "Michel Ludwig"
 msgstr "Michel Ludwig"
 
-#: main.cpp:113
+#: main.cpp:107
 #, kde-format
 msgid "Project Management/Developer"
 msgstr "프로젝트 관리 및 개발자"
 
-#: main.cpp:114
+#: main.cpp:108
 #, kde-format
 msgid "Holger Danielsson"
 msgstr "Holger Danielsson"
 
-#: main.cpp:114
+#: main.cpp:108
 #, kde-format
 msgid "Developer"
 msgstr "개발자"
 
-#: main.cpp:115
+#: main.cpp:109
 #, kde-format
 msgid "Thomas Braun"
 msgstr "Thomas Braun"
 
-#: main.cpp:115
+#: main.cpp:109
 #, kde-format
 msgid "Former Developer"
 msgstr "이전 개발자"
 
-#: main.cpp:116
+#: main.cpp:110
 #, kde-format
 msgid "Jeroen Wijnhout"
 msgstr "Jeroen Wijnhout"
 
-#: main.cpp:116
+#: main.cpp:110
 #, kde-format
 msgid "Former Maintainer/Developer"
 msgstr "이전 관리자 및 개발자"
 
-#: main.cpp:117
+#: main.cpp:111
 #, kde-format
 msgid "Brachet Pascal"
 msgstr "Brachet Pascal"
 
-#: main.cpp:119
+#: main.cpp:113
 #, kde-format
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:119
+#: main.cpp:113
 #, kde-format
 msgid "Migration from Subversion to Git"
 msgstr "Subversion에서 Git으로 이전"
 
-#: main.cpp:120
+#: main.cpp:114
 #, kde-format
 msgid "Simon Martin"
 msgstr "Simon Martin"
 
-#: main.cpp:120
+#: main.cpp:114
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
 msgstr "KConfig XT, 다양한 개선과 버그 수정"
 
-#: main.cpp:121
+#: main.cpp:115
 #, kde-format
 msgid "Roland Schulz"
 msgstr "Roland Schulz"
 
-#: main.cpp:121
+#: main.cpp:115
 #, kde-format
 msgid "KatePart Integration"
 msgstr "KatePart 통합"
 
-#: main.cpp:122
+#: main.cpp:116
 #, kde-format
 msgid "Thorsten Lück"
 msgstr "Thorsten Lück"
 
-#: main.cpp:122
+#: main.cpp:116
 #, kde-format
 msgid "Log Parsing"
 msgstr "로그 처리"
 
-#: main.cpp:123
+#: main.cpp:117
 #, kde-format
 msgid "Jan-Marek Glogowski"
 msgstr "Jan-Marek Glogowski"
 
-#: main.cpp:123
+#: main.cpp:117
 #, kde-format
 msgid "Find-in-Files Dialog"
 msgstr "파일에서 찾기 대화 상자"
 
-#: main.cpp:124
+#: main.cpp:118
 #, kde-format
 msgid "Jonathan Pechta"
 msgstr "Jonathan Pechta"
 
-#: main.cpp:124 main.cpp:125
+#: main.cpp:118 main.cpp:119
 #, kde-format
 msgid "Documentation"
 msgstr "문서화"
 
-#: main.cpp:125
+#: main.cpp:119
 #, kde-format
 msgid "Federico Zenith"
 msgstr "Federico Zenith"
 
-#: main.cpp:143
+#: main.cpp:141
 #, kde-format
 msgid "Jump to line"
 msgstr "줄로 이동"
 
-#: main.cpp:144
+#: main.cpp:142
 #, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "새 Kile 주 창 열기"
 
-#: main.cpp:146
+#: main.cpp:144
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr "열 파일, '-'를 입력하면 표준 입력에서 읽음"
 
-#: main.cpp:177
+#: main.cpp:175
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -10904,17 +10904,17 @@ msgstr ""
 "\n"
 "Kile을 실행하기 전에 Okular 라이브러리를 설치하십시오."
 
-#: main.cpp:179
+#: main.cpp:177
 #, kde-format
 msgid "Okular library not found"
 msgstr "Okular 라이브러리를 찾을 수 없음"
 
-#: parser/latexparser.cpp:217 parser/latexparser.cpp:245
+#: parser/latexparser.cpp:221 parser/latexparser.cpp:249
 #, kde-format
 msgid "Frame"
 msgstr "프레임"
 
-#: parser/latexparser.cpp:267
+#: parser/latexparser.cpp:271
 #, kde-format
 msgid "Untitled Block"
 msgstr "제목 없는 블록"
@@ -11110,7 +11110,7 @@ msgstr "다른 이름으로 저장"
 msgid "This action was canceled by the user."
 msgstr "사용자가 작업을 취소했습니다."
 
-#: scripting/script.cpp:204
+#: scripting/script.cpp:206
 #, kde-format
 msgid "Unable to find '%1'"
 msgstr "'%1'을(를) 찾을 수 없음"
@@ -11120,7 +11120,7 @@ msgstr "'%1'을(를) 찾을 수 없음"
 msgid "Cursor/Range plugin"
 msgstr "커서/범위 플러그인"
 
-#: scripting/script.cpp:295
+#: scripting/script.cpp:292
 #, kde-format
 msgid ""
 "An error has occurred at line %1 during the execution of the script \"%2\":\n"
@@ -11129,12 +11129,12 @@ msgstr ""
 "스크립트 \"%2\"을(를) 실행하는 중 %1줄에서 오류 발생:\n"
 "%3"
 
-#: scripting/script.cpp:296
+#: scripting/script.cpp:293
 #, kde-format
 msgid "Error"
 msgstr "오류"
 
-#: scriptmanager.cpp:98
+#: scriptmanager.cpp:99
 #, kde-format
 msgid ""
 "Version %1 of Kile is at least required to execute the script \"%2\". The "
@@ -11143,27 +11143,27 @@ msgstr ""
 "스크립트 \"%2\"을(를) 실행하려면 Kile 버전 %1 이상이 필요합니다. 실행이 중단"
 "되었습니다."
 
-#: scriptmanager.cpp:99
+#: scriptmanager.cpp:100
 #, kde-format
 msgid "Version Error"
 msgstr "버전 오류"
 
-#: scriptmanager.cpp:107
+#: scriptmanager.cpp:108
 #, kde-format
 msgid "Cannot start the script: no view available"
 msgstr "스크립트를 시작할 수 없음: 보기가 없음"
 
-#: scriptmanager.cpp:107
+#: scriptmanager.cpp:108
 #, kde-format
 msgid "Script Error"
 msgstr "스크립트 오류"
 
-#: scriptmanager.cpp:487
+#: scriptmanager.cpp:488
 #, kde-format
 msgid "Execution of %1"
 msgstr "%1 실행"
 
-#: templates.cpp:93
+#: templates.cpp:94
 #, kde-format
 msgid ""
 "Could not find a folder to save %1 to.\n"
@@ -11173,17 +11173,17 @@ msgstr ""
 "%1을(를) 저장할 폴더를 찾을 수 없습니다.\n"
 "홈 폴더 아래의 \".kde\" 폴더에 쓰기 권한이 있는지 확인하십시오."
 
-#: templates.cpp:165
+#: templates.cpp:166
 #, kde-format
 msgid "Empty File"
 msgstr "빈 파일"
 
-#: templates.cpp:170
+#: templates.cpp:171
 #, kde-format
 msgid "Empty LaTeX File"
 msgstr "빈 LaTeX 파일"
 
-#: templates.cpp:175
+#: templates.cpp:176
 #, kde-format
 msgid "Empty BibTeX File"
 msgstr "빈 BibTeX 파일"
@@ -11194,12 +11194,12 @@ msgctxt "<tool name> - <configuration>"
 msgid "%1 - %2"
 msgstr "%1 - %2"
 
-#: userhelp.cpp:150
+#: userhelp.cpp:151
 #, kde-format
 msgid "The file '%1' does not exist."
 msgstr "파일 '%1'이(가) 없습니다."
 
-#: usermenu/usermenu.cpp:918
+#: usermenu/usermenu.cpp:920
 #, kde-format
 msgid "Input Dialog"
 msgstr "입력 대화 상자"
@@ -11215,12 +11215,12 @@ msgid "Expanded Text"
 msgstr "확장된 문자열"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbAdd)
-#: widgets/abbreviationview.cpp:111 widgets/quicktoolconfigwidget.ui:91
+#: widgets/abbreviationview.cpp:111 widgets/quicktoolconfigwidget.ui:103
 #, kde-format
 msgid "&Add"
 msgstr "추가(&A)"
 
-#: widgets/abbreviationview.cpp:124 widgets/structurewidget.cpp:780
+#: widgets/abbreviationview.cpp:124 widgets/structurewidget.cpp:781
 #, kde-format
 msgid "&Delete"
 msgstr "삭제(&D)"
@@ -11379,7 +11379,7 @@ msgstr "추가..."
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbRemoveConfig)
 #. i18n: ectx: property (text), widget (QPushButton, m_pbRemove)
 #: widgets/codecompletionconfigwidget.ui:140
-#: widgets/maintoolconfigwidget.ui:101 widgets/maintoolconfigwidget.ui:222
+#: widgets/maintoolconfigwidget.ui:116 widgets/maintoolconfigwidget.ui:212
 #: widgets/usermenuconfigwidget.ui:115
 #, kde-format
 msgid "Remove"
@@ -11489,18 +11489,18 @@ msgid "Use this number of spaces to autoindent environments."
 msgstr ""
 "환경에서 자동 들여 쓰기를 사용할 때 다음 개수만큼 공백 문자를 삽입합니다."
 
-#: widgets/filebrowserwidget.cpp:124
+#: widgets/filebrowserwidget.cpp:123
 #, kde-format
 msgid "Open selected"
 msgstr "선택한 파일 열기"
 
-#: widgets/filebrowserwidget.cpp:129
+#: widgets/filebrowserwidget.cpp:128
 #, kde-format
 msgid "Show LaTeX Files Only"
 msgstr "LaTeX 파일만 표시"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: widgets/filebrowserwidget.cpp:135 widgets/structureviewconfigwidget.ui:128
+#: widgets/filebrowserwidget.cpp:134 widgets/structureviewconfigwidget.ui:128
 #, kde-format
 msgid "Options"
 msgstr "옵션"
@@ -11657,7 +11657,7 @@ msgstr "자동으로 열고 닫는 LaTeX 큰따옴표 삽입(&Q)"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlType)
 #. i18n: ectx: property (text), widget (QLabel, m_lbType)
-#: widgets/latexconfigwidget.ui:89 widgets/maintoolconfigwidget.ui:362
+#: widgets/latexconfigwidget.ui:89 widgets/maintoolconfigwidget.ui:342
 #, kde-format
 msgid "&Type:"
 msgstr "형식(&T):"
@@ -11802,103 +11802,103 @@ msgstr "밀리초"
 msgid "Set default live preview tool"
 msgstr "기본 즉시 미리 보기 도구 선택"
 
-#: widgets/logwidget.cpp:370
+#: widgets/logwidget.cpp:371
 #, kde-format
 msgid "Hide &Bad Boxes"
 msgstr "잘못된 상자 숨기기(&B)"
 
-#: widgets/logwidget.cpp:376
+#: widgets/logwidget.cpp:377
 #, kde-format
 msgid "Hide (La)TeX &Warnings"
 msgstr "(La)TeX 경고 숨기기(&W)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: widgets/maintoolconfigwidget.ui:45
+#: widgets/maintoolconfigwidget.ui:60
 #, kde-format
 msgid "Select a tool"
 msgstr "도구 선택"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)
-#: widgets/maintoolconfigwidget.ui:94 widgets/maintoolconfigwidget.ui:203
+#: widgets/maintoolconfigwidget.ui:109 widgets/maintoolconfigwidget.ui:193
 #, kde-format
 msgid "New..."
 msgstr "새로 만들기..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_groupBox)
-#: widgets/maintoolconfigwidget.ui:130
+#: widgets/maintoolconfigwidget.ui:129
 #, kde-format
 msgid "Choose a configuration for the current tool"
 msgstr "현재 도구 설정 선택"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
-#: widgets/maintoolconfigwidget.ui:159
+#: widgets/maintoolconfigwidget.ui:152
 #, kde-format
 msgid "Se&lect:"
 msgstr "선택(&L):"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
-#: widgets/maintoolconfigwidget.ui:328
+#: widgets/maintoolconfigwidget.ui:308
 #, kde-format
 msgid "Advanced"
 msgstr "고급"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbClass)
-#: widgets/maintoolconfigwidget.ui:385
+#: widgets/maintoolconfigwidget.ui:365
 #, kde-format
 msgid "C&lass:"
 msgstr "클래스(&L):"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbSource)
-#: widgets/maintoolconfigwidget.ui:408
+#: widgets/maintoolconfigwidget.ui:388
 #, kde-format
 msgid "Source e&xtension:"
 msgstr "원본 확장자(&X):"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbTarget)
-#: widgets/maintoolconfigwidget.ui:431
+#: widgets/maintoolconfigwidget.ui:411
 #, kde-format
 msgid "Tar&get extension:"
 msgstr "대상 확장자(&G):"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: widgets/maintoolconfigwidget.ui:454
+#: widgets/maintoolconfigwidget.ui:434
 #, kde-format
 msgid "Target &file:"
 msgstr "대상 파일(&F):"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
-#: widgets/maintoolconfigwidget.ui:480
+#: widgets/maintoolconfigwidget.ui:460
 #, kde-format
 msgid "&Relative dir:"
 msgstr "상대 경로(&R):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckClose)
-#: widgets/maintoolconfigwidget.ui:508
+#: widgets/maintoolconfigwidget.ui:488
 #, kde-format
 msgid "Close Konsole when tool is finished"
 msgstr "도구가 끝났을 때 Konsole 닫기"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage)
-#: widgets/maintoolconfigwidget.ui:531
+#: widgets/maintoolconfigwidget.ui:511
 #, kde-format
 msgid "Menu"
 msgstr "메뉴"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenu)
-#: widgets/maintoolconfigwidget.ui:554
+#: widgets/maintoolconfigwidget.ui:534
 #, kde-format
 msgid "Add &tool to Build menu:"
 msgstr "빌드 메뉴에 도구 추가(&T):"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbIcon)
-#: widgets/maintoolconfigwidget.ui:577
+#: widgets/maintoolconfigwidget.ui:557
 #, kde-format
 msgid "&Icon:"
 msgstr "아이콘(&I):"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbDefault)
-#: widgets/maintoolconfigwidget.ui:636
+#: widgets/maintoolconfigwidget.ui:628
 #, kde-format
 msgid "Restore Default Tools..."
 msgstr "기본 도구 복원..."
@@ -12198,7 +12198,7 @@ msgstr "그림"
 msgid "&Open With"
 msgstr "다음으로 열기(&O)"
 
-#: widgets/projectview.cpp:820 widgets/structurewidget.cpp:806
+#: widgets/projectview.cpp:820 widgets/structurewidget.cpp:807
 #, kde-format
 msgid "Other..."
 msgstr "기타..."
@@ -12249,25 +12249,25 @@ msgid "Current Default"
 msgstr "현재 기본값"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbTool)
-#: widgets/quicktoolconfigwidget.ui:27
+#: widgets/quicktoolconfigwidget.ui:39
 #, kde-format
 msgid "Tool:"
 msgstr "도구:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
-#: widgets/quicktoolconfigwidget.ui:53
+#: widgets/quicktoolconfigwidget.ui:65
 #, kde-format
 msgid "Configuration:"
 msgstr "설정:"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbUp)
-#: widgets/quicktoolconfigwidget.ui:117
+#: widgets/quicktoolconfigwidget.ui:129
 #, kde-format
 msgid "&Up"
 msgstr "위로(&U)"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbDown)
-#: widgets/quicktoolconfigwidget.ui:130
+#: widgets/quicktoolconfigwidget.ui:142
 #, kde-format
 msgid "&Down"
 msgstr "아래로(&D)"
@@ -12296,66 +12296,66 @@ msgstr "스크립트 실행 시간 제한(&L)"
 msgid "&Time limit (seconds):"
 msgstr "시간 제한(초)(&T):"
 
-#: widgets/scriptsmanagementwidget.cpp:75
+#: widgets/scriptsmanagementwidget.cpp:76
 #, kde-format
 msgid "Run Selected Script"
 msgstr "선택한 스크립트 실행"
 
-#: widgets/scriptsmanagementwidget.cpp:81
+#: widgets/scriptsmanagementwidget.cpp:82
 #, kde-format
 msgid "Create New Script"
 msgstr "새 스크립트 만들기"
 
-#: widgets/scriptsmanagementwidget.cpp:87
+#: widgets/scriptsmanagementwidget.cpp:88
 #, kde-format
 msgid "Open Selected Script in Editor"
 msgstr "편집기에서 선택한 스크립트 열기"
 
-#: widgets/scriptsmanagementwidget.cpp:93
+#: widgets/scriptsmanagementwidget.cpp:94
 #, kde-format
 msgid "Configure Key Sequence"
 msgstr "키 배열 설정"
 
-#: widgets/scriptsmanagementwidget.cpp:99
+#: widgets/scriptsmanagementwidget.cpp:100
 #, kde-format
 msgid "Remove Key Sequence"
 msgstr "키 배열 삭제"
 
-#: widgets/scriptsmanagementwidget.cpp:105
+#: widgets/scriptsmanagementwidget.cpp:106
 #, kde-format
 msgid "Refresh List"
 msgstr "목록 새로 고침"
 
-#: widgets/scriptsmanagementwidget.cpp:115
+#: widgets/scriptsmanagementwidget.cpp:117
 #, kde-format
 msgid "Script Name"
 msgstr "스크립트 이름"
 
-#: widgets/scriptsmanagementwidget.cpp:116
+#: widgets/scriptsmanagementwidget.cpp:118
 #, kde-format
 msgid "Sequence"
 msgstr "배열"
 
-#: widgets/scriptsmanagementwidget.cpp:221
+#: widgets/scriptsmanagementwidget.cpp:223
 #, kde-format
 msgid "The sequence \"%1\" is already assigned to the action \"%2\""
 msgstr "배열 \"%1\"이(가) 동작 \"%2\"에 이미 할당됨"
 
-#: widgets/scriptsmanagementwidget.cpp:222
-#: widgets/scriptsmanagementwidget.cpp:226
-#: widgets/scriptsmanagementwidget.cpp:230
+#: widgets/scriptsmanagementwidget.cpp:224
+#: widgets/scriptsmanagementwidget.cpp:228
+#: widgets/scriptsmanagementwidget.cpp:232
 #, kde-format
 msgid "Sequence Already Assigned"
 msgstr "배열이 이미 할당됨"
 
-#: widgets/scriptsmanagementwidget.cpp:225
+#: widgets/scriptsmanagementwidget.cpp:227
 #, kde-format
 msgid ""
 "The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to "
 "the action \"%3\""
 msgstr "배열 \"%1\"은(는) \"%2\"의 하위 배열로, 동작 \"%3\"에 이미 할당됨"
 
-#: widgets/scriptsmanagementwidget.cpp:229
+#: widgets/scriptsmanagementwidget.cpp:231
 #, kde-format
 msgid "The shorter sequence \"%1\" is already assigned to the action \"%2\""
 msgstr "짧은 배열 \"%1\"이(가) 동작 \"%2\"에 이미 할당됨"
@@ -12603,7 +12603,7 @@ msgstr "FIXME"
 msgid "Cannot create a list view item: no parent found."
 msgstr "목록 보기 항목을 만들 수 없음: 부모를 찾을 수 없습니다."
 
-#: widgets/structurewidget.cpp:690
+#: widgets/structurewidget.cpp:691
 #, kde-format
 msgid ""
 "No extension specified for graphic file.  Using .%1 from Project settings."
@@ -12611,7 +12611,7 @@ msgstr ""
 "그림 파일의 확장자를 지정하지 않았습니다. 프로젝트 설정의 .%1을(를) 사용합니"
 "다."
 
-#: widgets/structurewidget.cpp:691
+#: widgets/structurewidget.cpp:692
 #, kde-format
 msgid ""
 "No extension specified for graphic file.  Using .%1 from global Structure "
@@ -12620,12 +12620,12 @@ msgstr ""
 "그림 파일의 확장자를 지정하지 않았습니다. 전역 구조 보기 설정의 .%1을(를) 사"
 "용합니다."
 
-#: widgets/structurewidget.cpp:692
+#: widgets/structurewidget.cpp:693
 #, kde-format
 msgid "File extension not specified"
 msgstr "파일 확장자를 지정하지 않았음"
 
-#: widgets/structurewidget.cpp:740
+#: widgets/structurewidget.cpp:741
 #, kde-format
 msgid ""
 "Cannot find the included file. The file does not exist, is not readable or "
@@ -12637,93 +12637,93 @@ msgstr ""
 "알 수 없습니다. 이 오류가 발생한 파일 이름은 다음과 같습니다: %1.\n"
 "이 파일을 생성하시겠습니까?"
 
-#: widgets/structurewidget.cpp:741
+#: widgets/structurewidget.cpp:742
 #, kde-format
 msgid "Cannot Find File"
 msgstr "파일을 찾을 수 없음"
 
-#: widgets/structurewidget.cpp:775
+#: widgets/structurewidget.cpp:776
 #, kde-format
 msgid "Cu&t"
 msgstr "잘라내기(&T)"
 
-#: widgets/structurewidget.cpp:776
+#: widgets/structurewidget.cpp:777
 #, kde-format
 msgid "&Copy"
 msgstr "복사(&C)"
 
-#: widgets/structurewidget.cpp:777
+#: widgets/structurewidget.cpp:778
 #, kde-format
 msgid "&Paste below"
 msgstr "아래쪽에 붙여넣기(&P)"
 
-#: widgets/structurewidget.cpp:782
+#: widgets/structurewidget.cpp:783
 #, kde-format
 msgid "C&omment"
 msgstr "주석(&O)"
 
-#: widgets/structurewidget.cpp:784
+#: widgets/structurewidget.cpp:785
 #, kde-format
 msgid "Run QuickPreview"
 msgstr "빠른 미리 보기 실행"
 
-#: widgets/structurewidget.cpp:811
+#: widgets/structurewidget.cpp:812
 #, kde-format
 msgid "Insert Label"
 msgstr "이름표 삽입"
 
-#: widgets/structurewidget.cpp:812
+#: widgets/structurewidget.cpp:813
 #, kde-format
 msgid "As &reference"
 msgstr "참조로(&R)"
 
-#: widgets/structurewidget.cpp:813
+#: widgets/structurewidget.cpp:814
 #, kde-format
 msgid "As &page reference"
 msgstr "쪽 참조로(&P)"
 
-#: widgets/structurewidget.cpp:814
+#: widgets/structurewidget.cpp:815
 #, kde-format
 msgid "Only the &label"
 msgstr "이름표만(&L)"
 
-#: widgets/structurewidget.cpp:816
+#: widgets/structurewidget.cpp:817
 #, kde-format
 msgid "Copy Label to Clipboard"
 msgstr "이름표를 클립보드에 복사"
 
-#: widgets/structurewidget.cpp:817
+#: widgets/structurewidget.cpp:818
 #, kde-format
 msgid "As reference"
 msgstr "참조로"
 
-#: widgets/structurewidget.cpp:818
+#: widgets/structurewidget.cpp:819
 #, kde-format
 msgid "As page reference"
 msgstr "쪽 참조로"
 
-#: widgets/structurewidget.cpp:819
+#: widgets/structurewidget.cpp:820
 #, kde-format
 msgid "Only the label"
 msgstr "이름표만"
 
-#: widgets/symbolview.cpp:206
+#: widgets/symbolview.cpp:205
 #, kde-format
 msgid "Command: %1"
 msgstr "명령: %1"
 
-#: widgets/symbolview.cpp:208
+#: widgets/symbolview.cpp:207
 #, kde-format
 msgid "<br/>Unicode: %1"
 msgstr "<br/>유니코드: %1"
 
-#: widgets/symbolview.cpp:236
+#: widgets/symbolview.cpp:235
 #, kde-format
 msgid "Required Package: %2"
 msgid_plural "Required Packages: %2"
 msgstr[0] "필요한 패키지: %2"
 
-#: widgets/symbolview.cpp:240
+#: widgets/symbolview.cpp:239
 #, kde-format
 msgid "Comment: %1"
 msgstr "설명: %1"
@@ -12764,32 +12764,32 @@ msgstr "유니코드"
 msgid "Insert Unicode representation of the selected symbol (when available)"
 msgstr "선택한 기호의 유니코드 표현 삽입(사용 가능한 경우)"
 
-#: widgets/toolconfigwidget.cpp:110
+#: widgets/toolconfigwidget.cpp:109
 #, kde-format
 msgid "Run Outside of Kile"
 msgstr "Kile 외부에서 실행"
 
-#: widgets/toolconfigwidget.cpp:111
+#: widgets/toolconfigwidget.cpp:110
 #, kde-format
 msgid "Run in Konsole"
 msgstr "Konsole에서 실행"
 
-#: widgets/toolconfigwidget.cpp:112
+#: widgets/toolconfigwidget.cpp:111
 #, kde-format
 msgid "Use Document Viewer"
 msgstr "문서 뷰어 사용"
 
-#: widgets/toolconfigwidget.cpp:113
+#: widgets/toolconfigwidget.cpp:112
 #, kde-format
 msgid "Run Sequence of Tools"
 msgstr "도구 시퀀스 실행"
 
-#: widgets/toolconfigwidget.cpp:160
+#: widgets/toolconfigwidget.cpp:159
 #, kde-format
 msgid "Use the \"Advanced\" tab to configure this tool."
 msgstr "이 도구를 설정하려면 \"고급\" 탭을 사용하십시오."
 
-#: widgets/toolconfigwidget.cpp:171
+#: widgets/toolconfigwidget.cpp:170
 #, kde-format
 msgid ""
 "Unknown tool type; your configuration data is malformed.\n"
@@ -12798,7 +12798,7 @@ msgstr ""
 "알 수 없는 도구 형식입니다. 설정 파일이 잘못된 것 같습니다.\n"
 "기본 설정을 복원해 보십시오."
 
-#: widgets/toolconfigwidget.cpp:224
+#: widgets/toolconfigwidget.cpp:223
 #, kde-format
 msgid ""
 "All your tool settings will be overwritten with the default settings.\n"
@@ -12807,37 +12807,37 @@ msgstr ""
 "모든 도구 설정을 기본 설정으로 덮어씁니다.\n"
 "계속 진행하시겠습니까?"
 
-#: widgets/toolconfigwidget.cpp:338
+#: widgets/toolconfigwidget.cpp:337
 #, kde-format
 msgid "Choose a configuration for the tool %1"
 msgstr "%1 도구의 설정 선택"
 
-#: widgets/toolconfigwidget.cpp:408
+#: widgets/toolconfigwidget.cpp:407
 #, kde-format
 msgid "New Configuration"
 msgstr "새 설정"
 
-#: widgets/toolconfigwidget.cpp:408
+#: widgets/toolconfigwidget.cpp:407
 #, kde-format
 msgid "Enter new configuration name:"
 msgstr "새 설정 이름 입력:"
 
-#: widgets/toolconfigwidget.cpp:435
+#: widgets/toolconfigwidget.cpp:434
 #, kde-format
 msgid "Are you sure you want to remove the tool %1?"
 msgstr "%1 도구를 삭제하시겠습니까?"
 
-#: widgets/toolconfigwidget.cpp:465
+#: widgets/toolconfigwidget.cpp:464
 #, kde-format
 msgid "Are you sure that you want to remove this configuration?"
 msgstr "이 설정을 삭제하시겠습니까?"
 
-#: widgets/toolconfigwidget.cpp:479
+#: widgets/toolconfigwidget.cpp:478
 #, kde-format
 msgid "You need at least one configuration for each tool."
 msgstr "각각 도구의 설정을 최소 한 개는 추가해야 합니다."
 
-#: widgets/toolconfigwidget.cpp:479
+#: widgets/toolconfigwidget.cpp:478
 #, kde-format
 msgid "Cannot Remove Configuration"
 msgstr "설정을 삭제할 수 없음"

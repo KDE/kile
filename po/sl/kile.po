@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-04 01:36+0000\n"
+"POT-Creation-Date: 2024-03-10 01:58+0000\n"
 "PO-Revision-Date: 2023-11-06 10:04+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -46,12 +46,12 @@ msgstr ""
 msgid "Saving Problem"
 msgstr "Težava pri shranjevanju"
 
-#: configtester.cpp:222
+#: configtester.cpp:223
 #, kde-format
 msgid "Running in Kile"
 msgstr "Teče v Kile"
 
-#: configtester.cpp:246
+#: configtester.cpp:247
 #, kde-format
 msgid ""
 "Tool not found.\n"
@@ -62,75 +62,75 @@ msgstr ""
 "Kile ni pravilno prilagojen. Izberite Nastavitve->Prilagodi Kile-> Orodja in "
 "bodisi odpravite težavo ali ponovno nastavite na privzete nastavitve."
 
-#: configtester.cpp:268 configtester.cpp:465 dialogs/configcheckerdialog.cpp:80
+#: configtester.cpp:269 configtester.cpp:464 dialogs/configcheckerdialog.cpp:80
 #, kde-format
 msgid "Passed"
 msgstr "Uspelo"
 
-#: configtester.cpp:278 configtester.cpp:476
+#: configtester.cpp:279 configtester.cpp:475
 #, kde-format
 msgid "Failed"
 msgstr "Neuspelo"
 
-#: configtester.cpp:297
+#: configtester.cpp:298
 #, kde-format
 msgid "Version"
 msgstr "Različica"
 
-#: configtester.cpp:324
+#: configtester.cpp:325
 #, kde-format
 msgid "Embedding of Okular is supported"
 msgstr "Podprta vdelava programa Okular"
 
-#: configtester.cpp:336
+#: configtester.cpp:337
 #, kde-format
 msgid "Binary"
 msgstr "Binarno"
 
-#: configtester.cpp:363
+#: configtester.cpp:364
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
 msgstr "Ni mogoče najti binarne datoteke tega bistvenega orodja %1"
 
-#: configtester.cpp:367
+#: configtester.cpp:368
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "No executable '%1' found. %2"
 msgstr "Izvajalne datoteke  '%1' ni mogoče najti. %2"
 
-#: configtester.cpp:372
+#: configtester.cpp:373
 #, kde-format
 msgid "Could not find the binary for this essential tool"
 msgstr "Ni mogoče najti binarne datoteke za to bistveno orodje"
 
-#: configtester.cpp:375
+#: configtester.cpp:376
 #, kde-format
 msgid "No executable '%1' found"
 msgstr "Izvajalne datoteke »%1« ni mogoče najti"
 
-#: configtester.cpp:381
+#: configtester.cpp:382
 #, kde-format
 msgctxt "executable => path"
 msgid "Found (%1 => %2)"
 msgstr "Najdeno (%1 => %2)"
 
-#: configtester.cpp:396
+#: configtester.cpp:397
 #, kde-format
 msgid "Simple Test"
 msgstr "Enostaven preizkus"
 
-#: configtester.cpp:473
+#: configtester.cpp:472
 #, kde-format
 msgid "This essential tool does not work; please check your installation."
 msgstr "To osnovno orodje ne deluje; preverite vašo namestitev."
 
-#: configtester.cpp:488
+#: configtester.cpp:487
 #, kde-format
 msgid "Source Specials Switch"
 msgstr "Stikalo za posebne vire"
 
-#: configtester.cpp:520
+#: configtester.cpp:519
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
@@ -139,7 +139,7 @@ msgstr ""
 "Podprto, uporabite 'Moderno' nastavitev za (La)TeX za samodejno omogočeno "
 "iskanje naprej in nazaj."
 
-#: configtester.cpp:527
+#: configtester.cpp:526
 #, kde-format
 msgid ""
 "Not supported, use the srcltx package to enable the inverse and forward "
@@ -147,12 +147,12 @@ msgid ""
 msgstr ""
 "Ni podprto, uporabite paket  srcltx da omogočit iskanje nazaj in naprej."
 
-#: configtester.cpp:538
+#: configtester.cpp:537
 #, kde-format
 msgid "SyncTeX Support"
 msgstr "Podpora za SyncTeX"
 
-#: configtester.cpp:547
+#: configtester.cpp:546
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
@@ -161,19 +161,19 @@ msgstr ""
 "Podprto, uporabite 'Moderno' nastavitev za PDFLaTeX in XeLaTeX za samodejno "
 "omogočeno iskanje naprej in nazaj."
 
-#: configtester.cpp:554
+#: configtester.cpp:553
 #, kde-format
 msgid "Not supported"
 msgstr "Ni podprto"
 
-#: configtester.cpp:796
+#: configtester.cpp:795
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr ""
 "Predogledov PNG ni mogoče uporabiti za matematične skupine v spodnjem "
 "podoknu predogleda"
 
-#: configtester.cpp:806
+#: configtester.cpp:805
 #, kde-format
 msgid ""
 "PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' "
@@ -212,7 +212,7 @@ msgstr "Izbriši datoteke"
 msgid "Do you really want to delete these files?"
 msgstr "Ali resnično želite izbrisati te datoteke?"
 
-#: dialogs/cleandialog.cpp:70 dialogs/listselector.cpp:59
+#: dialogs/cleandialog.cpp:70 dialogs/listselector.cpp:60
 #, kde-format
 msgid "Files"
 msgstr "Datoteke"
@@ -358,14 +358,14 @@ msgstr ""
 msgid "Configure"
 msgstr "Nastavi"
 
-#: dialogs/configurationdialog.cpp:69 main.cpp:107
+#: dialogs/configurationdialog.cpp:69 main.cpp:101
 #, kde-format
 msgid "Kile"
 msgstr "Kile"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLatexConfig)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetEnvironmentConfig)
-#: dialogs/configurationdialog.cpp:70 kile.cpp:693 kile.cpp:1066
+#: dialogs/configurationdialog.cpp:70 kile.cpp:695 kile.cpp:1074
 #: kileinfo.cpp:355 widgets/environmentconfigwidget.ui:20
 #: widgets/latexconfigwidget.ui:14
 #, kde-format
@@ -388,7 +388,7 @@ msgstr "Urejevalnik"
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetGeneralConfig)
 #: dialogs/configurationdialog.cpp:200 dialogs/configurationdialog.cpp:287
 #: widgets/appearanceconfigwidget.ui:20 widgets/generalconfigwidget.ui:26
-#: widgets/maintoolconfigwidget.ui:265
+#: widgets/maintoolconfigwidget.ui:245
 #, kde-format
 msgid "General"
 msgstr "Splošno"
@@ -415,7 +415,7 @@ msgid "Scripting"
 msgstr "Skriptanje"
 
 #. i18n: ectx: Menu (menu_usermenu)
-#: dialogs/configurationdialog.cpp:229 kileui.rc:484 usermenu/usermenu.cpp:69
+#: dialogs/configurationdialog.cpp:229 kileui.rc:484 usermenu/usermenu.cpp:68
 #, kde-format
 msgid "User Menu"
 msgstr "Uporabniški meni"
@@ -436,7 +436,7 @@ msgstr "Dokončevanje kode"
 msgid "Quick Preview"
 msgstr "Hitri predogled"
 
-#: dialogs/configurationdialog.cpp:251 kile.cpp:743
+#: dialogs/configurationdialog.cpp:251 kile.cpp:751
 #, kde-format
 msgid "Preview"
 msgstr "Predogled"
@@ -511,7 +511,7 @@ msgstr "Ime:"
 msgid "Directory:"
 msgstr "Mapa:"
 
-#: dialogs/findfilesdialog.cpp:118 dialogs/texdocumentationdialog.cpp:71
+#: dialogs/findfilesdialog.cpp:118 dialogs/texdocumentationdialog.cpp:70
 #, kde-format
 msgid "Search"
 msgstr "Iskanje"
@@ -546,7 +546,7 @@ msgstr "Ukaz[]"
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
-#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:988
+#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:996
 #, kde-format
 msgid "Environment"
 msgstr "Okolje"
@@ -557,13 +557,13 @@ msgid "Image"
 msgstr "Slika"
 
 #: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:128
-#: kilestdactions.cpp:129 usermenu/usermenu.cpp:907
+#: kilestdactions.cpp:129 usermenu/usermenu.cpp:909
 #, kde-format
 msgid "Label"
 msgstr "Oznaka"
 
 #: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:134
-#: usermenu/usermenu.cpp:912
+#: usermenu/usermenu.cpp:914
 #, kde-format
 msgid "Reference"
 msgstr "Sklic"
@@ -591,7 +591,7 @@ msgid "Scan directories recursively"
 msgstr "Preglej mape rekurzivno"
 
 #: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:584
-#: dialogs/texdocumentationdialog.cpp:80
+#: dialogs/texdocumentationdialog.cpp:79
 #, kde-format
 msgid "&Search"
 msgstr "Poišči"
@@ -1301,7 +1301,7 @@ msgstr "AMS-Math"
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1021 kileui.rc:569
+#: kile.cpp:1029 kileui.rc:569
 #, kde-format
 msgid "Math"
 msgstr "Matematika - Math"
@@ -1311,7 +1311,7 @@ msgstr "Matematika - Math"
 msgid "Lists"
 msgstr "Seznami - Lists"
 
-#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1017 kilestdactions.cpp:80
+#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1025 kilestdactions.cpp:80
 #, kde-format
 msgid "Tabular"
 msgstr "Tabele - Tabular"
@@ -1346,13 +1346,13 @@ msgstr "Citati - Citations"
 msgid "Includes"
 msgstr "Vsebovano - Includes"
 
-#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1068
+#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1076
 #, kde-format
 msgid "LaTeX Environments"
 msgstr "Okolja LaTeX"
 
 #: dialogs/latexcommanddialog.cpp:628 dialogs/latexcommanddialog.cpp:700
-#: kile.cpp:1067
+#: kile.cpp:1075
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "Ukazi LaTeX"
@@ -1508,7 +1508,7 @@ msgstr "Ur&edi..."
 msgid "Show only user-defined environments and commands"
 msgstr "Pokaži samo uporabniško-določena okolja in ukaze"
 
-#: dialogs/listselector.cpp:64
+#: dialogs/listselector.cpp:65
 #, kde-format
 msgid "1 item found."
 msgid_plural "%1 items found."
@@ -1517,54 +1517,54 @@ msgstr[1] "Najdeni %1 postavki."
 msgstr[2] "Najdene %1 postavke."
 msgstr[3] "Najdeno %1 postavk."
 
-#: dialogs/listselector.cpp:150
+#: dialogs/listselector.cpp:151
 #, kde-format
 msgid "File Name"
 msgstr "Ime datoteke"
 
-#: dialogs/listselector.cpp:150 widgets/codecompletionconfigwidget.cpp:96
+#: dialogs/listselector.cpp:151 widgets/codecompletionconfigwidget.cpp:96
 #, kde-format
 msgid "Local File"
 msgstr "Krajevna datoteka"
 
-#: dialogs/listselector.cpp:150
+#: dialogs/listselector.cpp:151
 #, kde-format
 msgid "Add File?"
 msgstr "Želite dodati datoteko?"
 
-#: dialogs/listselector.cpp:170
+#: dialogs/listselector.cpp:171
 #, kde-format
 msgid "Add selected files"
 msgstr "Dodaj izbrane datoteke"
 
-#: dialogs/listselector.cpp:171
+#: dialogs/listselector.cpp:172
 #, kde-format
 msgid "Add all the selected files"
 msgstr "Dodaj vse izbrane datoteke"
 
-#: dialogs/listselector.cpp:172
+#: dialogs/listselector.cpp:173
 #, kde-format
 msgid "Install custom files"
 msgstr "Namesti datoteke po meri"
 
-#: dialogs/listselector.cpp:173
+#: dialogs/listselector.cpp:174
 #, kde-format
 msgid "Install your own completion files"
 msgstr "Namesti lastno datoteko za dokončevanje"
 
-#: dialogs/listselector.cpp:174
+#: dialogs/listselector.cpp:175
 #, kde-format
 msgid "Manage custom files"
 msgstr "Upravljaj datoteke po meri"
 
-#: dialogs/listselector.cpp:175
+#: dialogs/listselector.cpp:176
 #, kde-format
 msgid "Manage the local completion files in the file manager"
 msgstr "Upravljaj lokalne datoteke za dokončanje v upravitelju datotek"
 
-#: dialogs/listselector.cpp:209 dialogs/listselector.cpp:263
-#: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/postscriptdialog.cpp:219
+#: dialogs/listselector.cpp:210 dialogs/listselector.cpp:264
+#: dialogs/listselector.cpp:269 dialogs/pdf-wizard/pdfdialog.cpp:283
+#: dialogs/pdf-wizard/pdfdialog.cpp:939 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:196
 #: widgets/codecompletionconfigwidget.cpp:353
 #, kde-format
@@ -1572,8 +1572,8 @@ msgid "yes"
 msgstr "da"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbEncryption)
-#: dialogs/listselector.cpp:213 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:945
+#: dialogs/listselector.cpp:214 dialogs/pdf-wizard/pdfdialog.cpp:283
+#: dialogs/pdf-wizard/pdfdialog.cpp:939
 #: dialogs/pdf-wizard/pdfdialog_base.ui:518 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:200
 #: widgets/codecompletionconfigwidget.cpp:356
@@ -1581,17 +1581,17 @@ msgstr "da"
 msgid "no"
 msgstr "ne"
 
-#: dialogs/listselector.cpp:229
+#: dialogs/listselector.cpp:230
 #, kde-format
 msgid "Select Completion Files to Install Locally"
 msgstr "Izberite datoteke za dokončanje, ki jih želite lokalno namestiti"
 
-#: dialogs/listselector.cpp:229
+#: dialogs/listselector.cpp:230
 #, kde-format
 msgid "Completion files (*.cwl)"
 msgstr "Datoteke za dokončanje (*.cwl)"
 
-#: dialogs/listselector.cpp:240
+#: dialogs/listselector.cpp:241
 #, kde-format
 msgid ""
 "A local completion file with the name \"%1\" already exists.\n"
@@ -1600,12 +1600,12 @@ msgstr ""
 "Lokalna datoteka za zaključevanje z imenom \"%1\" že obstaja.\n"
 "Ali želite zamenjati to datoteko?"
 
-#: dialogs/listselector.cpp:241
+#: dialogs/listselector.cpp:242
 #, kde-format
 msgid "Replace Local File?"
 msgstr "Želite zamenjati lokalno datoteko?"
 
-#: dialogs/listselector.cpp:244
+#: dialogs/listselector.cpp:245
 #, kde-format
 msgid ""
 "An error occurred while removing the file \"%1\".\n"
@@ -1614,12 +1614,12 @@ msgstr ""
 "Pri odstranjevanju datoteke \"%1\" je prišlo do napake.\n"
 "Preverite dovoljenja za datoteke."
 
-#: dialogs/listselector.cpp:245
+#: dialogs/listselector.cpp:246
 #, kde-format
 msgid "Remove Error"
 msgstr "Napaka odstranjevanja"
 
-#: dialogs/listselector.cpp:256
+#: dialogs/listselector.cpp:257
 #, kde-format
 msgid ""
 "Cannot copy the file to the local directory!\n"
@@ -1628,17 +1628,17 @@ msgstr ""
 "Datoteke ni mogoče kopirati v lokalni imenik!\n"
 "Preverite dovoljenja za dostop do imenika \"%1\"."
 
-#: dialogs/listselector.cpp:257
+#: dialogs/listselector.cpp:258
 #, kde-format
 msgid "Copy Error"
 msgstr "Napaka kopiranja"
 
-#: dialogs/listselector.cpp:280
+#: dialogs/listselector.cpp:281
 #, kde-format
 msgid "The custom files have been installed and preselected for adding."
 msgstr "Datoteke po meri so nameščene in vnaprej izbrane za dodajanje."
 
-#: dialogs/listselector.cpp:281
+#: dialogs/listselector.cpp:282
 #, kde-format
 msgid "Installation Successful"
 msgstr "Namestitev je uspela"
@@ -1911,32 +1911,32 @@ msgstr "Dokument BibTeX"
 msgid "Kile Script"
 msgstr "Skript Kile"
 
-#: dialogs/newtoolwizard.cpp:23
+#: dialogs/newtoolwizard.cpp:24
 #, kde-format
 msgid "Tool Name"
 msgstr "Ime orodja"
 
-#: dialogs/newtoolwizard.cpp:27
+#: dialogs/newtoolwizard.cpp:28
 #, kde-format
 msgid "Class"
 msgstr "Razred"
 
-#: dialogs/newtoolwizard.cpp:47
+#: dialogs/newtoolwizard.cpp:48
 #, kde-format
 msgid "<Custom>"
 msgstr "<po meri>"
 
-#: dialogs/newtoolwizard.cpp:66
+#: dialogs/newtoolwizard.cpp:67
 #, kde-format
 msgid "Error: A tool by this name exists already."
 msgstr "Napaka: orodje s tem imenom že obstaja."
 
-#: dialogs/newtoolwizard.cpp:70
+#: dialogs/newtoolwizard.cpp:71
 #, kde-format
 msgid "Error: The name may not contain a slash '/'."
 msgstr "Napaka: ime ne sme vsebovati poševnice »/«."
 
-#: dialogs/newtoolwizard.cpp:74
+#: dialogs/newtoolwizard.cpp:75
 #, kde-format
 msgid "Error: The name may not contain a (, ), [, or ]."
 msgstr "Napaka: ime ne sme vsebovati znakov (, ), [ in ]."
@@ -1972,8 +1972,8 @@ msgstr "Vnesite kratko opisno ime za orodje:"
 msgid "PDF Wizard"
 msgstr "Čarovnik za PDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:727
-#: dialogs/pdf-wizard/pdfdialog.cpp:852
+#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:721
+#: dialogs/pdf-wizard/pdfdialog.cpp:846
 #, kde-format
 msgid "Re&arrange"
 msgstr "Prer&azporedi"
@@ -2073,23 +2073,23 @@ msgstr "pdftk: izberite parameter"
 msgid "pdfpages: Choose Parameter"
 msgstr "pdfpages: izberite parameter"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:404
+#: dialogs/pdf-wizard/pdfdialog.cpp:398
 #, kde-format
 msgctxt "%1 is the number of pages"
 msgid "%1 (encrypted)"
 msgstr "%1 (šifrirano)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:412
+#: dialogs/pdf-wizard/pdfdialog.cpp:406
 #, kde-format
 msgid "Error: unknown number of pages"
 msgstr "Napaka: neznano število strani"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:425
+#: dialogs/pdf-wizard/pdfdialog.cpp:419
 #, kde-format
 msgid "PDFTK-Password"
 msgstr "PDFTK-geslo"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:426
+#: dialogs/pdf-wizard/pdfdialog.cpp:420
 #, kde-format
 msgid ""
 "This PDF file is encrypted and 'pdftk' cannot open it.\n"
@@ -2100,55 +2100,55 @@ msgstr ""
 "Vnesite geslo za to datoteko PDF\n"
 " ali pustite prazno, da poskusite z drugo metodo: "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:572
+#: dialogs/pdf-wizard/pdfdialog.cpp:566
 #, kde-format
 msgid "A password is necessary to set or change the current settings."
 msgstr "Geslo je potrebno za nastavitev ali spremembo trenutnih nastavitev."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:576
+#: dialogs/pdf-wizard/pdfdialog.cpp:570
 #, kde-format
 msgid "The permissions of this document can be changed with <i>pdftk</i>."
 msgstr "Dovoljenja tega dokumenta lahko spremenite s <i>pdftk</i>."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:577
+#: dialogs/pdf-wizard/pdfdialog.cpp:571
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no permission can be changed."
 msgstr ""
 "<i>pdftk</i> ni na voljo, zato nobenega dovoljenja ni mogoče spremeniti."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:581
+#: dialogs/pdf-wizard/pdfdialog.cpp:575
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no property can be changed."
 msgstr "<i>pdftk</i> ni na voljo, zato nobene lastnosti ni mogoče spremeniti."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:584
+#: dialogs/pdf-wizard/pdfdialog.cpp:578
 #, kde-format
 msgid "The properties of this document can be changed with <i>pdftk</i>."
 msgstr "Lastnosti tega dokumenta lahko spremenite s <i>pdftk</i>."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:592
+#: dialogs/pdf-wizard/pdfdialog.cpp:586
 #, kde-format
 msgid "This input file is encrypted, so only <i>pdftk</i> works."
 msgstr "Ta vhodna datoteka je šifrirana, tako da deluje le <i>pdftk</i>."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:593
+#: dialogs/pdf-wizard/pdfdialog.cpp:587
 #, kde-format
 msgid "A password is necessary to rearrange pages."
 msgstr "Za prerazporeditev strani je potrebno geslo."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:594
+#: dialogs/pdf-wizard/pdfdialog.cpp:588
 #, kde-format
 msgid "This input file is encrypted, but <i>pdftk</i> is not installed."
 msgstr "Ta vhod je šifriran, a <i>pdftk</i> ni nameščen."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:598
+#: dialogs/pdf-wizard/pdfdialog.cpp:592
 #, kde-format
 msgid ""
 "This wizard will use <i>pdftk</i> and the LaTeX package <i>pdfpages</i>."
 msgstr ""
 "Ta čarovnik bo uporabljal <i>pdftk</i> in LaTeXov paket <i>pdfpages</i>."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:599
+#: dialogs/pdf-wizard/pdfdialog.cpp:593
 #, kde-format
 msgid ""
 "This wizard will only use <i>pdftk</i> (<i>pdfpages.sty</i> is not "
@@ -2156,7 +2156,7 @@ msgid ""
 msgstr ""
 "Ta čarovnik bo uporabljal samo <i>pdftk</i> (<i>pdfpages.sty</i> ninameščen)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:602
+#: dialogs/pdf-wizard/pdfdialog.cpp:596
 #, kde-format
 msgid ""
 "This wizard will only use the LaTeX package <i>pdfpages</i> (<i>pdftk</i> "
@@ -2165,14 +2165,14 @@ msgstr ""
 "Ta čarovnik bo uporabljal samo paket LaTeX <i>pdfpages</i> (<i>pdftk</i>ni "
 "bilo mogoče najti)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:603
+#: dialogs/pdf-wizard/pdfdialog.cpp:597
 #, kde-format
 msgid "This wizard can't work, because no tool was found (see help section)."
 msgstr ""
 "Ta čarovnik ne more delovati, ker ni bilo mogoče najti nobenega orodja "
 "(glejte razdelek za pomoč)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:608
+#: dialogs/pdf-wizard/pdfdialog.cpp:602
 #, kde-format
 msgid ""
 "<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</"
@@ -2180,24 +2180,24 @@ msgid ""
 msgstr ""
 "<i>(Prevedeno brez knjižnice pdf libpoppler. Vsa opravila niso na voljo.)</i>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:727
+#: dialogs/pdf-wizard/pdfdialog.cpp:721
 #, kde-format
 msgid "&Update"
 msgstr "Posodobi"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: dialogs/pdf-wizard/pdfdialog.cpp:790 dialogs/pdf-wizard/pdfdialog_base.ui:55
+#: dialogs/pdf-wizard/pdfdialog.cpp:784 dialogs/pdf-wizard/pdfdialog_base.ui:55
 #, kde-format
 msgid "Pages:"
 msgstr "Strani:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:791
+#: dialogs/pdf-wizard/pdfdialog.cpp:785
 #, kde-format
 msgid "Comma separated page list: 1,4-7,9"
 msgstr "Seznam strani ločen z vejico; 1,4-7,9"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameter)
-#: dialogs/pdf-wizard/pdfdialog.cpp:796 dialogs/pdf-wizard/pdfdialog.cpp:801
+#: dialogs/pdf-wizard/pdfdialog.cpp:790 dialogs/pdf-wizard/pdfdialog.cpp:795
 #: dialogs/pdf-wizard/pdfdialog_base.ui:274 dialogs/postscriptdialog.cpp:503
 #: dialogs/postscriptdialog_base.ui:147
 #: dialogs/tabular/newtabulardialog.cpp:132
@@ -2206,17 +2206,17 @@ msgstr "Seznam strani ločen z vejico; 1,4-7,9"
 msgid "Parameter:"
 msgstr "Parameter:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:797
+#: dialogs/pdf-wizard/pdfdialog.cpp:791
 #, kde-format
 msgid "All options for 'pdftk'"
 msgstr "Vse možnosti za »pdftk«"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:802
+#: dialogs/pdf-wizard/pdfdialog.cpp:796
 #, kde-format
 msgid "All options for 'pdfpages'"
 msgstr "Vse možnosti za »pdfpages«"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:824
+#: dialogs/pdf-wizard/pdfdialog.cpp:818
 #, kde-format
 msgid ""
 "Applies a PDF watermark to the background of a single input PDF. Pdftk uses "
@@ -2228,7 +2228,7 @@ msgstr ""
 "ozadje samo prve strani iz PDF-ja in ga uporabi na vsaki strani vhodne PDF. "
 "Ta stran se po potrebi prilagodi in zasuka, da ustreza vhodu strani."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:829
+#: dialogs/pdf-wizard/pdfdialog.cpp:823
 #, kde-format
 msgid ""
 "Applies a foreground stamp on top of the input PDF document's pages. Pdftk "
@@ -2241,12 +2241,12 @@ msgstr ""
 "stran se po potrebi prilagodi in zasuka, da ustreza vhodustrani. To najbolje "
 "deluje, če ima stran PDF z žigom prozorno ozadje."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:849
+#: dialogs/pdf-wizard/pdfdialog.cpp:843
 #, kde-format
 msgid "&Apply"
 msgstr "Uvelj&avi"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:867
+#: dialogs/pdf-wizard/pdfdialog.cpp:861
 #, kde-format
 msgid ""
 "Failed to create a temporary directory.\n"
@@ -2257,7 +2257,7 @@ msgstr ""
 "\n"
 "Tega čarovnika ni mogoče uporabiti."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:895
+#: dialogs/pdf-wizard/pdfdialog.cpp:889
 #, kde-format
 msgid ""
 "<center>PDF-Wizard</center><br>This wizard uses 'pdftk' and the LaTeX "
@@ -2288,7 +2288,7 @@ msgstr ""
 "šifrirana in ključ je znan. To bi morali videti bolj kot vljudno, a odločno "
 "prošnja za spoštovanje avtorjevih želja.</p>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:912
+#: dialogs/pdf-wizard/pdfdialog.cpp:906
 #, kde-format
 msgid ""
 "<p><i>Information: </i>This version of Kile was compiled without libpoppler "
@@ -2299,110 +2299,110 @@ msgstr ""
 "libpoppler. Nastavitev, spreminjanje in odstranjevanje lastnosti in "
 "dovoljenj ni mogoče.</p>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:916 dialogs/pdf-wizard/pdfdialog.cpp:1704
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 kile.cpp:1023
+#: dialogs/pdf-wizard/pdfdialog.cpp:910 dialogs/pdf-wizard/pdfdialog.cpp:1698
+#: dialogs/pdf-wizard/pdfdialog.cpp:1768 kile.cpp:1031
 #, kde-format
 msgid "PDF Tools"
 msgstr "Orodja PDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:931
+#: dialogs/pdf-wizard/pdfdialog.cpp:925
 #, kde-format
 msgid "LaTeX with 'pdfpages' package"
 msgstr "LaTeX s paketom »pdfpages«"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:931
+#: dialogs/pdf-wizard/pdfdialog.cpp:925
 #, kde-format
 msgid "pdftk"
 msgstr "pdftk"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:932
+#: dialogs/pdf-wizard/pdfdialog.cpp:926
 #, kde-format
 msgid "Rearranging PDF file: %1"
 msgstr "Preuredi datoteko PDF: %1"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:940 dialogs/pdf-wizard/pdfdialog.cpp:1052
+#: dialogs/pdf-wizard/pdfdialog.cpp:934 dialogs/pdf-wizard/pdfdialog.cpp:1046
 #: dialogs/postscriptdialog.cpp:216
 #, kde-format
 msgid "***** tool:        "
 msgstr "***** orodje:       "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:941 dialogs/pdf-wizard/pdfdialog.cpp:1053
+#: dialogs/pdf-wizard/pdfdialog.cpp:935 dialogs/pdf-wizard/pdfdialog.cpp:1047
 #: dialogs/postscriptdialog.cpp:217
 #, kde-format
 msgid "***** input file:  "
 msgstr "***** vhodna datoteka:  "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:942 dialogs/postscriptdialog.cpp:218
+#: dialogs/pdf-wizard/pdfdialog.cpp:936 dialogs/postscriptdialog.cpp:218
 #, kde-format
 msgid "***** output file: "
 msgstr "***** izhodna datoteka: "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:943 dialogs/pdf-wizard/pdfdialog.cpp:1054
+#: dialogs/pdf-wizard/pdfdialog.cpp:937 dialogs/pdf-wizard/pdfdialog.cpp:1048
 #, kde-format
 msgid "***** param:       "
 msgstr "***** param:       "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:944
+#: dialogs/pdf-wizard/pdfdialog.cpp:938
 #, kde-format
 msgid "***** command:     "
 msgstr "***** ukaz:     "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/postscriptdialog.cpp:219
+#: dialogs/pdf-wizard/pdfdialog.cpp:939 dialogs/postscriptdialog.cpp:219
 #, kde-format
 msgid "***** viewer:      "
 msgstr "***** prikazovalnik: "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1107
+#: dialogs/pdf-wizard/pdfdialog.cpp:1101
 #, kde-format
 msgid "An error occurred while executing the task."
 msgstr "Med izvajanjem naloge je prišlo do napake."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1163
+#: dialogs/pdf-wizard/pdfdialog.cpp:1157
 #, kde-format
 msgid "Finished with an error (wrong password)"
 msgstr "Zaključeno z napako (napačno geslo)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1166
+#: dialogs/pdf-wizard/pdfdialog.cpp:1160
 #, kde-format
 msgid "Finished with an error"
 msgstr "Zaključeno z napako"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1180
+#: dialogs/pdf-wizard/pdfdialog.cpp:1174
 #, kde-format
 msgid "Could not create the ViewPDF tool"
 msgstr "Orodja ViewPDF ni bilo mogoče ustvariti"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1180
+#: dialogs/pdf-wizard/pdfdialog.cpp:1174
 #, kde-format
 msgid "ViewPDF"
 msgstr "ViewPDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1620
+#: dialogs/pdf-wizard/pdfdialog.cpp:1614
 #, kde-format
 msgid "The utility needs some parameters in this mode."
 msgstr "Pomožni program v tem načinu potrebuje nekaj parametrov."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1638
+#: dialogs/pdf-wizard/pdfdialog.cpp:1632
 #, kde-format
 msgid "Illegal page list 'from-to': %1 is bigger than %2."
 msgstr "Nepravilen seznam strani 'od-do': %1 je večji kot %2."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1642 dialogs/pdf-wizard/pdfdialog.cpp:1649
+#: dialogs/pdf-wizard/pdfdialog.cpp:1636 dialogs/pdf-wizard/pdfdialog.cpp:1643
 #, kde-format
 msgid "Illegal pagenumber: %1."
 msgstr "Neveljavna številka strani: %1."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1662
+#: dialogs/pdf-wizard/pdfdialog.cpp:1656
 #, kde-format
 msgid "You need to define a PDF file as foreground stamp."
 msgstr "Datoteko PDF morate določiti kot žig v ospredju."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1663
+#: dialogs/pdf-wizard/pdfdialog.cpp:1657
 #, kde-format
 msgid "You need to define a PDF file as background watermark."
 msgstr "Datoteko PDF morate definirati kot vodni žig v ozadju."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1670
+#: dialogs/pdf-wizard/pdfdialog.cpp:1664
 #, kde-format
 msgid ""
 "Unknown file format: only '.pdf' is accepted as image file in this mode."
@@ -2410,22 +2410,22 @@ msgstr ""
 "Neznana oblika datoteke: v tem načinu je kot slikovna datoteka sprejeta samo "
 "'.pdf'."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1675
+#: dialogs/pdf-wizard/pdfdialog.cpp:1669
 #, kde-format
 msgid "The given file doesn't exist."
 msgstr "Podana datoteka ne obstaja."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1688
+#: dialogs/pdf-wizard/pdfdialog.cpp:1682
 #, kde-format
 msgid "You need to define an output file."
 msgstr "Določiti morate izhodno datoteko."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1695
+#: dialogs/pdf-wizard/pdfdialog.cpp:1689
 #, kde-format
 msgid "Unknown file format: only '.pdf' is accepted as output file."
 msgstr "Neznana oblika datoteke: kot izhodna datoteka je sprejeta samo '.pdf'."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1701 dialogs/postscriptdialog.cpp:477
+#: dialogs/pdf-wizard/pdfdialog.cpp:1695 dialogs/postscriptdialog.cpp:477
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
@@ -2433,39 +2433,39 @@ msgstr ""
 "Datoteka z imenom \"%1\" že obstaja. Ali ste prepričani, da jo želite "
 "prepisati?"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1736 dialogs/postscriptdialog.cpp:435
+#: dialogs/pdf-wizard/pdfdialog.cpp:1730 dialogs/postscriptdialog.cpp:435
 #, kde-format
 msgid "No input file is given."
 msgstr "Vhodna datoteka ni podana."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1743
+#: dialogs/pdf-wizard/pdfdialog.cpp:1737
 #, kde-format
 msgid "Unknown file format: only '.pdf' are accepted for input files."
 msgstr "Neznana oblika datoteke: za vhodne datoteke je dovoljena samo '.pdf'."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1748 dialogs/postscriptdialog.cpp:447
+#: dialogs/pdf-wizard/pdfdialog.cpp:1742 dialogs/postscriptdialog.cpp:447
 #, kde-format
 msgid "This input file does not exist."
 msgstr "Vhodna datoteka ne obstaja."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1760
+#: dialogs/pdf-wizard/pdfdialog.cpp:1754
 #, kde-format
 msgid "No password is given."
 msgstr "Geslo ni podano."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1765
+#: dialogs/pdf-wizard/pdfdialog.cpp:1759
 #, kde-format
 msgid "The password should be at least 6 characters long."
 msgstr "Geslo mora biti dolgo vsaj 6 znakov."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:517
-#: dialogs/texdocumentationdialog.cpp:437
+#: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
+#: dialogs/texdocumentationdialog.cpp:436
 #, kde-format
 msgid "<center>"
 msgstr "<center>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:517
-#: dialogs/texdocumentationdialog.cpp:438
+#: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
+#: dialogs/texdocumentationdialog.cpp:437
 #, kde-format
 msgid "</center>"
 msgstr "</center>"
@@ -2885,7 +2885,7 @@ msgstr "Neznana oblika datoteke: kot izhodna datoteka je sprejeta samo '.ps'."
 msgid "Copies:"
 msgstr "Kopije:"
 
-#: dialogs/postscriptdialog.cpp:517 kile.cpp:1022
+#: dialogs/postscriptdialog.cpp:517 kile.cpp:1030
 #, kde-format
 msgid "Postscript Tools"
 msgstr "Orodja Postscript"
@@ -3071,7 +3071,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "Projekt še nima imena"
 
-#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1048
+#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1047
 #, kde-format
 msgid "Untitled"
 msgstr "Neimenovano"
@@ -4694,18 +4694,18 @@ msgstr "Ni vsebine, ki bi jo lahko vstavili v tabelo, saj je odložišče prazno
 msgid "Empty Clipboard"
 msgstr "Izprazni odložišče"
 
-#: dialogs/texdocumentationdialog.cpp:59 kile.cpp:1070
+#: dialogs/texdocumentationdialog.cpp:58 kile.cpp:1078
 #, kde-format
 msgid "Documentation Browser"
 msgstr "Brskalnik po dokumentaciji"
 
-#: dialogs/texdocumentationdialog.cpp:68 dialogs/texdocumentationdialog.cpp:387
+#: dialogs/texdocumentationdialog.cpp:67 dialogs/texdocumentationdialog.cpp:386
 #: kilestdactions.cpp:43
 #, kde-format
 msgid "Table of Contents"
 msgstr "Kazalo vsebine"
 
-#: dialogs/texdocumentationdialog.cpp:85
+#: dialogs/texdocumentationdialog.cpp:84
 #, kde-format
 msgid ""
 "<p>A list of the documentation provided by the installed TeX distribution.</"
@@ -4718,7 +4718,7 @@ msgstr ""
 "pregledovalnik, ki prikaže ustrezno datoteko.</p><p>Elementi v sivi barvi "
 "niso nameščeni.</p>"
 
-#: dialogs/texdocumentationdialog.cpp:88
+#: dialogs/texdocumentationdialog.cpp:87
 #, kde-format
 msgid ""
 "You can choose a keyword to show only document files that are related to "
@@ -4727,52 +4727,52 @@ msgstr ""
 "Izberete lahko ključno besedo, ki bo prikazala samo datoteke dokumentov, ki "
 "so povezani to ključno besedo."
 
-#: dialogs/texdocumentationdialog.cpp:89
+#: dialogs/texdocumentationdialog.cpp:88
 #, kde-format
 msgid "Start the search for the chosen keyword."
 msgstr "Začnite iskati z izbrano ključno besedo."
 
-#: dialogs/texdocumentationdialog.cpp:91
+#: dialogs/texdocumentationdialog.cpp:90
 #, kde-format
 msgid "Reset list to all available documentation files."
 msgstr "Ponovno nastavi seznam na vse razpoložljive datoteke z dokumentacijo."
 
-#: dialogs/texdocumentationdialog.cpp:92
+#: dialogs/texdocumentationdialog.cpp:91
 #, kde-format
 msgid "Cancel &Search"
 msgstr "Prekliči i&skanje"
 
-#: dialogs/texdocumentationdialog.cpp:139
+#: dialogs/texdocumentationdialog.cpp:138
 #, kde-format
 msgid "Could not read 'texdoctk.dat'."
 msgstr "Datoteke 'texdoctk.dat' ni mogoče prebrati."
 
-#: dialogs/texdocumentationdialog.cpp:302
+#: dialogs/texdocumentationdialog.cpp:301
 #, kde-format
 msgid "No KDE service found for this file."
 msgstr "Za to datoteko storitve KDE ni mogoče najti."
 
-#: dialogs/texdocumentationdialog.cpp:334
+#: dialogs/texdocumentationdialog.cpp:333
 #, kde-format
 msgid "Could not find the documentation file '%1'"
 msgstr "Ni bilo mogoče najti datoteke z dokumentacijo: %1"
 
-#: dialogs/texdocumentationdialog.cpp:350
+#: dialogs/texdocumentationdialog.cpp:349
 #, kde-format
 msgid "No keyword given."
 msgstr "Ni dane tipkovnice."
 
-#: dialogs/texdocumentationdialog.cpp:376
+#: dialogs/texdocumentationdialog.cpp:375
 #, kde-format
 msgid "Search results for keyword '%1'"
 msgstr "Rezultati iskanja za ključno besedo '%1'"
 
-#: dialogs/texdocumentationdialog.cpp:379
+#: dialogs/texdocumentationdialog.cpp:378
 #, kde-format
 msgid "No documents found for keyword '%1'."
 msgstr "Za ključno besedo '%1' ni bilo mogoče najti nobenega dokumenta."
 
-#: dialogs/texdocumentationdialog.cpp:437
+#: dialogs/texdocumentationdialog.cpp:436
 #, kde-format
 msgid ""
 "Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'."
@@ -4781,12 +4781,12 @@ msgstr ""
 "Ni bilo mogoče določiti poti iskanja TexLive/teTeX ali datoteke 'texdoctk."
 "dat'.<br/> Kile na žalost ne more pokazati nobenih koristnih informacij."
 
-#: dialogs/texdocumentationdialog.cpp:438
+#: dialogs/texdocumentationdialog.cpp:437
 #, kde-format
 msgid "TexDoc Dialog"
 msgstr "Dialog TexDoc"
 
-#: dialogs/texdocumentationdialog.cpp:450
+#: dialogs/texdocumentationdialog.cpp:449
 #, kde-format
 msgid ""
 "Could not determine the installation path of your TeX distribution or find "
@@ -4803,7 +4803,7 @@ msgid "Configure User Help"
 msgstr "Nastavite uporabniško pomoč"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbUserHelp)
-#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1082
+#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1090
 #: widgets/helpconfigwidget.ui:86
 #, kde-format
 msgid "User Help"
@@ -4815,7 +4815,7 @@ msgid "&Menu item:"
 msgstr "&Menijski ukaz:"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbRemove)
-#: dialogs/userhelpdialog.cpp:76 widgets/quicktoolconfigwidget.ui:104
+#: dialogs/userhelpdialog.cpp:76 widgets/quicktoolconfigwidget.ui:116
 #, kde-format
 msgid "&Remove"
 msgstr "Odst&rani"
@@ -4888,20 +4888,20 @@ msgstr ""
 "Spletišča (HTML) (*.html *.htm);;Dokumenti (PDF, PS, DVI, EPUB) (*.ps *.pdf "
 "*.dvi *.epub);;Vse datoteke (*)"
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2150
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2148
 #, kde-format
 msgid "Select File"
 msgstr "Izberite datoteko"
 
 #: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:299
-#: dialogs/usermenu/usermenutree.cpp:245 usermenu/usermenu.cpp:338
+#: dialogs/usermenu/usermenutree.cpp:234 usermenu/usermenu.cpp:339
 #: widgets/usermenuconfigwidget.cpp:74
 #, kde-format
 msgid "File '%1' does not exist."
 msgstr "Datoteka '%1' ne obstaja."
 
 # Zakaj je tu okrajšava?
-#: dialogs/usermenu/usermenudialog.cpp:42 usermenu/usermenu.cpp:108
+#: dialogs/usermenu/usermenudialog.cpp:42 usermenu/usermenu.cpp:107
 #, kde-format
 msgid "Edit User Menu"
 msgstr "Uredi uporabniški meni"
@@ -5048,13 +5048,13 @@ msgid "Discard tree"
 msgstr "Zavrzi drevo"
 
 #: dialogs/usermenu/usermenudialog.cpp:288
-#: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:330
+#: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:331
 #: widgets/usermenuconfigwidget.cpp:62
 #, kde-format
 msgid "User Menu Files (*.xml)"
 msgstr "Datoteke uporabniškega menija (*.xml)"
 
-#: dialogs/usermenu/usermenudialog.cpp:290 usermenu/usermenu.cpp:332
+#: dialogs/usermenu/usermenudialog.cpp:290 usermenu/usermenu.cpp:333
 #: widgets/usermenuconfigwidget.cpp:64
 #, kde-format
 msgid "Select Menu File"
@@ -5412,159 +5412,159 @@ msgstr "???"
 msgid "  >"
 msgstr "  >"
 
-#: dialogs/usermenu/usermenutree.cpp:178
+#: dialogs/usermenu/usermenutree.cpp:167
 #, kde-format
 msgid "Insert above"
 msgstr "Vstavi nad"
 
-#: dialogs/usermenu/usermenutree.cpp:179
+#: dialogs/usermenu/usermenutree.cpp:168
 #, kde-format
 msgid "Insert below"
 msgstr "Vstavi pod"
 
-#: dialogs/usermenu/usermenutree.cpp:184
+#: dialogs/usermenu/usermenutree.cpp:173
 #, kde-format
 msgid "Insert a separator above"
 msgstr "Vstavi črto nad"
 
-#: dialogs/usermenu/usermenutree.cpp:185
+#: dialogs/usermenu/usermenutree.cpp:174
 #, kde-format
 msgid "Insert a separator below"
 msgstr "Vstavi črto pod"
 
-#: dialogs/usermenu/usermenutree.cpp:190
+#: dialogs/usermenu/usermenutree.cpp:179
 #, kde-format
 msgid "Insert a submenu above"
 msgstr "Vstavi podmeni nad"
 
-#: dialogs/usermenu/usermenutree.cpp:191
+#: dialogs/usermenu/usermenutree.cpp:180
 #, kde-format
 msgid "Insert a submenu below"
 msgstr "Vstavi podmeni pod"
 
-#: dialogs/usermenu/usermenutree.cpp:196
+#: dialogs/usermenu/usermenutree.cpp:185
 #, kde-format
 msgid "Insert into this submenu"
 msgstr "Vstavi v ta podmeni"
 
-#: dialogs/usermenu/usermenutree.cpp:197
+#: dialogs/usermenu/usermenutree.cpp:186
 #, kde-format
 msgid "Insert a separator into this submenu"
 msgstr "Vstavi črto v ta podmeni"
 
-#: dialogs/usermenu/usermenutree.cpp:198
+#: dialogs/usermenu/usermenutree.cpp:187
 #, kde-format
 msgid "Insert a submenu into this submenu"
 msgstr "Vstavi podmeni v ta podmeni"
 
-#: dialogs/usermenu/usermenutree.cpp:203
+#: dialogs/usermenu/usermenutree.cpp:192
 #, kde-format
 msgid "Delete this item"
 msgstr "Izbriši ta element"
 
-#: dialogs/usermenu/usermenutree.cpp:205
+#: dialogs/usermenu/usermenutree.cpp:194
 #, kde-format
 msgid "Delete the complete tree"
 msgstr "Izbriši celo drevo"
 
-#: dialogs/usermenu/usermenutree.cpp:211
+#: dialogs/usermenu/usermenutree.cpp:200
 #, kde-format
 msgid "Collapse submenu"
 msgstr "Zloži podmeni"
 
-#: dialogs/usermenu/usermenutree.cpp:214
+#: dialogs/usermenu/usermenutree.cpp:203
 #, kde-format
 msgid "Expand submenu"
 msgstr "Razširi podmeni"
 
-#: dialogs/usermenu/usermenutree.cpp:217
+#: dialogs/usermenu/usermenutree.cpp:206
 #, kde-format
 msgid "Collapse complete tree"
 msgstr "Zloži celo drevo"
 
-#: dialogs/usermenu/usermenutree.cpp:218
+#: dialogs/usermenu/usermenutree.cpp:207
 #, kde-format
 msgid "Expand complete tree"
 msgstr "Razširi celo drevo"
 
-#: dialogs/usermenu/usermenutree.cpp:225
+#: dialogs/usermenu/usermenutree.cpp:214
 #, kde-format
 msgid "Info"
 msgstr "Podatki"
 
-#: dialogs/usermenu/usermenutree.cpp:449
+#: dialogs/usermenu/usermenutree.cpp:438
 #, kde-format
 msgid "File '%1' could not be opened to save the usermenu file."
 msgstr ""
 "Datoteke '%1' ni bilo mogoče odpreti, da bi shranili datoteko uporabniškega "
 "menija."
 
-#: dialogs/usermenu/usermenutree.cpp:693
+#: dialogs/usermenu/usermenutree.cpp:682
 #, kde-format
 msgid "Please enter a label for this menu item:"
 msgstr "Vnesite oznako za ta element menija:"
 
-#: dialogs/usermenu/usermenutree.cpp:710
+#: dialogs/usermenu/usermenutree.cpp:699
 #, kde-format
 msgid "Please enter a label for this submenu:"
 msgstr "Vnesite oznako za ta pod-meni:"
 
-#: dialogs/usermenu/usermenutree.cpp:768
+#: dialogs/usermenu/usermenutree.cpp:757
 #, kde-format
 msgid "Please enter a label for this entry:"
 msgstr "Vnesite oznako za ta vnos:"
 
-#: dialogs/usermenu/usermenutree.cpp:924
+#: dialogs/usermenu/usermenutree.cpp:913
 #, kde-format
 msgid "Do you really want to clear the complete menutree?"
 msgstr "Ali res želite počistiti celoten meni?"
 
-#: dialogs/usermenu/usermenutree.cpp:925
+#: dialogs/usermenu/usermenutree.cpp:914
 #, kde-format
 msgid "Clear menutree"
 msgstr "Počisti menijsko drevo"
 
-#: dialogs/usermenu/usermenutree.cpp:942
+#: dialogs/usermenu/usermenutree.cpp:931
 #, kde-format
 msgid "This menuitem has no title."
 msgstr "Ta element menija nima naslova."
 
-#: dialogs/usermenu/usermenutree.cpp:946
+#: dialogs/usermenu/usermenutree.cpp:935
 #, kde-format
 msgid "This submenu item is useless without children."
 msgstr "Ta element podmenija nima smisla brez naslednikov."
 
-#: dialogs/usermenu/usermenutree.cpp:950
+#: dialogs/usermenu/usermenutree.cpp:939
 #, kde-format
 msgid "This item offers no text to insert."
 msgstr "Ta postavka ne nudi besedila za vstavljanje."
 
-#: dialogs/usermenu/usermenutree.cpp:954
+#: dialogs/usermenu/usermenutree.cpp:943
 #, kde-format
 msgid "No file is given for this task."
 msgstr "Za to nalogo ni podane datoteke."
 
-#: dialogs/usermenu/usermenutree.cpp:958
+#: dialogs/usermenu/usermenutree.cpp:947
 #, kde-format
 msgid "The file for this item does not exist."
 msgstr "Datoteka za to postavko ne obstaja."
 
-#: dialogs/usermenu/usermenutree.cpp:962
+#: dialogs/usermenu/usermenutree.cpp:951
 #, kde-format
 msgid "The file for this item is not executable."
 msgstr "Datoteka za to postavko nima dovoljenja za izvajanje."
 
-#: dialogs/usermenu/usermenutree.cpp:965
+#: dialogs/usermenu/usermenutree.cpp:954
 #, kde-format
 msgid "<p><strong>Error:</strong>"
 msgstr "<p><strong>Napaka:</strong>"
 
-#: dialogs/usermenu/usermenutree.cpp:977
+#: dialogs/usermenu/usermenutree.cpp:966
 #, kde-format
 msgid "Menutree Error"
 msgstr "Napaka menijskega drevesa"
 
-#: dialogs/usermenu/usermenutree.cpp:1028
+#: dialogs/usermenu/usermenutree.cpp:1017
 #, kde-format
 msgid "Name"
 msgstr "Ime"
@@ -5635,47 +5635,47 @@ msgstr "Shranjevanje dokumenta je spodletelo."
 msgid "Saving failed and quitting canceled."
 msgstr "Shranjevanje ni uspelo in zapuščanje programa je preklicano."
 
-#: editorextension.cpp:61
+#: editorextension.cpp:60
 #, kde-format
 msgid "English quotes:   ``   &apos;&apos;"
 msgstr "Angleški narekovaji:   ``   &apos;&apos;"
 
-#: editorextension.cpp:62
+#: editorextension.cpp:61
 #, kde-format
 msgid "French quotes:   &quot;&lt;   &quot;&gt;"
 msgstr "Francoski narekovaji:   &quot;&lt;   &quot;&gt;"
 
-#: editorextension.cpp:63
+#: editorextension.cpp:62
 #, kde-format
 msgid "German quotes:   &quot;`   &quot;&apos;"
 msgstr "Nemški narekovaji:   &quot;`   &quot;&apos;"
 
-#: editorextension.cpp:64
+#: editorextension.cpp:63
 #, kde-format
 msgid "French quotes (long):   \\flqq   \\frqq"
 msgstr "Francoski narekovaji (dolgi):   \\flqq   \\frqq"
 
-#: editorextension.cpp:65
+#: editorextension.cpp:64
 #, kde-format
 msgid "German quotes (long):   \\glqq   \\grqq"
 msgstr "Nemški narekovaji (dolgi):   \\glqq   \\grqq"
 
-#: editorextension.cpp:66
+#: editorextension.cpp:65
 #, kde-format
 msgid "Icelandic quotes (v1):   \\ilqq   \\irqq"
 msgstr "Islandski narekovaji (v1):   \\ilqq   \\irqq"
 
-#: editorextension.cpp:67
+#: editorextension.cpp:66
 #, kde-format
 msgid "Icelandic quotes (v2):   \\iflqq   \\ifrqq"
 msgstr "Islandski narekovaji (v2):   \\iflqq   \\ifrqq"
 
-#: editorextension.cpp:68
+#: editorextension.cpp:67
 #, kde-format
 msgid "Czech quotes:   \\uv{}"
 msgstr "Češki narekovaji:   \\uv{}"
 
-#: editorextension.cpp:69
+#: editorextension.cpp:68
 #, kde-format
 msgid "csquotes package:   \\enquote{}"
 msgstr "Paket csquotes:   \\enquote{}"
@@ -5685,7 +5685,7 @@ msgstr "Paket csquotes:   \\enquote{}"
 msgid "You have to include the package %1 to use %2."
 msgstr "Za uporabo %2 morate vključiti paket %1."
 
-#: editorextension.cpp:3506
+#: editorextension.cpp:3505
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5694,7 +5694,7 @@ msgstr ""
 "Dokument je bil spremenjen in pogled strukture je treba posodobiti pred "
 "začetkom takšne operacije."
 
-#: editorextension.cpp:3507
+#: editorextension.cpp:3506
 #, kde-format
 msgid "Structure View Error"
 msgstr "Napaka pogleda strukture"
@@ -5785,7 +5785,7 @@ msgstr "%1  %2  %3"
 msgid "No information about warnings or errors is available."
 msgstr "Informacije o opozorilih ali napakah niso na voljo."
 
-#: errorhandler.cpp:455 parser/latexoutputparser.cpp:690
+#: errorhandler.cpp:455 parser/latexoutputparser.cpp:664
 #, kde-format
 msgid "Cannot open log file; did you run LaTeX?"
 msgstr "Ni mogoče odpreti datoteke dnevnika; ali ste pognali LaTeX?"
@@ -5795,7 +5795,7 @@ msgstr "Ni mogoče odpreti datoteke dnevnika; ali ste pognali LaTeX?"
 msgid "No LaTeX warnings/errors detected."
 msgstr "Ni zaznane nobene opozorila/napake LaTeX-a."
 
-#: kile.cpp:390
+#: kile.cpp:392
 #, kde-format
 msgid ""
 "You have defined some tools in the User menu. From now on these tools will "
@@ -5810,12 +5810,12 @@ msgstr ""
 "Kile).To ima nekaj prednosti; vaša lastna orodja lahko zdaj uporabljate v "
 "ukazu QuickBuildu, če želite."
 
-#: kile.cpp:390
+#: kile.cpp:392
 #, kde-format
 msgid "User Tools Detected"
 msgstr "Zaznana lastna orodja"
 
-#: kile.cpp:399
+#: kile.cpp:401
 #, kde-format
 msgid ""
 "<p>The tool settings need to be reset for this version of Kile to function "
@@ -5826,93 +5826,93 @@ msgstr ""
 "<br/>To bo prepisalo vse vaše spremembe.</p><p>Ali želite ponovno nastaviti "
 "orodja zdaj?</p>"
 
-#: kile.cpp:402
+#: kile.cpp:404
 #, kde-format
 msgid "Tools need to be reset"
 msgstr "Orodja je potrebno ponovno zagnati"
 
-#: kile.cpp:478
+#: kile.cpp:480
 #, kde-format
 msgid "Open File"
 msgstr "Odpri datoteko"
 
-#: kile.cpp:498
+#: kile.cpp:500
 #, kde-format
 msgid "Files and Projects"
 msgstr "Datoteke in projekti"
 
-#: kile.cpp:563 widgets/structurewidget.cpp:142
+#: kile.cpp:565 widgets/structurewidget.cpp:142
 #, kde-format
 msgid "Structure"
 msgstr "Struktura"
 
-#: kile.cpp:586
+#: kile.cpp:588
 #, kde-format
 msgid "Scripts"
 msgstr "Skripti"
 
-#: kile.cpp:625
+#: kile.cpp:627
 #, kde-format
 msgid "Symbols"
 msgstr "Simboli"
 
-#: kile.cpp:628
+#: kile.cpp:630
 #, kde-format
 msgid "Most Frequently Used"
 msgstr "Najpogosteje uporabljeni"
 
-#: kile.cpp:634
+#: kile.cpp:636
 #, kde-format
 msgid "Relation"
 msgstr "Relacija"
 
-#: kile.cpp:639
+#: kile.cpp:641
 #, kde-format
 msgid "Operators"
 msgstr "Operatorji"
 
-#: kile.cpp:644
+#: kile.cpp:646
 #, kde-format
 msgid "Arrows"
 msgstr "Puščice"
 
-#: kile.cpp:649
+#: kile.cpp:651
 #, kde-format
 msgid "Miscellaneous Math"
 msgstr "Razna matematika"
 
-#: kile.cpp:654
+#: kile.cpp:656
 #, kde-format
 msgid "Miscellaneous Text"
 msgstr "Razno besedilo"
 
-#: kile.cpp:659
+#: kile.cpp:661
 #, kde-format
 msgid "Delimiters"
 msgstr "Ločila"
 
-#: kile.cpp:664
+#: kile.cpp:666
 #, kde-format
 msgid "Greek"
 msgstr "Grški znaki"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: kile.cpp:669 widgets/latexconfigwidget.ui:133
+#: kile.cpp:671 widgets/latexconfigwidget.ui:133
 #, kde-format
 msgid "Special Characters"
 msgstr "Posebni znaki"
 
-#: kile.cpp:674
+#: kile.cpp:676
 #, kde-format
 msgid "Cyrillic Characters"
 msgstr "Cirilični znaki"
 
-#: kile.cpp:679
+#: kile.cpp:681
 #, kde-format
 msgid "User Defined"
 msgstr "Uporabniško določeno"
 
-#: kile.cpp:684
+#: kile.cpp:686
 #, kde-format
 msgid ""
 "<p>Move the mouse over the icons to see the corresponding LaTeX commands.<br/"
@@ -5925,462 +5925,462 @@ msgstr ""
 "\" vstavite v matematičnem načinu, s pritiskom \"Ctrl\" v zavitih oklepajih."
 "</p>"
 
-#: kile.cpp:704 widgets/codecompletionconfigwidget.cpp:55
+#: kile.cpp:706 widgets/codecompletionconfigwidget.cpp:55
 #, kde-format
 msgid "Abbreviation"
 msgstr "Okrajšava"
 
-#: kile.cpp:729
+#: kile.cpp:737
 #, kde-format
 msgid "Log and Messages"
 msgstr "Zapisnik in sporočila"
 
-#: kile.cpp:735
+#: kile.cpp:743
 #, kde-format
 msgid "Output"
 msgstr "Izpis"
 
-#: kile.cpp:738
+#: kile.cpp:746
 #, kde-format
 msgid "Konsole"
 msgstr "Konsole"
 
-#: kile.cpp:840
+#: kile.cpp:848
 #, kde-format
 msgid "Save All"
 msgstr "Shrani vse"
 
-#: kile.cpp:842
+#: kile.cpp:850
 #, kde-format
 msgid "Create Template From Document..."
 msgstr "Ustvari predlogo iz dokumenta..."
 
-#: kile.cpp:843
+#: kile.cpp:851
 #, kde-format
 msgid "&Remove Template..."
 msgstr "Odst&rani predlogo..."
 
-#: kile.cpp:845 kile.cpp:975
+#: kile.cpp:853 kile.cpp:983
 #, kde-format
 msgid "Close All"
 msgstr "Zapri vse"
 
-#: kile.cpp:846
+#: kile.cpp:854
 #, kde-format
 msgid "Close All Ot&hers"
 msgstr "Zapri vse druge"
 
-#: kile.cpp:847
+#: kile.cpp:855
 #, kde-format
 msgid "S&tatistics"
 msgstr "S&tatistika"
 
-#: kile.cpp:848
+#: kile.cpp:856
 #, kde-format
 msgid "&ASCII"
 msgstr "&ASCII"
 
-#: kile.cpp:849
+#: kile.cpp:857
 #, kde-format
 msgid "Latin-&1 (iso 8859-1)"
 msgstr "Latin-&1 (iso 8859-1)"
 
-#: kile.cpp:850
+#: kile.cpp:858
 #, kde-format
 msgid "Latin-&2 (iso 8859-2)"
 msgstr "Latin-&2 (iso 8859-2)"
 
-#: kile.cpp:851
+#: kile.cpp:859
 #, kde-format
 msgid "Latin-&3 (iso 8859-3)"
 msgstr "Latin-&3 (iso 8859-3)"
 
-#: kile.cpp:852
+#: kile.cpp:860
 #, kde-format
 msgid "Latin-&4 (iso 8859-4)"
 msgstr "Latin-&4 (iso 8859-4)"
 
-#: kile.cpp:853
+#: kile.cpp:861
 #, kde-format
 msgid "Latin-&5 (iso 8859-5)"
 msgstr "Latin-&5 (iso 8859-5)"
 
-#: kile.cpp:854
+#: kile.cpp:862
 #, kde-format
 msgid "Latin-&9 (iso 8859-9)"
 msgstr "Latin-&9 (iso 8859-9)"
 
-#: kile.cpp:855
+#: kile.cpp:863
 #, kde-format
 msgid "&Central European (cp-1250)"
 msgstr "Osrednje evropsko (cp-1250)"
 
-#: kile.cpp:856
+#: kile.cpp:864
 #, kde-format
 msgid "&Western European (cp-1252)"
 msgstr "Zahodno evropsko (cp-1252)"
 
-#: kile.cpp:859
+#: kile.cpp:867
 #, kde-format
 msgid "Move Tab Left"
 msgstr "Pomakni tabulator levo"
 
-#: kile.cpp:860
+#: kile.cpp:868
 #, kde-format
 msgid "Move Tab Right"
 msgstr "Pomakni tabulator desno"
 
-#: kile.cpp:862
+#: kile.cpp:870
 #, kde-format
 msgid "Next section"
 msgstr "Naslednji odsek"
 
-#: kile.cpp:864
+#: kile.cpp:872
 #, kde-format
 msgid "Prev section"
 msgstr "Prejšnji odsek"
 
-#: kile.cpp:866
+#: kile.cpp:874
 #, kde-format
 msgid "Next paragraph"
 msgstr "Naslednji odstavek"
 
-#: kile.cpp:868
+#: kile.cpp:876
 #, kde-format
 msgid "Prev paragraph"
 msgstr "Prejšnji odstavek"
 
-#: kile.cpp:871
+#: kile.cpp:879
 #, kde-format
 msgid "Find &in Files..."
 msgstr "Najdi v datotekah..."
 
-#: kile.cpp:873
+#: kile.cpp:881
 #, kde-format
 msgid "Refresh Str&ucture"
 msgstr "Osveži strukturo"
 
-#: kile.cpp:876
+#: kile.cpp:884
 #, kde-format
 msgid "&New Project..."
 msgstr "&Nov projekt..."
 
-#: kile.cpp:877
+#: kile.cpp:885
 #, kde-format
 msgid "&Open Project..."
 msgstr "&Odpri projekt..."
 
-#: kile.cpp:879
+#: kile.cpp:887
 #, kde-format
 msgid "Open &Recent Project"
 msgstr "Odpri nedavni projekt"
 
-#: kile.cpp:886
+#: kile.cpp:894
 #, kde-format
 msgid "A&dd Files to Project..."
 msgstr "Dod&aj datoteke projektu..."
 
-#: kile.cpp:887 widgets/projectview.cpp:870
+#: kile.cpp:895 widgets/projectview.cpp:870
 #, kde-format
 msgid "Refresh Project &Tree"
 msgstr "Osveži drevo projekta"
 
-#: kile.cpp:888 widgets/projectview.cpp:872
+#: kile.cpp:896 widgets/projectview.cpp:872
 #, kde-format
 msgid "&Archive"
 msgstr "Arhiv"
 
-#: kile.cpp:889 widgets/projectview.cpp:871
+#: kile.cpp:897 widgets/projectview.cpp:871
 #, kde-format
 msgid "Project &Options"
 msgstr "Možnosti projekta"
 
-#: kile.cpp:890
+#: kile.cpp:898
 #, kde-format
 msgid "&Close Project"
 msgstr "Zapri projekt"
 
-#: kile.cpp:893
+#: kile.cpp:901
 #, kde-format
 msgid "&Show Projects..."
 msgstr "Pokaži projekte..."
 
-#: kile.cpp:894
+#: kile.cpp:902
 #, kde-format
 msgid "Re&move Files From Project..."
 msgstr "Odst&rani datoteke iz projekta..."
 
-#: kile.cpp:895
+#: kile.cpp:903
 #, kde-format
 msgid "Show Project &Files..."
 msgstr "Pokaži projektne datoteke..."
 
-#: kile.cpp:897 widgets/projectview.cpp:868
+#: kile.cpp:905 widgets/projectview.cpp:868
 #, kde-format
 msgid "Open All &Project Files"
 msgstr "Odpri vse &projektne datoteke"
 
-#: kile.cpp:898
+#: kile.cpp:906
 #, kde-format
 msgid "Find in &Project..."
 msgstr "Najdi v &projektu..."
 
-#: kile.cpp:901 kile.cpp:999 kile.cpp:2119 kiledocmanager.cpp:1999
-#: kiledocmanager.cpp:2009
+#: kile.cpp:909 kile.cpp:1007 kile.cpp:2129 kiledocmanager.cpp:1997
+#: kiledocmanager.cpp:2007
 #, kde-format
 msgid "Clean"
 msgstr "Počisti"
 
-#: kile.cpp:906
+#: kile.cpp:914
 #, kde-format
 msgid "Next Document"
 msgstr "Naslednji dokument"
 
-#: kile.cpp:912
+#: kile.cpp:920
 #, kde-format
 msgid "Previous Document"
 msgstr "Prejšnji dokument"
 
-#: kile.cpp:915
+#: kile.cpp:923
 #, kde-format
 msgid "Focus Log/Messages View"
 msgstr "Fokus na pogled dnevnika/sporočil"
 
-#: kile.cpp:916
+#: kile.cpp:924
 #, kde-format
 msgid "Focus Output View"
 msgstr "Fokus na pogled izhoda"
 
-#: kile.cpp:917
+#: kile.cpp:925
 #, kde-format
 msgid "Focus Konsole View"
 msgstr "Fokus na pogled konzole"
 
-#: kile.cpp:918
+#: kile.cpp:926
 #, kde-format
 msgid "Focus Editor View"
 msgstr "Fokus na pogled urejevalnika"
 
-#: kile.cpp:920
+#: kile.cpp:928
 #, kde-format
 msgctxt "@action: Starts the completion of the current LaTeX command"
 msgid "Complete (La)TeX Command"
 msgstr "Celoten ukaz (La)TeX-a"
 
-#: kile.cpp:922
+#: kile.cpp:930
 #, kde-format
 msgctxt "@action: Starts the input (and completion) of a LaTeX environment"
 msgid "Complete LaTeX Environment"
 msgstr "Celotno LaTeX okolje"
 
-#: kile.cpp:924
+#: kile.cpp:932
 #, kde-format
 msgctxt "@action: Starts the completion of the current abbreviation"
 msgid "Complete Abbreviation"
 msgstr "Celotna okrajšava"
 
-#: kile.cpp:927
+#: kile.cpp:935
 #, kde-format
 msgid "Next Bullet"
 msgstr "Naslednja oznaka"
 
-#: kile.cpp:929
+#: kile.cpp:937
 #, kde-format
 msgid "Prev Bullet"
 msgstr "Prejšnja oznaka"
 
-#: kile.cpp:933 kile.cpp:950
+#: kile.cpp:941 kile.cpp:958
 #, kde-format
 msgid "Environment (inside)"
 msgstr "Okolje (notranjost)"
 
-#: kile.cpp:935 kile.cpp:952
+#: kile.cpp:943 kile.cpp:960
 #, kde-format
 msgid "Environment (outside)"
 msgstr "Okolje (zunaj)"
 
-#: kile.cpp:937 kile.cpp:954
+#: kile.cpp:945 kile.cpp:962
 #, kde-format
 msgid "TeX Group (inside)"
 msgstr "Grupa TeX (znotraj)"
 
-#: kile.cpp:939 kile.cpp:956
+#: kile.cpp:947 kile.cpp:964
 #, kde-format
 msgid "TeX Group (outside)"
 msgstr "Grupa TeX (zunaj)"
 
-#: kile.cpp:941 kile.cpp:958
+#: kile.cpp:949 kile.cpp:966
 #, kde-format
 msgid "Math Group"
 msgstr "Matematična grupa"
 
-#: kile.cpp:943 kile.cpp:960
+#: kile.cpp:951 kile.cpp:968
 #, kde-format
 msgid "Paragraph"
 msgstr "Odstavek"
 
-#: kile.cpp:945
+#: kile.cpp:953
 #, kde-format
 msgid "Line"
 msgstr "Vrstica"
 
-#: kile.cpp:947 kile.cpp:964
+#: kile.cpp:955 kile.cpp:972
 #, kde-format
 msgid "TeX Word"
 msgstr "Tex beseda"
 
-#: kile.cpp:962
+#: kile.cpp:970
 #, kde-format
 msgid "To End of Line"
 msgstr "Na konec vrstice"
 
-#: kile.cpp:967 kile.cpp:978
+#: kile.cpp:975 kile.cpp:986
 #, kde-format
 msgid "Go to Begin"
 msgstr "Pojdi na začetek"
 
-#: kile.cpp:969 kile.cpp:980
+#: kile.cpp:977 kile.cpp:988
 #, kde-format
 msgid "Go to End"
 msgstr "Pojdi na konec"
 
-#: kile.cpp:971 kile.cpp:982
+#: kile.cpp:979 kile.cpp:990
 #, kde-format
 msgid "Match"
 msgstr "Ustreza"
 
-#: kile.cpp:973 kile.cpp:984
+#: kile.cpp:981 kile.cpp:992
 #, kde-format
 msgid "Close"
 msgstr "Zapri"
 
-#: kile.cpp:987
+#: kile.cpp:995
 #, kde-format
 msgid "Selection"
 msgstr "Izbor"
 
-#: kile.cpp:989
+#: kile.cpp:997
 #, kde-format
 msgid "Subdocument"
 msgstr "Poddokument"
 
-#: kile.cpp:990
+#: kile.cpp:998
 #, kde-format
 msgid "Mathgroup"
 msgstr "Matematična grupa"
 
-#: kile.cpp:995
+#: kile.cpp:1003
 #, kde-format
 msgid "&Bibliography"
 msgstr "&Bibliografija"
 
 #. i18n: ectx: Menu (settings)
-#: kile.cpp:1001 kileui.rc:503
+#: kile.cpp:1009 kileui.rc:503
 #, kde-format
 msgid "&Settings"
 msgstr "Na&stavitve"
 
-#: kile.cpp:1004
+#: kile.cpp:1012
 #, kde-format
 msgid "Settings for BibTeX"
 msgstr "Nastavitve za BibTeX"
 
-#: kile.cpp:1008
+#: kile.cpp:1016
 #, kde-format
 msgid "Settings for Biblatex"
 msgstr "Nastavitve za Biblatex"
 
-#: kile.cpp:1015 kile.cpp:2225
+#: kile.cpp:1023 kile.cpp:2235
 #, kde-format
 msgid "Quick Start"
 msgstr "Hitri začetek"
 
-#: kile.cpp:1018 kilestdactions.cpp:384
+#: kile.cpp:1026 kilestdactions.cpp:384
 #, kde-format
 msgid "Array"
 msgstr "Vektor"
 
-#: kile.cpp:1019 kile.cpp:2277 kilestdactions.cpp:79
+#: kile.cpp:1027 kile.cpp:2287 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "Tabuliranje"
 
-#: kile.cpp:1020
+#: kile.cpp:1028
 #, kde-format
 msgid "Floats"
 msgstr "Plavajoči deli"
 
-#: kile.cpp:1025
+#: kile.cpp:1033
 #, kde-format
 msgid "Define Current Document as '&Master Document'"
 msgstr "Določi trenutni dokument kot 'Glavni dokument'"
 
-#: kile.cpp:1030
+#: kile.cpp:1038
 #, kde-format
 msgid "Show Document Viewer"
 msgstr "Pokaži pregledovalnik dokumentov"
 
-#: kile.cpp:1037
+#: kile.cpp:1045
 #, kde-format
 msgid "Show S&ide Bar"
 msgstr "Pokaži stransko vrstico"
 
-#: kile.cpp:1043
+#: kile.cpp:1051
 #, kde-format
 msgid "Show Mess&ages Bar"
 msgstr "Pokaži vrstico sporočil"
 
-#: kile.cpp:1055
+#: kile.cpp:1063
 #, kde-format
 msgid "Watch File Mode"
 msgstr "Opazuj datotečni način"
 
-#: kile.cpp:1069
+#: kile.cpp:1077
 #, kde-format
 msgid "Context Help"
 msgstr "Pojavna pomoč"
 
-#: kile.cpp:1072
+#: kile.cpp:1080
 #, kde-format
 msgid "&About Editor Component"
 msgstr "O komponenti urejevalnika"
 
-#: kile.cpp:1080
+#: kile.cpp:1088
 #, kde-format
 msgid "&System Check..."
 msgstr "Preverjanje sistema..."
 
-#: kile.cpp:1098 kileinfo.cpp:357
+#: kile.cpp:1106 kileinfo.cpp:357
 #, kde-format
 msgid "BibTeX"
 msgstr "BibTeX"
 
-#: kile.cpp:1101
+#: kile.cpp:1109
 #, kde-format
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1248 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1256 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Compile"
 msgstr "Prevedi"
 
-#: kile.cpp:1249 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1257 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "View"
 msgstr "Pokaži"
 
-#: kile.cpp:1250 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1258 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Convert"
 msgstr "Pretvori"
 
-#: kile.cpp:1251 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1259 widgets/toolconfigwidget.cpp:73
 #, kde-format
 msgid "Quick"
 msgstr "Hitro"
 
-#: kile.cpp:1429
+#: kile.cpp:1435
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6391,78 +6391,78 @@ msgstr ""
 "\n"
 "Preverite in popravite namestitev Kile."
 
-#: kile.cpp:1431
+#: kile.cpp:1437
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr "Ni mogoče ustvariti orodja za arhiviranje"
 
-#: kile.cpp:1500
+#: kile.cpp:1506
 #, kde-format
 msgid "Project: %1"
 msgstr "Projekt: %1"
 
-#: kile.cpp:1503
+#: kile.cpp:1509
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "Projekt: %1 (Glavni dokument: %2)"
 
-#: kile.cpp:1508
+#: kile.cpp:1514
 #, kde-format
 msgid "Normal mode"
 msgstr "Navaden način"
 
-#: kile.cpp:1511
+#: kile.cpp:1517
 #, kde-format
 msgid "Master document: %1"
 msgstr "Glavni dokument: %1"
 
-#: kile.cpp:1516 kile.cpp:2635
+#: kile.cpp:1522 kile.cpp:2645
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "Določi trenutni dokument kot 'Glavni dokument'"
 
-#: kile.cpp:1520 kile.cpp:2625
+#: kile.cpp:1526 kile.cpp:2635
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "Običajni način (trenutni glavni dokument: %1)"
 
-#: kile.cpp:1738
+#: kile.cpp:1744
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr "%1 [Samo za branje]"
 
-#: kile.cpp:2112
+#: kile.cpp:2122
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "Ni aktivnega dokumenta ali pa ni shranjen."
 
-#: kile.cpp:2196
+#: kile.cpp:2206
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "Vključiti morate paket %1."
 
-#: kile.cpp:2196 kile.cpp:2199
+#: kile.cpp:2206 kile.cpp:2209
 #, kde-format
 msgid "Insert text"
 msgstr "Vstavi besedilo"
 
-#: kile.cpp:2199
+#: kile.cpp:2209
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "Vključiti morate pakete %1."
 
-#: kile.cpp:2420
+#: kile.cpp:2430
 #, kde-format
 msgid "No Name"
 msgstr "Ni imena"
 
-#: kile.cpp:2456
+#: kile.cpp:2466
 #, kde-format
 msgid "no name"
 msgstr "brez imena"
 
-#: kile.cpp:2653
+#: kile.cpp:2663
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
@@ -6471,122 +6471,122 @@ msgstr ""
 "Če želite trenutni dokument določiti kot glavni dokument, ga morate najprej "
 "shraniti."
 
-#: kile.cpp:2995
+#: kile.cpp:3005
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "BLOCK"
 
-#: kile.cpp:2996
+#: kile.cpp:3006
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "LINE"
 
-#: kile.cpp:3003
+#: kile.cpp:3013
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "Osveževanje strukture..."
 
-#: kile.cpp:3021
+#: kile.cpp:3031
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 "To bo popolnoma skrilo vrstico menija. Lahko je ponovno vidna z vnosom %1."
 
-#: kile.cpp:3024
+#: kile.cpp:3034
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Skrij vrstico menija"
 
 #. i18n: ectx: label, entry (RCVersion), group (VersionInfo)
-#: kile.kcfg:18
+#: kile.kcfg:17
 #, kde-format
 msgid "The resource file version."
 msgstr "Verzija datoteke vira."
 
 #. i18n: ectx: label, entry (MainwindowWidth), group (Geometries)
-#: kile.kcfg:40
+#: kile.kcfg:39
 #, kde-format
 msgid "The main window's width."
 msgstr "Širina glavnega okna."
 
 #. i18n: ectx: label, entry (MainwindowHeight), group (Geometries)
-#: kile.kcfg:46
+#: kile.kcfg:45
 #, kde-format
 msgid "The main window's height."
 msgstr "Višina glavnega okna."
 
 #. i18n: ectx: label, entry (DefaultLevel), group (Structure)
-#: kile.kcfg:54
+#: kile.kcfg:53
 #, kde-format
 msgid "The expansion level for the structure view."
 msgstr "Stopnja razširitve pogleda strukture."
 
 #. i18n: ectx: label, entry (SvShowLabels), group (Structure)
-#: kile.kcfg:58
+#: kile.kcfg:57
 #, kde-format
 msgid "Show label commands in the structure view"
 msgstr "Pokaži oznake ukazov v pogledu strukture"
 
 #. i18n: ectx: label, entry (SvShowReferences), group (Structure)
-#: kile.kcfg:62
+#: kile.kcfg:61
 #, kde-format
 msgid "Show undefined references in the structure view"
 msgstr "Pokaži nedefinirane reference v pogledu strukture"
 
 #. i18n: ectx: label, entry (SvShowBibitems), group (Structure)
-#: kile.kcfg:66
+#: kile.kcfg:65
 #, kde-format
 msgid "Show bibitems commands in the structure view"
 msgstr "Pokaži ukaze v bibitems v pogledu strukture"
 
 #. i18n: ectx: label, entry (SvShowGraphics), group (Structure)
-#: kile.kcfg:70
+#: kile.kcfg:69
 #, kde-format
 msgid "Show includegraphics commands in the structure view"
 msgstr "Pokaži ukaze v includegraphics v pogledu strukture"
 
 #. i18n: ectx: label, entry (SvShowFloats), group (Structure)
-#: kile.kcfg:74
+#: kile.kcfg:73
 #, kde-format
 msgid "Show float environments in the structure view"
 msgstr "Pokaži plavajoča okolja v pogledu strukture"
 
 #. i18n: ectx: label, entry (SvShowInputFiles), group (Structure)
-#: kile.kcfg:78
+#: kile.kcfg:77
 #, kde-format
 msgid "Show file input commands in the structure view"
 msgstr "Pokaži ukaze file input v pogledu strukture"
 
 #. i18n: ectx: label, entry (SvShowSectioningLabels), group (Structure)
-#: kile.kcfg:82
+#: kile.kcfg:81
 #, kde-format
 msgid "Show labels as child of sectioning items in the structure view"
 msgstr "Prikaži oznake kot podrejene elemente razdelkov v pogledu strukture"
 
 #. i18n: ectx: label, entry (SvShowTodo), group (Structure)
-#: kile.kcfg:86
+#: kile.kcfg:85
 #, kde-format
 msgid "Show TODO and FIXME comments"
 msgstr "Prikaži komentarje TODO in FIXME"
 
 #. i18n: ectx: label, entry (SvOpenLabels), group (Structure)
-#: kile.kcfg:90
+#: kile.kcfg:89
 #, kde-format
 msgid "Open the parent item for all labels in the structure view as default"
 msgstr "Privzeto odpiraj nadrejeni element za vse oznake v pogledu strukture"
 
 #. i18n: ectx: label, entry (SvOpenReferences), group (Structure)
-#: kile.kcfg:94
+#: kile.kcfg:93
 #, kde-format
 msgid "Open the parent item for all undefined references in the structure view"
 msgstr ""
 "Odpiraj nadrejeni element za vse nedefinirane reference v pogledu strukture"
 
 #. i18n: ectx: label, entry (SvOpenBibitems), group (Structure)
-#: kile.kcfg:98
+#: kile.kcfg:97
 #, kde-format
 msgid "Open the parent item for all bibitems in the structure view as default"
 msgstr ""
@@ -6594,37 +6594,37 @@ msgstr ""
 "strukture"
 
 #. i18n: ectx: label, entry (SvOpenTodo), group (Structure)
-#: kile.kcfg:102
+#: kile.kcfg:101
 #, kde-format
 msgid "Open the parent item for all TODO and FIXME comments as default"
 msgstr "Privzeto odpiraj nadrejeni element za vse komentarje TODO in FIXME"
 
 #. i18n: ectx: label, entry (SvDefaultGraphicExt), group (Structure)
-#: kile.kcfg:106
+#: kile.kcfg:105
 #, kde-format
 msgid "Default extension to use when opening graphic files with no extension"
 msgstr "Privzeta pripona za odpiranje grafičnih datotek brez pripone"
 
 #. i18n: ectx: label, entry (BibliographyType), group (BibliographyMenu)
-#: kile.kcfg:112
+#: kile.kcfg:111
 #, kde-format
 msgid "What type of bibliography (bibtex or biblatex) kile should show."
 msgstr "Katero vrsto bibliografije (bibtex ali biblatex) bi moral kile kazati."
 
 #. i18n: ectx: label, entry (RunLyxServer), group (Tools)
-#: kile.kcfg:118
+#: kile.kcfg:117
 #, kde-format
 msgid "Whether to run the Lyx server."
 msgstr "Ali je zagnati strežnik Lyx."
 
 #. i18n: ectx: label, entry (TeXPaths), group (Tools)
-#: kile.kcfg:122
+#: kile.kcfg:121
 #, kde-format
 msgid "Holds the TEXINPUTS environment variable."
 msgstr "Vsebuje spremenljivko okolja TEXINPUTS."
 
 #. i18n: ectx: whatsthis, entry (TeXPaths), group (Tools)
-#: kile.kcfg:123
+#: kile.kcfg:122
 #, kde-format
 msgid ""
 "Set the TEXINPUTS environment variable here. TEXINPUTS should be a colon-"
@@ -6636,13 +6636,13 @@ msgstr ""
 "Na koncu vam ni treba dodati: $TEXINPUTS."
 
 #. i18n: ectx: label, entry (PreviewTeXPaths), group (Tools)
-#: kile.kcfg:127
+#: kile.kcfg:126
 #, kde-format
 msgid "Holds the TEXINPUTS environment variable for QuickPreview tools."
 msgstr "Vsebuje spremenljivko okolja TEXINPUTS za orodja QuickPreview."
 
 #. i18n: ectx: whatsthis, entry (PreviewTeXPaths), group (Tools)
-#: kile.kcfg:128
+#: kile.kcfg:127
 #, kde-format
 msgid ""
 "Set the TEXINPUTS environment variable for QuickPreview tools here. "
@@ -6655,13 +6655,13 @@ msgstr ""
 "dodatne pakete in/ali datoteke. Ni vam treba dodati: $TEXINPUTS na koncu."
 
 #. i18n: ectx: label, entry (BibInputPaths), group (Tools)
-#: kile.kcfg:132
+#: kile.kcfg:131
 #, kde-format
 msgid "Holds the BIBINPUTS environment variable."
 msgstr "Vsebuje spremenljivko okolja BIBINPUTS."
 
 #. i18n: ectx: whatsthis, entry (BibInputPaths), group (Tools)
-#: kile.kcfg:133
+#: kile.kcfg:132
 #, kde-format
 msgid ""
 "Set the BIBINPUTS environment variable here. BIBINPUTS should be a colon-"
@@ -6673,13 +6673,13 @@ msgstr ""
 "bib. Na koncu vam ni treba dodati: $BIBINPUTS."
 
 #. i18n: ectx: label, entry (PreviewBibInputPaths), group (Tools)
-#: kile.kcfg:137
+#: kile.kcfg:136
 #, kde-format
 msgid "Holds the BIBINPUTS environment variable for QuickPreview tools."
 msgstr "Vsebuje spremenljivko okolja BIBINPUTS za orodja QuickPreview."
 
 #. i18n: ectx: whatsthis, entry (PreviewBibInputPaths), group (Tools)
-#: kile.kcfg:138
+#: kile.kcfg:137
 #, kde-format
 msgid ""
 "Set the BIBINPUTS environment variable for QuickPreview tools here. "
@@ -6693,13 +6693,13 @@ msgstr ""
 "datoteke. Na koncu vam ni treba dodati: $BIBINPUTS."
 
 #. i18n: ectx: label, entry (BstInputPaths), group (Tools)
-#: kile.kcfg:142
+#: kile.kcfg:141
 #, kde-format
 msgid "Holds the BSTINPUTS environment variable."
 msgstr "Vsebuje spremenljivko okolja BSTINPUTS."
 
 #. i18n: ectx: whatsthis, entry (BstInputPaths), group (Tools)
-#: kile.kcfg:143
+#: kile.kcfg:142
 #, kde-format
 msgid ""
 "Set the BSTINPUTS environment variable here. BSTINPUTS should be a colon-"
@@ -6711,49 +6711,49 @@ msgstr ""
 "bst. Na koncu vam ni treba dodati: $BSTINPUTS."
 
 #. i18n: ectx: label, entry (BottomBar), group (Show)
-#: kile.kcfg:149
+#: kile.kcfg:148
 #, kde-format
 msgid "Whether to show the bottom bar."
 msgstr "Ali naj bo spodnja vrstica prikazana."
 
 #. i18n: ectx: label, entry (BottomBarSize), group (Show)
-#: kile.kcfg:153
+#: kile.kcfg:152
 #, kde-format
 msgid "Height of the bottom bar."
 msgstr "Višina spodnje vrstice."
 
 #. i18n: ectx: label, entry (BottomBarIndex), group (Show)
-#: kile.kcfg:157
+#: kile.kcfg:156
 #, kde-format
 msgid "Which tab of the bottom bar to show."
 msgstr "Kateri zavihek spodnje vrstice naj bo prikazan."
 
 #. i18n: ectx: label, entry (SideBarSize), group (Show)
-#: kile.kcfg:161
+#: kile.kcfg:160
 #, kde-format
 msgid "Width of the sidebar."
 msgstr "Širina stranske vrstice."
 
 #. i18n: ectx: label, entry (SideBar), group (Show)
-#: kile.kcfg:165
+#: kile.kcfg:164
 #, kde-format
 msgid "Whether to show the side bar."
 msgstr "Ali naj bo stranska vrstica prikazana."
 
 #. i18n: ectx: label, entry (ShowDocumentViewer), group (Show)
-#: kile.kcfg:169
+#: kile.kcfg:168
 #, kde-format
 msgid "Whether to show the document viewer."
 msgstr "Ali naj bo prikazan pregledovalnik dokumenta."
 
 #. i18n: ectx: label, entry (ShowDocumentViewerInExternalWindow), group (Show)
-#: kile.kcfg:173
+#: kile.kcfg:172
 #, kde-format
 msgid "Whether to show the document viewer in a separate external window."
 msgstr "Ali naj bo prikazan pregledovalnik dokumenta v ločenem zunanjem oknu."
 
 #. i18n: ectx: label, entry (HideProblemBadBox), group (Show)
-#: kile.kcfg:177
+#: kile.kcfg:176
 #, kde-format
 msgid "Whether to show Bad Box warnings in the LogMsg view."
 msgstr ""
@@ -6761,26 +6761,26 @@ msgstr ""
 "sporočil."
 
 #. i18n: ectx: label, entry (HideProblemWarning), group (Show)
-#: kile.kcfg:181
+#: kile.kcfg:180
 #, kde-format
 msgid "Whether to show (La)TeX warnings in the LogMsg view."
 msgstr ""
 "Ali naj bodo prikazana (La)TeX-ova opozorila v pogledu dnevnika in sporočil."
 
 #. i18n: ectx: label, entry (SelectedLeftView), group (Show)
-#: kile.kcfg:185
+#: kile.kcfg:184
 #, kde-format
 msgid "The identifier of the selected view in the left pane."
 msgstr "Identifikator izbranega pogleda v levem panoju."
 
 #. i18n: ectx: label, entry (ShowSplashScreen), group (Show)
-#: kile.kcfg:189
+#: kile.kcfg:188
 #, kde-format
 msgid "Whether to show the splash screen on startup."
 msgstr "Ali naj se ob zagonu izriše pojavni zaslon."
 
 #. i18n: ectx: label, entry (SystemCheckLastVersionRunForAtStartUp), group (Show)
-#: kile.kcfg:193
+#: kile.kcfg:192
 #, kde-format
 msgid "Last version of Kile for which the system check was run at start up"
 msgstr ""
@@ -6788,221 +6788,221 @@ msgstr ""
 "sistema"
 
 #. i18n: ectx: label, entry (CompleteEnvironment), group (Editor Ext)
-#: kile.kcfg:199
+#: kile.kcfg:198
 #, kde-format
 msgid "Automatic completion \\begin{env} with \\end{env}."
 msgstr "Samodejno zaključevanje \\begin{env} z \\end{env}."
 
 #. i18n: ectx: label, entry (envIndentation), group (Editor Ext)
-#: kile.kcfg:203
+#: kile.kcfg:202
 #, kde-format
 msgid "Enable auto indentation of environments"
 msgstr "Omogoči samodejno zamikanje okolij"
 
 #. i18n: ectx: label, entry (envIndentSpaces), group (Editor Ext)
-#: kile.kcfg:207
+#: kile.kcfg:206
 #, kde-format
 msgid "Use spaces instead of a tabulator to autoindent environments"
 msgstr "Uporabi presledke namesto tabulatorjev za samodejni zamik okolij"
 
 #. i18n: ectx: label, entry (envIndentNumSpaces), group (Editor Ext)
-#: kile.kcfg:211
+#: kile.kcfg:210
 #, kde-format
 msgid "Use this number of spaces to autoindent environments"
 msgstr "Uporabi to število presledkov za samodejni zamik okolij"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
-#: kile.kcfg:219
+#: kile.kcfg:218
 #, kde-format
 msgid "Automatic insertion of double quotes."
 msgstr "Samodejno vstavljanje dvojnih narekovajev."
 
 #. i18n: ectx: label, entry (DoubleQuotes), group (Editor Ext)
-#: kile.kcfg:223
+#: kile.kcfg:222
 #, kde-format
 msgid "Language dependent type of double quotes."
 msgstr "Od jezika odvisna vrsta dvojnih narekovajev."
 
 #. i18n: ectx: label, entry (InsertSpecialCharacters), group (Editor Ext)
-#: kile.kcfg:227
+#: kile.kcfg:226
 #, kde-format
 msgid "Automatic insertion of special characters."
 msgstr "Samodejno vstavljanje posebnih znakov."
 
 #. i18n: ectx: label, entry (igCenter), group (IncludeGraphics)
-#: kile.kcfg:233
+#: kile.kcfg:232
 #, kde-format
 msgid "Center the graphics."
 msgstr "Centriraj grafiko."
 
 #. i18n: ectx: label, entry (igBoundingBox), group (IncludeGraphics)
-#: kile.kcfg:237
+#: kile.kcfg:236
 #, kde-format
 msgid "Insert the bounding box as an option for the includegraphics command."
 msgstr "Vstavi omejevalni okvir kot možnost za ukaz includegraphics."
 
 #. i18n: ectx: label, entry (igGraphicspath), group (IncludeGraphics)
-#: kile.kcfg:241
+#: kile.kcfg:240
 #, kde-format
 msgid "Filename is relative to a path given in graphicspath command."
 msgstr "Ime datoteke je relativno na pot, navedeno v ukazu graphicspath."
 
 #. i18n: ectx: label, entry (igFigure), group (IncludeGraphics)
-#: kile.kcfg:245
+#: kile.kcfg:244
 #, kde-format
 msgid "Embed the graphics in a figure environment."
 msgstr "Vključi grafiko v okolje slik."
 
 #. i18n: ectx: label, entry (igTop), group (IncludeGraphics)
-#: kile.kcfg:249
+#: kile.kcfg:248
 #, kde-format
 msgid "Set preferred figure position to top of page."
 msgstr "Nastavi najbolj zaželeno lokacijo slike na vrhu strani."
 
 #. i18n: ectx: label, entry (igBottom), group (IncludeGraphics)
-#: kile.kcfg:253
+#: kile.kcfg:252
 #, kde-format
 msgid "Set preferred figure position to bottom of page."
 msgstr "Nastavi najbolj zaželeno lokacijo slike na dnu strani."
 
 #. i18n: ectx: label, entry (igHere), group (IncludeGraphics)
-#: kile.kcfg:257
+#: kile.kcfg:256
 #, kde-format
 msgid "Set preferred figure position to \"exactly here\" on page."
 msgstr "Nastavi najbolj zaželeno lokacijo slike \"prav tam\" na strani."
 
 #. i18n: ectx: label, entry (igPage), group (IncludeGraphics)
-#: kile.kcfg:261
+#: kile.kcfg:260
 #, kde-format
 msgid "Set preferred figure position to be on separate page."
 msgstr "Nastavi najbolj zaželeno lokacijo slike na ločeni strani."
 
 #. i18n: ectx: label, entry (igForce), group (IncludeGraphics)
-#: kile.kcfg:265
+#: kile.kcfg:264
 #, kde-format
 msgid "Force figure position."
 msgstr "Prisili sliko v položaj."
 
 #. i18n: ectx: label, entry (igWrapFigure), group (IncludeGraphics)
-#: kile.kcfg:269
+#: kile.kcfg:268
 #, kde-format
 msgid "Enable the wrapfigure environment."
 msgstr "Omogoči okolje  wrapfigure."
 
 #. i18n: ectx: label, entry (igWrapRight), group (IncludeGraphics)
-#: kile.kcfg:273
+#: kile.kcfg:272
 #, kde-format
 msgid "Set preferred wrapfigure position to the right of text."
 msgstr ""
 "Nastavi prednostni položaj z besedilom oblite slike na desni strani besedila."
 
 #. i18n: ectx: label, entry (igWrapLeft), group (IncludeGraphics)
-#: kile.kcfg:277
+#: kile.kcfg:276
 #, kde-format
 msgid "Set preferred wrapfigure position to the left of text."
 msgstr ""
 "Nastavi prednostni položaj z besedilom oblite slike na levi strani besedila."
 
 #. i18n: ectx: label, entry (igWrapInside), group (IncludeGraphics)
-#: kile.kcfg:281
+#: kile.kcfg:280
 #, kde-format
 msgid "Set preferred wrapfigure position to the inside of the page."
 msgstr ""
 "Nastavi prednostni položaj z besedilom oblite slike na notranjosti strani."
 
 #. i18n: ectx: label, entry (igWrapOutside), group (IncludeGraphics)
-#: kile.kcfg:285
+#: kile.kcfg:284
 #, kde-format
 msgid "Set preferred wrapfigure position to the outside of the page."
 msgstr ""
 "Nastavi prednostni položaj z besedilom oblite slike v zunanjosti strani."
 
 #. i18n: ectx: label, entry (igWrapFloat), group (IncludeGraphics)
-#: kile.kcfg:289
+#: kile.kcfg:288
 #, kde-format
 msgid "Allow wrapped figures to float."
 msgstr "Dovoli premičnost slikam obkroženih z besedilom."
 
 #. i18n: ectx: label, entry (imagemagick), group (IncludeGraphics)
-#: kile.kcfg:293
+#: kile.kcfg:292
 #, kde-format
 msgid "Whether ImageMagick is installed."
 msgstr "Ali je nameščen ImageMagick."
 
 #. i18n: ectx: label, entry (boundingbox), group (IncludeGraphics)
-#: kile.kcfg:297
+#: kile.kcfg:296
 #, kde-format
 msgid "Try to determine the bounding box from the picture."
 msgstr "Na sliki poskusi določiti omejevalni okvir."
 
 #. i18n: ectx: label, entry (resolution), group (IncludeGraphics)
-#: kile.kcfg:301
+#: kile.kcfg:300
 #, kde-format
 msgid "The default image resolution."
 msgstr "Privzeta ločljivost slik."
 
 #. i18n: ectx: label, entry (kilerefs), group (Help)
-#: kile.kcfg:307
+#: kile.kcfg:306
 #, kde-format
 msgid "Use the Kile LaTeX reference for the contextual help."
 msgstr "Uporabi referenco Kile LaTeX za kontekstualno pomoč."
 
 #. i18n: ectx: label, entry (latex2erefs), group (Help)
-#: kile.kcfg:311
+#: kile.kcfg:310
 #, kde-format
 msgid "Use the system's TexLive LaTeX2e reference for the contextual help."
 msgstr "Uporabi sistemsko referenco TexLive LaTeX2e za kontekstualno pomoč."
 
 #. i18n: ectx: label, entry (Restore), group (Files)
-#: kile.kcfg:317
+#: kile.kcfg:316
 #, kde-format
 msgid "Reopen files and projects on startup."
 msgstr "Ob zagonu ponovno odpri datoteke in projekte."
 
 #. i18n: ectx: label, entry (CleanUpAfterClose), group (Files)
-#: kile.kcfg:321
+#: kile.kcfg:320
 #, kde-format
 msgid "Automatically clean-up files after close."
 msgstr "Samodejno očisti datoteke po zapiranju."
 
 #. i18n: ectx: label, entry (CleanUpFileExtensions), group (Files)
-#: kile.kcfg:325
+#: kile.kcfg:324
 #, kde-format
 msgid "The file extensions to clean on exit."
 msgstr "Očisti priponke datotek ob izhodu."
 
 #. i18n: ectx: label, entry (showLaTeXFilesOnly), group (Files)
-#: kile.kcfg:337
+#: kile.kcfg:336
 #, kde-format
 msgid "Only show LaTeX files in the file browser widget"
 msgstr "V pripomočku brskalnika datotek prikazuj samo datoteke LaTeX"
 
 #. i18n: ectx: label, entry (Author), group (User)
-#: kile.kcfg:347
+#: kile.kcfg:346
 #, kde-format
 msgid "The Author template variable."
 msgstr "Spremenljivka predloge Author."
 
 #. i18n: ectx: label, entry (DocumentClassOptions), group (User)
-#: kile.kcfg:351
+#: kile.kcfg:350
 #, kde-format
 msgid "The Documentclass template variable."
 msgstr "Spremenljivka predloge Documentclass."
 
 #. i18n: ectx: label, entry (TemplateEncoding), group (User)
-#: kile.kcfg:355
+#: kile.kcfg:354
 #, kde-format
 msgid "The Input encoding template variable."
 msgstr "Spremenljivka predloge za kodiranje vhoda."
 
 #. i18n: ectx: label, entry (DefaultProjectLocation), group (User)
-#: kile.kcfg:359
+#: kile.kcfg:358
 #, kde-format
 msgid "The default location where the projects must be created."
 msgstr "Privzeto mesto, kjer je treba ustvariti projekte."
 
 #. i18n: ectx: label, entry (SyncConsoleDirWithTabs), group (User)
-#: kile.kcfg:365
+#: kile.kcfg:364
 #, kde-format
 msgid ""
 "Whether the current directory shown in the console is kept synchronized with "
@@ -7011,92 +7011,92 @@ msgstr ""
 "Ali je trenutni imenik, prikazan v konzoli, sinhroniziran z odprtimi zavihki"
 
 #. i18n: ectx: label, entry (WatchFileForDocumentViewer), group (User)
-#: kile.kcfg:369
+#: kile.kcfg:368
 #, kde-format
 msgid "Whether the watch-file mode is enabled for the document viewer"
 msgstr "Ali je za pregledovalnik dokumentov omogočeno ogledovanje datoteke"
 
 #. i18n: ectx: label, entry (ShowFullPathInWindowTitle), group (User)
-#: kile.kcfg:373
+#: kile.kcfg:372
 #, kde-format
 msgid "Whether to show the full path of file names in the window title."
 msgstr "Ali naj se v naslovu okna prikaže celotna pot imen datotek."
 
 #. i18n: ectx: label, entry (dvipng), group (QuickPreview)
-#: kile.kcfg:441
+#: kile.kcfg:440
 #, kde-format
 msgid "Whether Dvipng is installed."
 msgstr "Ali je nameščen Dvipng."
 
 #. i18n: ectx: label, entry (convert), group (QuickPreview)
-#: kile.kcfg:445
+#: kile.kcfg:444
 #, kde-format
 msgid "Whether Convert is installed."
 msgstr "Ali je nameščen Convert."
 
 #. i18n: ectx: label, entry (envPreviewInWidget), group (QuickPreview)
-#: kile.kcfg:453
+#: kile.kcfg:452
 #, kde-format
 msgid "Show preview of environments in bottom bar."
 msgstr "Pokaži predogled okolij v spodnji vrstici."
 
 #. i18n: ectx: label, entry (selPreviewInWidget), group (QuickPreview)
-#: kile.kcfg:457
+#: kile.kcfg:456
 #, kde-format
 msgid "Show preview of selected text in bottom bar."
 msgstr "Pokaži predogled izbranega besedila v spodnji vrstici."
 
 #. i18n: ectx: label, entry (mathgroupPreviewInWidget), group (QuickPreview)
-#: kile.kcfg:461
+#: kile.kcfg:460
 #, kde-format
 msgid "Show preview of mathgroups in bottom bar."
 msgstr "Pokaži predogled matematičnih skupin v spodnji vrstici."
 
 #. i18n: ectx: label, entry (envPreviewTool), group (QuickPreview)
-#: kile.kcfg:465
+#: kile.kcfg:464
 #, kde-format
 msgid "Conversion tool for preview of environments in bottom bar."
 msgstr "Orodje za pretvorbo za predogled okolij v spodnji vrstici."
 
 #. i18n: ectx: label, entry (selPreviewTool), group (QuickPreview)
-#: kile.kcfg:469
+#: kile.kcfg:468
 #, kde-format
 msgid "Conversion tool for preview of selected text in bottom bar."
 msgstr "Orodje za pretvorbo za predogled izbranega besedila v spodnji vrstici."
 
 #. i18n: ectx: label, entry (mathgroupPreviewTool), group (QuickPreview)
-#: kile.kcfg:473
+#: kile.kcfg:472
 #, kde-format
 msgid "Conversion tool for preview of mathgroups in bottom bar."
 msgstr ""
 "Orodje za pretvorbo za predogled matematičnih skupin v spodnji vrstici."
 
 #. i18n: ectx: label, entry (previewPaneBackgroundColor), group (QuickPreview)
-#: kile.kcfg:477
+#: kile.kcfg:476
 #, kde-format
 msgid "The background color of the quick preview pane."
 msgstr "Barva ozadja podokna za hitri predogled."
 
 #. i18n: ectx: label, entry (ScriptingEnabled), group (Scripting)
-#: kile.kcfg:557
+#: kile.kcfg:556
 #, kde-format
 msgid "Enable the scripting support."
 msgstr "Omogočite podporo skriptov."
 
 #. i18n: ectx: label, entry (TimeLimitEnabled), group (Scripting)
-#: kile.kcfg:561
+#: kile.kcfg:560
 #, kde-format
 msgid "Set a time limit for the execution of scripts."
 msgstr "Določite časovno omejitev za izvajanje skriptov."
 
 #. i18n: ectx: label, entry (TimeLimit), group (Scripting)
-#: kile.kcfg:565
+#: kile.kcfg:564
 #, kde-format
 msgid "Time limit for the execution of scripts."
 msgstr "Časovna omejitev za izvedbo skripta."
 
 #. i18n: ectx: label, entry (ScriptNameColumnWidth), group (Scripting)
-#: kile.kcfg:569
+#: kile.kcfg:568
 #, kde-format
 msgid ""
 "Width of the column containing the script name in the scripts management "
@@ -7105,13 +7105,13 @@ msgstr ""
 "Širina stolpca, ki vsebuje ime skripta v pripomočku za upravljanje skriptov."
 
 #. i18n: ectx: label, entry (pdfWizardLastTask), group (PdfWizard)
-#: kile.kcfg:575
+#: kile.kcfg:574
 #, kde-format
 msgid "Last task used by the PdfWizard."
 msgstr "Zadnja naloga, ki jo je uporabil PdfWizard."
 
 #. i18n: ectx: label, entry (numSymbolsMFUS), group (MostUsedSymbols)
-#: kile.kcfg:581
+#: kile.kcfg:580
 #, kde-format
 msgid "Number of symbols to store in the Most Frequently Used Symbols view."
 msgstr ""
@@ -7119,31 +7119,31 @@ msgstr ""
 "simbolov."
 
 #. i18n: ectx: label, entry (displayMFUS), group (MostUsedSymbols)
-#: kile.kcfg:585
+#: kile.kcfg:584
 #, kde-format
 msgid "Display the Most Frequently Used Symbols view."
 msgstr "Prikaži pogled najpogosteje uporabljenih simbolov."
 
 #. i18n: ectx: label, entry (clearMFUS), group (MostUsedSymbols)
-#: kile.kcfg:589
+#: kile.kcfg:588
 #, kde-format
 msgid "Clear the list of the most frequently used symbols whilst closing Kile."
 msgstr "Počisti seznam najpogosteje uporabljenih simbolov ob zapiranju Kile."
 
 #. i18n: ectx: label, entry (symbolViewUTF8), group (MostUsedSymbols)
-#: kile.kcfg:593
+#: kile.kcfg:592
 #, kde-format
 msgid "Should UTF-8 characters instead of commands be inserted"
 msgstr "Ali naj bodo vstavljeni znaki UTF-8 namesto ukazov"
 
 #. i18n: ectx: label, entry (userMenuFile), group (UserMenu)
-#: kile.kcfg:599
+#: kile.kcfg:598
 #, kde-format
 msgid "XML file for the user menu"
 msgstr "Datoteka XML za uporabniški meni"
 
 #. i18n: ectx: label, entry (userMenuLocation), group (UserMenu)
-#: kile.kcfg:603
+#: kile.kcfg:602
 #, kde-format
 msgid ""
 "Use the main menubar (value 0) or the LaTeX menu (value 1) for the location "
@@ -7153,25 +7153,25 @@ msgstr ""
 "0) ali meni LaTeX (vrednost 1)"
 
 #. i18n: ectx: label, entry (livePreviewEnabled), group (LivePreview)
-#: kile.kcfg:609
+#: kile.kcfg:608
 #, kde-format
 msgid "Activate live preview functionality."
 msgstr "Aktiviraj funkcionalnost živega predogleda."
 
 #. i18n: ectx: label, entry (synchronizeCursorWithView), group (LivePreview)
-#: kile.kcfg:613
+#: kile.kcfg:612
 #, kde-format
 msgid "Synchronize the cursor position with the view."
 msgstr "Sinhroniziraj pozicijo kazalke s pogledom."
 
 #. i18n: ectx: label, entry (previewEnabledForFreshlyOpenedDocuments), group (LivePreview)
-#: kile.kcfg:617
+#: kile.kcfg:616
 #, kde-format
 msgid "Enable preview for freshly opened documents."
 msgstr "Omogoči predogled za sveže odprte dokumente."
 
 #. i18n: ectx: label, entry (livePreviewCompilationDelay), group (LivePreview)
-#: kile.kcfg:621
+#: kile.kcfg:620
 #, kde-format
 msgid ""
 "Number of milliseconds after which the compilation is started when a change "
@@ -7179,13 +7179,13 @@ msgid ""
 msgstr "Število milisekund po spremembi, ko se začne prevajanje."
 
 #. i18n: ectx: label, entry (livePreviewCompileOnlyAfterSaving), group (LivePreview)
-#: kile.kcfg:625
+#: kile.kcfg:624
 #, kde-format
 msgid "Only compile documents after saving."
 msgstr "Dokumente prevedi le po shranjevanju."
 
 #. i18n: ectx: label, entry (livePreviewDefaultTool), group (LivePreview)
-#: kile.kcfg:629
+#: kile.kcfg:628
 #, kde-format
 msgid "default livepreview tool."
 msgstr "privzeto orodje živega predogleda."
@@ -7195,17 +7195,17 @@ msgstr "privzeto orodje živega predogleda."
 msgid "&Label:"
 msgstr "Oznaka:"
 
-#: kiledocmanager.cpp:92
+#: kiledocmanager.cpp:94
 #, kde-format
 msgid "No editor component found. Please check your KDE installation."
 msgstr "Ni najdene komponente urejevalnika. Preverite vašo namestitev KDE."
 
-#: kiledocmanager.cpp:93
+#: kiledocmanager.cpp:95
 #, kde-format
 msgid "No editor component found."
 msgstr "Ni najdene komponente urejevalnika."
 
-#: kiledocmanager.cpp:144
+#: kiledocmanager.cpp:146
 #, kde-format
 msgid ""
 "The internal structure of Kile is corrupted (probably due to a bug in Kile). "
@@ -7218,7 +7218,7 @@ msgstr ""
 "Skupina Kile se opravičuje za morebitne nevšečnosti in bi bila vesela vašega "
 "poročila o napaki."
 
-#: kiledocmanager.cpp:536
+#: kiledocmanager.cpp:538
 #, kde-format
 msgid ""
 "The URL \"%1\" couldn't be opened.\n"
@@ -7229,57 +7229,57 @@ msgstr ""
 "\n"
 "%2"
 
-#: kiledocmanager.cpp:537 kiledocmanager.cpp:540
+#: kiledocmanager.cpp:539 kiledocmanager.cpp:542
 #, kde-format
 msgid "Cannot open URL"
 msgstr "Ni mogoče odpreti naslova"
 
-#: kiledocmanager.cpp:540
+#: kiledocmanager.cpp:542
 #, kde-format
 msgid "The URL \"%1\" couldn't be opened."
 msgstr "Naslova \"%1\" ni mogoče odpreti."
 
-#: kiledocmanager.cpp:683
+#: kiledocmanager.cpp:681
 #, kde-format
 msgid "Could not find template: %1"
 msgstr "Predloge ni mogoče najti: %1"
 
-#: kiledocmanager.cpp:683
+#: kiledocmanager.cpp:681
 #, kde-format
 msgid "File Not Found"
 msgstr "Datoteka ni bila najdena"
 
-#: kiledocmanager.cpp:743
+#: kiledocmanager.cpp:741
 #, kde-format
 msgid "Please save the file first."
 msgstr "Najprej shranite datoteko."
 
-#: kiledocmanager.cpp:748
+#: kiledocmanager.cpp:746
 #, kde-format
 msgid "Open/create a document first."
 msgstr "Najprej odprite/ustvarite dokument."
 
-#: kiledocmanager.cpp:756
+#: kiledocmanager.cpp:754
 #, kde-format
 msgid "A template for this type of document cannot be created."
 msgstr "Predloge za to vrsto dokumenta ni mogoče ustvariti."
 
-#: kiledocmanager.cpp:760
+#: kiledocmanager.cpp:758
 #, kde-format
 msgid "Create Template From Document"
 msgstr "Ustvari predlogo iz dokumenta"
 
-#: kiledocmanager.cpp:766
+#: kiledocmanager.cpp:764
 #, kde-format
 msgid "Remove Template"
 msgstr "Odstrani predlogo"
 
-#: kiledocmanager.cpp:831
+#: kiledocmanager.cpp:829
 #, kde-format
 msgid "Open Files"
 msgstr "Odpri datoteke"
 
-#: kiledocmanager.cpp:913
+#: kiledocmanager.cpp:911
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
@@ -7288,22 +7288,22 @@ msgstr ""
 "Kile je naletel na težave pri shranjevanju datoteke %1. Imate dovolj "
 "prostega prostora na disku?"
 
-#: kiledocmanager.cpp:914
+#: kiledocmanager.cpp:912
 #, kde-format
 msgid "Saving"
 msgstr "Shranjevanje"
 
-#: kiledocmanager.cpp:947
+#: kiledocmanager.cpp:945
 #, kde-format
 msgid "Any files (*)"
 msgstr "Vse datoteke (*)"
 
-#: kiledocmanager.cpp:949
+#: kiledocmanager.cpp:947
 #, kde-format
 msgid "Save Compiled Document As..."
 msgstr "Shrani preveden dokument kot..."
 
-#: kiledocmanager.cpp:974
+#: kiledocmanager.cpp:972
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
@@ -7312,33 +7312,33 @@ msgstr ""
 "Naslova \"%1\" ni mogoče odpreti\n"
 "ker je imenik."
 
-#: kiledocmanager.cpp:975
+#: kiledocmanager.cpp:973
 #, kde-format
 msgid "Cannot open directory"
 msgstr "Ni mogoče odpreti imenika"
 
-#: kiledocmanager.cpp:1093
+#: kiledocmanager.cpp:1091
 #, kde-format
 msgid "Save File"
 msgstr "Shrani datoteko"
 
-#: kiledocmanager.cpp:1130
+#: kiledocmanager.cpp:1128
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "Datoteka z imenom \"%1\" že obstaja. Ali jo želite prepisati?"
 
-#: kiledocmanager.cpp:1131
+#: kiledocmanager.cpp:1129
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Želite prepisati datoteko?"
 
-#: kiledocmanager.cpp:1307
+#: kiledocmanager.cpp:1305
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "Osveži drevo projekta"
 
-#: kiledocmanager.cpp:1315
+#: kiledocmanager.cpp:1313
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7349,34 +7349,34 @@ msgstr ""
 "povezan s projektom, za katerega želite zgraditi drevo,nato ponovno izberite "
 "Osveži drevo projekta."
 
-#: kiledocmanager.cpp:1315
+#: kiledocmanager.cpp:1313
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "Drevesa projekta ni mogoče osvežiti"
 
-#: kiledocmanager.cpp:1400 kiledocmanager.cpp:2171 kiledocmanager.cpp:2245
-#: kiledocmanager.cpp:2282
+#: kiledocmanager.cpp:1398 kiledocmanager.cpp:2169 kiledocmanager.cpp:2243
+#: kiledocmanager.cpp:2280
 #, kde-format
 msgid "Select Project"
 msgstr "Izberite projekt"
 
-#: kiledocmanager.cpp:1425 kiledocmanager.cpp:1440 kiledocmanager.cpp:1447
+#: kiledocmanager.cpp:1423 kiledocmanager.cpp:1438 kiledocmanager.cpp:1445
 #, kde-format
 msgid "Add to Project"
 msgstr "Dodaj projektu"
 
-#: kiledocmanager.cpp:1439
+#: kiledocmanager.cpp:1437
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "Datoteka %1 je že del projekta %2"
 
-#: kiledocmanager.cpp:1446
+#: kiledocmanager.cpp:1444
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr "Datoteke %1 ni mogoče dodati, ker ali ne obstaja ali ni berljiva"
 
-#: kiledocmanager.cpp:1465
+#: kiledocmanager.cpp:1463
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
@@ -7385,12 +7385,12 @@ msgstr ""
 "Ta datoteka je projektna datoteka, ki vsebuje vse informacije o vašem "
 "projektu. Zato je ni mogoče odstraniti iz projekta."
 
-#: kiledocmanager.cpp:1465
+#: kiledocmanager.cpp:1463
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "Datoteke ni mogoče odstraniti iz projekta"
 
-#: kiledocmanager.cpp:1533
+#: kiledocmanager.cpp:1531
 #, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
@@ -7399,12 +7399,12 @@ msgstr ""
 "<p>Projekt \"%1\" je že odprt.</p><p>Če ste želeli znova naložiti projekt, "
 "zaprite projekt, preden ga znova odprete.</p>"
 
-#: kiledocmanager.cpp:1535
+#: kiledocmanager.cpp:1533
 #, kde-format
 msgid "Project Already Open"
 msgstr "Projekt je že odprt"
 
-#: kiledocmanager.cpp:1546
+#: kiledocmanager.cpp:1544
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7414,12 +7414,12 @@ msgstr ""
 "<p>Projektna datoteka za projekt \"%1\" ne obstaja ali pa je ni berljiva.</"
 "p><p>Ali želite ta projekt odstraniti iz seznama zadnjih projektov?</p>"
 
-#: kiledocmanager.cpp:1549
+#: kiledocmanager.cpp:1547
 #, kde-format
 msgid "Could Not Open Project"
 msgstr "Projekta ni mogoče odpreti"
 
-#: kiledocmanager.cpp:1567
+#: kiledocmanager.cpp:1565
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
@@ -7428,12 +7428,12 @@ msgstr ""
 "<p>Datoteke \"%1\" ni mogoče odpreti, ker ni videti kot projektna datoteka.</"
 "p>"
 
-#: kiledocmanager.cpp:1569
+#: kiledocmanager.cpp:1567
 #, kde-format
 msgid "Impossible to Open Project File"
 msgstr "Ni mogoče odpreti projektne datoteke"
 
-#: kiledocmanager.cpp:1579
+#: kiledocmanager.cpp:1577
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
@@ -7442,12 +7442,12 @@ msgstr ""
 "<p>Projekta \"%1\" ni mogoče odpreti, ker ga je ustvarila<br/>novejša "
 "verzija Kile.</p>"
 
-#: kiledocmanager.cpp:1581
+#: kiledocmanager.cpp:1579
 #, kde-format
 msgid "Impossible to Open Project"
 msgstr "Ni mogoče odpreti projekta"
 
-#: kiledocmanager.cpp:1591
+#: kiledocmanager.cpp:1589
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7458,12 +7458,12 @@ msgstr ""
 "jo je posodobiti, preden jo je mogoče odpreti.</p><p>Ali jo želite "
 "posodobiti?</p>"
 
-#: kiledocmanager.cpp:1594
+#: kiledocmanager.cpp:1592
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr "Projektno datoteko je potrebno posodobiti"
 
-#: kiledocmanager.cpp:1601
+#: kiledocmanager.cpp:1599
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
@@ -7472,22 +7472,22 @@ msgstr ""
 "<p>Projektne datoteke \"%1\" ni bilo mogoče posodobiti.</p><p>Ali želite "
 "odstraniti ta projekt s seznama nedavnih projektov?</p>"
 
-#: kiledocmanager.cpp:1603
+#: kiledocmanager.cpp:1601
 #, kde-format
 msgid "Could Not Update Project File"
 msgstr "Ni mogoče posodobiti projektne datoteke"
 
-#: kiledocmanager.cpp:1705
+#: kiledocmanager.cpp:1703
 #, kde-format
 msgid "Open Project"
 msgstr "Odpri projekt"
 
-#: kiledocmanager.cpp:1724
+#: kiledocmanager.cpp:1722
 #, kde-format
 msgid "Save Project"
 msgstr "Shrani projekt"
 
-#: kiledocmanager.cpp:1776
+#: kiledocmanager.cpp:1774
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7498,27 +7498,27 @@ msgstr ""
 "povezan s projektom, ki ga želite shraniti, nato izberitePonovno shrani "
 "projekt."
 
-#: kiledocmanager.cpp:1776
+#: kiledocmanager.cpp:1774
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "Bilo je mogoče določiti aktivni projekt"
 
-#: kiledocmanager.cpp:1797
+#: kiledocmanager.cpp:1795
 #, kde-format
 msgid "Add Files to Project"
 msgstr "Dodaj datoteke projektu"
 
-#: kiledocmanager.cpp:1810
+#: kiledocmanager.cpp:1808
 #, kde-format
 msgid "Add Files"
 msgstr "Dodaj datoteke"
 
-#: kiledocmanager.cpp:1813
+#: kiledocmanager.cpp:1811
 #, kde-format
 msgid "Add"
 msgstr "Dodaj"
 
-#: kiledocmanager.cpp:1828
+#: kiledocmanager.cpp:1826
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
@@ -7527,17 +7527,17 @@ msgstr ""
 "Ni odprtih projektov. Odprite projekt, v katerega želite dodati datoteke, "
 "nato znova izberite Dodaj datoteke."
 
-#: kiledocmanager.cpp:1828 kiledocmanager.cpp:1863
+#: kiledocmanager.cpp:1826 kiledocmanager.cpp:1861
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "Ni bilo mogoče določiti aktivnega projekta"
 
-#: kiledocmanager.cpp:1854
+#: kiledocmanager.cpp:1852
 #, kde-format
 msgid "Project Options For"
 msgstr "Možnosti projekta za"
 
-#: kiledocmanager.cpp:1863
+#: kiledocmanager.cpp:1861
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7548,12 +7548,12 @@ msgstr ""
 "povezan s projektom, ki ga želite spremeniti, nato spet izberiteMožnosti "
 "projekta."
 
-#: kiledocmanager.cpp:1889
+#: kiledocmanager.cpp:1887
 #, kde-format
 msgid "Close Project"
 msgstr "Zapri projekt"
 
-#: kiledocmanager.cpp:1943
+#: kiledocmanager.cpp:1941
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7563,77 +7563,77 @@ msgstr ""
 "Trenutni dokument ni povezan s projektom. Aktivirajte dokument, ki je "
 "povezan s projektom, ki ga želite zapreti, nato spet izberiteZapri projekt."
 
-#: kiledocmanager.cpp:1943
+#: kiledocmanager.cpp:1941
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "Projekta ni mogoče zapreti"
 
-#: kiledocmanager.cpp:1998
+#: kiledocmanager.cpp:1996
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr "Ni kaj čistiti za %1"
 
-#: kiledocmanager.cpp:2008
+#: kiledocmanager.cpp:2006
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "Čiščenje %1: %2"
 
-#: kiledocmanager.cpp:2082
+#: kiledocmanager.cpp:2080
 #, kde-format
 msgid "Switch Project"
 msgstr "Preklopi projekt"
 
-#: kiledocmanager.cpp:2140
+#: kiledocmanager.cpp:2138
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "Izberite datoteke, ki jih želite odstraniti"
 
-#: kiledocmanager.cpp:2153 kiledocmanager.cpp:2156
+#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2154
 #, kde-format
 msgid "Show Project Files"
 msgstr "Pokaži projektne datoteke"
 
-#: kiledocmanager.cpp:2153 kiledocmanager.cpp:2201
+#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2199
 #, kde-format
 msgid "project configuration file"
 msgstr "projektna nastavitvena datoteka"
 
-#: kiledocmanager.cpp:2156 kiledocmanager.cpp:2204
+#: kiledocmanager.cpp:2154 kiledocmanager.cpp:2202
 #, kde-format
 msgid "graphics file"
 msgstr "grafična datoteka"
 
-#: kiledocmanager.cpp:2201 kiledocmanager.cpp:2204
+#: kiledocmanager.cpp:2199 kiledocmanager.cpp:2202
 #, kde-format
 msgid "Open All Project Files"
 msgstr "Odpri vse datoteke projekta"
 
-#: kiledocmanager.cpp:2238
+#: kiledocmanager.cpp:2236
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "ni odprto: %1 (%2)"
 
-#: kiledocmanager.cpp:2263 kiledocmanager.cpp:2300
+#: kiledocmanager.cpp:2261 kiledocmanager.cpp:2298
 #, kde-format
 msgid "Project Files"
 msgstr "Projektne datoteke"
 
-#: kiledocmanager.cpp:2271 kiledocmanager.cpp:2310
+#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "Izbrane datoteke ni bilo mogoče določiti."
 
-#: kiledocmanager.cpp:2271 kiledocmanager.cpp:2310
+#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
 #, kde-format
 msgid "Project Error"
 msgstr "Napaka projekta"
 
-#: kiledocmanager.cpp:2377
+#: kiledocmanager.cpp:2375
 #, kde-format
 msgid "Opening Project..."
 msgstr "Odpiranje projekta..."
 
-#: kiledocmanager.cpp:2380
+#: kiledocmanager.cpp:2378
 #, kde-format
 msgid "Scanning project files..."
 msgstr "Pregledovanje projektnih datotek..."
@@ -7776,17 +7776,17 @@ msgstr "Pregledovalnik dokumentov ni na voljo"
 msgid "Please disable the live preview before launching this tool"
 msgstr "Pred zagonom tega orodja onemogočite živi predogled"
 
-#: kilelyxserver.cpp:240
+#: kilelyxserver.cpp:241
 #, kde-format
 msgid "Cite"
 msgstr "Citiraj"
 
-#: kilelyxserver.cpp:243
+#: kilelyxserver.cpp:247
 #, kde-format
 msgid "Add BibTeX database"
 msgstr "Dodaj zbirko podatkov BibTeX"
 
-#: kilelyxserver.cpp:246
+#: kilelyxserver.cpp:252
 #, kde-format
 msgid "Paste"
 msgstr "Prilepi"
@@ -8596,7 +8596,7 @@ msgstr ""
 "tako, kot če bi bila njena vsebina vstavljena v trenutno datoteko v tej "
 "točki."
 
-#: kilestdactions.cpp:98 widgets/structurewidget.cpp:773
+#: kilestdactions.cpp:98 widgets/structurewidget.cpp:774
 #, kde-format
 msgid "Sectioning"
 msgstr "Razdeljevanje"
@@ -8771,7 +8771,7 @@ msgid "Huge"
 msgstr "Huge"
 
 #: kilestdactions.cpp:125 widgets/projectview.cpp:481
-#: widgets/toolconfigwidget.cpp:78
+#: widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "Other"
 msgstr "Drugo"
@@ -10192,12 +10192,12 @@ msgid "Bmatrix"
 msgstr "Bmatrix"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
-#: kilestdtools.cpp:327
+#: kilestdtools.cpp:328
 #, kde-format
 msgid "0 errors"
 msgstr "0 napak"
 
-#: kilestdtools.cpp:327
+#: kilestdtools.cpp:328
 #, kde-format
 msgid "1 error"
 msgid_plural "%1 errors"
@@ -10206,12 +10206,12 @@ msgstr[1] "%1 napaki"
 msgstr[2] "%1 napake"
 msgstr[3] "%1 napak"
 
-#: kilestdtools.cpp:328
+#: kilestdtools.cpp:329
 #, kde-format
 msgid "0 warnings"
 msgstr "0 opozoril"
 
-#: kilestdtools.cpp:328
+#: kilestdtools.cpp:329
 #, kde-format
 msgid "1 warning"
 msgid_plural "%1 warnings"
@@ -10220,12 +10220,12 @@ msgstr[1] "%1 opozorili"
 msgstr[2] "%1 opozorila"
 msgstr[3] "%1 opozoril"
 
-#: kilestdtools.cpp:329
+#: kilestdtools.cpp:330
 #, kde-format
 msgid "0 badboxes"
 msgstr "0 slabih postavitev"
 
-#: kilestdtools.cpp:329
+#: kilestdtools.cpp:330
 #, kde-format
 msgid "1 badbox"
 msgid_plural "%1 badboxes"
@@ -10234,7 +10234,7 @@ msgstr[1] "%1 slabi postavitvi"
 msgstr[2] "%1 slabe postavitve"
 msgstr[3] "%1 slabih postavitev"
 
-#: kilestdtools.cpp:332
+#: kilestdtools.cpp:333
 #, kde-format
 msgctxt ""
 "String displayed in the log panel showing the number of errors/warnings/"
@@ -10242,7 +10242,7 @@ msgctxt ""
 msgid "%1, %2, %3"
 msgstr "%1, %2, %3"
 
-#: kilestdtools.cpp:375
+#: kilestdtools.cpp:376
 #, kde-format
 msgid ""
 "Manually selected bibliography tool does not exist: trying to auto-detect it "
@@ -10251,7 +10251,7 @@ msgstr ""
 "Ročno izbrano orodje za bibliografijo ne obstaja: poskušam ga samodejno "
 "zaznati zdaj."
 
-#: kilestdtools.cpp:659
+#: kilestdtools.cpp:660
 #, kde-format
 msgid ""
 "The version %1.%2.%3 of okular is too old for ForwardDVI. Please update "
@@ -10260,27 +10260,27 @@ msgstr ""
 "Verzija %1.%2.%3 programa okular je prestara za ForwardDVI. Posodobite "
 "okular na verzijo 0.8.6 ali novejšo"
 
-#: kilestdtools.cpp:726
+#: kilestdtools.cpp:727
 #, kde-format
 msgid "Select Bibliography"
 msgstr "Izberite bibliografijo"
 
-#: kilestdtools.cpp:726
+#: kilestdtools.cpp:727
 #, kde-format
 msgid "Select a bibliography"
 msgstr "Izberite bibliografijo"
 
-#: kilestdtools.cpp:735
+#: kilestdtools.cpp:736
 #, kde-format
 msgid "No bibliography selected."
 msgstr "Nobena bibliografija ni izbrana."
 
-#: kilestdtools.cpp:747
+#: kilestdtools.cpp:748
 #, kde-format
 msgid "No bibliographies found."
 msgstr "Bibliografij ni mogoče najti."
 
-#: kilestdtools.cpp:783
+#: kilestdtools.cpp:784
 #, kde-format
 msgid ""
 "Unable to find %1 or %2; if you are trying to view some other HTML file, go "
@@ -10289,12 +10289,12 @@ msgstr ""
 "Ni mogoče najti %1 ali %2; če poskušate ogledovati neko drugo datoteko HTML, "
 "pojdite na Nastavitve->Nastavi Kile->Orodja->Pogled TML->Napredno."
 
-#: kiletool.cpp:58
+#: kiletool.cpp:57
 #, kde-format
 msgid "Could not change to the folder %1."
 msgstr "V mapo %1 se ni mogoče pomakniti."
 
-#: kiletool.cpp:59
+#: kiletool.cpp:58
 #, kde-format
 msgid ""
 "The folder %1 is not writable, therefore %2 will not be able to save its "
@@ -10302,7 +10302,7 @@ msgid ""
 msgstr ""
 "Mapa %1 ne dovoli pisanja, zato %2 ne bo mogel shraniti svojih rezultatov."
 
-#: kiletool.cpp:60
+#: kiletool.cpp:59
 #, kde-format
 msgid ""
 "The file %1/%2 does not exist. If this is unexpected, check the file "
@@ -10310,7 +10310,7 @@ msgid ""
 msgstr ""
 "Datoteka %1/%2 ne obstaja. Če je to nepričakovano, preverite dovoljenja."
 
-#: kiletool.cpp:61
+#: kiletool.cpp:60
 #, kde-format
 msgid ""
 "The file %1/%2 is not readable. If this is unexpected, check the file "
@@ -10318,7 +10318,7 @@ msgid ""
 msgstr ""
 "Datoteka %1/%2ni berljiva. Če je to nepričakovano, preverite dovoljenja."
 
-#: kiletool.cpp:62
+#: kiletool.cpp:61
 #, kde-format
 msgid ""
 "Could not determine on which file to run %1, because there is no active "
@@ -10327,42 +10327,42 @@ msgstr ""
 "Ni bilo mogoče določiti, na kateri datoteki naj se zažene %1, ker ni "
 "aktivnega dokumenta."
 
-#: kiletool.cpp:63
+#: kiletool.cpp:62
 #, kde-format
 msgid "Could not determine the master file for this document."
 msgstr "Ni bilo mogoče določiti glavne datoteke za ta dokument."
 
-#: kiletool.cpp:64
+#: kiletool.cpp:63
 #, kde-format
 msgid "Please save the untitled document first."
 msgstr "Najprej shranite neimenovani dokument."
 
-#: kiletool.cpp:65
+#: kiletool.cpp:64
 #, kde-format
 msgid "The file %1 does not exist."
 msgstr "Datoteka %1 ne obstaja."
 
-#: kiletool.cpp:66
+#: kiletool.cpp:65
 #, kde-format
 msgid "The file %1 is not readable."
 msgstr "Datoteka %1 ni berljiva."
 
-#: kiletool.cpp:642
+#: kiletool.cpp:641
 #, kde-format
 msgid "The document %1 is not a LaTeX root document; continue anyway?"
 msgstr "Dokument %1 ni korenski dokument LaTeX; naj vseeno nadaljujem?"
 
-#: kiletool.cpp:642
+#: kiletool.cpp:641
 #, kde-format
 msgid "Continue?"
 msgstr "Ali želite nadaljevati?"
 
-#: kiletool.cpp:654
+#: kiletool.cpp:653
 #, kde-format
 msgid "The file %1/%2 does not exist; did you compile the source file?"
 msgstr "Datoteka %1/%2 ne obstaja; ali ste sestavili izvorno datoteko?"
 
-#: kiletool.cpp:674
+#: kiletool.cpp:673
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -10373,57 +10373,57 @@ msgstr ""
 "povezan s projektom, ki ga želite arhivirati, nato izberite Ponovno "
 "arhiviraj."
 
-#: kiletool.cpp:678
+#: kiletool.cpp:677
 #, kde-format
 msgid "No files have been chosen for archiving."
 msgstr "Nobene datoteke ni bilo izbrane za arhiviranje."
 
-#: kiletool.cpp:694
+#: kiletool.cpp:693
 #, kde-format
 msgid "Archive Project"
 msgstr "Arhiviraj projekt"
 
-#: kiletool.cpp:820 kiletoolmanager.cpp:285
+#: kiletool.cpp:819 kiletoolmanager.cpp:284
 #, kde-format
 msgid "Unknown tool %1."
 msgstr "Neznano orodje %1."
 
-#: kiletoolmanager.cpp:279
+#: kiletoolmanager.cpp:278
 #, kde-format
 msgid "No factory installed, contact the author of Kile."
 msgstr "Ni tovarniško nameščeno, obrnite se k avtorjem Kile."
 
-#: kiletoolmanager.cpp:362
+#: kiletoolmanager.cpp:361
 #, kde-format
 msgid "Aborted"
 msgstr "Prekinjeno"
 
-#: kiletoolmanager.cpp:486
+#: kiletoolmanager.cpp:485
 #, kde-format
 msgid "Cannot find the tool \"%1\" in the configuration database."
 msgstr "Orodja \"%1\" ni mogoče najti v bazi nastavitev."
 
-#: kiletoolmanager.cpp:742
+#: kiletoolmanager.cpp:741
 #, kde-format
 msgid "&Stop"
 msgstr "Ustavi"
 
-#: kiletoolmanager.cpp:751
+#: kiletoolmanager.cpp:750
 #, kde-format
 msgid "Bibliography Back End"
 msgstr "Začelje bibliografije"
 
-#: kiletoolmanager.cpp:752
+#: kiletoolmanager.cpp:751
 #, kde-format
 msgid "Auto-Detect"
 msgstr "Samodejno zaznaj"
 
-#: kiletoolmanager.cpp:753
+#: kiletoolmanager.cpp:752
 #, kde-format
 msgid "Auto-detect the bibliography back end from LaTeX output"
 msgstr "Samodejno zaznaj začelje bibliografije iz izhoda LaTeX"
 
-#: kiletoolmanager.cpp:758
+#: kiletoolmanager.cpp:757
 #, kde-format
 msgid "Reset Auto-Detected Back End"
 msgstr "Ponovno nastavi samodejno zaznavanje začelja"
@@ -10459,7 +10459,7 @@ msgid "&Bullets"
 msgstr "Oznake"
 
 #. i18n: ectx: Menu (select)
-#: kileui.rc:70 widgets/structurewidget.cpp:779
+#: kileui.rc:70 widgets/structurewidget.cpp:780
 #, kde-format
 msgid "&Select"
 msgstr "Izberi"
@@ -10497,7 +10497,7 @@ msgstr "Pogled"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1165 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1162 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10768,62 +10768,62 @@ msgstr "Glavna"
 msgid "Edit"
 msgstr "Uredi"
 
-#: kileviewmanager.cpp:123
+#: kileviewmanager.cpp:125
 #, kde-format
 msgid "Show Cursor Position in Viewer"
 msgstr "Prikazuj pozicijo kazalke v pregledovalniku"
 
-#: kileviewmanager.cpp:127
+#: kileviewmanager.cpp:129
 #, kde-format
 msgid "Synchronize Cursor Position with Viewer"
 msgstr "Sinhroniziraj pozicijo kazalke s pregledovalnikom"
 
-#: kileviewmanager.cpp:180
+#: kileviewmanager.cpp:182
 #, kde-format
 msgid "Paste as LaTe&X"
 msgstr "Prilepi kot LaTe&X"
 
-#: kileviewmanager.cpp:184
+#: kileviewmanager.cpp:186
 #, kde-format
 msgid "Convert Selection to &LaTeX"
 msgstr "Pretvori izbiro v &LaTeX"
 
-#: kileviewmanager.cpp:255
+#: kileviewmanager.cpp:257
 #, kde-format
 msgid "Show sorted list of opened documents"
 msgstr "Prikaži urejen seznam odprtih dokumentov"
 
-#: kileviewmanager.cpp:375
+#: kileviewmanager.cpp:377
 #, kde-format
 msgid "Could not create an editor view."
 msgstr "Ni bilo mogoče ustvariti pogled urejevalnika."
 
-#: kileviewmanager.cpp:375
+#: kileviewmanager.cpp:377
 #, kde-format
 msgid "Fatal Error"
 msgstr "Usodna napaka"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:845
 #, kde-format
 msgid "&QuickPreview Selection"
 msgstr "Izbira hitrega predogleda"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:846
 #, kde-format
 msgid "&QuickPreview Environment"
 msgstr "Okolje hitrega predogleda"
 
-#: kileviewmanager.cpp:848
+#: kileviewmanager.cpp:847
 #, kde-format
 msgid "&QuickPreview Math"
 msgstr "Hitri predogled matematike"
 
-#: kileviewmanager.cpp:1138
+#: kileviewmanager.cpp:1135
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "Natisni prevedeni dokument..."
 
-#: kileviewmanager.cpp:1144
+#: kileviewmanager.cpp:1141
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "Predogled tiskanja za prevedeni dokument..."
@@ -10843,18 +10843,18 @@ msgstr "Ponovno prevedi živi predogled"
 msgid "Save Compiled Document..."
 msgstr "Shrani prevedeni dokument..."
 
-#: livepreview.cpp:910
+#: livepreview.cpp:908
 #, kde-format
 msgid "Some documents could not be saved correctly"
 msgstr "Nekaj dokumentov ni bilo mogoče korektno shraniti"
 
-#: livepreview.cpp:916
+#: livepreview.cpp:914
 #, kde-format
 msgid ""
 "The document must have been saved before the live preview can be started"
 msgstr "Pred zagonom živega predogleda mora biti dokument shranjen"
 
-#: livepreview.cpp:942
+#: livepreview.cpp:940
 #, kde-format
 msgid ""
 "The location of one project item is not relative to the project's base "
@@ -10864,158 +10864,158 @@ msgstr ""
 "Lokacija ene postavke projekta ni v zvezi z imenikom osnove projekta\n"
 "Živi predogled za ta projekt je onemogočen"
 
-#: livepreview.cpp:946
+#: livepreview.cpp:944
 #, kde-format
 msgid "Failed to create the subdirectory structure"
 msgstr "Strukture podimenika ni bilo mogoče ustvariti"
 
-#: livepreview.cpp:1406
+#: livepreview.cpp:1404
 #, kde-format
 msgid "LivePreview"
 msgstr "Živi predogled"
 
-#: main.cpp:63
+#: main.cpp:61
 #, kde-format
 msgid "StandardInput.tex"
 msgstr "StandardInput.tex"
 
-#: main.cpp:108
+#: main.cpp:102
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
 msgstr "Integrirano okolje LaTeX za KDE"
 
-#: main.cpp:110
+#: main.cpp:104
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
 msgstr "ekipa Kile (2003 - %1)"
 
-#: main.cpp:113
+#: main.cpp:107
 #, kde-format
 msgid "Michel Ludwig"
 msgstr "Michel Ludwig"
 
-#: main.cpp:113
+#: main.cpp:107
 #, kde-format
 msgid "Project Management/Developer"
 msgstr "Vodja projekta/razvijalec"
 
-#: main.cpp:114
+#: main.cpp:108
 #, kde-format
 msgid "Holger Danielsson"
 msgstr "Holger Danielsson"
 
-#: main.cpp:114
+#: main.cpp:108
 #, kde-format
 msgid "Developer"
 msgstr "Razvijalec"
 
-#: main.cpp:115
+#: main.cpp:109
 #, kde-format
 msgid "Thomas Braun"
 msgstr "Thomas Braun"
 
-#: main.cpp:115
+#: main.cpp:109
 #, kde-format
 msgid "Former Developer"
 msgstr "Nekdanji razvijalec"
 
-#: main.cpp:116
+#: main.cpp:110
 #, kde-format
 msgid "Jeroen Wijnhout"
 msgstr "Jeroen Wijnhout"
 
-#: main.cpp:116
+#: main.cpp:110
 #, kde-format
 msgid "Former Maintainer/Developer"
 msgstr "Nekdanji vzdrževalec/razvijalec"
 
-#: main.cpp:117
+#: main.cpp:111
 #, kde-format
 msgid "Brachet Pascal"
 msgstr "Brachet Pascal"
 
-#: main.cpp:119
+#: main.cpp:113
 #, kde-format
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:119
+#: main.cpp:113
 #, kde-format
 msgid "Migration from Subversion to Git"
 msgstr "Migracija iz Subversion v Git"
 
-#: main.cpp:120
+#: main.cpp:114
 #, kde-format
 msgid "Simon Martin"
 msgstr "Simon Martin"
 
-#: main.cpp:120
+#: main.cpp:114
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
 msgstr "KConfig XT, različne izboljšave in popravljanje napak"
 
-#: main.cpp:121
+#: main.cpp:115
 #, kde-format
 msgid "Roland Schulz"
 msgstr "Roland Schulz"
 
-#: main.cpp:121
+#: main.cpp:115
 #, kde-format
 msgid "KatePart Integration"
 msgstr "Integracija KatePart"
 
-#: main.cpp:122
+#: main.cpp:116
 #, kde-format
 msgid "Thorsten Lück"
 msgstr "Thorsten Lück"
 
-#: main.cpp:122
+#: main.cpp:116
 #, kde-format
 msgid "Log Parsing"
 msgstr "Razčlenjevanje dnevnika"
 
-#: main.cpp:123
+#: main.cpp:117
 #, kde-format
 msgid "Jan-Marek Glogowski"
 msgstr "Jan-Marek Glogowski"
 
-#: main.cpp:123
+#: main.cpp:117
 #, kde-format
 msgid "Find-in-Files Dialog"
 msgstr "Pogovorno okno iskanja v datotekah"
 
-#: main.cpp:124
+#: main.cpp:118
 #, kde-format
 msgid "Jonathan Pechta"
 msgstr "Jonathan Pechta"
 
-#: main.cpp:124 main.cpp:125
+#: main.cpp:118 main.cpp:119
 #, kde-format
 msgid "Documentation"
 msgstr "Dokumentacija"
 
-#: main.cpp:125
+#: main.cpp:119
 #, kde-format
 msgid "Federico Zenith"
 msgstr "Federico Zenith"
 
-#: main.cpp:143
+#: main.cpp:141
 #, kde-format
 msgid "Jump to line"
 msgstr "Skoči v vrstico"
 
-#: main.cpp:144
+#: main.cpp:142
 #, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "Zaženi novo okno programa Kile"
 
-#: main.cpp:146
+#: main.cpp:144
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr "Datoteke za odpiranje / določite '-' za branje standardnega vhoda"
 
-#: main.cpp:177
+#: main.cpp:175
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -11028,17 +11028,17 @@ msgstr ""
 "\n"
 "Pred zagonom Kile namestite knjižnico Okular."
 
-#: main.cpp:179
+#: main.cpp:177
 #, kde-format
 msgid "Okular library not found"
 msgstr "Ni mogoče najti knjižnice Okular"
 
-#: parser/latexparser.cpp:217 parser/latexparser.cpp:245
+#: parser/latexparser.cpp:221 parser/latexparser.cpp:249
 #, kde-format
 msgid "Frame"
 msgstr "Okvir"
 
-#: parser/latexparser.cpp:267
+#: parser/latexparser.cpp:271
 #, kde-format
 msgid "Untitled Block"
 msgstr "Neimenovani blok"
@@ -11234,7 +11234,7 @@ msgstr "Shrani kot"
 msgid "This action was canceled by the user."
 msgstr "To dejanje je preklical uporabnik."
 
-#: scripting/script.cpp:204
+#: scripting/script.cpp:206
 #, kde-format
 msgid "Unable to find '%1'"
 msgstr "Ni mogoče najti '%1'"
@@ -11244,7 +11244,7 @@ msgstr "Ni mogoče najti '%1'"
 msgid "Cursor/Range plugin"
 msgstr "Vtičnik kazalke/obsega"
 
-#: scripting/script.cpp:295
+#: scripting/script.cpp:292
 #, kde-format
 msgid ""
 "An error has occurred at line %1 during the execution of the script \"%2\":\n"
@@ -11253,12 +11253,12 @@ msgstr ""
 "Prišlo do napake v vrstici %1 med izvajanjem skripta \"%2\":\n"
 "%3"
 
-#: scripting/script.cpp:296
+#: scripting/script.cpp:293
 #, kde-format
 msgid "Error"
 msgstr "Napaka"
 
-#: scriptmanager.cpp:98
+#: scriptmanager.cpp:99
 #, kde-format
 msgid ""
 "Version %1 of Kile is at least required to execute the script \"%2\". The "
@@ -11267,27 +11267,27 @@ msgstr ""
 "Vsaj verzija %1 programa Kile je potrebna za izvajanje skripta \"%2\". "
 "Izvajanje je bilo prekinjeno."
 
-#: scriptmanager.cpp:99
+#: scriptmanager.cpp:100
 #, kde-format
 msgid "Version Error"
 msgstr "Napaka verzije"
 
-#: scriptmanager.cpp:107
+#: scriptmanager.cpp:108
 #, kde-format
 msgid "Cannot start the script: no view available"
 msgstr "Ni mogoče zagnati skripta: ni na voljo pogleda"
 
-#: scriptmanager.cpp:107
+#: scriptmanager.cpp:108
 #, kde-format
 msgid "Script Error"
 msgstr "Napaka skripta"
 
-#: scriptmanager.cpp:487
+#: scriptmanager.cpp:488
 #, kde-format
 msgid "Execution of %1"
 msgstr "Izvajanje %1"
 
-#: templates.cpp:93
+#: templates.cpp:94
 #, kde-format
 msgid ""
 "Could not find a folder to save %1 to.\n"
@@ -11298,17 +11298,17 @@ msgstr ""
 "Preverite, ali imate mapo z imenom \".kde\" z dovoljenji za pisanje v vašo "
 "domačo mapo."
 
-#: templates.cpp:165
+#: templates.cpp:166
 #, kde-format
 msgid "Empty File"
 msgstr "Prazna datoteka"
 
-#: templates.cpp:170
+#: templates.cpp:171
 #, kde-format
 msgid "Empty LaTeX File"
 msgstr "Prazna datoteka LaTeX"
 
-#: templates.cpp:175
+#: templates.cpp:176
 #, kde-format
 msgid "Empty BibTeX File"
 msgstr "Prazna datoteka BibTeX"
@@ -11319,12 +11319,12 @@ msgctxt "<tool name> - <configuration>"
 msgid "%1 - %2"
 msgstr "%1 - %2"
 
-#: userhelp.cpp:150
+#: userhelp.cpp:151
 #, kde-format
 msgid "The file '%1' does not exist."
 msgstr "Datoteka »%1« ne obstaja."
 
-#: usermenu/usermenu.cpp:918
+#: usermenu/usermenu.cpp:920
 #, kde-format
 msgid "Input Dialog"
 msgstr "Pogovorno okno vhoda"
@@ -11340,12 +11340,12 @@ msgid "Expanded Text"
 msgstr "Razširjeno besedilo"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbAdd)
-#: widgets/abbreviationview.cpp:111 widgets/quicktoolconfigwidget.ui:91
+#: widgets/abbreviationview.cpp:111 widgets/quicktoolconfigwidget.ui:103
 #, kde-format
 msgid "&Add"
 msgstr "Dod&aj"
 
-#: widgets/abbreviationview.cpp:124 widgets/structurewidget.cpp:780
+#: widgets/abbreviationview.cpp:124 widgets/structurewidget.cpp:781
 #, kde-format
 msgid "&Delete"
 msgstr "Izbriši"
@@ -11505,7 +11505,7 @@ msgstr "Dodaj..."
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbRemoveConfig)
 #. i18n: ectx: property (text), widget (QPushButton, m_pbRemove)
 #: widgets/codecompletionconfigwidget.ui:140
-#: widgets/maintoolconfigwidget.ui:101 widgets/maintoolconfigwidget.ui:222
+#: widgets/maintoolconfigwidget.ui:116 widgets/maintoolconfigwidget.ui:212
 #: widgets/usermenuconfigwidget.ui:115
 #, kde-format
 msgid "Remove"
@@ -11613,18 +11613,18 @@ msgstr "Število presledkov:"
 msgid "Use this number of spaces to autoindent environments."
 msgstr "Uporabi to število presledkov za samodejno zamikanje okolij."
 
-#: widgets/filebrowserwidget.cpp:124
+#: widgets/filebrowserwidget.cpp:123
 #, kde-format
 msgid "Open selected"
 msgstr "Odpri izbrane"
 
-#: widgets/filebrowserwidget.cpp:129
+#: widgets/filebrowserwidget.cpp:128
 #, kde-format
 msgid "Show LaTeX Files Only"
 msgstr "Pokaži le datoteke LaTeX"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: widgets/filebrowserwidget.cpp:135 widgets/structureviewconfigwidget.ui:128
+#: widgets/filebrowserwidget.cpp:134 widgets/structureviewconfigwidget.ui:128
 #, kde-format
 msgid "Options"
 msgstr "Možnosti"
@@ -11783,7 +11783,7 @@ msgstr "Samodejno vstavi začetne in zaključne dvojne narekovaje za LaTeX"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlType)
 #. i18n: ectx: property (text), widget (QLabel, m_lbType)
-#: widgets/latexconfigwidget.ui:89 widgets/maintoolconfigwidget.ui:362
+#: widgets/latexconfigwidget.ui:89 widgets/maintoolconfigwidget.ui:342
 #, kde-format
 msgid "&Type:"
 msgstr "Vrsta:"
@@ -11932,103 +11932,103 @@ msgstr " ms"
 msgid "Set default live preview tool"
 msgstr "Nastavi privzeto orodje živega predogleda"
 
-#: widgets/logwidget.cpp:370
+#: widgets/logwidget.cpp:371
 #, kde-format
 msgid "Hide &Bad Boxes"
 msgstr "Skrij slabe postavitve"
 
-#: widgets/logwidget.cpp:376
+#: widgets/logwidget.cpp:377
 #, kde-format
 msgid "Hide (La)TeX &Warnings"
 msgstr "Skrij opozorila (La)TeX"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: widgets/maintoolconfigwidget.ui:45
+#: widgets/maintoolconfigwidget.ui:60
 #, kde-format
 msgid "Select a tool"
 msgstr "Izberite orodje"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)
-#: widgets/maintoolconfigwidget.ui:94 widgets/maintoolconfigwidget.ui:203
+#: widgets/maintoolconfigwidget.ui:109 widgets/maintoolconfigwidget.ui:193
 #, kde-format
 msgid "New..."
 msgstr "Nov..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_groupBox)
-#: widgets/maintoolconfigwidget.ui:130
+#: widgets/maintoolconfigwidget.ui:129
 #, kde-format
 msgid "Choose a configuration for the current tool"
 msgstr "Izberite prilagoditev trenutnega orodja"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
-#: widgets/maintoolconfigwidget.ui:159
+#: widgets/maintoolconfigwidget.ui:152
 #, kde-format
 msgid "Se&lect:"
 msgstr "Izberite:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
-#: widgets/maintoolconfigwidget.ui:328
+#: widgets/maintoolconfigwidget.ui:308
 #, kde-format
 msgid "Advanced"
 msgstr "Napredno"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbClass)
-#: widgets/maintoolconfigwidget.ui:385
+#: widgets/maintoolconfigwidget.ui:365
 #, kde-format
 msgid "C&lass:"
 msgstr "Razred:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbSource)
-#: widgets/maintoolconfigwidget.ui:408
+#: widgets/maintoolconfigwidget.ui:388
 #, kde-format
 msgid "Source e&xtension:"
 msgstr "Končnica vira:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbTarget)
-#: widgets/maintoolconfigwidget.ui:431
+#: widgets/maintoolconfigwidget.ui:411
 #, kde-format
 msgid "Tar&get extension:"
 msgstr "Ciljni podaljšek:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: widgets/maintoolconfigwidget.ui:454
+#: widgets/maintoolconfigwidget.ui:434
 #, kde-format
 msgid "Target &file:"
 msgstr "Ciljna datoteka:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
-#: widgets/maintoolconfigwidget.ui:480
+#: widgets/maintoolconfigwidget.ui:460
 #, kde-format
 msgid "&Relative dir:"
 msgstr "&Relativna mapa:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckClose)
-#: widgets/maintoolconfigwidget.ui:508
+#: widgets/maintoolconfigwidget.ui:488
 #, kde-format
 msgid "Close Konsole when tool is finished"
 msgstr "Ko orodje zaključi z delom, zapri Konsole"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage)
-#: widgets/maintoolconfigwidget.ui:531
+#: widgets/maintoolconfigwidget.ui:511
 #, kde-format
 msgid "Menu"
 msgstr "Meni"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenu)
-#: widgets/maintoolconfigwidget.ui:554
+#: widgets/maintoolconfigwidget.ui:534
 #, kde-format
 msgid "Add &tool to Build menu:"
 msgstr "Dodaj orodje za menu izgradnje:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbIcon)
-#: widgets/maintoolconfigwidget.ui:577
+#: widgets/maintoolconfigwidget.ui:557
 #, kde-format
 msgid "&Icon:"
 msgstr "&Ikona:"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbDefault)
-#: widgets/maintoolconfigwidget.ui:636
+#: widgets/maintoolconfigwidget.ui:628
 #, kde-format
 msgid "Restore Default Tools..."
 msgstr "Obnovi privzeta orodja..."
@@ -12328,7 +12328,7 @@ msgstr "Slike"
 msgid "&Open With"
 msgstr "&Odpri z"
 
-#: widgets/projectview.cpp:820 widgets/structurewidget.cpp:806
+#: widgets/projectview.cpp:820 widgets/structurewidget.cpp:807
 #, kde-format
 msgid "Other..."
 msgstr "Drugo..."
@@ -12379,25 +12379,25 @@ msgid "Current Default"
 msgstr "Trenutno privzeto"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbTool)
-#: widgets/quicktoolconfigwidget.ui:27
+#: widgets/quicktoolconfigwidget.ui:39
 #, kde-format
 msgid "Tool:"
 msgstr "Orodje:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
-#: widgets/quicktoolconfigwidget.ui:53
+#: widgets/quicktoolconfigwidget.ui:65
 #, kde-format
 msgid "Configuration:"
 msgstr "Prilagoditev:"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbUp)
-#: widgets/quicktoolconfigwidget.ui:117
+#: widgets/quicktoolconfigwidget.ui:129
 #, kde-format
 msgid "&Up"
 msgstr "Navzgor"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbDown)
-#: widgets/quicktoolconfigwidget.ui:130
+#: widgets/quicktoolconfigwidget.ui:142
 #, kde-format
 msgid "&Down"
 msgstr "Navz&dol"
@@ -12426,59 +12426,59 @@ msgstr "Omeji čas izvajanja skript"
 msgid "&Time limit (seconds):"
 msgstr "Časovna omejitev (s):"
 
-#: widgets/scriptsmanagementwidget.cpp:75
+#: widgets/scriptsmanagementwidget.cpp:76
 #, kde-format
 msgid "Run Selected Script"
 msgstr "Zaženi izbrani skript"
 
-#: widgets/scriptsmanagementwidget.cpp:81
+#: widgets/scriptsmanagementwidget.cpp:82
 #, kde-format
 msgid "Create New Script"
 msgstr "Ustvari nov skript"
 
-#: widgets/scriptsmanagementwidget.cpp:87
+#: widgets/scriptsmanagementwidget.cpp:88
 #, kde-format
 msgid "Open Selected Script in Editor"
 msgstr "Odpri izbrani skript v urejevalniku"
 
-#: widgets/scriptsmanagementwidget.cpp:93
+#: widgets/scriptsmanagementwidget.cpp:94
 #, kde-format
 msgid "Configure Key Sequence"
 msgstr "Nastavi ključno zaporedje"
 
-#: widgets/scriptsmanagementwidget.cpp:99
+#: widgets/scriptsmanagementwidget.cpp:100
 #, kde-format
 msgid "Remove Key Sequence"
 msgstr "Odstrani ključno zaporedje"
 
-#: widgets/scriptsmanagementwidget.cpp:105
+#: widgets/scriptsmanagementwidget.cpp:106
 #, kde-format
 msgid "Refresh List"
 msgstr "Osveži seznam"
 
-#: widgets/scriptsmanagementwidget.cpp:115
+#: widgets/scriptsmanagementwidget.cpp:117
 #, kde-format
 msgid "Script Name"
 msgstr "Ime skripta"
 
-#: widgets/scriptsmanagementwidget.cpp:116
+#: widgets/scriptsmanagementwidget.cpp:118
 #, kde-format
 msgid "Sequence"
 msgstr "Zaporedje"
 
-#: widgets/scriptsmanagementwidget.cpp:221
+#: widgets/scriptsmanagementwidget.cpp:223
 #, kde-format
 msgid "The sequence \"%1\" is already assigned to the action \"%2\""
 msgstr "Zaporedje \"%1\" je že dodeljeno dejanju \"%2\""
 
-#: widgets/scriptsmanagementwidget.cpp:222
-#: widgets/scriptsmanagementwidget.cpp:226
-#: widgets/scriptsmanagementwidget.cpp:230
+#: widgets/scriptsmanagementwidget.cpp:224
+#: widgets/scriptsmanagementwidget.cpp:228
+#: widgets/scriptsmanagementwidget.cpp:232
 #, kde-format
 msgid "Sequence Already Assigned"
 msgstr "Zaporedje je že dodeljeno"
 
-#: widgets/scriptsmanagementwidget.cpp:225
+#: widgets/scriptsmanagementwidget.cpp:227
 #, kde-format
 msgid ""
 "The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to "
@@ -12486,7 +12486,7 @@ msgid ""
 msgstr ""
 "Zaporedje \"%1\" je pod-zaporedje \"%2\", ki je že dodeljen dejanju \"%3\""
 
-#: widgets/scriptsmanagementwidget.cpp:229
+#: widgets/scriptsmanagementwidget.cpp:231
 #, kde-format
 msgid "The shorter sequence \"%1\" is already assigned to the action \"%2\""
 msgstr "Krajše zaporedje \"%1\" je že dodeljeno dejanju \"%2\""
@@ -12737,7 +12737,7 @@ msgstr ""
 "Elementa pogleda seznama ni mogoče ustvariti: ni mogoče najti nobenega "
 "starša."
 
-#: widgets/structurewidget.cpp:690
+#: widgets/structurewidget.cpp:691
 #, kde-format
 msgid ""
 "No extension specified for graphic file.  Using .%1 from Project settings."
@@ -12745,7 +12745,7 @@ msgstr ""
 "Za grafično datoteko ni navedena nobena pripona. Uporabljam %1 iz nastavitev "
 "projekta."
 
-#: widgets/structurewidget.cpp:691
+#: widgets/structurewidget.cpp:692
 #, kde-format
 msgid ""
 "No extension specified for graphic file.  Using .%1 from global Structure "
@@ -12754,12 +12754,12 @@ msgstr ""
 "Za grafično datoteko ni navedena nobena pripona. Uporabljam %1 iz nastavitev "
 "globalne strukture pogleda."
 
-#: widgets/structurewidget.cpp:692
+#: widgets/structurewidget.cpp:693
 #, kde-format
 msgid "File extension not specified"
 msgstr "Neznana končnica datoteke"
 
-#: widgets/structurewidget.cpp:740
+#: widgets/structurewidget.cpp:741
 #, kde-format
 msgid ""
 "Cannot find the included file. The file does not exist, is not readable or "
@@ -12772,87 +12772,87 @@ msgstr ""
 "napako je bilo: %1.\n"
 "Ali želite ustvariti to datoteko?"
 
-#: widgets/structurewidget.cpp:741
+#: widgets/structurewidget.cpp:742
 #, kde-format
 msgid "Cannot Find File"
 msgstr "Datoteke ni mogoče najti"
 
-#: widgets/structurewidget.cpp:775
+#: widgets/structurewidget.cpp:776
 #, kde-format
 msgid "Cu&t"
 msgstr "Izreži"
 
-#: widgets/structurewidget.cpp:776
+#: widgets/structurewidget.cpp:777
 #, kde-format
 msgid "&Copy"
 msgstr "Kopiraj"
 
-#: widgets/structurewidget.cpp:777
+#: widgets/structurewidget.cpp:778
 #, kde-format
 msgid "&Paste below"
 msgstr "&Prilepi spodaj"
 
-#: widgets/structurewidget.cpp:782
+#: widgets/structurewidget.cpp:783
 #, kde-format
 msgid "C&omment"
 msgstr "K&omentar"
 
-#: widgets/structurewidget.cpp:784
+#: widgets/structurewidget.cpp:785
 #, kde-format
 msgid "Run QuickPreview"
 msgstr "Poženi QuickPreview"
 
-#: widgets/structurewidget.cpp:811
+#: widgets/structurewidget.cpp:812
 #, kde-format
 msgid "Insert Label"
 msgstr "Vstavi oznako"
 
-#: widgets/structurewidget.cpp:812
+#: widgets/structurewidget.cpp:813
 #, kde-format
 msgid "As &reference"
 msgstr "Kot referenca"
 
-#: widgets/structurewidget.cpp:813
+#: widgets/structurewidget.cpp:814
 #, kde-format
 msgid "As &page reference"
 msgstr "Kot referenca na stran"
 
-#: widgets/structurewidget.cpp:814
+#: widgets/structurewidget.cpp:815
 #, kde-format
 msgid "Only the &label"
 msgstr "Samo oznaka"
 
-#: widgets/structurewidget.cpp:816
+#: widgets/structurewidget.cpp:817
 #, kde-format
 msgid "Copy Label to Clipboard"
 msgstr "Kopiraj oznako na odložišče"
 
-#: widgets/structurewidget.cpp:817
+#: widgets/structurewidget.cpp:818
 #, kde-format
 msgid "As reference"
 msgstr "Kot referenca"
 
-#: widgets/structurewidget.cpp:818
+#: widgets/structurewidget.cpp:819
 #, kde-format
 msgid "As page reference"
 msgstr "Kot referenca na stran"
 
-#: widgets/structurewidget.cpp:819
+#: widgets/structurewidget.cpp:820
 #, kde-format
 msgid "Only the label"
 msgstr "Samo oznaka"
 
-#: widgets/symbolview.cpp:206
+#: widgets/symbolview.cpp:205
 #, kde-format
 msgid "Command: %1"
 msgstr "Ukaz: %1"
 
-#: widgets/symbolview.cpp:208
+#: widgets/symbolview.cpp:207
 #, kde-format
 msgid "<br/>Unicode: %1"
 msgstr "<br/>Unicode: %1"
 
-#: widgets/symbolview.cpp:236
+#: widgets/symbolview.cpp:235
 #, kde-format
 msgid "Required Package: %2"
 msgid_plural "Required Packages: %2"
@@ -12861,7 +12861,7 @@ msgstr[1] "Zahtevana paketa: %2"
 msgstr[2] "Zahtevani paketi: %2"
 msgstr[3] "Zahtevani paketi: %2"
 
-#: widgets/symbolview.cpp:240
+#: widgets/symbolview.cpp:239
 #, kde-format
 msgid "Comment: %1"
 msgstr "Komentar: %1"
@@ -12902,32 +12902,32 @@ msgstr "Unicode"
 msgid "Insert Unicode representation of the selected symbol (when available)"
 msgstr "Vstavi predstavitev izbranega simbola Unicode (če je na voljo)"
 
-#: widgets/toolconfigwidget.cpp:110
+#: widgets/toolconfigwidget.cpp:109
 #, kde-format
 msgid "Run Outside of Kile"
 msgstr "Zaženi zunaj Kile"
 
-#: widgets/toolconfigwidget.cpp:111
+#: widgets/toolconfigwidget.cpp:110
 #, kde-format
 msgid "Run in Konsole"
 msgstr "Zaženi v Konsole"
 
-#: widgets/toolconfigwidget.cpp:112
+#: widgets/toolconfigwidget.cpp:111
 #, kde-format
 msgid "Use Document Viewer"
 msgstr "Uporabi pregledovalnik dokumentov"
 
-#: widgets/toolconfigwidget.cpp:113
+#: widgets/toolconfigwidget.cpp:112
 #, kde-format
 msgid "Run Sequence of Tools"
 msgstr "Zaženi zaporedje orodij"
 
-#: widgets/toolconfigwidget.cpp:160
+#: widgets/toolconfigwidget.cpp:159
 #, kde-format
 msgid "Use the \"Advanced\" tab to configure this tool."
 msgstr "Za nastavitev tega orodja uporabite zavihek \"Napredno\"."
 
-#: widgets/toolconfigwidget.cpp:171
+#: widgets/toolconfigwidget.cpp:170
 #, kde-format
 msgid ""
 "Unknown tool type; your configuration data is malformed.\n"
@@ -12936,7 +12936,7 @@ msgstr ""
 "Neznana vrsta orodja; vaši podatki o nastavitvi so napačno oblikovani.\n"
 "Morda bi bilo dobro obnoviti privzete nastavitve."
 
-#: widgets/toolconfigwidget.cpp:224
+#: widgets/toolconfigwidget.cpp:223
 #, kde-format
 msgid ""
 "All your tool settings will be overwritten with the default settings.\n"
@@ -12945,37 +12945,37 @@ msgstr ""
 "Vse vaše nastavitve orodja bodo prepisane s privzetimi nastavitvami.\n"
 "Ali ste prepričani, da želite nadaljevati?"
 
-#: widgets/toolconfigwidget.cpp:338
+#: widgets/toolconfigwidget.cpp:337
 #, kde-format
 msgid "Choose a configuration for the tool %1"
 msgstr "Izberite nastavitev za orodje %1"
 
-#: widgets/toolconfigwidget.cpp:408
+#: widgets/toolconfigwidget.cpp:407
 #, kde-format
 msgid "New Configuration"
 msgstr "Nova nastavitev"
 
-#: widgets/toolconfigwidget.cpp:408
+#: widgets/toolconfigwidget.cpp:407
 #, kde-format
 msgid "Enter new configuration name:"
 msgstr "Vnesite ime nove nastavitve:"
 
-#: widgets/toolconfigwidget.cpp:435
+#: widgets/toolconfigwidget.cpp:434
 #, kde-format
 msgid "Are you sure you want to remove the tool %1?"
 msgstr "Ste prepričani, da želite odstraniti orodje %1?"
 
-#: widgets/toolconfigwidget.cpp:465
+#: widgets/toolconfigwidget.cpp:464
 #, kde-format
 msgid "Are you sure that you want to remove this configuration?"
 msgstr "Ste prepričani, da želite odstraniti to prilagoditev?"
 
-#: widgets/toolconfigwidget.cpp:479
+#: widgets/toolconfigwidget.cpp:478
 #, kde-format
 msgid "You need at least one configuration for each tool."
 msgstr "Za vsako orodje potrebujete vsaj eno nastavitev."
 
-#: widgets/toolconfigwidget.cpp:479
+#: widgets/toolconfigwidget.cpp:478
 #, kde-format
 msgid "Cannot Remove Configuration"
 msgstr "Nastavitve ni mogoče odstraniti"

@@ -201,7 +201,7 @@ void Manager::readConfig(QSplitter *splitter)
 
     m_synchronizeViewWithCursorAction->setChecked(KileConfig::synchronizeCursorWithView());
 
-    Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
+    Okular::ViewerInterface *viewerInterface = qobject_cast<Okular::ViewerInterface*>(m_viewerPart.data());
     if(viewerInterface && !m_ki->livePreviewManager()->isLivePreviewActive()) {
         viewerInterface->setWatchFileModeEnabled(KileConfig::watchFileForDocumentViewer());
         // also reload the document; this is necessary for switching back on watch-file mode as otherwise
@@ -1120,7 +1120,7 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
         return;
     } else {
         m_viewerPart = result.plugin;
-        Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
+        Okular::ViewerInterface *viewerInterface = qobject_cast<Okular::ViewerInterface*>(m_viewerPart.data());
         if(!viewerInterface) {
             // OkularPart doesn't provide the ViewerInterface
             delete m_viewerPart;
@@ -1265,7 +1265,7 @@ bool Manager::isViewerPartShown() const
 
 bool Manager::openInDocumentViewer(const QUrl &url)
 {
-    Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
+    Okular::ViewerInterface *v = qobject_cast<Okular::ViewerInterface*>(m_viewerPart.data());
     if(!v) {
         return false;
     }
@@ -1276,7 +1276,7 @@ bool Manager::openInDocumentViewer(const QUrl &url)
 
 void Manager::clearLastShownSourceLocationInDocumentViewer()
 {
-    Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
+    Okular::ViewerInterface *v = qobject_cast<Okular::ViewerInterface*>(m_viewerPart.data());
     if(v) {
         v->clearLastShownSourceLocation();
     }
@@ -1284,7 +1284,7 @@ void Manager::clearLastShownSourceLocationInDocumentViewer()
 
 void Manager::showSourceLocationInDocumentViewer(const QString& fileName, int line, int column)
 {
-    Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
+    Okular::ViewerInterface *v = qobject_cast<Okular::ViewerInterface*>(m_viewerPart.data());
     if(v) {
         m_clearLastShownSourceLocationTimer->stop();
         v->showSourceLocation(fileName, line, column, true);
@@ -1294,7 +1294,7 @@ void Manager::showSourceLocationInDocumentViewer(const QString& fileName, int li
 
 void Manager::setLivePreviewModeForDocumentViewer(bool b)
 {
-    Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
+    Okular::ViewerInterface *viewerInterface = qobject_cast<Okular::ViewerInterface*>(m_viewerPart.data());
     if(viewerInterface) {
         if(b) {
             viewerInterface->setWatchFileModeEnabled(false);

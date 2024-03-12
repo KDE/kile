@@ -313,7 +313,7 @@ void OkularVersionTest::call()
     }
     else {
         KParts::ReadOnlyPart *part = factory->create<KParts::ReadOnlyPart>();
-        Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(part);
+        Okular::ViewerInterface *viewerInterface = qobject_cast<Okular::ViewerInterface*>(part);
 
         if(!viewerInterface) {
             // OkularPart doesn't provide the ViewerInterface

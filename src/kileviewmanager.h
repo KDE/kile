@@ -118,7 +118,7 @@ public:
     }
 
     inline Okular::ViewerInterface* viewerInterfaceForViewerPart() const {
-        return dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
+        return qobject_cast<Okular::ViewerInterface*>(m_viewerPart.data());
     }
 
     void readConfig(QSplitter *splitter);

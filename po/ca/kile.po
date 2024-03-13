@@ -1,9 +1,9 @@
 # Translation of kile.po to Catalan
-# Copyright (C) 2009-2023 This_file_is_part_of_KDE
+# Copyright (C) 2009-2024 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep M. Ferrer <txemaq@gmail.com>, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# Josep M. Ferrer <txemaq@gmail.com>, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
 # Manuel Tortosa Moreno <manutortosa@gmail.com>, 2009.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2022.
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-10 01:58+0000\n"
-"PO-Revision-Date: 2023-11-05 16:48+0100\n"
+"PO-Revision-Date: 2024-03-12 12:10+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -3266,7 +3266,7 @@ msgstr "Elimina l'element actual d'aquest quadre combinat"
 #: dialogs/quickdocumentdialog.cpp:167
 #, kde-format
 msgid "&Typeface size:"
-msgstr "Mida del &tipus de lletra:"
+msgstr "Mida de la família &tipogràfica:"
 
 #: dialogs/quickdocumentdialog.cpp:190 dialogs/quickdocumentdialog.cpp:594
 #, kde-format
@@ -3598,17 +3598,17 @@ msgstr "Cap gestió especial de les llegendes d'una línia"
 #: dialogs/quickdocumentdialog.cpp:702
 #, kde-format
 msgid "Normal great title font sizes"
-msgstr "Mides normals dels tipus de lletra de títol gran"
+msgstr "Mides normals de les lletres de títol gran"
 
 #: dialogs/quickdocumentdialog.cpp:703
 #, kde-format
 msgid "Small font sizes for titles"
-msgstr "Mides petites del tipus de lletra per als títols"
+msgstr "Mides petites de les lletres per als títols"
 
 #: dialogs/quickdocumentdialog.cpp:704
 #, kde-format
 msgid "Even smaller font sizes for titles"
-msgstr "Mida del tipus de lletra per als títols encara més petita"
+msgstr "Mida de les lletres dels títols encara més petita"
 
 #: dialogs/quickdocumentdialog.cpp:705
 #, kde-format
@@ -3843,34 +3843,32 @@ msgstr "No carreguis amsthm i amsmath"
 #: dialogs/quickdocumentdialog.cpp:769
 #, kde-format
 msgid "Needed when using the CJK package for Asian fonts"
-msgstr "Necessari en usar el paquet CJK per als tipus de lletra asiàtics"
+msgstr "Necessari en usar el paquet CJK de lletres asiàtiques"
 
 #: dialogs/quickdocumentdialog.cpp:770
 #, kde-format
 msgid "Use a sans-serif font during the presentation"
-msgstr "Usa un tipus de lletra sans-serif durant la presentació"
+msgstr "Usa una lletra sans-serif durant la presentació"
 
 #: dialogs/quickdocumentdialog.cpp:771
 #, kde-format
 msgid "Use a serif font during the presentation"
-msgstr "Usa un tipus de lletra serif durant la presentació"
+msgstr "Usa una lletra serif durant la presentació"
 
 #: dialogs/quickdocumentdialog.cpp:772
 #, kde-format
 msgid "Override the math font to be a sans-serif font"
-msgstr ""
-"Substitueix el tipus de lletra matemàtic pel tipus de lletra sans-serif"
+msgstr "Substitueix la lletra matemàtica per la lletra sans-serif"
 
 #: dialogs/quickdocumentdialog.cpp:773
 #, kde-format
 msgid "Override the math font to be a serif font"
-msgstr "Substitueix el tipus de lletra matemàtic pel tipus de lletra serif"
+msgstr "Substitueix la lletra matemàtica per la lletra serif"
 
 #: dialogs/quickdocumentdialog.cpp:774
 #, kde-format
 msgid "Deactivate internal font replacements for math text"
-msgstr ""
-"Desactiva la substitució interna dels tipus de lletra per al text matemàtic"
+msgstr "Desactiva la substitució interna de la lletra per al text matemàtic"
 
 #: dialogs/quickdocumentdialog.cpp:775
 #, kde-format
@@ -3930,7 +3928,7 @@ msgstr "Entorns matemàtics i ordres especials (AMS)"
 #: dialogs/quickdocumentdialog.cpp:1033
 #, kde-format
 msgid "Collection of fonts and symbols for math mode (AMS)"
-msgstr "Col·lecció de tipus de lletra i símbols per al mode matemàtic (AMS)"
+msgstr "Col·lecció de lletres i símbols per al mode matemàtic (AMS)"
 
 #: dialogs/quickdocumentdialog.cpp:1034
 #, kde-format
@@ -4029,15 +4027,13 @@ msgstr "Text per al camp del títol del PDF"
 #, kde-format
 msgid "Use Palatino font as roman font (both text and math mode)"
 msgstr ""
-"Usa el tipus de lletra Palatino com a tipus de lletra roman (ambdós modes: "
-"text i matemàtic)"
+"Usa la lletra Palatino com a lletra roman (ambdós modes: text i matemàtic)"
 
 #: dialogs/quickdocumentdialog.cpp:1056
 #, kde-format
 msgid "Use Times font as roman font (both text and math mode)"
 msgstr ""
-"Usa tipus de lletra Times com a tipus de lletra roman (ambdós modes: text i "
-"matemàtic)"
+"Usa la lletra Times com a lletra roman (ambdós modes: text i matemàtic)"
 
 #: dialogs/quickdocumentdialog.cpp:1057
 #, kde-format
@@ -4067,7 +4063,7 @@ msgstr "Activa les subfigures dintre de les figures"
 #: dialogs/quickdocumentdialog.cpp:1062
 #, kde-format
 msgid "Typesetting capital Greek letters"
-msgstr "Arranjament del tipus de lletres gregues majúscules"
+msgstr "Composició de les lletres gregues majúscules"
 
 #: dialogs/quickdocumentdialog.cpp:1063
 #, kde-format
@@ -4082,7 +4078,7 @@ msgstr "Afegeix implementació de llenguatge específic"
 #: dialogs/quickdocumentdialog.cpp:1132
 #, kde-format
 msgid "Use a font encoding scheme"
-msgstr "Usa un esquema de codificació de tipus de lletra"
+msgstr "Usa un esquema de codificació de lletra"
 
 #: dialogs/quickdocumentdialog.cpp:1162
 #, kde-format
@@ -4135,7 +4131,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:1664
 #, kde-format
 msgid "Use standard &fontsizes"
-msgstr "Usa &mides de tipus de lletra estàndards"
+msgstr "Usa &mides de lletres estàndards"
 
 #: dialogs/quickdocumentdialog.cpp:1665
 #, kde-format
@@ -4155,23 +4151,22 @@ msgstr "Elimina la classe de document"
 #: dialogs/quickdocumentdialog.cpp:1766
 #, kde-format
 msgid "Add Fontsize"
-msgstr "Afegeix mida de tipus de lletra"
+msgstr "Afegeix mides de lletres"
 
 #: dialogs/quickdocumentdialog.cpp:1768
 #, kde-format
 msgid "Please enter the &fontsizes (comma-separated list):"
-msgstr ""
-"Introduïu les mides dels &tipus de lletres (llista separada per comes):"
+msgstr "Introduïu les mides de les &lletres (llista separada per comes):"
 
 #: dialogs/quickdocumentdialog.cpp:1786
 #, kde-format
 msgid "Do you want to remove \"%1\" from the fontsize list?"
-msgstr "Voleu eliminar «%1» de la llista de mides de tipus de lletra?"
+msgstr "Voleu eliminar «%1» de la llista de mides de lletres?"
 
 #: dialogs/quickdocumentdialog.cpp:1786
 #, kde-format
 msgid "Remove Fontsize"
-msgstr "Elimina mida de tipus de lletra"
+msgstr "Elimina mida de lletra"
 
 #: dialogs/quickdocumentdialog.cpp:1803
 #, kde-format
@@ -4603,17 +4598,17 @@ msgstr ""
 #: dialogs/tabular/newtabulardialog.cpp:182
 #, kde-format
 msgid "Set bold font series."
-msgstr "Estableix el tipus de lletra en negreta."
+msgstr "Estableix la lletra en negreta."
 
 #: dialogs/tabular/newtabulardialog.cpp:183
 #, kde-format
 msgid "Set italic font shape."
-msgstr "Estableix l'estil de tipus de lletra itàlica."
+msgstr "Estableix l'estil de lletra cursiva."
 
 #: dialogs/tabular/newtabulardialog.cpp:184
 #, kde-format
 msgid "Set underlined font shape."
-msgstr "Estableix l'estil de tipus de lletra subratllada."
+msgstr "Estableix l'estil de lletra subratllada."
 
 #: dialogs/tabular/newtabulardialog.cpp:185
 #, kde-format
@@ -4666,7 +4661,7 @@ msgid ""
 "and font shape."
 msgstr ""
 "Neteja el text de les cel·les seleccionades, però conserva els atributs com "
-"ara l'alineació i l'estil del tipus de lletra."
+"ara l'alineació i l'estil de la lletra."
 
 #: dialogs/tabular/newtabulardialog.cpp:194
 #, kde-format
@@ -8333,7 +8328,7 @@ msgstr "Itàlica"
 #: kilestdactions.cpp:72
 #, kde-format
 msgid "\\textit{italic text}"
-msgstr "\\textit{text en itàlica}"
+msgstr "\\textit{text en cursiva}"
 
 #: kilestdactions.cpp:73
 #, kde-format
@@ -10442,7 +10437,7 @@ msgid ""
 "The folder %1 is not writable, therefore %2 will not be able to save its "
 "results."
 msgstr ""
-"La carpeta %1 no es pot escriure-hi, i per tant, %2 no podrà desar els seus "
+"La carpeta %1 no es pot escriure-hi i, per tant, %2 no podrà desar els seus "
 "resultats."
 
 #: kiletool.cpp:59
@@ -10787,7 +10782,7 @@ msgstr "Fletxes AMS"
 #: kileui.rc:341
 #, kde-format
 msgid "Math &Font Styles"
-msgstr "Estil dels &tipus de lletres matemàtiques"
+msgstr "Estils de les &lletres matemàtiques"
 
 #. i18n: ectx: Menu (menu_mathaccents)
 #: kileui.rc:351
@@ -10841,25 +10836,25 @@ msgstr "Entorns de &matriu"
 #: kileui.rc:424
 #, kde-format
 msgid "&Font Styles"
-msgstr "Estils dels &tipus de lletres"
+msgstr "Estils de les &lletres"
 
 #. i18n: ectx: Menu (menu_fontfamily)
 #: kileui.rc:434
 #, kde-format
 msgid "Font Family"
-msgstr "Família del tipus de lletra"
+msgstr "Família de la lletra"
 
 #. i18n: ectx: Menu (menu_fontseries)
 #: kileui.rc:439
 #, kde-format
 msgid "Font Series"
-msgstr "Sèrie del tipus de lletra"
+msgstr "Sèrie de la lletra"
 
 #. i18n: ectx: Menu (menu_fontshape)
 #: kileui.rc:443
 #, kde-format
 msgid "Font Shape"
-msgstr "Forma del tipus de lletra"
+msgstr "Forma de la lletra"
 
 #. i18n: ectx: Menu (menu_spacing)
 #: kileui.rc:450

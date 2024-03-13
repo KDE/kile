@@ -412,7 +412,7 @@
 				<listitem
 ><para
 ><guilabel
->Mida del tipus de lletra</guilabel
+>Mida de la lletra</guilabel
 >: indica al &kile; quina mida en punts (pt) voleu utilitzar.</para
 ></listitem>
 				<listitem
@@ -617,7 +617,7 @@
 >Quan creeu els vostres propis fitxers de &latex;, la cerca inversa pot ser molt útil. Una vegada creat un fitxer &DVI; (DeVice Independent File -fitxer independent del dispositiu-) o un fitxer PDF, feu clic amb el &BER; mentre premeu la tecla &Maj; al visualitzador i el &kile; saltarà a la línia corresponent al codi font de &latex;.</para>
 
 			<para
->Un &DVI; és un tipus de fitxer que conté la descripció d'un document amb format, juntament amb altra informació incloent-hi el tipus de lletra dels caràcters, i junt amb el PDF és la sortida habitual de &tex; o &latex;. Hi ha una sèrie d'utilitats per a visualitzar, convertir i imprimir fitxers &DVI; a diversos sistemes i dispositius.</para>
+>Un &DVI; és un tipus de fitxer que conté la descripció d'un document amb format, juntament amb altra informació incloent-hi la lletra dels caràcters, i junt amb el PDF és la sortida habitual de &tex; o &latex;. Hi ha una sèrie d'utilitats per a visualitzar, convertir i imprimir fitxers &DVI; a diversos sistemes i dispositius.</para>
 
 		</sect2>
 
@@ -1022,7 +1022,7 @@
 		<para
 >Els usuaris del &kile; tenen dues opcions quan comencen un document nou: poden utilitzar l'<guimenu
 >Assistent</guimenu
-> per a iniciar un document nou, seleccionant el tipus de document que volen crear i opcions com ara la mida del tipus de lletra, la mida de paper, i així successivament. L'altra opció és escriure el codi a mà.</para>
+> per a iniciar un document nou, seleccionant el tipus de document que volen crear i opcions com ara la mida de la lletra, la mida de paper, i així successivament. L'altra opció és escriure el codi a mà.</para>
 
 <programlisting
 >\documentclass[12pt]{article}
@@ -1081,7 +1081,7 @@
 >\documentclass</userinput
 > contenen les opcions per l'ordre. L'opció <userinput
 >[12pt]</userinput
-> defineix la mida del tipus de lletra per al vostre article. Si no s'estableix la mida del tipus de lletra al començament, es podrà establir més endavant en el text.</para>
+> defineix la mida de la lletra del vostre article. Si no s'estableix la mida de la lletra al començament, es podrà establir més endavant en el text.</para>
 
 		<para
 >Una vegada escriviu el codi d'exemple al quadre anterior, haureu de compilar el codi font &latex;. La manera més fàcil de compilar &latex; és utilitzar el menú <guimenu
@@ -1112,7 +1112,7 @@
 >Entorns</title>
 
 		<para
->Un entorn és un segment de text que es gestiona de manera diferent que la resta del document. Per exemple, podeu crear un informe amb tipus de lletra amb mida 12, però heu de canviar la mida del tipus de lletra per a un parell de frases. Les ordres <userinput
+>Un entorn és un segment de text que es gestiona de manera diferent que la resta del document. Per exemple, podeu crear un informe amb lletra de mida 12, però heu de canviar la mida de la lletra per a un parell de frases. Les ordres <userinput
 >\begin{environment}</userinput
 >, <userinput
 >\huge</userinput
@@ -1128,7 +1128,7 @@
 >. No hi ha límits pel que fa a quants canvis es poden fer dins d'un entorn.</para>
 
 		<para
->Hi ha moltes característiques que podeu afegir al vostre document que el faran més fàcil de llegir i d'utilitzar. Al vostre document podeu afegir característiques com tipus de lletra específics, negreta, cursiva, subratllat, &etc;, i aquestes ordres acabaran, sigui amb una ordre <userinput
+>Hi ha moltes característiques que podeu afegir al vostre document que el faran més fàcil de llegir i d'utilitzar. Al vostre document podeu afegir característiques com lletres específiques, negreta, cursiva, subratllat, &etc;, i aquestes ordres acabaran, sigui amb una ordre <userinput
 >\end</userinput
 >, o al final del vostre entorn.</para>
 
@@ -1675,9 +1675,7 @@
 	 <para
 >Per a aprendre més sobre el &kate; i les seves capacitats, vegeu el <ulink url="help:kate"
 >Manual del &kate;</ulink
->. Els usuaris del &kile; poden començar a llegir des del capítol <quote
->Treballar amb l'editor &kate;</quote
->.</para>
+>. Els usuaris del &kile; poden començar a llegir des del capítol «Treballar amb l'editor &kate;».</para>
 
 	 <sect1 id="editing_sect">
 
@@ -2550,12 +2548,12 @@
 >. El &kile; serà prou intel·ligent per a reconèixer aquesta situació i inserir dues cometes de tanca per a &latex;.</para>
 
 		<para
->Per obtenir cometes dobles literals a l'altre costat, premeu <keycap
+>Per a obtenir cometes dobles literals a l'altre costat, premeu <keycap
 >"</keycap
 > dues vegades.</para>
 
 		<para
->Podeu activar o desactivar aquesta inserció automàtica per obrir i tancar les cometes dobles a la secció <menuchoice
+>Podeu activar o desactivar aquesta inserció automàtica per a obrir i tancar les cometes dobles a la secció <menuchoice
 ><guimenu
 >Arranjament</guimenu
 ><guisubmenu
@@ -3278,7 +3276,7 @@
 		<para
 >Utilitzant la barra d'eines a la part superior del diàleg podeu establir l'alineació «<userinput
 >align</userinput
->» d'una cel·la, definir un cert estil de tipus de lletra «<userinput
+>» d'una cel·la, definir un cert estil de lletra «<userinput
 >font style</userinput
 >», fusionar «<userinput
 >join</userinput
@@ -3288,7 +3286,7 @@
 >border</userinput
 >», i especificar els <userinput
 >colors</userinput
-> de fons i del tipus de lletra. A l'extrem dret hi ha un botó <guilabel
+> de fons i de la lletra. A l'extrem dret hi ha un botó <guilabel
 >Enganxa</guilabel
 >. Amb aquest botó podeu inserir una taula del porta-retalls des de dins del diàleg, &pex;, us permetrà copiar i enganxar taules des d'un full de càlcul. </para>
 
@@ -6190,7 +6188,7 @@
 
 		<listitem
 ><para
->Ara haureu de descarregar un tipus de lletra que suporti tots els caràcters que necessita &cjk;. Podeu escollir qualsevol fitxer <literal role="extension"
+>Ara haureu de descarregar una font que suporti tots els caràcters que necessita &cjk;. Podeu escollir qualsevol fitxer <literal role="extension"
 >*.ttf</literal
 > els cobreixi, però en aquest cas utilitzarem <ulink url="ftp://ftp.wu-wien.ac.at/pub/www/Netscape/communicator/extras/fonts/windows/Cyberbit.ZIP"
 >Cyberbit</ulink
@@ -6243,7 +6241,7 @@
 ><para
 >Ara necessitem un fitxer de mapa per a connectar els fitxers <literal role="extension"
 >*.enc</literal
-> amb el tipus de lletra. Descarregueu <ulink url="http://delloye.free.fr/cyberbit.map"
+> amb la lletra. Descarregueu <ulink url="http://delloye.free.fr/cyberbit.map"
 ><filename
 >cyberbit.map</filename
 ></ulink
@@ -6269,7 +6267,7 @@
 
 		<listitem
 ><para
->L'últim fitxer que hem de generar és un tipus de lletra &PostScript; de Type 1, necessari per a llegir fitxers &DVI; generats amb &latex;. Executeu l'ordre <userinput
+>L'últim fitxer que hem de generar és una font &PostScript; de Type 1, necessari per a llegir fitxers &DVI; generats amb &latex;. Executeu l'ordre <userinput
 ><command
 >$ ttf2pfb cyberbit.ttf -o cyberbit.pfb</command
 ></userinput
@@ -6286,7 +6284,7 @@
 ><para
 >Ara col·loqueu <filename
 >cyberbit.ttf</filename
-> entre els tipus de lletra on &latex; el pugui trobar. Podeu col·locar-lo en una carpeta amb el nom <filename
+> entre les fonts on &latex; la pugui trobar. Podeu col·locar-lo en una carpeta amb el nom <filename
 >$<envar
 >TEXMF</envar
 >/fonts/truetype/</filename
@@ -6308,7 +6306,7 @@
 
 		<listitem
 ><para
->Per a fer possible que el &pdflatex; utilitzi els tipus de lletra &cjk;, cal que afegiu una línia al fitxer de configuració $<filename
+>Per a fer possible que el &pdflatex; utilitzi les lletres &cjk;, cal que afegiu una línia al fitxer de configuració $<filename
 >$<envar
 >TEXMF</envar
 >/pdftex/config/pdftex.cfg</filename
@@ -6366,7 +6364,7 @@
 
 			<listitem
 ><para
->Si &latex; escriu un &DVI; sense problemes, però no el podeu veure, gairebé segur que es deu a alguns problemes en la generació automàtica dels tipus de lletra <literal role="extension"
+>Si &latex; escriu un &DVI; sense problemes, però no el podeu veure, gairebé segur que es deu a alguns problemes en la generació automàtica de les lletres <literal role="extension"
 >*.pk</literal
 >. Se suposa que es generen sobre la marxa mentre esteu veient un fitxer &DVI;, però això pot fallar per una sèrie de raons: Verifiqueu de nou <filename
 >ttfonts.map</filename

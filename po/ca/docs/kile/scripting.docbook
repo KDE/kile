@@ -4149,10 +4149,10 @@ function replaceEnvCommand(newEnv,r)
 
 <sect2 id="id_scripting_example2">
 <title
->Exemple 2: substituir una ordre de tipus de lletra de &latex;</title>
+>Exemple 2: substituir una ordre de lletra de &latex;</title>
 
 <para
->Substitueix una ordre de tipus de lletra de &latex; circumdant amb una altra ordre de tipus de lletra, quan el cursor està situat dins del grup de TeX. La posició relativa del cursor no serà canviada. <userinput
+>Substitueix una ordre de lletra de &latex; circumdant amb una altra ordre de lletra, quan el cursor està situat dins del grup de TeX. La posició relativa del cursor no serà canviada. <userinput
 >\textbf{abc}</userinput
 >, per exemple, es pot canviar a <userinput
 >\textit{abc}</userinput
@@ -4183,7 +4183,7 @@ function replaceFontCommand(r)
                 var cmdRange = document.latexCommandRange();
                 if ( cmdRange.isValid() ) {
                         var newcommand = kile.input.getListboxItem("Choose",
-                                                    "Tria l'ordre de tipus de lletra:",buildCmdList(cmd));
+                                                    "Tria l'ordre de lletra:",buildCmdList(cmd));
                         if ( newcommand != "" ) {
                                 document.replaceText(cmdRange,newcommand);
                                 c.column = c.column - (cmd.length - newcommand.length);
@@ -4192,7 +4192,7 @@ function replaceFontCommand(r)
 /                view.setCursorPosition(c);
         }
         else {
-                kile.alert.sorry("No s'ha trobat una ordre de tipus de lletra circumdant.");
+                kile.alert.sorry("No s'ha trobat una ordre de lletra circumdant.");
         }
         document.editEnd();
 }

@@ -1,16 +1,16 @@
 # Translation for kile.po to Euskara/Basque (eu).
-# Copyright (C) 2021 This file is copyright:
+# Copyright (C) 2021-2024 This file is copyright:
 # This file is distributed under the same license as the kile package.
-# KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>.
+# SPDX-FileCopyrightText: 2024 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translator:
-# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2021, 2022, 2023.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2021, 2022, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-10 01:58+0000\n"
-"PO-Revision-Date: 2023-04-22 19:14+0200\n"
+"PO-Revision-Date: 2024-03-12 19:45+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6320,6 +6320,8 @@ msgstr ""
 #, kde-format
 msgid "Default extension to use when opening graphic files with no extension"
 msgstr ""
+"Luzapenik gabeko grafiko-fitxategiak irekitzeko erabili beharreko luzapen "
+"lehenetsia"
 
 #. i18n: ectx: label, entry (BibliographyType), group (BibliographyMenu)
 #: kile.kcfg:111
@@ -11940,13 +11942,13 @@ msgstr ""
 #: widgets/structureviewconfigwidget.ui:200
 #, kde-format
 msgid "Show graphic files"
-msgstr ""
+msgstr "Erakutsi grafiko-fitxategiak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowInputFiles)
 #: widgets/structureviewconfigwidget.ui:207
 #, kde-format
 msgid "Show input files"
-msgstr ""
+msgstr "Erakutsi sarrerako fitxategiak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowSectioningLabels)
 #: widgets/structureviewconfigwidget.ui:217
@@ -11958,43 +11960,43 @@ msgstr ""
 #: widgets/structureviewconfigwidget.ui:229
 #, kde-format
 msgid "Default Graphic Extension:"
-msgstr ""
+msgstr "Grafikoen luzapen lehenetsia:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:236
 #, kde-format
 msgid "Extension to use for graphic files without extensions"
-msgstr ""
+msgstr "Luzapenik gabeko grafiko-fitxategiekin erabili beharreko luzapenak"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:243
-#, fuzzy, kde-format
+#, kde-format
 msgid "eps"
-msgstr "EPS()"
+msgstr "eps"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:248
-#, fuzzy, kde-format
+#, kde-format
 msgid "pdf"
-msgstr "PDF"
+msgstr "pdf"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:253
-#, fuzzy, kde-format
+#, kde-format
 msgid "png"
-msgstr "PNG"
+msgstr "png"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:258
 #, kde-format
 msgid "jpg"
-msgstr ""
+msgstr "jpg"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:263
 #, kde-format
 msgid "tif"
-msgstr ""
+msgstr "tif"
 
 #: widgets/structurewidget.cpp:105
 #, kde-format
@@ -12007,15 +12009,15 @@ msgid ""
 msgstr ""
 
 #: widgets/structurewidget.cpp:121
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "structure view entry: title (line)"
 msgid "%1 (line %2)"
-msgstr "Lerroa"
+msgstr "%1 (%2 lerroa)"
 
 #: widgets/structurewidget.cpp:129
-#, fuzzy, kde-format
+#, kde-format
 msgid "Label: %1"
-msgstr "Etiketa"
+msgstr "Etiketa: %1"
 
 #: widgets/structurewidget.cpp:163
 #, kde-format
@@ -12025,12 +12027,12 @@ msgstr ""
 #: widgets/structurewidget.cpp:336
 #, kde-format
 msgid "BibTeX References"
-msgstr ""
+msgstr "BibTeX erreferentziak"
 
 #: widgets/structurewidget.cpp:340
 #, kde-format
 msgid "Undefined References"
-msgstr ""
+msgstr "Definitu gabeko erreferentziak"
 
 #: widgets/structurewidget.cpp:344
 #, fuzzy, kde-format
@@ -12052,6 +12054,8 @@ msgstr ""
 msgid ""
 "No extension specified for graphic file.  Using .%1 from Project settings."
 msgstr ""
+"Ez da grafiko-fitxategirako luzapenik zehaztu. Proiektu-ezarpenetako .%1 "
+"erabiliko da."
 
 #: widgets/structurewidget.cpp:692
 #, kde-format
@@ -12059,11 +12063,13 @@ msgid ""
 "No extension specified for graphic file.  Using .%1 from global Structure "
 "View settings."
 msgstr ""
+"Ez da grafiko-fitxategirako luzapenik zehaztu. Egitura-ikuspegi ezarpen "
+"globaletako .%1 erabiliko da."
 
 #: widgets/structurewidget.cpp:693
 #, kde-format
 msgid "File extension not specified"
-msgstr ""
+msgstr "Fitxategi-luzapena ez da zehaztu"
 
 #: widgets/structurewidget.cpp:741
 #, kde-format
@@ -12073,31 +12079,35 @@ msgid ""
 "this error was: %1.\n"
 "Do you want to create this file?"
 msgstr ""
+"Ezin da barneratutako fitxategia aurkitu. Fitxategia ez da existitzen, ezin "
+"da irakurri edo Kile ez da haren bide-izena zuzena zehazteko gai. Errore hau "
+"eragiten ari den fitxategia: %1.\n"
+"Fitxategi hori sortu nahi duzu?"
 
 #: widgets/structurewidget.cpp:742
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot Find File"
-msgstr "Ezin da '%1' fitxategia aurkitu."
+msgstr "Ezin du fitxategia aurkitu"
 
 #: widgets/structurewidget.cpp:776
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cu&t"
-msgstr "Moz&tu"
+msgstr "E&baki"
 
 #: widgets/structurewidget.cpp:777
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Copy"
 msgstr "&Kopiatu"
 
 #: widgets/structurewidget.cpp:778
 #, kde-format
 msgid "&Paste below"
-msgstr ""
+msgstr "&Itsatsi behean"
 
 #: widgets/structurewidget.cpp:783
-#, fuzzy, kde-format
+#, kde-format
 msgid "C&omment"
-msgstr "&Iruzkina"
+msgstr "I&ruzkina"
 
 #: widgets/structurewidget.cpp:785
 #, kde-format
@@ -12107,92 +12117,92 @@ msgstr ""
 #: widgets/structurewidget.cpp:812
 #, kde-format
 msgid "Insert Label"
-msgstr ""
+msgstr "Sartu etiketa"
 
 #: widgets/structurewidget.cpp:813
 #, kde-format
 msgid "As &reference"
-msgstr ""
+msgstr "E&rreferentzia gisa"
 
 #: widgets/structurewidget.cpp:814
 #, kde-format
 msgid "As &page reference"
-msgstr ""
+msgstr "&Orri-erreferentzia gisa"
 
 #: widgets/structurewidget.cpp:815
 #, kde-format
 msgid "Only the &label"
-msgstr ""
+msgstr "E&tiketa bakarrik"
 
 #: widgets/structurewidget.cpp:817
 #, kde-format
 msgid "Copy Label to Clipboard"
-msgstr ""
+msgstr "Kopiatu etiketa arbelera"
 
 #: widgets/structurewidget.cpp:818
 #, kde-format
 msgid "As reference"
-msgstr ""
+msgstr "Erreferentzia gisa"
 
 #: widgets/structurewidget.cpp:819
 #, kde-format
 msgid "As page reference"
-msgstr ""
+msgstr "Orriaren erreferentzia gisa"
 
 #: widgets/structurewidget.cpp:820
 #, kde-format
 msgid "Only the label"
-msgstr ""
+msgstr "Etiketa bakarrik"
 
 #: widgets/symbolview.cpp:205
-#, fuzzy, kde-format
+#, kde-format
 msgid "Command: %1"
-msgstr "Komandoa"
+msgstr "Komandoa: %1"
 
 #: widgets/symbolview.cpp:207
-#, fuzzy, kde-format
+#, kde-format
 msgid "<br/>Unicode: %1"
-msgstr "Unicode"
+msgstr "<br/>Unicode: %1"
 
 #: widgets/symbolview.cpp:235
 #, kde-format
 msgid "Required Package: %2"
 msgid_plural "Required Packages: %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Beharrezko paketea: %2"
+msgstr[1] "Beharrezko paketeak: %2"
 
 #: widgets/symbolview.cpp:239
-#, fuzzy, kde-format
+#, kde-format
 msgid "Comment: %1"
-msgstr "Iruzkina"
+msgstr "Iruzkina: %1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: widgets/symbolviewconfigwidget.ui:28
 #, kde-format
 msgid "Most Frequently Used Symbols"
-msgstr ""
+msgstr "Ikur erabilienak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayMFUS)
 #: widgets/symbolviewconfigwidget.ui:37
 #, kde-format
 msgid "Display the vie&w"
-msgstr ""
+msgstr "Azaldu ik&uspegia"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/symbolviewconfigwidget.ui:46
 #, kde-format
 msgid "Number of symbols to show"
-msgstr ""
+msgstr "Erakutsi beharreko ikur-kopurua"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_clearMFUS)
 #: widgets/symbolviewconfigwidget.ui:84
 #, kde-format
 msgid "&Clear the list of symbols when closing Kile"
-msgstr ""
+msgstr "&Hustu ikur-zerrenda Kile ixtean"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/symbolviewconfigwidget.ui:94
-#, fuzzy, kde-format
+#, kde-format
 msgid "Unicode"
 msgstr "Unicode"
 
@@ -12201,31 +12211,32 @@ msgstr "Unicode"
 #, kde-format
 msgid "Insert Unicode representation of the selected symbol (when available)"
 msgstr ""
+"Sartu hautatutako ikurraren Unicode adierazpena (erabilgarri dagoenean)"
 
 #: widgets/toolconfigwidget.cpp:109
 #, kde-format
 msgid "Run Outside of Kile"
-msgstr ""
+msgstr "Exekutatu «Kile»tik kanpo"
 
 #: widgets/toolconfigwidget.cpp:110
-#, fuzzy, kde-format
+#, kde-format
 msgid "Run in Konsole"
-msgstr "Exekutatu Konsole-n"
+msgstr "Exekutatu «Konsole»n"
 
 #: widgets/toolconfigwidget.cpp:111
 #, kde-format
 msgid "Use Document Viewer"
-msgstr ""
+msgstr "Erabili dokumentu ikustaila"
 
 #: widgets/toolconfigwidget.cpp:112
 #, kde-format
 msgid "Run Sequence of Tools"
-msgstr ""
+msgstr "Exekutatu tresna-sekuentzia"
 
 #: widgets/toolconfigwidget.cpp:159
 #, kde-format
 msgid "Use the \"Advanced\" tab to configure this tool."
-msgstr ""
+msgstr "Erabili \"Aurreratua\" fitxa tresna hori konfiguratzeko."
 
 #: widgets/toolconfigwidget.cpp:170
 #, kde-format
@@ -12233,6 +12244,8 @@ msgid ""
 "Unknown tool type; your configuration data is malformed.\n"
 "Perhaps it is a good idea to restore the default settings."
 msgstr ""
+"Tresna-mota ezezaguna; zure konfigurazio-datuak gaizki osatuta daude.\n"
+"Agian ona litzate ezarpen lehenetsietara lehengoratzea."
 
 #: widgets/toolconfigwidget.cpp:223
 #, kde-format
@@ -12240,62 +12253,64 @@ msgid ""
 "All your tool settings will be overwritten with the default settings.\n"
 "Are you sure you want to continue?"
 msgstr ""
+"Tresnen zure ezarpen guztiak ezarpen lehenetsiekin gainidatziko dira.\n"
+"Ziur zaude jarraitu nahi duzula?"
 
 #: widgets/toolconfigwidget.cpp:337
 #, kde-format
 msgid "Choose a configuration for the tool %1"
-msgstr ""
+msgstr "Hautatu %1 tresnarako konfiguazioa bat"
 
 #: widgets/toolconfigwidget.cpp:407
-#, fuzzy, kde-format
+#, kde-format
 msgid "New Configuration"
-msgstr "Konfigurazio berria %1"
+msgstr "Konfigurazio berria"
 
 #: widgets/toolconfigwidget.cpp:407
 #, kde-format
 msgid "Enter new configuration name:"
-msgstr ""
+msgstr "Sartu konfigurazioaren izen berria:"
 
 #: widgets/toolconfigwidget.cpp:434
 #, kde-format
 msgid "Are you sure you want to remove the tool %1?"
-msgstr ""
+msgstr "Ziur zaude %1 tresna kendu nahi duzula?"
 
 #: widgets/toolconfigwidget.cpp:464
 #, kde-format
 msgid "Are you sure that you want to remove this configuration?"
-msgstr ""
+msgstr "Ziur zaude konfigurazio hori kendu nahi duzula?"
 
 #: widgets/toolconfigwidget.cpp:478
 #, kde-format
 msgid "You need at least one configuration for each tool."
-msgstr ""
+msgstr "Tresna bakoitzearako gutxienez konfigurazio bat behar duzu."
 
 #: widgets/toolconfigwidget.cpp:478
 #, kde-format
 msgid "Cannot Remove Configuration"
-msgstr ""
+msgstr "Ezin du konfigurazioa kendu"
 
 #: widgets/usermenuconfigwidget.cpp:89
 #, kde-format
 msgid "no file installed"
-msgstr ""
+msgstr "ez da fitxategirik instalatu"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/usermenuconfigwidget.ui:40
 #, kde-format
 msgid "Installed menu file:"
-msgstr ""
+msgstr "Instalatutako menu-fitxategia:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_usermenuFile)
 #: widgets/usermenuconfigwidget.ui:69
-#, fuzzy, kde-format
+#, kde-format
 msgid "File "
 msgstr "Fitxategia"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/usermenuconfigwidget.ui:149
-#, fuzzy, kde-format
+#, kde-format
 msgid "Location"
 msgstr "Kokalekua"
 
@@ -12303,13 +12318,13 @@ msgstr "Kokalekua"
 #: widgets/usermenuconfigwidget.ui:161
 #, kde-format
 msgid "Show &the user menu in the LaTeX menu"
-msgstr ""
+msgstr "Erakutsi erabil&tzaile-menua LaTeX menuan"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbStandAloneMenuLocation)
 #: widgets/usermenuconfigwidget.ui:177
 #, kde-format
 msgid "Show the &user menu in the menu bar"
-msgstr ""
+msgstr "Erakutsi erabilt&zaile-menua menu barran"
 
 #~ msgid "*.pdf|PDF Files"
 #~ msgstr "*.pdf|PDF fitxategiak"

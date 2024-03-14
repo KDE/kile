@@ -267,7 +267,7 @@ install(FILES org.kde.kile.main.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR})
 install(FILES org.kde.kile.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kile.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES data/bibtexentries.rc data/biblatexentries.rc DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile)
-install(FILES data/kile.categories DESTINATION ${KDE_INSTALL_CONFDIR})
+install(FILES data/kile.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 install(FILES data/org.kde.kile.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")

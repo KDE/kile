@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-10 01:58+0000\n"
-"PO-Revision-Date: 2024-03-13 14:51+0100\n"
+"PO-Revision-Date: 2024-03-14 20:25+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -3758,7 +3758,7 @@ msgstr "შიდა ფონტის ჩანაცვლებების 
 #: dialogs/quickdocumentdialog.cpp:775
 #, kde-format
 msgid "Create a PDF handout"
-msgstr ""
+msgstr "PDF დარიგების შექმნა"
 
 #: dialogs/quickdocumentdialog.cpp:776
 #, kde-format
@@ -7808,12 +7808,12 @@ msgstr ""
 #: kilestdactions.cpp:55
 #, kde-format
 msgid "Bulleted List - \\begin{itemize}"
-msgstr ""
+msgstr "მარკირებული სია - \\begin{itemize}"
 
 #: kilestdactions.cpp:55
 #, kde-format
 msgid "Bulleted List"
-msgstr ""
+msgstr "მარკირებული სია"
 
 #: kilestdactions.cpp:55
 #, kde-format
@@ -7907,12 +7907,12 @@ msgstr ""
 #: kilestdactions.cpp:69
 #, kde-format
 msgid "Title Page - \\begin{titlepage}"
-msgstr ""
+msgstr "სათაურის გვერდი - \\begin{titlepage}"
 
 #: kilestdactions.cpp:69
 #, kde-format
 msgid "Title Page"
-msgstr ""
+msgstr "სათაურის გვერდი"
 
 #: kilestdactions.cpp:70
 #, kde-format
@@ -7942,27 +7942,27 @@ msgstr "\\textit{კურსივი}"
 #: kilestdactions.cpp:73
 #, kde-format
 msgid "Slanted - \\textsl{}"
-msgstr ""
+msgstr "დაქანებული - \\textsl{}"
 
 #: kilestdactions.cpp:73 kilestdactions.cpp:206
 #, kde-format
 msgid "Slanted"
-msgstr ""
+msgstr "დაქანებული"
 
 #: kilestdactions.cpp:73
 #, kde-format
 msgid "\\textsl{slanted text}"
-msgstr ""
+msgstr "\\textsl{დაქანებული ტექსტი}"
 
 #: kilestdactions.cpp:74
 #, kde-format
 msgid "Boldface - \\textbf{}"
-msgstr ""
+msgstr "ნახევრადსქელი - \\textbf{}"
 
 #: kilestdactions.cpp:74
 #, kde-format
 msgid "Boldface"
-msgstr ""
+msgstr "ნახევრადსქელი"
 
 #: kilestdactions.cpp:74
 #, kde-format
@@ -8119,12 +8119,12 @@ msgstr ""
 #: kilestdactions.cpp:84
 #, kde-format
 msgid "Horizontal Line Across Columns - \\cline{m-n}"
-msgstr ""
+msgstr "ჰორიზონტალური ხაზი რამდენიმე სვეტში - \\cline{m-n}"
 
 #: kilestdactions.cpp:84
 #, kde-format
 msgid "Horizontal Line Across Columns"
-msgstr ""
+msgstr "ჰორიზონტალური ხაზი რამდენიმე სვეტში"
 
 #: kilestdactions.cpp:84
 #, kde-format
@@ -8185,12 +8185,12 @@ msgstr ""
 #: kilestdactions.cpp:89
 #, kde-format
 msgid "\"Big\" Vertical Space - \\bigskip"
-msgstr ""
+msgstr "\"დიდი\" ვერტიკალური დაშორება - \\bigskip"
 
 #: kilestdactions.cpp:89
 #, kde-format
 msgid "\"Big\" Vertical Space"
-msgstr ""
+msgstr "\"დიდი\" ვერტიკალური დაშორება"
 
 #: kilestdactions.cpp:89
 #, kde-format
@@ -8200,12 +8200,12 @@ msgstr ""
 #: kilestdactions.cpp:90
 #, kde-format
 msgid "\"Medium\" Vertical Space - \\medskip"
-msgstr ""
+msgstr "\"საშუალო\" ვერტიკალური დაშორება - \\medskip"
 
 #: kilestdactions.cpp:90
 #, kde-format
 msgid "\"Medium\" Vertical Space"
-msgstr ""
+msgstr "\"საშუალო\" ვერტიკალური დაშორება"
 
 #: kilestdactions.cpp:90
 #, kde-format
@@ -8555,12 +8555,12 @@ msgstr ""
 #: kilestdactions.cpp:157
 #, kde-format
 msgid "Generate Index - \\makeindex"
-msgstr ""
+msgstr "მაჩვენებლის გენერაცია- \\makeindex"
 
 #: kilestdactions.cpp:157
 #, kde-format
 msgid "Generate Index"
-msgstr ""
+msgstr "მაჩვენებლის გენერაცია"
 
 #: kilestdactions.cpp:157
 #, kde-format
@@ -8670,12 +8670,12 @@ msgstr ""
 #: kilestdactions.cpp:173
 #, kde-format
 msgid "\"Small\" Vertical Space - \\smallskip"
-msgstr ""
+msgstr "\"პატარა\" ვერტიკალური დაშორება - \\smallskip"
 
 #: kilestdactions.cpp:173
 #, kde-format
 msgid "\"Small\" Vertical Space"
-msgstr ""
+msgstr "\"პატარა\" ვერტიკალური დაშორება"
 
 #: kilestdactions.cpp:173
 #, kde-format
@@ -8690,12 +8690,12 @@ msgstr "\\enskip"
 #: kilestdactions.cpp:177
 #, kde-format
 msgid "Horizontal Variable Space - \\hfill"
-msgstr ""
+msgstr "ჰორიზონტალური ცვლადი დაშორება - \\hfill"
 
 #: kilestdactions.cpp:177
 #, kde-format
 msgid "Horizontal Variable Space"
-msgstr ""
+msgstr "ჰორიზონტალური ცვლადი დაშორება"
 
 #: kilestdactions.cpp:177
 #, kde-format
@@ -8923,7 +8923,7 @@ msgstr "კურსივი - \\itshape"
 #: kilestdactions.cpp:206
 #, kde-format
 msgid "Slanted - \\slshape"
-msgstr ""
+msgstr "დაქანებული - \\slshape"
 
 #: kilestdactions.cpp:207
 #, kde-format
@@ -10410,7 +10410,7 @@ msgstr ""
 #: livepreview.cpp:908
 #, kde-format
 msgid "Some documents could not be saved correctly"
-msgstr ""
+msgstr "ზოგიერთი დოკუმენტის სწორად შენახვა შეუძლებელია"
 
 #: livepreview.cpp:914
 #, kde-format
@@ -10450,7 +10450,7 @@ msgstr "KDE-ში ჩაშენებული LaTeX გარემო"
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
-msgstr ""
+msgstr "'Kile'-ის გუნდის მიერ (2003 - %1)"
 
 #: main.cpp:107
 #, kde-format
@@ -10609,7 +10609,7 @@ msgstr "LaTeX ---> DVI (Okular)"
 #: quickpreview.cpp:43
 #, kde-format
 msgid "LaTeX ---> DVI (Document Viewer)"
-msgstr ""
+msgstr "LaTeX ---> DVI (დოკუმენტის გამხსნელი)"
 
 #: quickpreview.cpp:44
 #, kde-format
@@ -10619,7 +10619,7 @@ msgstr "LaTeX ---> PS (Okular)"
 #: quickpreview.cpp:45
 #, kde-format
 msgid "LaTeX ---> PS (Document Viewer)"
-msgstr ""
+msgstr "LaTeX ---> PS (დოკუმენტის გამხსნელი)"
 
 #: quickpreview.cpp:46
 #, kde-format
@@ -10629,7 +10629,7 @@ msgstr "PDFLaTeX ---> PDF (Okular)"
 #: quickpreview.cpp:47
 #, kde-format
 msgid "PDFLaTeX ---> PDF (Document Viewer)"
-msgstr ""
+msgstr "PDFLaTeX ---> PDF (დოკუმენტის გამხსნელი)"
 
 #: quickpreview.cpp:48
 #, kde-format
@@ -10639,7 +10639,7 @@ msgstr "XeLaTeX ---> PDF (Okular)"
 #: quickpreview.cpp:49
 #, kde-format
 msgid "XeLaTeX ---> PDF (Document Viewer)"
-msgstr ""
+msgstr "XeLaTeX ---> PDF (დოკუმენტის გამხსნელი)"
 
 #: quickpreview.cpp:50
 #, kde-format
@@ -10649,12 +10649,12 @@ msgstr "LuaLaTeX ---> PDF (Okular)"
 #: quickpreview.cpp:51
 #, kde-format
 msgid "LuaLaTeX ---> PDF (Document Viewer)"
-msgstr ""
+msgstr "LuaLaTeX ---> PDF (დოკუმენტის გამხსნელი)"
 
 #: quickpreview.cpp:78
 #, kde-format
 msgid "There is no selection to compile."
-msgstr ""
+msgstr "დასაკომპილირებელი მონიშნულის გარეშე."
 
 #: quickpreview.cpp:105
 #, kde-format
@@ -11259,13 +11259,13 @@ msgstr ""
 #: widgets/graphicsconfigwidget.ui:80
 #, kde-format
 msgid "Tr&y to determine from the picture"
-msgstr ""
+msgstr "&სურათიდან დადგენის ცდა"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlBBoxHelp)
 #: widgets/graphicsconfigwidget.ui:93
 #, kde-format
 msgid "(you have to install the ImageMagick package to use this option)"
-msgstr ""
+msgstr "(ამ პარამეტრის გამოსაყენებლად პაკეტი ImageMagick უნდა დააყენოთ)"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlImageMagick)
 #: widgets/graphicsconfigwidget.ui:103
@@ -11277,7 +11277,7 @@ msgstr "ImageMagick:"
 #: widgets/helpconfigwidget.ui:32
 #, kde-format
 msgid "Context Sensitive Help"
-msgstr ""
+msgstr "კონტექსტზე დამოკიდებული დახმარება"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_latex2erefs)
 #: widgets/helpconfigwidget.ui:41
@@ -11307,7 +11307,7 @@ msgstr "გამართვა..."
 #: widgets/latexconfigwidget.ui:50
 #, kde-format
 msgid "Configure LaTeX environments and commands"
-msgstr ""
+msgstr "LaTeX-ის გარემოებსა და ბრძანებების მორგება"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_bgQuotes)
 #: widgets/latexconfigwidget.ui:71
@@ -11463,17 +11463,17 @@ msgstr " მწმ"
 #: widgets/livepreviewconfigwidget.ui:104
 #, kde-format
 msgid "Set default live preview tool"
-msgstr ""
+msgstr "ნაგულისხმევი ცოცხალი მინიატურის ხელსაწყოს დაყენება"
 
 #: widgets/logwidget.cpp:371
 #, kde-format
 msgid "Hide &Bad Boxes"
-msgstr ""
+msgstr "&დეფექტების დამალვა"
 
 #: widgets/logwidget.cpp:377
 #, kde-format
 msgid "Hide (La)TeX &Warnings"
-msgstr ""
+msgstr "(La)TeX-ის გაფრთხილებების დამალვა"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/maintoolconfigwidget.ui:60
@@ -11492,7 +11492,7 @@ msgstr "ახალი..."
 #: widgets/maintoolconfigwidget.ui:129
 #, kde-format
 msgid "Choose a configuration for the current tool"
-msgstr ""
+msgstr "არჩიეთ კონფიგურაცია მიმდინარე ხელსაწყოსთვის"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
 #: widgets/maintoolconfigwidget.ui:152
@@ -11540,7 +11540,7 @@ msgstr ""
 #: widgets/maintoolconfigwidget.ui:488
 #, kde-format
 msgid "Close Konsole when tool is finished"
-msgstr ""
+msgstr "Konsole-ის დახურვა, როცა ხელსაწყოს შესრულება დასრულება"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage)
 #: widgets/maintoolconfigwidget.ui:511
@@ -11552,7 +11552,7 @@ msgstr "მენიუ"
 #: widgets/maintoolconfigwidget.ui:534
 #, kde-format
 msgid "Add &tool to Build menu:"
-msgstr ""
+msgstr "ხელსაწყოს დამა&ტება აგების მენიუში:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbIcon)
 #: widgets/maintoolconfigwidget.ui:557
@@ -11564,13 +11564,13 @@ msgstr "&ხატულა:"
 #: widgets/maintoolconfigwidget.ui:628
 #, kde-format
 msgid "Restore Default Tools..."
-msgstr ""
+msgstr "ნაგულისხმევ ხელსაწყოების აღდგენა..."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/newdocumentwidget.ui:38
 #, kde-format
 msgid "Please select the type of document you want to create:"
-msgstr ""
+msgstr "აირჩიეთ დოკუმენტის ტიპი, რომელიც გნებავთ შექმნათ:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
 #: widgets/newdocumentwidget.ui:74
@@ -11582,7 +11582,7 @@ msgstr "ნიმუში"
 #: widgets/newdocumentwidget.ui:80
 #, kde-format
 msgid "Please select the template that should be used:"
-msgstr ""
+msgstr "აირჩიეთ ნიმუში, რომელიც გნებავთ, გამოიყენოთ:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickStartWizardCheckBox)
 #: widgets/newdocumentwidget.ui:93
@@ -11593,7 +11593,7 @@ msgstr ""
 #: widgets/previewconfigwidget.cpp:50
 #, kde-format
 msgid "Quick Preview in a Separate Window"
-msgstr ""
+msgstr "სწრაფი მინიატურა ცალკე ფანჯარაში"
 
 #: widgets/previewconfigwidget.cpp:58
 #, kde-format
@@ -11603,7 +11603,7 @@ msgstr "აირჩიეთ კონფიგურაცია:"
 #: widgets/previewconfigwidget.cpp:68
 #, kde-format
 msgid "Quick Preview in Bottom Bar"
-msgstr ""
+msgstr "სწრაფი მინიატურა ქვედა პანელში"
 
 #: widgets/previewconfigwidget.cpp:76
 #, kde-format
@@ -11618,7 +11618,7 @@ msgstr "dpi"
 #: widgets/previewconfigwidget.cpp:79
 #, kde-format
 msgid "(allowed values: 30-1000 dpi)"
-msgstr ""
+msgstr "(დაშვებული მნიშვნელობები: 30-1000 dpi)"
 
 #: widgets/previewconfigwidget.cpp:81
 #, kde-format
@@ -11673,7 +11673,7 @@ msgstr "გადაყვანა:"
 #: widgets/previewconfigwidget.cpp:127
 #, kde-format
 msgid "Show preview in bottom bar:"
-msgstr ""
+msgstr "მინატურის ჩვენება ქვედა პანელში:"
 
 #: widgets/previewconfigwidget.cpp:128
 #, kde-format
@@ -11703,7 +11703,7 @@ msgstr "ქვედოკუმენტი:"
 #: widgets/previewconfigwidget.cpp:133
 #, kde-format
 msgid "Not available, opens always in a separate window."
-msgstr ""
+msgstr "ხელმისაწვდომი არაა. ყოველთვის ცალკე ფანჯარაში იხსნება."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbCommand)
 #: widgets/processtoolconfigwidget.ui:37
@@ -11948,7 +11948,7 @@ msgstr "მიმდევრობა"
 #: widgets/scriptsmanagementwidget.cpp:223
 #, kde-format
 msgid "The sequence \"%1\" is already assigned to the action \"%2\""
-msgstr ""
+msgstr "მიმდევრობა \"%1\" უკვე მინიჭებულია ქმედებაზე \"%2\""
 
 #: widgets/scriptsmanagementwidget.cpp:224
 #: widgets/scriptsmanagementwidget.cpp:228

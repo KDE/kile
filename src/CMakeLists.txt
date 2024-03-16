@@ -223,12 +223,10 @@ if(APPLE)
         MACOSX_BUNDLE_DISPLAY_NAME      "Kile"
         MACOSX_BUNDLE_INFO_STRING       "Kile, an KDE Integrated LaTeX Environment"
         MACOSX_BUNDLE_COPYRIGHT         "the Kile Team (2003 - ${LAST_COPYRIGHT_YEAR})")
-    if(KILE_VERSION)
-        set_target_properties(kile PROPERTIES
-            MACOSX_BUNDLE_LONG_VERSION_STRING "Kile ${KILE_VERSION}"
-            MACOSX_BUNDLE_SHORT_VERSION_STRING "${KILE_VERSION}"
-            MACOSX_BUNDLE_BUNDLE_VERSION "${KILE_VERSION}")
-    endif()
+    set_target_properties(kile PROPERTIES
+        MACOSX_BUNDLE_LONG_VERSION_STRING "Kile ${KILE_VERSION}"
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "${KILE_VERSION}"
+        MACOSX_BUNDLE_BUNDLE_VERSION "${KILE_VERSION}")
 endif()
 
 target_link_libraries(kile

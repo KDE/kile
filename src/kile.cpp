@@ -431,7 +431,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
         settings.setValue(QStringLiteral("autodetectLanguage"), false);
 #endif
         slotPerformCheck();
-        KileConfig::setSystemCheckLastVersionRunForAtStartUp(kileFullVersion);
+        KileConfig::setSystemCheckLastVersionRunForAtStartUp(QLatin1StringView(KILE_VERSION_STRING));
     }
 
     if(m_livePreviewManager) {

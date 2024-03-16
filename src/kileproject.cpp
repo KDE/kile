@@ -256,7 +256,7 @@ KileProject::KileProject(const QString& name, const QUrl &url, KileDocument::Ext
     KConfigGroup configGroup = m_config->group("General");
     configGroup.writeEntry("name", m_name);
     configGroup.writeEntry("kileprversion", KILE_PROJECTFILE_VERSION);
-    configGroup.writeEntry("kileversion", kileFullVersion);
+    configGroup.writeEntry("kileversion", QStringLiteral(KILE_VERSION_STRING));
 
     load();
 }
@@ -572,7 +572,7 @@ bool KileProject::save()
 
     generalGroup.writeEntry("name", m_name);
     generalGroup.writeEntry("kileprversion", KILE_PROJECTFILE_VERSION);
-    generalGroup.writeEntry("kileversion", kileFullVersion);
+    generalGroup.writeEntry("kileversion", QStringLiteral(KILE_VERSION_STRING));
     generalGroup.writeEntry("def_graphic_ext", m_defGraphicExt);
 
     KILE_DEBUG_MAIN << "KileProject::save() masterDoc = " << removeBaseURL(m_masterDocument);
@@ -1005,7 +1005,7 @@ bool KileProject::migrateProjectFileToVersion3()
 
     KConfigGroup configGroup = m_config->group("General");
     configGroup.writeEntry("kileprversion", KILE_PROJECTFILE_VERSION);
-    configGroup.writeEntry("kileversion", kileFullVersion);
+    configGroup.writeEntry("kileversion", QStringLiteral(KILE_VERSION_STRING));
 
     return m_config->sync();
 }

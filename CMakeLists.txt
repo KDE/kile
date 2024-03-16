@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(kile)
-
-set(KILE_VERSION CACHE STRING "Kile's version; can be used to set the internal version of Kile on MacOSX")
+project(kile VERSION 2.9.94)
 
 find_package(ECM 6.0.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
@@ -11,6 +9,7 @@ set(KDE_COMPILERSETTINGS_LEVEL 5.84)
 
 include(KDECompilerSettings NO_POLICY_SCOPE)
 
+include(ECMSetupVersion)
 include(ECMAddAppIcon)
 include(ECMOptionalAddSubdirectory)
 include(ECMInstallIcons)
@@ -26,6 +25,11 @@ include(CheckFunctionExists)
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
+
+ecm_setup_version(${PROJECT_VERSION}
+    VARIABLE_PREFIX KILE
+    VERSION_HEADER ${CMAKE_CURRENT_BINARY_DIR}/src/cmake-kile-version.h
+)
 
 kde_enable_exceptions()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)

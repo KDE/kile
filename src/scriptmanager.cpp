@@ -95,7 +95,7 @@ void Manager::executeScript(const Script *script)
     QRegExp requiredVersionTagExp("(kile-version:\\s*)(\\d+\\.\\d+(.\\d+)?)");
     if(requiredVersionTagExp.indexIn(firstLine) != -1) {
         QString requiredKileVersion = requiredVersionTagExp.cap(2);
-        if(compareVersionStrings(requiredKileVersion, kileFullVersion) > 0) {
+        if(compareVersionStrings(requiredKileVersion, QLatin1StringView(KILE_VERSION_STRING)) > 0) {
             KMessageBox::error(m_kileInfo->mainWindow(), i18n("Version %1 of Kile is at least required to execute the script \"%2\". The execution has been aborted.",
                                                               requiredKileVersion, script->getName()), i18n("Version Error"));
             return;

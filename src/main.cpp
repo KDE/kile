@@ -98,7 +98,7 @@ int main(int argc, char **argv)
     app.setApplicationName(QStringLiteral("kile"));
     KLocalizedString::setApplicationDomain("kile");
 
-    KAboutData aboutData("kile", i18n("Kile"), kileFullVersion.toLatin1(),
+    KAboutData aboutData("kile", i18n("Kile"), QLatin1StringView(KILE_VERSION_STRING),
                          i18n("KDE Integrated LaTeX Environment"),
                          KAboutLicense::GPL,
                          i18nc("the parameter is the last copyright year", "by the Kile Team (2003 - %1)", KILE_LAST_COPYRIGHT_YEAR),

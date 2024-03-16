@@ -43,22 +43,24 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED
 
 find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Qml Core5Compat)
 
-find_package(KF6 6.0.0 REQUIRED COMPONENTS
-	Codecs
-	Config
-	CoreAddons
-	Crash
-	DBusAddons
-	DocTools
-	GuiAddons
-	I18n
-	IconThemes
-	KIO
-	Parts
-	TextEditor
-	WindowSystem
-	XmlGui
-	TextWidgets
+find_package(KF6 6.0.0
+	REQUIRED COMPONENTS
+		Codecs
+		Config
+		CoreAddons
+		Crash
+		DBusAddons
+		GuiAddons
+		I18n
+		IconThemes
+		KIO
+		Parts
+		TextEditor
+		WindowSystem
+		XmlGui
+		TextWidgets
+	OPTIONAL_COMPONENTS
+		DocTools
 )
 
 set(CMAKE_CXX_STANDARD 17)
@@ -137,5 +139,8 @@ install(FILES
 	DESTINATION ${KDE_INSTALL_DATAROOTDIR}/doc/kile)
 
 ki18n_install(po)
+if(KF6DocTools_FOUND)
+	kdoctools_install(po)
+endif()
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

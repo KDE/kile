@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-10 01:58+0000\n"
-"PO-Revision-Date: 2024-03-14 20:25+0100\n"
+"PO-Revision-Date: 2024-03-15 12:39+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -657,6 +657,10 @@ msgid ""
 "pattern input field, resulting in the regular expression to search for. In "
 "all other modes this template is ignored."
 msgstr ""
+"პირველი სამი რეჟიმისთვის შეგიძლიათ აირჩიოთ შაბლონი ნიმუშისთვის ჩამოსაშლელი "
+"სიიდან და ის იქვე ჩაასწოროთ. სტრიქონი %s შაბლონში ჩანაცვლდება შეყვანის ველის "
+"ნიმუშით, რისი შედეგიც იქნება რეგულარული გამოსახულება, რომელიც უნდა მოძებნოთ. "
+"ყველა სხვა რეჟიმში ეს შაბლონი გამოტოვებულია."
 
 #: dialogs/findfilesdialog.cpp:297
 #, kde-format
@@ -2240,6 +2244,9 @@ msgid ""
 "library. Setting, changing and removing of properties and permissions is not "
 "possible.</p>"
 msgstr ""
+"<p><i>ინფორმაცია: </i>Kile-ის ეს ვერსია libpoppler ბიბლიოთეკის გარეშეა "
+"აგებული. თვისებებისა და წვდომების დაყენება, შეცვლა და წაშლა შეუძლებელი "
+"იქნება.</p>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:910 dialogs/pdf-wizard/pdfdialog.cpp:1698
 #: dialogs/pdf-wizard/pdfdialog.cpp:1768 kile.cpp:1031
@@ -2900,6 +2907,8 @@ msgid ""
 "Insert a list (separated by spaces) of file extensions which should be "
 "treated also as files of the corresponding type in this project."
 msgstr ""
+"ჩასვით გაფართოებების სია (გამოტოვების გამოყოფილი), რომლებიც შესაბამისი ტიპის "
+"მქონე ფაილებად უნდა აღვიქვა ამ პროექტში."
 
 #: dialogs/projectdialogs.cpp:69
 #, kde-format
@@ -3292,22 +3301,22 @@ msgstr "დოკუმენტის ორიენტაციის ლა�
 #: dialogs/quickdocumentdialog.cpp:647
 #, kde-format
 msgid "Margins are set for single side output"
-msgstr ""
+msgstr "მინდვრები ცალგვერდიანი გამოტანისთვისაა დაყენებული"
 
 #: dialogs/quickdocumentdialog.cpp:648
 #, kde-format
 msgid "Left and right pages differ in page margins"
-msgstr ""
+msgstr "მარცხენა და მარჯვენა გვერდებს განსხვავებული მინდვრები აქვთ"
 
 #: dialogs/quickdocumentdialog.cpp:649
 #, kde-format
 msgid "Marks \"overfull hboxes\" on the output with black boxes"
-msgstr ""
+msgstr "გამოტანისას \"გადავსებების\" შავი ოთხკუთხედებით დანიშვნა"
 
 #: dialogs/quickdocumentdialog.cpp:650
 #, kde-format
 msgid "No special marks for \"overfull hboxes\" on the output"
-msgstr ""
+msgstr "გამოტანისას \"გადავსებები\" შავი ოთხკუთხედებით არ დაინიშნება"
 
 #: dialogs/quickdocumentdialog.cpp:651
 #, kde-format
@@ -3484,11 +3493,12 @@ msgstr "აბზაცებს შორის დაშორების გ
 #, kde-format
 msgid "One-line captions are centered, multi-line left-justified"
 msgstr ""
+"ერთხაზიანი წარწერები დაცენტრებულია, მრავალხაზიანი კი მარცხენა მხარეს სწორება"
 
 #: dialogs/quickdocumentdialog.cpp:701
 #, kde-format
 msgid "No special handling of one-line captions"
-msgstr ""
+msgstr "ერთხაზიანი წარწერების სპეციალური დამუშავების გათიშვა"
 
 #: dialogs/quickdocumentdialog.cpp:702
 #, kde-format
@@ -3533,17 +3543,17 @@ msgstr "ბიბლიოგრაფიების დანომრვა �
 #: dialogs/quickdocumentdialog.cpp:710
 #, kde-format
 msgid "All numbers and titles are set in a left-justified column"
-msgstr ""
+msgstr "ნომრებისა და სათაურების სვეტი მარცხენა მხარეს სწორდება"
 
 #: dialogs/quickdocumentdialog.cpp:711
 #, kde-format
 msgid "Different sectional units have different indentations"
-msgstr ""
+msgstr "განსხვავებულ სექციურ ერთეულებს სხვადასხვა შეწევა გააჩნიათ"
 
 #: dialogs/quickdocumentdialog.cpp:712
 #, kde-format
 msgid "All numbers and captions are set in a left-justified column"
-msgstr ""
+msgstr "ნომრებისა და წარწერების სვეტი მარცხენა მხარეს სწორდება"
 
 #: dialogs/quickdocumentdialog.cpp:713
 #, kde-format
@@ -3553,27 +3563,27 @@ msgstr "ყველა რიცხვი ფიქსირებულ სი
 #: dialogs/quickdocumentdialog.cpp:714
 #, kde-format
 msgid "Numbering of sectional units have a point at the end"
-msgstr ""
+msgstr "პარაგრაფის დანომრვისას რიცხვებს ბოლოში წერტილი მიეწერება"
 
 #: dialogs/quickdocumentdialog.cpp:715
 #, kde-format
 msgid "Numbering of sectional units have no point at the end"
-msgstr ""
+msgstr "პარაგრაფის დანომრვისას რიცხვებს ბოლოში წერტილი არ ექნებათ"
 
 #: dialogs/quickdocumentdialog.cpp:716
 #, kde-format
 msgid "Caption command acts like \\captionabove"
-msgstr ""
+msgstr "წარწერის ბრძანება იქცევა, როგორც \\captionabove"
 
 #: dialogs/quickdocumentdialog.cpp:717
 #, kde-format
 msgid "Caption command acts like \\captionbelow"
-msgstr ""
+msgstr "წარწერის ბრძანება იქცევა, როგორც \\captionbelow"
 
 #: dialogs/quickdocumentdialog.cpp:718
 #, kde-format
 msgid "Captions of the longtable package should not be redefined"
-msgstr ""
+msgstr "პაკეტისთვის longtable წარწერებს თავიდან ვერ აღწერთ"
 
 #: dialogs/quickdocumentdialog.cpp:724
 #, kde-format
@@ -3608,12 +3618,12 @@ msgstr "ანოტაციის სათაურის ამოღებ�
 #: dialogs/quickdocumentdialog.cpp:740
 #, kde-format
 msgid "The file is compiled in draft mode"
-msgstr ""
+msgstr "ფაილის კომპილაცია მონახაზის რეჟიმში ხდება"
 
 #: dialogs/quickdocumentdialog.cpp:741
 #, kde-format
 msgid "The file is compiled in final mode"
-msgstr ""
+msgstr "ფაილის კომპილაცია საბოლოო რეჟიმში ხდება"
 
 #: dialogs/quickdocumentdialog.cpp:742
 #, kde-format
@@ -3658,12 +3668,13 @@ msgstr "LaTeX ფაილი აიწყობა, რომ გამოვ�
 #: dialogs/quickdocumentdialog.cpp:750
 #, kde-format
 msgid "Some macros interpret their argument in ps mode"
-msgstr ""
+msgstr "ზოგიერთი მაკრო თავიანთ არგუმენტებს ps რეჟიმში უკეთებს ინტერპრეტაციას"
 
 #: dialogs/quickdocumentdialog.cpp:751
 #, kde-format
 msgid "Some macros do not interpret their argument in ps mode"
 msgstr ""
+"ზოგიერთი მაკრო თავიანთ არგუმენტებს ps რეჟიმში ინტერპრეტაციას არ უკეთებს"
 
 #: dialogs/quickdocumentdialog.cpp:752
 #, kde-format
@@ -3688,22 +3699,23 @@ msgstr "LaTeX ფაილი MicroPress VTeX-ით დამუშავდე
 #: dialogs/quickdocumentdialog.cpp:756
 #, kde-format
 msgid "Do not add any caption at the bottom of the slides"
-msgstr ""
+msgstr "სლაიდების ქვედა ნაწილში წარწერები არ დაემატება"
 
 #: dialogs/quickdocumentdialog.cpp:762
 #, kde-format
 msgid "Place text of slides at the (vertical) top of the slides"
-msgstr ""
+msgstr "სლაიდების ტექსტის მოთავსება სლაიდების (ვერტიკალურ) თავში"
 
 #: dialogs/quickdocumentdialog.cpp:763
 #, kde-format
 msgid "Place text of slides at the (vertical) center of the slides"
-msgstr ""
+msgstr "სლაიდების ტექსტის მოთავსება სლაიდების (ვერტიკალურ) ცენტრში"
 
 #: dialogs/quickdocumentdialog.cpp:764
 #, kde-format
 msgid "Headlines, footlines, and sidebars are replaced by gray rectangles"
 msgstr ""
+"კოლონტიტულები და გვერდითი ჩასმები ნაცრისფერი მართკუთხედებით ჩანაცვლდება"
 
 #: dialogs/quickdocumentdialog.cpp:765
 #, kde-format
@@ -3713,12 +3725,12 @@ msgstr "ნავიგაციის პანელების ყველ�
 #: dialogs/quickdocumentdialog.cpp:766
 #, kde-format
 msgid "Suppresses generation of some entries in the pdf information"
-msgstr ""
+msgstr "PDF ინფორმაციის ზოგიერთი ჩანაწერების გენერაციის აკრძალვა"
 
 #: dialogs/quickdocumentdialog.cpp:767
 #, kde-format
 msgid "Switches off the definition of default blocks like theorem"
-msgstr ""
+msgstr "გათიშავს theorem-ის მსგავსი ნაგულისხმევი ბლოკების აღწერას"
 
 #: dialogs/quickdocumentdialog.cpp:768
 #, kde-format
@@ -3819,6 +3831,7 @@ msgstr "ფონტებისა და სიმბოლოს კოლე
 #, kde-format
 msgid "Defines symbol names for all math symbols in MSAM and MSBM (AMS)"
 msgstr ""
+"აღწერს სიმბოლოს სახელებს ყველა მათ. სიმბოლოსთვის MSAM-ში და MSBM-ში (AMS)"
 
 #: dialogs/quickdocumentdialog.cpp:1035
 #, kde-format
@@ -3833,7 +3846,7 @@ msgstr "აფართოებს წარწერის შესაძლ�
 #: dialogs/quickdocumentdialog.cpp:1038
 #, kde-format
 msgid "Hypertext marks in LaTeX"
-msgstr ""
+msgstr "ჰიპერტექსტის განიშვნა LaTeX-ში"
 
 #: dialogs/quickdocumentdialog.cpp:1040
 #, kde-format
@@ -3950,7 +3963,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:1063
 #, kde-format
 msgid "Extending LaTeX's color facilities"
-msgstr ""
+msgstr "გააფართოებს LaTeX-ის ფერის ფუნქციებს"
 
 #: dialogs/quickdocumentdialog.cpp:1065
 #, kde-format
@@ -3970,12 +3983,12 @@ msgstr "გრაფიკის ჩასმის მხარდაჭერ�
 #: dialogs/quickdocumentdialog.cpp:1165
 #, kde-format
 msgid "Specialize on graphic inclusion for dvips"
-msgstr ""
+msgstr "მიაერთებს გრაფიკას dvips-ით დასამუშავებლად"
 
 #: dialogs/quickdocumentdialog.cpp:1166
 #, kde-format
 msgid "Specialize on graphic inclusion for pdftex"
-msgstr ""
+msgstr "მიაერთებს გრაფიკას პდფტეხ-ით დასამუშავებლად"
 
 #: dialogs/quickdocumentdialog.cpp:1167
 #, kde-format
@@ -4007,7 +4020,7 @@ msgstr "შეიყვანეთ ახალი დოკუმენტი�
 #: dialogs/quickdocumentdialog.cpp:1662
 #, kde-format
 msgid "&Set all options from this standard class (optional):"
-msgstr ""
+msgstr "ყველა პარამეტრი&ს დაყენება ამ სტანდარტული კლასიდან (არასავალდებულო):"
 
 #: dialogs/quickdocumentdialog.cpp:1664
 #, kde-format
@@ -4439,6 +4452,8 @@ msgid ""
 "Input data. Enter text when a cell is selected. When return is pressed, the "
 "adjacent cell will become selected."
 msgstr ""
+"შეყვანილი მონაცემები. შეიყვანეთ ტექსტი, როცა უჯრედი მონიშნულია. როცა "
+"დააწვებით Enter-ს, მოინიშნება ახლომდებარე უჯრედი."
 
 #: dialogs/tabular/newtabulardialog.cpp:174
 #, kde-format
@@ -4458,7 +4473,7 @@ msgstr "ტაბულარი დაცენტრებული იქნ�
 #: dialogs/tabular/newtabulardialog.cpp:178
 #, kde-format
 msgid "Use line commands of the booktabs package."
-msgstr ""
+msgstr "'booktabs' პაკეტის ხაზის ბრძანებების გამოყენება."
 
 #: dialogs/tabular/newtabulardialog.cpp:180
 #, kde-format
@@ -4518,6 +4533,8 @@ msgid ""
 "Choose the border for the selected cells. When clicking on the button, the "
 "current border will be applied to the selected cells."
 msgstr ""
+"აირჩიეთ საზღვრები მონიშნული უჯრედებისთვის. როცა ღილაკზე დააწკაპუნებთ, "
+"მონიშნულ უჯრედებზე მიმდინარე საზღვარი გადატარდება."
 
 #: dialogs/tabular/newtabulardialog.cpp:191
 #, kde-format
@@ -4535,23 +4552,26 @@ msgid ""
 "Clears the text of the selected cells but keeps attributes such as alignment "
 "and font shape."
 msgstr ""
+"გაასუფთავებს ტექსტს მონიშნული უჯრედებიდან, მაგრამ დატოვებს ისეთ ატრიბუტებს, "
+"როგორიცაა გასწორება და ფონტის ფორმა."
 
 #: dialogs/tabular/newtabulardialog.cpp:194
 #, kde-format
 msgid ""
 "Resets the attributes of the selected cells to the default values but keeps "
 "the text."
-msgstr ""
+msgstr "ჩამოყრის მონიშნული უჯრედების ატრიბუტებს, მაგრამ დატოვებს ტექსტს."
 
 #: dialogs/tabular/newtabulardialog.cpp:195
 #, kde-format
 msgid "Clears the text of the selected cells and resets the attributes."
 msgstr ""
+"გაასუფთავებს მონიშნული უჯრედებში არსებულ ტექსტს და ჩამოყრის ატრიბუტებს."
 
 #: dialogs/tabular/newtabulardialog.cpp:196
 #, kde-format
 msgid "Pastes a table stored in the clipboard into this wizard."
-msgstr ""
+msgstr "ამ ოსტატში ჩასვამს ბუფერში დამახსოვრებულ ცხრილს."
 
 #: dialogs/tabular/newtabulardialog.cpp:654
 #: dialogs/tabular/newtabulardialog.cpp:676
@@ -4560,6 +4580,8 @@ msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
 "the new size?"
 msgstr ""
+"ცხრილისთვის ახალი ზომის დაყენება მისი შემცველობის ნაწილს წაშლის. მართლა "
+"გნებავთ ახალი ზომის დაყენება?"
 
 #: dialogs/tabular/newtabulardialog.cpp:654
 #: dialogs/tabular/newtabulardialog.cpp:676
@@ -4615,7 +4637,7 @@ msgstr "სივრცე არ ჩაიხშობა"
 #: dialogs/tabular/tabulartable.cpp:220
 #, kde-format
 msgid "There is no content to insert into the table as the clipboard is empty."
-msgstr ""
+msgstr "ცხრილში ჩასასმელი მონაცემები არ არსებობს, რადგან ბუფერი ცარიელია."
 
 #: dialogs/tabular/tabulartable.cpp:220
 #, kde-format
@@ -4659,7 +4681,7 @@ msgstr "მითითებული საკვანძო სიტყვ�
 #: dialogs/texdocumentationdialog.cpp:90
 #, kde-format
 msgid "Reset list to all available documentation files."
-msgstr ""
+msgstr "სიის ჩამოყრა ყველა ხელმისაწვდომ დოკუმენტაციის ფაილზე."
 
 #: dialogs/texdocumentationdialog.cpp:91
 #, kde-format
@@ -4969,6 +4991,9 @@ msgid ""
 "unpredictable results.\n"
 "Do you really want to save this file?"
 msgstr ""
+"მენიუს ხე შეცდომებს შეიცავს და ამ ფაილის დაყენებამ, შეიძლება, "
+"არაპროგნოზირებად შედეგებამდე მიგიყვანოთ.\n"
+"მართლა გნებავთ ამ ფაილის შენახვა?"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
 #, kde-format
@@ -5691,6 +5716,9 @@ msgid ""
 "properly.<br/>This will overwrite any changes you have made.</p><p>Do you "
 "want to reset the tools now?</p>"
 msgstr ""
+"<p>იმისათვის, რომ ამ ვერსიის Kilo-მა სწორად იმუშაოს, ხელსაწყოს პარამეტრების "
+"ჩამოყრაა საჭირო.<br/>ეს გადააწერს ცვლილებებს, რომლებიც თქვენ შეიტანეთ.</"
+"p><p>გნებავთ ხელსაწყოების ჩამოყრა?</p>"
 
 #: kile.cpp:404
 #, kde-format
@@ -6248,7 +6276,7 @@ msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
 "\n"
 "Please check and repair your installation of Kile."
-msgstr ""
+msgstr "\"არქივის\" ხელსაწყოს შექმნა შეუძლებელია. შეამოწმეთ Kilo-ის ფაილები."
 
 #: kile.cpp:1437
 #, kde-format
@@ -6327,6 +6355,8 @@ msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr ""
+"იმისათვის, რომ მიმდინარე დოკუმენტი მთავარ დოკუმენტად დააყენოთ, ის ჯერ უნდა "
+"შეინახოთ."
 
 #: kile.cpp:3005
 #, kde-format
@@ -6378,7 +6408,7 @@ msgstr "მთავარი ფანჯრის სიმაღლე."
 #: kile.kcfg:53
 #, kde-format
 msgid "The expansion level for the structure view."
-msgstr ""
+msgstr "გაფართოების დონე სტრუქტურის ხედისთვის."
 
 #. i18n: ectx: label, entry (SvShowLabels), group (Structure)
 #: kile.kcfg:57
@@ -6432,25 +6462,28 @@ msgstr "TODO და FIXME კომენტარების ჩვენე�
 #: kile.kcfg:89
 #, kde-format
 msgid "Open the parent item for all labels in the structure view as default"
-msgstr ""
+msgstr "ყველა ჭდისთვის მშობელი ელემენტის ნაგულისხმევად სტრუქტურის ხედში გახსნა"
 
 #. i18n: ectx: label, entry (SvOpenReferences), group (Structure)
 #: kile.kcfg:93
 #, kde-format
 msgid "Open the parent item for all undefined references in the structure view"
 msgstr ""
+"ყველა განუსაზღვრელი მიმართვისთვის მშობელი ელემენტის სტრუქტურის ხედში გახსნა"
 
 #. i18n: ectx: label, entry (SvOpenBibitems), group (Structure)
 #: kile.kcfg:97
 #, kde-format
 msgid "Open the parent item for all bibitems in the structure view as default"
 msgstr ""
+"ყველა bibitem-ის მშობელი ელემენტის ნაგულისხმევად სტრუქტურის ხედში გახსნა"
 
 #. i18n: ectx: label, entry (SvOpenTodo), group (Structure)
 #: kile.kcfg:101
 #, kde-format
 msgid "Open the parent item for all TODO and FIXME comments as default"
 msgstr ""
+"ყველა TODO და FIXME კომენტარების მშობლის ელემენტის ნაგულისხმევად გახსნა"
 
 #. i18n: ectx: label, entry (SvDefaultGraphicExt), group (Structure)
 #: kile.kcfg:105
@@ -6491,7 +6524,7 @@ msgstr ""
 #: kile.kcfg:126
 #, kde-format
 msgid "Holds the TEXINPUTS environment variable for QuickPreview tools."
-msgstr ""
+msgstr "შეიცავს გარემოს ცვლადს TEXINPUTS სწრაფი გადახედვის ხელსაწყოებისთვის."
 
 #. i18n: ectx: whatsthis, entry (PreviewTeXPaths), group (Tools)
 #: kile.kcfg:127
@@ -6522,7 +6555,7 @@ msgstr ""
 #: kile.kcfg:136
 #, kde-format
 msgid "Holds the BIBINPUTS environment variable for QuickPreview tools."
-msgstr ""
+msgstr "შეიცავს გარემოს ცვლადს BIBINPUTS სწრაფი გადახედვის ხელსაწყოებისთვის."
 
 #. i18n: ectx: whatsthis, entry (PreviewBibInputPaths), group (Tools)
 #: kile.kcfg:137
@@ -6589,25 +6622,25 @@ msgstr "ნაჩვენები იქნება თუ არა დო�
 #: kile.kcfg:172
 #, kde-format
 msgid "Whether to show the document viewer in a separate external window."
-msgstr ""
+msgstr "ვაჩვენო თუ არა დოკუმენტის დამთვალიერებელი ცალკე გარე ფანჯარაში."
 
 #. i18n: ectx: label, entry (HideProblemBadBox), group (Show)
 #: kile.kcfg:176
 #, kde-format
 msgid "Whether to show Bad Box warnings in the LogMsg view."
-msgstr ""
+msgstr "ნაჩვენები იქნება თუ არა დეფექტის გაფრთხილებები ჟურნალის ხედში."
 
 #. i18n: ectx: label, entry (HideProblemWarning), group (Show)
 #: kile.kcfg:180
 #, kde-format
 msgid "Whether to show (La)TeX warnings in the LogMsg view."
-msgstr ""
+msgstr "ნაჩვენები იქნება თუ არა (La)TeX გაფრთხილებები ჟურნალის ხედში."
 
 #. i18n: ectx: label, entry (SelectedLeftView), group (Show)
 #: kile.kcfg:184
 #, kde-format
 msgid "The identifier of the selected view in the left pane."
-msgstr ""
+msgstr "მონიშნული ხედის იდენტიფიკატორი მარცხენა პანელზე."
 
 #. i18n: ectx: label, entry (ShowSplashScreen), group (Show)
 #: kile.kcfg:188
@@ -6619,7 +6652,7 @@ msgstr "პროგრამის აბრის ჩვენება გა
 #: kile.kcfg:192
 #, kde-format
 msgid "Last version of Kile for which the system check was run at start up"
-msgstr ""
+msgstr "Kilo-ის ბოლო ვერსია, რომლისთვისაც გაშვებისას სისტემის შემოწმება მოხდა"
 
 #. i18n: ectx: label, entry (CompleteEnvironment), group (Editor Ext)
 #: kile.kcfg:198
@@ -6637,13 +6670,13 @@ msgstr "გარემოების ავტომაატური"
 #: kile.kcfg:206
 #, kde-format
 msgid "Use spaces instead of a tabulator to autoindent environments"
-msgstr ""
+msgstr "ტაბულატორის გამოყენება გამოტოვებების მაგიერ გარემოების ავტოშეწევაში"
 
 #. i18n: ectx: label, entry (envIndentNumSpaces), group (Editor Ext)
 #: kile.kcfg:210
 #, kde-format
 msgid "Use this number of spaces to autoindent environments"
-msgstr ""
+msgstr "ამ რაოდენობის გამოტოვებების გამოყენება გარემოების ავტოშეწევაში"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
 #: kile.kcfg:218
@@ -6673,13 +6706,14 @@ msgstr "გრაფიკის დაცენტრება."
 #: kile.kcfg:236
 #, kde-format
 msgid "Insert the bounding box as an option for the includegraphics command."
-msgstr ""
+msgstr "საზღვრები includegraphics ბრძანების პარამეტრად ჩასმა."
 
 #. i18n: ectx: label, entry (igGraphicspath), group (IncludeGraphics)
 #: kile.kcfg:240
 #, kde-format
 msgid "Filename is relative to a path given in graphicspath command."
 msgstr ""
+"ფაილის სახელი ფარდობითია ბილიკთან, რომელიც graphicspath ბრძანებას მიაწოდეთ."
 
 #. i18n: ectx: label, entry (igFigure), group (IncludeGraphics)
 #: kile.kcfg:244
@@ -6721,7 +6755,7 @@ msgstr "ფიგურის ნაძალადევი მდებარ�
 #: kile.kcfg:268
 #, kde-format
 msgid "Enable the wrapfigure environment."
-msgstr ""
+msgstr "Wrapfigure გარემოს ჩართვა."
 
 #. i18n: ectx: label, entry (igWrapRight), group (IncludeGraphics)
 #: kile.kcfg:272
@@ -6751,7 +6785,7 @@ msgstr ""
 #: kile.kcfg:288
 #, kde-format
 msgid "Allow wrapped figures to float."
-msgstr ""
+msgstr "გადატანილი ფიგურებისთვის ცურვის უფლების მიცემა."
 
 #. i18n: ectx: label, entry (imagemagick), group (IncludeGraphics)
 #: kile.kcfg:292
@@ -6763,7 +6797,7 @@ msgstr "დაყენებულია თუ არა ImageMagick."
 #: kile.kcfg:296
 #, kde-format
 msgid "Try to determine the bounding box from the picture."
-msgstr ""
+msgstr "საზღვრების დადგენის ცდა სურათიდან."
 
 #. i18n: ectx: label, entry (resolution), group (IncludeGraphics)
 #: kile.kcfg:300
@@ -6776,12 +6810,15 @@ msgstr "ნაგულისხმევი გამოსახულებ�
 #, kde-format
 msgid "Use the Kile LaTeX reference for the contextual help."
 msgstr ""
+"Kile-ის LaTex-ის სახელმძღვანელოს გამოყენება კონტექსტური დახმარებისთვის."
 
 #. i18n: ectx: label, entry (latex2erefs), group (Help)
 #: kile.kcfg:310
 #, kde-format
 msgid "Use the system's TexLive LaTeX2e reference for the contextual help."
 msgstr ""
+"სისტემური TexLive LaTeX2e სახელმძღვანელოს გამოყენება კონტექსტური "
+"დახმარებისთვის."
 
 #. i18n: ectx: label, entry (Restore), group (Files)
 #: kile.kcfg:316
@@ -6805,7 +6842,7 @@ msgstr "გასვლისას გასასუფთავებელ�
 #: kile.kcfg:336
 #, kde-format
 msgid "Only show LaTeX files in the file browser widget"
-msgstr ""
+msgstr "LaTeX-ის ფაილების, მხოლოდ, ფაილის არჩევის ვიჯეტში ჩვენება"
 
 #. i18n: ectx: label, entry (Author), group (User)
 #: kile.kcfg:346
@@ -6930,7 +6967,7 @@ msgstr "დროის შეზღუდვა სკრიპტების 
 msgid ""
 "Width of the column containing the script name in the scripts management "
 "widget."
-msgstr ""
+msgstr "სკრიპტების მართვის ვიჯეტში სკრიპტის სახელის შემცველი სვეტის სიგანე."
 
 #. i18n: ectx: label, entry (pdfWizardLastTask), group (PdfWizard)
 #: kile.kcfg:574
@@ -6976,6 +7013,8 @@ msgid ""
 "Use the main menubar (value 0) or the LaTeX menu (value 1) for the location "
 "of the user menu"
 msgstr ""
+"მთავარი მენიუს ზოლის (მნიშვნელობა 0) ან LaTeX-ის მენიუს (მნიშვნელობა) "
+"გამოყენება მომხმარებლის მენიუს მდებარეობისთვის"
 
 #. i18n: ectx: label, entry (livePreviewEnabled), group (LivePreview)
 #: kile.kcfg:608
@@ -7002,6 +7041,8 @@ msgid ""
 "Number of milliseconds after which the compilation is started when a change "
 "has occurred."
 msgstr ""
+"მილიწამების რაოდენობა, რომლიც გასვლის შემდეგაც კომპილაცია დაიწყება, როცა "
+"ცვლილება მოხდება."
 
 #. i18n: ectx: label, entry (livePreviewCompileOnlyAfterSaving), group (LivePreview)
 #: kile.kcfg:624
@@ -7013,7 +7054,7 @@ msgstr "დოკუმენტების, მხოლოდ, შენა�
 #: kile.kcfg:628
 #, kde-format
 msgid "default livepreview tool."
-msgstr ""
+msgstr "ნაგულისხმევი ცოცხალი მინიატურის ხელსაწყო."
 
 #: kileactions.cpp:336
 #, kde-format
@@ -7241,7 +7282,7 @@ msgstr "პროექტის გახსნა შეუძლებელ�
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
 "file.</p>"
-msgstr ""
+msgstr "<p>ფაილი \"%1\" ვერ გავხსენი, რადგან ის პროექტის ფაილს არ წააგავს.</p>"
 
 #: kiledocmanager.cpp:1567
 #, kde-format
@@ -7254,6 +7295,8 @@ msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
 "version of Kile.</p>"
 msgstr ""
+"<p>პროექტი \"%1\" ვერ გავხსენი, რადგან ის <br/>Kile-ის უფრო ახალი ვერსიითაა "
+"შექმნილი.</p>"
 
 #: kiledocmanager.cpp:1579
 #, kde-format
@@ -7302,6 +7345,9 @@ msgid ""
 "document that is associated to the project you want to save, then choose "
 "Save Project again."
 msgstr ""
+"მიმდინარე დოკუმენტი პროექტზე მინიჭებულ არაა. გაააქტიურეთ დოკუმენტი, რომელიც "
+"მინიჭებულია პროექტზე, რომელიც გნებავთ, შეინახოთ და შემდეგ თავიდან აირჩიეთ "
+"პროექტის შენახვა."
 
 #: kiledocmanager.cpp:1774
 #, kde-format
@@ -7329,6 +7375,8 @@ msgid ""
 "There are no projects opened. Please open the project you want to add files "
 "to, then choose Add Files again."
 msgstr ""
+"პროექტები ღია არაა. გახსენით პროექტი, რომელშიც ფაილების ჩამატება გნებავთ და "
+"თავიდან აირჩიეთ ფაილების დამატება."
 
 #: kiledocmanager.cpp:1826 kiledocmanager.cpp:1861
 #, kde-format
@@ -7685,7 +7733,7 @@ msgstr "სარჩევი - \\tableofcontents"
 #: kilestdactions.cpp:43
 #, kde-format
 msgid "Put this command where you want the table of contents to go"
-msgstr ""
+msgstr "დადეთ ეს ბრძანება, სადაც გნებავთ, ცხრილის შემცველობა გადავიდეს"
 
 #: kilestdactions.cpp:44
 #, kde-format
@@ -7803,7 +7851,7 @@ msgstr "ასლი - \\begin{verbatim}"
 #: kilestdactions.cpp:54
 #, kde-format
 msgid "Environment that gets LaTeX to print exactly what you type in."
-msgstr ""
+msgstr "გარემო, რომელიც LaTeX-ს აიძულებს ის დაბეჭდოს, რასაც აკრეფთ."
 
 #: kilestdactions.cpp:55
 #, kde-format
@@ -8097,7 +8145,7 @@ msgstr "ჰორიზონტალური ხაზი"
 #: kilestdactions.cpp:82
 #, kde-format
 msgid "The \\hline command draws a horizontal line the width of the table."
-msgstr ""
+msgstr "ბრძანება \\hline ხატავს ცხრილის სიგანის მქონე ჰორიზონტალურ ხაზს."
 
 #: kilestdactions.cpp:83
 #, kde-format
@@ -8146,7 +8194,7 @@ msgstr "ახალი გვერდი"
 #: kilestdactions.cpp:86
 #, kde-format
 msgid "The \\newpage command ends the current page"
-msgstr ""
+msgstr "ბრძანება \\newpage მიმდინარე გვერდს ასრულებს"
 
 #: kilestdactions.cpp:87
 #, kde-format
@@ -8195,7 +8243,7 @@ msgstr "\"დიდი\" ვერტიკალური დაშორებ
 #: kilestdactions.cpp:89
 #, kde-format
 msgid "The \\bigskip command adds a 'big' vertical space."
-msgstr ""
+msgstr "ბრძანება \\bigskip 'დიდ' ვერტიკალურ დაშორებას ამატებს."
 
 #: kilestdactions.cpp:90
 #, kde-format
@@ -8210,7 +8258,7 @@ msgstr "\"საშუალო\" ვერტიკალური დაშო
 #: kilestdactions.cpp:90
 #, kde-format
 msgid "The \\medskip command adds a 'medium' vertical space."
-msgstr ""
+msgstr "ბრძანება \\medskiip 'საშუალო' ვერტიკალურ დაშორებას ამატებს."
 
 #: kilestdactions.cpp:93
 #, kde-format
@@ -8225,12 +8273,12 @@ msgstr "გამოსახულების ჩასმა"
 #: kilestdactions.cpp:95
 #, kde-format
 msgid "Customizable File Inclusion - \\include{file}"
-msgstr ""
+msgstr "მორგებადი ფაილის ჩასმა - \\include{file}"
 
 #: kilestdactions.cpp:95
 #, kde-format
 msgid "Customizable File Inclusion"
-msgstr ""
+msgstr "მორგებადი ფაილის ჩასმა"
 
 #: kilestdactions.cpp:95
 #, kde-format
@@ -8465,7 +8513,7 @@ msgstr "ჭკვიანი ტაბულატორი"
 #: kilestdactions.cpp:146
 #, kde-format
 msgid "Abstract - \\begin{abstract}"
-msgstr ""
+msgstr "ანოტაცია - \\begin{abstract}"
 
 #: kilestdactions.cpp:146
 #, kde-format
@@ -8535,7 +8583,7 @@ msgstr "ფიგურების ცხრილი"
 #: kilestdactions.cpp:153
 #, kde-format
 msgid "Put this command where you want the list of figures to go."
-msgstr ""
+msgstr "დადეთ ეს ბრძანება, სადაც გნებავთ, ფიგურების სია გადავიდეს."
 
 #: kilestdactions.cpp:155
 #, kde-format
@@ -8550,7 +8598,7 @@ msgstr "ცხრილების ცხრილი"
 #: kilestdactions.cpp:155
 #, kde-format
 msgid "Put this command where you want the list of tables to go."
-msgstr ""
+msgstr "დადეთ ეს ბრძანება, სადაც გნებავთ, ცხრილების სია გადავიდეს."
 
 #: kilestdactions.cpp:157
 #, kde-format
@@ -8566,26 +8614,27 @@ msgstr "მაჩვენებლის გენერაცია"
 #, kde-format
 msgid "Put this command when you want to generate the raw index."
 msgstr ""
+"დადეთ ეს ბრძანება, სადაც გნებავთ, დაუმუშავებელი მაჩვენებელი დააგენერიროთ."
 
 #: kilestdactions.cpp:159
 #, kde-format
 msgid "Print Index - \\printindex"
-msgstr ""
+msgstr "მაჩვენებლის დაბეჭდვა - \\printindex"
 
 #: kilestdactions.cpp:159
 #, kde-format
 msgid "Print Index"
-msgstr ""
+msgstr "მაჩვენებლის დაბეჭდვა"
 
 #: kilestdactions.cpp:159
 #, kde-format
 msgid "Put this command when you want to print the formatted index."
-msgstr ""
+msgstr "დადეთ ეს ბრძანება, სადაც გნებავთ, დაფორმატებული მაჩვენებელი დაბეჭდოთ."
 
 #: kilestdactions.cpp:161
 #, kde-format
 msgid "Glossary - \\makeglossary"
-msgstr ""
+msgstr "სარჩევი - \\makeglossary"
 
 #: kilestdactions.cpp:161
 #, kde-format
@@ -8595,12 +8644,12 @@ msgstr "სარჩევი"
 #: kilestdactions.cpp:161
 #, kde-format
 msgid "Put this command when you want to print a glossary."
-msgstr ""
+msgstr "დადეთ ეს ბრძანება, სადაც გნებავთ, სარჩევი დაბეჭდოთ."
 
 #: kilestdactions.cpp:163
 #, kde-format
 msgid "Bibliography - \\begin{thebibliography}"
-msgstr ""
+msgstr "ბიბლიოგრაფია - \\begin{thebibliography}"
 
 #: kilestdactions.cpp:163 widgets/projectview.cpp:477
 #, kde-format
@@ -8623,12 +8672,12 @@ msgstr ""
 #: kilestdactions.cpp:166
 #, kde-format
 msgid "Verbatim (show spaces) - \\begin{verbatim*}"
-msgstr ""
+msgstr "ასლი (გამოტოვებების ჩვენება) - \\begin{verbatim*}"
 
 #: kilestdactions.cpp:166
 #, kde-format
 msgid "Verbatim (show spaces)"
-msgstr ""
+msgstr "ასლი (გამოტოვებების ჩვენება)"
 
 #: kilestdactions.cpp:166
 #, kde-format
@@ -8650,22 +8699,22 @@ msgstr "ჩაშენებული კოდი"
 #: kilestdactions.cpp:168
 #, kde-format
 msgid "Macro form of the verbatim environment."
-msgstr ""
+msgstr "ასლის გარემოს მაკროს ფორმა."
 
 #: kilestdactions.cpp:170
 #, kde-format
 msgid "Embedded Code (show spaces) - \\verb*||"
-msgstr ""
+msgstr "ჩაშენებული კოდი (გამოტოვებების ჩვენება) - \\verb*||"
 
 #: kilestdactions.cpp:170
 #, kde-format
 msgid "Embedded Code (show spaces)"
-msgstr ""
+msgstr "ჩაშენებული კოდი (გამოტოვებების ჩვენება)"
 
 #: kilestdactions.cpp:170
 #, kde-format
 msgid "Macro form of the verbatim* environment."
-msgstr ""
+msgstr "ასლის* გარემოს მაკროს ფორმა."
 
 #: kilestdactions.cpp:173
 #, kde-format
@@ -8680,7 +8729,7 @@ msgstr "\"პატარა\" ვერტიკალური დაშორ
 #: kilestdactions.cpp:173
 #, kde-format
 msgid "The \\smallskip command adds a 'small' vertical space."
-msgstr ""
+msgstr "ბრძანება \\smallskip 'პატარა' ვერტიკალურ დაშორებას ამატებს."
 
 #: kilestdactions.cpp:175
 #, kde-format
@@ -8724,7 +8773,7 @@ msgstr ""
 #: kilestdactions.cpp:181
 #, kde-format
 msgid "Horizontal Rule - \\hrulefill"
-msgstr ""
+msgstr "ჰორიზონტალური სახაზავი - \\hrulefill"
 
 #: kilestdactions.cpp:181
 #, kde-format
@@ -8848,7 +8897,7 @@ msgstr "\\emph{გამოსაკვეთი ტექსტი}"
 #: kilestdactions.cpp:195
 #, kde-format
 msgid "Strong - \\strong{}"
-msgstr ""
+msgstr "მახვილი - \\strong{}"
 
 #: kilestdactions.cpp:195
 #, kde-format
@@ -8908,12 +8957,12 @@ msgstr "სქელი - \\bfseries"
 #: kilestdactions.cpp:204
 #, kde-format
 msgid "Upright - \\upshape"
-msgstr ""
+msgstr "პირდაპირი - \\upshape"
 
 #: kilestdactions.cpp:204
 #, kde-format
 msgid "Upright"
-msgstr ""
+msgstr "პირდაპირი"
 
 #: kilestdactions.cpp:205
 #, kde-format
@@ -9019,12 +9068,13 @@ msgstr ""
 #: kilestdactions.cpp:330
 #, kde-format
 msgid "ALT.... : you have the choice between these two fields\n"
-msgstr ""
+msgstr "ALT.... : გაქვთ არჩევანი ამ ორ ველს შორის\n"
 
 #: kilestdactions.cpp:331
 #, kde-format
 msgid "OPT.... : optional fields (use the 'Clean' command to remove them)"
 msgstr ""
+"OPT.... : არასავალდებულო ველები (მათ წასაშლელად გამოიყენეთ ბრძანება 'Clean')"
 
 #: kilestdactions.cpp:332
 #, kde-format
@@ -9378,22 +9428,22 @@ msgstr "ნორმალური ბინომური"
 #: kilestdactions.cpp:421
 #, kde-format
 msgid "Displaystyle Binomial - \\dbinom{}{}"
-msgstr ""
+msgstr "გათიშული ბინომური კოეფიციენტები - \\dbinom{}{}"
 
 #: kilestdactions.cpp:421
 #, kde-format
 msgid "Displaystyle Binomial"
-msgstr ""
+msgstr "გათიშული ბინომური კოეფიციენტები"
 
 #: kilestdactions.cpp:423
 #, kde-format
 msgid "Textstyle Binomial - \\tbinom{}{}"
-msgstr ""
+msgstr "ტექსტური ბინომური კოეფიციენტები - \\tbinom{}{}"
 
 #: kilestdactions.cpp:423
 #, kde-format
 msgid "Textstyle Binomial"
-msgstr ""
+msgstr "ტექსტური ბინომური კოეფიციენტები"
 
 #: kilestdactions.cpp:425
 #, kde-format
@@ -9408,32 +9458,32 @@ msgstr "N ხარისხის ფესვი"
 #: kilestdactions.cpp:427
 #, kde-format
 msgid "Left-Right () - \\left(..\\right)"
-msgstr ""
+msgstr "მარცხენა-მარჯვენა () - \\left(..\\right)"
 
 #: kilestdactions.cpp:427
 #, kde-format
 msgid "Left-Right ()"
-msgstr ""
+msgstr "მარჯვენა-მარცხენა ()"
 
 #: kilestdactions.cpp:429
 #, kde-format
 msgid "Extendable Left Arrow - \\xleftarrow{}"
-msgstr ""
+msgstr "გაფართოებადი მარცხენა ისარი - \\xleftarrow{}"
 
 #: kilestdactions.cpp:429
 #, kde-format
 msgid "Extendable Left Arrow"
-msgstr ""
+msgstr "გაფართოებადი მარცხენა ისარი"
 
 #: kilestdactions.cpp:431
 #, kde-format
 msgid "Extendable Right Arrow - \\xrightarrow{}"
-msgstr ""
+msgstr "გაფართოებადი მარჯვენა ისარი - \\xrightarrow{}"
 
 #: kilestdactions.cpp:431
 #, kde-format
 msgid "Extendable Right Arrow"
-msgstr ""
+msgstr "გაფართოებადი მარჯვენა ისარი"
 
 #: kilestdactions.cpp:433
 #, kde-format
@@ -9558,17 +9608,17 @@ msgstr "გამორთულიფორმულა"
 #: kilestdactions.cpp:453
 #, kde-format
 msgid "Equation (not numbered) - \\begin{equation*}"
-msgstr ""
+msgstr "ტოლობა (არა დანომრილი) - \\begin{equation*}"
 
 #: kilestdactions.cpp:453
 #, kde-format
 msgid "Equation (not numbered)"
-msgstr ""
+msgstr "ტოლობა (არა დანომრილი)"
 
 #: kilestdactions.cpp:456
 #, kde-format
 msgid "Multline - \\begin{multline}"
-msgstr ""
+msgstr "მრავალხაზიანი - \\begin{multline}"
 
 #: kilestdactions.cpp:456
 #, kde-format
@@ -9578,7 +9628,7 @@ msgstr "მრავალხაზიანი"
 #: kilestdactions.cpp:457
 #, kde-format
 msgid "Multline* - \\begin{multline*}"
-msgstr ""
+msgstr "მრავალხაზიანი* - \\begin{multline*}"
 
 #: kilestdactions.cpp:457
 #, kde-format
@@ -9638,22 +9688,22 @@ msgstr "სწორება*"
 #: kilestdactions.cpp:467
 #, kde-format
 msgid "Flalign - \\begin{flalign}"
-msgstr ""
+msgstr "პირველი ხაზის მარცხნივ სწორება - \\begin{flalign}"
 
 #: kilestdactions.cpp:467
 #, kde-format
 msgid "Flalign"
-msgstr ""
+msgstr "პირველი ხაზის მარცხნივ სწორება"
 
 #: kilestdactions.cpp:468
 #, kde-format
 msgid "Flalign* - \\begin{flalign*}"
-msgstr ""
+msgstr "პირველი ხაზის მარცხნივ სწორება* - \\begin{flalign*}"
 
 #: kilestdactions.cpp:468
 #, kde-format
 msgid "Flalign*"
-msgstr ""
+msgstr "პირველი ხაზის მარცხნივ სწორება*"
 
 #: kilestdactions.cpp:470
 #, kde-format
@@ -9826,6 +9876,7 @@ msgid ""
 "Manually selected bibliography tool does not exist: trying to auto-detect it "
 "now."
 msgstr ""
+"ხელით მითითებული ბიბლიოგრაფიის ხელსაწყო არ არსებობს: ვეცდები, თვითონ ვიპოვო."
 
 #: kilestdtools.cpp:660
 #, kde-format
@@ -9833,6 +9884,8 @@ msgid ""
 "The version %1.%2.%3 of okular is too old for ForwardDVI. Please update "
 "okular to version 0.8.6 or higher"
 msgstr ""
+"Okular-ის ვერსია %1.%2.%3 ძალიან ძველია ForwardDVI-სთვის. განაახლეთ Okular "
+"ვერსიამდე 0.8.6 ან ზემოთ"
 
 #: kilestdtools.cpp:727
 #, kde-format
@@ -9864,21 +9917,21 @@ msgstr ""
 #: kiletool.cpp:57
 #, kde-format
 msgid "Could not change to the folder %1."
-msgstr ""
+msgstr "საქაღალდეში %1 გადასვლა შეუძლებელია."
 
 #: kiletool.cpp:58
 #, kde-format
 msgid ""
 "The folder %1 is not writable, therefore %2 will not be able to save its "
 "results."
-msgstr ""
+msgstr "საქაღალდე %1 ჩაწერადი არაა, ამიტომ %2-მა შედეგები ვერ შეინახა."
 
 #: kiletool.cpp:59
 #, kde-format
 msgid ""
 "The file %1/%2 does not exist. If this is unexpected, check the file "
 "permissions."
-msgstr ""
+msgstr "ფაილი %1/%2 არ არსებობს. თუ ეს მოულოდნელია, შეამოწმეთ ფაილის წვდომები."
 
 #: kiletool.cpp:60
 #, kde-format
@@ -9886,6 +9939,7 @@ msgid ""
 "The file %1/%2 is not readable. If this is unexpected, check the file "
 "permissions."
 msgstr ""
+"ფაილი %1/%2 წაკითხვადი არაა. თუ ეს მოულოდნელია, შეამოწმეთ ფაილის წვდომები."
 
 #: kiletool.cpp:61
 #, kde-format
@@ -9893,11 +9947,12 @@ msgid ""
 "Could not determine on which file to run %1, because there is no active "
 "document."
 msgstr ""
+"ვერ დავადგინე, რომელ ფაილზე გავუშვა %1, რადგან აქტიური დოკუმენტი არ არსებობს."
 
 #: kiletool.cpp:62
 #, kde-format
 msgid "Could not determine the master file for this document."
-msgstr ""
+msgstr "ამ დოკუმენტისთვის მთავარი ფაილის დადგენა შეუძლებელია."
 
 #: kiletool.cpp:63
 #, kde-format
@@ -9917,7 +9972,7 @@ msgstr "ფაილი \"%1\" წაკითხვადი არაა."
 #: kiletool.cpp:641
 #, kde-format
 msgid "The document %1 is not a LaTeX root document; continue anyway?"
-msgstr ""
+msgstr "დოკუმენტი %1 LaTeX-ის ძირითადი დოკუმენტი არაა. გავაგრძელო მაინც?"
 
 #: kiletool.cpp:641
 #, kde-format
@@ -9927,7 +9982,7 @@ msgstr "გავაგრძლო?"
 #: kiletool.cpp:653
 #, kde-format
 msgid "The file %1/%2 does not exist; did you compile the source file?"
-msgstr ""
+msgstr "ფალი %1/%2 არ არსებობს. დააკომპილირეთ კოდის ფაილი?"
 
 #: kiletool.cpp:673
 #, kde-format
@@ -9936,6 +9991,8 @@ msgid ""
 "document that is associated to the project you want to archive, then choose "
 "Archive again."
 msgstr ""
+"მიმდინარე დოკუმენტი პროექტთან ასოცირებული არაა. გაააქტიურეთ დოკუმენტი, "
+"რომელიც ასოცირებულია პროექტთან, შემდეგ კი დაარქივება თავიდან აირჩიეთ."
 
 #: kiletool.cpp:677
 #, kde-format
@@ -10015,7 +10072,7 @@ msgstr "&ჩასწორება"
 #: kileui.rc:61
 #, kde-format
 msgid "Co&mplete"
-msgstr ""
+msgstr "&დასრულება"
 
 #. i18n: ectx: Menu (bullet)
 #: kileui.rc:66
@@ -10340,7 +10397,7 @@ msgstr "კურსორის მდებარეობის ჩვენ�
 #: kileviewmanager.cpp:129
 #, kde-format
 msgid "Synchronize Cursor Position with Viewer"
-msgstr ""
+msgstr "კურსორის მდებარეობის სინქრონიზაცია დამთვალიერებელთან"
 
 #: kileviewmanager.cpp:182
 #, kde-format
@@ -10350,7 +10407,7 @@ msgstr "ჩასმა LaTe&X-ის სახით"
 #: kileviewmanager.cpp:186
 #, kde-format
 msgid "Convert Selection to &LaTeX"
-msgstr ""
+msgstr "მონიშნულის გადაყვანა &LaTeX-ში"
 
 #: kileviewmanager.cpp:257
 #, kde-format
@@ -10370,42 +10427,42 @@ msgstr "ფატალური შეცდომა"
 #: kileviewmanager.cpp:845
 #, kde-format
 msgid "&QuickPreview Selection"
-msgstr ""
+msgstr "&სწრაფი გადახედვა - არჩევანი"
 
 #: kileviewmanager.cpp:846
 #, kde-format
 msgid "&QuickPreview Environment"
-msgstr ""
+msgstr "&სწრაფი გადახედვა - გარემო"
 
 #: kileviewmanager.cpp:847
 #, kde-format
 msgid "&QuickPreview Math"
-msgstr ""
+msgstr "&სწრაფი გადახედვა - მათემატიკა"
 
 #: kileviewmanager.cpp:1135
 #, kde-format
 msgid "Print Compiled Document..."
-msgstr ""
+msgstr "კომპილირებული დოკუმენტის დაბეჭდვა..."
 
 #: kileviewmanager.cpp:1141
 #, kde-format
 msgid "Print Preview For Compiled Document..."
-msgstr ""
+msgstr "დაბეჭდვის გადახედვა კომპილირებული დოკუმენტისთვის..."
 
 #: livepreview.cpp:187
 #, kde-format
 msgid "Live Preview for Current Document or Project"
-msgstr ""
+msgstr "ცოცხალი მინიატურა მიმდინარე დოკუმენტისთვის ან პროექტისთვის"
 
 #: livepreview.cpp:192
 #, kde-format
 msgid "Recompile Live Preview"
-msgstr ""
+msgstr "ცოხალი მინატურის თავიდან კომპილაცია"
 
 #: livepreview.cpp:197
 #, kde-format
 msgid "Save Compiled Document..."
-msgstr ""
+msgstr "კომპილირებული დოკუმენტის შენახვა..."
 
 #: livepreview.cpp:908
 #, kde-format
@@ -10416,7 +10473,7 @@ msgstr "ზოგიერთი დოკუმენტის სწორა�
 #, kde-format
 msgid ""
 "The document must have been saved before the live preview can be started"
-msgstr ""
+msgstr "დოკუმენტი უნდა შეინახოთ, სანამ ცოცხალ მინიატურას გაუშვებთ"
 
 #: livepreview.cpp:940
 #, kde-format
@@ -10429,7 +10486,7 @@ msgstr ""
 #: livepreview.cpp:944
 #, kde-format
 msgid "Failed to create the subdirectory structure"
-msgstr ""
+msgstr "ქვესაქაღალდეების სტრუქტურის შექმნა ჩავარდა"
 
 #: livepreview.cpp:1404
 #, kde-format
@@ -10515,7 +10572,7 @@ msgstr "Simon Martin"
 #: main.cpp:114
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
-msgstr ""
+msgstr "KConfig XT, სხვადასხვა გაუმჯობესებები და შეცდომების გასწორება"
 
 #: main.cpp:115
 #, kde-format
@@ -10570,12 +10627,12 @@ msgstr "ხაზზე გადასვლა"
 #: main.cpp:142
 #, kde-format
 msgid "Start a new Kile mainwindow"
-msgstr ""
+msgstr "გაუშვებს Kile-ის ახალ მთავარ ფანჯარას"
 
 #: main.cpp:144
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
-msgstr ""
+msgstr "გასახსნელი ფაილები / მიუთითეთ '-' სტანდარტული შეყვანიდან წასაკითხად"
 
 #: main.cpp:175
 #, kde-format
@@ -10585,6 +10642,10 @@ msgid ""
 "\n"
 "Please install the Okular library before running Kile."
 msgstr ""
+"Kile-ის გაშვება შეუძლებელია, რადგან ვერ ვიპოვე Okular-ის საკმარისად ახალი "
+"ბიბლიოთეკა.\n"
+"\n"
+"დააყენეთ ბიბლიოთეკა Okular, სანამ Kile-ს გაუშვებთ."
 
 #: main.cpp:177
 #, kde-format
@@ -10682,23 +10743,27 @@ msgid ""
 "Could not run QuickPreview:\n"
 "unknown task '%1'"
 msgstr ""
+"სწრაფი გადახედვის გაშვება შეუძლებელია:\n"
+"უცნობი ამოცანა '%1'"
 
 #: quickpreview.cpp:201 widgets/previewwidget.cpp:129
 #, kde-format
 msgid ""
 "There is already a preview running that has to be finished to run this one."
 msgstr ""
+"ამის გასაშვებად ჯერ უნდა დასრულდეს მინიატურის დავალება, რომელიც უკვე "
+"გაშვებულია."
 
 #: quickpreview.cpp:207
 #, kde-format
 msgid "There is nothing to compile and preview."
-msgstr ""
+msgstr "დასაკომპილირებელი და სანახავი არაფერია."
 
 #: quickpreview.cpp:229 quickpreview.cpp:239 quickpreview.cpp:250
 #: widgets/previewwidget.cpp:181
 #, kde-format
 msgid "Could not run '%1' for QuickPreview."
-msgstr ""
+msgstr "სწრაფი გადახედვისთვის '%1'-ის გაშვება შეუძლებელია."
 
 #: quickpreview.cpp:321
 #, kde-format
@@ -10708,12 +10773,12 @@ msgstr "მთავარი დოკუმენტის დადგენ�
 #: quickpreview.cpp:328
 #, kde-format
 msgid "Could not read the preamble."
-msgstr ""
+msgstr "პრეამბულის წაკითხვა შეუძლებელია."
 
 #: quickpreview.cpp:367
 #, kde-format
 msgid "Could not find a '\\begin{document}' command."
-msgstr ""
+msgstr "ბრძანება '\\begin{document}' ვერ ვიპოვე."
 
 #: quickpreview.cpp:385 widgets/previewwidget.cpp:238
 #, kde-format
@@ -10763,7 +10828,7 @@ msgstr "სკრიპტი '%1.js'"
 #: scripting/kilescriptobject.cpp:214
 #, kde-format
 msgid "File Handling Error: Unable to find the file '%1'"
-msgstr ""
+msgstr "ფაილის დამუშავების შეცდომა: ფაილი '%1' ვერ ვიპოვე"
 
 #: scripting/kilescriptobject.cpp:234 scripting/kilescriptobject.cpp:291
 #, kde-format
@@ -10773,12 +10838,12 @@ msgstr "აირჩიეთ საწაკითხი ფაილი"
 #: scripting/kilescriptobject.cpp:250
 #, kde-format
 msgid "File Handling Error: Unable to create the output file '%1'"
-msgstr ""
+msgstr "ფაილის დამუშავების შეცდომა: გამოტანის ფაილის '%1' შექმნა შეუძლებელია"
 
 #: scripting/kilescriptobject.cpp:261
 #, kde-format
 msgid "File Handling Error: Unable to write to the output file '%1'"
-msgstr ""
+msgstr "ფაილის დამუშავების შეცდომა: გამოტანის ფაილში '%1' ჩაწერა შეუძლებელია"
 
 #: scripting/kilescriptobject.cpp:279 scripting/kilescriptobject.cpp:297
 #, kde-format
@@ -10806,6 +10871,8 @@ msgid ""
 "An error has occurred at line %1 during the execution of the script \"%2\":\n"
 "%3"
 msgstr ""
+"აღმოჩენილია შეცდომა ხაზზე %1 სკრიპტის \"%2\" შესრულებისას:\n"
+"%3"
 
 #: scripting/script.cpp:293
 #, kde-format
@@ -10818,6 +10885,8 @@ msgid ""
 "Version %1 of Kile is at least required to execute the script \"%2\". The "
 "execution has been aborted."
 msgstr ""
+"სკრიპტის \"%2\" გასაშვებად აუცილებელია Kile-ის ვერსია %1 ან უფრო ახალი. "
+"შესრულება შეწყდა."
 
 #: scriptmanager.cpp:100
 #, kde-format
@@ -10846,6 +10915,9 @@ msgid ""
 "Check whether you have a folder named \".kde\" with write permissions in "
 "your home folder."
 msgstr ""
+"ვერ ვიპოვე საქაღალდე, სადაც %1 უნდა შევნახო.\n"
+"შეამოწმეთ, თუ გაქვთ საქაღალდე სახელით .kde თქვებს საწყის საქაღალდეში და "
+"მასში ჩაწერის უფლებები."
 
 #: templates.cpp:166
 #, kde-format
@@ -10886,7 +10958,7 @@ msgstr "მოკლე"
 #: widgets/abbreviationview.cpp:38
 #, kde-format
 msgid "Expanded Text"
-msgstr ""
+msgstr "გაფართოებული ტექსტი"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbAdd)
 #: widgets/abbreviationview.cpp:111 widgets/quicktoolconfigwidget.ui:103
@@ -10956,7 +11028,7 @@ msgstr ""
 #: widgets/codecompletionconfigwidget.cpp:59
 #, kde-format
 msgid "Also close an environment when an opening command is inserted."
-msgstr ""
+msgstr "გახსნის ბრძანების ჩასმისას გარემოც დაიხურება."
 
 #: widgets/codecompletionconfigwidget.cpp:60
 #, kde-format
@@ -10975,7 +11047,7 @@ msgstr ""
 #: widgets/codecompletionconfigwidget.cpp:63
 #, kde-format
 msgid "Show abbreviations of the selected completion files in the sidebar"
-msgstr ""
+msgstr "მონიშნული დასრულების ფაილების აბრევიატურების ჩვენება გვერდით პანელზე"
 
 #: widgets/codecompletionconfigwidget.cpp:64
 #, kde-format
@@ -10987,7 +11059,7 @@ msgstr ""
 #: widgets/codecompletionconfigwidget.cpp:65
 #, kde-format
 msgid "Show LaTeX commands of the selected completion files in the sidebar"
-msgstr ""
+msgstr "მონშნული დასრულების ფაილების LaTeX ბრძანებების ჩვენება გვერდით პანელზე"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/codecompletionconfigwidget.cpp:95
@@ -11016,7 +11088,7 @@ msgstr "დასრულება"
 #: widgets/codecompletionconfigwidget.ui:23
 #, kde-format
 msgid "Auto completion for &LaTeX markup"
-msgstr ""
+msgstr "&LaTeX-ის მონიშვნის ავტომატური დასრულება"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/codecompletionconfigwidget.ui:37
@@ -11111,19 +11183,19 @@ msgstr "გარემოების დასრულება"
 #: widgets/environmentconfigwidget.ui:41
 #, kde-format
 msgid "Automatically complete \\begin{env} with \\end{env}"
-msgstr ""
+msgstr "\\begin{env}-ის ავტომატური დასრულება \\end{env}-ით"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_bgGraphics)
 #: widgets/environmentconfigwidget.ui:57
 #, kde-format
 msgid "Automatic Indentation Inside Environments"
-msgstr ""
+msgstr "ავტომატური შეწევა გარემოების შიგნით"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_envIndentation)
 #: widgets/environmentconfigwidget.ui:66
 #, kde-format
 msgid "Enable auto indentation of environments."
-msgstr ""
+msgstr "გარემოების ავტომატური შეწევის ჩართვა."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_envIndentation)
 #: widgets/environmentconfigwidget.ui:69
@@ -11135,13 +11207,13 @@ msgstr "აქტივირებულია"
 #: widgets/environmentconfigwidget.ui:76
 #, kde-format
 msgid "Use spaces instead of a tabulator to autoindent environments."
-msgstr ""
+msgstr "ტაბულატორის გამოყენება გამოტოვებების მაგიერ გარემოების ავტოშეწევაში."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_envIndentSpaces)
 #: widgets/environmentconfigwidget.ui:79
 #, kde-format
 msgid "Use spaces instead of tabs to indent"
-msgstr ""
+msgstr "გასასწორებლად ტაბულაციის მიერ გამოტოვებების გამოყენება"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbNumSpaces)
 #: widgets/environmentconfigwidget.ui:88
@@ -11153,7 +11225,7 @@ msgstr "გამოტოვებების რაოდე&ნობა:"
 #: widgets/environmentconfigwidget.ui:129
 #, kde-format
 msgid "Use this number of spaces to autoindent environments."
-msgstr ""
+msgstr "ამ რაოდენობის გამოტოვებების გამოყენება გარემოების ავტოშეწევაში."
 
 #: widgets/filebrowserwidget.cpp:123
 #, kde-format
@@ -11229,13 +11301,15 @@ msgstr "დოკუმენტის ავტომატური თავ�
 #: widgets/generalconfigwidget.ui:175
 #, kde-format
 msgid "Synchronize the directory shown in the console with the document tabs"
-msgstr ""
+msgstr "კონსოლში ნაჩვენები საქაღალდის სინქრონიზაცია დოკუმეტის ჩანართებთან"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RunLyxServer)
 #: widgets/generalconfigwidget.ui:182
 #, kde-format
 msgid "Let Kile process LyX commands sent by bibliography editors/viewers"
 msgstr ""
+"Kile-სთვის ბიბლიოგაფიის ჩანართების/დამთვალიერებლების მიერ გამოგზავნილი LyX "
+"ბრძანებების დამუშავების ნების დართვა"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolution)
 #: widgets/graphicsconfigwidget.ui:29
@@ -11247,13 +11321,13 @@ msgstr "ნაგულისხმები გარჩევა&დობა:
 #: widgets/graphicsconfigwidget.ui:51
 #, kde-format
 msgid "(used when the picture offers no resolution)"
-msgstr ""
+msgstr "(გამოიყენება, როცა სურათი გაფართოებას არ შეიცავს)"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlBbox)
 #: widgets/graphicsconfigwidget.ui:61
 #, kde-format
 msgid "Bo&unding box:"
-msgstr ""
+msgstr "&საზღვრები:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_boundingbox)
 #: widgets/graphicsconfigwidget.ui:80
@@ -11283,13 +11357,13 @@ msgstr "კონტექსტზე დამოკიდებული დ�
 #: widgets/helpconfigwidget.ui:41
 #, kde-format
 msgid "&Use the LaTeX2e unofficial reference manual"
-msgstr ""
+msgstr "&LaTeX2e არაოფიციალური სახელმძღვანელოს გამოყენება"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_kilerefs)
 #: widgets/helpconfigwidget.ui:51
 #, kde-format
 msgid "Use &Kile's LaTeX reference"
-msgstr ""
+msgstr "&Kile-ის LaTex-ის სახელმძღვანელოს გამოყენება"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbConfigure)
 #: widgets/helpconfigwidget.ui:97
@@ -11319,7 +11393,7 @@ msgstr "ბრჭყალები"
 #: widgets/latexconfigwidget.ui:80
 #, kde-format
 msgid "Automatically insert opening and closing double &quotes for LaTeX"
-msgstr ""
+msgstr "გამხსნელი და დამხურავი ორმაგი &ბრჭყალების ავტომატური ჩასმა LaTeX-სთვის"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlType)
 #. i18n: ectx: property (text), widget (QLabel, m_lbType)
@@ -11390,13 +11464,13 @@ msgstr ""
 #: widgets/latextoolconfigwidget.ui:38
 #, kde-format
 msgid "Check if &root document"
-msgstr ""
+msgstr "შემოწმება, თუ ძი&რითადი დოკუმენტია"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckJump)
 #: widgets/latextoolconfigwidget.ui:45
 #, kde-format
 msgid "Jump to first error in case running LaTeX failed"
-msgstr ""
+msgstr "პირველ შეცდომაზე გადასვლა, თუ LaTeX-ის გაშვება ჩავარდა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckJump)
 #: widgets/latextoolconfigwidget.ui:48
@@ -11410,6 +11484,8 @@ msgstr "&გადასვლა პირველ შეცდომაზე
 msgid ""
 "Automatically run Asymptote, BibTeX, MakeIndex and rerun LaTeX when necessary"
 msgstr ""
+"Asymptote-ის, BiBTeX-ის da MakeIndex-სი ავტომატური გაშვება და LaTeX-ის "
+"თავიდან გაშვება, როცა ეს საჭიროა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckAutoRun)
 #: widgets/latextoolconfigwidget.ui:58
@@ -11433,7 +11509,7 @@ msgstr "ცოცხალი მინიატურის ჩ&ართვა
 #: widgets/livepreviewconfigwidget.ui:41
 #, kde-format
 msgid "Enable live preview for newly-opened documents"
-msgstr ""
+msgstr "მინიატურის ჩართვა ახლახან გახნილი დოკუმენტებისთვის"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_compileBehaviorGroupBox)
 #: widgets/livepreviewconfigwidget.ui:48
@@ -11452,6 +11528,7 @@ msgstr "დოკ&უმენტების კომპილაცია შ
 #, kde-format
 msgid "Compile documents whenever &there are changes after"
 msgstr ""
+"დოკუმენ&ტების კომპილაცია, თუ არსებობს ცვლილებები ამ რაოდენობა დროის შემდეგ"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_livePreviewCompilationDelay)
 #: widgets/livepreviewconfigwidget.ui:70
@@ -11534,7 +11611,7 @@ msgstr "სამიზნე &ფაილი:"
 #: widgets/maintoolconfigwidget.ui:460
 #, kde-format
 msgid "&Relative dir:"
-msgstr ""
+msgstr "შედა&რებითი საქაღალე:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckClose)
 #: widgets/maintoolconfigwidget.ui:488
@@ -11588,7 +11665,7 @@ msgstr "აირჩიეთ ნიმუში, რომელიც გნ�
 #: widgets/newdocumentwidget.ui:93
 #, kde-format
 msgid "Start the Quick Start wizard when creating an empty LaTeX file"
-msgstr ""
+msgstr "გაუშვით სწრაფად დაწყების ოსტატი, როცა ცარიელ LaTeX-ის ფაილს ქმნით"
 
 #: widgets/previewconfigwidget.cpp:50
 #, kde-format
@@ -11628,7 +11705,7 @@ msgstr "&ფონის ფერი:"
 #: widgets/previewconfigwidget.cpp:91
 #, kde-format
 msgid "Kile supports three kinds of conversion to png images"
-msgstr ""
+msgstr "Kile-ს png გამოსახულებებში გადაყვანის სამი გზის მხარდაჭერა გააჩნია"
 
 #: widgets/previewconfigwidget.cpp:92 widgets/previewconfigwidget.cpp:260
 #, kde-format
@@ -11770,6 +11847,60 @@ msgid ""
 "archiving. Set the archive flag in the \"Files and projects\" sidebar using "
 "the context menu.</p></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Sans Serif'; font-size:10pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">ჩათვალეთ, რომ ფაილი <span "
+"style=\" font-style:italic;\">myBestBook.tex</span> სრული ბილიკით <span "
+"style=\" font-style:italic;\">/home/archimedes/latex/</span><span style=\" "
+"font-style:italic;\">myBestBook.tex</span>, კომპილირებულია pdflatex-ით "
+"ფაილში <span style=\" font-style:italic;\">myBestBook.pdf</span>.</p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></"
+"p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">ცვლადებს აქვთ შემდეგი "
+"მნიშვნელობები:</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">%source</span>: ფაილის სახელი სუფიქსით, მაგრამ ბილიკის გარეშე "
+"&lt;-&gt; <span style=\" font-style:italic;\">myBestBook.tex</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">%S:</span> ფაილის სახელით სუფიქსის და ბილიკის გარეშე &lt;-&gt; "
+"<span style=\" font-style:italic;\">myBestBook</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">%dir_base</span>: საწყისი ფაილის ბილიკი ფაილის სახელის გარეშე  "
+"&lt;-&gt;<span style=\" font-style:italic;\"> /home/archimedes/latex</span></"
+"p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;\">"
+"%dir_target<span style=\" font-weight:400;\">: სამიზნე ფაილის ბილიკი ფაილის "
+"სახელის გარეშე. იგივე, რაც %dir_base თუ შედარებითი ბილიკი არაა დაყენებული "
+"&lt;-&gt; </span><span style=\" font-weight:400; font-style:italic;\">/home/"
+"archimedes/latex</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">%target:</span> სამიზნე ფაილის სახელი ბილიკის გარეშე &lt;-&gt; "
+"<span style=\" font-style:italic;\">myBestBook.pdf</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
+"weight:600; font-style:italic;\"></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">%res:</span> სწრაფი გადახედვის გაფართოების დაყეენბა შეგიძლიათ "
+"Kile-ის მორგების ფანჯარაში-&gt;ხელსაწყოები-&gt;მინიატურა</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">%AFL</span>: პროექტში დასაარქივებლად მონიშნული ფაილების სია. "
+"დააყენეთ დაარქივებით ალამი \"ფაილების და პროექტების\" გვერდით პანელში, "
+"კონტექსტური მენიუს გამოყენებით.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbOptions)
 #: widgets/processtoolconfigwidget.ui:83
@@ -11963,11 +12094,13 @@ msgid ""
 "The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to "
 "the action \"%3\""
 msgstr ""
+"მიმდევრობა \"%1\" \"%2\"-ის ქვემიმდევრობაა, რომელიც უკვე მინიჭებულია "
+"ქმედებაზე \"%3\""
 
 #: widgets/scriptsmanagementwidget.cpp:231
 #, kde-format
 msgid "The shorter sequence \"%1\" is already assigned to the action \"%2\""
-msgstr ""
+msgstr "უფრო მოკლე მიმდევრობა \"%1\" უკვე მინიჭებულია ქმედებაზე \"%2\""
 
 #: widgets/statisticswidget.cpp:44
 #, kde-format
@@ -12028,7 +12161,7 @@ msgstr "ხაზი: %1 სვეტი: %2"
 #: widgets/structureviewconfigwidget.ui:38
 #, kde-format
 msgid "Expansion Level"
-msgstr ""
+msgstr "გაფართოების დონე"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: widgets/structureviewconfigwidget.ui:52
@@ -12041,6 +12174,7 @@ msgstr "&ნაგულისხმევი მნიშვნელობა"
 #, kde-format
 msgid "(&1=part, 2=chapter, 3=section, 4=subsection, 5=subsubsection, ...)"
 msgstr ""
+"(&1=ნაწილი, 2=თავი, 3=პარაგრაფი, 4=ქვეპარაგრაფი, 5=ქვექვეპარაგრაფი, ...)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowLabels)
 #: widgets/structureviewconfigwidget.ui:137
@@ -12239,6 +12373,10 @@ msgid ""
 "this error was: %1.\n"
 "Do you want to create this file?"
 msgstr ""
+"ჩასმული ფაილი ვერ ვიპოვე. ფაილი არ არსებობს, წაკითხვადი არაა, ან Kile-მა "
+"მისი სწორი ბილიკი ვერ დაადგინა. ფაილის სახელი, რომელმაც შეცდომა გამოიწვია: "
+"%1.\n"
+"გნებავთ, შექმნათ ეს ფაილი?"
 
 #: widgets/structurewidget.cpp:742
 #, kde-format
@@ -12268,7 +12406,7 @@ msgstr "&კომენტარი"
 #: widgets/structurewidget.cpp:785
 #, kde-format
 msgid "Run QuickPreview"
-msgstr ""
+msgstr "სწრაფი გადახედვის გაშვება"
 
 #: widgets/structurewidget.cpp:812
 #, kde-format
@@ -12399,6 +12537,8 @@ msgid ""
 "Unknown tool type; your configuration data is malformed.\n"
 "Perhaps it is a good idea to restore the default settings."
 msgstr ""
+"უცნობი ხელსაწყოს ტიპი. თქვენი კონფიგურაციის მონაცემები არასწორია.\n"
+"ალბათ კარგი იდეაა, ნაგულისხმევი პარამეტრები აღადგინოთ."
 
 #: widgets/toolconfigwidget.cpp:223
 #, kde-format
@@ -12406,6 +12546,8 @@ msgid ""
 "All your tool settings will be overwritten with the default settings.\n"
 "Are you sure you want to continue?"
 msgstr ""
+"ყველა თქვენი ხელსაწყოს პარამეტრები საწყის მნიშვნელობებზე დაბრუნდება.\n"
+"მართლა გნებავთ, გააგრძელოთ?"
 
 #: widgets/toolconfigwidget.cpp:337
 #, kde-format

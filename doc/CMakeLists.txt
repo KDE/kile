@@ -1,3 +1,5 @@
 ########### install files ###############
 #
-kdoctools_create_handbook(index.docbook INSTALL_DESTINATION ${KDE_INSTALL_DOCBUNDLEDIR}/en SUBDIR kile)
+if(KF6DocTools_FOUND)
+  kdoctools_create_handbook(index.docbook INSTALL_DESTINATION ${KDE_INSTALL_DOCBUNDLEDIR}/en SUBDIR kile)
+endif()

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-10 01:58+0000\n"
-"PO-Revision-Date: 2024-03-15 12:39+0100\n"
+"PO-Revision-Date: 2024-03-16 13:01+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4826,6 +4826,8 @@ msgid ""
 "Websites (HTML) (*.html *.htm);;Documents (PDF, PS, DVI, EPUB) (*.ps *.pdf *."
 "dvi *.epub);;All Files (*)"
 msgstr ""
+"ვებგვერდები (HTML) (*.html *.htm);;დოკუმენტები (PDF, PS, DVI, EPUB) (*.ps *."
+"pdf *.dvi *.epub);;ყველა ფაილი (*)"
 
 #: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2148
 #, kde-format
@@ -4904,6 +4906,14 @@ msgid ""
 "%T: Select citation key from list\n"
 "%S: Source file name without extension"
 msgstr ""
+"ხელმისაწვდომი ადგილმჭერები:\n"
+"%M: მონიშნული (დანიშნული) ტექსტი\n"
+"%C: კურსორის მდებარეობა\n"
+"%B: Bullet\n"
+"%E: გარემოების შეწევა\n"
+"%R: აირჩიეთ ჭდე სიიდან\n"
+"%T: არჩიეთ ციტირების პარამეტრი სიიდან\n"
+"%S: წყარო ფაილის სახელი გაფართოების გარეშე"
 
 #: dialogs/usermenu/usermenudialog.cpp:216
 #, kde-format
@@ -6519,6 +6529,9 @@ msgid ""
 "separated list of all paths TeX should look for additional packages and/or "
 "files. You do not have to add :$TEXINPUTS at the end."
 msgstr ""
+"აქ TEXINPUTS გარემოს ცვლადის დაყენება შეგიძლიათ. TEXINPUTS უნდა იყოს "
+"ორიწერტილით გამოყოფილი სია ყველა ბილიკისა, სადაც TeX-მა დამატებითი პაკეტები "
+"ან/და ფაილები უნდა ეძებოს. ბოლოში :$TEXINPUTS-ის დაყენება არ გჭირდებათ."
 
 #. i18n: ectx: label, entry (PreviewTeXPaths), group (Tools)
 #: kile.kcfg:126
@@ -6535,6 +6548,10 @@ msgid ""
 "additional packages and/or files. You do not have to add :$TEXINPUTS at the "
 "end."
 msgstr ""
+"აქ სწრაფი გადახედვის ხელსაწყოებისთვის TEXINPUTS გარემოს ცვლადის დაყენება "
+"შეგიძლიათ. TEXINPUTS უნდა იყოს ორიწერტილით გამოყოფილი სია ყველა ბილიკისა, "
+"სადაც TeX-მა დამატებითი პაკეტები ან/და ფაილები უნდა ეძენოს. ბოლოში :"
+"$TEXINPUTS-ის დაყენება არ გჭირდებათ."
 
 #. i18n: ectx: label, entry (BibInputPaths), group (Tools)
 #: kile.kcfg:131
@@ -6550,6 +6567,9 @@ msgid ""
 "separated list of all paths bibtex should look for additional .bib files. "
 "You do not have to add :$BIBINPUTS at the end."
 msgstr ""
+"აქ BIBINPUTS გარემოს ცვლადის დაყენება შეგიძლიათ. BIBINPUTS უნდა იყოს "
+"ორიწერტილითგამოყოფილი ბილიკების სია, სადაც bibitex-მა დამატებითი .bib "
+"ფაილები უნდა ეძებოს. ბოლოში :$BIBITEX-ის დაყენება არ გჭირდებათ."
 
 #. i18n: ectx: label, entry (PreviewBibInputPaths), group (Tools)
 #: kile.kcfg:136
@@ -6566,6 +6586,10 @@ msgid ""
 "bibliography tool (e.g. BibTeX or Biber) should look for additional packages "
 "and/or files. You do not have to add :$BIBINPUTS at the end."
 msgstr ""
+"აქ სწრაფი გადახედვის ხელსაწყოებისთვის BIBINPUTS გარემოს ცვლადის დაყენება "
+"შეგიძლიათ. BIBINPUTS უნდა იყოს ორიწერტილით გამოყოფილი სია ბილიკებისა, სადაც "
+"ბიბლიოგრაფიის პროგრამამ (მაგ: BibTeX ან Biber) დამატებით პაკეტები ან/და "
+"ფაილები უნდა ეძებოს. ბოლოში :$BIBINPUTS-ის მიწერა არ გჭირდებათ."
 
 #. i18n: ectx: label, entry (BstInputPaths), group (Tools)
 #: kile.kcfg:141
@@ -6581,6 +6605,9 @@ msgid ""
 "separated list of all paths bibtex should look for additional .bst files. "
 "You do not have to add :$BSTINPUTS at the end."
 msgstr ""
+"აქ BSTINPUTS გარემოს ცვლადის დაყენება შეგიძლიათ. BSINPUT უნდა იყოს "
+"ორიწერტილით გამოყოფილი სია ბილიკებისა, სადაც bibitex-მა დამატებითი .bst "
+"ფაილები უნდა ეძებოს. ბოლოში :$BSTINPUTS-ის დაყენება არ გჭირდებათ."
 
 #. i18n: ectx: label, entry (BottomBar), group (Show)
 #: kile.kcfg:148
@@ -6658,7 +6685,7 @@ msgstr "Kilo-ის ბოლო ვერსია, რომლისთვი
 #: kile.kcfg:198
 #, kde-format
 msgid "Automatic completion \\begin{env} with \\end{env}."
-msgstr ""
+msgstr "\\begin{env}-ის ავტომატური დასრულება \\end{env}-ით."
 
 #. i18n: ectx: label, entry (envIndentation), group (Editor Ext)
 #: kile.kcfg:202
@@ -6725,25 +6752,25 @@ msgstr "გრაფიკის ჩაშენება ფიგურის 
 #: kile.kcfg:248
 #, kde-format
 msgid "Set preferred figure position to top of page."
-msgstr ""
+msgstr "ფიგურის რჩეული მდებარეობის გვერდის თავზე დაყენება."
 
 #. i18n: ectx: label, entry (igBottom), group (IncludeGraphics)
 #: kile.kcfg:252
 #, kde-format
 msgid "Set preferred figure position to bottom of page."
-msgstr ""
+msgstr "ფიგურის რჩეული მდებარეობის გვერდის ბოლოზე დაყენება."
 
 #. i18n: ectx: label, entry (igHere), group (IncludeGraphics)
 #: kile.kcfg:256
 #, kde-format
 msgid "Set preferred figure position to \"exactly here\" on page."
-msgstr ""
+msgstr "ფიგურის რჩეული მდებარეობის დაყენება \"ზუსტად აქ\"."
 
 #. i18n: ectx: label, entry (igPage), group (IncludeGraphics)
 #: kile.kcfg:260
 #, kde-format
 msgid "Set preferred figure position to be on separate page."
-msgstr ""
+msgstr "ფიგურის რჩეული მდებარეობის დაყენება ცალკე გვერდზე."
 
 #. i18n: ectx: label, entry (igForce), group (IncludeGraphics)
 #: kile.kcfg:264
@@ -6761,25 +6788,25 @@ msgstr "Wrapfigure გარემოს ჩართვა."
 #: kile.kcfg:272
 #, kde-format
 msgid "Set preferred wrapfigure position to the right of text."
-msgstr ""
+msgstr "გადატანილი ფიგურის რჩეული მდებარეობის ტექსტის მარჯვნივ დაყენება."
 
 #. i18n: ectx: label, entry (igWrapLeft), group (IncludeGraphics)
 #: kile.kcfg:276
 #, kde-format
 msgid "Set preferred wrapfigure position to the left of text."
-msgstr ""
+msgstr "გადატანილი ფიგურის რჩეული მდებარეობის ტექსტის მარჯვნივ დაყენება."
 
 #. i18n: ectx: label, entry (igWrapInside), group (IncludeGraphics)
 #: kile.kcfg:280
 #, kde-format
 msgid "Set preferred wrapfigure position to the inside of the page."
-msgstr ""
+msgstr "გადატანილი ფიგურის რჩეული მდებარეობის გვერდის შიგნით დაყენება."
 
 #. i18n: ectx: label, entry (igWrapOutside), group (IncludeGraphics)
 #: kile.kcfg:284
 #, kde-format
 msgid "Set preferred wrapfigure position to the outside of the page."
-msgstr ""
+msgstr "გადატანილი ფიგურის რჩეული მდებარეობის გვერდის გარეთ დაყენება."
 
 #. i18n: ectx: label, entry (igWrapFloat), group (IncludeGraphics)
 #: kile.kcfg:288
@@ -6875,6 +6902,8 @@ msgid ""
 "Whether the current directory shown in the console is kept synchronized with "
 "the open tabs"
 msgstr ""
+"არის თუ არა მიმდინარე საქაღალდე, რომელიც კონსოლშია ნაჩვენები, სინქრონიზებული "
+"ღია ჩანართებთან"
 
 #. i18n: ectx: label, entry (WatchFileForDocumentViewer), group (User)
 #: kile.kcfg:368
@@ -8685,6 +8714,8 @@ msgid ""
 "Environment that gets LaTeX to print exactly what you type in. In this "
 "variant, spaces are printed in a special manner."
 msgstr ""
+"გარემო, რომელიც LaTeX-ს აიძულებს, ზუსტად ის დაბეჭდოთ, რასაც თქვენ აკრეფთ. ამ "
+"ვარიანტში გამოტოვებები სპეციალური გზით ისმება."
 
 #: kilestdactions.cpp:168
 #, kde-format
@@ -8822,6 +8853,10 @@ msgid ""
 "You can add negative as well as positive space with an \\hspace command. "
 "Adding negative space is like backspacing."
 msgstr ""
+"ბრძანება \\hspace ჰორიზონტალურ სივრცეს ამატებს. ამ სივრცის სიგრძე LaTeX-"
+"ისთვის გასაგები ნებისმიერი სახით შეგიძლიათ. მაგ: წერტილები, დუიმები და ა.შ. "
+"დადებითთან ერთად, ბრძანებას \\hspace უარყოფითი სიგრძეც შეგიძლიათ, მიუთითოთ. "
+"უარყოფითი სივრცე backspace-სავით იქცევა."
 
 #: kilestdactions.cpp:187
 #, kde-format
@@ -9913,6 +9948,8 @@ msgid ""
 "Unable to find %1 or %2; if you are trying to view some other HTML file, go "
 "to Settings->Configure Kile->Tools->ViewHTML->Advanced."
 msgstr ""
+"%1 ან %2 ვერ ვიპოვე. თუ ცდილობთ, რამე სხვა HTML ფაილი ნახოთ, გადადით მორგება-"
+">Kile-ის მორგება->ხელსაწყოები->ViewHTML->დამატებით."
 
 #: kiletool.cpp:57
 #, kde-format
@@ -11417,6 +11454,8 @@ msgid ""
 "Automatically insert the LaTeX equivalent of special characters when typing "
 "(accents, etc)"
 msgstr ""
+"კრეფისას სპეციალური სიმბოლოების ნაცვლად LaTeX-ის ეკვივალენტების (მახვილების "
+"და ა.შ.) ავტომატური ჩასმა"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_bgMathmode)
 #: widgets/latexconfigwidget.ui:161
@@ -11459,6 +11498,8 @@ msgstr "B&STINPUTS:"
 #, kde-format
 msgid "Check if root document is a LaTeX root before running LaTeX on it"
 msgstr ""
+"შემოწმება, წარმოადგენს თუ არა ძირითადი დოკუმენტი LaTeX-ის ძირითად დოკუმენტს, "
+"სანამ LaTeX-ს გადავატარებთ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckRootDoc)
 #: widgets/latextoolconfigwidget.ui:38

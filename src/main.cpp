@@ -131,10 +131,6 @@ int main(int argc, char **argv)
 
     KCrash::initialize();
 
-    app.setApplicationDisplayName(aboutData.displayName());
-    app.setOrganizationDomain(aboutData.organizationDomain());
-    app.setApplicationVersion(aboutData.version());
-
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);
 

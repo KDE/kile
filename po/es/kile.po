@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-10 01:58+0000\n"
+"POT-Creation-Date: 2024-03-20 00:38+0000\n"
 "PO-Revision-Date: 2023-11-06 17:54+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -11176,22 +11176,22 @@ msgstr "Documentación"
 msgid "Federico Zenith"
 msgstr "Federico Zenith"
 
-#: main.cpp:141
+#: main.cpp:137
 #, kde-format
 msgid "Jump to line"
 msgstr "Ir a la línea"
 
-#: main.cpp:142
+#: main.cpp:138
 #, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "Iniciar una nueva ventana principal de Kile"
 
-#: main.cpp:144
+#: main.cpp:140
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr "Archivos a abrir / especificar '-' para leer de la entrada estándar"
 
-#: main.cpp:175
+#: main.cpp:171
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -11204,7 +11204,7 @@ msgstr ""
 "\n"
 "Instale la biblioteca de Okular antes de ejecutar Kile."
 
-#: main.cpp:177
+#: main.cpp:173
 #, kde-format
 msgid "Okular library not found"
 msgstr "Biblioteca de Okular no encontrada"

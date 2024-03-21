@@ -509,7 +509,7 @@ bool EditorExtension::getMathgroup(KTextEditor::View *view, int &row1, int &col1
 
     // '$' is difficult, because it is used as opening and closing tag
     int mode = 0;
-    if(textline[col] == '$') {
+    if(col < textline.length() && textline[col] == '$') {
         mode = 1;
     }
     else if(col > 0 && textline[col - 1] == '$') {
@@ -2001,7 +2001,7 @@ bool EditorExtension::isBracketPosition(KTextEditor::Document *doc, int row, int
     bracket.col = col;
 
     QString textline = getTextLineReal(doc, row);
-    QChar right = textline[col];
+    QChar right = col < textline.length() ? textline[col] : QChar(' ');
     QChar left  = (col > 0) ? textline[col-1] : QChar(' ');
 
     if (m_overwritemode) {

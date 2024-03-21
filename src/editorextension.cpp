@@ -509,7 +509,7 @@ bool EditorExtension::getMathgroup(KTextEditor::View *view, int &row1, int &col1
 
     // '$' is difficult, because it is used as opening and closing tag
     int mode = 0;
-    if(textline[col] == '$') {
+    if(col < textline.length() && textline[col] == '$') {
         mode = 1;
     }
     else if(col > 0 && textline[col - 1] == '$') {
@@ -2001,7 +2001,7 @@ bool EditorExtension::isBracketPosition(KTextEditor::Document *doc, int row, int
     bracket.col = col;
 
     QString textline = getTextLineReal(doc, row);
-    QChar right = textline[col];
+    QChar right = col < textline.length() ? textline[col] : QChar(' ');
     QChar left  = (col > 0) ? textline[col-1] : QChar(' ');
 
     if (m_overwritemode) {
@@ -2069,28 +2069,28 @@ bool EditorExtension::findCloseBracketTag(KTextEditor::Document *doc, int row, i
 
 bool EditorExtension::findOpenBracketTag(KTextEditor::Document *doc, int row, int col, BracketData &bracket)
 {
-    uint brackets = 0;
-    for(int line = row; line >= 0; --line) {
-        QString textline = getTextLineReal(doc, line);
-        int start = (line == row) ? col : textline.length() - 1;
-        for (int i = start; i >= 0; --i) {
-            //KILE_DEBUG_MAIN << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].toLatin1();
-            if(textline[i] == '{') {
-                if(brackets > 0) {
-                    --brackets;
-                }
-                else {
-                    bracket.row = line;
-                    bracket.col = i;
-                    bracket.open = true;
-                    return true;
-                }
-            }
-            else if(textline[i] == '}') {
-                ++brackets;
-            }
+  uint brackets = 0;
+  for (int line = row; line >= 0; --line) {
+    QString textline = getTextLineReal(doc, line);
+    int start =
+        (line == row && col < textline.length()) ? col : textline.length() - 1;
+    for (int i = start; i >= 0; --i) {
+      // KILE_DEBUG_MAIN << "findOpenBracketTag: (" << line << "," << i << ") =
+      // " << textline[i].toLatin1();
+      if (textline[i] == '{') {
+        if (brackets > 0) {
+          --brackets;
+        } else {
+          bracket.row = line;
+          bracket.col = i;
+          bracket.open = true;
+          return true;
         }
+      } else if (textline[i] == '}') {
+        ++brackets;
+      }
     }
+  }
 
     //KILE_DEBUG_MAIN << "nothting found";
     return false;

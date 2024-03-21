@@ -570,7 +570,7 @@ bool LaTeXOutputParser::detectBadBoxLineNumber(QString & strLine, short & dwCook
     static QRegularExpression reBadBoxLine("(.*) at line ([0-9]+)", QRegularExpression::CaseInsensitiveOption);
     //Use the following only, if you know how to get the source line for it.
     // This is not simple, as TeX is not reporting it.
-    static QRegularExpression reBadBoxOutput("(.*)has occurred while \\output is active^", QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reBadBoxOutput("(.*)has occurred while \\\\output is active^", QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch match;
 
     if(strLine.indexOf(reBadBoxLines, 0, &match) != -1) {

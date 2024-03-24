@@ -424,7 +424,7 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
 
     (void) new KileAction::Tag(i18n("N-th Root - \\sqrt[]{}"), i18n("N-th Root"), "nroot", QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), ac,"tag_nroot", "\\sqrt[]{","}", 6);
 
-    (void) new KileAction::Tag(i18n("Left-Right () - \\left(..\\right)"), i18n("Left-Right ()"), "lr", QKeySequence(Qt::ALT+Qt::Key_ParenLeft), receiver, SLOT(insertTag(KileAction::TagData)), ac,"tag_leftright", "\\left(  \\right)", QString(), 7);
+    (void) new KileAction::Tag(i18n("Left-Right () - \\left(..\\right)"), i18n("Left-Right ()"), "lr", QKeySequence(Qt::ALT | Qt::Key_ParenLeft), receiver, SLOT(insertTag(KileAction::TagData)), ac,"tag_leftright", "\\left(  \\right)", QString(), 7);
 
     (void) new KileAction::Tag(i18n("Extendable Left Arrow - \\xleftarrow{}"), i18n("Extendable Left Arrow"), QKeySequence(), receiver, SLOT(insertAmsTag(KileAction::TagData)), ac,"tag_xleftarrow", "\\xleftarrow{","}", 12);
 

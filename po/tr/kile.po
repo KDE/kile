@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-20 00:38+0000\n"
-"PO-Revision-Date: 2024-03-22 16:14+0300\n"
+"PO-Revision-Date: 2024-03-23 16:07+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4789,7 +4789,7 @@ msgstr ""
 #: dialogs/texdocumentationdialog.cpp:437
 #, kde-format
 msgid "TexDoc Dialog"
-msgstr "TexDoc Diyaloğu"
+msgstr "TexDoc İletişim Kutusu"
 
 #: dialogs/texdocumentationdialog.cpp:449
 #, kde-format
@@ -4867,7 +4867,7 @@ msgstr "&Yardım dosyası:"
 #: dialogs/userhelpdialog.cpp:403
 #, kde-format
 msgid "Open file dialog"
-msgstr "Dosya aç penceresi"
+msgstr "Dosya aç iletişim kutusu"
 
 #: dialogs/userhelpdialog.cpp:411
 #, kde-format
@@ -7283,7 +7283,7 @@ msgstr "Şablon Kaldır"
 #: kiledocmanager.cpp:829
 #, kde-format
 msgid "Open Files"
-msgstr "Dosya Aç"
+msgstr "Dosyalar Aç"
 
 #: kiledocmanager.cpp:911
 #, kde-format

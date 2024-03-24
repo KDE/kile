@@ -1340,8 +1340,11 @@ void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
     for ( it= list.begin(); it != list.end(); ++it) {
         QAction *act = *it;
         if ( act != Q_NULLPTR && !act->objectName().isEmpty() && !tools.contains(act->objectName().mid(5)) ) {
-            if (act->associatedWidgets().contains(toolBar("toolsToolBar"))) {
-                toolBar("toolsToolBar")->removeAction(act);
+            for (QObject *widget : act->associatedObjects()) {
+                if (qobject_cast<QWidget*>(widget) == toolBar("toolsToolBar")) {
+                    toolBar("toolsToolBar")->removeAction(act);
+                    break;
+                }
             }
 //             KILE_DEBUG_MAIN << "about to delete action: " << act->objectName();
             testIt = list.erase(it);

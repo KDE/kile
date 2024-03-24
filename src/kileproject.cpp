@@ -453,7 +453,6 @@ QString KileProject::addBaseURL(const QString &path)
 QString KileProject::removeBaseURL(const QString &path)
 {
     if(QDir::isAbsolutePath(path)) {
-        QFileInfo info(path);
         QString relPath = findRelativePath(path);
         KILE_DEBUG_MAIN << "removeBaseURL path is" << path << " , relPath is " << relPath;
         return relPath;

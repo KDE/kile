@@ -846,13 +846,6 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
                                  "|\\\\\\[|\\\\\\]"
                                  "|\\\\\\(|\\\\\\)";
 
-// +       int rowFound, colFound;
-// +       QRegExp reg(regExpString);
-// +       reg.setCaseSensitivity(Qt::CaseInsensitive);
-// +       int lastMatch = 0;
-
-    QRegExp reg(regExpString);
-
     KTextEditor::Range searchRange = KTextEditor::Range(KTextEditor::Cursor(row, col), doc->documentEnd());
 
     while(true) {

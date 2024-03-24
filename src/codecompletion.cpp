@@ -763,15 +763,12 @@ KTextEditor::Range AbbreviationCompletionModel::completionRange(KTextEditor::Vie
         const KTextEditor::Cursor &position)
 {
     QString insertedText = view->document()->line(position.line()).left(position.column());
-    int len = insertedText.length();
 
     QRegularExpression whitespace(QStringLiteral(" |\t"));
     whitespace.setPatternOptions(QRegularExpression::InvertedGreedinessOption);
-    int pos = insertedText.lastIndexOf(whitespace,-1);
-    const QString searchText = (pos>=0 && pos<len-2) ? insertedText.right(len-pos-1) : insertedText;
-    pos++;
+    int pos = insertedText.lastIndexOf(whitespace, -1);
 
-    return KTextEditor::Range( position.line(), pos, position.line(),position.column() );
+    return KTextEditor::Range(position.line(), pos + 1, position.line(), position.column());
 }
 
 QString AbbreviationCompletionModel::filterString(KTextEditor::View *view,

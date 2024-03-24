@@ -149,7 +149,6 @@ void AbbreviationView::slotChangeAbbreviation()
     }
     QTreeWidgetItem *selectedItem = selectedList.first();
     QString oldAbbreviationText = selectedItem->text(ALVabbrev);
-    QString oldAbbreviationExpansion = selectedItem->text(ALVexpansion);
     KileDialog::AbbreviationInputDialog dialog(this, selectedItem, ALVedit);
     if(dialog.exec() == QDialog::Accepted) {
         QString abbrev, expansion;

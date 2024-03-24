@@ -232,7 +232,6 @@ void ManageCompletionFilesDialog::addCustomCompletionFiles()
     if (files.isEmpty()) {
         return;
     }
-    QDir workPath(m_localCompletionDirectory);
 
     foreach (QString file, files) {
         QFileInfo fileInf(file);

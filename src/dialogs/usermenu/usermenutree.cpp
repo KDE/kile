@@ -40,7 +40,6 @@ namespace KileMenu {
 // - Menu items with errors are displayed in red (Qt:UserRole+2)
 void MenuentryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex& index) const
 {
-    QString menutitle = index.data(Qt::DisplayRole).toString();
     int error = index.data(Qt::UserRole+2).toInt();
 
     // any errors?

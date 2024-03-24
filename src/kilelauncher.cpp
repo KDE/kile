@@ -229,7 +229,7 @@ bool ProcessLauncher::selfCheck()
     Q_EMIT(message(Error, i18n("Launching failed, diagnostics:")));
 
     KShell::Errors err;
-    QStringList arguments = KShell::splitArgs(m_options, KShell::AbortOnMeta | KShell::TildeExpand, &err);
+    KShell::splitArgs(m_options, KShell::AbortOnMeta | KShell::TildeExpand, &err);
     if(err == KShell::BadQuoting) {
         Q_EMIT(message(Error, i18n("An error occurred while parsing the options given to the tool.")));
         return false;

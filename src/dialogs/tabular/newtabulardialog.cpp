@@ -233,7 +233,6 @@ void NewTabularDialog::initEnvironments()
 {
     /* read all tabular environments and insert them into the combobox */
     QStringList list;
-    QStringList::ConstIterator it;
     m_latexCommands->commandList(list, KileDocument::CmdAttrTabular, false);
     m_cmbName->addItems(list);
 

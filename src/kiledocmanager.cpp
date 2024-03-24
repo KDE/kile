@@ -889,7 +889,6 @@ bool Manager::fileSaveAll(bool disUntitled)
     KTextEditor::View *view = Q_NULLPTR;
     QFileInfo fi;
     bool oneSaveFailed = false;
-    QUrl url, backupUrl;
 
     KILE_DEBUG_MAIN << "===Kile::fileSaveAll(disUntitled = " << disUntitled <<")";
 
@@ -897,7 +896,7 @@ bool Manager::fileSaveAll(bool disUntitled)
         view = m_ki->viewManager()->textView(i);
 
         if(view && view->document()->isModified()) {
-            url = view->document()->url();
+            QUrl url = view->document()->url();
             fi.setFile(url.toLocalFile());
 
             if(!disUntitled || !(disUntitled && url.isEmpty()))  { // either we don't disregard untitled docs, or the doc has a title

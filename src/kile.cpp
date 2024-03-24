@@ -1358,7 +1358,6 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
         return;
     }
 
-    QUrl url;
     for (int i=0; i < m_listProjectsOpenOnStart.count(); ++i) {
         // don't open project files as they will be opened later in this method
         docManager()->projectOpen(QUrl::fromUserInput(m_listProjectsOpenOnStart[i]), i, m_listProjectsOpenOnStart.count(), false);

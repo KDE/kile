@@ -361,8 +361,6 @@ void Base::copyPaths(Base* tool)
 
 bool Base::determineTarget()
 {
-    QFileInfo info(source());
-
     //if the target is not set previously, use the source filename
     if(m_target.isEmpty()) {
         //test for explicit override

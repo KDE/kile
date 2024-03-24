@@ -1,6 +1,6 @@
 /********************************************************************************
 *   Copyright (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)     *
-*                 2008 - 2010 by Michel Ludwig (michel.ludwig@kdemail.net)      *
+*                 2008 - 2024 by Michel Ludwig (michel.ludwig@kdemail.net)      *
 *********************************************************************************/
 
 /**************************************************************************
@@ -24,10 +24,13 @@ namespace KileAbbreviation {
 Manager::Manager(KileInfo* kileInfo, QObject *parent) : QObject(parent), m_kileInfo(kileInfo), m_abbreviationsDirty(false)
 {
     setObjectName("KileAbbreviation::Manager");
-    m_localAbbreviationFile = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + QLatin1Char('/') + QLatin1String("complete/abbreviation/kile-abbrevs.cwl");
-    QDir testDir(m_localAbbreviationFile);
-    if (!testDir.exists()) {
-        testDir.mkpath(m_localAbbreviationFile);
+    const QString m_localAbbreviationDirectory = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + QLatin1String("/complete/abbreviation");
+    m_localAbbreviationFile = m_localAbbreviationDirectory + QLatin1String("/kile-abbrevs.cwl");
+    {
+        QDir testDir(m_localAbbreviationDirectory);
+        if(!testDir.exists()) {
+            testDir.mkpath(m_localAbbreviationDirectory);
+        }
     }
 }
 

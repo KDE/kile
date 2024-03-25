@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-20 00:38+0000\n"
+"POT-Creation-Date: 2024-03-25 00:37+0000\n"
 "PO-Revision-Date: 2023-11-08 15:47-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -35,7 +35,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "alvarenga@kde.org, rubens.matos@gmail.com, marcus.gama@gmail.com"
 
-#: abbreviationmanager.cpp:101
+#: abbreviationmanager.cpp:104
 #, kde-format
 msgid ""
 "Could not save the local abbreviation list.\n"
@@ -44,7 +44,7 @@ msgstr ""
 "Não foi possível salvar a lista local de abreviações.\n"
 "Código de erro %1."
 
-#: abbreviationmanager.cpp:102
+#: abbreviationmanager.cpp:105
 #, kde-format
 msgid "Saving Problem"
 msgstr "Salvando problema"
@@ -294,12 +294,12 @@ msgstr ""
 "<br/>Clique agora em 'Concluir' para aceitar as alterações de configuração "
 "recomendadas."
 
-#: dialogs/configcheckerdialog.cpp:156 dialogs/configcheckerdialog.cpp:229
+#: dialogs/configcheckerdialog.cpp:156
 #, kde-format
 msgid "Test Results"
 msgstr "Resultados do Teste"
 
-#: dialogs/configcheckerdialog.cpp:232
+#: dialogs/configcheckerdialog.cpp:231
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -310,7 +310,7 @@ msgstr ""
 "não funciona corretamente no seu sistema. Por favor, consulte os "
 "resultados<br/>do teste para descobrir quais programas devem ser corrigidos."
 
-#: dialogs/configcheckerdialog.cpp:238
+#: dialogs/configcheckerdialog.cpp:237
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -320,7 +320,7 @@ msgstr ""
 "usar o Kile. Entretanto, não é garantido o funcionamento de todos os "
 "recursos."
 
-#: dialogs/configcheckerdialog.cpp:243
+#: dialogs/configcheckerdialog.cpp:242
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
@@ -328,7 +328,7 @@ msgstr ""
 "<b>Nenhum problema encontrado. O Kile funcionará corretamente no seu sistema."
 "</b>"
 
-#: dialogs/configcheckerdialog.cpp:256
+#: dialogs/configcheckerdialog.cpp:255
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
@@ -336,7 +336,7 @@ msgstr ""
 "O visualizador de documentos incorporado está disponível e é suportada a "
 "visualização direta."
 
-#: dialogs/configcheckerdialog.cpp:259
+#: dialogs/configcheckerdialog.cpp:258
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -345,7 +345,7 @@ msgstr ""
 "O visualizador de documentos incorporado está disponível, mas a versão "
 "instalada do PDFLaTeX é <br/><b>incompatível</b> com a visualização direta."
 
-#: dialogs/configcheckerdialog.cpp:267
+#: dialogs/configcheckerdialog.cpp:266
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -356,7 +356,7 @@ msgstr ""
 "Okular não está disponível ou a versão instalada<br/>é muito antiga). Por "
 "este motivo, a visualização direta não é suportada."
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:289
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "
@@ -889,7 +889,7 @@ msgstr ""
 "Você deve incluir o pacote wrapfig para usar as opções de quebra automática "
 "de texto"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3249
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
 #, kde-format
 msgid "Missing Package"
 msgstr "Pacote em falta"
@@ -1581,8 +1581,8 @@ msgid "Manage the local completion files in the file manager"
 msgstr ""
 "Gerencia os arquivos de completamento locais no gerenciador de arquivos"
 
-#: dialogs/listselector.cpp:210 dialogs/listselector.cpp:264
-#: dialogs/listselector.cpp:269 dialogs/pdf-wizard/pdfdialog.cpp:283
+#: dialogs/listselector.cpp:210 dialogs/listselector.cpp:263
+#: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
 #: dialogs/pdf-wizard/pdfdialog.cpp:939 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:196
 #: widgets/codecompletionconfigwidget.cpp:353
@@ -1610,7 +1610,7 @@ msgstr "Selecione arquivos de completamento para instalar localmente"
 msgid "Completion files (*.cwl)"
 msgstr "Arquivos de completamento (*.cwl)"
 
-#: dialogs/listselector.cpp:241
+#: dialogs/listselector.cpp:240
 #, kde-format
 msgid ""
 "A local completion file with the name \"%1\" already exists.\n"
@@ -1619,12 +1619,12 @@ msgstr ""
 "Já existe um arquivo de completamento chamado \"%1\".\n"
 "Deseja sobrescrevê-lo?"
 
-#: dialogs/listselector.cpp:242
+#: dialogs/listselector.cpp:241
 #, kde-format
 msgid "Replace Local File?"
 msgstr "Substituir o arquivo local?"
 
-#: dialogs/listselector.cpp:245
+#: dialogs/listselector.cpp:244
 #, kde-format
 msgid ""
 "An error occurred while removing the file \"%1\".\n"
@@ -1633,12 +1633,12 @@ msgstr ""
 "Um erro ocorreu ao reorganizar o arquivo \"%1\".\n"
 "Por favor, verifique as permissões do arquivo."
 
-#: dialogs/listselector.cpp:246
+#: dialogs/listselector.cpp:245
 #, kde-format
 msgid "Remove Error"
 msgstr "Erro ao remover"
 
-#: dialogs/listselector.cpp:257
+#: dialogs/listselector.cpp:256
 #, kde-format
 msgid ""
 "Cannot copy the file to the local directory!\n"
@@ -1647,18 +1647,18 @@ msgstr ""
 "Não foi possível copiar o arquivo para a pasta local!\n"
 "Por favor, verifique as permissões de acesso à pasta \"%1\"."
 
-#: dialogs/listselector.cpp:258
+#: dialogs/listselector.cpp:257
 #, kde-format
 msgid "Copy Error"
 msgstr "Erro ao copiar"
 
-#: dialogs/listselector.cpp:281
+#: dialogs/listselector.cpp:280
 #, kde-format
 msgid "The custom files have been installed and preselected for adding."
 msgstr ""
 "Os arquivos personalizados foram instalados e pré-selecionados para adição."
 
-#: dialogs/listselector.cpp:282
+#: dialogs/listselector.cpp:281
 #, kde-format
 msgid "Installation Successful"
 msgstr "Instalação bem sucedida"
@@ -4666,8 +4666,8 @@ msgstr "Limpa o texto das células selecionadas e restaura os atributos."
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "Cola uma tabela armazenada na área de transferência neste assistente."
 
-#: dialogs/tabular/newtabulardialog.cpp:654
-#: dialogs/tabular/newtabulardialog.cpp:676
+#: dialogs/tabular/newtabulardialog.cpp:653
+#: dialogs/tabular/newtabulardialog.cpp:675
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
@@ -4676,8 +4676,8 @@ msgstr ""
 "Definir o novo tamanho para a tabela irá apagar o conteúdo. Está certo de "
 "que quer definir o novo tamanho?"
 
-#: dialogs/tabular/newtabulardialog.cpp:654
-#: dialogs/tabular/newtabulardialog.cpp:676
+#: dialogs/tabular/newtabulardialog.cpp:653
+#: dialogs/tabular/newtabulardialog.cpp:675
 #, kde-format
 msgid "Resizing table"
 msgstr "Redimensionando tabela"
@@ -4934,13 +4934,13 @@ msgstr ""
 "Páginas Web (HTML) (*.html *.htm);;Documentos (PDF, PS, DVI, EPUB) (*.ps *."
 "pdf *.dvi *.epub);;Todos os arquivos (*)"
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2148
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2147
 #, kde-format
 msgid "Select File"
 msgstr "Selecionar arquivo"
 
 #: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:299
-#: dialogs/usermenu/usermenutree.cpp:234 usermenu/usermenu.cpp:339
+#: dialogs/usermenu/usermenutree.cpp:233 usermenu/usermenu.cpp:339
 #: widgets/usermenuconfigwidget.cpp:74
 #, kde-format
 msgid "File '%1' does not exist."
@@ -5461,159 +5461,159 @@ msgstr "???"
 msgid "  >"
 msgstr "  >"
 
-#: dialogs/usermenu/usermenutree.cpp:167
+#: dialogs/usermenu/usermenutree.cpp:166
 #, kde-format
 msgid "Insert above"
 msgstr "Inserir acima"
 
-#: dialogs/usermenu/usermenutree.cpp:168
+#: dialogs/usermenu/usermenutree.cpp:167
 #, kde-format
 msgid "Insert below"
 msgstr "Inserir abaixo"
 
-#: dialogs/usermenu/usermenutree.cpp:173
+#: dialogs/usermenu/usermenutree.cpp:172
 #, kde-format
 msgid "Insert a separator above"
 msgstr "Inserir um separador acima"
 
-#: dialogs/usermenu/usermenutree.cpp:174
+#: dialogs/usermenu/usermenutree.cpp:173
 #, kde-format
 msgid "Insert a separator below"
 msgstr "Inserir um separador abaixo"
 
-#: dialogs/usermenu/usermenutree.cpp:179
+#: dialogs/usermenu/usermenutree.cpp:178
 #, kde-format
 msgid "Insert a submenu above"
 msgstr "Inserir um submenu acima"
 
-#: dialogs/usermenu/usermenutree.cpp:180
+#: dialogs/usermenu/usermenutree.cpp:179
 #, kde-format
 msgid "Insert a submenu below"
 msgstr "Inserir um submenu abaixo"
 
-#: dialogs/usermenu/usermenutree.cpp:185
+#: dialogs/usermenu/usermenutree.cpp:184
 #, kde-format
 msgid "Insert into this submenu"
 msgstr "Inserir neste submenu"
 
-#: dialogs/usermenu/usermenutree.cpp:186
+#: dialogs/usermenu/usermenutree.cpp:185
 #, kde-format
 msgid "Insert a separator into this submenu"
 msgstr "Inserir um separador neste submenu"
 
-#: dialogs/usermenu/usermenutree.cpp:187
+#: dialogs/usermenu/usermenutree.cpp:186
 #, kde-format
 msgid "Insert a submenu into this submenu"
 msgstr "Inserir um submenu neste submenu"
 
-#: dialogs/usermenu/usermenutree.cpp:192
+#: dialogs/usermenu/usermenutree.cpp:191
 #, kde-format
 msgid "Delete this item"
 msgstr "Excluir este item"
 
-#: dialogs/usermenu/usermenutree.cpp:194
+#: dialogs/usermenu/usermenutree.cpp:193
 #, kde-format
 msgid "Delete the complete tree"
 msgstr "Excluir a árvore completa"
 
-#: dialogs/usermenu/usermenutree.cpp:200
+#: dialogs/usermenu/usermenutree.cpp:199
 #, kde-format
 msgid "Collapse submenu"
 msgstr "Recolher o submenu"
 
-#: dialogs/usermenu/usermenutree.cpp:203
+#: dialogs/usermenu/usermenutree.cpp:202
 #, kde-format
 msgid "Expand submenu"
 msgstr "Expandir o submenu"
 
-#: dialogs/usermenu/usermenutree.cpp:206
+#: dialogs/usermenu/usermenutree.cpp:205
 #, kde-format
 msgid "Collapse complete tree"
 msgstr "Recolher a árvore por completo"
 
-#: dialogs/usermenu/usermenutree.cpp:207
+#: dialogs/usermenu/usermenutree.cpp:206
 #, kde-format
 msgid "Expand complete tree"
 msgstr "Expandir a árvore por completo"
 
-#: dialogs/usermenu/usermenutree.cpp:214
+#: dialogs/usermenu/usermenutree.cpp:213
 #, kde-format
 msgid "Info"
 msgstr "Informações"
 
-#: dialogs/usermenu/usermenutree.cpp:438
+#: dialogs/usermenu/usermenutree.cpp:437
 #, kde-format
 msgid "File '%1' could not be opened to save the usermenu file."
 msgstr ""
 "Não foi possível abrir o arquivo '%1' para salvar o arquivo do menu do "
 "usuário."
 
-#: dialogs/usermenu/usermenutree.cpp:682
+#: dialogs/usermenu/usermenutree.cpp:681
 #, kde-format
 msgid "Please enter a label for this menu item:"
 msgstr "Indique uma legenda para este item do menu:"
 
-#: dialogs/usermenu/usermenutree.cpp:699
+#: dialogs/usermenu/usermenutree.cpp:698
 #, kde-format
 msgid "Please enter a label for this submenu:"
 msgstr "Indique uma legenda para este submenu:"
 
-#: dialogs/usermenu/usermenutree.cpp:757
+#: dialogs/usermenu/usermenutree.cpp:756
 #, kde-format
 msgid "Please enter a label for this entry:"
 msgstr "Indique uma legenda para este item:"
 
-#: dialogs/usermenu/usermenutree.cpp:913
+#: dialogs/usermenu/usermenutree.cpp:912
 #, kde-format
 msgid "Do you really want to clear the complete menutree?"
 msgstr "Deseja realmente limpar a árvore do menu completo?"
 
-#: dialogs/usermenu/usermenutree.cpp:914
+#: dialogs/usermenu/usermenutree.cpp:913
 #, kde-format
 msgid "Clear menutree"
 msgstr "Limpar árvore do menu"
 
-#: dialogs/usermenu/usermenutree.cpp:931
+#: dialogs/usermenu/usermenutree.cpp:930
 #, kde-format
 msgid "This menuitem has no title."
 msgstr "Este item de menu não possui título."
 
-#: dialogs/usermenu/usermenutree.cpp:935
+#: dialogs/usermenu/usermenutree.cpp:934
 #, kde-format
 msgid "This submenu item is useless without children."
 msgstr "Este item do submenu é inútil sem filhos."
 
-#: dialogs/usermenu/usermenutree.cpp:939
+#: dialogs/usermenu/usermenutree.cpp:938
 #, kde-format
 msgid "This item offers no text to insert."
 msgstr "Este item não possui texto para inserir."
 
-#: dialogs/usermenu/usermenutree.cpp:943
+#: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format
 msgid "No file is given for this task."
 msgstr "Não foi indicado nenhum arquivo para esta tarefa."
 
-#: dialogs/usermenu/usermenutree.cpp:947
+#: dialogs/usermenu/usermenutree.cpp:946
 #, kde-format
 msgid "The file for this item does not exist."
 msgstr "O arquivo deste item não existe."
 
-#: dialogs/usermenu/usermenutree.cpp:951
+#: dialogs/usermenu/usermenutree.cpp:950
 #, kde-format
 msgid "The file for this item is not executable."
 msgstr "O arquivo para este item não é executável."
 
-#: dialogs/usermenu/usermenutree.cpp:954
+#: dialogs/usermenu/usermenutree.cpp:953
 #, kde-format
 msgid "<p><strong>Error:</strong>"
 msgstr "<p><strong>Erro:</strong>"
 
-#: dialogs/usermenu/usermenutree.cpp:966
+#: dialogs/usermenu/usermenutree.cpp:965
 #, kde-format
 msgid "Menutree Error"
 msgstr "Erro da árvore do menu"
 
-#: dialogs/usermenu/usermenutree.cpp:1017
+#: dialogs/usermenu/usermenutree.cpp:1016
 #, kde-format
 msgid "Name"
 msgstr "Nome"
@@ -5731,12 +5731,12 @@ msgstr "Aspas tchecas:   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "pacote csquotes:   \\enquote{}"
 
-#: editorextension.cpp:3249
+#: editorextension.cpp:3242
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "Você tem que incluir o pacote %1 para usar %2."
 
-#: editorextension.cpp:3505
+#: editorextension.cpp:3498
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5745,7 +5745,7 @@ msgstr ""
 "O documento foi modificado e a visualização de estrutura deveria ser "
 "atualizada, antes de iniciar tal operação."
 
-#: editorextension.cpp:3506
+#: editorextension.cpp:3499
 #, kde-format
 msgid "Structure View Error"
 msgstr "Erro na Visualização de Estrutura"
@@ -6178,8 +6178,8 @@ msgstr "Abrir todos os arquivos de &projeto"
 msgid "Find in &Project..."
 msgstr "Procurar no &projeto..."
 
-#: kile.cpp:909 kile.cpp:1007 kile.cpp:2129 kiledocmanager.cpp:1997
-#: kiledocmanager.cpp:2007
+#: kile.cpp:909 kile.cpp:1007 kile.cpp:2128 kiledocmanager.cpp:1996
+#: kiledocmanager.cpp:2006
 #, kde-format
 msgid "Clean"
 msgstr "Limpar"
@@ -6343,7 +6343,7 @@ msgstr "Configuração do BibTeX"
 msgid "Settings for Biblatex"
 msgstr "Configuração do Biblatex"
 
-#: kile.cpp:1023 kile.cpp:2235
+#: kile.cpp:1023 kile.cpp:2234
 #, kde-format
 msgid "Quick Start"
 msgstr "Inicialização rápida"
@@ -6353,7 +6353,7 @@ msgstr "Inicialização rápida"
 msgid "Array"
 msgstr "Matriz"
 
-#: kile.cpp:1027 kile.cpp:2287 kilestdactions.cpp:79
+#: kile.cpp:1027 kile.cpp:2286 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "Tabulação"
@@ -6433,7 +6433,7 @@ msgstr "Converter"
 msgid "Quick"
 msgstr "Rápido"
 
-#: kile.cpp:1435
+#: kile.cpp:1434
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6444,78 +6444,78 @@ msgstr ""
 "\n"
 "Por favor, verifique e corrija sua instalação do Kile."
 
-#: kile.cpp:1437
+#: kile.cpp:1436
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr "Não foi possível criar a ferramenta Arquivo"
 
-#: kile.cpp:1506
+#: kile.cpp:1505
 #, kde-format
 msgid "Project: %1"
 msgstr "Projeto: %1"
 
-#: kile.cpp:1509
+#: kile.cpp:1508
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "Projeto: %1 (documento mestre: %2)"
 
-#: kile.cpp:1514
+#: kile.cpp:1513
 #, kde-format
 msgid "Normal mode"
 msgstr "Modo normal"
 
-#: kile.cpp:1517
+#: kile.cpp:1516
 #, kde-format
 msgid "Master document: %1"
 msgstr "Documento mestre: %1"
 
-#: kile.cpp:1522 kile.cpp:2645
+#: kile.cpp:1521 kile.cpp:2644
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "Definir documento atual como 'documento mestre'"
 
-#: kile.cpp:1526 kile.cpp:2635
+#: kile.cpp:1525 kile.cpp:2634
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "Modo Normal (documento mestre atual: %1)"
 
-#: kile.cpp:1744
+#: kile.cpp:1743
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr "%1 [Somente leitura]"
 
-#: kile.cpp:2122
+#: kile.cpp:2121
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "Não há nenhum documento ativo ou ele não está salvo."
 
-#: kile.cpp:2206
+#: kile.cpp:2205
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "Você tem que incluir o pacote %1."
 
-#: kile.cpp:2206 kile.cpp:2209
+#: kile.cpp:2205 kile.cpp:2208
 #, kde-format
 msgid "Insert text"
 msgstr "Inserir texto"
 
-#: kile.cpp:2209
+#: kile.cpp:2208
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "Você tem que incluir os pacotes %1."
 
-#: kile.cpp:2430
+#: kile.cpp:2429
 #, kde-format
 msgid "No Name"
 msgstr "Nenhum nome"
 
-#: kile.cpp:2466
+#: kile.cpp:2465
 #, kde-format
 msgid "no name"
 msgstr "sem nome"
 
-#: kile.cpp:2663
+#: kile.cpp:2662
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
@@ -6524,24 +6524,24 @@ msgstr ""
 "Para poder definir o documento atual como documento mestre, ele deve ser "
 "salvo antes."
 
-#: kile.cpp:3005
+#: kile.cpp:3004
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "BLOCO"
 
-#: kile.cpp:3006
+#: kile.cpp:3005
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "LINHA"
 
-#: kile.cpp:3013
+#: kile.cpp:3012
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "Atualizando a estrutura..."
 
-#: kile.cpp:3031
+#: kile.cpp:3030
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
@@ -6549,7 +6549,7 @@ msgstr ""
 "Isto irá ocultar completamente a barra de menus. Você pode exibi-la "
 "novamente digitando %1."
 
-#: kile.cpp:3034
+#: kile.cpp:3033
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Ocultar barra de menus"
@@ -7359,7 +7359,7 @@ msgstr "Remover modelo"
 msgid "Open Files"
 msgstr "Abrir arquivos"
 
-#: kiledocmanager.cpp:911
+#: kiledocmanager.cpp:910
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
@@ -7368,22 +7368,22 @@ msgstr ""
 "O Kile encontrou problemas ao salvar o arquivo %1. Você tem espaço livre "
 "suficiente no disco?"
 
-#: kiledocmanager.cpp:912
+#: kiledocmanager.cpp:911
 #, kde-format
 msgid "Saving"
 msgstr "Salvando"
 
-#: kiledocmanager.cpp:945
+#: kiledocmanager.cpp:944
 #, kde-format
 msgid "Any files (*)"
 msgstr "Qualquer arquivo (*)"
 
-#: kiledocmanager.cpp:947
+#: kiledocmanager.cpp:946
 #, kde-format
 msgid "Save Compiled Document As..."
 msgstr "Salvar documento compilado como..."
 
-#: kiledocmanager.cpp:972
+#: kiledocmanager.cpp:971
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
@@ -7392,33 +7392,33 @@ msgstr ""
 "Não foi possível abrir o URL \"%1\"\n"
 "porque ele é uma pasta."
 
-#: kiledocmanager.cpp:973
+#: kiledocmanager.cpp:972
 #, kde-format
 msgid "Cannot open directory"
 msgstr "Não foi possível abrir a pasta"
 
-#: kiledocmanager.cpp:1091
+#: kiledocmanager.cpp:1090
 #, kde-format
 msgid "Save File"
 msgstr "Salvar arquivo"
 
-#: kiledocmanager.cpp:1128
+#: kiledocmanager.cpp:1127
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "Já existe um arquivo chamado \"%1\". Deseja sobrescrevê-lo?"
 
-#: kiledocmanager.cpp:1129
+#: kiledocmanager.cpp:1128
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Sobrescrever o arquivo?"
 
-#: kiledocmanager.cpp:1305
+#: kiledocmanager.cpp:1304
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "Atualizar Árvore do Projeto"
 
-#: kiledocmanager.cpp:1313
+#: kiledocmanager.cpp:1312
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7429,28 +7429,28 @@ msgstr ""
 "documento que esteja associado a um projeto para o qual você deseja "
 "construir uma árvore, e então escolha Atualizar Árvore do Projeto novamente."
 
-#: kiledocmanager.cpp:1313
+#: kiledocmanager.cpp:1312
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "Não foi Possível Atualizar Árvore do Projeto"
 
-#: kiledocmanager.cpp:1398 kiledocmanager.cpp:2169 kiledocmanager.cpp:2243
-#: kiledocmanager.cpp:2280
+#: kiledocmanager.cpp:1397 kiledocmanager.cpp:2168 kiledocmanager.cpp:2242
+#: kiledocmanager.cpp:2279
 #, kde-format
 msgid "Select Project"
 msgstr "Selecionar o projeto"
 
-#: kiledocmanager.cpp:1423 kiledocmanager.cpp:1438 kiledocmanager.cpp:1445
+#: kiledocmanager.cpp:1422 kiledocmanager.cpp:1437 kiledocmanager.cpp:1444
 #, kde-format
 msgid "Add to Project"
 msgstr "Adicionar ao projeto"
 
-#: kiledocmanager.cpp:1437
+#: kiledocmanager.cpp:1436
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "O arquivo %1 já pertence ao projeto %2"
 
-#: kiledocmanager.cpp:1444
+#: kiledocmanager.cpp:1443
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
@@ -7458,7 +7458,7 @@ msgstr ""
 "O arquivo %1 não pode ser adicionado porque ele não existe ou não pode ser "
 "lido."
 
-#: kiledocmanager.cpp:1463
+#: kiledocmanager.cpp:1462
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
@@ -7467,12 +7467,12 @@ msgstr ""
 "Este arquivo é o arquivo do projeto, que mantém todas as informações sobre "
 "seu projeto. Portanto, ele não pode ser removido do projeto."
 
-#: kiledocmanager.cpp:1463
+#: kiledocmanager.cpp:1462
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "Não foi Possível Remover Arquivo do Projeto"
 
-#: kiledocmanager.cpp:1531
+#: kiledocmanager.cpp:1530
 #, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
@@ -7481,12 +7481,12 @@ msgstr ""
 "<p>O projeto \"%1\" já está aberto.</p><p>Se você deseja recarregar o "
 "projeto, feche-o antes de abri-lo novamente.</p>"
 
-#: kiledocmanager.cpp:1533
+#: kiledocmanager.cpp:1532
 #, kde-format
 msgid "Project Already Open"
 msgstr "O Projeto já está Aberto"
 
-#: kiledocmanager.cpp:1544
+#: kiledocmanager.cpp:1543
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7496,12 +7496,12 @@ msgstr ""
 "<p>O arquivo do projeto \"%1\" não existe ou não é possível lê-lo. </"
 "p><p>Deseja remover este projeto da lista de projetos recentes?</p>"
 
-#: kiledocmanager.cpp:1547
+#: kiledocmanager.cpp:1546
 #, kde-format
 msgid "Could Not Open Project"
 msgstr "Não foi Possível Abrir o Projeto"
 
-#: kiledocmanager.cpp:1565
+#: kiledocmanager.cpp:1564
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
@@ -7510,12 +7510,12 @@ msgstr ""
 "<p>O arquivo \"%1\" não pôde ser aberto porque ele não parece ser um arquivo "
 "de projeto.</p>"
 
-#: kiledocmanager.cpp:1567
+#: kiledocmanager.cpp:1566
 #, kde-format
 msgid "Impossible to Open Project File"
 msgstr "Impossível abrir arquivo de projeto"
 
-#: kiledocmanager.cpp:1577
+#: kiledocmanager.cpp:1576
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
@@ -7524,12 +7524,12 @@ msgstr ""
 "<p>Não foi possível abrir o projeto \"%1\" pois ele foi criado <br/>por uma "
 "versão mais recente do Kile.</p>"
 
-#: kiledocmanager.cpp:1579
+#: kiledocmanager.cpp:1578
 #, kde-format
 msgid "Impossible to Open Project"
 msgstr "Impossível abrir projeto"
 
-#: kiledocmanager.cpp:1589
+#: kiledocmanager.cpp:1588
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7540,12 +7540,12 @@ msgstr ""
 "<br/> Ele precisa ser atualizado antes de ser aberto.</p><p>Você gostaria de "
 "atualizá-lo? </p>"
 
-#: kiledocmanager.cpp:1592
+#: kiledocmanager.cpp:1591
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr "O arquivo de projeto precisa ser atualizado"
 
-#: kiledocmanager.cpp:1599
+#: kiledocmanager.cpp:1598
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
@@ -7554,22 +7554,22 @@ msgstr ""
 "<p>Não foi possível atualizar o arquivo de projeto \"%1\".</p><p>Você "
 "gostaria de remover este projeto da lista de projetos recentes?</p>"
 
-#: kiledocmanager.cpp:1601
+#: kiledocmanager.cpp:1600
 #, kde-format
 msgid "Could Not Update Project File"
 msgstr "Não foi possível atualizar o arquivo de projeto"
 
-#: kiledocmanager.cpp:1703
+#: kiledocmanager.cpp:1702
 #, kde-format
 msgid "Open Project"
 msgstr "Abrir projeto"
 
-#: kiledocmanager.cpp:1722
+#: kiledocmanager.cpp:1721
 #, kde-format
 msgid "Save Project"
 msgstr "Salvar projeto"
 
-#: kiledocmanager.cpp:1774
+#: kiledocmanager.cpp:1773
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7580,27 +7580,27 @@ msgstr ""
 "documento que esteja associado a um projeto que você deseja salvar, e então "
 "escolha Salvar Projeto novamente."
 
-#: kiledocmanager.cpp:1774
+#: kiledocmanager.cpp:1773
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "Foi Possível Determinar Projeto Ativo"
 
-#: kiledocmanager.cpp:1795
+#: kiledocmanager.cpp:1794
 #, kde-format
 msgid "Add Files to Project"
 msgstr "Adicionar arquivos ao projeto"
 
-#: kiledocmanager.cpp:1808
+#: kiledocmanager.cpp:1807
 #, kde-format
 msgid "Add Files"
 msgstr "Adicionar arquivos"
 
-#: kiledocmanager.cpp:1811
+#: kiledocmanager.cpp:1810
 #, kde-format
 msgid "Add"
 msgstr "Adicionar"
 
-#: kiledocmanager.cpp:1826
+#: kiledocmanager.cpp:1825
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
@@ -7609,17 +7609,17 @@ msgstr ""
 "Não há projetos abertos. Por favor abra o projeto ao qual você deseja "
 "adicionar os arquivos, e então escolha Adicionar Arquivos novamente."
 
-#: kiledocmanager.cpp:1826 kiledocmanager.cpp:1861
+#: kiledocmanager.cpp:1825 kiledocmanager.cpp:1860
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "Não foi Possível Determinar o Projeto Ativo"
 
-#: kiledocmanager.cpp:1852
+#: kiledocmanager.cpp:1851
 #, kde-format
 msgid "Project Options For"
 msgstr "Opções do Projeto para"
 
-#: kiledocmanager.cpp:1861
+#: kiledocmanager.cpp:1860
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7630,12 +7630,12 @@ msgstr ""
 "documento que esteja associado a um projeto que você deseja modificar, e "
 "então escolha Opções do Projeto novamente."
 
-#: kiledocmanager.cpp:1887
+#: kiledocmanager.cpp:1886
 #, kde-format
 msgid "Close Project"
 msgstr "Fechar projeto"
 
-#: kiledocmanager.cpp:1941
+#: kiledocmanager.cpp:1940
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7646,77 +7646,77 @@ msgstr ""
 "documento que esteja associado a um projeto que você deseja fechar, e então "
 "escolha Fechar Projeto novamente."
 
-#: kiledocmanager.cpp:1941
+#: kiledocmanager.cpp:1940
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "Não foi Possível Fechar o Projeto"
 
-#: kiledocmanager.cpp:1996
+#: kiledocmanager.cpp:1995
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr "Nada a limpar para %1"
 
-#: kiledocmanager.cpp:2006
+#: kiledocmanager.cpp:2005
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "Limpando %1: %2"
 
-#: kiledocmanager.cpp:2080
+#: kiledocmanager.cpp:2079
 #, kde-format
 msgid "Switch Project"
 msgstr "Alternar projeto"
 
-#: kiledocmanager.cpp:2138
+#: kiledocmanager.cpp:2137
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "Escolher os arquivos a remover"
 
-#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2154
+#: kiledocmanager.cpp:2150 kiledocmanager.cpp:2153
 #, kde-format
 msgid "Show Project Files"
 msgstr "Mostrar os arquivos de projeto"
 
-#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2199
+#: kiledocmanager.cpp:2150 kiledocmanager.cpp:2198
 #, kde-format
 msgid "project configuration file"
 msgstr "arquivo de configuração do projeto"
 
-#: kiledocmanager.cpp:2154 kiledocmanager.cpp:2202
+#: kiledocmanager.cpp:2153 kiledocmanager.cpp:2201
 #, kde-format
 msgid "graphics file"
 msgstr "arquivo de imagem"
 
-#: kiledocmanager.cpp:2199 kiledocmanager.cpp:2202
+#: kiledocmanager.cpp:2198 kiledocmanager.cpp:2201
 #, kde-format
 msgid "Open All Project Files"
 msgstr "Abrir todos os arquivos de projeto"
 
-#: kiledocmanager.cpp:2236
+#: kiledocmanager.cpp:2235
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "não aberto: %1 (%2)"
 
-#: kiledocmanager.cpp:2261 kiledocmanager.cpp:2298
+#: kiledocmanager.cpp:2260 kiledocmanager.cpp:2297
 #, kde-format
 msgid "Project Files"
 msgstr "Arquivos de projeto"
 
-#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
+#: kiledocmanager.cpp:2268 kiledocmanager.cpp:2307
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "Não foi possível determinar o arquivo selecionado."
 
-#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
+#: kiledocmanager.cpp:2268 kiledocmanager.cpp:2307
 #, kde-format
 msgid "Project Error"
 msgstr "Erro do projeto"
 
-#: kiledocmanager.cpp:2375
+#: kiledocmanager.cpp:2374
 #, kde-format
 msgid "Opening Project..."
 msgstr "Abrindo projeto..."
 
-#: kiledocmanager.cpp:2378
+#: kiledocmanager.cpp:2377
 #, kde-format
 msgid "Scanning project files..."
 msgstr "Escaneando arquivos de projeto..."
@@ -10447,23 +10447,23 @@ msgstr "O arquivo %1 não existe."
 msgid "The file %1 is not readable."
 msgstr "O arquivo %1 não pode ser lido."
 
-#: kiletool.cpp:641
+#: kiletool.cpp:639
 #, kde-format
 msgid "The document %1 is not a LaTeX root document; continue anyway?"
 msgstr ""
 "O documento %1 não é um documento raiz do LaTeX, continuar mesmo assim?"
 
-#: kiletool.cpp:641
+#: kiletool.cpp:639
 #, kde-format
 msgid "Continue?"
 msgstr "Continuar?"
 
-#: kiletool.cpp:653
+#: kiletool.cpp:651
 #, kde-format
 msgid "The file %1/%2 does not exist; did you compile the source file?"
 msgstr "O arquivo %1/%2 não existe, você compilou o arquivo fonte?"
 
-#: kiletool.cpp:673
+#: kiletool.cpp:671
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -10474,17 +10474,17 @@ msgstr ""
 "documento que esteja associado a um projeto que você deseja arquivar, e "
 "então escolha Arquivar novamente."
 
-#: kiletool.cpp:677
+#: kiletool.cpp:675
 #, kde-format
 msgid "No files have been chosen for archiving."
 msgstr "Nenhum arquivo foi escolhido para o arquivamento."
 
-#: kiletool.cpp:693
+#: kiletool.cpp:691
 #, kde-format
 msgid "Archive Project"
 msgstr "Arquivar o projeto"
 
-#: kiletool.cpp:819 kiletoolmanager.cpp:284
+#: kiletool.cpp:817 kiletoolmanager.cpp:284
 #, kde-format
 msgid "Unknown tool %1."
 msgstr "Ferramenta desconhecida %1."
@@ -11459,12 +11459,12 @@ msgstr "&Adicionar"
 msgid "&Delete"
 msgstr "E&xcluir"
 
-#: widgets/abbreviationview.cpp:173
+#: widgets/abbreviationview.cpp:171
 #, kde-format
 msgid "Delete the abbreviation '%1'?"
 msgstr "Excluir a abreviação '%1'?"
 
-#: widgets/abbreviationview.cpp:176
+#: widgets/abbreviationview.cpp:174
 #, kde-format
 msgid "Delete Abbreviation"
 msgstr "Excluir abreviação"

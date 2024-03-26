@@ -410,7 +410,7 @@ bool LaTeXOutputParser::detectWarning(const QString & strLine, short &dwCookie)
     bool found = false, flush = false;
     QString warning;
 
-    static QRegularExpression reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package|Class) .*Warning.*:(.*)", QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package|Class) .*Warning.*?:(.*)", QRegularExpression::CaseInsensitiveOption);
     static QRegularExpression reNoFile("No file (.*)");
     static QRegularExpression reNoAsyFile("File .* does not exist."); // FIXME can be removed when https://sourceforge.net/p/asymptote/bugs/70/ has promoted to the users
 

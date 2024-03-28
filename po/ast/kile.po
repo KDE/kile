@@ -1,34 +1,31 @@
-# Translation for kile.po to Euskara/Basque (eu).
-# Copyright (C) 2021-2024 This file is copyright:
+# Copyright (C) 2024 This file is copyright:
 # This file is distributed under the same license as the kile package.
-# SPDX-FileCopyrightText: 2024 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
-# Translator:
-# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2021, 2022, 2023, 2024.
+# SPDX-FileCopyrightText: 2024 Enol P. <enolp@softastur.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-25 00:37+0000\n"
-"PO-Revision-Date: 2024-03-27 11:41+0100\n"
-"Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
-"Language-Team: Basque <kde-i18n-eu@kde.org>\n"
-"Language: eu\n"
+"PO-Revision-Date: 2024-03-27 22:48+0100\n"
+"Last-Translator: Enol P. <enolp@softastur.org>\n"
+"Language-Team: Asturian <alministradores@softastur.org>\n"
+"Language: ast_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Lokalize 24.02.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Iñigo Salvador Azurmendi"
+msgstr ""
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "xalba@ni.eus"
+msgstr ""
 
 #: abbreviationmanager.cpp:104
 #, kde-format
@@ -36,18 +33,16 @@ msgid ""
 "Could not save the local abbreviation list.\n"
 "Error code %1."
 msgstr ""
-"Ezin izan du laburdura-zerrenda gorde.\n"
-"Errorearen kodea %1."
 
 #: abbreviationmanager.cpp:105
 #, kde-format
 msgid "Saving Problem"
-msgstr "Gordetzeko arazoa"
+msgstr ""
 
 #: configtester.cpp:223
 #, kde-format
 msgid "Running in Kile"
-msgstr "Kilen exekutatzen"
+msgstr ""
 
 #: configtester.cpp:247
 #, kde-format
@@ -56,72 +51,69 @@ msgid ""
 "Kile is not configured correctly. Go to Settings->Configure Kile->Tools and "
 "either fix the problem or change to the default settings."
 msgstr ""
-"Tresna ez da aurkitu.\n"
-"Kile ez dago ondo konfiguratuta. Joan Ezarpenak->Konfiguratu Kile->Tresnak "
-"menu-sarrerara eta arazoa konpondu edo aldatu ezarpen lehenetsietara."
 
 #: configtester.cpp:269 configtester.cpp:464 dialogs/configcheckerdialog.cpp:80
 #, kde-format
 msgid "Passed"
-msgstr "Pasa du"
+msgstr ""
 
 #: configtester.cpp:279 configtester.cpp:475
 #, kde-format
 msgid "Failed"
-msgstr "Huts egin du"
+msgstr ""
 
 #: configtester.cpp:298
 #, kde-format
 msgid "Version"
-msgstr "Bertsioa"
+msgstr ""
 
 #: configtester.cpp:325
 #, kde-format
 msgid "Embedding of Okular is supported"
-msgstr "Okular kapsulatzea onartzen da"
+msgstr ""
 
 #: configtester.cpp:337
 #, kde-format
 msgid "Binary"
-msgstr "Bitarra"
+msgstr ""
 
 #: configtester.cpp:364
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
-msgstr "Ezin izan du funtsezko tresna honen bitarra aurkitu. %1"
+msgstr ""
 
 #: configtester.cpp:368
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "No executable '%1' found. %2"
-msgstr "Ez da '%1' exekutagarria aurkitu. %2"
+msgstr ""
 
 #: configtester.cpp:373
 #, kde-format
 msgid "Could not find the binary for this essential tool"
-msgstr "Ezin izan du funtsezko honen bitarra aurkitu"
+msgstr ""
 
 #: configtester.cpp:376
 #, kde-format
 msgid "No executable '%1' found"
-msgstr "Ez da '%1' exekutagarririk aurkitu"
+msgstr ""
 
 #: configtester.cpp:382
 #, kde-format
 msgctxt "executable => path"
 msgid "Found (%1 => %2)"
-msgstr "Aurkitu da (%1 => %2)"
+msgstr ""
 
 #: configtester.cpp:397
 #, kde-format
 msgid "Simple Test"
-msgstr "Proba sinplea"
+msgstr ""
 
 #: configtester.cpp:472
 #, kde-format
 msgid "This essential tool does not work; please check your installation."
-msgstr "Ezinbesteko tresna hau ez dabil; zure instalazioa egiazta ezazu."
+msgstr ""
 
 #: configtester.cpp:487
 #, kde-format
@@ -145,7 +137,7 @@ msgstr ""
 #: configtester.cpp:537
 #, kde-format
 msgid "SyncTeX Support"
-msgstr "SyncTeX euskarria"
+msgstr ""
 
 #: configtester.cpp:546
 #, kde-format
@@ -157,7 +149,7 @@ msgstr ""
 #: configtester.cpp:553
 #, kde-format
 msgid "Not supported"
-msgstr "Ez dago onartuta"
+msgstr ""
 
 #: configtester.cpp:795
 #, kde-format
@@ -174,52 +166,52 @@ msgstr ""
 #: dialogs/abbreviationinputdialog.cpp:44
 #, kde-format
 msgid "Add Abbreviation"
-msgstr "Gehitu laburdura"
+msgstr ""
 
 #: dialogs/abbreviationinputdialog.cpp:53
 #, kde-format
 msgid "Edit Abbreviation"
-msgstr "Editatu laburdura"
+msgstr ""
 
 #: dialogs/abbreviationinputdialog.cpp:60
 #, kde-format
 msgid "&Abbreviation:"
-msgstr "L&aburdura:"
+msgstr ""
 
 #: dialogs/abbreviationinputdialog.cpp:62
 #, kde-format
 msgid "&Expanded Text:"
-msgstr "Testu h&edatua:"
+msgstr ""
 
 #: dialogs/cleandialog.cpp:39
 #, kde-format
 msgid "Delete Files"
-msgstr "Ezabatu fitxategiak"
+msgstr ""
 
 #: dialogs/cleandialog.cpp:62
 #, kde-format
 msgid "Do you really want to delete these files?"
-msgstr "Benetan ezabatu nahi dituzu fitxategi hauek?"
+msgstr ""
 
 #: dialogs/cleandialog.cpp:70 dialogs/listselector.cpp:60
 #, kde-format
 msgid "Files"
-msgstr "Fitxategiak"
+msgstr ""
 
 #: dialogs/configcheckerdialog.cpp:84
 #, kde-format
 msgid "Critical failure, Kile will not function properly"
-msgstr "Hutsegite kritikoa, Kile ez du behar bezala ibiliko"
+msgstr ""
 
 #: dialogs/configcheckerdialog.cpp:88
 #, kde-format
 msgid "Failed, but not critical"
-msgstr "Huts egin du, baina ez da kritikoa"
+msgstr ""
 
 #: dialogs/configcheckerdialog.cpp:105
 #, kde-format
 msgid "System Check"
-msgstr "Sistemaren egiaztapena"
+msgstr ""
 
 #: dialogs/configcheckerdialog.cpp:113
 #, kde-format
@@ -239,24 +231,23 @@ msgstr ""
 #: dialogs/configcheckerdialog.cpp:127
 #, kde-format
 msgid "Checking whether the system is set up correctly..."
-msgstr "Sistema ondo ezarrita dagoen egiaztatzen..."
+msgstr ""
 
 #: dialogs/configcheckerdialog.cpp:147
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
-msgstr "Konfiguratu ikusteko tresna dokumentu erakuslea erabiltzeko"
+msgstr ""
 
 #: dialogs/configcheckerdialog.cpp:149
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
-msgstr "Erabili konfigurazio 'modernoa' TeX, PDFTeX, eta LaTeX tresnetan"
+msgstr ""
 
 #: dialogs/configcheckerdialog.cpp:151
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr ""
-"Erabili konfigurazio 'modernoa' PDFLaTeX, LuaLaTeX eta XeLaTeX tresnetan"
 
 #: dialogs/configcheckerdialog.cpp:153
 #, kde-format
@@ -264,13 +255,11 @@ msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
 "changes."
 msgstr ""
-"<br/>Mesedez, sakatu 'Amaitu' orain aholkatutako konfiguratzeko aldaketak "
-"onartzeko."
 
 #: dialogs/configcheckerdialog.cpp:156
 #, kde-format
 msgid "Test Results"
-msgstr "Probaren emaitzak"
+msgstr ""
 
 #: dialogs/configcheckerdialog.cpp:231
 #, kde-format
@@ -328,12 +317,12 @@ msgstr ""
 #: widgets/maintoolconfigwidget.ui:26
 #, kde-format
 msgid "Configure"
-msgstr "Konfiguratu"
+msgstr ""
 
 #: dialogs/configurationdialog.cpp:69 main.cpp:101
 #, kde-format
 msgid "Kile"
-msgstr "Kile"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLatexConfig)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetEnvironmentConfig)
@@ -342,18 +331,18 @@ msgstr "Kile"
 #: widgets/latexconfigwidget.ui:14
 #, kde-format
 msgid "LaTeX"
-msgstr "LaTeX"
+msgstr ""
 
 #. i18n: ectx: ToolBar (toolsToolBar)
 #: dialogs/configurationdialog.cpp:71 kileui.rc:540
 #, kde-format
 msgid "Tools"
-msgstr "Tresnak"
+msgstr ""
 
 #: dialogs/configurationdialog.cpp:72
 #, kde-format
 msgid "Editor"
-msgstr "Editorea"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
@@ -363,156 +352,156 @@ msgstr "Editorea"
 #: widgets/maintoolconfigwidget.ui:245
 #, kde-format
 msgid "General"
-msgstr "Orokorra"
+msgstr ""
 
 #: dialogs/configurationdialog.cpp:200
 #, kde-format
 msgid "General Settings"
-msgstr "Ezarpen orokorrak"
+msgstr ""
 
 #: dialogs/configurationdialog.cpp:209
 #, kde-format
 msgid "Build"
-msgstr "Eraiki"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetScriptingConfig)
 #: dialogs/configurationdialog.cpp:220 widgets/scriptingconfigwidget.ui:21
 #, kde-format
 msgid "Scripting Support"
-msgstr "Gidoigintzarako euskarria"
+msgstr ""
 
 #: dialogs/configurationdialog.cpp:220
 #, kde-format
 msgid "Scripting"
-msgstr "Gidoigintza"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_usermenu)
 #: dialogs/configurationdialog.cpp:229 kileui.rc:484 usermenu/usermenu.cpp:68
 #, kde-format
 msgid "User Menu"
-msgstr "Erabiltzaile menua"
+msgstr ""
 
 #: dialogs/configurationdialog.cpp:241
 #, kde-format
 msgid "Complete"
-msgstr "Osatu"
+msgstr ""
 
 #: dialogs/configurationdialog.cpp:241
 #, kde-format
 msgid "Code Completion"
-msgstr "Kodea osatzea"
+msgstr ""
 
 #. i18n: ectx: Menu (quickpreview)
 #: dialogs/configurationdialog.cpp:251 kileui.rc:148
 #, kde-format
 msgid "Quick Preview"
-msgstr "Aurreikuspegi azkarra"
+msgstr ""
 
 #: dialogs/configurationdialog.cpp:251 kile.cpp:751
 #, kde-format
 msgid "Preview"
-msgstr "Aurreikuspegia"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetHelpConfig)
 #: dialogs/configurationdialog.cpp:259 kilehelp.cpp:171
 #: widgets/helpconfigwidget.ui:20
 #, kde-format
 msgid "Help"
-msgstr "Laguntza"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_livepreview)
 #: dialogs/configurationdialog.cpp:267 kileui.rc:145
 #, kde-format
 msgid "Live Preview"
-msgstr "Zuzeneko aurreikustea"
+msgstr ""
 
 #: dialogs/configurationdialog.cpp:275
 #, kde-format
 msgid "Appearance"
-msgstr "Itxura"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, pageEnvironments)
 #: dialogs/configurationdialog.cpp:294 dialogs/latexcommanddialog_base.ui:41
 #, kde-format
 msgid "Environments"
-msgstr "Inguruneak"
+msgstr ""
 
 #: dialogs/configurationdialog.cpp:301 widgets/previewconfigwidget.cpp:246
 #: widgets/previewconfigwidget.cpp:247
 #, kde-format
 msgid "installed"
-msgstr "instalatuta"
+msgstr ""
 
 #: dialogs/configurationdialog.cpp:301 widgets/previewconfigwidget.cpp:246
 #: widgets/previewconfigwidget.cpp:247
 #, kde-format
 msgid "not installed"
-msgstr "instalatu gabe"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetGraphicsConfig)
 #: dialogs/configurationdialog.cpp:302 widgets/graphicsconfigwidget.ui:14
 #, kde-format
 msgid "Graphics"
-msgstr "Grafikoak"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetStructureViewConfig)
 #: dialogs/configurationdialog.cpp:309 widgets/structureviewconfigwidget.ui:26
 #, kde-format
 msgid "Structure View"
-msgstr "Egitura ikuspegia"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetSymbolViewConfig)
 #: dialogs/configurationdialog.cpp:316 widgets/symbolviewconfigwidget.ui:14
 #, kde-format
 msgid "Symbol View"
-msgstr "Ikur ikuspegia"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:94 dialogs/projectdialogs.cpp:57
 #, kde-format
 msgid "Project"
-msgstr "Proiektua"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:100 dialogs/managetemplatesdialog.cpp:84
 #: dialogs/tabular/newtabulardialog.cpp:127
 #, kde-format
 msgid "Name:"
-msgstr "Izena:"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:103 dialogs/findfilesdialog.cpp:186
 #, kde-format
 msgid "Directory:"
-msgstr "Direktorioa:"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:118 dialogs/texdocumentationdialog.cpp:70
 #, kde-format
 msgid "Search"
-msgstr "Bilatu"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:124
 #, kde-format
 msgid "Pattern:"
-msgstr "Eredua:"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:135
 #, kde-format
 msgid "Template:"
-msgstr "Txantiloia:"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:141
 #, kde-format
 msgid "Normal"
-msgstr "Arrunta"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, commands)
 #: dialogs/findfilesdialog.cpp:142 dialogs/latexcommanddialog_base.ui:133
 #, kde-format
 msgid "Command"
-msgstr "Komandoa"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:143
 #, kde-format
 msgid "Command[]"
-msgstr "Komandoa[]"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
@@ -521,57 +510,57 @@ msgstr "Komandoa[]"
 #: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:996
 #, kde-format
 msgid "Environment"
-msgstr "Ingurunea"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:145
 #, kde-format
 msgid "Image"
-msgstr "Irudia"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:128
 #: kilestdactions.cpp:129 usermenu/usermenu.cpp:909
 #, kde-format
 msgid "Label"
-msgstr "Etiketa"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:134
 #: usermenu/usermenu.cpp:914
 #, kde-format
 msgid "Reference"
-msgstr "Erreferentzia"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/findfilesdialog.cpp:148 dialogs/includegraphicsdialog_base.ui:17
 #: dialogs/projectdialogs.cpp:233
 #, kde-format
 msgid "File"
-msgstr "Fitxategia"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:171
 #, kde-format
 msgid "Directory Options"
-msgstr "Direktorioen aukerak"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:177
 #, kde-format
 msgid "Filter:"
-msgstr "Iragazkia:"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:197
 #, kde-format
 msgid "Scan directories recursively"
-msgstr "Aztertu direktorioak errekurtsiboki"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:584
 #: dialogs/texdocumentationdialog.cpp:79
 #, kde-format
 msgid "&Search"
-msgstr "&Bilatu"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:221
 #, kde-format
 msgid "&Clear"
-msgstr "&Garbitu"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:257
 #, kde-format
@@ -631,7 +620,7 @@ msgstr ""
 #: dialogs/findfilesdialog.cpp:299
 #, kde-format
 msgid "Check this box to search in all subdirectories."
-msgstr "Markatu koadro hau azpidirektorio guztietan bilatzeko."
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:301
 #, kde-format
@@ -644,96 +633,96 @@ msgstr ""
 #: dialogs/findfilesdialog.cpp:308
 #, kde-format
 msgid "Find in Files"
-msgstr "Bilatu fitxategietan"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:312
 #, kde-format
 msgid "Find in Project"
-msgstr "Bilatu proiektuan"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:413
 #, kde-format
 msgid "no project opened"
-msgstr "ez da proiekturik ireki"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:556
 #, kde-format
 msgid "<strong>Error:</strong><p>"
-msgstr "<strong>Errorea:</strong><p>"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:556 dialogs/findfilesdialog.cpp:690
 #, kde-format
 msgid "Grep Tool Error"
-msgstr "Grep tresnaren errorea"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:690
 #, kde-format
 msgid "Invalid regular expression: %1"
-msgstr "Adierazpen erregular baliogabea: %1"
+msgstr ""
 
 #: dialogs/findfilesdialog.cpp:695
 #, kde-format
 msgid "&Cancel"
-msgstr "&Utzi"
+msgstr ""
 
 #: dialogs/floatdialog.cpp:105
 #, kde-format
 msgid "Figure Environment"
-msgstr "Irudi ingurunea"
+msgstr ""
 
 #: dialogs/floatdialog.cpp:109
 #, kde-format
 msgid "Table Environment"
-msgstr "Taula ingurunea"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbFigure)
 #: dialogs/floatdialog_base.ui:35 kilestdactions.cpp:64
 #, kde-format
 msgid "Figure"
-msgstr "Irudia"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbTable)
 #: dialogs/floatdialog_base.ui:45 kilestdactions.cpp:59
 #, kde-format
 msgid "Table"
-msgstr "Taula"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: dialogs/floatdialog_base.ui:55
 #, kde-format
 msgid "Position"
-msgstr "Kokapena"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbHere)
 #: dialogs/floatdialog_base.ui:61
 #, kde-format
 msgid "Here exact"
-msgstr "Hemen doi-doi"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbBottom)
 #: dialogs/floatdialog_base.ui:71
 #, kde-format
 msgid "Bottom of page"
-msgstr "Orriaren behea"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbTop)
 #: dialogs/floatdialog_base.ui:78
 #, kde-format
 msgid "Top of page"
-msgstr "Orriaren gaina"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbPage)
 #: dialogs/floatdialog_base.ui:88
 #, kde-format
 msgid "Extra page"
-msgstr "Orri gehigarria"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbCenter)
 #: dialogs/floatdialog_base.ui:116 dialogs/tabular/newtabulardialog.cpp:159
 #: kilestdactions.cpp:47
 #, kde-format
 msgid "Center"
-msgstr "Erdiratu"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
@@ -742,7 +731,7 @@ msgstr "Erdiratu"
 #: dialogs/includegraphicsdialog_base.ui:434
 #, kde-format
 msgid "Caption:"
-msgstr "Epigrafea:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, label_17)
@@ -751,58 +740,58 @@ msgstr "Epigrafea:"
 #: dialogs/includegraphicsdialog_base.ui:427
 #, kde-format
 msgid "Label:"
-msgstr "Etiketa:"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_bgGraphics)
 #: dialogs/includegraphicsdialog.cpp:49 widgets/graphicsconfigwidget.ui:20
 #, kde-format
 msgid "Include Graphics"
-msgstr "Barneratu grafikoak"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:418
 #, kde-format
 msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
-msgstr "Grafikoak (*.png *.jpg *.pdf *.ps *.eps)"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
 #, kde-format
 msgid "PNG Files (*.png)"
-msgstr "PNG fitxategiak (*.png)"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
 #, kde-format
 msgid "JPG Files (*.jpg)"
-msgstr "JPG fitxategiak (*.jpg)"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:421
 #, kde-format
 msgid "PDF Files (*.pdf)"
-msgstr "PDF fitxategiak (*.pdf)"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:422
 #, kde-format
 msgid "Postscript Files (*.eps *ps)"
-msgstr "Postscript fitxategiak (*.eps *ps)"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:425
 #, kde-format
 msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
-msgstr "Grafikoak (*.png *.jpg *.eps.gz *.eps)"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:428
 #, kde-format
 msgid "Zipped EPS Files (*.eps.gz)"
-msgstr "Konprimatutako EPS fitxategiak (*.eps.gz)"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:429
 #, kde-format
 msgid "EPS Files (*.eps)"
-msgstr "EPS fitxategiak (*.eps)"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
 #, kde-format
 msgid "All Files (*)"
-msgstr "Fitxategi guztiak (*)"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:621
 #, kde-format
@@ -812,55 +801,55 @@ msgstr ""
 #: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
 #, kde-format
 msgid "Missing Package"
-msgstr "Falta den paketea"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/includegraphicsdialog_base.ui:29
 #, kde-format
 msgid "Picture:"
-msgstr "Irudia:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/includegraphicsdialog_base.ui:39
 #, kde-format
 msgid "Info:"
-msgstr "Informazioa:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, infolabel)
 #: dialogs/includegraphicsdialog_base.ui:46
 #, kde-format
 msgid "---"
-msgstr "---"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/includegraphicsdialog_base.ui:53
 #, kde-format
 msgid "Output:"
-msgstr "Irteerakoa:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_center)
 #: dialogs/includegraphicsdialog_base.ui:60
 #, kde-format
 msgid "Center picture"
-msgstr "Erdiratu irudia"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/includegraphicsdialog_base.ui:70
 #, kde-format
 msgid "Path:"
-msgstr "Bide-izena:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_graphicspath)
 #: dialogs/includegraphicsdialog_base.ui:77
 #, kde-format
 msgid "Use \\graphicspath command of LaTeX"
-msgstr "Erabili LaTeX-en \\graphicspath komandoa"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: dialogs/includegraphicsdialog_base.ui:97
 #, kde-format
 msgid "Image options"
-msgstr "Irudiaren aukerak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_21)
@@ -868,85 +857,85 @@ msgstr "Irudiaren aukerak"
 #: dialogs/includegraphicsdialog_base.ui:441
 #, kde-format
 msgid "Width:"
-msgstr "Zabalera:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: dialogs/includegraphicsdialog_base.ui:128
 #, kde-format
 msgid "Height:"
-msgstr "Altuera:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/includegraphicsdialog_base.ui:138
 #, kde-format
 msgid "Angle:"
-msgstr "Angelua:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #: dialogs/includegraphicsdialog_base.ui:148
 #, kde-format
 msgid "Bounding box:"
-msgstr "Koadro mugatzailea:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_bb)
 #: dialogs/includegraphicsdialog_base.ui:158
 #, kde-format
 msgid "Use bounding box"
-msgstr "Erabili muga-koadroa"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/includegraphicsdialog_base.ui:165
 #, kde-format
 msgid "Scale:"
-msgstr "Eskala:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_keepAspect)
 #: dialogs/includegraphicsdialog_base.ui:175
 #, kde-format
 msgid "Keep aspect ratio"
-msgstr "Mantendu itxura proportzioa"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_6)
 #: dialogs/includegraphicsdialog_base.ui:186
 #, kde-format
 msgid "Trim image"
-msgstr "Moztu irudia"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, cb_clip)
 #: dialogs/includegraphicsdialog_base.ui:192
 #, kde-format
 msgid "Trim image by the specified lengths"
-msgstr "Moztu irudia zehaztutako luzeretan"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_clip)
 #: dialogs/includegraphicsdialog_base.ui:195
 #, kde-format
 msgid "Trim Image"
-msgstr "Moztu irudia"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: dialogs/includegraphicsdialog_base.ui:207
 #, kde-format
 msgid "Left:"
-msgstr "Ezkerra:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: dialogs/includegraphicsdialog_base.ui:214
 #, kde-format
 msgid "Top:"
-msgstr "Goia:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: dialogs/includegraphicsdialog_base.ui:221
 #, kde-format
 msgid "Right:"
-msgstr "Eskuina:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: dialogs/includegraphicsdialog_base.ui:228
 #, kde-format
 msgid "Bottom:"
-msgstr "Behea:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, edit_trimLeft)
 #. i18n: ectx: property (text), widget (QLineEdit, edit_trimTop)
@@ -956,21 +945,21 @@ msgstr "Behea:"
 #: dialogs/includegraphicsdialog_base.ui:242
 #: dialogs/includegraphicsdialog_base.ui:249
 #: dialogs/includegraphicsdialog_base.ui:256
-#, fuzzy, kde-format
+#, kde-format
 msgid "0pt"
-msgstr "pt"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: dialogs/includegraphicsdialog_base.ui:296
 #, kde-format
 msgid "figure"
-msgstr "irudia"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_figure)
 #: dialogs/includegraphicsdialog_base.ui:302
 #, kde-format
 msgid "Use figure environment"
-msgstr "Erabili irudi ingurunea"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, edit_label)
 #. i18n: ectx: property (text), widget (QLineEdit, edit_wraplabel)
@@ -978,49 +967,49 @@ msgstr "Erabili irudi ingurunea"
 #: dialogs/includegraphicsdialog_base.ui:458
 #, kde-format
 msgid "fig:"
-msgstr "ird:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: dialogs/includegraphicsdialog_base.ui:338
 #, kde-format
 msgid "Position:"
-msgstr "Kokalekua:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_Bottom)
 #: dialogs/includegraphicsdialog_base.ui:345
 #, kde-format
 msgid "Bottom of page (b)"
-msgstr "Orriaren behea (b)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_Page)
 #: dialogs/includegraphicsdialog_base.ui:355
 #, kde-format
 msgid "Extra page (p)"
-msgstr "Orri gehigarria (p)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_Here)
 #: dialogs/includegraphicsdialog_base.ui:365
 #, kde-format
 msgid "Here (h)"
-msgstr "Hemen (h)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_Top)
 #: dialogs/includegraphicsdialog_base.ui:375
 #, kde-format
 msgid "Top of page (t)"
-msgstr "Orri goia (t)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_Force)
 #: dialogs/includegraphicsdialog_base.ui:385
 #, kde-format
 msgid "Force Positioning (!)"
-msgstr "Behartu kokalekua (!)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_custom)
 #: dialogs/includegraphicsdialog_base.ui:395
 #, kde-format
 msgid "Custom:"
-msgstr "Neurrira ipinia:"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: dialogs/includegraphicsdialog_base.ui:409
@@ -1038,7 +1027,7 @@ msgstr ""
 #: dialogs/includegraphicsdialog_base.ui:448
 #, kde-format
 msgid "3.5in"
-msgstr "3,5 hazb"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: dialogs/includegraphicsdialog_base.ui:465
@@ -1084,24 +1073,24 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: dialogs/includegraphicsdialog_base.ui:529
-#, fuzzy, kde-format
+#, kde-format
 msgid "Placement:"
-msgstr "Kokapena:"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:94
 #, kde-format
 msgid "Attributes"
-msgstr "Atributuak"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:99
 #, kde-format
 msgid "Group:"
-msgstr "Taldea:"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:100 dialogs/mathenvironmentdialog.cpp:59
 #, kde-format
 msgid "&Name:"
-msgstr "Ize&na:"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:102
 #, kde-format
@@ -1109,19 +1098,19 @@ msgid "Include *-&version:"
 msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:115
-#, fuzzy, kde-format
+#, kde-format
 msgid "Name of the group, to which this environment or command belongs."
-msgstr "Taldearen izena, "
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:117
 #, kde-format
 msgid "Name of the new environment or command."
-msgstr "Ingurune edo komando berriaren izena."
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:120
 #, kde-format
 msgid "Name of the environment or command to edit."
-msgstr "Editatu beharreko ingurune edo komandoaren izena."
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:122
 #, kde-format
@@ -1131,17 +1120,17 @@ msgstr ""
 #: dialogs/latexcommanddialog.cpp:126
 #, kde-format
 msgid "\\\\ is end of &line:"
-msgstr "\\\\ &lerro maiera da:"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:127
 #, kde-format
 msgid "Needs &math mode:"
-msgstr "&Matematika modua behar du:"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:128
 #, kde-format
 msgid "&Tabulator:"
-msgstr "&Tabulatzailea:"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:143
 #, kde-format
@@ -1151,32 +1140,32 @@ msgstr ""
 #: dialogs/latexcommanddialog.cpp:144
 #, kde-format
 msgid "Does this environment need math mode?"
-msgstr "Ingurune honek matematika modua behar al du?"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:145
 #, kde-format
 msgid "Define the standard tabulator of this environment."
-msgstr "Definitu ingurune honetako tabulatzaile estandarra."
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:156
 #, kde-format
 msgid "Opt&ion:"
-msgstr "Au&kera:"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:167
 #, kde-format
 msgid "Define an optional alignment parameter."
-msgstr "Definitu hautazko lerrokatze parametro bat."
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:170
 #, kde-format
 msgid "Does this command need an optional parameter?"
-msgstr "Komando honek behar al du hautazko parametrorik?"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:178
 #, kde-format
 msgid "&Parameter:"
-msgstr "&Parametroa:"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:190
 #, kde-format
@@ -1188,47 +1177,47 @@ msgstr ""
 #: dialogs/latexcommanddialog.cpp:196
 #, kde-format
 msgid "Does this command need an argument?"
-msgstr "Komando honek argumenturik behar al du?"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:207
 #, kde-format
 msgid "Define a new LaTeX environment:"
-msgstr "Definitu LaTeX ingurune berri bat:"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:211
 #, kde-format
 msgid "Define a new LaTeX command:"
-msgstr "Definitu LaTeX komando berri bat:"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:226
 #, kde-format
 msgid "Edit a LaTeX Environment"
-msgstr "Editatu LaTeX ingurune bat"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:243
 #, kde-format
 msgid "Edit a LaTeX Command"
-msgstr "Editatu LaTeX komando bat"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:308 dialogs/quickdocumentdialog.cpp:2308
 #, kde-format
 msgid "An empty string is not allowed."
-msgstr "Ez da kate hutsik onartzen."
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:318
 #, kde-format
 msgid "This environment already exists."
-msgstr "Ingurune hau dagoeneko badago."
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:319
 #, kde-format
 msgid "This command already exists."
-msgstr "Komando hau dagoeneko badago."
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:337
 #, kde-format
 msgid "LaTeX Configuration"
-msgstr "LaTeX konfigurazioa"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:388
 #, kde-format
@@ -1241,12 +1230,12 @@ msgstr ""
 #: kile.cpp:1029 kileui.rc:569
 #, kde-format
 msgid "Math"
-msgstr "Matematika"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:390
 #, kde-format
 msgid "Lists"
-msgstr "Zerrendak"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:391 kile.cpp:1025 kilestdactions.cpp:80
 #, kde-format
@@ -1261,48 +1250,48 @@ msgstr ""
 #: dialogs/latexcommanddialog.cpp:394 widgets/structurewidget.cpp:332
 #, kde-format
 msgid "Labels"
-msgstr "Etiketak"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:395
 #, kde-format
 msgid "References"
-msgstr "Erreferentziak: "
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:396
 #, kde-format
 msgid "Bibliographies"
-msgstr "Bibliografiak"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:397
 #, kde-format
 msgid "Citations"
-msgstr "Aipamenak"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:398
-#, fuzzy, kde-format
+#, kde-format
 msgid "Includes"
-msgstr "Hauek hartzen ditu barne"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:624 kile.cpp:1076
 #, kde-format
 msgid "LaTeX Environments"
-msgstr "LaTeX inguruneak"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:628 dialogs/latexcommanddialog.cpp:700
 #: kile.cpp:1075
 #, kde-format
 msgid "LaTeX Commands"
-msgstr "LaTeX komandoak"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:667
 #, kde-format
 msgid "Do you want to delete this environment?"
-msgstr "Ingurune hau ezabatu nahi duzu?"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:671
 #, kde-format
 msgid "Do you want to delete this command?"
-msgstr "Komando hau ezabatu nahi duzu?"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbDelete)
 #: dialogs/latexcommanddialog.cpp:676 dialogs/quickdocumentdialog.cpp:1904
@@ -1310,12 +1299,12 @@ msgstr "Komando hau ezabatu nahi duzu?"
 #: dialogs/usermenu/usermenudialog_base.ui:113
 #, kde-format
 msgid "Delete"
-msgstr "Ezabatu"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:695
 #, kde-format
 msgid "LaTeX Environment"
-msgstr "LaTeX ingurunea"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:763
 #, kde-format
@@ -1353,19 +1342,19 @@ msgstr ""
 #: dialogs/latexcommanddialog_base.ui:74 dialogs/latexcommanddialog_base.ui:138
 #, kde-format
 msgid "Starred"
-msgstr "Izarduna"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog_base.ui:79
 #, kde-format
 msgid "EOL"
-msgstr "LA"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog_base.ui:89
 #, kde-format
 msgid "Tab"
-msgstr "Tab"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #. i18n: ectx: property (text), widget (QTreeWidget, commands)
@@ -1373,7 +1362,7 @@ msgstr "Tab"
 #: dialogs/quickdocumentdialog.cpp:220
 #, kde-format
 msgid "Option"
-msgstr "Aukera"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbParameter)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
@@ -1384,90 +1373,90 @@ msgstr "Aukera"
 #: dialogs/usermenu/usermenudialog_base.ui:639
 #, kde-format
 msgid "Parameter"
-msgstr "Parametroa"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, pageCommands)
 #. i18n: ectx: property (title), widget (QGroupBox, m_bgCommands)
 #: dialogs/latexcommanddialog_base.ui:108 widgets/latexconfigwidget.ui:26
 #, kde-format
 msgid "Commands"
-msgstr "Komandoak"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, addButton)
 #: dialogs/latexcommanddialog_base.ui:176
 #, kde-format
 msgid "Add a new environment."
-msgstr "Gehitu ingurune berri bat."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, addButton)
 #: dialogs/latexcommanddialog_base.ui:179 dialogs/quickdocumentdialog.cpp:243
 #: dialogs/userhelpdialog.cpp:75
 #, kde-format
 msgid "&Add..."
-msgstr "&Gehitu..."
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, deleteButton)
 #: dialogs/latexcommanddialog_base.ui:186
 #, kde-format
 msgid "Delete a user-defined environment."
-msgstr "Ezabatu erabiltzaileak definitutako ingurune bat."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteButton)
 #: dialogs/latexcommanddialog_base.ui:189 dialogs/quickdocumentdialog.cpp:255
 #: dialogs/quickdocumentdialog.cpp:312
 #, kde-format
 msgid "De&lete"
-msgstr "E&zabatu"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, editButton)
 #: dialogs/latexcommanddialog_base.ui:196
 #, kde-format
 msgid "Edit a user-defined environment."
-msgstr "Editatu erabiltzaileak definitutao ingurune bat."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, editButton)
 #: dialogs/latexcommanddialog_base.ui:199
 #, kde-format
 msgid "&Edit..."
-msgstr "&Editatu..."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, showOnlyUserDefined)
 #: dialogs/latexcommanddialog_base.ui:222
 #, kde-format
 msgid "Show only user-defined environments and commands"
-msgstr "Erakutsi bakarrik erabiltzaileak definitutako inguruneak eta komandoak"
+msgstr ""
 
 #: dialogs/listselector.cpp:65
 #, kde-format
 msgid "1 item found."
 msgid_plural "%1 items found."
-msgstr[0] "Elementu 1 aurkitu da."
-msgstr[1] "%1 elementu aurkitu dira."
+msgstr[0] ""
+msgstr[1] ""
 
 #: dialogs/listselector.cpp:151
 #, kde-format
 msgid "File Name"
-msgstr "Fitxategi-izena"
+msgstr ""
 
 #: dialogs/listselector.cpp:151 widgets/codecompletionconfigwidget.cpp:96
-#, fuzzy, kde-format
+#, kde-format
 msgid "Local File"
-msgstr "Fitxategi lokala:"
+msgstr ""
 
 #: dialogs/listselector.cpp:151
 #, kde-format
 msgid "Add File?"
-msgstr "Fitxategia gehitu?"
+msgstr ""
 
 #: dialogs/listselector.cpp:171
 #, kde-format
 msgid "Add selected files"
-msgstr "Gehitu hautatutako fitxategiak"
+msgstr ""
 
 #: dialogs/listselector.cpp:172
 #, kde-format
 msgid "Add all the selected files"
-msgstr "Gehitu hautatutako fitxategi denak"
+msgstr ""
 
 #: dialogs/listselector.cpp:173
 #, kde-format
@@ -1477,7 +1466,7 @@ msgstr ""
 #: dialogs/listselector.cpp:174
 #, kde-format
 msgid "Install your own completion files"
-msgstr "Instalatu zure osatze-fitxategi propioak"
+msgstr ""
 
 #: dialogs/listselector.cpp:175
 #, kde-format
@@ -1487,7 +1476,7 @@ msgstr ""
 #: dialogs/listselector.cpp:176
 #, kde-format
 msgid "Manage the local completion files in the file manager"
-msgstr "Fitxategi-kudeatzailean osatze-fitxategi lokalak kudeatu"
+msgstr ""
 
 #: dialogs/listselector.cpp:210 dialogs/listselector.cpp:263
 #: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
@@ -1496,7 +1485,7 @@ msgstr "Fitxategi-kudeatzailean osatze-fitxategi lokalak kudeatu"
 #: widgets/codecompletionconfigwidget.cpp:353
 #, kde-format
 msgid "yes"
-msgstr "bai"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbEncryption)
 #: dialogs/listselector.cpp:214 dialogs/pdf-wizard/pdfdialog.cpp:283
@@ -1506,17 +1495,17 @@ msgstr "bai"
 #: widgets/codecompletionconfigwidget.cpp:356
 #, kde-format
 msgid "no"
-msgstr "ez"
+msgstr ""
 
 #: dialogs/listselector.cpp:230
 #, kde-format
 msgid "Select Completion Files to Install Locally"
-msgstr "Hautatu lokalki instalatzeko osatze-fitxategiak"
+msgstr ""
 
 #: dialogs/listselector.cpp:230
 #, kde-format
 msgid "Completion files (*.cwl)"
-msgstr "Osatze-fitxategiak (*.cwl)"
+msgstr ""
 
 #: dialogs/listselector.cpp:240
 #, kde-format
@@ -1524,8 +1513,6 @@ msgid ""
 "A local completion file with the name \"%1\" already exists.\n"
 "Do you want to replace this file?"
 msgstr ""
-"Jada badago \"%1\" izeneko osatze-fitxategi lokal bat.\n"
-"Fitxategi hori ordezkatu nahi duzu?"
 
 #: dialogs/listselector.cpp:241
 #, kde-format
@@ -1542,7 +1529,7 @@ msgstr ""
 #: dialogs/listselector.cpp:245
 #, kde-format
 msgid "Remove Error"
-msgstr "Kendu errorea"
+msgstr ""
 
 #: dialogs/listselector.cpp:256
 #, kde-format
@@ -1554,7 +1541,7 @@ msgstr ""
 #: dialogs/listselector.cpp:257
 #, kde-format
 msgid "Copy Error"
-msgstr "Kopiatu errorea"
+msgstr ""
 
 #: dialogs/listselector.cpp:280
 #, kde-format
@@ -1564,30 +1551,30 @@ msgstr ""
 #: dialogs/listselector.cpp:281
 #, kde-format
 msgid "Installation Successful"
-msgstr "Instalazio arrakastatsua"
+msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:96
 #, kde-format
 msgid "Type: %1"
-msgstr "Mota: %1"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbIcon)
 #: dialogs/managetemplatesdialog.cpp:97
 #: dialogs/usermenu/usermenudialog_base.ui:445
 #, kde-format
 msgid "Icon:"
-msgstr "Ikonoa:"
+msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:103
 #, kde-format
 msgid "Select..."
-msgstr "Hautatu..."
+msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:110 dialogs/managetemplatesdialog.cpp:166
 #, kde-format
 msgctxt "marked"
 msgid "M"
-msgstr "M"
+msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:111 dialogs/managetemplatesdialog.cpp:167
 #, kde-format
@@ -1599,17 +1586,17 @@ msgstr ""
 #: widgets/newdocumentwidget.ui:32
 #, kde-format
 msgid "Document Type"
-msgstr "Dokumentu mota"
+msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:120
 #, kde-format
 msgid "Show all the templates"
-msgstr "Erakutsi txantiloi guztiak"
+msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:131
 #, kde-format
 msgid "Clear Selection"
-msgstr "Garbitu hautapena"
+msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:135
 #, kde-format
@@ -1668,9 +1655,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
+#, kde-format
 msgid "Replace template"
-msgstr "Kendu txantiloia"
+msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -1695,23 +1682,23 @@ msgstr ""
 #: dialogs/mathenvironmentdialog.cpp:49
 #, kde-format
 msgid "Math Environments"
-msgstr "Matematika inguruneak"
+msgstr ""
 
 #: dialogs/mathenvironmentdialog.cpp:60
 #, kde-format
 msgid "Without n&umbering:"
-msgstr "Zenbakit&u gabe:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/mathenvironmentdialog.cpp:61 dialogs/tabbingdialog_base.ui:46
 #, kde-format
 msgid "Number of &rows:"
-msgstr "E&rrenkada kopurua:"
+msgstr ""
 
 #: dialogs/mathenvironmentdialog.cpp:62
 #, kde-format
 msgid "Number of c&ols:"
-msgstr "&Zutabe kopurua:"
+msgstr ""
 
 #: dialogs/mathenvironmentdialog.cpp:63
 #, kde-format
@@ -1786,27 +1773,27 @@ msgstr ""
 #: dialogs/tabular/newtabulardialog.cpp:145
 #, kde-format
 msgid "Number of cols:"
-msgstr "Zutabe kopurua:"
+msgstr ""
 
 #: dialogs/mathenvironmentdialog.cpp:228
 #, kde-format
 msgid "Number of groups:"
-msgstr "Talde kopurua:"
+msgstr ""
 
 #: dialogs/newfilewizard.cpp:47
 #, kde-format
 msgid "New File"
-msgstr "Fitxategi berria"
+msgstr ""
 
 #: dialogs/newfilewizard.cpp:75
 #, kde-format
 msgid "LaTeX Document"
-msgstr "LaTeX dokumentua"
+msgstr ""
 
 #: dialogs/newfilewizard.cpp:76
 #, kde-format
 msgid "BibTeX Document"
-msgstr "BibTeX dokumentua"
+msgstr ""
 
 #: dialogs/newfilewizard.cpp:77
 #, kde-format
@@ -1816,12 +1803,12 @@ msgstr ""
 #: dialogs/newtoolwizard.cpp:24
 #, kde-format
 msgid "Tool Name"
-msgstr "Tresna-izena"
+msgstr ""
 
 #: dialogs/newtoolwizard.cpp:28
 #, kde-format
 msgid "Class"
-msgstr "Klasea"
+msgstr ""
 
 #: dialogs/newtoolwizard.cpp:48
 #, kde-format
@@ -1865,13 +1852,13 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog.cpp:70
 #, kde-format
 msgid "PDF Wizard"
-msgstr "PDF morroia"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:721
 #: dialogs/pdf-wizard/pdfdialog.cpp:846
 #, kde-format
 msgid "Re&arrange"
-msgstr "Berr&antolatu"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:130
 #, kde-format
@@ -1906,42 +1893,42 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog.cpp:136 dialogs/postscriptdialog.cpp:125
 #, kde-format
 msgid "Select Even Pages"
-msgstr "Hautatu orri bikoitiak"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:137 dialogs/postscriptdialog.cpp:126
 #, kde-format
 msgid "Select Odd Pages"
-msgstr "Hautatu orri bakoitiak"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:138 dialogs/postscriptdialog.cpp:127
 #, kde-format
 msgid "Select Even Pages (reverse order)"
-msgstr "Hautatu orri bikoitiak (alderantzizko hurrenkera)"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:139 dialogs/postscriptdialog.cpp:128
 #, kde-format
 msgid "Select Odd Pages (reverse order)"
-msgstr "Hautatu orri bakoitiak (alderantzizko hurrenkera)"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:140 dialogs/postscriptdialog.cpp:129
 #, kde-format
 msgid "Reverse All Pages"
-msgstr "Alderantzikatu orri guztiak"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:141
 #, kde-format
 msgid "Decrypt"
-msgstr "Deszifratu"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:142
 #, kde-format
 msgid "Select Pages"
-msgstr "Hautatu orriak"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:143
 #, kde-format
 msgid "Delete Pages"
-msgstr "Ezabatu orriak"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:144
 #, kde-format
@@ -1969,10 +1956,10 @@ msgid "pdfpages: Choose Parameter"
 msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:398
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "%1 is the number of pages"
 msgid "%1 (encrypted)"
-msgstr "Zifratua"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:406
 #, kde-format
@@ -2065,15 +2052,15 @@ msgid ""
 msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:721
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Update"
-msgstr "&Eguneratu"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/pdf-wizard/pdfdialog.cpp:784 dialogs/pdf-wizard/pdfdialog_base.ui:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pages:"
-msgstr "Orrialdeak:"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:785
 #, kde-format
@@ -2086,9 +2073,9 @@ msgstr ""
 #: dialogs/postscriptdialog_base.ui:147
 #: dialogs/tabular/newtabulardialog.cpp:132
 #: dialogs/usermenu/usermenudialog_base.ui:607
-#, fuzzy, kde-format
+#, kde-format
 msgid "Parameter:"
-msgstr "Parametroa:"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:791
 #, kde-format
@@ -2119,9 +2106,9 @@ msgid ""
 msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:843
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Apply"
-msgstr "&Aplikatu"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:861
 #, kde-format
@@ -2182,48 +2169,48 @@ msgstr ""
 #: dialogs/postscriptdialog.cpp:216
 #, kde-format
 msgid "***** tool:        "
-msgstr "***** tresna:        "
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:935 dialogs/pdf-wizard/pdfdialog.cpp:1047
 #: dialogs/postscriptdialog.cpp:217
 #, kde-format
 msgid "***** input file:  "
-msgstr "***** sarrerako fitxategia:  "
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:936 dialogs/postscriptdialog.cpp:218
 #, kde-format
 msgid "***** output file: "
-msgstr "***** irteerako fitxategia:  "
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:937 dialogs/pdf-wizard/pdfdialog.cpp:1048
 #, kde-format
 msgid "***** param:       "
-msgstr "***** param:       "
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:938
 #, kde-format
 msgid "***** command:     "
-msgstr "***** komandoa:     "
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:939 dialogs/postscriptdialog.cpp:219
 #, kde-format
 msgid "***** viewer:      "
-msgstr "***** erakuslea:      "
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1101
 #, kde-format
 msgid "An error occurred while executing the task."
-msgstr "Ataza exekutatu bitartean errore bat gertatu da."
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1157
 #, kde-format
 msgid "Finished with an error (wrong password)"
-msgstr "Errore batekin bukatu da (pasahitz okerra)"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1160
 #, kde-format
 msgid "Finished with an error"
-msgstr "Errore batekin bukatu da"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1174
 #, kde-format
@@ -2233,7 +2220,7 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog.cpp:1174
 #, kde-format
 msgid "ViewPDF"
-msgstr "ViewPDF"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1614
 #, kde-format
@@ -2282,11 +2269,10 @@ msgid "Unknown file format: only '.pdf' is accepted as output file."
 msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1695 dialogs/postscriptdialog.cpp:477
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
 msgstr ""
-"%1 izeneko fitxategia badago lehendik ere. Ziur zaude gainidatzi nahi duzula?"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1730 dialogs/postscriptdialog.cpp:435
 #, kde-format
@@ -2330,19 +2316,19 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog_base.ui:29 dialogs/postscriptdialog_base.ui:54
 #, kde-format
 msgid "Input file:"
-msgstr "Sarrerako fitxategia:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbPages)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:62
 #, kde-format
 msgid "pages"
-msgstr "orrialdeak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbPassword)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:69
 #, kde-format
 msgid "Password:"
-msgstr "Pasahitza:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameterIcon)
 #. i18n: ectx: property (text), widget (QLabel, m_lbIconChosen)
@@ -2350,7 +2336,7 @@ msgstr "Pasahitza:"
 #: dialogs/usermenu/usermenudialog_base.ui:492
 #, kde-format
 msgid "Icon"
-msgstr "Ikonoa"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameterInfo)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:158
@@ -2362,14 +2348,14 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog_base.ui:194
 #, kde-format
 msgid "Rearrangements"
-msgstr "Berrantolaketa"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbOutfile)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:209 dialogs/postscriptdialog_base.ui:61
 #, kde-format
 msgid "Output file:"
-msgstr "Irteerako fitxategia:"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, m_edOutfile)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:216
@@ -2378,15 +2364,13 @@ msgid ""
 "The name of the output file. This entry may also be empty, if you want to "
 "overwrite the original file."
 msgstr ""
-"Irteerako fitxategiaren izena. Sarrera hau hutsik utzi daiteke, jatorrizko "
-"fitxategia gainidatzi nahi baduzu."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbTask)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:223 dialogs/postscriptdialog_base.ui:88
 #, kde-format
 msgid "Task:"
-msgstr "Ataza:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbView)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -2394,7 +2378,7 @@ msgstr "Ataza:"
 #: dialogs/postscriptdialog_base.ui:140
 #, kde-format
 msgid "Viewer:"
-msgstr "Erakuslea:"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbView)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:237 dialogs/postscriptdialog_base.ui:75
@@ -2406,15 +2390,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbView)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:240
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show the resulting PDF file"
-msgstr "Erakutsi emaitzaren PDF fitxategia"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbOverwrite)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:253
 #, kde-format
 msgid "Overwrite the original file"
-msgstr "Gainidatzi jatorrizko fitxategia"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, m_edParameter)
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, m_edParameter)
@@ -2430,86 +2414,86 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog_base.ui:281
 #, kde-format
 msgid "PDF file:"
-msgstr "PDF fitxategia:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbBackgroundColor)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:323
 #, kde-format
 msgid "Background:"
-msgstr "Atzeko planoa:"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, m_tbProperties)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:370 dialogs/projectdialogs.cpp:432
 #: widgets/previewconfigwidget.cpp:118
 #, kde-format
 msgid "Properties"
-msgstr "Propietateak"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbProperties)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:382
 #, kde-format
 msgid "Properties of this PDF document"
-msgstr "PDF dokumentuaren propietateak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:406
 #, kde-format
 msgid "Title:"
-msgstr "Titulua:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:416
 #, kde-format
 msgid "Creator:"
-msgstr "Sortzailea:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:426
 #, kde-format
 msgid "Subject:"
-msgstr "Gaia:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:436
 #, kde-format
 msgid "Keywords:"
-msgstr "Gako-hitzak:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:446
 #, kde-format
 msgid "Author:"
-msgstr "Egilea:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:456
 #, kde-format
 msgid "Producer:"
-msgstr "Ekoizlea:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:491
 #, kde-format
 msgid "Format:"
-msgstr "Formatua:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbFormat)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:501
 #, kde-format
 msgid "1.4"
-msgstr "1.4"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:508
 #, kde-format
 msgid "Encryption:"
-msgstr "Zifratzea:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_23)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:525
 #, kde-format
 msgid "Creation date:"
-msgstr "Sorrera-data:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbCreationDate)
 #. i18n: ectx: property (text), widget (QLabel, m_lbModDate)
@@ -2517,49 +2501,49 @@ msgstr "Sorrera-data:"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:552
 #, kde-format
 msgid "date"
-msgstr "data"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:542
 #, kde-format
 msgid "Modification date:"
-msgstr "Aldatze-data:"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, m_tbPermissions)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:565
 #, kde-format
 msgid "Permissions"
-msgstr "Baimenak"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbPermissions)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:577
 #, kde-format
 msgid "Permissions (under 128-bit-security)"
-msgstr "Baimenak (128 biteko segurtasunpean)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:609
 #, kde-format
 msgid "Printing:"
-msgstr "Inprimatzea:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:619
 #, kde-format
 msgid "Copy text or graphics:"
-msgstr "Kopiatu testua edo grafikoak:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:629
 #, kde-format
 msgid "Modify contents:"
-msgstr "Aldatu edukia:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:639
 #, kde-format
 msgid "Fill form fields with data:"
-msgstr "Bete inprimakiko eremuak datuekin:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbPrinting)
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbModify)
@@ -2571,9 +2555,9 @@ msgstr "Bete inprimakiko eremuak datuekin:"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:681
 #: dialogs/pdf-wizard/pdfdialog_base.ui:694
 #: dialogs/pdf-wizard/pdfdialog_base.ui:720
-#, fuzzy, kde-format
+#, kde-format
 msgid "allowed"
-msgstr "Bai&menduta"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:701
@@ -2585,88 +2569,88 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog_base.ui:779
 #, kde-format
 msgid "Allow only Printing"
-msgstr "Inprimatzeko baimena bakarrik"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbAll)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:786
 #, kde-format
 msgid "Allow all features"
-msgstr "Ezaugarri guztiak baimendu"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:60
 #, kde-format
 msgid "Rearrange Postscript File"
-msgstr "Berrantolatu «Postscript» fitxategia"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:97
 #, kde-format
 msgid "Neither 'pstops' nor 'psselect' found."
-msgstr "Ez da ez aurkitu 'pstops' ezta 'psselect' ere."
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:100
 #, kde-format
 msgid "'pstops' not found."
-msgstr "Ez da aurkitu 'pstops'."
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:103
 #, kde-format
 msgid "'psselect' not found."
-msgstr "Ez da aurkitu 'psselect'."
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:114
 #, kde-format
 msgid "1 DIN A5 Page + Empty Page --> DIN A4"
-msgstr "DIN A5 Orrialde 1 + Orrialde hutsa --> DIN A4"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:115
 #, kde-format
 msgid "1 DIN A5 Page + Duplicate --> DIN A4"
-msgstr "DIN A5 Orrialde 1 + Bikoiztu --> DIN A4"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:116
 #, kde-format
 msgid "2 DIN A5 Pages --> DIN A4"
-msgstr "2 DIN A5 Orrialde --> DIN A4"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:117
 #, kde-format
 msgid "2 DIN A5L Pages --> DIN A4"
-msgstr "2 DIN A5L Orrialde --> DIN A4"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:118
 #, kde-format
 msgid "4 DIN A5 Pages --> DIN A4"
-msgstr "4 DIN A5 Orrialde --> DIN A4"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:119
 #, kde-format
 msgid "1 DIN A4 Page + Empty Page --> DIN A4"
-msgstr "DIN A4 Orrialde 1 + Orrialde hutsa --> DIN A4"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:120
 #, kde-format
 msgid "1 DIN A4 Page + Duplicate --> DIN A4"
-msgstr "DIN A4 Orrialde 1 + Bikoiztu --> DIN A4"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:121
 #, kde-format
 msgid "2 DIN A4 Pages --> DIN A4"
-msgstr "2 DIN A4 Orrialde --> DIN A4"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:122
 #, kde-format
 msgid "2 DIN A4L Pages --> DIN A4"
-msgstr "2 DIN A4L Orrialde --> DIN A4"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:130
 #, kde-format
 msgid "Copy All Pages (sorted)"
-msgstr "Kopiatu orrialde guztiak (sailkatuta)"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:133
 #, kde-format
 msgid "Copy All Pages (unsorted)"
-msgstr "Kopiatu orrialde guztiak (sailkatu gabe)"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:134
 #, kde-format
@@ -2681,27 +2665,27 @@ msgstr ""
 #: dialogs/postscriptdialog.cpp:156
 #, kde-format
 msgid "Done"
-msgstr "Eginda"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:157
 #, kde-format
 msgid "Execute"
-msgstr "Exekutatu"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:199 quickpreview.cpp:339
 #, kde-format
 msgid "Could not create a temporary file."
-msgstr "Ezin izan du aldi baterako fitxategi bat sortu."
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:208
 #, kde-format
 msgid "rearrange ps file: %1"
-msgstr "berrantolatu «ps» fitxategia: %1"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:255
 #, kde-format
 msgid "An error occurred while rearranging the file."
-msgstr "Errore bat gertatu da fitxategia berrantolatzean."
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:442
 #, kde-format
@@ -2732,12 +2716,12 @@ msgstr ""
 #: dialogs/postscriptdialog.cpp:496
 #, kde-format
 msgid "Copies:"
-msgstr "Kopiak:"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:517 kile.cpp:1030
 #, kde-format
 msgid "Postscript Tools"
-msgstr "«Postscript» tresnak"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, m_cbTask)
 #: dialogs/postscriptdialog_base.ui:35
@@ -2786,12 +2770,12 @@ msgstr ""
 #: dialogs/projectdialogs.cpp:58
 #, kde-format
 msgid "Extensions"
-msgstr "Luzapenak"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:64
 #, kde-format
 msgid "Insert a short descriptive name of your project here."
-msgstr "Sartu hemen zure proiektuaren izen labur deskribatzaile bat."
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:65
 #, kde-format
@@ -2803,22 +2787,22 @@ msgstr ""
 #: dialogs/projectdialogs.cpp:69
 #, kde-format
 msgid "Project &title:"
-msgstr "Proiektuaren &titulua:"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:82
 #, kde-format
 msgid "Project &folder:"
-msgstr "Proiektu &karpeta:"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:84
 #, kde-format
 msgid "Insert the path to your project here."
-msgstr "Sartu hemen zure proiekturako bide-izena."
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:96
 #, kde-format
 msgid "(use global settings)"
-msgstr "(erabili ezarpen orokorrak)"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:97
 #, kde-format
@@ -2828,32 +2812,32 @@ msgstr ""
 #: dialogs/projectdialogs.cpp:108
 #, kde-format
 msgid "Source Files"
-msgstr "Sorburu-fitxategiak"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:109
 #, kde-format
 msgid "Package Files"
-msgstr "Pakete-fitxategiak"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:110 kileextensions.cpp:82
 #, kde-format
 msgid "Image Files"
-msgstr "Irudi-fitxategiak"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:111
 #, kde-format
 msgid "Bibliography Files"
-msgstr "Bibliografia-fitxategiak"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:118
 #, kde-format
 msgid "Default Graphics Extension:"
-msgstr "Grafikoen luzapen lehenetsia:"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:120
 #, kde-format
 msgid "Predefined:"
-msgstr "Aurredefinitua:"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:156
 #, kde-format
@@ -2861,8 +2845,6 @@ msgid ""
 "Error in extension '%1':\n"
 "All user-defined extensions should look like '.xyz'"
 msgstr ""
-"Errorea '%1' luzapenean:\n"
-"Erabiltzaileek definitutako luzapen guztiek '.xyz' itxura izan behar dute"
 
 #: dialogs/projectdialogs.cpp:156
 #, kde-format
@@ -2870,9 +2852,9 @@ msgid "Invalid extension"
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:223
-#, fuzzy, kde-format
+#, kde-format
 msgid "Create New Project"
-msgstr "Sortu proiektu berria"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:237
 #, kde-format
@@ -2907,7 +2889,7 @@ msgstr ""
 #: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1047
 #, kde-format
 msgid "Untitled"
-msgstr "Izengabea"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:351
 #, kde-format
@@ -2927,7 +2909,7 @@ msgstr ""
 #: dialogs/projectdialogs.cpp:356
 #, kde-format
 msgid "Invalid Location"
-msgstr "Kokapen baliogabea"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:361
 #, kde-format
@@ -2936,9 +2918,9 @@ msgid ""
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:361
-#, fuzzy, kde-format
+#, kde-format
 msgid "No File Name Given"
-msgstr "<p>Ez da fitxategi izena eman!</p>"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:374
 #, kde-format
@@ -2957,9 +2939,9 @@ msgid ""
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:395 documentinfo.cpp:133
-#, fuzzy, kde-format
+#, kde-format
 msgid "File Already Exists"
-msgstr "Fitxategia badago lehendik ere"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:395
 #, kde-format
@@ -2973,9 +2955,9 @@ msgid "Project Options"
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:423
-#, fuzzy, kde-format
+#, kde-format
 msgid "(use global setting)"
-msgstr "Erabili ezarpen orokorra"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:438
 #, kde-format
@@ -2988,9 +2970,9 @@ msgid "&Master document:"
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:449
-#, fuzzy, kde-format
+#, kde-format
 msgid "(auto-detect)"
-msgstr "Auto-antzeman"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:466
 #, kde-format
@@ -3024,29 +3006,29 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:106
 #, kde-format
 msgid "&Packages"
-msgstr "&Paketeak"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:107
 #, kde-format
 msgid "&Document Properties"
-msgstr "&Dokumentuaren propietateak"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:145
 #, kde-format
 msgid "Doc&ument class:"
-msgstr "Dok&umentu klasea:"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:152 dialogs/quickdocumentdialog.cpp:174
 #: dialogs/quickdocumentdialog.cpp:197
 #, kde-format
 msgid "Add an entry to this combo box"
-msgstr "Sartu sarrera bat lauki-konbinatu horretara"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:158 dialogs/quickdocumentdialog.cpp:180
 #: dialogs/quickdocumentdialog.cpp:203
 #, kde-format
 msgid "Remove current entry from this combo box"
-msgstr "Kendu lauki-konbinatu horretatik uneko sarrera"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:167
 #, kde-format
@@ -3056,18 +3038,18 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:190 dialogs/quickdocumentdialog.cpp:594
 #, kde-format
 msgid "Paper si&ze:"
-msgstr "Paperaren ne&urria:"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:213
 #, kde-format
 msgid "E&ncoding:"
-msgstr "&Kodeketa:"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:221 dialogs/quickdocumentdialog.cpp:277
 #: kilestdactions.cpp:57
 #, kde-format
 msgid "Description"
-msgstr "Deskribapena"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:230
 #, kde-format
@@ -3082,7 +3064,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:249 dialogs/quickdocumentdialog.cpp:307
 #, kde-format
 msgid "Ed&it..."
-msgstr "Ed&itatu..."
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:251
 #, kde-format
@@ -3097,52 +3079,52 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:272
 #, kde-format
 msgid "LaTe&X packages:"
-msgstr "LaTe&X paketeak:"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:277
 #, kde-format
 msgid "Package"
-msgstr "Paketea"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:277
 #, kde-format
 msgid "Value"
-msgstr "Balioa"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:297
 #, kde-format
 msgid "&Add Package..."
-msgstr "&Gehitu paketea..."
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:299
 #, kde-format
 msgid "Add a new package"
-msgstr "Gehitu pakete berria"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:302
 #, kde-format
 msgid "Add Op&tion..."
-msgstr "Gehitu au&kera..."
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:304
 #, kde-format
 msgid "Add a new package option"
-msgstr "Gehitu pakete-aukera berria"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:309
 #, kde-format
 msgid "Edit the current package option"
-msgstr "Editatu uneko pakete-aukera"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:314
 #, kde-format
 msgid "Remove the current package option"
-msgstr "Kendu uneko pakete-aukera"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:317
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Reset to Defaults"
-msgstr "Lehenetsietara berrezarri"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:319
 #, kde-format
@@ -3152,27 +3134,27 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:343
 #, kde-format
 msgid "&Author:"
-msgstr "&Egilea:"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:349
 #, kde-format
 msgid "&Title:"
-msgstr "&Titulua:"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:355
 #, kde-format
 msgid "Dat&e:"
-msgstr "Dat&a:"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:592
 #, kde-format
 msgid "&Theme:"
-msgstr "&Gaia:"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:646
 #, kde-format
 msgid "Sets the document's orientation to landscape"
-msgstr "Dokumentuaren orientazioa paisaira ezartzen du"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:647
 #, kde-format
@@ -3685,9 +3667,9 @@ msgid " Include only notes and suppress frames"
 msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:980
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 '%2' already exists."
-msgstr "<i>%1</i> lehendik ere badago."
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1032
 #, kde-format
@@ -3877,9 +3859,9 @@ msgid "<empty>"
 msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1658 kilestdactions.cpp:31
-#, fuzzy, kde-format
+#, kde-format
 msgid "Document Class"
-msgstr "Dokumentu klasea:"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1660
 #, kde-format
@@ -3964,9 +3946,9 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:1846 dialogs/quickdocumentdialog.cpp:1881
 #: dialogs/quickdocumentdialog.cpp:1932 dialogs/quickdocumentdialog.cpp:1963
 #: dialogs/quickdocumentdialog.cpp:2028 dialogs/quickdocumentdialog.cpp:2035
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Description:"
-msgstr "&Deskribapena:"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1848 dialogs/quickdocumentdialog.cpp:1965
 #, kde-format
@@ -3989,9 +3971,9 @@ msgid "Add Package"
 msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1930 dialogs/quickdocumentdialog.cpp:2006
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Package:"
-msgstr "Paketea"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1934
 #, kde-format
@@ -3999,35 +3981,35 @@ msgid "&Select this package"
 msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1956
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Option:"
-msgstr "Aukera"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1956 dialogs/quickdocumentdialog.cpp:2000
 #: dialogs/quickdocumentdialog.cpp:2276
-#, fuzzy, kde-format
+#, kde-format
 msgid "package:"
-msgstr "Paketea"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1958
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Editable"
-msgstr "Editagarria"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1959 dialogs/quickdocumentdialog.cpp:2024
-#, fuzzy, kde-format
+#, kde-format
 msgid "De&fault value:"
-msgstr "Balio lehenetsia"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1961 dialogs/quickdocumentdialog.cpp:2026
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Value:"
-msgstr "&Balioa:"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:2000
-#, fuzzy, kde-format
+#, kde-format
 msgid "Op&tion:"
-msgstr "Aukera"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:2005
 #, kde-format
@@ -4119,9 +4101,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbShortcut)
 #: dialogs/scriptshortcutdialog_base.ui:106
 #: dialogs/usermenu/usermenudialog.cpp:53
-#, fuzzy, kde-format
+#, kde-format
 msgid "Shortcut"
-msgstr "Lasterbidea"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbKeySequence)
 #: dialogs/scriptshortcutdialog_base.ui:134
@@ -4136,9 +4118,9 @@ msgid "Please enter a shortcut for this script:"
 msgstr ""
 
 #: dialogs/statisticsdialog.cpp:50
-#, fuzzy, kde-format
+#, kde-format
 msgid "Copy"
-msgstr "Kopiatu"
+msgstr ""
 
 #: dialogs/statisticsdialog.cpp:53
 #, kde-format
@@ -4146,9 +4128,9 @@ msgid "Copy as LaTeX"
 msgstr ""
 
 #: dialogs/statisticsdialog.cpp:86 dialogs/statisticsdialog.cpp:92
-#, fuzzy, kde-format
+#, kde-format
 msgid "Summary"
-msgstr "Laburpena"
+msgstr ""
 
 #: dialogs/statisticsdialog.cpp:88
 #, kde-format
@@ -4156,9 +4138,9 @@ msgid "For information about the accuracy see the Help."
 msgstr ""
 
 #: dialogs/statisticsdialog.cpp:95 dialogs/statisticsdialog.cpp:199
-#, fuzzy, kde-format
+#, kde-format
 msgid "Statistics for %1"
-msgstr "%1(r)en estatistikak"
+msgstr ""
 
 #: dialogs/statisticsdialog.cpp:100
 #, kde-format
@@ -4192,15 +4174,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/tabbingdialog_base.ui:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Number of &columns:"
-msgstr "Zutabe kopurua:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/tabbingdialog_base.ui:63
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Spacing:"
-msgstr "&Tartea:"
+msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:68
 #, kde-format
@@ -4209,36 +4191,36 @@ msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:81
 #: dialogs/tabular/tabularheaderitem.cpp:37 kilestdactions.cpp:48
-#, fuzzy, kde-format
+#, kde-format
 msgid "Align Left"
-msgstr "Lerrokatu ezkerrean"
+msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:82
 #: dialogs/tabular/tabularheaderitem.cpp:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "Align Center"
-msgstr "Lerrokatu erdian"
+msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:83
 #: dialogs/tabular/tabularheaderitem.cpp:39 kilestdactions.cpp:49
-#, fuzzy, kde-format
+#, kde-format
 msgid "Align Right"
-msgstr "Lerrokatu eskuinean"
+msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:85 kilestdactions.cpp:202
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bold"
-msgstr "Lodia"
+msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:86 kilestdactions.cpp:205
-#, fuzzy, kde-format
+#, kde-format
 msgid "Italic"
-msgstr "Etzana"
+msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:87 kilestdactions.cpp:136
-#, fuzzy, kde-format
+#, kde-format
 msgid "Underline"
-msgstr "Azpimarra"
+msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:89
 #, kde-format
@@ -4246,9 +4228,9 @@ msgid "Join Cells"
 msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:90
-#, fuzzy, kde-format
+#, kde-format
 msgid "Split Cells"
-msgstr "Zatitu gelaxkak"
+msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:92
 #, kde-format
@@ -4256,19 +4238,19 @@ msgid "Edit Frame"
 msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:97
-#, fuzzy, kde-format
+#, kde-format
 msgid "Background Color"
-msgstr "Atzeko planoko kolorea"
+msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:102
-#, fuzzy, kde-format
+#, kde-format
 msgid "Text Color"
-msgstr "Testuaren kolorea"
+msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:109
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clear Text"
-msgstr "Garbitu testua"
+msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:110
 #, kde-format
@@ -4276,9 +4258,9 @@ msgid "Clear Attributes"
 msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:111
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clear All"
-msgstr "Garbitu dena"
+msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:113
 #, kde-format
@@ -4286,9 +4268,9 @@ msgid "Paste content from clipboard"
 msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:138
-#, fuzzy, kde-format
+#, kde-format
 msgid "Number of rows:"
-msgstr "Errenkada kopurua"
+msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:153
 #, kde-format
@@ -4447,9 +4429,9 @@ msgid "Resizing table"
 msgstr ""
 
 #: dialogs/tabular/selectframeaction.cpp:296
-#, fuzzy, kde-format
+#, kde-format
 msgid "Apply"
-msgstr "Ezarri"
+msgstr ""
 
 #: dialogs/tabular/tabularheaderitem.cpp:40
 #, kde-format
@@ -4508,9 +4490,9 @@ msgstr ""
 
 #: dialogs/texdocumentationdialog.cpp:67 dialogs/texdocumentationdialog.cpp:386
 #: kilestdactions.cpp:43
-#, fuzzy, kde-format
+#, kde-format
 msgid "Table of Contents"
-msgstr "Edukien taula"
+msgstr ""
 
 #: dialogs/texdocumentationdialog.cpp:84
 #, kde-format
@@ -4606,39 +4588,39 @@ msgid "User Help"
 msgstr ""
 
 #: dialogs/userhelpdialog.cpp:63
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Menu item:"
-msgstr "Menuko elementua:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbRemove)
 #: dialogs/userhelpdialog.cpp:76 widgets/quicktoolconfigwidget.ui:116
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Remove"
-msgstr "&Kendu"
+msgstr ""
 
 #: dialogs/userhelpdialog.cpp:77
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Separator"
-msgstr "--- bereizlea ---"
+msgstr ""
 
 #: dialogs/userhelpdialog.cpp:78
-#, fuzzy, kde-format
+#, kde-format
 msgid "Move &Up"
-msgstr "Eraman &gora"
+msgstr ""
 
 #: dialogs/userhelpdialog.cpp:79
-#, fuzzy, kde-format
+#, kde-format
 msgid "Move &Down"
-msgstr "Eraman &behera"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbXmlFile)
 #. i18n: ectx: property (text), widget (QLabel, m_lbFile)
 #: dialogs/userhelpdialog.cpp:118 dialogs/usermenu/usermenudialog.cpp:182
 #: dialogs/usermenu/usermenudialog_base.ui:329
 #: dialogs/usermenu/usermenudialog_base.ui:459
-#, fuzzy, kde-format
+#, kde-format
 msgid "File:"
-msgstr "Fitxategia:"
+msgstr ""
 
 #: dialogs/userhelpdialog.cpp:369
 #, kde-format
@@ -4646,9 +4628,9 @@ msgid "Add User Helpfile"
 msgstr ""
 
 #: dialogs/userhelpdialog.cpp:384
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Menu entry:"
-msgstr "Menuko sarrera: "
+msgstr ""
 
 #: dialogs/userhelpdialog.cpp:392
 #, kde-format
@@ -4656,9 +4638,9 @@ msgid "&Help file:"
 msgstr ""
 
 #: dialogs/userhelpdialog.cpp:403
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open file dialog"
-msgstr "Ireki fitxategien elkarrizketa-koadroa"
+msgstr ""
 
 #: dialogs/userhelpdialog.cpp:411
 #, kde-format
@@ -4681,53 +4663,51 @@ msgid ""
 "Websites (HTML) (*.html *.htm);;Documents (PDF, PS, DVI, EPUB) (*.ps *.pdf *."
 "dvi *.epub);;All Files (*)"
 msgstr ""
-"Webguneak (HTML) (*.html *.htm);;Dokumentuak (PDF, PS, DVI, EPUB) (*.ps *."
-"pdf *.dvi *.epub);;All Fitxategiak (*)"
 
 #: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2147
 #, kde-format
 msgid "Select File"
-msgstr "Hautatu fitxategia"
+msgstr ""
 
 #: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:299
 #: dialogs/usermenu/usermenutree.cpp:233 usermenu/usermenu.cpp:339
 #: widgets/usermenuconfigwidget.cpp:74
 #, kde-format
 msgid "File '%1' does not exist."
-msgstr "'%1' fitxategia ez da existitzen."
+msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:42 usermenu/usermenu.cpp:107
 #, kde-format
 msgid "Edit User Menu"
-msgstr "Editatu erabiltzaile-menua"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbMenuEntry)
 #: dialogs/usermenu/usermenudialog.cpp:53
 #: dialogs/usermenu/usermenudialog_base.ui:412
 #, kde-format
 msgid "Menu Entry"
-msgstr "Menu-sarrera"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbInsertSeparator)
 #: dialogs/usermenu/usermenudialog.cpp:56
 #: dialogs/usermenu/usermenudialog_base.ui:103
 #, kde-format
 msgid "Separator"
-msgstr "Bereizlea"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbInsertSubmenu)
 #: dialogs/usermenu/usermenudialog.cpp:56
 #: dialogs/usermenu/usermenudialog_base.ui:143
 #, kde-format
 msgid "Submenu"
-msgstr "Azpimenua"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenuentryType)
 #: dialogs/usermenu/usermenudialog.cpp:56
 #: dialogs/usermenu/usermenudialog_base.ui:539 kileinfo.cpp:353
 #, kde-format
 msgid "Text"
-msgstr "Testua"
+msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:56
 #, kde-format
@@ -4812,18 +4792,18 @@ msgstr ""
 #: widgets/usermenuconfigwidget.cpp:62
 #, kde-format
 msgid "User Menu Files (*.xml)"
-msgstr "Erabiltzaile menu-fitxategiak (*.xml)"
+msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:290 usermenu/usermenu.cpp:333
 #: widgets/usermenuconfigwidget.cpp:64
 #, kde-format
 msgid "Select Menu File"
-msgstr "Aukeratu menu-fitxategia"
+msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:391
 #, kde-format
 msgid "Save Menu File"
-msgstr "Gorde menu-fitxategia"
+msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:397
 #, kde-format
@@ -4831,13 +4811,11 @@ msgid ""
 "File '%1' does already exist.\n"
 "Overwrite this file?"
 msgstr ""
-"'%1' fitxategia jada badago.\n"
-"Fitxategia gainidatzi?"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
 #, kde-format
 msgid "Overwrite file"
-msgstr "Gainidatzi fitxategia"
+msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -4855,19 +4833,19 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
 msgid "Menutype"
-msgstr "Menu mota"
+msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
 msgid "Please choose a menutype"
-msgstr "Mesedez, aukeratu menu mota bat"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbIcon)
 #: dialogs/usermenu/usermenudialog.cpp:980
 #: dialogs/usermenu/usermenudialog_base.ui:485
 #, kde-format
 msgid "Choose"
-msgstr "Aukeratu"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbUserMenu)
 #: dialogs/usermenu/usermenudialog_base.ui:45
@@ -4894,19 +4872,19 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:110
 #, kde-format
 msgid "Delete the selected item."
-msgstr "Ezabatu hautatutako elementua."
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbDown)
 #: dialogs/usermenu/usermenudialog_base.ui:120
 #, kde-format
 msgid "Move the selected item down."
-msgstr "Eraman hautatutako elementua behera."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbDown)
 #: dialogs/usermenu/usermenudialog_base.ui:123
 #, kde-format
 msgid "Down"
-msgstr "Behera"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInsertBelow)
 #: dialogs/usermenu/usermenudialog_base.ui:130
@@ -4918,7 +4896,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:133
 #, kde-format
 msgid "Insert"
-msgstr "Txertatu"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInsertSubmenu)
 #: dialogs/usermenu/usermenudialog_base.ui:140
@@ -4930,20 +4908,20 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:166
 #, kde-format
 msgid "Move the selected item up."
-msgstr "Eraman hautatutatuko elementua gora."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbUp)
 #: dialogs/usermenu/usermenudialog_base.ui:169
 #, kde-format
 msgid "Up"
-msgstr "Gora"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/usermenu/usermenudialog_base.ui:197
 #: widgets/usermenuconfigwidget.ui:29
 #, kde-format
 msgid "Menu File"
-msgstr "Menu fitxategia"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInstall)
 #: dialogs/usermenu/usermenudialog_base.ui:221
@@ -4956,7 +4934,7 @@ msgstr ""
 #: widgets/usermenuconfigwidget.ui:86
 #, kde-format
 msgid "Install"
-msgstr "Instalatu"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbLoad)
 #: dialogs/usermenu/usermenudialog_base.ui:247
@@ -4968,7 +4946,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:250
 #, kde-format
 msgid "Load"
-msgstr "Zamatu"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbSave)
 #: dialogs/usermenu/usermenudialog_base.ui:273
@@ -4982,7 +4960,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:276
 #, kde-format
 msgid "Save"
-msgstr "Gorde"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbSaveAs)
 #: dialogs/usermenu/usermenudialog_base.ui:283
@@ -4996,13 +4974,13 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:286
 #, kde-format
 msgid "Save as"
-msgstr "Gorde honela"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbXmlInstalled)
 #: dialogs/usermenu/usermenudialog_base.ui:352
-#, fuzzy, kde-format
+#, kde-format
 msgid "(installed)"
-msgstr "Instalatuta"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbNew)
 #: dialogs/usermenu/usermenudialog_base.ui:375
@@ -5014,25 +4992,25 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:378
 #, kde-format
 msgid "New"
-msgstr "Berria"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbText)
 #: dialogs/usermenu/usermenudialog_base.ui:420
 #, kde-format
 msgid "Text:"
-msgstr "Testua:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbShortcut)
 #: dialogs/usermenu/usermenudialog_base.ui:452
-#, fuzzy, kde-format
+#, kde-format
 msgid "Shortcut:"
-msgstr "Lasterbidea:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbType)
 #: dialogs/usermenu/usermenudialog_base.ui:466
-#, fuzzy, kde-format
+#, kde-format
 msgid "Type:"
-msgstr "Mota:"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, m_urlRequester)
 #: dialogs/usermenu/usermenudialog_base.ui:473
@@ -5060,9 +5038,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbMenuentryType)
 #: dialogs/usermenu/usermenudialog_base.ui:562
-#, fuzzy, kde-format
+#, kde-format
 msgid "Change"
-msgstr "Aldatu"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, m_leMenuEntry)
 #: dialogs/usermenu/usermenudialog_base.ui:571
@@ -5072,9 +5050,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenuEntry)
 #: dialogs/usermenu/usermenudialog_base.ui:584
-#, fuzzy, kde-format
+#, kde-format
 msgid "Entry:"
-msgstr "Sarrera"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, m_leParameter)
 #: dialogs/usermenu/usermenudialog_base.ui:614
@@ -5108,9 +5086,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbReplaceSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:660
-#, fuzzy, kde-format
+#, kde-format
 msgid "Replace selected text"
-msgstr "Ordeztu hautatutako testua"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbNeedsSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:673
@@ -5235,9 +5213,9 @@ msgid "Expand complete tree"
 msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:213
-#, fuzzy, kde-format
+#, kde-format
 msgid "Info"
-msgstr "Informazioa"
+msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:437
 #, kde-format
@@ -5265,9 +5243,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:913
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clear menutree"
-msgstr "Garbitu testua"
+msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:930
 #, kde-format
@@ -5300,9 +5278,9 @@ msgid "The file for this item is not executable."
 msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:953
-#, fuzzy, kde-format
+#, kde-format
 msgid "<p><strong>Error:</strong>"
-msgstr "Errorea"
+msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:965
 #, kde-format
@@ -5310,15 +5288,15 @@ msgid "Menutree Error"
 msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:1016
-#, fuzzy, kde-format
+#, kde-format
 msgid "Name"
-msgstr "Izena"
+msgstr ""
 
 #. i18n: ectx: ToolBar (extraToolBar)
 #: docpartui.rc:3
-#, fuzzy, kde-format
+#, kde-format
 msgid "Extra"
-msgstr "Gehigarria"
+msgstr ""
 
 #: documentinfo.cpp:107
 #, kde-format
@@ -5444,19 +5422,19 @@ msgid "Script execution of %1"
 msgstr ""
 
 #: errorhandler.cpp:77
-#, fuzzy, kde-format
+#, kde-format
 msgid "Messages"
-msgstr "Mezuak"
+msgstr ""
 
 #: errorhandler.cpp:78
-#, fuzzy, kde-format
+#, kde-format
 msgid "Errors"
-msgstr "Erroreak"
+msgstr ""
 
 #: errorhandler.cpp:79
-#, fuzzy, kde-format
+#, kde-format
 msgid "Warnings"
-msgstr "Abisuak"
+msgstr ""
 
 #: errorhandler.cpp:80
 #, kde-format
@@ -5499,14 +5477,14 @@ msgid "Next LaTeX BadBox"
 msgstr ""
 
 #: errorhandler.cpp:316
-#, fuzzy, kde-format
+#, kde-format
 msgid "Errors: %1"
-msgstr "Erroreak: %1"
+msgstr ""
 
 #: errorhandler.cpp:319
-#, fuzzy, kde-format
+#, kde-format
 msgid "Warnings: %1"
-msgstr "Abisuak:"
+msgstr ""
 
 #: errorhandler.cpp:322
 #, kde-format
@@ -5563,9 +5541,9 @@ msgid "Tools need to be reset"
 msgstr ""
 
 #: kile.cpp:480
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open File"
-msgstr "Ireki fitxategia"
+msgstr ""
 
 #: kile.cpp:500
 #, kde-format
@@ -5573,19 +5551,19 @@ msgid "Files and Projects"
 msgstr ""
 
 #: kile.cpp:565 widgets/structurewidget.cpp:142
-#, fuzzy, kde-format
+#, kde-format
 msgid "Structure"
-msgstr "Egitura"
+msgstr ""
 
 #: kile.cpp:588
-#, fuzzy, kde-format
+#, kde-format
 msgid "Scripts"
-msgstr "Script-ak"
+msgstr ""
 
 #: kile.cpp:627
-#, fuzzy, kde-format
+#, kde-format
 msgid "Symbols"
-msgstr "Ikurrak"
+msgstr ""
 
 #: kile.cpp:630
 #, kde-format
@@ -5598,14 +5576,14 @@ msgid "Relation"
 msgstr ""
 
 #: kile.cpp:641
-#, fuzzy, kde-format
+#, kde-format
 msgid "Operators"
-msgstr "Eragileak"
+msgstr ""
 
 #: kile.cpp:646
-#, fuzzy, kde-format
+#, kde-format
 msgid "Arrows"
-msgstr "Geziak"
+msgstr ""
 
 #: kile.cpp:651
 #, kde-format
@@ -5618,20 +5596,20 @@ msgid "Miscellaneous Text"
 msgstr ""
 
 #: kile.cpp:661
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delimiters"
-msgstr "Mugatzaileak"
+msgstr ""
 
 #: kile.cpp:666
-#, fuzzy, kde-format
+#, kde-format
 msgid "Greek"
-msgstr "Grekoa"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: kile.cpp:671 widgets/latexconfigwidget.ui:133
-#, fuzzy, kde-format
+#, kde-format
 msgid "Special Characters"
-msgstr "Karaktere bereziak"
+msgstr ""
 
 #: kile.cpp:676
 #, kde-format
@@ -5639,9 +5617,9 @@ msgid "Cyrillic Characters"
 msgstr ""
 
 #: kile.cpp:681
-#, fuzzy, kde-format
+#, kde-format
 msgid "User Defined"
-msgstr "Erabiltzaileak finkatua"
+msgstr ""
 
 #: kile.cpp:686
 #, kde-format
@@ -5653,9 +5631,9 @@ msgid ""
 msgstr ""
 
 #: kile.cpp:706 widgets/codecompletionconfigwidget.cpp:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Abbreviation"
-msgstr "L&aburdura:"
+msgstr ""
 
 #: kile.cpp:737
 #, kde-format
@@ -5663,49 +5641,49 @@ msgid "Log and Messages"
 msgstr ""
 
 #: kile.cpp:743
-#, fuzzy, kde-format
+#, kde-format
 msgid "Output"
-msgstr "Irteera"
+msgstr ""
 
 #: kile.cpp:746
-#, fuzzy, kde-format
+#, kde-format
 msgid "Konsole"
-msgstr "Konsole"
+msgstr ""
 
 #: kile.cpp:848
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save All"
-msgstr "Gorde denak"
+msgstr ""
 
 #: kile.cpp:850
-#, fuzzy, kde-format
+#, kde-format
 msgid "Create Template From Document..."
-msgstr "Txantiloia sortu dokumentu batetik..."
+msgstr ""
 
 #: kile.cpp:851
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Remove Template..."
-msgstr "Kendu txantiloia"
+msgstr ""
 
 #: kile.cpp:853 kile.cpp:983
-#, fuzzy, kde-format
+#, kde-format
 msgid "Close All"
-msgstr "Itxi dena"
+msgstr ""
 
 #: kile.cpp:854
-#, fuzzy, kde-format
+#, kde-format
 msgid "Close All Ot&hers"
-msgstr "Itxi &beste guztiak"
+msgstr ""
 
 #: kile.cpp:855
-#, fuzzy, kde-format
+#, kde-format
 msgid "S&tatistics"
-msgstr "Estatistikak"
+msgstr ""
 
 #: kile.cpp:856
-#, fuzzy, kde-format
+#, kde-format
 msgid "&ASCII"
-msgstr "Ascii85"
+msgstr ""
 
 #: kile.cpp:857
 #, kde-format
@@ -5748,14 +5726,14 @@ msgid "&Western European (cp-1252)"
 msgstr ""
 
 #: kile.cpp:867
-#, fuzzy, kde-format
+#, kde-format
 msgid "Move Tab Left"
-msgstr "Eraman fitxa ezkerrera"
+msgstr ""
 
 #: kile.cpp:868
-#, fuzzy, kde-format
+#, kde-format
 msgid "Move Tab Right"
-msgstr "Eraman fitxa eskuinera"
+msgstr ""
 
 #: kile.cpp:870
 #, kde-format
@@ -5778,9 +5756,9 @@ msgid "Prev paragraph"
 msgstr ""
 
 #: kile.cpp:879
-#, fuzzy, kde-format
+#, kde-format
 msgid "Find &in Files..."
-msgstr "Bilatu fitxategietan"
+msgstr ""
 
 #: kile.cpp:881
 #, kde-format
@@ -5788,19 +5766,19 @@ msgid "Refresh Str&ucture"
 msgstr ""
 
 #: kile.cpp:884
-#, fuzzy, kde-format
+#, kde-format
 msgid "&New Project..."
-msgstr "Proiektu berria"
+msgstr ""
 
 #: kile.cpp:885
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Open Project..."
-msgstr "Ireki proiektua"
+msgstr ""
 
 #: kile.cpp:887
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open &Recent Project"
-msgstr "Ireki oraintsuko proiektua"
+msgstr ""
 
 #: kile.cpp:894
 #, kde-format
@@ -5813,9 +5791,9 @@ msgid "Refresh Project &Tree"
 msgstr ""
 
 #: kile.cpp:896 widgets/projectview.cpp:872
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Archive"
-msgstr "&Artxiboa"
+msgstr ""
 
 #: kile.cpp:897 widgets/projectview.cpp:871
 #, kde-format
@@ -5823,9 +5801,9 @@ msgid "Project &Options"
 msgstr ""
 
 #: kile.cpp:898
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Close Project"
-msgstr "&Itxi proiektua"
+msgstr ""
 
 #: kile.cpp:901
 #, kde-format
@@ -5848,25 +5826,25 @@ msgid "Open All &Project Files"
 msgstr ""
 
 #: kile.cpp:906
-#, fuzzy, kde-format
+#, kde-format
 msgid "Find in &Project..."
-msgstr "Bilatu proiektuan"
+msgstr ""
 
 #: kile.cpp:909 kile.cpp:1007 kile.cpp:2128 kiledocmanager.cpp:1996
 #: kiledocmanager.cpp:2006
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clean"
-msgstr "Garbitu"
+msgstr ""
 
 #: kile.cpp:914
-#, fuzzy, kde-format
+#, kde-format
 msgid "Next Document"
-msgstr "Hurrengo dokumentua"
+msgstr ""
 
 #: kile.cpp:920
-#, fuzzy, kde-format
+#, kde-format
 msgid "Previous Document"
-msgstr "Aurreko dokumentua"
+msgstr ""
 
 #: kile.cpp:923
 #, kde-format
@@ -5942,14 +5920,14 @@ msgid "Math Group"
 msgstr ""
 
 #: kile.cpp:951 kile.cpp:968
-#, fuzzy, kde-format
+#, kde-format
 msgid "Paragraph"
-msgstr "Paragrafoa"
+msgstr ""
 
 #: kile.cpp:953
-#, fuzzy, kde-format
+#, kde-format
 msgid "Line"
-msgstr "Lerroa"
+msgstr ""
 
 #: kile.cpp:955 kile.cpp:972
 #, kde-format
@@ -5972,19 +5950,19 @@ msgid "Go to End"
 msgstr ""
 
 #: kile.cpp:979 kile.cpp:990
-#, fuzzy, kde-format
+#, kde-format
 msgid "Match"
-msgstr "Parekatu"
+msgstr ""
 
 #: kile.cpp:981 kile.cpp:992
-#, fuzzy, kde-format
+#, kde-format
 msgid "Close"
-msgstr "Itxi"
+msgstr ""
 
 #: kile.cpp:995
-#, fuzzy, kde-format
+#, kde-format
 msgid "Selection"
-msgstr "Hautapena"
+msgstr ""
 
 #: kile.cpp:997
 #, kde-format
@@ -5997,15 +5975,15 @@ msgid "Mathgroup"
 msgstr ""
 
 #: kile.cpp:1003
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Bibliography"
-msgstr "&Bibliografia"
+msgstr ""
 
 #. i18n: ectx: Menu (settings)
 #: kile.cpp:1009 kileui.rc:503
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Settings"
-msgstr "E&zarpenak"
+msgstr ""
 
 #: kile.cpp:1012
 #, kde-format
@@ -6020,7 +5998,7 @@ msgstr ""
 #: kile.cpp:1023 kile.cpp:2234
 #, kde-format
 msgid "Quick Start"
-msgstr "Hasiera azkarra"
+msgstr ""
 
 #: kile.cpp:1026 kilestdactions.cpp:384
 #, kde-format
@@ -6063,24 +6041,24 @@ msgid "Watch File Mode"
 msgstr ""
 
 #: kile.cpp:1077
-#, fuzzy, kde-format
+#, kde-format
 msgid "Context Help"
-msgstr "Testuinguru-laguntza"
+msgstr ""
 
 #: kile.cpp:1080
-#, fuzzy, kde-format
+#, kde-format
 msgid "&About Editor Component"
-msgstr "Editore osagaiari &buruz"
+msgstr ""
 
 #: kile.cpp:1088
-#, fuzzy, kde-format
+#, kde-format
 msgid "&System Check..."
-msgstr "Sistemaren egiaztapena"
+msgstr ""
 
 #: kile.cpp:1106 kileinfo.cpp:357
-#, fuzzy, kde-format
+#, kde-format
 msgid "BibTeX"
-msgstr "BibTeX"
+msgstr ""
 
 #: kile.cpp:1109
 #, kde-format
@@ -6093,19 +6071,19 @@ msgid "Compile"
 msgstr ""
 
 #: kile.cpp:1257 widgets/toolconfigwidget.cpp:76
-#, fuzzy, kde-format
+#, kde-format
 msgid "View"
-msgstr "Ikusi"
+msgstr ""
 
 #: kile.cpp:1258 widgets/toolconfigwidget.cpp:75
-#, fuzzy, kde-format
+#, kde-format
 msgid "Convert"
-msgstr "Bihurtu"
+msgstr ""
 
 #: kile.cpp:1259 widgets/toolconfigwidget.cpp:73
-#, fuzzy, kde-format
+#, kde-format
 msgid "Quick"
-msgstr "Azkar"
+msgstr ""
 
 #: kile.cpp:1434
 #, kde-format
@@ -6121,9 +6099,9 @@ msgid "Unable to Create Archive Tool"
 msgstr ""
 
 #: kile.cpp:1505
-#, fuzzy, kde-format
+#, kde-format
 msgid "Project: %1"
-msgstr "Proiektua"
+msgstr ""
 
 #: kile.cpp:1508
 #, kde-format
@@ -6131,9 +6109,9 @@ msgid "Project: %1 (Master document: %2)"
 msgstr ""
 
 #: kile.cpp:1513
-#, fuzzy, kde-format
+#, kde-format
 msgid "Normal mode"
-msgstr "Modu arrunta"
+msgstr ""
 
 #: kile.cpp:1516
 #, kde-format
@@ -6151,10 +6129,10 @@ msgid "Normal mode (current master document: %1)"
 msgstr ""
 
 #: kile.cpp:1743
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
-msgstr "Irakurtzeko soilik"
+msgstr ""
 
 #: kile.cpp:2121
 #, kde-format
@@ -6167,9 +6145,9 @@ msgid "You have to include the package %1."
 msgstr ""
 
 #: kile.cpp:2205 kile.cpp:2208
-#, fuzzy, kde-format
+#, kde-format
 msgid "Insert text"
-msgstr "Txertatu testua"
+msgstr ""
 
 #: kile.cpp:2208
 #, kde-format
@@ -6177,14 +6155,14 @@ msgid "You have to include the packages %1."
 msgstr ""
 
 #: kile.cpp:2429
-#, fuzzy, kde-format
+#, kde-format
 msgid "No Name"
-msgstr "Izenik gabe"
+msgstr ""
 
 #: kile.cpp:2465
-#, fuzzy, kde-format
+#, kde-format
 msgid "no name"
-msgstr "izenik ez"
+msgstr ""
 
 #: kile.cpp:2662
 #, kde-format
@@ -6194,16 +6172,16 @@ msgid ""
 msgstr ""
 
 #: kile.cpp:3004
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
-msgstr "Blokea"
+msgstr ""
 
 #: kile.cpp:3005
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
-msgstr "Lerroa"
+msgstr ""
 
 #: kile.cpp:3012
 #, kde-format
@@ -6211,17 +6189,15 @@ msgid "Refreshing structure..."
 msgstr ""
 
 #: kile.cpp:3030
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
-"Honek menu-barra erabat ezkutatuko du. Berriz erakutsi dezakezu %1 "
-"tekleatuta."
 
 #: kile.cpp:3033
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hide menu bar"
-msgstr "Ezkutatu menu-barra"
+msgstr ""
 
 #. i18n: ectx: label, entry (RCVersion), group (VersionInfo)
 #: kile.kcfg:17
@@ -6324,8 +6300,6 @@ msgstr ""
 #, kde-format
 msgid "Default extension to use when opening graphic files with no extension"
 msgstr ""
-"Luzapenik gabeko grafiko-fitxategiak irekitzeko erabili beharreko luzapen "
-"lehenetsia"
 
 #. i18n: ectx: label, entry (BibliographyType), group (BibliographyMenu)
 #: kile.kcfg:111
@@ -6480,7 +6454,7 @@ msgstr ""
 #: kile.kcfg:188
 #, kde-format
 msgid "Whether to show the splash screen on startup."
-msgstr "Abiatzean plasta pantaila erakutsi hala ez."
+msgstr ""
 
 #. i18n: ectx: label, entry (SystemCheckLastVersionRunForAtStartUp), group (Show)
 #: kile.kcfg:192
@@ -6881,9 +6855,9 @@ msgid "default livepreview tool."
 msgstr ""
 
 #: kileactions.cpp:336
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Label:"
-msgstr "&Etiketa:"
+msgstr ""
 
 #: kiledocmanager.cpp:94
 #, kde-format
@@ -6928,9 +6902,9 @@ msgid "Could not find template: %1"
 msgstr ""
 
 #: kiledocmanager.cpp:681
-#, fuzzy, kde-format
+#, kde-format
 msgid "File Not Found"
-msgstr "Fitxategia ez da aurkitu"
+msgstr ""
 
 #: kiledocmanager.cpp:741
 #, kde-format
@@ -6948,19 +6922,19 @@ msgid "A template for this type of document cannot be created."
 msgstr ""
 
 #: kiledocmanager.cpp:758
-#, fuzzy, kde-format
+#, kde-format
 msgid "Create Template From Document"
-msgstr "Txantiloia sortu dokumentu batetik..."
+msgstr ""
 
 #: kiledocmanager.cpp:764
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remove Template"
-msgstr "Kendu txantiloia"
+msgstr ""
 
 #: kiledocmanager.cpp:829
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open Files"
-msgstr "Ireki fitxategiak"
+msgstr ""
 
 #: kiledocmanager.cpp:910
 #, kde-format
@@ -6970,14 +6944,14 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:911
-#, fuzzy, kde-format
+#, kde-format
 msgid "Saving"
-msgstr "Gordetzen"
+msgstr ""
 
 #: kiledocmanager.cpp:944
-#, fuzzy, kde-format
+#, kde-format
 msgid "Any files (*)"
-msgstr "Edozein fitxategi"
+msgstr ""
 
 #: kiledocmanager.cpp:946
 #, kde-format
@@ -6997,9 +6971,9 @@ msgid "Cannot open directory"
 msgstr ""
 
 #: kiledocmanager.cpp:1090
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save File"
-msgstr "Gorde fitxategia"
+msgstr ""
 
 #: kiledocmanager.cpp:1127
 #, kde-format
@@ -7008,9 +6982,9 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:1128
-#, fuzzy, kde-format
+#, kde-format
 msgid "Overwrite File?"
-msgstr "Gainidatzi fitxategia?"
+msgstr ""
 
 #: kiledocmanager.cpp:1304
 #, kde-format
@@ -7039,7 +7013,7 @@ msgstr ""
 #: kiledocmanager.cpp:1422 kiledocmanager.cpp:1437 kiledocmanager.cpp:1444
 #, kde-format
 msgid "Add to Project"
-msgstr "Gehitu proiektuari"
+msgstr ""
 
 #: kiledocmanager.cpp:1436
 #, kde-format
@@ -7072,9 +7046,9 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:1532
-#, fuzzy, kde-format
+#, kde-format
 msgid "Project Already Open"
-msgstr "Proiektua irekita dagoeneko"
+msgstr ""
 
 #: kiledocmanager.cpp:1543
 #, kde-format
@@ -7085,9 +7059,9 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:1546
-#, fuzzy, kde-format
+#, kde-format
 msgid "Could Not Open Project"
-msgstr "Ezin izan da proiektua ireki."
+msgstr ""
 
 #: kiledocmanager.cpp:1564
 #, kde-format
@@ -7139,14 +7113,14 @@ msgid "Could Not Update Project File"
 msgstr ""
 
 #: kiledocmanager.cpp:1702
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open Project"
-msgstr "Ireki proiektua"
+msgstr ""
 
 #: kiledocmanager.cpp:1721
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save Project"
-msgstr "Gorde proiektua"
+msgstr ""
 
 #: kiledocmanager.cpp:1773
 #, kde-format
@@ -7167,14 +7141,14 @@ msgid "Add Files to Project"
 msgstr ""
 
 #: kiledocmanager.cpp:1807
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add Files"
-msgstr "Erantsi fitxategiak"
+msgstr ""
 
 #: kiledocmanager.cpp:1810
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add"
-msgstr "Gehitu"
+msgstr ""
 
 #: kiledocmanager.cpp:1825
 #, kde-format
@@ -7202,9 +7176,9 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:1886
-#, fuzzy, kde-format
+#, kde-format
 msgid "Close Project"
-msgstr "Itxi proiektua"
+msgstr ""
 
 #: kiledocmanager.cpp:1940
 #, kde-format
@@ -7265,9 +7239,9 @@ msgid "not opened: %1 (%2)"
 msgstr ""
 
 #: kiledocmanager.cpp:2260 kiledocmanager.cpp:2297
-#, fuzzy, kde-format
+#, kde-format
 msgid "Project Files"
-msgstr "Proiektuaren fitxategiak"
+msgstr ""
 
 #: kiledocmanager.cpp:2268 kiledocmanager.cpp:2307
 #, kde-format
@@ -7300,9 +7274,9 @@ msgid "(La)TeX Packages"
 msgstr ""
 
 #: kileextensions.cpp:78
-#, fuzzy, kde-format
+#, kde-format
 msgid "BibTeX Files"
-msgstr "Bibtex fitxategiak"
+msgstr ""
 
 #: kileextensions.cpp:86
 #, kde-format
@@ -7320,9 +7294,9 @@ msgid "Kile Project Files"
 msgstr ""
 
 #: kileextensions.cpp:108
-#, fuzzy, kde-format
+#, kde-format
 msgid "* |All Files"
-msgstr "Fitxategi guztiak"
+msgstr ""
 
 #: kilehelp.cpp:101
 #, kde-format
@@ -7337,14 +7311,14 @@ msgid "No help available for %1."
 msgstr ""
 
 #: kileinfo.cpp:351
-#, fuzzy, kde-format
+#, kde-format
 msgid "Undefined"
-msgstr "Definitu gabe"
+msgstr ""
 
 #: kileinfo.cpp:359
-#, fuzzy, kde-format
+#, kde-format
 msgid "Script"
-msgstr "Gidoia"
+msgstr ""
 
 #: kilelauncher.cpp:110
 #, kde-format
@@ -7352,9 +7326,9 @@ msgid " output: \n"
 msgstr ""
 
 #: kilelauncher.cpp:220
-#, fuzzy, kde-format
+#, kde-format
 msgid "terminated"
-msgstr "amaituta"
+msgstr ""
 
 #: kilelauncher.cpp:229
 #, kde-format
@@ -7379,9 +7353,9 @@ msgid "There is no executable named \"%1\" in your path."
 msgstr ""
 
 #: kilelauncher.cpp:253
-#, fuzzy, kde-format
+#, kde-format
 msgid "You do not have permission to run %1."
-msgstr "<qt>Ez duzu <b>%1</b> exekutazeko baimenik.</qt>"
+msgstr ""
 
 #: kilelauncher.cpp:258
 #, kde-format
@@ -7389,9 +7363,9 @@ msgid "Diagnostics could not find any obvious problems."
 msgstr ""
 
 #: kilelauncher.cpp:279
-#, fuzzy, kde-format
+#, kde-format
 msgid "finished with exit code %1"
-msgstr "%1 %2 irteerako kodearekin amaitu da"
+msgstr ""
 
 #: kilelauncher.cpp:291
 #, kde-format
@@ -7399,14 +7373,14 @@ msgid "finished abruptly"
 msgstr ""
 
 #: kilelauncher.cpp:307
-#, fuzzy, kde-format
+#, kde-format
 msgid "failed to start"
-msgstr "Hastean huts egin du"
+msgstr ""
 
 #: kilelauncher.cpp:310
-#, fuzzy, kde-format
+#, kde-format
 msgid "crashed"
-msgstr "Kraskatua"
+msgstr ""
 
 #: kilelauncher.cpp:313
 #, kde-format
@@ -7434,9 +7408,9 @@ msgid "Add BibTeX database"
 msgstr ""
 
 #: kilelyxserver.cpp:252
-#, fuzzy, kde-format
+#, kde-format
 msgid "Paste"
-msgstr "Itsatsi"
+msgstr ""
 
 #: kilestdactions.cpp:31
 #, kde-format
@@ -7596,9 +7570,9 @@ msgid "Quote - \\begin{quote}"
 msgstr ""
 
 #: kilestdactions.cpp:50
-#, fuzzy, kde-format
+#, kde-format
 msgid "Quote"
-msgstr "Aipua"
+msgstr ""
 
 #: kilestdactions.cpp:50
 #, kde-format
@@ -7675,9 +7649,9 @@ msgid "Enumeration - \\begin{enumerate}"
 msgstr ""
 
 #: kilestdactions.cpp:56
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enumeration"
-msgstr "Zenbakikuntza"
+msgstr ""
 
 #: kilestdactions.cpp:56
 #, kde-format
@@ -7777,9 +7751,9 @@ msgid "Italics - \\textit{}"
 msgstr ""
 
 #: kilestdactions.cpp:72
-#, fuzzy, kde-format
+#, kde-format
 msgid "Italics"
-msgstr "Etzana"
+msgstr ""
 
 #: kilestdactions.cpp:72
 #, kde-format
@@ -7822,9 +7796,9 @@ msgid "Typewriter - \\texttt{}"
 msgstr ""
 
 #: kilestdactions.cpp:75
-#, fuzzy, kde-format
+#, kde-format
 msgid "Typewriter"
-msgstr "Idazmakina"
+msgstr ""
 
 #: kilestdactions.cpp:75
 #, kde-format
@@ -7837,9 +7811,9 @@ msgid "Small Caps - \\textsc{}"
 msgstr ""
 
 #: kilestdactions.cpp:76
-#, fuzzy, kde-format
+#, kde-format
 msgid "Small Caps"
-msgstr "Larri txikiak"
+msgstr ""
 
 #: kilestdactions.cpp:76
 #, kde-format
@@ -7952,9 +7926,9 @@ msgid "Vertical Line - \\vline"
 msgstr ""
 
 #: kilestdactions.cpp:83
-#, fuzzy, kde-format
+#, kde-format
 msgid "Vertical Line"
-msgstr "Lerro bertikala"
+msgstr ""
 
 #: kilestdactions.cpp:83
 #, kde-format
@@ -7986,9 +7960,9 @@ msgid "New Page - \\newpage"
 msgstr ""
 
 #: kilestdactions.cpp:86
-#, fuzzy, kde-format
+#, kde-format
 msgid "New Page"
-msgstr "Orri Berria"
+msgstr ""
 
 #: kilestdactions.cpp:86
 #, kde-format
@@ -8001,9 +7975,9 @@ msgid "Line Break - \\linebreak"
 msgstr ""
 
 #: kilestdactions.cpp:87
-#, fuzzy, kde-format
+#, kde-format
 msgid "Line Break"
-msgstr "Lerro-jauzia"
+msgstr ""
 
 #: kilestdactions.cpp:87
 #, kde-format
@@ -8018,9 +7992,9 @@ msgid "Page Break - \\pagebreak"
 msgstr ""
 
 #: kilestdactions.cpp:88
-#, fuzzy, kde-format
+#, kde-format
 msgid "Page Break"
-msgstr "Orri jauzia"
+msgstr ""
 
 #: kilestdactions.cpp:88
 #, kde-format
@@ -8146,9 +8120,9 @@ msgid ""
 msgstr ""
 
 #: kilestdactions.cpp:102
-#, fuzzy, kde-format
+#, kde-format
 msgid "C&hapter"
-msgstr "Kapitulua"
+msgstr ""
 
 #: kilestdactions.cpp:103
 #, kde-format
@@ -8159,9 +8133,9 @@ msgid ""
 msgstr ""
 
 #: kilestdactions.cpp:103
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Section"
-msgstr "Atala"
+msgstr ""
 
 #: kilestdactions.cpp:104
 #, kde-format
@@ -8172,9 +8146,9 @@ msgid ""
 msgstr ""
 
 #: kilestdactions.cpp:104
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Subsection"
-msgstr "Azpiatala"
+msgstr ""
 
 #: kilestdactions.cpp:105
 #, kde-format
@@ -8198,9 +8172,9 @@ msgid ""
 msgstr ""
 
 #: kilestdactions.cpp:107
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Paragraph"
-msgstr "Paragrafoa"
+msgstr ""
 
 #: kilestdactions.cpp:108
 #, kde-format
@@ -8211,19 +8185,19 @@ msgid ""
 msgstr ""
 
 #: kilestdactions.cpp:108
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Subparagraph"
-msgstr "Azpiparagrafoa"
+msgstr ""
 
 #: kilestdactions.cpp:110
-#, fuzzy, kde-format
+#, kde-format
 msgid "Size"
-msgstr "Neurria"
+msgstr ""
 
 #: kilestdactions.cpp:112
-#, fuzzy, kde-format
+#, kde-format
 msgid "tiny"
-msgstr "Ñimiñoa"
+msgstr ""
 
 #: kilestdactions.cpp:113
 #, kde-format
@@ -8236,9 +8210,9 @@ msgid "footnotesize"
 msgstr ""
 
 #: kilestdactions.cpp:115
-#, fuzzy, kde-format
+#, kde-format
 msgid "small"
-msgstr "txikia"
+msgstr ""
 
 #: kilestdactions.cpp:117
 #, kde-format
@@ -8246,35 +8220,35 @@ msgid "normalsize"
 msgstr ""
 
 #: kilestdactions.cpp:119
-#, fuzzy, kde-format
+#, kde-format
 msgid "large"
-msgstr "handia"
+msgstr ""
 
 #: kilestdactions.cpp:120
-#, fuzzy, kde-format
+#, kde-format
 msgid "Large"
-msgstr "Handia"
+msgstr ""
 
 #: kilestdactions.cpp:121
-#, fuzzy, kde-format
+#, kde-format
 msgid "LARGE"
-msgstr "Handia"
+msgstr ""
 
 #: kilestdactions.cpp:122
-#, fuzzy, kde-format
+#, kde-format
 msgid "huge"
-msgstr "itzela"
+msgstr ""
 
 #: kilestdactions.cpp:123
-#, fuzzy, kde-format
+#, kde-format
 msgid "Huge"
-msgstr "Itzela"
+msgstr ""
 
 #: kilestdactions.cpp:125 widgets/projectview.cpp:481
 #: widgets/toolconfigwidget.cpp:77
-#, fuzzy, kde-format
+#, kde-format
 msgid "Other"
-msgstr "Bestelakoak"
+msgstr ""
 
 #: kilestdactions.cpp:127
 #, kde-format
@@ -8315,9 +8289,9 @@ msgid "Abstract - \\begin{abstract}"
 msgstr ""
 
 #: kilestdactions.cpp:146
-#, fuzzy, kde-format
+#, kde-format
 msgid "Abstract"
-msgstr "Abstraktua"
+msgstr ""
 
 #: kilestdactions.cpp:146
 #, kde-format
@@ -8435,9 +8409,9 @@ msgid "Glossary - \\makeglossary"
 msgstr ""
 
 #: kilestdactions.cpp:161
-#, fuzzy, kde-format
+#, kde-format
 msgid "Glossary"
-msgstr "Glosategia"
+msgstr ""
 
 #: kilestdactions.cpp:161
 #, kde-format
@@ -8450,9 +8424,9 @@ msgid "Bibliography - \\begin{thebibliography}"
 msgstr ""
 
 #: kilestdactions.cpp:163 widgets/projectview.cpp:477
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bibliography"
-msgstr "Bibliografia"
+msgstr ""
 
 #: kilestdactions.cpp:163
 #, kde-format
@@ -8574,9 +8548,9 @@ msgid "Horizontal Rule - \\hrulefill"
 msgstr ""
 
 #: kilestdactions.cpp:181
-#, fuzzy, kde-format
+#, kde-format
 msgid "Horizontal Rule"
-msgstr "Zuzen horizontala"
+msgstr ""
 
 #: kilestdactions.cpp:181
 #, kde-format
@@ -8698,9 +8672,9 @@ msgid "Strong - \\strong{}"
 msgstr ""
 
 #: kilestdactions.cpp:195
-#, fuzzy, kde-format
+#, kde-format
 msgid "Strong"
-msgstr "Sendoa"
+msgstr ""
 
 #: kilestdactions.cpp:195
 #, kde-format
@@ -8713,9 +8687,9 @@ msgid "Roman - \\rmfamily"
 msgstr ""
 
 #: kilestdactions.cpp:197
-#, fuzzy, kde-format
+#, kde-format
 msgid "Roman"
-msgstr "Erromatarra"
+msgstr ""
 
 #: kilestdactions.cpp:198
 #, kde-format
@@ -8723,9 +8697,9 @@ msgid "Sans Serif - \\sffamily"
 msgstr ""
 
 #: kilestdactions.cpp:198
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sans Serif"
-msgstr "Sans Serif"
+msgstr ""
 
 #: kilestdactions.cpp:199
 #, kde-format
@@ -8733,9 +8707,9 @@ msgid "Monospace - \\ttfamily"
 msgstr ""
 
 #: kilestdactions.cpp:199
-#, fuzzy, kde-format
+#, kde-format
 msgid "Monospace"
-msgstr "Zabalera-finkoa"
+msgstr ""
 
 #: kilestdactions.cpp:201
 #, kde-format
@@ -8743,9 +8717,9 @@ msgid "Medium - \\mdseries"
 msgstr ""
 
 #: kilestdactions.cpp:201
-#, fuzzy, kde-format
+#, kde-format
 msgid "Medium"
-msgstr "Ertaina"
+msgstr ""
 
 #: kilestdactions.cpp:202
 #, kde-format
@@ -8924,9 +8898,9 @@ msgid "\\acute{}"
 msgstr ""
 
 #: kilestdactions.cpp:357
-#, fuzzy, kde-format
+#, kde-format
 msgid "\\grave{}"
-msgstr "hilobia"
+msgstr ""
 
 #: kilestdactions.cpp:358
 #, kde-format
@@ -8934,9 +8908,9 @@ msgid "\\tilde{}"
 msgstr ""
 
 #: kilestdactions.cpp:359
-#, fuzzy, kde-format
+#, kde-format
 msgid "\\bar{}"
-msgstr "Barra"
+msgstr ""
 
 #: kilestdactions.cpp:360
 #, kde-format
@@ -8944,9 +8918,9 @@ msgid "\\vec{}"
 msgstr ""
 
 #: kilestdactions.cpp:361
-#, fuzzy, kde-format
+#, kde-format
 msgid "\\hat{}"
-msgstr "kapela"
+msgstr ""
 
 #: kilestdactions.cpp:362
 #, kde-format
@@ -8959,9 +8933,9 @@ msgid "\\breve{}"
 msgstr ""
 
 #: kilestdactions.cpp:364
-#, fuzzy, kde-format
+#, kde-format
 msgid "\\dot{}"
-msgstr "Puntua"
+msgstr ""
 
 #: kilestdactions.cpp:365
 #, kde-format
@@ -9019,9 +8993,9 @@ msgid "Equation - \\begin{equation}"
 msgstr ""
 
 #: kilestdactions.cpp:375
-#, fuzzy, kde-format
+#, kde-format
 msgid "Equation"
-msgstr "Ekuazioa"
+msgstr ""
 
 #: kilestdactions.cpp:376
 #, kde-format
@@ -9029,19 +9003,19 @@ msgid "Subscript - _{}"
 msgstr ""
 
 #: kilestdactions.cpp:376
-#, fuzzy, kde-format
+#, kde-format
 msgid "Subscript"
-msgstr "Azpindizea"
+msgstr ""
 
 #: kilestdactions.cpp:377
-#, fuzzy, kde-format
+#, kde-format
 msgid "Superscript - ^{}"
-msgstr "Goi-indizea"
+msgstr ""
 
 #: kilestdactions.cpp:377
-#, fuzzy, kde-format
+#, kde-format
 msgid "Superscript"
-msgstr "Goi-indizea"
+msgstr ""
 
 #: kilestdactions.cpp:378
 #, kde-format
@@ -9079,19 +9053,19 @@ msgid "Square Root - \\sqrt{}"
 msgstr ""
 
 #: kilestdactions.cpp:381
-#, fuzzy, kde-format
+#, kde-format
 msgid "Square Root"
-msgstr "Erro karratua"
+msgstr ""
 
 #: kilestdactions.cpp:382
-#, fuzzy, kde-format
+#, kde-format
 msgid "\\left"
-msgstr "Ezkerra:"
+msgstr ""
 
 #: kilestdactions.cpp:383
-#, fuzzy, kde-format
+#, kde-format
 msgid "\\right"
-msgstr "Eskuina:"
+msgstr ""
 
 #: kilestdactions.cpp:384
 #, kde-format
@@ -9118,19 +9092,19 @@ msgid "Left Delimiter"
 msgstr ""
 
 #: kilestdactions.cpp:390
-#, fuzzy, kde-format
+#, kde-format
 msgid "left ("
-msgstr "Ezkerra:"
+msgstr ""
 
 #: kilestdactions.cpp:391
-#, fuzzy, kde-format
+#, kde-format
 msgid "left ["
-msgstr "Ezkerra:"
+msgstr ""
 
 #: kilestdactions.cpp:392
-#, fuzzy, kde-format
+#, kde-format
 msgid "left {"
-msgstr "Ezkerra:"
+msgstr ""
 
 #: kilestdactions.cpp:393
 #, kde-format
@@ -9138,19 +9112,19 @@ msgid "left &lt;"
 msgstr ""
 
 #: kilestdactions.cpp:395
-#, fuzzy, kde-format
+#, kde-format
 msgid "left )"
-msgstr "Ezkerra:"
+msgstr ""
 
 #: kilestdactions.cpp:396
-#, fuzzy, kde-format
+#, kde-format
 msgid "left ]"
-msgstr "Ezkerra:"
+msgstr ""
 
 #: kilestdactions.cpp:397
-#, fuzzy, kde-format
+#, kde-format
 msgid "left }"
-msgstr "Ezkerra:"
+msgstr ""
 
 #: kilestdactions.cpp:398
 #, kde-format
@@ -9158,9 +9132,9 @@ msgid "left &gt;"
 msgstr ""
 
 #: kilestdactions.cpp:400
-#, fuzzy, kde-format
+#, kde-format
 msgid "left ."
-msgstr "Ezkerra:"
+msgstr ""
 
 #: kilestdactions.cpp:402
 #, kde-format
@@ -9168,19 +9142,19 @@ msgid "Right Delimiter"
 msgstr ""
 
 #: kilestdactions.cpp:404
-#, fuzzy, kde-format
+#, kde-format
 msgid "right )"
-msgstr "Eskuina:"
+msgstr ""
 
 #: kilestdactions.cpp:405
-#, fuzzy, kde-format
+#, kde-format
 msgid "right ]"
-msgstr "Eskuina:"
+msgstr ""
 
 #: kilestdactions.cpp:406
-#, fuzzy, kde-format
+#, kde-format
 msgid "right }"
-msgstr "Eskuina:"
+msgstr ""
 
 #: kilestdactions.cpp:407
 #, kde-format
@@ -9188,19 +9162,19 @@ msgid "right &gt;"
 msgstr ""
 
 #: kilestdactions.cpp:409
-#, fuzzy, kde-format
+#, kde-format
 msgid "right ("
-msgstr "Eskuina:"
+msgstr ""
 
 #: kilestdactions.cpp:410
-#, fuzzy, kde-format
+#, kde-format
 msgid "right ["
-msgstr "Eskuina:"
+msgstr ""
 
 #: kilestdactions.cpp:411
-#, fuzzy, kde-format
+#, kde-format
 msgid "right {"
-msgstr "Eskuina:"
+msgstr ""
 
 #: kilestdactions.cpp:412
 #, kde-format
@@ -9208,9 +9182,9 @@ msgid "right &lt;"
 msgstr ""
 
 #: kilestdactions.cpp:414
-#, fuzzy, kde-format
+#, kde-format
 msgid "right ."
-msgstr "Eskuina:"
+msgstr ""
 
 #: kilestdactions.cpp:419
 #, kde-format
@@ -9258,9 +9232,9 @@ msgid "Left-Right () - \\left(..\\right)"
 msgstr ""
 
 #: kilestdactions.cpp:427
-#, fuzzy, kde-format
+#, kde-format
 msgid "Left-Right ()"
-msgstr "Ezkerrean: %1, Eskuinean: %2"
+msgstr ""
 
 #: kilestdactions.cpp:429
 #, kde-format
@@ -9438,9 +9412,9 @@ msgid "Split - \\begin{split}"
 msgstr ""
 
 #: kilestdactions.cpp:459
-#, fuzzy, kde-format
+#, kde-format
 msgid "Split"
-msgstr "Zatitu"
+msgstr ""
 
 #: kilestdactions.cpp:461
 #, kde-format
@@ -9468,9 +9442,9 @@ msgid "Align - \\begin{align}"
 msgstr ""
 
 #: kilestdactions.cpp:464
-#, fuzzy, kde-format
+#, kde-format
 msgid "Align"
-msgstr "Lerrokatu"
+msgstr ""
 
 #: kilestdactions.cpp:465
 #, kde-format
@@ -9478,9 +9452,9 @@ msgid "Align* - \\begin{align*}"
 msgstr ""
 
 #: kilestdactions.cpp:465
-#, fuzzy, kde-format
+#, kde-format
 msgid "Align*"
-msgstr "Lerrokatu"
+msgstr ""
 
 #: kilestdactions.cpp:467
 #, kde-format
@@ -9568,84 +9542,84 @@ msgid "matrix - \\begin{matrix}"
 msgstr ""
 
 #: kilestdactions.cpp:479
-#, fuzzy, kde-format
+#, kde-format
 msgid "matrix"
-msgstr "matrix"
+msgstr ""
 
 #: kilestdactions.cpp:480
 #, kde-format
 msgid "pmatrix - \\begin{pmatrix}"
-msgstr "pmatrix - \\begin{pmatrix}"
+msgstr ""
 
 #: kilestdactions.cpp:480
 #, kde-format
 msgid "pmatrix"
-msgstr "pmatrix"
+msgstr ""
 
 #: kilestdactions.cpp:481
 #, kde-format
 msgid "vmatrix - \\begin{vmatrix}"
-msgstr "vmatrix - \\begin{vmatrix}"
+msgstr ""
 
 #: kilestdactions.cpp:481
 #, kde-format
 msgid "vmatrix"
-msgstr "vmatrix"
+msgstr ""
 
 #: kilestdactions.cpp:482
 #, kde-format
 msgid "Vmatrix - \\begin{Vmatrix}"
-msgstr "Vmatrix - \\begin{Vmatrix}"
+msgstr ""
 
 #: kilestdactions.cpp:482
 #, kde-format
 msgid "Vmatrix"
-msgstr "Vmatrix"
+msgstr ""
 
 #: kilestdactions.cpp:483
 #, kde-format
 msgid "bmatrix - \\begin{bmatrix}"
-msgstr "bmatrix - \\begin{bmatrix}"
+msgstr ""
 
 #: kilestdactions.cpp:483
 #, kde-format
 msgid "bmatrix"
-msgstr "bmatrix"
+msgstr ""
 
 #: kilestdactions.cpp:484
 #, kde-format
 msgid "Bmatrix - \\begin{Bmatrix}"
-msgstr "Bmatrix - \\begin{Bmatrix}"
+msgstr ""
 
 #: kilestdactions.cpp:484
 #, kde-format
 msgid "Bmatrix"
-msgstr "Bmatrix"
+msgstr ""
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:328
-#, fuzzy, kde-format
+#, kde-format
 msgid "0 errors"
-msgstr "Erroreak"
+msgstr ""
 
 #: kilestdtools.cpp:328
-#, fuzzy, kde-format
+#, kde-format
 msgid "1 error"
 msgid_plural "%1 errors"
-msgstr[0] "Errorea"
-msgstr[1] "Erroreak"
+msgstr[0] ""
+msgstr[1] ""
 
 #: kilestdtools.cpp:329
-#, fuzzy, kde-format
+#, kde-format
 msgid "0 warnings"
-msgstr "Abisuak:"
+msgstr ""
 
 #: kilestdtools.cpp:329
-#, fuzzy, kde-format
+#, kde-format
 msgid "1 warning"
 msgid_plural "%1 warnings"
-msgstr[0] "Abisua"
-msgstr[1] "Abisuak:"
+msgstr[0] ""
+msgstr[1] ""
 
 #: kilestdtools.cpp:330
 #, kde-format
@@ -9754,12 +9728,12 @@ msgstr ""
 #: kiletool.cpp:64
 #, kde-format
 msgid "The file %1 does not exist."
-msgstr "%1 fitxategia ez da existitzen."
+msgstr ""
 
 #: kiletool.cpp:65
-#, fuzzy, kde-format
+#, kde-format
 msgid "The file %1 is not readable."
-msgstr "<filename>%1</filename> fitxategia edo direktorioa ez da existitzen."
+msgstr ""
 
 #: kiletool.cpp:639
 #, kde-format
@@ -9767,9 +9741,9 @@ msgid "The document %1 is not a LaTeX root document; continue anyway?"
 msgstr ""
 
 #: kiletool.cpp:639
-#, fuzzy, kde-format
+#, kde-format
 msgid "Continue?"
-msgstr "Jarraitu"
+msgstr ""
 
 #: kiletool.cpp:651
 #, kde-format
@@ -9790,9 +9764,9 @@ msgid "No files have been chosen for archiving."
 msgstr ""
 
 #: kiletool.cpp:691
-#, fuzzy, kde-format
+#, kde-format
 msgid "Archive Project"
-msgstr "Artxibatu proiektua"
+msgstr ""
 
 #: kiletool.cpp:817 kiletoolmanager.cpp:284
 #, kde-format
@@ -9805,9 +9779,9 @@ msgid "No factory installed, contact the author of Kile."
 msgstr ""
 
 #: kiletoolmanager.cpp:361
-#, fuzzy, kde-format
+#, kde-format
 msgid "Aborted"
-msgstr "Abortatuta"
+msgstr ""
 
 #: kiletoolmanager.cpp:485
 #, kde-format
@@ -9815,9 +9789,9 @@ msgid "Cannot find the tool \"%1\" in the configuration database."
 msgstr ""
 
 #: kiletoolmanager.cpp:741
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Stop"
-msgstr "&Gelditu"
+msgstr ""
 
 #: kiletoolmanager.cpp:750
 #, kde-format
@@ -9825,9 +9799,9 @@ msgid "Bibliography Back End"
 msgstr ""
 
 #: kiletoolmanager.cpp:751
-#, fuzzy, kde-format
+#, kde-format
 msgid "Auto-Detect"
-msgstr "Autodetektatu"
+msgstr ""
 
 #: kiletoolmanager.cpp:752
 #, kde-format
@@ -9837,74 +9811,74 @@ msgstr ""
 #: kiletoolmanager.cpp:757
 #, kde-format
 msgid "Reset Auto-Detected Back End"
-msgstr "Berrezarri automatikoki antzemandako bizkarraldekoa"
+msgstr ""
 
 #. i18n: ectx: Menu (file)
 #: kileui.rc:12
 #, kde-format
 msgid "&File"
-msgstr "&Fitxategia"
+msgstr ""
 
 #. i18n: ectx: Menu (convert)
 #: kileui.rc:32
 #, kde-format
 msgid "Con&vert To"
-msgstr "B&ihurtu..."
+msgstr ""
 
 #. i18n: ectx: Menu (edit)
 #: kileui.rc:53 widgets/abbreviationview.cpp:120
 #, kde-format
 msgid "&Edit"
-msgstr "&Editatu"
+msgstr ""
 
 #. i18n: ectx: Menu (complete)
 #: kileui.rc:61
 #, kde-format
 msgid "Co&mplete"
-msgstr "&Osatu"
+msgstr ""
 
 #. i18n: ectx: Menu (bullet)
 #: kileui.rc:66
 #, kde-format
 msgid "&Bullets"
-msgstr "&Buletak"
+msgstr ""
 
 #. i18n: ectx: Menu (select)
 #: kileui.rc:70 widgets/structurewidget.cpp:780
 #, kde-format
 msgid "&Select"
-msgstr "&Hautatu"
+msgstr ""
 
 #. i18n: ectx: Menu (delete)
 #: kileui.rc:83
 #, kde-format
 msgid "D&elete"
-msgstr "E&zabatu"
+msgstr ""
 
 #. i18n: ectx: Menu (environment)
 #: kileui.rc:96
 #, kde-format
 msgid "Environmen&t"
-msgstr "In&gurunea"
+msgstr ""
 
 #. i18n: ectx: Menu (texgroup)
 #: kileui.rc:104
 #, kde-format
 msgid "Te&X Group"
-msgstr "Te&X taldea"
+msgstr ""
 
 #. i18n: ectx: Menu (selection)
 #: kileui.rc:116
 #, kde-format
 msgid "&Selection"
-msgstr "&Hautapena"
+msgstr ""
 
 #. i18n: ectx: Menu (view)
 #. i18n: ectx: Menu (menu_viewer)
 #: kileui.rc:119 kileui.rc:160
 #, kde-format
 msgid "&View"
-msgstr "&Ikuspegia"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
@@ -9912,61 +9886,61 @@ msgstr "&Ikuspegia"
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
-msgstr "Dokumentu ikustaila"
+msgstr ""
 
 #. i18n: ectx: Menu (go)
 #: kileui.rc:129
 #, kde-format
 msgid "&Go"
-msgstr "&Joan"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_build)
 #: kileui.rc:143
 #, kde-format
 msgid "B&uild"
-msgstr "&Eraiki"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_compile)
 #: kileui.rc:156
 #, kde-format
 msgid "&Compile"
-msgstr "&Konpilatu"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_convert)
 #: kileui.rc:158
 #, kde-format
 msgid "C&onvert"
-msgstr "Bih&urtu"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_other)
 #: kileui.rc:162
 #, kde-format
 msgid "O&ther"
-msgstr "Bes&telakoa"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_project)
 #: kileui.rc:180
 #, kde-format
 msgid "Pro&ject"
-msgstr "&Proiektua"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_latex)
 #: kileui.rc:202
 #, kde-format
 msgid "LaTe&X"
-msgstr "LaTe&X"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_preamble)
 #: kileui.rc:203
 #, kde-format
 msgid "&Preamble"
-msgstr "Hi&tzaurrea"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_lists)
 #: kileui.rc:217
 #, kde-format
 msgid "Tables and Lists"
-msgstr "Taulak eta zerrendak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_sectioning)
 #: kileui.rc:228
@@ -9978,19 +9952,19 @@ msgstr ""
 #: kileui.rc:239
 #, kde-format
 msgid "&References"
-msgstr "&Erreferentziak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_environment)
 #: kileui.rc:251
 #, kde-format
 msgid "&Environment"
-msgstr "&Ingurunea"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_listenv)
 #: kileui.rc:262
 #, kde-format
 msgid "&List Environment"
-msgstr "&Zerrenda ingurunea"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_tabularenv)
 #: kileui.rc:269
@@ -10002,145 +9976,145 @@ msgstr ""
 #: kileui.rc:280
 #, kde-format
 msgid "&Floating Environment"
-msgstr "Ingurune &higikorra"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_code)
 #: kileui.rc:284
 #, kde-format
 msgid "&Code Environment"
-msgstr "&Kode ingurunea"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_math)
 #: kileui.rc:292
 #, kde-format
 msgid "&Math Commands"
-msgstr "&Matematika komandoak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_mathbraces)
 #: kileui.rc:302
 #, kde-format
 msgid "Braces"
-msgstr "Parentesiak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_mathtext)
 #: kileui.rc:320
 #, kde-format
 msgid "AMS Text and Boxes"
-msgstr "AMS Testua eta kutxak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_mathfrac)
 #: kileui.rc:326
 #, kde-format
 msgid "AMS Fraction"
-msgstr "AMS Zatikia"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_mathbinom)
 #: kileui.rc:331
 #, kde-format
 msgid "AMS Binomial Expression"
-msgstr "AMS Adierazpen binomiala"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_mathcommands)
 #: kileui.rc:336
 #, kde-format
 msgid "AMS Arrows"
-msgstr "AMS Geziak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_mathfontstyles)
 #: kileui.rc:341
 #, kde-format
 msgid "Math &Font Styles"
-msgstr "Matematika &letra-tipo estiloak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_mathaccents)
 #: kileui.rc:351
 #, kde-format
 msgid "Math &Accents"
-msgstr "Matematika &azentuak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_mathspaces)
 #: kileui.rc:363
 #, kde-format
 msgid "Math &Spaces"
-msgstr "Matematika &zuriuneak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_mathenv)
 #: kileui.rc:374
 #, kde-format
 msgid "Standard Math &Environments"
-msgstr "Matematika ingurune estandarrak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_mathamsenv)
 #: kileui.rc:382
 #, kde-format
 msgid "&AMS Math Environments"
-msgstr "&AMS Matematika inguruneak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_amsenv_align)
 #: kileui.rc:383
 #, kde-format
 msgid "&Align Environments"
-msgstr "Lerrok&atu inguruneak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_amsenv_center)
 #: kileui.rc:396
 #, kde-format
 msgid "&Center Environments"
-msgstr "Er&diratu inguruneak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_amsenv_multiline)
 #: kileui.rc:402
 #, kde-format
 msgid "Multi &Line Environments"
-msgstr "&Lerro anizkoitzeko inguruneak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_amsenv_matrix)
 #: kileui.rc:408
 #, kde-format
 msgid "&Matrix Environments"
-msgstr "&Matrize inguruneak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:424
 #, kde-format
 msgid "&Font Styles"
-msgstr "&Letra-tipo estiloak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_fontfamily)
 #: kileui.rc:434
 #, kde-format
 msgid "Font Family"
-msgstr "Letra-tipoaren familia"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_fontseries)
 #: kileui.rc:439
 #, kde-format
 msgid "Font Series"
-msgstr "Letra-tipo saila"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_fontshape)
 #: kileui.rc:443
 #, kde-format
 msgid "Font Shape"
-msgstr "Letra-tipo forma"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_spacing)
 #: kileui.rc:450
-#, fuzzy, kde-format
+#, kde-format
 msgid "Spa&cing"
-msgstr "Tartea:"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_breaks)
 #: kileui.rc:451
 #, kde-format
 msgid "Page- and Linebreaks"
-msgstr "Orri- eta lerro-jauziak"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_skips)
 #: kileui.rc:458
-#, fuzzy, kde-format
+#, kde-format
 msgid "Space"
-msgstr "Zuriunea"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_rubberlength)
 #: kileui.rc:469
@@ -10152,111 +10126,111 @@ msgstr ""
 #: kileui.rc:487
 #, kde-format
 msgid "&Wizard"
-msgstr "&Morroia"
+msgstr ""
 
 #. i18n: ectx: Menu (help)
 #: kileui.rc:516
 #, kde-format
 msgid "&Help"
-msgstr "&Laguntza"
+msgstr ""
 
 #. i18n: ectx: Menu (help_tex)
 #: kileui.rc:519
 #, kde-format
 msgid "LaTeX Documentation"
-msgstr "LaTeX dokumentazioa"
+msgstr ""
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #: kileui.rc:534
 #, kde-format
 msgid "Main"
-msgstr "Nagusia"
+msgstr ""
 
 #. i18n: ectx: ToolBar (editToolBar)
 #: kileui.rc:550
 #, kde-format
 msgid "Edit"
-msgstr "Editatu"
+msgstr ""
 
 #: kileviewmanager.cpp:125
 #, kde-format
 msgid "Show Cursor Position in Viewer"
-msgstr "Erakutsi kurtsorearen kokalekua ikustailean"
+msgstr ""
 
 #: kileviewmanager.cpp:129
 #, kde-format
 msgid "Synchronize Cursor Position with Viewer"
-msgstr "Sinkronizatu kurtsorearen kokalekua ikustailearekin"
+msgstr ""
 
 #: kileviewmanager.cpp:182
 #, kde-format
 msgid "Paste as LaTe&X"
-msgstr "Itsatsi LaTe&X gisa"
+msgstr ""
 
 #: kileviewmanager.cpp:186
 #, kde-format
 msgid "Convert Selection to &LaTeX"
-msgstr "Bihurtu hautapena -> LaTeX"
+msgstr ""
 
 #: kileviewmanager.cpp:257
 #, kde-format
 msgid "Show sorted list of opened documents"
-msgstr "Erakutsi irekitako dokumentuen zerrenda ordenatua"
+msgstr ""
 
 #: kileviewmanager.cpp:377
 #, kde-format
 msgid "Could not create an editor view."
-msgstr "Ezin izan du editore-ikuspegi bat sortu."
+msgstr ""
 
 #: kileviewmanager.cpp:377
 #, kde-format
 msgid "Fatal Error"
-msgstr "Errore larria"
+msgstr ""
 
 #: kileviewmanager.cpp:845
 #, kde-format
 msgid "&QuickPreview Selection"
-msgstr "&Aurreikuspegi azkarra Hautapena"
+msgstr ""
 
 #: kileviewmanager.cpp:846
 #, kde-format
 msgid "&QuickPreview Environment"
-msgstr "&Aurreikuspegi azkarra Ingurunea"
+msgstr ""
 
 #: kileviewmanager.cpp:847
 #, kde-format
 msgid "&QuickPreview Math"
-msgstr "&Aurreikuspegi azkarra Matematika"
+msgstr ""
 
 #: kileviewmanager.cpp:1135
 #, kde-format
 msgid "Print Compiled Document..."
-msgstr "Inprimatu konpilatutako dokumentua..."
+msgstr ""
 
 #: kileviewmanager.cpp:1141
 #, kde-format
 msgid "Print Preview For Compiled Document..."
-msgstr "Konpilatutako dokumenturako inprimatze aurreikuspegia..."
+msgstr ""
 
 #: livepreview.cpp:187
 #, kde-format
 msgid "Live Preview for Current Document or Project"
-msgstr "Uneko dokumentu edo proiektuaren zuzeneko aurreikuspegia"
+msgstr ""
 
 #: livepreview.cpp:192
 #, kde-format
 msgid "Recompile Live Preview"
-msgstr "Birkonpilatu zuzeneko aurreikuspegia"
+msgstr ""
 
 #: livepreview.cpp:197
 #, kde-format
 msgid "Save Compiled Document..."
-msgstr "Gorde konpilatutako dokumentua..."
+msgstr ""
 
 #: livepreview.cpp:908
 #, kde-format
 msgid "Some documents could not be saved correctly"
-msgstr "Dokumentu batzuk ezin dira behar bezala gorde"
+msgstr ""
 
 #: livepreview.cpp:914
 #, kde-format
@@ -10275,154 +10249,153 @@ msgstr ""
 #: livepreview.cpp:944
 #, kde-format
 msgid "Failed to create the subdirectory structure"
-msgstr "Azpidirektorio egitura sortzea huts egin du"
+msgstr ""
 
 #: livepreview.cpp:1404
 #, kde-format
 msgid "LivePreview"
-msgstr "Zuzeneko aurreikuspegia"
+msgstr ""
 
 #: main.cpp:61
 #, kde-format
 msgid "StandardInput.tex"
-msgstr "StandardInput.tex"
+msgstr ""
 
 #: main.cpp:102
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
-msgstr "KDEren LaTeX ingurune bateratu"
+msgstr ""
 
 #: main.cpp:104
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
-msgstr "Kile taldeak (2003 - %1)"
+msgstr ""
 
 #: main.cpp:107
 #, kde-format
 msgid "Michel Ludwig"
-msgstr "Michel Ludwig"
+msgstr ""
 
 #: main.cpp:107
 #, kde-format
 msgid "Project Management/Developer"
-msgstr "Proiektu-kudeatzailea/Garatzailea"
+msgstr ""
 
 #: main.cpp:108
 #, kde-format
 msgid "Holger Danielsson"
-msgstr "Holger Danielsson"
+msgstr ""
 
 #: main.cpp:108
 #, kde-format
 msgid "Developer"
-msgstr "Garatzailea"
+msgstr ""
 
 #: main.cpp:109
 #, kde-format
 msgid "Thomas Braun"
-msgstr "Thomas Braun"
+msgstr ""
 
 #: main.cpp:109
 #, kde-format
 msgid "Former Developer"
-msgstr "Garatzailea oiha"
+msgstr ""
 
 #: main.cpp:110
 #, kde-format
 msgid "Jeroen Wijnhout"
-msgstr "Jeroen Wijnhout"
+msgstr ""
 
 #: main.cpp:110
 #, kde-format
 msgid "Former Maintainer/Developer"
-msgstr "Mantentzaile/Garatzaile ohia"
+msgstr ""
 
 #: main.cpp:111
 #, kde-format
 msgid "Brachet Pascal"
-msgstr "Brachet Pascal"
+msgstr ""
 
 #: main.cpp:113
 #, kde-format
 msgid "Andrius Štikonas"
-msgstr "Andrius Štikonas"
+msgstr ""
 
 #: main.cpp:113
 #, kde-format
 msgid "Migration from Subversion to Git"
-msgstr "Subversion-etik Git-erako migrazioa"
+msgstr ""
 
 #: main.cpp:114
 #, kde-format
 msgid "Simon Martin"
-msgstr "Simon Martin"
+msgstr ""
 
 #: main.cpp:114
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
-msgstr "KConfig XT, hainbat hobekuntza eta akats-konponketa"
+msgstr ""
 
 #: main.cpp:115
 #, kde-format
 msgid "Roland Schulz"
-msgstr "Roland Schulz"
+msgstr ""
 
 #: main.cpp:115
 #, kde-format
 msgid "KatePart Integration"
-msgstr "KatePart bateratzea"
+msgstr ""
 
 #: main.cpp:116
 #, kde-format
 msgid "Thorsten Lück"
-msgstr "Thorsten Lück"
+msgstr ""
 
 #: main.cpp:116
 #, kde-format
 msgid "Log Parsing"
-msgstr "Log Parsing"
+msgstr ""
 
 #: main.cpp:117
 #, kde-format
 msgid "Jan-Marek Glogowski"
-msgstr "Jan-Marek Glogowski"
+msgstr ""
 
 #: main.cpp:117
 #, kde-format
 msgid "Find-in-Files Dialog"
-msgstr "Bilatu fitxategietan Elkarrizketa-koadroa"
+msgstr ""
 
 #: main.cpp:118
 #, kde-format
 msgid "Jonathan Pechta"
-msgstr "Jonathan Pechta"
+msgstr ""
 
 #: main.cpp:118 main.cpp:119
 #, kde-format
 msgid "Documentation"
-msgstr "Dokumentazioa"
+msgstr ""
 
 #: main.cpp:119
 #, kde-format
 msgid "Federico Zenith"
-msgstr "Federico Zenith"
+msgstr ""
 
 #: main.cpp:137
 #, kde-format
 msgid "Jump to line"
-msgstr "Joan lerrora"
+msgstr ""
 
 #: main.cpp:138
 #, kde-format
 msgid "Start a new Kile mainwindow"
-msgstr "Abiatu «Kile» lehio-nagusi berri bat"
+msgstr ""
 
 #: main.cpp:140
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr ""
-"Ireki beharreko fitxategiak / Zehaztu '-' sarrera estandarretik irakurtzeko"
 
 #: main.cpp:171
 #, kde-format
@@ -10432,80 +10405,76 @@ msgid ""
 "\n"
 "Please install the Okular library before running Kile."
 msgstr ""
-"Kile ezin da abiatu, «Okular»ren azkenaldiko bertsiorik ezin izan delako "
-"aurkitu.\n"
-"\n"
-"Mesedez, instalatu Okular liburutegia Kile exekutatu aurretik."
 
 #: main.cpp:173
 #, kde-format
 msgid "Okular library not found"
-msgstr "Okular liburutegia ez da aurkitu"
+msgstr ""
 
 #: parser/latexparser.cpp:221 parser/latexparser.cpp:249
 #, kde-format
 msgid "Frame"
-msgstr "Markoa"
+msgstr ""
 
 #: parser/latexparser.cpp:271
 #, kde-format
 msgid "Untitled Block"
-msgstr "Titulurik gabeko blokea"
+msgstr ""
 
 #: quickpreview.cpp:42
 #, kde-format
 msgid "LaTeX ---> DVI (Okular)"
-msgstr "LaTeX ---> DVI (Okular)"
+msgstr ""
 
 #: quickpreview.cpp:43
 #, kde-format
 msgid "LaTeX ---> DVI (Document Viewer)"
-msgstr "LaTeX ---> DVI (Dokumentu ikustaila)"
+msgstr ""
 
 #: quickpreview.cpp:44
 #, kde-format
 msgid "LaTeX ---> PS (Okular)"
-msgstr "LaTeX ---> PS (Okular)"
+msgstr ""
 
 #: quickpreview.cpp:45
 #, kde-format
 msgid "LaTeX ---> PS (Document Viewer)"
-msgstr "LaTeX ---> PS (Dokumentu ikustailea)"
+msgstr ""
 
 #: quickpreview.cpp:46
 #, kde-format
 msgid "PDFLaTeX ---> PDF (Okular)"
-msgstr "PDFLaTeX ---> PDF (Okular)"
+msgstr ""
 
 #: quickpreview.cpp:47
 #, kde-format
 msgid "PDFLaTeX ---> PDF (Document Viewer)"
-msgstr "PDFLaTeX ---> PDF (Dokumentu ikustaila)"
+msgstr ""
 
 #: quickpreview.cpp:48
 #, kde-format
 msgid "XeLaTeX ---> PDF (Okular)"
-msgstr "XeLaTeX ---> PDF (Okular)"
+msgstr ""
 
 #: quickpreview.cpp:49
 #, kde-format
 msgid "XeLaTeX ---> PDF (Document Viewer)"
-msgstr "XeLaTeX ---> PDF (Dokumentu ikustailea)"
+msgstr ""
 
 #: quickpreview.cpp:50
 #, kde-format
 msgid "LuaLaTeX ---> PDF (Okular)"
-msgstr "LuaLaTeX ---> PDF (Okular)"
+msgstr ""
 
 #: quickpreview.cpp:51
 #, kde-format
 msgid "LuaLaTeX ---> PDF (Document Viewer)"
-msgstr "LuaLaTeX ---> PDF (Dokumentu ikustaila)"
+msgstr ""
 
 #: quickpreview.cpp:78
 #, kde-format
 msgid "There is no selection to compile."
-msgstr "Ez dago konpilatu beharreko hautapenik."
+msgstr ""
 
 #: quickpreview.cpp:105
 #, kde-format
@@ -10515,12 +10484,12 @@ msgstr ""
 #: quickpreview.cpp:115
 #, kde-format
 msgid "This job is only useful with a master document."
-msgstr "Lan hau dokumentu nagusi batekin baino ez da erabilgarria."
+msgstr ""
 
 #: quickpreview.cpp:122
 #, kde-format
 msgid "This is not a subdocument, but the master document."
-msgstr "Hau ez da azpidokumentu bat, dokumentu nagusia baizik."
+msgstr ""
 
 #: quickpreview.cpp:144
 #, kde-format
@@ -10533,21 +10502,17 @@ msgid ""
 "Could not run QuickPreview:\n"
 "unknown task '%1'"
 msgstr ""
-"Ezin izan du Aurreikuspegi azkarra exekutatu:\n"
-"'%1', ataza ezezaguna"
 
 #: quickpreview.cpp:201 widgets/previewwidget.cpp:129
 #, kde-format
 msgid ""
 "There is already a preview running that has to be finished to run this one."
 msgstr ""
-"Aurreikuspegi bat exekutatzen ari da, beste hau exekutatzeko hura amaitu "
-"behar da."
 
 #: quickpreview.cpp:207
 #, kde-format
 msgid "There is nothing to compile and preview."
-msgstr "Ez dago konpilatu eta aurreikusteko ezer."
+msgstr ""
 
 #: quickpreview.cpp:229 quickpreview.cpp:239 quickpreview.cpp:250
 #: widgets/previewwidget.cpp:181
@@ -10558,99 +10523,97 @@ msgstr ""
 #: quickpreview.cpp:321
 #, kde-format
 msgid "Could not determine the main document."
-msgstr "Ezin izan du dokumentu nagusia zehaztu."
+msgstr ""
 
 #: quickpreview.cpp:328
 #, kde-format
 msgid "Could not read the preamble."
-msgstr "Ezin izan du hitzaurrea irakurri."
+msgstr ""
 
 #: quickpreview.cpp:367
 #, kde-format
 msgid "Could not find a '\\begin{document}' command."
-msgstr "Ezin izan du '\\begin{document}' komando bat aurkitu."
+msgstr ""
 
 #: quickpreview.cpp:385 widgets/previewwidget.cpp:238
 #, kde-format
 msgid "QuickPreview"
-msgstr "Aurreikuspegi azkarra"
+msgstr ""
 
 #: scripting/kilescriptobject.cpp:42
 #, kde-format
 msgid "Script: information"
-msgstr "Gidoia: informazioa"
+msgstr ""
 
 #: scripting/kilescriptobject.cpp:48
 #, kde-format
 msgid "Script: sorry"
-msgstr "Gidoia: barkatu"
+msgstr ""
 
 #: scripting/kilescriptobject.cpp:54
 #, kde-format
 msgid "Script: error"
-msgstr "Gidoia: errorea"
+msgstr ""
 
 #: scripting/kilescriptobject.cpp:60
 #, kde-format
 msgid "Script: question"
-msgstr "Gidoia: galdera"
+msgstr ""
 
 #: scripting/kilescriptobject.cpp:67
 #, kde-format
 msgid "Script: warning"
-msgstr "Gidoia: abisua"
+msgstr ""
 
 #: scripting/kilescriptobject.cpp:117
 #, kde-format
 msgid "Enter Value"
-msgstr "Sartu balioa:"
+msgstr ""
 
 #: scripting/kilescriptobject.cpp:120
 #, kde-format
 msgid "Please enter a value"
-msgstr "Mesedez, sartu balio bat"
+msgstr ""
 
 #: scripting/kilescriptobject.cpp:195
 #, kde-format
 msgid "Script '%1.js'"
-msgstr "Gidoia '%1.js'"
+msgstr ""
 
 #: scripting/kilescriptobject.cpp:214
 #, kde-format
 msgid "File Handling Error: Unable to find the file '%1'"
-msgstr "Fitxategi erabilera errorea: Ez da '%1' fitxategia aurkitzeko gai"
+msgstr ""
 
 #: scripting/kilescriptobject.cpp:234 scripting/kilescriptobject.cpp:291
 #, kde-format
 msgid "Select File to Read"
-msgstr "Aukeratu irakurri beharreko fitxategia"
+msgstr ""
 
 #: scripting/kilescriptobject.cpp:250
 #, kde-format
 msgid "File Handling Error: Unable to create the output file '%1'"
 msgstr ""
-"Fitxategi erabilera errorea: Ez da irteerako '%1' fitxategia sortzeko gai"
 
 #: scripting/kilescriptobject.cpp:261
 #, kde-format
 msgid "File Handling Error: Unable to write to the output file '%1'"
 msgstr ""
-"Fitxategi erabilera errorea: Ez da irteerako '%1' fitxategian idazteko gai"
 
 #: scripting/kilescriptobject.cpp:279 scripting/kilescriptobject.cpp:297
 #, kde-format
 msgid "Save As"
-msgstr "Gorde honela"
+msgstr ""
 
 #: scripting/kilescriptobject.cpp:304
 #, kde-format
 msgid "This action was canceled by the user."
-msgstr "Erabiltzaileak ekintza hau galarazi du."
+msgstr ""
 
 #: scripting/script.cpp:206
 #, kde-format
 msgid "Unable to find '%1'"
-msgstr "Ez da '%1' aurkitzeko gai"
+msgstr ""
 
 #: scripting/script.cpp:239 scripting/script.cpp:242
 #, kde-format
@@ -10663,13 +10626,11 @@ msgid ""
 "An error has occurred at line %1 during the execution of the script \"%2\":\n"
 "%3"
 msgstr ""
-"\"%2\" gidoia exekutatu bitartean errore bat gertatu da %1 lerroan:\n"
-"%3"
 
 #: scripting/script.cpp:293
 #, kde-format
 msgid "Error"
-msgstr "Errorea"
+msgstr ""
 
 #: scriptmanager.cpp:99
 #, kde-format
@@ -10677,28 +10638,26 @@ msgid ""
 "Version %1 of Kile is at least required to execute the script \"%2\". The "
 "execution has been aborted."
 msgstr ""
-"\"%2\" gidoia exekutatzeko gutxienez «Kile»ren %1 bertsioa behar da. "
-"Exekuzioa bertan behera utzi da."
 
 #: scriptmanager.cpp:100
 #, kde-format
 msgid "Version Error"
-msgstr "Bertsio-errorea"
+msgstr ""
 
 #: scriptmanager.cpp:108
 #, kde-format
 msgid "Cannot start the script: no view available"
-msgstr "Ezin du gidoia abiarazi: ikupegia ez dago erabilgarri"
+msgstr ""
 
 #: scriptmanager.cpp:108
 #, kde-format
 msgid "Script Error"
-msgstr "Gidoiaren errorea"
+msgstr ""
 
 #: scriptmanager.cpp:488
 #, kde-format
 msgid "Execution of %1"
-msgstr "%1(e)ren exekuzioa"
+msgstr ""
 
 #: templates.cpp:94
 #, kde-format
@@ -10711,108 +10670,108 @@ msgstr ""
 #: templates.cpp:166
 #, kde-format
 msgid "Empty File"
-msgstr "Fitxategi hutsa"
+msgstr ""
 
 #: templates.cpp:171
 #, kde-format
 msgid "Empty LaTeX File"
-msgstr "LaTeX fitxategi hutsa"
+msgstr ""
 
 #: templates.cpp:176
 #, kde-format
 msgid "Empty BibTeX File"
-msgstr "BibTex fitxategi hutsa"
+msgstr ""
 
 #: tool_utils.cpp:61
 #, kde-format
 msgctxt "<tool name> - <configuration>"
 msgid "%1 - %2"
-msgstr "%1 - %2"
+msgstr ""
 
 #: userhelp.cpp:151
 #, kde-format
 msgid "The file '%1' does not exist."
-msgstr "'%1' fitxategia ez da existitzen."
+msgstr ""
 
 #: usermenu/usermenu.cpp:920
 #, kde-format
 msgid "Input Dialog"
-msgstr "Sarreraren elkarrizketa-koadroa"
+msgstr ""
 
 #: widgets/abbreviationview.cpp:38
 #, kde-format
 msgid "Short"
-msgstr "Laburra"
+msgstr ""
 
 #: widgets/abbreviationview.cpp:38
 #, kde-format
 msgid "Expanded Text"
-msgstr "Testu hedatua"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbAdd)
 #: widgets/abbreviationview.cpp:111 widgets/quicktoolconfigwidget.ui:103
 #, kde-format
 msgid "&Add"
-msgstr "&Gehitu"
+msgstr ""
 
 #: widgets/abbreviationview.cpp:124 widgets/structurewidget.cpp:781
 #, kde-format
 msgid "&Delete"
-msgstr "E&zabatu"
+msgstr ""
 
 #: widgets/abbreviationview.cpp:171
 #, kde-format
 msgid "Delete the abbreviation '%1'?"
-msgstr "'%1' laburdura ezabatu?"
+msgstr ""
 
 #: widgets/abbreviationview.cpp:174
 #, kde-format
 msgid "Delete Abbreviation"
-msgstr "Ezabatu laburdura"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetAppearanceConfig)
 #: widgets/appearanceconfigwidget.ui:14
 #, kde-format
 msgid "Appearance Configuration"
-msgstr "Itxuraren konfigurazioa"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFullPathInWindowTitle)
 #: widgets/appearanceconfigwidget.ui:29
 #, kde-format
 msgid "Show full path in window title"
-msgstr "Erakutsi bide-izen osoa leihoaren tituluan"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSplashScreen)
 #: widgets/appearanceconfigwidget.ui:36
 #, kde-format
 msgid "Show splash screen on startup"
-msgstr "Erakutsi plasta pantaila abioan"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDocumentViewerInExternalWindow)
 #: widgets/appearanceconfigwidget.ui:67
 #, kde-format
 msgid "Show in external window"
-msgstr "Erakutsi kanpoko leihoan"
+msgstr ""
 
 #: widgets/codecompletionconfigwidget.cpp:53
 #, kde-format
 msgid "TeX/LaTeX"
-msgstr "TeX/LaTeX"
+msgstr ""
 
 #: widgets/codecompletionconfigwidget.cpp:54
 #, kde-format
 msgid "Dictionary"
-msgstr "Hiztegia"
+msgstr ""
 
 #: widgets/codecompletionconfigwidget.cpp:57
 #, kde-format
 msgid "Try to place the cursor."
-msgstr "Saiatu kurtsorea kokatzen."
+msgstr ""
 
 #: widgets/codecompletionconfigwidget.cpp:58
 #, kde-format
 msgid "Insert bullets where the user must input data."
-msgstr "Txertatu buletak erabiltzaileak datuak sartu behar dituen lekuetan."
+msgstr ""
 
 #: widgets/codecompletionconfigwidget.cpp:59
 #, kde-format
@@ -10856,52 +10815,52 @@ msgstr ""
 #: widgets/codecompletionconfigwidget.ui:99
 #, kde-format
 msgid "Completion Files"
-msgstr "Osatze-fitxategiak"
+msgstr ""
 
 #: widgets/codecompletionconfigwidget.cpp:204
 #, kde-format
 msgid "File not found"
-msgstr "Fitxategia ez da aurkitu"
+msgstr ""
 
 #: widgets/codecompletionconfigwidget.cpp:274
 #, kde-format
 msgid "Wordlist '%1' contains duplicate entries."
-msgstr "'%1' hitz-zerrendak bikoiztutako sarrerak ditu."
+msgstr ""
 
 #: widgets/codecompletionconfigwidget.cpp:274
 #, kde-format
 msgid "Completion"
-msgstr "Osatzea"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_autocomplete)
 #: widgets/codecompletionconfigwidget.ui:23
 #, kde-format
 msgid "Auto completion for &LaTeX markup"
-msgstr "&LaTeX marketarako osatze automatikoa"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/codecompletionconfigwidget.ui:37
 #, kde-format
 msgid "Threshold:"
-msgstr "Atalasea:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: widgets/codecompletionconfigwidget.ui:57
 #, kde-format
 msgid "letters"
-msgstr "letrak"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_autocompleteabbrev)
 #: widgets/codecompletionconfigwidget.ui:82
 #, kde-format
 msgid "A&uto completion for abbreviations"
-msgstr "Laburduren osatze a&utomatikoa"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_addFileButton)
 #: widgets/codecompletionconfigwidget.ui:133
 #, kde-format
 msgid "Add..."
-msgstr "Gehitu..."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_removeFileButton)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbRemoveTool)
@@ -10912,286 +10871,282 @@ msgstr "Gehitu..."
 #: widgets/usermenuconfigwidget.ui:115
 #, kde-format
 msgid "Remove"
-msgstr "Kendu"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_showcwlview)
 #: widgets/codecompletionconfigwidget.ui:162
 #, kde-format
 msgid "Show LaTeX commands"
-msgstr "Erakutsi LaTeX komandoak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_showabbrevview)
 #: widgets/codecompletionconfigwidget.ui:172
 #, kde-format
 msgid "Show abbreviations"
-msgstr "Erakutsi laburdurak"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: widgets/codecompletionconfigwidget.ui:182
 #, kde-format
 msgid "Completion Properties"
-msgstr "Osatze-propietateak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_setcursor)
 #: widgets/codecompletionconfigwidget.ui:191
 #, kde-format
 msgid "Place cursor"
-msgstr "Kokatu kurtsorea"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_closeenv)
 #: widgets/codecompletionconfigwidget.ui:205
 #, kde-format
 msgid "Close environments"
-msgstr "Itxi inguruneak"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ConfigCheckerWidget)
 #: widgets/configcheckerwidget.ui:26
 #, kde-format
 msgid "Performing System Check"
-msgstr "Sistemaren egiaztapena egiten"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbChecking)
 #: widgets/configcheckerwidget.ui:32
 #, kde-format
 msgid "Checking if your TeX system is installed correctly..."
-msgstr "Zure TeX sistema ondo instalatuta dagoen egiaztatzen..."
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_grpResults)
 #: widgets/configcheckerwidget.ui:55
 #, kde-format
 msgid "Results"
-msgstr "Emaitzak"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_bgEnv)
 #: widgets/environmentconfigwidget.ui:32
 #, kde-format
 msgid "Complete Environments"
-msgstr "Osatu inguruneak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CompleteEnvironment)
 #: widgets/environmentconfigwidget.ui:41
 #, kde-format
 msgid "Automatically complete \\begin{env} with \\end{env}"
-msgstr "Automatikoki osatu \\begin{env} \\end{env}-rekin"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_bgGraphics)
 #: widgets/environmentconfigwidget.ui:57
 #, kde-format
 msgid "Automatic Indentation Inside Environments"
-msgstr "Ingurune barruetan koskatze automatikoa"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_envIndentation)
 #: widgets/environmentconfigwidget.ui:66
 #, kde-format
 msgid "Enable auto indentation of environments."
-msgstr "Gaitu inguruneetako koskatze automatikoa."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_envIndentation)
 #: widgets/environmentconfigwidget.ui:69
 #, kde-format
 msgid "Activated"
-msgstr "Aktibatuta"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_envIndentSpaces)
 #: widgets/environmentconfigwidget.ui:76
 #, kde-format
 msgid "Use spaces instead of a tabulator to autoindent environments."
 msgstr ""
-"Erabili zuriuneak tabulazioen ordez inguruneak automatikoki koskatzeko."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_envIndentSpaces)
 #: widgets/environmentconfigwidget.ui:79
 #, kde-format
 msgid "Use spaces instead of tabs to indent"
-msgstr "Koskatzeko erabili zuriuneak tabulazioen ordez"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbNumSpaces)
 #: widgets/environmentconfigwidget.ui:88
 #, kde-format
 msgid "&Number of spaces:"
-msgstr "Zuriune &kopurua:"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_envIndentNumSpaces)
 #: widgets/environmentconfigwidget.ui:129
 #, kde-format
 msgid "Use this number of spaces to autoindent environments."
-msgstr "Erabili zuriune kopuru hau inguruneak automatikoki koskatzeko."
+msgstr ""
 
 #: widgets/filebrowserwidget.cpp:123
 #, kde-format
 msgid "Open selected"
-msgstr "Ireki hautatutakoa"
+msgstr ""
 
 #: widgets/filebrowserwidget.cpp:128
 #, kde-format
 msgid "Show LaTeX Files Only"
-msgstr "Erakutsi LaTeX fitxategiak bakarrik"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/filebrowserwidget.cpp:134 widgets/structureviewconfigwidget.ui:128
 #, kde-format
 msgid "Options"
-msgstr "Aukerak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2_2)
 #: widgets/generalconfigwidget.ui:43
 #, kde-format
 msgid "&Default project location:"
-msgstr "Proiektuaren kokaleku le&henetsia:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Restore)
 #: widgets/generalconfigwidget.ui:64
 #, kde-format
 msgid "&Reopen files and projects on startup"
-msgstr "Abioan fitxategiak eta proiektuak be&rrireki"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: widgets/generalconfigwidget.ui:74
 #, kde-format
 msgid "Template Variables"
-msgstr "Txantiloi-aldagaiak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: widgets/generalconfigwidget.ui:92
 #, kde-format
 msgid "A&uthor:"
-msgstr "E&gilea:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: widgets/generalconfigwidget.ui:105
 #, kde-format
 msgid "Document c&lass options:"
-msgstr "Dokumentu k&lase-aukerak:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: widgets/generalconfigwidget.ui:118
 #, kde-format
 msgid "I&nput encoding:"
-msgstr "Sa&rrerako kodeketa:"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox4)
 #: widgets/generalconfigwidget.ui:134
 #, kde-format
 msgid "File Clean-Up Details"
-msgstr "Fitxategiak garbitzeko xehetasunak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CleanUpAfterClose)
 #: widgets/generalconfigwidget.ui:143
 #, kde-format
 msgid "Automatically clean-up files after closing Kile"
-msgstr "Garbitu fitxategiak automatikoki Kile itxi ondoren"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_WatchFileForDocumentViewer)
 #: widgets/generalconfigwidget.ui:165
 #, kde-format
 msgid "Reload document automatically after changes"
-msgstr "Birzatu dokumentuak automatikoki aldaketen ondoren"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SyncConsoleDirWithTabs)
 #: widgets/generalconfigwidget.ui:175
 #, kde-format
 msgid "Synchronize the directory shown in the console with the document tabs"
-msgstr "Sinkronizatu kontsolan erakutsitako direktorioa dokumentuaren fitxekin"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RunLyxServer)
 #: widgets/generalconfigwidget.ui:182
 #, kde-format
 msgid "Let Kile process LyX commands sent by bibliography editors/viewers"
 msgstr ""
-"Utzi «Kile»ri bibliografia editoreek/ikustaileek bidalitako «LyX»en "
-"komandoak prozesatzen"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolution)
 #: widgets/graphicsconfigwidget.ui:29
 #, kde-format
 msgid "&Default resolution:"
-msgstr "Bereizmen le&henetsia:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolutionHelp)
 #: widgets/graphicsconfigwidget.ui:51
 #, kde-format
 msgid "(used when the picture offers no resolution)"
-msgstr "(irudiak bereizmenik eskaintzen ez duenean erabilia)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlBbox)
 #: widgets/graphicsconfigwidget.ui:61
 #, kde-format
 msgid "Bo&unding box:"
-msgstr "Koadro m&ugatzailea:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_boundingbox)
 #: widgets/graphicsconfigwidget.ui:80
 #, kde-format
 msgid "Tr&y to determine from the picture"
-msgstr "&Saiatu iruditik abiatuta zehazten"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlBBoxHelp)
 #: widgets/graphicsconfigwidget.ui:93
 #, kde-format
 msgid "(you have to install the ImageMagick package to use this option)"
-msgstr "(Aukera hau erabiltzeko ImageMagick paketea instalatu behar duzu)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlImageMagick)
 #: widgets/graphicsconfigwidget.ui:103
 #, kde-format
 msgid "ImageMagick:"
-msgstr "ImageMagick:"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbContextHelp)
 #: widgets/helpconfigwidget.ui:32
 #, kde-format
 msgid "Context Sensitive Help"
-msgstr "Testuinguruaren araberako laguntza"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_latex2erefs)
 #: widgets/helpconfigwidget.ui:41
 #, kde-format
 msgid "&Use the LaTeX2e unofficial reference manual"
-msgstr "Era&bili LaTeX2e erreferentzia-eskuliburu ez ofiziala"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_kilerefs)
 #: widgets/helpconfigwidget.ui:51
 #, kde-format
 msgid "Use &Kile's LaTeX reference"
-msgstr "Erabili &Kile-ren LaTex erreferentzia"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbConfigure)
 #: widgets/helpconfigwidget.ui:97
 #, kde-format
 msgid "Con&figure..."
-msgstr "Kon&figuratu..."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
 #, kde-format
 msgid "Configure..."
-msgstr "Konfiguratu..."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlCommands)
 #: widgets/latexconfigwidget.ui:50
 #, kde-format
 msgid "Configure LaTeX environments and commands"
-msgstr "Konfiguratu LaTeX inguruneak eta komandoak"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_bgQuotes)
 #: widgets/latexconfigwidget.ui:71
 #, kde-format
 msgid "Double Quotes"
-msgstr "Aipu bikoitzak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InsertDoubleQuotes)
 #: widgets/latexconfigwidget.ui:80
 #, kde-format
 msgid "Automatically insert opening and closing double &quotes for LaTeX"
 msgstr ""
-"Automatikoki txertatu irekitzeko eta ixteko «LaTeX»erako komatxo bikoitzak"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlType)
 #. i18n: ectx: property (text), widget (QLabel, m_lbType)
 #: widgets/latexconfigwidget.ui:89 widgets/maintoolconfigwidget.ui:342
 #, kde-format
 msgid "&Type:"
-msgstr "&Mota:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_InsertSpecialCharacters)
 #: widgets/latexconfigwidget.ui:142
@@ -11200,8 +11155,6 @@ msgid ""
 "This option will insert the LaTeX equivalent of most special characters that "
 "can be typed on a keyboard."
 msgstr ""
-"Aukera honek teklatu batean tekleatu daitezkeen karaktere berezi gehienen "
-"«LaTeX»erako baliokideak txertatuko ditu."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InsertSpecialCharacters)
 #: widgets/latexconfigwidget.ui:145
@@ -11210,69 +11163,66 @@ msgid ""
 "Automatically insert the LaTeX equivalent of special characters when typing "
 "(accents, etc)"
 msgstr ""
-"Tekleatzean, LaTeX karaktere-berezien baliokidea automatikoki txertatu "
-"(azentuak, etab.)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_bgMathmode)
 #: widgets/latexconfigwidget.ui:161
 #, kde-format
 msgid "Math mode"
-msgstr "Matematika modua"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoInsertDollar)
 #: widgets/latexconfigwidget.ui:170
 #, kde-format
 msgid "Auto insert $"
-msgstr "Txertatu $ automatikoki"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox5)
 #: widgets/latexconfigwidget.ui:189
 #, kde-format
 msgid "Environment Variables"
-msgstr "Ingurune-aldagaiak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlPath)
 #: widgets/latexconfigwidget.ui:201
 #, kde-format
 msgid "TE&XINPUTS:"
-msgstr "TE&XINPUTS:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_bibinputpath)
 #: widgets/latexconfigwidget.ui:220
 #, kde-format
 msgid "BIBINP&UTS:"
-msgstr "BIBINP&UTS:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_bstinputpath)
 #: widgets/latexconfigwidget.ui:239
 #, kde-format
 msgid "B&STINPUTS:"
-msgstr "B&STINPUTS:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckRootDoc)
 #: widgets/latextoolconfigwidget.ui:35
 #, kde-format
 msgid "Check if root document is a LaTeX root before running LaTeX on it"
 msgstr ""
-"Egiaztatu erro dokumentua LaTeX erroa den hartan LaTeX exekutatu aurretik"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckRootDoc)
 #: widgets/latextoolconfigwidget.ui:38
 #, kde-format
 msgid "Check if &root document"
-msgstr "Egiaztatu e&rro dokumentua den"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckJump)
 #: widgets/latextoolconfigwidget.ui:45
 #, kde-format
 msgid "Jump to first error in case running LaTeX failed"
-msgstr "Joan aurreneko errorera LaTeX exekutatzea huts egin badu"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckJump)
 #: widgets/latextoolconfigwidget.ui:48
 #, kde-format
 msgid "&Jump to first error"
-msgstr "&Jauzi aurreneko errorera"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckAutoRun)
 #: widgets/latextoolconfigwidget.ui:55
@@ -11280,308 +11230,306 @@ msgstr "&Jauzi aurreneko errorera"
 msgid ""
 "Automatically run Asymptote, BibTeX, MakeIndex and rerun LaTeX when necessary"
 msgstr ""
-"Automatikoki exekutatu Asymptote, BibTeX, MakeIndex eta berriz LaTeX "
-"exekutatu beharrezkoa denean"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckAutoRun)
 #: widgets/latextoolconfigwidget.ui:58
 #, kde-format
 msgid "Automatically run additional tools"
-msgstr "Automatikoki exekutatu tresna gehigarriak"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLivePreviewConfig)
 #: widgets/livepreviewconfigwidget.ui:14
 #, kde-format
 msgid "Live Preview Configuration"
-msgstr "Zuzeneko aurreikuspegiaren konfigurazioa"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_livePreviewEnabled)
 #: widgets/livepreviewconfigwidget.ui:29
 #, kde-format
 msgid "Enable &live preview"
-msgstr "Gaitu &zuzeneko aurreikuspegia"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_previewEnabledForFreshlyOpenedDocuments)
 #: widgets/livepreviewconfigwidget.ui:41
 #, kde-format
 msgid "Enable live preview for newly-opened documents"
-msgstr "Gaitu zuzeneko aurreikuspegia berriki sortutako dokumentuetan"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_compileBehaviorGroupBox)
 #: widgets/livepreviewconfigwidget.ui:48
 #, kde-format
 msgid "Compilation Behavior"
-msgstr "Konpilazioaren jokabidea"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_compileDocumentOnSaveRadioButton)
 #: widgets/livepreviewconfigwidget.ui:54
 #, kde-format
 msgid "Compile doc&uments after saving"
-msgstr "Konpilatu dok&umentauak gorde ondoren"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_compileDocumentOnChangesRadioButton)
 #: widgets/livepreviewconfigwidget.ui:63
 #, kde-format
 msgid "Compile documents whenever &there are changes after"
-msgstr "Konpilatu dokumentuak, denbora igarota, aldaketak daudenean"
+msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_livePreviewCompilationDelay)
 #: widgets/livepreviewconfigwidget.ui:70
 #, kde-format
 msgid " ms"
-msgstr " ms"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_previewDefaultToolLabel)
 #: widgets/livepreviewconfigwidget.ui:104
 #, kde-format
 msgid "Set default live preview tool"
-msgstr "Ezarri zuzeneko aurreikuspegiaren tresna lehenetsia"
+msgstr ""
 
 #: widgets/logwidget.cpp:371
 #, kde-format
 msgid "Hide &Bad Boxes"
-msgstr "Ezkutatu koadro a&kastunak"
+msgstr ""
 
 #: widgets/logwidget.cpp:377
 #, kde-format
 msgid "Hide (La)TeX &Warnings"
-msgstr "Ezkutatu (La)TeX-en a&bisuak"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/maintoolconfigwidget.ui:60
 #, kde-format
 msgid "Select a tool"
-msgstr "Hautatu tresna bat"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)
 #: widgets/maintoolconfigwidget.ui:109 widgets/maintoolconfigwidget.ui:193
 #, kde-format
 msgid "New..."
-msgstr "Berria..."
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_groupBox)
 #: widgets/maintoolconfigwidget.ui:129
 #, kde-format
 msgid "Choose a configuration for the current tool"
-msgstr "Aukeratu uneko tresnarako konfigurazio bat"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
 #: widgets/maintoolconfigwidget.ui:152
 #, kde-format
 msgid "Se&lect:"
-msgstr "&Hautatu:"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
 #: widgets/maintoolconfigwidget.ui:308
 #, kde-format
 msgid "Advanced"
-msgstr "Aurreratua"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbClass)
 #: widgets/maintoolconfigwidget.ui:365
 #, kde-format
 msgid "C&lass:"
-msgstr "K&lasea:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbSource)
 #: widgets/maintoolconfigwidget.ui:388
 #, kde-format
 msgid "Source e&xtension:"
-msgstr "Sorburu-lu&zapena:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbTarget)
 #: widgets/maintoolconfigwidget.ui:411
 #, kde-format
 msgid "Tar&get extension:"
-msgstr "&Helburu-luzapena:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/maintoolconfigwidget.ui:434
 #, kde-format
 msgid "Target &file:"
-msgstr "Helburu-&fitxategia:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: widgets/maintoolconfigwidget.ui:460
 #, kde-format
 msgid "&Relative dir:"
-msgstr "Direktorio e&rlatiboa:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckClose)
 #: widgets/maintoolconfigwidget.ui:488
 #, kde-format
 msgid "Close Konsole when tool is finished"
-msgstr "Itxi «Konsole» tresnak amaitu duenean"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage)
 #: widgets/maintoolconfigwidget.ui:511
 #, kde-format
 msgid "Menu"
-msgstr "Menua"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenu)
 #: widgets/maintoolconfigwidget.ui:534
 #, kde-format
 msgid "Add &tool to Build menu:"
-msgstr "Gehitu &tresna menua eraikitzeko:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbIcon)
 #: widgets/maintoolconfigwidget.ui:557
 #, kde-format
 msgid "&Icon:"
-msgstr "&Ikonoa:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbDefault)
 #: widgets/maintoolconfigwidget.ui:628
 #, kde-format
 msgid "Restore Default Tools..."
-msgstr "Lehengoratu tresna lehenetsiak..."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/newdocumentwidget.ui:38
 #, kde-format
 msgid "Please select the type of document you want to create:"
-msgstr "Mesedez hautatu sortu nahi duzun dokumentu-mota:"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
 #: widgets/newdocumentwidget.ui:74
 #, kde-format
 msgid "Template"
-msgstr "Txantiloia"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: widgets/newdocumentwidget.ui:80
 #, kde-format
 msgid "Please select the template that should be used:"
-msgstr "Mesedez, hautatu erabili beharreko txantiloia:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickStartWizardCheckBox)
 #: widgets/newdocumentwidget.ui:93
 #, kde-format
 msgid "Start the Quick Start wizard when creating an empty LaTeX file"
-msgstr "Abiatu Hasiera azkarrerako morroia LaTeX fitxategi huts bat sortzean"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:50
 #, kde-format
 msgid "Quick Preview in a Separate Window"
-msgstr "Aurreikuspegi azkarra leiho bereizian"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:58
 #, kde-format
 msgid "Select a configuration:"
-msgstr "Aukeratu konfigurazio bat:"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:68
 #, kde-format
 msgid "Quick Preview in Bottom Bar"
-msgstr "Aurreikuspegi azkarra beheko barran"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:76
 #, kde-format
 msgid "&Resolution:"
-msgstr "Be&reizmena:"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:78
 #, kde-format
 msgid "dpi"
-msgstr "dpi"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:79
 #, kde-format
 msgid "(allowed values: 30-1000 dpi)"
-msgstr "(baimendutako balioak: 30-1000 dpi)"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:81
 #, kde-format
 msgid "&Background Color:"
-msgstr "&Atzeko planoko kolorea:"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:91
 #, kde-format
 msgid "Kile supports three kinds of conversion to png images"
-msgstr "«Kile»k png irudietara bihurtzeko hiru era onartzen ditu"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:92 widgets/previewconfigwidget.cpp:260
 #, kde-format
 msgid "dvi --> png"
-msgstr "dvi --> png"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:92
 #, kde-format
 msgid "(uses dvipng)"
-msgstr "(dvipng erabiltzen du)"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:93 widgets/previewconfigwidget.cpp:263
 #, kde-format
 msgid "dvi --> ps --> png"
-msgstr "dvi --> ps --> png"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:93
 #, kde-format
 msgid "(uses dvips/convert)"
-msgstr "(dvips/convert erabiltzen du)"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:94 widgets/previewconfigwidget.cpp:264
 #, kde-format
 msgid "pdf --> png"
-msgstr "pdf --> png"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:94
 #, kde-format
 msgid "(uses convert)"
-msgstr "(convert erabiltzen du)"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:98
 #, kde-format
 msgid "dvipng:"
-msgstr "dvipng:"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:99
 #, kde-format
 msgid "convert:"
-msgstr "Bihurtu:"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:127
 #, kde-format
 msgid "Show preview in bottom bar:"
-msgstr "Erakutsi aurreikuspegia beheko barran:"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:128
 #, kde-format
 msgid "Conversion to image:"
-msgstr "Irudi bihurtzea:"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:129
 #, kde-format
 msgid "Selection:"
-msgstr "Hautapena:"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:130
 #, kde-format
 msgid "Environment:"
-msgstr "Ingurunea:"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:131
 #, kde-format
 msgid "Mathgroup:"
-msgstr "Matematika-taldea:"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:132
 #, kde-format
 msgid "Subdocument:"
-msgstr "Azpidokumentua:"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:133
 #, kde-format
 msgid "Not available, opens always in a separate window."
-msgstr "Ez erabilgarri, beti beste leiho batean irekitzen da."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbCommand)
 #: widgets/processtoolconfigwidget.ui:37
 #, kde-format
 msgid "Co&mmand:"
-msgstr "Ko&mandoa:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, m_lbOptions)
 #: widgets/processtoolconfigwidget.ui:80
@@ -11647,187 +11595,187 @@ msgstr ""
 #: widgets/processtoolconfigwidget.ui:83
 #, kde-format
 msgid "Options:"
-msgstr "Aukerak:"
+msgstr ""
 
 #: widgets/projectview.cpp:246
 #, kde-format
 msgid "Files & Projects"
-msgstr "Fitxategiak eta proiektuak"
+msgstr ""
 
 #: widgets/projectview.cpp:246
 #, kde-format
 msgid "Include in Archive"
-msgstr "Artxiboan sartu"
+msgstr ""
 
 #: widgets/projectview.cpp:468
 #, kde-format
 msgid "Project File"
-msgstr "Proiektu-fitxategia"
+msgstr ""
 
 #: widgets/projectview.cpp:471
 #, kde-format
 msgid "Packages"
-msgstr "Paketeak"
+msgstr ""
 
 #: widgets/projectview.cpp:474
 #, kde-format
 msgid "Images"
-msgstr "Irudiak"
+msgstr ""
 
 #: widgets/projectview.cpp:808
 #, kde-format
 msgid "&Open With"
-msgstr "&Ireki honekin"
+msgstr ""
 
 #: widgets/projectview.cpp:820 widgets/structurewidget.cpp:807
 #, kde-format
 msgid "Other..."
-msgstr "Bestelakoa..."
+msgstr ""
 
 #: widgets/projectview.cpp:826
 #, kde-format
 msgid "&Open"
-msgstr "&Ireki"
+msgstr ""
 
 #: widgets/projectview.cpp:829
 #, kde-format
 msgid "&Save"
-msgstr "&Gorde"
+msgstr ""
 
 #: widgets/projectview.cpp:839
 #, kde-format
 msgid "&Add to Project"
-msgstr "&Gehitu proiektuari"
+msgstr ""
 
 #: widgets/projectview.cpp:849
 #, kde-format
 msgid "&Include in Archive"
-msgstr "Artxiboan &sartu"
+msgstr ""
 
 #: widgets/projectview.cpp:858
 #, kde-format
 msgid "&Remove From Project"
-msgstr "&Kendu proiektutik"
+msgstr ""
 
 #: widgets/projectview.cpp:866
 #, kde-format
 msgid "A&dd Files..."
-msgstr "&Gehitu fitxategiak..."
+msgstr ""
 
 #: widgets/projectview.cpp:882 widgets/projectview.cpp:885
 #, kde-format
 msgid "&Close"
-msgstr "&Itxi"
+msgstr ""
 
 #: widgets/quicktoolconfigwidget.cpp:61
 #, kde-format
 msgid "Current Default (%1)"
-msgstr "Uneko lehenetsia (%1)"
+msgstr ""
 
 #: widgets/quicktoolconfigwidget.cpp:64
 #, kde-format
 msgid "Current Default"
-msgstr "Uneko lehenetsia"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbTool)
 #: widgets/quicktoolconfigwidget.ui:39
 #, kde-format
 msgid "Tool:"
-msgstr "Tresna:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
 #: widgets/quicktoolconfigwidget.ui:65
 #, kde-format
 msgid "Configuration:"
-msgstr "Konfigurazioa:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbUp)
 #: widgets/quicktoolconfigwidget.ui:129
 #, kde-format
 msgid "&Up"
-msgstr "&Gora"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbDown)
 #: widgets/quicktoolconfigwidget.ui:142
 #, kde-format
 msgid "&Down"
-msgstr "&Behera"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ScriptingEnabled)
 #: widgets/scriptingconfigwidget.ui:33
 #, kde-format
 msgid "Enable &scripting"
-msgstr "Gaitu &gidoietarako euskarria"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, executionTimeLimitGroupBox)
 #: widgets/scriptingconfigwidget.ui:52
 #, kde-format
 msgid "Execution Time Limit"
-msgstr "Exekuzio denbora-muga"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TimeLimitEnabled)
 #: widgets/scriptingconfigwidget.ui:67
 #, kde-format
 msgid "&Limit the execution time of scripts"
-msgstr "&Mugatu gidoiaren exekuzio denbora"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/scriptingconfigwidget.ui:85
 #, kde-format
 msgid "&Time limit (seconds):"
-msgstr "&Denbora-muga (segundoak):"
+msgstr ""
 
 #: widgets/scriptsmanagementwidget.cpp:76
 #, kde-format
 msgid "Run Selected Script"
-msgstr "Exekutatu hautatutako gidoia"
+msgstr ""
 
 #: widgets/scriptsmanagementwidget.cpp:82
 #, kde-format
 msgid "Create New Script"
-msgstr "Sortu gidoi berria"
+msgstr ""
 
 #: widgets/scriptsmanagementwidget.cpp:88
 #, kde-format
 msgid "Open Selected Script in Editor"
-msgstr "Ireki hautatutako gidoia editorean"
+msgstr ""
 
 #: widgets/scriptsmanagementwidget.cpp:94
 #, kde-format
 msgid "Configure Key Sequence"
-msgstr "Konfiguratu tekla-sekuentzia"
+msgstr ""
 
 #: widgets/scriptsmanagementwidget.cpp:100
 #, kde-format
 msgid "Remove Key Sequence"
-msgstr "Kendu tekla-sekuentzia"
+msgstr ""
 
 #: widgets/scriptsmanagementwidget.cpp:106
 #, kde-format
 msgid "Refresh List"
-msgstr "Berritu zerrenda"
+msgstr ""
 
 #: widgets/scriptsmanagementwidget.cpp:117
 #, kde-format
 msgid "Script Name"
-msgstr "Gidoiaren izena"
+msgstr ""
 
 #: widgets/scriptsmanagementwidget.cpp:118
 #, kde-format
 msgid "Sequence"
-msgstr "Sekuentzia"
+msgstr ""
 
 #: widgets/scriptsmanagementwidget.cpp:223
 #, kde-format
 msgid "The sequence \"%1\" is already assigned to the action \"%2\""
-msgstr "\"%1\" sekuentzia jada \"%2\" ekintzari esleituta dago"
+msgstr ""
 
 #: widgets/scriptsmanagementwidget.cpp:224
 #: widgets/scriptsmanagementwidget.cpp:228
 #: widgets/scriptsmanagementwidget.cpp:232
 #, kde-format
 msgid "Sequence Already Assigned"
-msgstr "Sekuentzia jada esleituta dago"
+msgstr ""
 
 #: widgets/scriptsmanagementwidget.cpp:227
 #, kde-format
@@ -11835,200 +11783,198 @@ msgid ""
 "The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to "
 "the action \"%3\""
 msgstr ""
-"\"%1\" sekuentzia \"%2\"(e)ren azpisekuentzia bat da, jada \"%3\" ekintzari "
-"esleitua"
 
 #: widgets/scriptsmanagementwidget.cpp:231
 #, kde-format
 msgid "The shorter sequence \"%1\" is already assigned to the action \"%2\""
-msgstr "\"%1\" sekuentzia laburragoa jada \"%2\" ekintzari esleituta dago"
+msgstr ""
 
 #: widgets/statisticswidget.cpp:44
 #, kde-format
 msgid "Characters"
-msgstr "Karaktereak"
+msgstr ""
 
 #: widgets/statisticswidget.cpp:51
 #, kde-format
 msgid "Words and numbers:"
-msgstr "Hitzak eta zenbakiak:"
+msgstr ""
 
 #: widgets/statisticswidget.cpp:52
 #, kde-format
 msgid "LaTeX commands and environments:"
-msgstr "LaTeX komandoak eta inguruneak:"
+msgstr ""
 
 #: widgets/statisticswidget.cpp:53
 #, kde-format
 msgid "Punctuation, delimiter and whitespaces:"
-msgstr "Puntuazioa, mugatzailea eta zuriuneak:"
+msgstr ""
 
 #: widgets/statisticswidget.cpp:54
 #, kde-format
 msgid "Total characters:"
-msgstr "Karaktereak guztira:"
+msgstr ""
 
 #: widgets/statisticswidget.cpp:83
 #, kde-format
 msgid "Strings"
-msgstr "Kateak"
+msgstr ""
 
 #: widgets/statisticswidget.cpp:90
 #, kde-format
 msgid "Words:"
-msgstr "Hitzak:"
+msgstr ""
 
 #: widgets/statisticswidget.cpp:91
 #, kde-format
 msgid "LaTeX commands:"
-msgstr "LaTeX komandoak:"
+msgstr ""
 
 #: widgets/statisticswidget.cpp:92
 #, kde-format
 msgid "LaTeX environments:"
-msgstr "LaTeX inguruneak:"
+msgstr ""
 
 #: widgets/statisticswidget.cpp:93
 #, kde-format
 msgid "Total strings:"
-msgstr "Kateak guztira:"
+msgstr ""
 
 #: widgets/statusbar.cpp:70
 #, kde-format
 msgid "Line: %1 Col: %2"
-msgstr "Lerroa: %1 Zut: %2"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: widgets/structureviewconfigwidget.ui:38
 #, kde-format
 msgid "Expansion Level"
-msgstr "Hedapen-maila"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: widgets/structureviewconfigwidget.ui:52
 #, kde-format
 msgid "&Default value"
-msgstr "Balio le&henetsia"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2_2)
 #: widgets/structureviewconfigwidget.ui:112
 #, kde-format
 msgid "(&1=part, 2=chapter, 3=section, 4=subsection, 5=subsubsection, ...)"
-msgstr "(&1=zatia, 2=kapitulua, 3=atala, 4=azpiatala, 5=azpiazpiatala, ...)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowLabels)
 #: widgets/structureviewconfigwidget.ui:137
 #, kde-format
 msgid "Show &labels"
-msgstr "Erakutsi e&tiketak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenLabels)
 #: widgets/structureviewconfigwidget.ui:144
 #, kde-format
 msgid "&Open labels item"
-msgstr "&Ireki etiketen elementua"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowReferences)
 #: widgets/structureviewconfigwidget.ui:151
 #, kde-format
 msgid "Show undefined references"
-msgstr "Erakutsi definitu gabeko erreferentziak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenReferences)
 #: widgets/structureviewconfigwidget.ui:158
 #, kde-format
 msgid "Open references item"
-msgstr "Ireki erreferentzien elementua"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowBibitems)
 #: widgets/structureviewconfigwidget.ui:165
 #, kde-format
 msgid "Show bibitems"
-msgstr "Erakutsi «bibitems»"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenBibitems)
 #: widgets/structureviewconfigwidget.ui:172
 #, kde-format
 msgid "Open bibitems item"
-msgstr "Ireki «bibitems» elementua"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowTodo)
 #: widgets/structureviewconfigwidget.ui:179
 #, kde-format
 msgid "Show TODO/FIXME"
-msgstr "Erakutsi TODO/FIXME"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenTodo)
 #: widgets/structureviewconfigwidget.ui:186
 #, kde-format
 msgid "Open TODO/FIXME"
-msgstr "Ireki TODO/FIXME"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowFloats)
 #: widgets/structureviewconfigwidget.ui:193
 #, kde-format
 msgid "Show figure and table en&vironments"
-msgstr "Erakutsi irudi eta taula in&guruneak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowGraphics)
 #: widgets/structureviewconfigwidget.ui:200
 #, kde-format
 msgid "Show graphic files"
-msgstr "Erakutsi grafiko-fitxategiak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowInputFiles)
 #: widgets/structureviewconfigwidget.ui:207
 #, kde-format
 msgid "Show input files"
-msgstr "Erakutsi sarrerako fitxategiak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowSectioningLabels)
 #: widgets/structureviewconfigwidget.ui:217
 #, kde-format
 msgid "No extra section for labels"
-msgstr "Ez dago etiketetarako aparteko atalik"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/structureviewconfigwidget.ui:229
 #, kde-format
 msgid "Default Graphic Extension:"
-msgstr "Grafikoen luzapen lehenetsia:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:236
 #, kde-format
 msgid "Extension to use for graphic files without extensions"
-msgstr "Luzapenik gabeko grafiko-fitxategiekin erabili beharreko luzapenak"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:243
 #, kde-format
 msgid "eps"
-msgstr "eps"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:248
 #, kde-format
 msgid "pdf"
-msgstr "pdf"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:253
 #, kde-format
 msgid "png"
-msgstr "png"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:258
 #, kde-format
 msgid "jpg"
-msgstr "jpg"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:263
 #, kde-format
 msgid "tif"
-msgstr "tif"
+msgstr ""
 
 #: widgets/structurewidget.cpp:105
 #, kde-format
@@ -12039,61 +11985,53 @@ msgid ""
 "this item. Items for a graphics file or an assigned label\n"
 "also offer a context menu (right mouse button)."
 msgstr ""
-"Ezkerreko klik lerrora joateko. Klik bikoitzak testu- edo grafiko-fitxategi "
-"bat\n"
-" irekiko du. Elementu honi etiketa bat esleitzen zaionean, sagua elementu\n"
-"honen gainean dagoenean erakutsiko da. Grafiko-fitxategi baterako edo\n"
-"esleitutako etiketa baterako elementuek ere testuinguru-menu bat\n"
-"eskaintzen dute (saguaren eskuineko botoia)."
 
 #: widgets/structurewidget.cpp:121
 #, kde-format
 msgctxt "structure view entry: title (line)"
 msgid "%1 (line %2)"
-msgstr "%1 (%2 lerroa)"
+msgstr ""
 
 #: widgets/structurewidget.cpp:129
 #, kde-format
 msgid "Label: %1"
-msgstr "Etiketa: %1"
+msgstr ""
 
 #: widgets/structurewidget.cpp:163
 #, kde-format
 msgid "No \"structure data\" to display."
-msgstr "Ez dago \"egitura daturik\" erakusteko."
+msgstr ""
 
 #: widgets/structurewidget.cpp:336
 #, kde-format
 msgid "BibTeX References"
-msgstr "BibTeX erreferentziak"
+msgstr ""
 
 #: widgets/structurewidget.cpp:340
 #, kde-format
 msgid "Undefined References"
-msgstr "Definitu gabeko erreferentziak"
+msgstr ""
 
 #: widgets/structurewidget.cpp:344
 #, kde-format
 msgid "TODO"
-msgstr "TODO"
+msgstr ""
 
 #: widgets/structurewidget.cpp:348
 #, kde-format
 msgid "FIXME"
-msgstr "FIXME"
+msgstr ""
 
 #: widgets/structurewidget.cpp:509
 #, kde-format
 msgid "Cannot create a list view item: no parent found."
-msgstr "Ezin du zerrenda ikuspegi elementu bat sortu: ez da gurasorik aurkitu."
+msgstr ""
 
 #: widgets/structurewidget.cpp:691
 #, kde-format
 msgid ""
 "No extension specified for graphic file.  Using .%1 from Project settings."
 msgstr ""
-"Ez da grafiko-fitxategirako luzapenik zehaztu. Proiektu-ezarpenetako .%1 "
-"erabiliko da."
 
 #: widgets/structurewidget.cpp:692
 #, kde-format
@@ -12101,13 +12039,11 @@ msgid ""
 "No extension specified for graphic file.  Using .%1 from global Structure "
 "View settings."
 msgstr ""
-"Ez da grafiko-fitxategirako luzapenik zehaztu. Egitura-ikuspegi ezarpen "
-"globaletako .%1 erabiliko da."
 
 #: widgets/structurewidget.cpp:693
 #, kde-format
 msgid "File extension not specified"
-msgstr "Fitxategi-luzapena ez da zehaztu"
+msgstr ""
 
 #: widgets/structurewidget.cpp:741
 #, kde-format
@@ -12117,164 +12053,159 @@ msgid ""
 "this error was: %1.\n"
 "Do you want to create this file?"
 msgstr ""
-"Ezin da barneratutako fitxategia aurkitu. Fitxategia ez da existitzen, ezin "
-"da irakurri edo Kile ez da haren bide-izena zuzena zehazteko gai. Errore hau "
-"eragiten ari den fitxategia: %1.\n"
-"Fitxategi hori sortu nahi duzu?"
 
 #: widgets/structurewidget.cpp:742
 #, kde-format
 msgid "Cannot Find File"
-msgstr "Ezin du fitxategia aurkitu"
+msgstr ""
 
 #: widgets/structurewidget.cpp:776
 #, kde-format
 msgid "Cu&t"
-msgstr "E&baki"
+msgstr ""
 
 #: widgets/structurewidget.cpp:777
 #, kde-format
 msgid "&Copy"
-msgstr "&Kopiatu"
+msgstr ""
 
 #: widgets/structurewidget.cpp:778
 #, kde-format
 msgid "&Paste below"
-msgstr "&Itsatsi behean"
+msgstr ""
 
 #: widgets/structurewidget.cpp:783
 #, kde-format
 msgid "C&omment"
-msgstr "I&ruzkina"
+msgstr ""
 
 #: widgets/structurewidget.cpp:785
 #, kde-format
 msgid "Run QuickPreview"
-msgstr "Exekutatu Aurreikuspegi azkarra"
+msgstr ""
 
 #: widgets/structurewidget.cpp:812
 #, kde-format
 msgid "Insert Label"
-msgstr "Sartu etiketa"
+msgstr ""
 
 #: widgets/structurewidget.cpp:813
 #, kde-format
 msgid "As &reference"
-msgstr "E&rreferentzia gisa"
+msgstr ""
 
 #: widgets/structurewidget.cpp:814
 #, kde-format
 msgid "As &page reference"
-msgstr "&Orri-erreferentzia gisa"
+msgstr ""
 
 #: widgets/structurewidget.cpp:815
 #, kde-format
 msgid "Only the &label"
-msgstr "E&tiketa bakarrik"
+msgstr ""
 
 #: widgets/structurewidget.cpp:817
 #, kde-format
 msgid "Copy Label to Clipboard"
-msgstr "Kopiatu etiketa arbelera"
+msgstr ""
 
 #: widgets/structurewidget.cpp:818
 #, kde-format
 msgid "As reference"
-msgstr "Erreferentzia gisa"
+msgstr ""
 
 #: widgets/structurewidget.cpp:819
 #, kde-format
 msgid "As page reference"
-msgstr "Orriaren erreferentzia gisa"
+msgstr ""
 
 #: widgets/structurewidget.cpp:820
 #, kde-format
 msgid "Only the label"
-msgstr "Etiketa bakarrik"
+msgstr ""
 
 #: widgets/symbolview.cpp:205
 #, kde-format
 msgid "Command: %1"
-msgstr "Komandoa: %1"
+msgstr ""
 
 #: widgets/symbolview.cpp:207
 #, kde-format
 msgid "<br/>Unicode: %1"
-msgstr "<br/>Unicode: %1"
+msgstr ""
 
 #: widgets/symbolview.cpp:235
 #, kde-format
 msgid "Required Package: %2"
 msgid_plural "Required Packages: %2"
-msgstr[0] "Beharrezko paketea: %2"
-msgstr[1] "Beharrezko paketeak: %2"
+msgstr[0] ""
+msgstr[1] ""
 
 #: widgets/symbolview.cpp:239
 #, kde-format
 msgid "Comment: %1"
-msgstr "Iruzkina: %1"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: widgets/symbolviewconfigwidget.ui:28
 #, kde-format
 msgid "Most Frequently Used Symbols"
-msgstr "Ikur erabilienak"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayMFUS)
 #: widgets/symbolviewconfigwidget.ui:37
 #, kde-format
 msgid "Display the vie&w"
-msgstr "Azaldu ik&uspegia"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/symbolviewconfigwidget.ui:46
 #, kde-format
 msgid "Number of symbols to show"
-msgstr "Erakutsi beharreko ikur-kopurua"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_clearMFUS)
 #: widgets/symbolviewconfigwidget.ui:84
 #, kde-format
 msgid "&Clear the list of symbols when closing Kile"
-msgstr "&Hustu ikur-zerrenda Kile ixtean"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/symbolviewconfigwidget.ui:94
 #, kde-format
 msgid "Unicode"
-msgstr "Unicode"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_symbolViewUTF8)
 #: widgets/symbolviewconfigwidget.ui:103
 #, kde-format
 msgid "Insert Unicode representation of the selected symbol (when available)"
 msgstr ""
-"Sartu hautatutako ikurraren Unicode adierazpena (erabilgarri dagoenean)"
 
 #: widgets/toolconfigwidget.cpp:109
 #, kde-format
 msgid "Run Outside of Kile"
-msgstr "Exekutatu «Kile»tik kanpo"
+msgstr ""
 
 #: widgets/toolconfigwidget.cpp:110
 #, kde-format
 msgid "Run in Konsole"
-msgstr "Exekutatu «Konsole»n"
+msgstr ""
 
 #: widgets/toolconfigwidget.cpp:111
 #, kde-format
 msgid "Use Document Viewer"
-msgstr "Erabili dokumentu ikustaila"
+msgstr ""
 
 #: widgets/toolconfigwidget.cpp:112
 #, kde-format
 msgid "Run Sequence of Tools"
-msgstr "Exekutatu tresna-sekuentzia"
+msgstr ""
 
 #: widgets/toolconfigwidget.cpp:159
 #, kde-format
 msgid "Use the \"Advanced\" tab to configure this tool."
-msgstr "Erabili \"Aurreratua\" fitxa tresna hori konfiguratzeko."
+msgstr ""
 
 #: widgets/toolconfigwidget.cpp:170
 #, kde-format
@@ -12282,8 +12213,6 @@ msgid ""
 "Unknown tool type; your configuration data is malformed.\n"
 "Perhaps it is a good idea to restore the default settings."
 msgstr ""
-"Tresna-mota ezezaguna; zure konfigurazio-datuak gaizki osatuta daude.\n"
-"Agian ona litzate ezarpen lehenetsietara lehengoratzea."
 
 #: widgets/toolconfigwidget.cpp:223
 #, kde-format
@@ -12291,81 +12220,73 @@ msgid ""
 "All your tool settings will be overwritten with the default settings.\n"
 "Are you sure you want to continue?"
 msgstr ""
-"Tresnen zure ezarpen guztiak ezarpen lehenetsiekin gainidatziko dira.\n"
-"Ziur zaude jarraitu nahi duzula?"
 
 #: widgets/toolconfigwidget.cpp:337
 #, kde-format
 msgid "Choose a configuration for the tool %1"
-msgstr "Hautatu %1 tresnarako konfiguazioa bat"
+msgstr ""
 
 #: widgets/toolconfigwidget.cpp:407
 #, kde-format
 msgid "New Configuration"
-msgstr "Konfigurazio berria"
+msgstr ""
 
 #: widgets/toolconfigwidget.cpp:407
 #, kde-format
 msgid "Enter new configuration name:"
-msgstr "Sartu konfigurazioaren izen berria:"
+msgstr ""
 
 #: widgets/toolconfigwidget.cpp:434
 #, kde-format
 msgid "Are you sure you want to remove the tool %1?"
-msgstr "Ziur zaude %1 tresna kendu nahi duzula?"
+msgstr ""
 
 #: widgets/toolconfigwidget.cpp:464
 #, kde-format
 msgid "Are you sure that you want to remove this configuration?"
-msgstr "Ziur zaude konfigurazio hori kendu nahi duzula?"
+msgstr ""
 
 #: widgets/toolconfigwidget.cpp:478
 #, kde-format
 msgid "You need at least one configuration for each tool."
-msgstr "Tresna bakoitzearako gutxienez konfigurazio bat behar duzu."
+msgstr ""
 
 #: widgets/toolconfigwidget.cpp:478
 #, kde-format
 msgid "Cannot Remove Configuration"
-msgstr "Ezin du konfigurazioa kendu"
+msgstr ""
 
 #: widgets/usermenuconfigwidget.cpp:89
 #, kde-format
 msgid "no file installed"
-msgstr "ez da fitxategirik instalatu"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/usermenuconfigwidget.ui:40
 #, kde-format
 msgid "Installed menu file:"
-msgstr "Instalatutako menu-fitxategia:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_usermenuFile)
 #: widgets/usermenuconfigwidget.ui:69
 #, kde-format
 msgid "File "
-msgstr "Fitxategia"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/usermenuconfigwidget.ui:149
 #, kde-format
 msgid "Location"
-msgstr "Kokalekua"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbLaTeXMenuLocation)
 #: widgets/usermenuconfigwidget.ui:161
 #, kde-format
 msgid "Show &the user menu in the LaTeX menu"
-msgstr "Erakutsi erabil&tzaile-menua LaTeX menuan"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbStandAloneMenuLocation)
 #: widgets/usermenuconfigwidget.ui:177
 #, kde-format
 msgid "Show the &user menu in the menu bar"
-msgstr "Erakutsi erabilt&zaile-menua menu barran"
-
-#~ msgid "*.pdf|PDF Files"
-#~ msgstr "*.pdf|PDF fitxategiak"
-
-#~ msgid "*.ps|PS Files\\n*.ps.gz|Zipped PS Files"
-#~ msgstr "*.ps|PS fitxategiak\\n*.ps.gz|Zip egindako PS fitxategiak"
+msgstr ""

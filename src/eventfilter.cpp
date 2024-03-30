@@ -25,12 +25,22 @@
 #include <KModifierKeyInfo>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
+#include <qfileinfo.h>
 
-#include "kiledebug.h"
 #include "editorextension.h"
 #include "kileconfig.h"
+#include "kiledebug.h"
+#include "kiletoolmanager.h"
+#include "kileviewmanager.h"
+#include "livepreview.h"
 
-LaTeXEventFilter::LaTeXEventFilter(KTextEditor::View *view, KileDocument::EditorExtension *edit) : QObject(view), m_view(view), m_edit(edit)
+LaTeXEventFilter::LaTeXEventFilter(
+    KTextEditor::View *view, KileDocument::EditorExtension *edit,
+    KileView::Manager *viewManager,
+    KileTool::LivePreviewManager *livePreviewManager,
+    KileTool::Manager *toolManager)
+    : QObject(view), m_view(view), m_edit(edit), m_viewManager(viewManager),
+      m_previewManager(livePreviewManager), m_toolManager(toolManager)
 {
     m_modifierKeyInfo = new KModifierKeyInfo(this);
     readConfig();
@@ -268,6 +278,59 @@ bool LaTeXEventFilter::eventFilter(QObject* /* o */, QEvent *e)
         if(me->button() == Qt::LeftButton && me->modifiers() & Qt::ControlModifier) {
             m_edit->selectWord(KileDocument::EditorExtension::smTex, m_view);
             return true;
+        }
+    }
+
+    else if(e->type() == QEvent::MouseButtonPress) {
+        QMouseEvent *me = static_cast<QMouseEvent*>(e);
+        if(me->button() == Qt::LeftButton &&
+           me->modifiers() & Qt::ShiftModifier) { // forward search
+            // change the cursor position first
+            // use global coordinates to correctly handle possible icon borders, line numbers, ...
+            m_view->setCursorPosition(m_view->coordinatesToCursor(m_view->mapFromGlobal(me->globalPosition().toPoint())));
+            // live preview
+            if(m_previewManager->isLivePreviewEnabledForCurrentDocument()) {
+                m_previewManager->showCursorPositionInDocumentViewer();
+                return true;
+            }
+            // generated PDF or DVI file
+            KileTool::Base* forwardPdfTool = m_toolManager->createTool(QLatin1String("ForwardPDF"));
+            if(!forwardPdfTool) { // just to be avoid crashing as this shouldn't happen
+                return false;
+            }
+            forwardPdfTool->prepareToRun();
+            QFile pdfFile(forwardPdfTool->targetDir() + QLatin1Char('/') + forwardPdfTool->target());
+
+            KileTool::Base* forwardDviTool = m_toolManager->createTool(QLatin1String("ForwardDVI"));
+            if(!forwardDviTool) { // just to be avoid crashing as this shouldn't happen
+                return false;
+            }
+            forwardDviTool->prepareToRun();
+            QFile dviFile(forwardDviTool->targetDir() + QLatin1Char('/') + forwardDviTool->target());
+
+            if(QFileInfo(pdfFile).exists() && QFileInfo(dviFile).exists()) {
+                if(QFileInfo(pdfFile).lastModified() > QFileInfo(dviFile).lastModified()) {
+                    delete forwardDviTool;
+                    m_toolManager->run(forwardPdfTool);
+                    return true;
+                }
+                else {
+                    delete forwardPdfTool;
+                    m_toolManager->run(forwardDviTool);
+                    return true;
+                }
+            }
+            else if(QFileInfo(pdfFile).exists()) {
+                delete forwardDviTool;
+                m_toolManager->run(forwardPdfTool);
+                return true;
+            }
+            else if(QFileInfo(dviFile).exists()) {
+                delete forwardPdfTool;
+                m_toolManager->run(forwardDviTool);
+                return true;
+            }
+            return false;
         }
     }
 

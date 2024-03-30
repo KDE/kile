@@ -354,7 +354,7 @@ void FindProgramTest::call()
     bool thisIsWindowsConvertExe = false;
 #ifdef Q_OS_WIN
     QFileInfo execPathInfo(execPath);
-    thisIsWindowsConvertExe = (m_programName == QLatin1String("convert") && (execPathInfo.dir().dirName() == QLatin1String("system32"));
+    thisIsWindowsConvertExe = (m_programName == QLatin1String("convert")) && (execPathInfo.dir().dirName() == QLatin1String("system32"));
 #endif
     if(execPath.isEmpty() || thisIsWindowsConvertExe) {
         m_status = Failure;

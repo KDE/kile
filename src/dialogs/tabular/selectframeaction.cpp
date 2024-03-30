@@ -222,8 +222,8 @@ void TabularFrameWidget::mousePressEvent(QMouseEvent *event)
     if (event->button() != Qt::LeftButton)
         return;
 
-    int x = event->x();
-    int y = event->y();
+    int x = event->position().x();
+    int y = event->position().y();
 
     int state = 0;
     if(m_left.contains(x, y))

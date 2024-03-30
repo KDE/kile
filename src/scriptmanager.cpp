@@ -206,9 +206,11 @@ void Manager::deleteScripts()
     for(QList<Script*>::iterator it = scriptList.begin(); it != scriptList.end(); ++it) {
         QAction *action = (*it)->getActionObject();
         if(action) {
-            const QList<QWidget*> widgets = action->associatedWidgets();
-            for(QWidget *w : widgets) {
-                w->removeAction(action);
+            for(QObject *object : action->associatedObjects()) {
+                QWidget* widget = qobject_cast<QWidget*>(object);
+                if(widget) {
+                    widget->removeAction(action);
+                }
             }
             m_actionCollection->takeAction(action);
             delete action;

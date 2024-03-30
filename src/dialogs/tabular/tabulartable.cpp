@@ -74,7 +74,7 @@ bool TabularTable::eventFilter(QObject *obj, QEvent *event)
         }
         else if(event->type() == QEvent::HoverMove) {
             QHoverEvent *hoverEvent = static_cast<QHoverEvent*>(event);
-            QPoint pos = viewport()->mapFromGlobal(mapToGlobal(hoverEvent->pos()));
+            QPoint pos = viewport()->mapFromGlobal(mapToGlobal(hoverEvent->position().toPoint()));
             QTableWidgetItem *itemAtPos = itemAt(pos);
 
             if(itemAtPos) {

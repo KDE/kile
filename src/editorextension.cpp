@@ -509,10 +509,10 @@ bool EditorExtension::getMathgroup(KTextEditor::View *view, int &row1, int &col1
 
     // '$' is difficult, because it is used as opening and closing tag
     int mode = 0;
-    if(textline[col] == '$') {
+    if(col < textline.length() && textline[col] == '$') {
         mode = 1;
     }
-    else if(col > 0 && textline[col - 1] == '$') {
+    else if((col - 1 < textline.length()) && col > 0 && textline[col - 1] == '$') {
         mode = 2;
     }
 
@@ -1994,8 +1994,8 @@ bool EditorExtension::isBracketPosition(KTextEditor::Document *doc, int row, int
     bracket.col = col;
 
     QString textline = getTextLineReal(doc, row);
-    QChar right = textline[col];
-    QChar left  = (col > 0) ? textline[col-1] : QChar(' ');
+    QChar right = col < textline.length() ? textline[col] : QLatin1Char(' ');
+    QChar left  = ((col - 1 < textline.length()) && col > 0) ? textline[col - 1] : QLatin1Char(' ');
 
     if (m_overwritemode) {
         if(right == '{') {
@@ -2065,7 +2065,10 @@ bool EditorExtension::findOpenBracketTag(KTextEditor::Document *doc, int row, in
     uint brackets = 0;
     for(int line = row; line >= 0; --line) {
         QString textline = getTextLineReal(doc, line);
-        int start = (line == row) ? col : textline.length() - 1;
+        if(textline.length() == 0) {
+            continue;
+        }
+        int start = (line == row && col < textline.length()) ? col : textline.length() - 1;
         for (int i = start; i >= 0; --i) {
             //KILE_DEBUG_MAIN << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].toLatin1();
             if(textline[i] == '{') {

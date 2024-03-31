@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-25 00:37+0000\n"
+"POT-Creation-Date: 2024-03-31 00:38+0000\n"
 "PO-Revision-Date: 2024-01-22 17:59+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -4828,7 +4828,7 @@ msgid ""
 "dvi *.epub);;All Files (*)"
 msgstr ""
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2147
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2148
 #, kde-format
 msgid "Select File"
 msgstr "選擇檔案"
@@ -6079,8 +6079,8 @@ msgstr "開啟所有專案檔案(&P)"
 msgid "Find in &Project..."
 msgstr "在專案裡尋找(&P)..."
 
-#: kile.cpp:909 kile.cpp:1007 kile.cpp:2128 kiledocmanager.cpp:1996
-#: kiledocmanager.cpp:2006
+#: kile.cpp:909 kile.cpp:1007 kile.cpp:2131 kiledocmanager.cpp:1997
+#: kiledocmanager.cpp:2007
 #, kde-format
 msgid "Clean"
 msgstr "清除"
@@ -6244,7 +6244,7 @@ msgstr "設定 BibTeX"
 msgid "Settings for Biblatex"
 msgstr "設定 Biblatex"
 
-#: kile.cpp:1023 kile.cpp:2234
+#: kile.cpp:1023 kile.cpp:2237
 #, kde-format
 msgid "Quick Start"
 msgstr "快速開始"
@@ -6254,7 +6254,7 @@ msgstr "快速開始"
 msgid "Array"
 msgstr "陣列"
 
-#: kile.cpp:1027 kile.cpp:2286 kilestdactions.cpp:79
+#: kile.cpp:1027 kile.cpp:2289 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "分頁"
@@ -6335,7 +6335,7 @@ msgstr "轉換"
 msgid "Quick"
 msgstr "快"
 
-#: kile.cpp:1434
+#: kile.cpp:1437
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6343,110 +6343,110 @@ msgid ""
 "Please check and repair your installation of Kile."
 msgstr ""
 
-#: kile.cpp:1436
+#: kile.cpp:1439
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr ""
 
-#: kile.cpp:1505
+#: kile.cpp:1508
 #, kde-format
 msgid "Project: %1"
 msgstr "專案：%1"
 
-#: kile.cpp:1508
+#: kile.cpp:1511
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "專案：%1（主文件：%2）"
 
-#: kile.cpp:1513
+#: kile.cpp:1516
 #, kde-format
 msgid "Normal mode"
 msgstr "正常模式"
 
-#: kile.cpp:1516
+#: kile.cpp:1519
 #, kde-format
 msgid "Master document: %1"
 msgstr "主文件：%1"
 
-#: kile.cpp:1521 kile.cpp:2644
+#: kile.cpp:1524 kile.cpp:2647
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "定義目前的文件為「主文件」"
 
-#: kile.cpp:1525 kile.cpp:2634
+#: kile.cpp:1528 kile.cpp:2637
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "正常模式（目前的主文件：%1）"
 
-#: kile.cpp:1743
+#: kile.cpp:1746
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr ""
 
-#: kile.cpp:2121
+#: kile.cpp:2124
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "沒有主文件，或尚未儲存。"
 
-#: kile.cpp:2205
+#: kile.cpp:2208
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "您必須引入套件 %1。"
 
-#: kile.cpp:2205 kile.cpp:2208
+#: kile.cpp:2208 kile.cpp:2211
 #, kde-format
 msgid "Insert text"
 msgstr "插入文字"
 
-#: kile.cpp:2208
+#: kile.cpp:2211
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "您必須引入套件 %1。"
 
-#: kile.cpp:2429
+#: kile.cpp:2432
 #, fuzzy, kde-format
 #| msgid "Tool Name"
 msgid "No Name"
 msgstr "工具名稱"
 
-#: kile.cpp:2465
+#: kile.cpp:2468
 #, kde-format
 msgid "no name"
 msgstr "未命名"
 
-#: kile.cpp:2662
+#: kile.cpp:2665
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr "要將目前文件定義為主文件前必須先儲存。"
 
-#: kile.cpp:3004
+#: kile.cpp:3007
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "區塊"
 
-#: kile.cpp:3005
+#: kile.cpp:3008
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "行"
 
-#: kile.cpp:3012
+#: kile.cpp:3015
 #, fuzzy, kde-format
 #| msgid "Refresh Str&ucture"
 msgid "Refreshing structure..."
 msgstr "刷新結構(&U)"
 
-#: kile.cpp:3030
+#: kile.cpp:3033
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 
-#: kile.cpp:3033
+#: kile.cpp:3036
 #, kde-format
 msgid "Hide menu bar"
 msgstr ""
@@ -7156,7 +7156,7 @@ msgstr ""
 "閉 Kile。\n"
 "Kile 開發組對給您造成的任何不便道歉，並且鼓勵您向我們提交 bug 報告。"
 
-#: kiledocmanager.cpp:538
+#: kiledocmanager.cpp:539
 #, kde-format
 msgid ""
 "The URL \"%1\" couldn't be opened.\n"
@@ -7164,82 +7164,82 @@ msgid ""
 "%2"
 msgstr ""
 
-#: kiledocmanager.cpp:539 kiledocmanager.cpp:542
+#: kiledocmanager.cpp:540 kiledocmanager.cpp:543
 #, kde-format
 msgid "Cannot open URL"
 msgstr ""
 
-#: kiledocmanager.cpp:542
+#: kiledocmanager.cpp:543
 #, fuzzy, kde-format
 #| msgid "The template could not be removed."
 msgid "The URL \"%1\" couldn't be opened."
 msgstr "樣本無法移除。"
 
-#: kiledocmanager.cpp:681
+#: kiledocmanager.cpp:682
 #, kde-format
 msgid "Could not find template: %1"
 msgstr "找不到樣本：%1"
 
-#: kiledocmanager.cpp:681
+#: kiledocmanager.cpp:682
 #, kde-format
 msgid "File Not Found"
 msgstr "找不到檔案"
 
-#: kiledocmanager.cpp:741
+#: kiledocmanager.cpp:742
 #, kde-format
 msgid "Please save the file first."
 msgstr "請先儲存檔案。"
 
-#: kiledocmanager.cpp:746
+#: kiledocmanager.cpp:747
 #, kde-format
 msgid "Open/create a document first."
 msgstr "請先開啟/建立文件。"
 
-#: kiledocmanager.cpp:754
+#: kiledocmanager.cpp:755
 #, kde-format
 msgid "A template for this type of document cannot be created."
 msgstr "無法建立此型態的文件樣本。"
 
-#: kiledocmanager.cpp:758
+#: kiledocmanager.cpp:759
 #, kde-format
 msgid "Create Template From Document"
 msgstr "從文件建立樣本"
 
-#: kiledocmanager.cpp:764
+#: kiledocmanager.cpp:765
 #, kde-format
 msgid "Remove Template"
 msgstr "移除樣本"
 
-#: kiledocmanager.cpp:829
+#: kiledocmanager.cpp:830
 #, kde-format
 msgid "Open Files"
 msgstr "開啟檔案"
 
-#: kiledocmanager.cpp:910
+#: kiledocmanager.cpp:911
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
 "disk space left?"
 msgstr "Kile 在儲存檔案 %1 遇到問題。您的磁碟空間足夠嗎？"
 
-#: kiledocmanager.cpp:911
+#: kiledocmanager.cpp:912
 #, kde-format
 msgid "Saving"
 msgstr "正在儲存"
 
-#: kiledocmanager.cpp:944
+#: kiledocmanager.cpp:945
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "Any files (*)"
 msgstr "所有檔案"
 
-#: kiledocmanager.cpp:946
+#: kiledocmanager.cpp:947
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Save Compiled Document As..."
 msgstr "從文件建立樣本..."
 
-#: kiledocmanager.cpp:971
+#: kiledocmanager.cpp:972
 #, fuzzy, kde-format
 #| msgid ""
 #| "The file %1 can not be added because it does not exist or is not readable"
@@ -7248,33 +7248,33 @@ msgid ""
 "as it is a directory."
 msgstr "檔案 %1 無法被加入，因為它不存在，或是無法讀取"
 
-#: kiledocmanager.cpp:972
+#: kiledocmanager.cpp:973
 #, kde-format
 msgid "Cannot open directory"
 msgstr ""
 
-#: kiledocmanager.cpp:1090
+#: kiledocmanager.cpp:1091
 #, kde-format
 msgid "Save File"
 msgstr "儲存檔案"
 
-#: kiledocmanager.cpp:1127
+#: kiledocmanager.cpp:1128
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "名為 \"%1\" 的檔案已存在。您要覆寫它嗎？"
 
-#: kiledocmanager.cpp:1128
+#: kiledocmanager.cpp:1129
 #, kde-format
 msgid "Overwrite File?"
 msgstr "要覆寫檔案嗎？"
 
-#: kiledocmanager.cpp:1304
+#: kiledocmanager.cpp:1305
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "刷新專案樹狀結構"
 
-#: kiledocmanager.cpp:1312
+#: kiledocmanager.cpp:1313
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7284,34 +7284,34 @@ msgstr ""
 "目前的文件並未與任何專案有關。請啟動您要編譯的專案裡的文件，然後再一次選擇刷"
 "新專案樹狀結構。"
 
-#: kiledocmanager.cpp:1312
+#: kiledocmanager.cpp:1313
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "無法刷新專案樹狀結構"
 
-#: kiledocmanager.cpp:1397 kiledocmanager.cpp:2168 kiledocmanager.cpp:2242
-#: kiledocmanager.cpp:2279
+#: kiledocmanager.cpp:1398 kiledocmanager.cpp:2169 kiledocmanager.cpp:2243
+#: kiledocmanager.cpp:2280
 #, kde-format
 msgid "Select Project"
 msgstr "選擇專案"
 
-#: kiledocmanager.cpp:1422 kiledocmanager.cpp:1437 kiledocmanager.cpp:1444
+#: kiledocmanager.cpp:1423 kiledocmanager.cpp:1438 kiledocmanager.cpp:1445
 #, kde-format
 msgid "Add to Project"
 msgstr "加到專案(&A)"
 
-#: kiledocmanager.cpp:1436
+#: kiledocmanager.cpp:1437
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "檔案 %1 已經是專案 %2 裡的成員了"
 
-#: kiledocmanager.cpp:1443
+#: kiledocmanager.cpp:1444
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr "檔案 %1 無法被加入，因為它不存在，或是無法讀取"
 
-#: kiledocmanager.cpp:1462
+#: kiledocmanager.cpp:1463
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
@@ -7320,12 +7320,12 @@ msgstr ""
 "這個檔案為專案檔案，它包含所有有關您的專案的資訊。因此，無法移除專案中的這個"
 "檔案。"
 
-#: kiledocmanager.cpp:1462
+#: kiledocmanager.cpp:1463
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "無法從專案移除檔案"
 
-#: kiledocmanager.cpp:1530
+#: kiledocmanager.cpp:1531
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project you tried to open is already opened. If you wanted to reload "
@@ -7336,12 +7336,12 @@ msgid ""
 msgstr ""
 "您試圖開啟的專案已經開啟。如果您要重新載入專案，請先關閉專案然後再開啟。"
 
-#: kiledocmanager.cpp:1532
+#: kiledocmanager.cpp:1533
 #, kde-format
 msgid "Project Already Open"
 msgstr "專案已開啟"
 
-#: kiledocmanager.cpp:1543
+#: kiledocmanager.cpp:1544
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project file for the project \"%1\" does not exist or is not "
@@ -7352,13 +7352,13 @@ msgid ""
 "list?</p>"
 msgstr "專案 %1 的專案檔案不存在或無法讀取。從專案清單刪除此專案？"
 
-#: kiledocmanager.cpp:1546
+#: kiledocmanager.cpp:1547
 #, fuzzy, kde-format
 #| msgid "Could Not Close Project"
 msgid "Could Not Open Project"
 msgstr "無法關閉專案"
 
-#: kiledocmanager.cpp:1564
+#: kiledocmanager.cpp:1565
 #, fuzzy, kde-format
 #| msgid ""
 #| "The file %1 can not be added because it does not exist or is not readable"
@@ -7367,26 +7367,26 @@ msgid ""
 "file.</p>"
 msgstr "檔案 %1 無法被加入，因為它不存在，或是無法讀取"
 
-#: kiledocmanager.cpp:1566
+#: kiledocmanager.cpp:1567
 #, fuzzy, kde-format
 #| msgid "Open Project"
 msgid "Impossible to Open Project File"
 msgstr "開啟專案"
 
-#: kiledocmanager.cpp:1576
+#: kiledocmanager.cpp:1577
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
 "version of Kile.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1578
+#: kiledocmanager.cpp:1579
 #, fuzzy, kde-format
 #| msgid "Open Project"
 msgid "Impossible to Open Project"
 msgstr "開啟專案"
 
-#: kiledocmanager.cpp:1588
+#: kiledocmanager.cpp:1589
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7394,13 +7394,13 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1591
+#: kiledocmanager.cpp:1592
 #, fuzzy, kde-format
 #| msgid "Tools need to be updated"
 msgid "Project File Needs to be Updated"
 msgstr "需要更新工具"
 
-#: kiledocmanager.cpp:1598
+#: kiledocmanager.cpp:1599
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project file for the project \"%1\" does not exist or is not "
@@ -7410,23 +7410,23 @@ msgid ""
 "this project from the recent projects list?</p>"
 msgstr "專案 %1 的專案檔案不存在或無法讀取。從專案清單刪除此專案？"
 
-#: kiledocmanager.cpp:1600
+#: kiledocmanager.cpp:1601
 #, fuzzy, kde-format
 #| msgid "Could Not Load Project File"
 msgid "Could Not Update Project File"
 msgstr "無法載入專案檔"
 
-#: kiledocmanager.cpp:1702
+#: kiledocmanager.cpp:1703
 #, kde-format
 msgid "Open Project"
 msgstr "開啟專案"
 
-#: kiledocmanager.cpp:1721
+#: kiledocmanager.cpp:1722
 #, kde-format
 msgid "Save Project"
 msgstr "儲存專案"
 
-#: kiledocmanager.cpp:1773
+#: kiledocmanager.cpp:1774
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7436,44 +7436,44 @@ msgstr ""
 "目前的文件並未與任何專案有關。請啟動您要儲存的專案裡的文件，然後再一次選擇儲"
 "存專案。"
 
-#: kiledocmanager.cpp:1773
+#: kiledocmanager.cpp:1774
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "可以決定目前正在使用的專案"
 
-#: kiledocmanager.cpp:1794
+#: kiledocmanager.cpp:1795
 #, kde-format
 msgid "Add Files to Project"
 msgstr "新增檔案到專案中"
 
-#: kiledocmanager.cpp:1807
+#: kiledocmanager.cpp:1808
 #, kde-format
 msgid "Add Files"
 msgstr "加入檔案"
 
-#: kiledocmanager.cpp:1810
+#: kiledocmanager.cpp:1811
 #, kde-format
 msgid "Add"
 msgstr "新增"
 
-#: kiledocmanager.cpp:1825
+#: kiledocmanager.cpp:1826
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
 "to, then choose Add Files again."
 msgstr "沒有專案開啟。請開啟您要加入檔案的專案，然後再次選擇加入檔案。"
 
-#: kiledocmanager.cpp:1825 kiledocmanager.cpp:1860
+#: kiledocmanager.cpp:1826 kiledocmanager.cpp:1861
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "無法決定目前正在使用的專案"
 
-#: kiledocmanager.cpp:1851
+#: kiledocmanager.cpp:1852
 #, kde-format
 msgid "Project Options For"
 msgstr "專案選項"
 
-#: kiledocmanager.cpp:1860
+#: kiledocmanager.cpp:1861
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7483,12 +7483,12 @@ msgstr ""
 "目前的文件並未與任何專案有關。請啟動您要變更的專案裡的文件，然後再一次選擇專"
 "案選項。"
 
-#: kiledocmanager.cpp:1886
+#: kiledocmanager.cpp:1887
 #, kde-format
 msgid "Close Project"
 msgstr "關閉專案"
 
-#: kiledocmanager.cpp:1940
+#: kiledocmanager.cpp:1941
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7498,77 +7498,77 @@ msgstr ""
 "目前的文件並未與任何專案有關。請啟動您要關閉的專案裡的文件，然後再一次選擇關"
 "閉專案。"
 
-#: kiledocmanager.cpp:1940
+#: kiledocmanager.cpp:1941
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "無法關閉專案"
 
-#: kiledocmanager.cpp:1995
+#: kiledocmanager.cpp:1996
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr "沒有清理 %1 的任何東西"
 
-#: kiledocmanager.cpp:2005
+#: kiledocmanager.cpp:2006
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "清除 %1：%2"
 
-#: kiledocmanager.cpp:2079
+#: kiledocmanager.cpp:2080
 #, kde-format
 msgid "Switch Project"
 msgstr "切換專案"
 
-#: kiledocmanager.cpp:2137
+#: kiledocmanager.cpp:2138
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "選擇要移除的檔案"
 
-#: kiledocmanager.cpp:2150 kiledocmanager.cpp:2153
+#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2154
 #, kde-format
 msgid "Show Project Files"
 msgstr "顯示專案檔案"
 
-#: kiledocmanager.cpp:2150 kiledocmanager.cpp:2198
+#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2199
 #, kde-format
 msgid "project configuration file"
 msgstr "專案設定檔"
 
-#: kiledocmanager.cpp:2153 kiledocmanager.cpp:2201
+#: kiledocmanager.cpp:2154 kiledocmanager.cpp:2202
 #, kde-format
 msgid "graphics file"
 msgstr "圖形檔"
 
-#: kiledocmanager.cpp:2198 kiledocmanager.cpp:2201
+#: kiledocmanager.cpp:2199 kiledocmanager.cpp:2202
 #, kde-format
 msgid "Open All Project Files"
 msgstr "開啟所有專案檔案"
 
-#: kiledocmanager.cpp:2235
+#: kiledocmanager.cpp:2236
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "未開啟：%1（%2）"
 
-#: kiledocmanager.cpp:2260 kiledocmanager.cpp:2297
+#: kiledocmanager.cpp:2261 kiledocmanager.cpp:2298
 #, kde-format
 msgid "Project Files"
 msgstr "專案檔案"
 
-#: kiledocmanager.cpp:2268 kiledocmanager.cpp:2307
+#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "無法決定選取的檔案。"
 
-#: kiledocmanager.cpp:2268 kiledocmanager.cpp:2307
+#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
 #, kde-format
 msgid "Project Error"
 msgstr "專案錯誤"
 
-#: kiledocmanager.cpp:2374
+#: kiledocmanager.cpp:2375
 #, kde-format
 msgid "Opening Project..."
 msgstr "開啟專案中..."
 
-#: kiledocmanager.cpp:2377
+#: kiledocmanager.cpp:2378
 #, kde-format
 msgid "Scanning project files..."
 msgstr "掃描專案檔案中..."
@@ -11013,7 +11013,7 @@ msgstr ""
 msgid "Script Error"
 msgstr "文稿"
 
-#: scriptmanager.cpp:488
+#: scriptmanager.cpp:490
 #, kde-format
 msgid "Execution of %1"
 msgstr "%1 的執行"

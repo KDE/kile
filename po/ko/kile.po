@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-25 00:37+0000\n"
+"POT-Creation-Date: 2024-03-31 00:38+0000\n"
 "PO-Revision-Date: 2024-02-09 23:42+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -4837,7 +4837,7 @@ msgstr ""
 "웹사이트(HTML) (*.html *.htm);;문서(PDF, PS, DVI, EPUB) (*.ps *.pdf *.dvi *."
 "epub);;모든 파일 (*)"
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2147
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2148
 #, kde-format
 msgid "Select File"
 msgstr "파일 선택"
@@ -6060,8 +6060,8 @@ msgstr "모든 프로젝트 파일 열기(&P)"
 msgid "Find in &Project..."
 msgstr "프로젝트에서 찾기(&P)..."
 
-#: kile.cpp:909 kile.cpp:1007 kile.cpp:2128 kiledocmanager.cpp:1996
-#: kiledocmanager.cpp:2006
+#: kile.cpp:909 kile.cpp:1007 kile.cpp:2131 kiledocmanager.cpp:1997
+#: kiledocmanager.cpp:2007
 #, kde-format
 msgid "Clean"
 msgstr "비우기"
@@ -6225,7 +6225,7 @@ msgstr "BibTeX 설정"
 msgid "Settings for Biblatex"
 msgstr "Biblatex 설정"
 
-#: kile.cpp:1023 kile.cpp:2234
+#: kile.cpp:1023 kile.cpp:2237
 #, kde-format
 msgid "Quick Start"
 msgstr "빠른 시작"
@@ -6235,7 +6235,7 @@ msgstr "빠른 시작"
 msgid "Array"
 msgstr "배열"
 
-#: kile.cpp:1027 kile.cpp:2286 kilestdactions.cpp:79
+#: kile.cpp:1027 kile.cpp:2289 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "탭 지정"
@@ -6315,7 +6315,7 @@ msgstr "변환"
 msgid "Quick"
 msgstr "빠르게"
 
-#: kile.cpp:1434
+#: kile.cpp:1437
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6326,108 +6326,108 @@ msgstr ""
 "\n"
 "Kile 설치 상태를 확인하고 다시 설정하십시오."
 
-#: kile.cpp:1436
+#: kile.cpp:1439
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr "압축 파일 생성 도구를 만들 수 없음"
 
-#: kile.cpp:1505
+#: kile.cpp:1508
 #, kde-format
 msgid "Project: %1"
 msgstr "프로젝트: %1"
 
-#: kile.cpp:1508
+#: kile.cpp:1511
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "프로젝트: %1(마스터 문서: %2)"
 
-#: kile.cpp:1513
+#: kile.cpp:1516
 #, kde-format
 msgid "Normal mode"
 msgstr "일반 모드"
 
-#: kile.cpp:1516
+#: kile.cpp:1519
 #, kde-format
 msgid "Master document: %1"
 msgstr "마스터 문서: %1"
 
-#: kile.cpp:1521 kile.cpp:2644
+#: kile.cpp:1524 kile.cpp:2647
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "현재 문서를 '마스터 문서'로 지정"
 
-#: kile.cpp:1525 kile.cpp:2634
+#: kile.cpp:1528 kile.cpp:2637
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "일반 모드(현재 마스터 문서: %1)"
 
-#: kile.cpp:1743
+#: kile.cpp:1746
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr "%1 [읽기 전용]"
 
-#: kile.cpp:2121
+#: kile.cpp:2124
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "활성화된 문서가 없거나 저장되지 않았습니다."
 
-#: kile.cpp:2205
+#: kile.cpp:2208
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "%1 패키지를 포함해야 합니다."
 
-#: kile.cpp:2205 kile.cpp:2208
+#: kile.cpp:2208 kile.cpp:2211
 #, kde-format
 msgid "Insert text"
 msgstr "문자열 삽입"
 
-#: kile.cpp:2208
+#: kile.cpp:2211
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "%1 패키지를 포함해야 합니다."
 
-#: kile.cpp:2429
+#: kile.cpp:2432
 #, kde-format
 msgid "No Name"
 msgstr "이름 없음"
 
-#: kile.cpp:2465
+#: kile.cpp:2468
 #, kde-format
 msgid "no name"
 msgstr "이름 없음"
 
-#: kile.cpp:2662
+#: kile.cpp:2665
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr "현재 문서를 마스터 문서로 지정하려면 먼저 저장해야 합니다."
 
-#: kile.cpp:3004
+#: kile.cpp:3007
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "블록"
 
-#: kile.cpp:3005
+#: kile.cpp:3008
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "줄"
 
-#: kile.cpp:3012
+#: kile.cpp:3015
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "구조 새로 고치는 중..."
 
-#: kile.cpp:3030
+#: kile.cpp:3033
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr "메뉴 표시줄을 완전히 숨깁니다. %1 키를 눌러서 다시 볼 수 있습니다."
 
-#: kile.cpp:3033
+#: kile.cpp:3036
 #, kde-format
 msgid "Hide menu bar"
 msgstr "메뉴 표시줄 숨기기"
@@ -7130,7 +7130,7 @@ msgstr ""
 "저장을 선택한 다음 Kile을 끝내십시오.\n"
 "불편을 끼쳐 드려 죄송합니다. 버그 보고를 해 주시면 감사히 받겠습니다."
 
-#: kiledocmanager.cpp:538
+#: kiledocmanager.cpp:539
 #, kde-format
 msgid ""
 "The URL \"%1\" couldn't be opened.\n"
@@ -7141,57 +7141,57 @@ msgstr ""
 "\n"
 "%2"
 
-#: kiledocmanager.cpp:539 kiledocmanager.cpp:542
+#: kiledocmanager.cpp:540 kiledocmanager.cpp:543
 #, kde-format
 msgid "Cannot open URL"
 msgstr "URL을 열 수 없음"
 
-#: kiledocmanager.cpp:542
+#: kiledocmanager.cpp:543
 #, kde-format
 msgid "The URL \"%1\" couldn't be opened."
 msgstr "URL \"%1\"을(를) 열 수 없습니다."
 
-#: kiledocmanager.cpp:681
+#: kiledocmanager.cpp:682
 #, kde-format
 msgid "Could not find template: %1"
 msgstr "서식을 찾을 수 없음: %1"
 
-#: kiledocmanager.cpp:681
+#: kiledocmanager.cpp:682
 #, kde-format
 msgid "File Not Found"
 msgstr "파일을 찾을 수 없음"
 
-#: kiledocmanager.cpp:741
+#: kiledocmanager.cpp:742
 #, kde-format
 msgid "Please save the file first."
 msgstr "먼저 파일을 저장하십시오."
 
-#: kiledocmanager.cpp:746
+#: kiledocmanager.cpp:747
 #, kde-format
 msgid "Open/create a document first."
 msgstr "먼저 문서를 열거나 만드십시오."
 
-#: kiledocmanager.cpp:754
+#: kiledocmanager.cpp:755
 #, kde-format
 msgid "A template for this type of document cannot be created."
 msgstr "이 형식 문서에 대한 서식을 만들 수 없습니다."
 
-#: kiledocmanager.cpp:758
+#: kiledocmanager.cpp:759
 #, kde-format
 msgid "Create Template From Document"
 msgstr "문서에서 서식 만들기"
 
-#: kiledocmanager.cpp:764
+#: kiledocmanager.cpp:765
 #, kde-format
 msgid "Remove Template"
 msgstr "서식 삭제"
 
-#: kiledocmanager.cpp:829
+#: kiledocmanager.cpp:830
 #, kde-format
 msgid "Open Files"
 msgstr "파일 열기"
 
-#: kiledocmanager.cpp:910
+#: kiledocmanager.cpp:911
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
@@ -7200,22 +7200,22 @@ msgstr ""
 "Kile에서 파일 %1에 저장하는 중 문제가 발생했습니다. 디스크에 남은 공간을 확인"
 "해 보십시오."
 
-#: kiledocmanager.cpp:911
+#: kiledocmanager.cpp:912
 #, kde-format
 msgid "Saving"
 msgstr "저장 중"
 
-#: kiledocmanager.cpp:944
+#: kiledocmanager.cpp:945
 #, kde-format
 msgid "Any files (*)"
 msgstr "임의 파일 (*)"
 
-#: kiledocmanager.cpp:946
+#: kiledocmanager.cpp:947
 #, kde-format
 msgid "Save Compiled Document As..."
 msgstr "컴파일된 문서를 다른 이름으로 저장..."
 
-#: kiledocmanager.cpp:971
+#: kiledocmanager.cpp:972
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
@@ -7224,33 +7224,33 @@ msgstr ""
 "URL \"%1\"이(가) 디렉터리이기 때문에\n"
 "열 수 없습니다."
 
-#: kiledocmanager.cpp:972
+#: kiledocmanager.cpp:973
 #, kde-format
 msgid "Cannot open directory"
 msgstr "디렉터리를 열 수 없음"
 
-#: kiledocmanager.cpp:1090
+#: kiledocmanager.cpp:1091
 #, kde-format
 msgid "Save File"
 msgstr "파일 저장"
 
-#: kiledocmanager.cpp:1127
+#: kiledocmanager.cpp:1128
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "이름이 \"%1\"인 파일이 이미 존재합니다. 덮어쓰시겠습니까?"
 
-#: kiledocmanager.cpp:1128
+#: kiledocmanager.cpp:1129
 #, kde-format
 msgid "Overwrite File?"
 msgstr "파일을 덮어쓰시겠습니까?"
 
-#: kiledocmanager.cpp:1304
+#: kiledocmanager.cpp:1305
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "프로젝트 트리 새로 고침"
 
-#: kiledocmanager.cpp:1312
+#: kiledocmanager.cpp:1313
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7260,34 +7260,34 @@ msgstr ""
 "현재 문서가 프로젝트에 속해 있지 않습니다. 트리를 생성할 프로젝트에 속해 있"
 "는 문서를 활성화한 다음 프로젝트 트리 새로 고침을 다시 실행하십시오."
 
-#: kiledocmanager.cpp:1312
+#: kiledocmanager.cpp:1313
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "프로젝트 트리를 새로 고칠 수 없음"
 
-#: kiledocmanager.cpp:1397 kiledocmanager.cpp:2168 kiledocmanager.cpp:2242
-#: kiledocmanager.cpp:2279
+#: kiledocmanager.cpp:1398 kiledocmanager.cpp:2169 kiledocmanager.cpp:2243
+#: kiledocmanager.cpp:2280
 #, kde-format
 msgid "Select Project"
 msgstr "프로젝트 선택"
 
-#: kiledocmanager.cpp:1422 kiledocmanager.cpp:1437 kiledocmanager.cpp:1444
+#: kiledocmanager.cpp:1423 kiledocmanager.cpp:1438 kiledocmanager.cpp:1445
 #, kde-format
 msgid "Add to Project"
 msgstr "프로젝트에 추가"
 
-#: kiledocmanager.cpp:1436
+#: kiledocmanager.cpp:1437
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "파일 %1이(가) 이미 프로젝트 %2에 포함되어 있음"
 
-#: kiledocmanager.cpp:1443
+#: kiledocmanager.cpp:1444
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr "파일 %1이(가) 없거나 읽을 수 없어서 프로젝트에 추가할 수 없음"
 
-#: kiledocmanager.cpp:1462
+#: kiledocmanager.cpp:1463
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
@@ -7296,12 +7296,12 @@ msgstr ""
 "이 파일은 프로젝트 정보가 들어 있는 프로젝트 파일입니다. 프로젝트에서 삭제할 "
 "수 없습니다."
 
-#: kiledocmanager.cpp:1462
+#: kiledocmanager.cpp:1463
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "프로젝트에서 파일을 삭제할 수 없음"
 
-#: kiledocmanager.cpp:1530
+#: kiledocmanager.cpp:1531
 #, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
@@ -7310,12 +7310,12 @@ msgstr ""
 "<p>프로젝트 \"%1\"이(가) 이미 열려 있습니다.</p><p>프로젝트를 다시 불러오려"
 "면 다시 열기 전에 프로젝트를 닫으십시오.</p>"
 
-#: kiledocmanager.cpp:1532
+#: kiledocmanager.cpp:1533
 #, kde-format
 msgid "Project Already Open"
 msgstr "프로젝트가 이미 열림"
 
-#: kiledocmanager.cpp:1543
+#: kiledocmanager.cpp:1544
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7325,12 +7325,12 @@ msgstr ""
 "<p>프로젝트 \"%1\"의 프로젝트 파일이 없거나 읽을 수 없습니다.</p> <p>이 프로"
 "젝트를 최근 프로젝트 목록에서 삭제하시겠습니까?</p>"
 
-#: kiledocmanager.cpp:1546
+#: kiledocmanager.cpp:1547
 #, kde-format
 msgid "Could Not Open Project"
 msgstr "프로젝트를 열 수 없음"
 
-#: kiledocmanager.cpp:1564
+#: kiledocmanager.cpp:1565
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
@@ -7339,12 +7339,12 @@ msgstr ""
 "<p>파일 \"%1\"이(가) 올바른 프로젝트 파일이 아닌 것 같아서 열 수 없습니다.</"
 "p>"
 
-#: kiledocmanager.cpp:1566
+#: kiledocmanager.cpp:1567
 #, kde-format
 msgid "Impossible to Open Project File"
 msgstr "프로젝트 파일을 열 수 없음"
 
-#: kiledocmanager.cpp:1576
+#: kiledocmanager.cpp:1577
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
@@ -7353,12 +7353,12 @@ msgstr ""
 "<p>프로젝트 \"%1\"을(를) 열 수 없습니다. 새로운 버전의<br/>Kile에서 생성되었"
 "습니다.</p>"
 
-#: kiledocmanager.cpp:1578
+#: kiledocmanager.cpp:1579
 #, kde-format
 msgid "Impossible to Open Project"
 msgstr "프로젝트를 열 수 없음"
 
-#: kiledocmanager.cpp:1588
+#: kiledocmanager.cpp:1589
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7368,12 +7368,12 @@ msgstr ""
 "<p>프로젝트 파일 \"%1\"이(가) 이전 버전 Kile에서 생성되었습니다.<br/>파일을 "
 "열려면 업데이트해야 합니다.</p><p>지금 업데이트하시겠습니까?</p>"
 
-#: kiledocmanager.cpp:1591
+#: kiledocmanager.cpp:1592
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr "프로젝트 파일을 업데이트해야 함"
 
-#: kiledocmanager.cpp:1598
+#: kiledocmanager.cpp:1599
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
@@ -7382,22 +7382,22 @@ msgstr ""
 "<p>프로젝트 파일 \"%1\"을(를) 업데이트할 수 없습니다.</p> <p>이 프로젝트를 최"
 "근 프로젝트 목록에서 삭제하시겠습니까?</p>"
 
-#: kiledocmanager.cpp:1600
+#: kiledocmanager.cpp:1601
 #, kde-format
 msgid "Could Not Update Project File"
 msgstr "프로젝트 파일을 업데이트할 수 없음"
 
-#: kiledocmanager.cpp:1702
+#: kiledocmanager.cpp:1703
 #, kde-format
 msgid "Open Project"
 msgstr "프로젝트 열기"
 
-#: kiledocmanager.cpp:1721
+#: kiledocmanager.cpp:1722
 #, kde-format
 msgid "Save Project"
 msgstr "프로젝트 저장"
 
-#: kiledocmanager.cpp:1773
+#: kiledocmanager.cpp:1774
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7407,27 +7407,27 @@ msgstr ""
 "현재 문서가 프로젝트에 속해 있지 않습니다. 저장할 프로젝트에 속해 있는 문서"
 "를 활성화한 다음 프로젝트 저장을 다시 실행하십시오."
 
-#: kiledocmanager.cpp:1773
+#: kiledocmanager.cpp:1774
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "활성 프로젝트를 결정할 수 있음"
 
-#: kiledocmanager.cpp:1794
+#: kiledocmanager.cpp:1795
 #, kde-format
 msgid "Add Files to Project"
 msgstr "프로젝트에 파일 추가"
 
-#: kiledocmanager.cpp:1807
+#: kiledocmanager.cpp:1808
 #, kde-format
 msgid "Add Files"
 msgstr "파일 추가"
 
-#: kiledocmanager.cpp:1810
+#: kiledocmanager.cpp:1811
 #, kde-format
 msgid "Add"
 msgstr "추가"
 
-#: kiledocmanager.cpp:1825
+#: kiledocmanager.cpp:1826
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
@@ -7436,17 +7436,17 @@ msgstr ""
 "연 프로젝트가 없습니다. 파일을 추가할 프로젝트를 연 다음 파일 추가 작업을 다"
 "시 실행하십시오."
 
-#: kiledocmanager.cpp:1825 kiledocmanager.cpp:1860
+#: kiledocmanager.cpp:1826 kiledocmanager.cpp:1861
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "활성 프로젝트를 결정할 수 없음"
 
-#: kiledocmanager.cpp:1851
+#: kiledocmanager.cpp:1852
 #, kde-format
 msgid "Project Options For"
 msgstr "다음의 프로젝트 옵션"
 
-#: kiledocmanager.cpp:1860
+#: kiledocmanager.cpp:1861
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7456,12 +7456,12 @@ msgstr ""
 "현재 문서가 프로젝트에 속해 있지 않습니다. 수정할 프로젝트에 속해 있는 문서"
 "를 활성화한 다음 프로젝트 옵션을 다시 실행하십시오."
 
-#: kiledocmanager.cpp:1886
+#: kiledocmanager.cpp:1887
 #, kde-format
 msgid "Close Project"
 msgstr "프로젝트 닫기"
 
-#: kiledocmanager.cpp:1940
+#: kiledocmanager.cpp:1941
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7471,77 +7471,77 @@ msgstr ""
 "현재 문서가 프로젝트에 속해 있지 않습니다. 닫을 프로젝트에 속해 있는 문서를 "
 "활성화한 다음 프로젝트 닫기를 다시 실행하십시오."
 
-#: kiledocmanager.cpp:1940
+#: kiledocmanager.cpp:1941
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "프로젝트를 닫을 수 없음"
 
-#: kiledocmanager.cpp:1995
+#: kiledocmanager.cpp:1996
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr "%1에서 청소할 항목 없음"
 
-#: kiledocmanager.cpp:2005
+#: kiledocmanager.cpp:2006
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "%1 청소 중: %2"
 
-#: kiledocmanager.cpp:2079
+#: kiledocmanager.cpp:2080
 #, kde-format
 msgid "Switch Project"
 msgstr "프로젝트 전환"
 
-#: kiledocmanager.cpp:2137
+#: kiledocmanager.cpp:2138
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "삭제할 파일 선택"
 
-#: kiledocmanager.cpp:2150 kiledocmanager.cpp:2153
+#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2154
 #, kde-format
 msgid "Show Project Files"
 msgstr "프로젝트 파일 표시"
 
-#: kiledocmanager.cpp:2150 kiledocmanager.cpp:2198
+#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2199
 #, kde-format
 msgid "project configuration file"
 msgstr "프로젝트 설정 파일"
 
-#: kiledocmanager.cpp:2153 kiledocmanager.cpp:2201
+#: kiledocmanager.cpp:2154 kiledocmanager.cpp:2202
 #, kde-format
 msgid "graphics file"
 msgstr "그림 파일"
 
-#: kiledocmanager.cpp:2198 kiledocmanager.cpp:2201
+#: kiledocmanager.cpp:2199 kiledocmanager.cpp:2202
 #, kde-format
 msgid "Open All Project Files"
 msgstr "모든 프로젝트 파일 열기"
 
-#: kiledocmanager.cpp:2235
+#: kiledocmanager.cpp:2236
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "열지 않음: %1(%2)"
 
-#: kiledocmanager.cpp:2260 kiledocmanager.cpp:2297
+#: kiledocmanager.cpp:2261 kiledocmanager.cpp:2298
 #, kde-format
 msgid "Project Files"
 msgstr "프로젝트 파일"
 
-#: kiledocmanager.cpp:2268 kiledocmanager.cpp:2307
+#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "선택한 파일을 결정할 수 없습니다."
 
-#: kiledocmanager.cpp:2268 kiledocmanager.cpp:2307
+#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
 #, kde-format
 msgid "Project Error"
 msgstr "프로젝트 오류"
 
-#: kiledocmanager.cpp:2374
+#: kiledocmanager.cpp:2375
 #, kde-format
 msgid "Opening Project..."
 msgstr "프로젝트 여는 중..."
 
-#: kiledocmanager.cpp:2377
+#: kiledocmanager.cpp:2378
 #, kde-format
 msgid "Scanning project files..."
 msgstr "프로젝트 파일 검사 중..."
@@ -11158,7 +11158,7 @@ msgstr "스크립트를 시작할 수 없음: 보기가 없음"
 msgid "Script Error"
 msgstr "스크립트 오류"
 
-#: scriptmanager.cpp:488
+#: scriptmanager.cpp:490
 #, kde-format
 msgid "Execution of %1"
 msgstr "%1 실행"

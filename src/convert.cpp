@@ -60,11 +60,11 @@ QString ConvertMap::encodingNameFor(const QString & name)
     std = std.toLower();
 
     if(std.startsWith(QLatin1String("iso8859-"))) {
-        return "latin" + std.right(1);
+        return QLatin1String("latin") + std.right(1);
     }
 
     if(std.startsWith(QLatin1String("cp"))) {
-        return "cp" + std.right(4);
+        return QLatin1String("cp") + std.right(4);
     }
 
     return name;
@@ -82,11 +82,11 @@ QString ConvertMap::isoNameFor(const QString & name)
     std = std.toLower();
 
     if(std.startsWith(QLatin1String("latin"))) {
-        return "ISO 8859-" + std.right(1);
+        return QLatin1String("ISO 8859-") + std.right(1);
     }
 
     if(std.startsWith(QLatin1String("cp"))) {
-        return "cp " + std.right(4);
+        return QLatin1String("cp ") + std.right(4);
     }
 
     return name;
@@ -100,29 +100,29 @@ ConvertMap::ConvertMap(const QString& enc)
 
 void ConvertMap::addPair(QChar c, const QString& enc)
 {
-    m_toASCII[c] = commandIsTerminated(enc) ? enc : enc + "{}" ;
+    m_toASCII[c] = commandIsTerminated(enc) ? enc : enc + QLatin1String("{}");
     m_toEncoding[enc] = c;
 }
 
 bool ConvertMap::commandIsTerminated(const QString & command)
 {
-    static QRegularExpression reCommandSequences("\\\\([a-zA-Z]+|\\\"|\\')$");
+    static QRegularExpression reCommandSequences(QLatin1String("\\\\([a-zA-Z]+|\\\"|\\')$"));
 
     return reCommandSequences.match(command).hasMatch();
 }
 
 bool ConvertMap::load()
 {
-    static QRegularExpression reMap("^(.*):(.*)");
+    static QRegularExpression reMap(QLatin1String("^(.*):(.*)"));
 
     //makeMap(encoding());
 
     //if map already exists, replace it
-    QFile qf(KileUtilities::locate(QStandardPaths::AppDataLocation, "encodings/" + encoding() + ".enc"));
+    QFile qf(KileUtilities::locate(QStandardPaths::AppDataLocation, QLatin1String("encodings/") + encoding() + QLatin1String(".enc")));
 
     if(qf.open(QIODevice::ReadOnly)) {
         QTextStream stream(&qf);
-        auto encoding = QStringConverter::encodingForName(isoName().toLatin1());
+        auto encoding = QStringConverter::encodingForName(isoName().toLatin1().constData());
         if(encoding) {
             stream.setEncoding(*encoding);
         }
@@ -223,7 +223,7 @@ bool ConvertBase::convert()
             m_io->text() += mapNext(i);
         }
         if(!m_io->done()) {
-            m_io->text() += '\n';
+            m_io->text() += QLatin1Char('\n');
         }
     }
     while(!m_io->done());
@@ -275,30 +275,30 @@ QString ConvertASCIIToEnc::nextSequence(int &i)
 
 bool ConvertASCIIToEnc::isModifier(const QString& seq)
 {
-    static QRegularExpression reModifier("^\\\\([cHkruv]|\"|\'|\\^|`|~|=|\\.)$");
+    static QRegularExpression reModifier(QLatin1String("^\\\\([cHkruv]|\"|\'|\\^|`|~|=|\\.)$"));
     return reModifier.match(seq).hasMatch();
 }
 
 QString ConvertASCIIToEnc::getSequence(int &i)
 {
     QString seq = nextSequence(i);
-    static QRegExp reBraces("\\{([a-zA-Z]?)\\}");
+    static QRegExp reBraces(QLatin1String("\\{([a-zA-Z]?)\\}"));
 
     if(isModifier(seq)) {
         KILE_DEBUG_MAIN << "\tisModifier true : " << seq;
         if(seq[seq.length() - 1].isLetter()) {
-            seq += ' ';
+            seq += QLatin1Char(' ');
         }
 
         while(m_io->currentLine()[i].isSpace()) {
             ++i;
         }
 
-        if(m_io->currentLine().mid(i, 2) == "{}") {
+        if(m_io->currentLine().mid(i, 2) == QLatin1String("{}")) {
             i = i + 2;
         }
 
-        if(m_io->currentLine()[i] == '\\') {
+        if(m_io->currentLine()[i] == QLatin1Char('\\')) {
             seq += nextSequence(i);
         }
         else {
@@ -316,7 +316,7 @@ QString ConvertASCIIToEnc::getSequence(int &i)
         }
     }
     else if(m_map->canEncode(seq)) {
-        if(m_io->currentLine().mid(i, 2) == "{}") {
+        if(m_io->currentLine().mid(i, 2) == QLatin1String("{}")) {
             i = i + 2;
         }
         else if(m_io->currentLine()[i].isSpace()) {
@@ -329,7 +329,7 @@ QString ConvertASCIIToEnc::getSequence(int &i)
 
 QString ConvertASCIIToEnc::mapNext(int &i)
 {
-    if(m_io->currentLine()[i] == '\\') {
+    if(m_io->currentLine()[i] == QLatin1Char('\\')) {
         QString seq = getSequence(i);
         KILE_DEBUG_MAIN << "'\tsequence: " << seq;
         if(m_map->canEncode(seq)) {

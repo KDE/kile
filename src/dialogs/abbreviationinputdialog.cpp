@@ -65,7 +65,7 @@ AbbreviationInputDialog::AbbreviationInputDialog(KileWidget::AbbreviationView *l
     mainLayout->addRow(labelAbbreviation, m_leAbbrev);
     mainLayout->addRow(labelExpanded, m_leExpansion);
 
-    static QRegularExpression reg("[a-zA-Z0-9]+");
+    static QRegularExpression reg(QLatin1String("[a-zA-Z0-9]+"));
     QRegularExpressionValidator *abbrevValidator = new QRegularExpressionValidator(reg, this);
     m_leAbbrev->setValidator(abbrevValidator);
 

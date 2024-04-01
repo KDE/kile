@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-31 00:38+0000\n"
+"POT-Creation-Date: 2024-04-01 00:38+0000\n"
 "PO-Revision-Date: 2023-11-05 16:46+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -883,7 +883,7 @@ msgstr ""
 "Для того, щоб визначати параметри огортання текстом, вам слід включити "
 "пакунок wrapfig"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
 #, kde-format
 msgid "Missing Package"
 msgstr "Відсутній пакунок"
@@ -5726,12 +5726,12 @@ msgstr "Чеські лапки:   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "Пакунок csquotes:   \\enquote{}"
 
-#: editorextension.cpp:3242
+#: editorextension.cpp:3245
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "Вам слід включити пакунок %1, щоб скористатися %2."
 
-#: editorextension.cpp:3498
+#: editorextension.cpp:3501
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5740,7 +5740,7 @@ msgstr ""
 "Документ було змінено і перегляд структури слід оновити, перш ніж почати цю "
 "операцію."
 
-#: editorextension.cpp:3499
+#: editorextension.cpp:3502
 #, kde-format
 msgid "Structure View Error"
 msgstr "Помилка під час перегляду структури"

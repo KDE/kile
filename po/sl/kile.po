@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-31 00:38+0000\n"
+"POT-Creation-Date: 2024-04-01 00:38+0000\n"
 "PO-Revision-Date: 2023-11-06 10:04+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -870,7 +870,7 @@ msgstr ""
 "Če želite uporabljati možnosti zavijanja besedila, morate vključiti paket "
 "wrapfig"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
 #, kde-format
 msgid "Missing Package"
 msgstr "Manjkajoči paket"
@@ -5680,12 +5680,12 @@ msgstr "Češki narekovaji:   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "Paket csquotes:   \\enquote{}"
 
-#: editorextension.cpp:3242
+#: editorextension.cpp:3245
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "Za uporabo %2 morate vključiti paket %1."
 
-#: editorextension.cpp:3498
+#: editorextension.cpp:3501
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5694,7 +5694,7 @@ msgstr ""
 "Dokument je bil spremenjen in pogled strukture je treba posodobiti pred "
 "začetkom takšne operacije."
 
-#: editorextension.cpp:3499
+#: editorextension.cpp:3502
 #, kde-format
 msgid "Structure View Error"
 msgstr "Napaka pogleda strukture"

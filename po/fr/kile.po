@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-31 00:38+0000\n"
+"POT-Creation-Date: 2024-04-01 00:38+0000\n"
 "PO-Revision-Date: 2023-11-07 09:51+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -911,7 +911,7 @@ msgstr ""
 "Vous devez inclure le paquet wrapfig pour utiliser les options d'habillage "
 "d'images avec du texte"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
 #, kde-format
 msgid "Missing Package"
 msgstr "Paquet manquant"
@@ -5805,12 +5805,12 @@ msgstr "Guillemets tchèques : \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "package « csquote » : \\endquote{}"
 
-#: editorextension.cpp:3242
+#: editorextension.cpp:3245
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "Vous devez inclure le paquet %1 pour utiliser %2."
 
-#: editorextension.cpp:3498
+#: editorextension.cpp:3501
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5819,7 +5819,7 @@ msgstr ""
 "Le document a été modifié, et l'affichage de la structure doit être mise à "
 "jour avant de démarrer une autre opération."
 
-#: editorextension.cpp:3499
+#: editorextension.cpp:3502
 #, kde-format
 msgid "Structure View Error"
 msgstr "Erreur d'affichage de la structure"

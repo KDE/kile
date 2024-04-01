@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-31 00:38+0000\n"
+"POT-Creation-Date: 2024-04-01 00:38+0000\n"
 "PO-Revision-Date: 2024-03-30 19:37\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -842,7 +842,7 @@ msgstr "所有文件 (*)"
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr "必须包含 wrapfig 包才能使用文本环绕选项"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
 #, kde-format
 msgid "Missing Package"
 msgstr "缺少宏包"
@@ -5557,19 +5557,19 @@ msgstr "捷克文引号：   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "csquotes 宏包：   \\enquote{}"
 
-#: editorextension.cpp:3242
+#: editorextension.cpp:3245
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "您必须包含宏包 %1 才能使用 %2。"
 
-#: editorextension.cpp:3498
+#: editorextension.cpp:3501
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
 "starting such an operation."
 msgstr "文档被修改，在执行这样的操作之前应该更新结构视图。"
 
-#: editorextension.cpp:3499
+#: editorextension.cpp:3502
 #, kde-format
 msgid "Structure View Error"
 msgstr "结构视图错误"

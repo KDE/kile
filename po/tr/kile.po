@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-31 00:38+0000\n"
+"POT-Creation-Date: 2024-04-01 00:38+0000\n"
 "PO-Revision-Date: 2024-03-23 16:07+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -876,7 +876,7 @@ msgstr ""
 "Metin kaydırma seçeneklerini kullanabilmek için wrapfig paketini dahil "
 "etmelisiniz"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
 #, kde-format
 msgid "Missing Package"
 msgstr "Kayıp Paket"
@@ -5682,12 +5682,12 @@ msgstr "Çekce alıntılar:   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "csquotes paketi:   \\enquote{}"
 
-#: editorextension.cpp:3242
+#: editorextension.cpp:3245
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "%2 kullanmak için %1 paketini dahil etmelisiniz."
 
-#: editorextension.cpp:3498
+#: editorextension.cpp:3501
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5696,7 +5696,7 @@ msgstr ""
 "Belgede değişiklik oldu. Bu işleme başlamadan önce yapı görüntüsü "
 "güncellenmelidir."
 
-#: editorextension.cpp:3499
+#: editorextension.cpp:3502
 #, kde-format
 msgid "Structure View Error"
 msgstr "Yapı Görünümü Hatası"

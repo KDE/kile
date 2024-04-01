@@ -1313,8 +1313,12 @@
 >e configuratie.</para>
 
 		<para
->Om vooruit te zoeken, plaatst u de cursor op een regel in de broncode en klikt u op <guilabel
->Vooruit zoeken</guilabel
+>Om vooruit te zoeken, plaatst u de cursor op een regel in de broncode en klikt met de <mousebutton
+>linker</mousebutton
+>muisknop terwijl &Shift; is ingedrukt of u klikt op <guilabel
+>Vooruit DVI</guilabel
+>/<guilabel
+>Vooruit PDF</guilabel
 > om naar de bijhorende positie in het venster van de &DVI;- of PDF-viewer te gaan.</para>
 	</sect1>
 

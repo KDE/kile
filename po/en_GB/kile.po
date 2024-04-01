@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-31 00:38+0000\n"
+"POT-Creation-Date: 2024-04-01 00:38+0000\n"
 "PO-Revision-Date: 2022-08-07 11:03+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -875,7 +875,7 @@ msgstr "All Files (*)"
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr "You must include the wrapfig package to use the text wrapping options"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
 #, kde-format
 msgid "Missing Package"
 msgstr "Missing Package"
@@ -5677,12 +5677,12 @@ msgstr "Czech quotes:   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "csquotes package:   \\enquote{}"
 
-#: editorextension.cpp:3242
+#: editorextension.cpp:3245
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "You have to include the package %1 to use %2."
 
-#: editorextension.cpp:3498
+#: editorextension.cpp:3501
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5691,7 +5691,7 @@ msgstr ""
 "The document was modified and the structure view should be updated, before "
 "starting such an operation."
 
-#: editorextension.cpp:3499
+#: editorextension.cpp:3502
 #, kde-format
 msgid "Structure View Error"
 msgstr "Structure View Error"

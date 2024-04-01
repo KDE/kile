@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-31 00:38+0000\n"
+"POT-Creation-Date: 2024-04-01 00:38+0000\n"
 "PO-Revision-Date: 2023-11-08 15:47-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -889,7 +889,7 @@ msgstr ""
 "Você deve incluir o pacote wrapfig para usar as opções de quebra automática "
 "de texto"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
 #, kde-format
 msgid "Missing Package"
 msgstr "Pacote em falta"
@@ -5731,12 +5731,12 @@ msgstr "Aspas tchecas:   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "pacote csquotes:   \\enquote{}"
 
-#: editorextension.cpp:3242
+#: editorextension.cpp:3245
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "Você tem que incluir o pacote %1 para usar %2."
 
-#: editorextension.cpp:3498
+#: editorextension.cpp:3501
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5745,7 +5745,7 @@ msgstr ""
 "O documento foi modificado e a visualização de estrutura deveria ser "
 "atualizada, antes de iniciar tal operação."
 
-#: editorextension.cpp:3499
+#: editorextension.cpp:3502
 #, kde-format
 msgid "Structure View Error"
 msgstr "Erro na Visualização de Estrutura"

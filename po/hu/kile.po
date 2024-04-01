@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-31 00:38+0000\n"
+"POT-Creation-Date: 2024-04-01 00:38+0000\n"
 "PO-Revision-Date: 2014-10-13 14:34+0200\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -833,7 +833,7 @@ msgstr "Minden fájl"
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr ""
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
 #, kde-format
 msgid "Missing Package"
 msgstr "Hiányzó csomag"
@@ -5569,12 +5569,12 @@ msgstr "Cseh idézőjelek:   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "csquotes csomag:   \\enquote{}"
 
-#: editorextension.cpp:3242
+#: editorextension.cpp:3245
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "Fel kell vennie a(z) %1 csomagot a(z) %2 használatához."
 
-#: editorextension.cpp:3498
+#: editorextension.cpp:3501
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5583,7 +5583,7 @@ msgstr ""
 "A dokumentum módosítva lett és a szerkezet nézetet frissíteni kellene, "
 "mielőtt egy ilyen műveletet elindítana."
 
-#: editorextension.cpp:3499
+#: editorextension.cpp:3502
 #, kde-format
 msgid "Structure View Error"
 msgstr "Szerkezet nézet hiba"

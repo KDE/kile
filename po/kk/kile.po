@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-31 00:38+0000\n"
+"POT-Creation-Date: 2024-04-01 00:38+0000\n"
 "PO-Revision-Date: 2013-11-18 03:29+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -830,7 +830,7 @@ msgstr "Бүкіл файлдар"
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr "Айнала жазу мүмкіндігін пайдалану үшін wrapfig дестесін косу керек"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
 #, kde-format
 msgid "Missing Package"
 msgstr "Бір десте жетіспейді"
@@ -5598,12 +5598,12 @@ msgstr "Чех тырнақшалары:   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "csquotes дестесі:   \\enquote{}"
 
-#: editorextension.cpp:3242
+#: editorextension.cpp:3245
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "%2 пайдалану үшін %1 дестесін қосу керек."
 
-#: editorextension.cpp:3498
+#: editorextension.cpp:3501
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5612,7 +5612,7 @@ msgstr ""
 "Құжат өзгертілген, сондықтан бұндай амалдың алдында құрылым көрнісін жаңарту "
 "керек."
 
-#: editorextension.cpp:3499
+#: editorextension.cpp:3502
 #, kde-format
 msgid "Structure View Error"
 msgstr "Құрылым көрінісінің қатесі"

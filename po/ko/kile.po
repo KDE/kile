@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-31 00:38+0000\n"
+"POT-Creation-Date: 2024-04-01 00:38+0000\n"
 "PO-Revision-Date: 2024-02-09 23:42+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -854,7 +854,7 @@ msgstr "모든 파일 (*)"
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr "텍스트 둘러싸기 옵션을 지정하려면 wrapfig 패키지를 포함해야 합니다"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
 #, kde-format
 msgid "Missing Package"
 msgstr "빠진 패키지"
@@ -5619,12 +5619,12 @@ msgstr "체코어 따옴표:   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "csquotes 패키지:   \\enquote{}"
 
-#: editorextension.cpp:3242
+#: editorextension.cpp:3245
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "%2을(를) 사용하려면 %1 패키지를 포함해야 합니다."
 
-#: editorextension.cpp:3498
+#: editorextension.cpp:3501
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5632,7 +5632,7 @@ msgid ""
 msgstr ""
 "문서가 수정되었으며 작업을 시작하기 전에 구조 보기를 업데이트해야 합니다."
 
-#: editorextension.cpp:3499
+#: editorextension.cpp:3502
 #, kde-format
 msgid "Structure View Error"
 msgstr "구조 보기 오류"

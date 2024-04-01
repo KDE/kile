@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-31 00:38+0000\n"
+"POT-Creation-Date: 2024-04-01 00:38+0000\n"
 "PO-Revision-Date: 2021-06-29 20:38+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -823,7 +823,7 @@ msgstr "सभी फ़ाइलें"
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr ""
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
 #, fuzzy, kde-format
 #| msgid "Edit Package"
 msgid "Missing Package"
@@ -5523,19 +5523,19 @@ msgstr ""
 msgid "csquotes package:   \\enquote{}"
 msgstr ""
 
-#: editorextension.cpp:3242
+#: editorextension.cpp:3245
 #, fuzzy, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "पैकेज नाम को पहचान नहीं सका."
 
-#: editorextension.cpp:3498
+#: editorextension.cpp:3501
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
 "starting such an operation."
 msgstr ""
 
-#: editorextension.cpp:3499
+#: editorextension.cpp:3502
 #, fuzzy, kde-format
 msgid "Structure View Error"
 msgstr "स्ट्रक्चर दृश्य"

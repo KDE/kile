@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-31 00:38+0000\n"
+"POT-Creation-Date: 2024-04-01 00:38+0000\n"
 "PO-Revision-Date: 2020-09-21 10:54+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -901,7 +901,7 @@ msgstr ""
 "Πρέπει να ενσωματώσετε το πακέτο wrapfig για να χρησιμοποιήσετε τις επιλογές "
 "αναδίπλωσης λέξεων"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
 #, kde-format
 msgid "Missing Package"
 msgstr "Πακέτο που λείπει"
@@ -5798,12 +5798,12 @@ msgstr "Τσεχικά αποφθέγματα:   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "csquotes πακέτο:   \\enquote{}"
 
-#: editorextension.cpp:3242
+#: editorextension.cpp:3245
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "Πρέπει να ενσωματώσετε το πακέτο %1 για να χρησιμοποιήσετε το %2."
 
-#: editorextension.cpp:3498
+#: editorextension.cpp:3501
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5812,7 +5812,7 @@ msgstr ""
 "Το έγγραφο τροποποιήθηκε και η προβολή δομής θα πρέπει να ενημερωθεί, πριν "
 "την εκκίνηση μιας τέτοιας λειτουργίας."
 
-#: editorextension.cpp:3499
+#: editorextension.cpp:3502
 #, kde-format
 msgid "Structure View Error"
 msgstr "Σφάλμα προβολής δομής"

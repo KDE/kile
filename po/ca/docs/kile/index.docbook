@@ -1331,8 +1331,12 @@
 >.</para>
 
 		<para
->Per a executar una cerca cap endavant, situeu el ​​cursor en una línia del codi font, i feu clic a <guilabel
->Cerca cap endavant</guilabel
+>Per a executar una cerca cap endavant, situeu el ​​cursor en una línia del codi font, i feu clic al botó <mousebutton
+>esquerre</mousebutton
+> del ratolí mentre premeu &Maj;, o feu clic a <guilabel
+>Endavant DVI</guilabel
+>/<guilabel
+>Endavant PDF</guilabel
 > per a saltar a la posició associada a la finestra del visualitzador &DVI; o PDF.</para>
 	</sect1>
 

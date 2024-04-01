@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-31 00:38+0000\n"
+"POT-Creation-Date: 2024-04-01 00:38+0000\n"
 "PO-Revision-Date: 2009-02-27 06:05+0900\n"
 "Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -832,7 +832,7 @@ msgstr ""
 "テキスト折り返しのオプションを利用するには wrapfig パッケージを含めなければな"
 "りません"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3242
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
 #, kde-format
 msgid "Missing Package"
 msgstr "足りないパッケージ"
@@ -5550,12 +5550,12 @@ msgstr ""
 msgid "csquotes package:   \\enquote{}"
 msgstr ""
 
-#: editorextension.cpp:3242
+#: editorextension.cpp:3245
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "%2 を使用するにはパッケージ “%1” を含めなければなりません。"
 
-#: editorextension.cpp:3498
+#: editorextension.cpp:3501
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5564,7 +5564,7 @@ msgstr ""
 "文書が変更されているため、操作を開始するには先に構造ビューを更新しなければな"
 "りません。"
 
-#: editorextension.cpp:3499
+#: editorextension.cpp:3502
 #, kde-format
 msgid "Structure View Error"
 msgstr "構造ビューのエラー"

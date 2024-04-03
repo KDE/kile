@@ -1329,9 +1329,13 @@
 >.</para>
 
 		<para
->Pour réaliser une recherche avant, positionnez le curseur sur la ligne du code source, et cliquez sur <guilabel
->ForwardDVI</guilabel
-> pour aller à la position associée dans la fenêtre de l'afficheur &DVI; ou PDF.</para>
+>Pour réaliser une recherche en avant, veuillez placer le curseur sur la ligne du code source puis cliquer sur le bouton de souris <mousebutton
+>gauche</mousebutton
+> en maintenant la touche &Shift; enfoncée ou cliquer sur <guilabel
+>DVI en avant</guilabel
+> / <guilabel
+>PDF en avant</guilabel
+>pour avancer à la position associée dans la fenêtre de l'afficheur &DVI; ou PDF.</para>
 	</sect1>
 
 	<sect1 id="quick_inverse">
@@ -1341,7 +1345,7 @@
 
 		<para
 >La recherche inverse est une caractéristique très utile lorsque vous écrivez un document &latex; vous-même. Si tout est configuré correctement, vous pouvez cliquer dans la fenêtre de &okular; avec le &BGS; tout en maintenant enfoncée la touche &Maj;. Après cela, &kile; chargera le fichier source &latex; et ira au paragraphe approprié. Pour utiliser la recherche inverse, vous devez compiler votre fichier &latex; avec la configuration <guilabel
->PDFLatTeX+ViewPDF</guilabel
+>PDFLatTeX + ViewPDF</guilabel
 >.</para>
 
 		<para
@@ -2744,7 +2748,7 @@
 >Lorsque vous appuyez sur &Correction;, la dernière lettre de votre motif est effacée, et la liste de complètement devrait augmenter. En revanche, si vous saisissez une nouvelle lettre, le motif est étendu et les mots visibles dans la liste devraient être moins nombreux.</para>
 
 		<para
->Si vous décidez de ne pas utiliser les suggestions de cette liste, faites-la disparaître avec &Echap;.</para>
+>Si vous décidez de ne pas utiliser les suggestions de cette liste, faites-la disparaître avec Échap;.</para>
 
 		<para
 >Vous verrez que toutes les commandes sont écrites avec une courte description de leurs paramètres. Ces descriptions disparaissent bien évidemment lorsque vous choisissez une commande. Vous pouvez également si vous le souhaitez laisser &kile; insérer des puces à ces endroits, de façon à pouvoir y aller facilement avec <menuchoice
@@ -3111,7 +3115,7 @@
 		<procedure>
 		<step
 ><para
->Choisissez un fichier image. Ce peut être un JPEG, PNG, PDF, EPS ou même un fichier eps zippé ou gzippé, si vous avez correctement installé votre système &tetex;. Si vous avez installé <ulink url="http://www.imagemagick.org/"
+>Choisissez un fichier image. Cela peut être un fichier au format JPEG, PNG, PDF, EPS ou même « eps » compressé avec Zip ou GZip. Si vous avez correctement installé <ulink url="http://www.imagemagick.org/"
 >&imagemagick;</ulink
 > et configuré &kile; pour l'utiliser (<menuchoice
 ><guimenu

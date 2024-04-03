@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-01 00:38+0000\n"
-"PO-Revision-Date: 2024-03-27 11:41+0100\n"
+"PO-Revision-Date: 2024-04-02 05:59+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -5000,15 +5000,15 @@ msgstr "Gorde honela"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbXmlInstalled)
 #: dialogs/usermenu/usermenudialog_base.ui:352
-#, fuzzy, kde-format
+#, kde-format
 msgid "(installed)"
-msgstr "Instalatuta"
+msgstr "(instalatuta)"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbNew)
 #: dialogs/usermenu/usermenudialog_base.ui:375
 #, kde-format
 msgid "Delete current menu tree and start a new one."
-msgstr ""
+msgstr "Ezabatu uneko menu-zuhaitza eta hasi berri bat."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbNew)
 #: dialogs/usermenu/usermenudialog_base.ui:378
@@ -5024,13 +5024,13 @@ msgstr "Testua:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbShortcut)
 #: dialogs/usermenu/usermenudialog_base.ui:452
-#, fuzzy, kde-format
+#, kde-format
 msgid "Shortcut:"
 msgstr "Lasterbidea:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbType)
 #: dialogs/usermenu/usermenudialog_base.ui:466
-#, fuzzy, kde-format
+#, kde-format
 msgid "Type:"
 msgstr "Mota:"
 
@@ -5038,29 +5038,29 @@ msgstr "Mota:"
 #: dialogs/usermenu/usermenudialog_base.ui:473
 #, kde-format
 msgid "Filename of the corresponding file."
-msgstr ""
+msgstr "Dagokion fitxategiaren fitxategi-izena."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbIcon)
 #: dialogs/usermenu/usermenudialog_base.ui:482
 #, kde-format
 msgid "Choose an icon for this action."
-msgstr ""
+msgstr "Aukeratu ekintza honetarako ikono bat."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbIconDelete)
 #: dialogs/usermenu/usermenudialog_base.ui:515
 #, kde-format
 msgid "Remove the icon for this action."
-msgstr ""
+msgstr "Kendu ekintza honetarako ikonoa."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbMenuentryType)
 #: dialogs/usermenu/usermenudialog_base.ui:559
 #, kde-format
 msgid "Change the type of a menu item."
-msgstr ""
+msgstr "Aldatu menu-elementu baten mota."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbMenuentryType)
 #: dialogs/usermenu/usermenudialog_base.ui:562
-#, fuzzy, kde-format
+#, kde-format
 msgid "Change"
 msgstr "Aldatu"
 
@@ -5068,73 +5068,73 @@ msgstr "Aldatu"
 #: dialogs/usermenu/usermenudialog_base.ui:571
 #, kde-format
 msgid "The label of the selected menu item."
-msgstr ""
+msgstr "Hautatutako menu-elementuaren etiketa."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenuEntry)
 #: dialogs/usermenu/usermenudialog_base.ui:584
-#, fuzzy, kde-format
+#, kde-format
 msgid "Entry:"
-msgstr "Sarrera"
+msgstr "Sarrera:"
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, m_leParameter)
 #: dialogs/usermenu/usermenudialog_base.ui:614
 #, kde-format
 msgid "Commandline parameter for an executable program."
-msgstr ""
+msgstr "Programa exekutagarri baterako komando-lerroko parametroa."
 
 #. i18n: ectx: property (whatsThis), widget (KKeySequenceWidget, m_keyChooser)
 #: dialogs/usermenu/usermenudialog_base.ui:621
 #, kde-format
 msgid "Choose or clear a shortcut for this action."
-msgstr ""
+msgstr "Ekintza honetarako lasterbide bat aukeratu edo garbitu."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbSelectInsertion)
 #: dialogs/usermenu/usermenudialog_base.ui:647
 #, kde-format
 msgid "Select, if inserted text should be selected."
-msgstr ""
+msgstr "Aukeratu, txertatutako testua hautatu behar badu."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbSelectInsertion)
 #: dialogs/usermenu/usermenudialog_base.ui:650
 #, kde-format
 msgid "Select inserted text"
-msgstr ""
+msgstr "Hautatu txertatutako testua"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbReplaceSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:657
 #, kde-format
 msgid "Select, if the action should replace selected text."
-msgstr ""
+msgstr "Aukeratu, ekintzak hautatutako testua ordezkatu behar badu."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbReplaceSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:660
-#, fuzzy, kde-format
+#, kde-format
 msgid "Replace selected text"
-msgstr "Ordeztu hautatutako testua"
+msgstr "Ordezkatu hautatutako testua"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbNeedsSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:673
 #, kde-format
 msgid "Select, if the action needs selected text. "
-msgstr ""
+msgstr "Aukeratu, ekintzak hautatutako testua behar badu."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbNeedsSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:676
 #, kde-format
 msgid "Needs selected text"
-msgstr ""
+msgstr "Hautatutako testua behar du"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbInsertOutput)
 #: dialogs/usermenu/usermenudialog_base.ui:699
 #, kde-format
 msgid "Select, if the output of an executable program should be inserted."
-msgstr ""
+msgstr "Aukeratu, programa exekutagarri baten irteera txertatu beharra badago."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbInsertOutput)
 #: dialogs/usermenu/usermenudialog_base.ui:702
 #, kde-format
 msgid "Insert the output of the chosen program"
-msgstr ""
+msgstr "Txertatu aukeratutako programaren irteera"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbContextMenu)
 #: dialogs/usermenu/usermenudialog_base.ui:709
@@ -5142,100 +5142,101 @@ msgstr ""
 msgid ""
 "Select, if the action should be added to the context menu of a selection."
 msgstr ""
+"Aukeratu, ekintza hautatpen baten testuingu-menu batera gehitu behar bada."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbContextMenu)
 #: dialogs/usermenu/usermenudialog_base.ui:712
 #, kde-format
 msgid "Add to the context menu of selected text"
-msgstr ""
+msgstr "Gehitu hautatutako testuaren testuinguru-menura"
 
 #: dialogs/usermenu/usermenuitem.h:26
 #, kde-format
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: dialogs/usermenu/usermenuitem.h:27
 #, kde-format
 msgid "  >"
-msgstr ""
+msgstr "  >"
 
 #: dialogs/usermenu/usermenutree.cpp:166
 #, kde-format
 msgid "Insert above"
-msgstr ""
+msgstr "Txertatu gainean"
 
 #: dialogs/usermenu/usermenutree.cpp:167
 #, kde-format
 msgid "Insert below"
-msgstr ""
+msgstr "Txertatu azpian"
 
 #: dialogs/usermenu/usermenutree.cpp:172
 #, kde-format
 msgid "Insert a separator above"
-msgstr ""
+msgstr "Txertatu bereizle bat gainean"
 
 #: dialogs/usermenu/usermenutree.cpp:173
 #, kde-format
 msgid "Insert a separator below"
-msgstr ""
+msgstr "Txertatu bereizle bat azpian"
 
 #: dialogs/usermenu/usermenutree.cpp:178
 #, kde-format
 msgid "Insert a submenu above"
-msgstr ""
+msgstr "Txertatu azpimenu bat gainean"
 
 #: dialogs/usermenu/usermenutree.cpp:179
 #, kde-format
 msgid "Insert a submenu below"
-msgstr ""
+msgstr "Txertatu azpimenu bat azpian"
 
 #: dialogs/usermenu/usermenutree.cpp:184
 #, kde-format
 msgid "Insert into this submenu"
-msgstr ""
+msgstr "Txertatu azpimenu honetan"
 
 #: dialogs/usermenu/usermenutree.cpp:185
 #, kde-format
 msgid "Insert a separator into this submenu"
-msgstr ""
+msgstr "Txertatu bereizle bat azpimenu honetan"
 
 #: dialogs/usermenu/usermenutree.cpp:186
 #, kde-format
 msgid "Insert a submenu into this submenu"
-msgstr ""
+msgstr "Txertatu azpimenu bat azpimenu honetan"
 
 #: dialogs/usermenu/usermenutree.cpp:191
 #, kde-format
 msgid "Delete this item"
-msgstr ""
+msgstr "Ezabatu elementu hau"
 
 #: dialogs/usermenu/usermenutree.cpp:193
 #, kde-format
 msgid "Delete the complete tree"
-msgstr ""
+msgstr "Ezabatu zuhaitz osoa"
 
 #: dialogs/usermenu/usermenutree.cpp:199
 #, kde-format
 msgid "Collapse submenu"
-msgstr ""
+msgstr "Tolestu azpimenua"
 
 #: dialogs/usermenu/usermenutree.cpp:202
 #, kde-format
 msgid "Expand submenu"
-msgstr ""
+msgstr "Zabaldu azpimenua"
 
 #: dialogs/usermenu/usermenutree.cpp:205
 #, kde-format
 msgid "Collapse complete tree"
-msgstr ""
+msgstr "Tolestu zuhaitz osoa"
 
 #: dialogs/usermenu/usermenutree.cpp:206
 #, kde-format
 msgid "Expand complete tree"
-msgstr ""
+msgstr "Zabaldu zuhaitz osoa"
 
 #: dialogs/usermenu/usermenutree.cpp:213
-#, fuzzy, kde-format
+#, kde-format
 msgid "Info"
 msgstr "Informazioa"
 
@@ -5444,17 +5445,17 @@ msgid "Script execution of %1"
 msgstr ""
 
 #: errorhandler.cpp:77
-#, fuzzy, kde-format
+#, kde-format
 msgid "Messages"
 msgstr "Mezuak"
 
 #: errorhandler.cpp:78
-#, fuzzy, kde-format
+#, kde-format
 msgid "Errors"
 msgstr "Erroreak"
 
 #: errorhandler.cpp:79
-#, fuzzy, kde-format
+#, kde-format
 msgid "Warnings"
 msgstr "Abisuak"
 
@@ -5466,27 +5467,27 @@ msgstr ""
 #: errorhandler.cpp:101
 #, kde-format
 msgid "View Log File"
-msgstr ""
+msgstr "Ikusi egunkari-fitxategia"
 
 #: errorhandler.cpp:106
 #, kde-format
 msgid "Previous LaTeX Error"
-msgstr ""
+msgstr "Aurreikusi LaTeX errorea"
 
 #: errorhandler.cpp:110
 #, kde-format
 msgid "Next LaTeX Error"
-msgstr ""
+msgstr "Hurrengo LaTeX errorea"
 
 #: errorhandler.cpp:114
 #, kde-format
 msgid "Previous LaTeX Warning"
-msgstr ""
+msgstr "Aurreko LaTeX abisua"
 
 #: errorhandler.cpp:118
 #, kde-format
 msgid "Next LaTeX Warnings"
-msgstr ""
+msgstr "Hurrengo LaTeX abisuak"
 
 #: errorhandler.cpp:122
 #, kde-format
@@ -5499,14 +5500,14 @@ msgid "Next LaTeX BadBox"
 msgstr ""
 
 #: errorhandler.cpp:316
-#, fuzzy, kde-format
+#, kde-format
 msgid "Errors: %1"
 msgstr "Erroreak: %1"
 
 #: errorhandler.cpp:319
-#, fuzzy, kde-format
+#, kde-format
 msgid "Warnings: %1"
-msgstr "Abisuak:"
+msgstr "Abisuak: %1"
 
 #: errorhandler.cpp:322
 #, kde-format
@@ -5517,22 +5518,22 @@ msgstr ""
 #, kde-format
 msgctxt "Result of the compilation w.r.t. number of errors/warnings/badboxes"
 msgid "%1  %2  %3"
-msgstr ""
+msgstr "%1  %2  %3"
 
 #: errorhandler.cpp:405
 #, kde-format
 msgid "No information about warnings or errors is available."
-msgstr ""
+msgstr "Ez dago abisuei edo erroreei buruzko informaziorik."
 
 #: errorhandler.cpp:455 parser/latexoutputparser.cpp:664
 #, kde-format
 msgid "Cannot open log file; did you run LaTeX?"
-msgstr ""
+msgstr "Ezin du egunkari-fitxategia ireki; LaTeX exekutatu duzu?"
 
 #: errorhandler.cpp:541
 #, kde-format
 msgid "No LaTeX warnings/errors detected."
-msgstr ""
+msgstr "Ez da LaTeX abisurik/errorerik antzeman."
 
 #: kile.cpp:392
 #, kde-format
@@ -5547,7 +5548,7 @@ msgstr ""
 #: kile.cpp:392
 #, kde-format
 msgid "User Tools Detected"
-msgstr ""
+msgstr "Erabiltzaile-tresnak antzeman dira"
 
 #: kile.cpp:401
 #, kde-format
@@ -5560,88 +5561,88 @@ msgstr ""
 #: kile.cpp:404
 #, kde-format
 msgid "Tools need to be reset"
-msgstr ""
+msgstr "Tresnak berrezarri beharra dago"
 
 #: kile.cpp:480
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open File"
 msgstr "Ireki fitxategia"
 
 #: kile.cpp:500
 #, kde-format
 msgid "Files and Projects"
-msgstr ""
+msgstr "Fitxategiak eta proiektuak"
 
 #: kile.cpp:565 widgets/structurewidget.cpp:142
-#, fuzzy, kde-format
+#, kde-format
 msgid "Structure"
 msgstr "Egitura"
 
 #: kile.cpp:588
-#, fuzzy, kde-format
+#, kde-format
 msgid "Scripts"
-msgstr "Script-ak"
+msgstr "Gidoiak"
 
 #: kile.cpp:627
-#, fuzzy, kde-format
+#, kde-format
 msgid "Symbols"
 msgstr "Ikurrak"
 
 #: kile.cpp:630
 #, kde-format
 msgid "Most Frequently Used"
-msgstr ""
+msgstr "Erabilienak"
 
 #: kile.cpp:636
 #, kde-format
 msgid "Relation"
-msgstr ""
+msgstr "Harremana"
 
 #: kile.cpp:641
-#, fuzzy, kde-format
+#, kde-format
 msgid "Operators"
 msgstr "Eragileak"
 
 #: kile.cpp:646
-#, fuzzy, kde-format
+#, kde-format
 msgid "Arrows"
 msgstr "Geziak"
 
 #: kile.cpp:651
 #, kde-format
 msgid "Miscellaneous Math"
-msgstr ""
+msgstr "Askotarikoak matematika"
 
 #: kile.cpp:656
 #, kde-format
 msgid "Miscellaneous Text"
-msgstr ""
+msgstr "Askotarikoak testua"
 
 #: kile.cpp:661
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delimiters"
 msgstr "Mugatzaileak"
 
 #: kile.cpp:666
-#, fuzzy, kde-format
+#, kde-format
 msgid "Greek"
 msgstr "Grekoa"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: kile.cpp:671 widgets/latexconfigwidget.ui:133
-#, fuzzy, kde-format
+#, kde-format
 msgid "Special Characters"
 msgstr "Karaktere bereziak"
 
 #: kile.cpp:676
 #, kde-format
 msgid "Cyrillic Characters"
-msgstr ""
+msgstr "Karaktere zirilikoak"
 
 #: kile.cpp:681
-#, fuzzy, kde-format
+#, kde-format
 msgid "User Defined"
-msgstr "Erabiltzaileak finkatua"
+msgstr "Erabiltzaileak definitutakoak"
 
 #: kile.cpp:686
 #, kde-format
@@ -5653,218 +5654,218 @@ msgid ""
 msgstr ""
 
 #: kile.cpp:706 widgets/codecompletionconfigwidget.cpp:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Abbreviation"
-msgstr "L&aburdura:"
+msgstr "Laburdura"
 
 #: kile.cpp:737
 #, kde-format
 msgid "Log and Messages"
-msgstr ""
+msgstr "Egunkaria eta mezuak"
 
 #: kile.cpp:743
-#, fuzzy, kde-format
+#, kde-format
 msgid "Output"
 msgstr "Irteera"
 
 #: kile.cpp:746
-#, fuzzy, kde-format
+#, kde-format
 msgid "Konsole"
 msgstr "Konsole"
 
 #: kile.cpp:848
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save All"
-msgstr "Gorde denak"
+msgstr "Gorde dena"
 
 #: kile.cpp:850
-#, fuzzy, kde-format
+#, kde-format
 msgid "Create Template From Document..."
-msgstr "Txantiloia sortu dokumentu batetik..."
+msgstr "Txantiloia sortu dokumentutik..."
 
 #: kile.cpp:851
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Remove Template..."
-msgstr "Kendu txantiloia"
+msgstr "&Kendu txantiloia..."
 
 #: kile.cpp:853 kile.cpp:983
-#, fuzzy, kde-format
+#, kde-format
 msgid "Close All"
 msgstr "Itxi dena"
 
 #: kile.cpp:854
-#, fuzzy, kde-format
+#, kde-format
 msgid "Close All Ot&hers"
-msgstr "Itxi &beste guztiak"
+msgstr "Itxi &beste denak"
 
 #: kile.cpp:855
-#, fuzzy, kde-format
+#, kde-format
 msgid "S&tatistics"
-msgstr "Estatistikak"
+msgstr "Es&tatistika"
 
 #: kile.cpp:856
-#, fuzzy, kde-format
+#, kde-format
 msgid "&ASCII"
-msgstr "Ascii85"
+msgstr "&ASCII"
 
 #: kile.cpp:857
 #, kde-format
 msgid "Latin-&1 (iso 8859-1)"
-msgstr ""
+msgstr "Latin-&1 (iso 8859-1)"
 
 #: kile.cpp:858
 #, kde-format
 msgid "Latin-&2 (iso 8859-2)"
-msgstr ""
+msgstr "Latin-&2 (iso 8859-2)"
 
 #: kile.cpp:859
 #, kde-format
 msgid "Latin-&3 (iso 8859-3)"
-msgstr ""
+msgstr "Latin-&3 (iso 8859-3)"
 
 #: kile.cpp:860
 #, kde-format
 msgid "Latin-&4 (iso 8859-4)"
-msgstr ""
+msgstr "Latin-&4 (iso 8859-4)"
 
 #: kile.cpp:861
 #, kde-format
 msgid "Latin-&5 (iso 8859-5)"
-msgstr ""
+msgstr "Latin-&5 (iso 8859-5)"
 
 #: kile.cpp:862
 #, kde-format
 msgid "Latin-&9 (iso 8859-9)"
-msgstr ""
+msgstr "Latin-&9 (iso 8859-9)"
 
 #: kile.cpp:863
 #, kde-format
 msgid "&Central European (cp-1250)"
-msgstr ""
+msgstr "Europar er&dialdekoa (cp-1250)"
 
 #: kile.cpp:864
 #, kde-format
 msgid "&Western European (cp-1252)"
-msgstr ""
+msgstr "Europar &mendebaldekoa (cp-1252)"
 
 #: kile.cpp:867
-#, fuzzy, kde-format
+#, kde-format
 msgid "Move Tab Left"
 msgstr "Eraman fitxa ezkerrera"
 
 #: kile.cpp:868
-#, fuzzy, kde-format
+#, kde-format
 msgid "Move Tab Right"
 msgstr "Eraman fitxa eskuinera"
 
 #: kile.cpp:870
 #, kde-format
 msgid "Next section"
-msgstr ""
+msgstr "Hurrengo atala"
 
 #: kile.cpp:872
 #, kde-format
 msgid "Prev section"
-msgstr ""
+msgstr "Aurreko atala"
 
 #: kile.cpp:874
 #, kde-format
 msgid "Next paragraph"
-msgstr ""
+msgstr "Hurrengo paragrafoa"
 
 #: kile.cpp:876
 #, kde-format
 msgid "Prev paragraph"
-msgstr ""
+msgstr "Aurreko paragrafoa"
 
 #: kile.cpp:879
-#, fuzzy, kde-format
+#, kde-format
 msgid "Find &in Files..."
-msgstr "Bilatu fitxategietan"
+msgstr "Bilatu &fitxategietan..."
 
 #: kile.cpp:881
 #, kde-format
 msgid "Refresh Str&ucture"
-msgstr ""
+msgstr "Freskatu egit&ura"
 
 #: kile.cpp:884
-#, fuzzy, kde-format
+#, kde-format
 msgid "&New Project..."
-msgstr "Proiektu berria"
+msgstr "Proiektu &berria..."
 
 #: kile.cpp:885
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Open Project..."
-msgstr "Ireki proiektua"
+msgstr "&Ireki proiektua..."
 
 #: kile.cpp:887
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open &Recent Project"
-msgstr "Ireki oraintsuko proiektua"
+msgstr "Ireki o&raintsuko proiektua"
 
 #: kile.cpp:894
 #, kde-format
 msgid "A&dd Files to Project..."
-msgstr ""
+msgstr "&Gehitu fitxategiak proiektura..."
 
 #: kile.cpp:895 widgets/projectview.cpp:870
 #, kde-format
 msgid "Refresh Project &Tree"
-msgstr ""
+msgstr "Freskatu proiektu-zuhai&tza"
 
 #: kile.cpp:896 widgets/projectview.cpp:872
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Archive"
 msgstr "&Artxiboa"
 
 #: kile.cpp:897 widgets/projectview.cpp:871
 #, kde-format
 msgid "Project &Options"
-msgstr ""
+msgstr "Proiektuaren &aukerak"
 
 #: kile.cpp:898
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Close Project"
-msgstr "&Itxi proiektua"
+msgstr "It&xi proiektua"
 
 #: kile.cpp:901
 #, kde-format
 msgid "&Show Projects..."
-msgstr ""
+msgstr "Erakut&si proiektuak..."
 
 #: kile.cpp:902
 #, kde-format
 msgid "Re&move Files From Project..."
-msgstr ""
+msgstr "Ke&ndu fitxategiak proiektutik..."
 
 #: kile.cpp:903
 #, kde-format
 msgid "Show Project &Files..."
-msgstr ""
+msgstr "Erakutsi proiektuko &fitxategiak..."
 
 #: kile.cpp:905 widgets/projectview.cpp:868
 #, kde-format
 msgid "Open All &Project Files"
-msgstr ""
+msgstr "Ireki &proiektuko fitxategi denak"
 
 #: kile.cpp:906
-#, fuzzy, kde-format
+#, kde-format
 msgid "Find in &Project..."
-msgstr "Bilatu proiektuan"
+msgstr "Bilatu &proiektuan..."
 
 #: kile.cpp:909 kile.cpp:1007 kile.cpp:2131 kiledocmanager.cpp:1997
 #: kiledocmanager.cpp:2007
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clean"
 msgstr "Garbitu"
 
 #: kile.cpp:914
-#, fuzzy, kde-format
+#, kde-format
 msgid "Next Document"
 msgstr "Hurrengo dokumentua"
 
 #: kile.cpp:920
-#, fuzzy, kde-format
+#, kde-format
 msgid "Previous Document"
 msgstr "Aurreko dokumentua"
 
@@ -5892,104 +5893,104 @@ msgstr ""
 #, kde-format
 msgctxt "@action: Starts the completion of the current LaTeX command"
 msgid "Complete (La)TeX Command"
-msgstr ""
+msgstr "Osatu (La)TeX komandoa"
 
 #: kile.cpp:930
 #, kde-format
 msgctxt "@action: Starts the input (and completion) of a LaTeX environment"
 msgid "Complete LaTeX Environment"
-msgstr ""
+msgstr "Osatu LaTeX ingurunea"
 
 #: kile.cpp:932
 #, kde-format
 msgctxt "@action: Starts the completion of the current abbreviation"
 msgid "Complete Abbreviation"
-msgstr ""
+msgstr "Osatu laburdura"
 
 #: kile.cpp:935
 #, kde-format
 msgid "Next Bullet"
-msgstr ""
+msgstr "Hurrengo buleta"
 
 #: kile.cpp:937
 #, kde-format
 msgid "Prev Bullet"
-msgstr ""
+msgstr "Aurreko buleta"
 
 #: kile.cpp:941 kile.cpp:958
 #, kde-format
 msgid "Environment (inside)"
-msgstr ""
+msgstr "Ingurunean (barnealdea)"
 
 #: kile.cpp:943 kile.cpp:960
 #, kde-format
 msgid "Environment (outside)"
-msgstr ""
+msgstr "Ingurunea (kanpoaldea)"
 
 #: kile.cpp:945 kile.cpp:962
 #, kde-format
 msgid "TeX Group (inside)"
-msgstr ""
+msgstr "TeX taldea (barnealdea)"
 
 #: kile.cpp:947 kile.cpp:964
 #, kde-format
 msgid "TeX Group (outside)"
-msgstr ""
+msgstr "TeX taldea (kanpoaldea)"
 
 #: kile.cpp:949 kile.cpp:966
 #, kde-format
 msgid "Math Group"
-msgstr ""
+msgstr "Matematika taldea"
 
 #: kile.cpp:951 kile.cpp:968
-#, fuzzy, kde-format
+#, kde-format
 msgid "Paragraph"
 msgstr "Paragrafoa"
 
 #: kile.cpp:953
-#, fuzzy, kde-format
+#, kde-format
 msgid "Line"
 msgstr "Lerroa"
 
 #: kile.cpp:955 kile.cpp:972
 #, kde-format
 msgid "TeX Word"
-msgstr ""
+msgstr "TeX hitza"
 
 #: kile.cpp:970
 #, kde-format
 msgid "To End of Line"
-msgstr ""
+msgstr "Lerro bukaerara"
 
 #: kile.cpp:975 kile.cpp:986
 #, kde-format
 msgid "Go to Begin"
-msgstr ""
+msgstr "Joan hasierara"
 
 #: kile.cpp:977 kile.cpp:988
 #, kde-format
 msgid "Go to End"
-msgstr ""
+msgstr "Joan bukaerara"
 
 #: kile.cpp:979 kile.cpp:990
-#, fuzzy, kde-format
+#, kde-format
 msgid "Match"
 msgstr "Parekatu"
 
 #: kile.cpp:981 kile.cpp:992
-#, fuzzy, kde-format
+#, kde-format
 msgid "Close"
 msgstr "Itxi"
 
 #: kile.cpp:995
-#, fuzzy, kde-format
+#, kde-format
 msgid "Selection"
 msgstr "Hautapena"
 
 #: kile.cpp:997
 #, kde-format
 msgid "Subdocument"
-msgstr ""
+msgstr "Azpidokumentua"
 
 #: kile.cpp:998
 #, kde-format
@@ -5997,25 +5998,25 @@ msgid "Mathgroup"
 msgstr ""
 
 #: kile.cpp:1003
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Bibliography"
 msgstr "&Bibliografia"
 
 #. i18n: ectx: Menu (settings)
 #: kile.cpp:1009 kileui.rc:503
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Settings"
 msgstr "E&zarpenak"
 
 #: kile.cpp:1012
 #, kde-format
 msgid "Settings for BibTeX"
-msgstr ""
+msgstr "«BibTex»en ezarpenak"
 
 #: kile.cpp:1016
 #, kde-format
 msgid "Settings for Biblatex"
-msgstr ""
+msgstr "«Biblatex»en ezarpenak"
 
 #: kile.cpp:1023 kile.cpp:2237
 #, kde-format
@@ -6040,22 +6041,22 @@ msgstr ""
 #: kile.cpp:1033
 #, kde-format
 msgid "Define Current Document as '&Master Document'"
-msgstr ""
+msgstr "Definitu uneko dokumentua 'Dokumentu &maisu' gisa"
 
 #: kile.cpp:1038
 #, kde-format
 msgid "Show Document Viewer"
-msgstr ""
+msgstr "Erakutsi dokumentu ikustailea"
 
 #: kile.cpp:1045
 #, kde-format
 msgid "Show S&ide Bar"
-msgstr ""
+msgstr "Erakutsi Al&boko-barra"
 
 #: kile.cpp:1051
 #, kde-format
 msgid "Show Mess&ages Bar"
-msgstr ""
+msgstr "Erakutsi Me&zu-barra"
 
 #: kile.cpp:1063
 #, kde-format
@@ -6063,47 +6064,47 @@ msgid "Watch File Mode"
 msgstr ""
 
 #: kile.cpp:1077
-#, fuzzy, kde-format
+#, kde-format
 msgid "Context Help"
 msgstr "Testuinguru-laguntza"
 
 #: kile.cpp:1080
-#, fuzzy, kde-format
+#, kde-format
 msgid "&About Editor Component"
-msgstr "Editore osagaiari &buruz"
+msgstr "Editore-osagaiari &buruz"
 
 #: kile.cpp:1088
-#, fuzzy, kde-format
+#, kde-format
 msgid "&System Check..."
-msgstr "Sistemaren egiaztapena"
+msgstr "&Sistemaren egiaztapena..."
 
 #: kile.cpp:1106 kileinfo.cpp:357
-#, fuzzy, kde-format
+#, kde-format
 msgid "BibTeX"
 msgstr "BibTeX"
 
 #: kile.cpp:1109
 #, kde-format
 msgid "Biblatex"
-msgstr ""
+msgstr "Biblatex"
 
 #: kile.cpp:1256 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Compile"
-msgstr ""
+msgstr "Konpilatu"
 
 #: kile.cpp:1257 widgets/toolconfigwidget.cpp:76
-#, fuzzy, kde-format
+#, kde-format
 msgid "View"
-msgstr "Ikusi"
+msgstr "Ikuspegia"
 
 #: kile.cpp:1258 widgets/toolconfigwidget.cpp:75
-#, fuzzy, kde-format
+#, kde-format
 msgid "Convert"
 msgstr "Bihurtu"
 
 #: kile.cpp:1259 widgets/toolconfigwidget.cpp:73
-#, fuzzy, kde-format
+#, kde-format
 msgid "Quick"
 msgstr "Azkar"
 
@@ -6114,77 +6115,80 @@ msgid ""
 "\n"
 "Please check and repair your installation of Kile."
 msgstr ""
+"\"Artxiboa\" tresna sortzea ezinezkoa izan da.\n"
+"\n"
+"Mesedez, ikuskatu eta konpondu «Kile»ren zure instalazioa."
 
 #: kile.cpp:1439
 #, kde-format
 msgid "Unable to Create Archive Tool"
-msgstr ""
+msgstr "Ezin da Artxibo-tresna sortu"
 
 #: kile.cpp:1508
-#, fuzzy, kde-format
+#, kde-format
 msgid "Project: %1"
-msgstr "Proiektua"
+msgstr "Proiektua: %1"
 
 #: kile.cpp:1511
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
-msgstr ""
+msgstr "Proiektua: %1 (Maisu-dokumentu: %2)"
 
 #: kile.cpp:1516
-#, fuzzy, kde-format
+#, kde-format
 msgid "Normal mode"
 msgstr "Modu arrunta"
 
 #: kile.cpp:1519
 #, kde-format
 msgid "Master document: %1"
-msgstr ""
+msgstr "Maisu-dokumentua: %1"
 
 #: kile.cpp:1524 kile.cpp:2647
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
-msgstr ""
+msgstr "Definitu uneko dokumentua 'Maisu-dokumentu' gisa"
 
 #: kile.cpp:1528 kile.cpp:2637
 #, kde-format
 msgid "Normal mode (current master document: %1)"
-msgstr ""
+msgstr "Modu arrunta (uneko maisu-dokumentua: %1)"
 
 #: kile.cpp:1746
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
-msgstr "Irakurtzeko soilik"
+msgstr "%1 [Irakurtzeko soilik]"
 
 #: kile.cpp:2124
 #, kde-format
 msgid "There is no active document or it is not saved."
-msgstr ""
+msgstr "Ez dago dokumentu aktiborik edo ez da gorde."
 
 #: kile.cpp:2208
 #, kde-format
 msgid "You have to include the package %1."
-msgstr ""
+msgstr "%1 paketea sartu behar duzu."
 
 #: kile.cpp:2208 kile.cpp:2211
-#, fuzzy, kde-format
+#, kde-format
 msgid "Insert text"
 msgstr "Txertatu testua"
 
 #: kile.cpp:2211
 #, kde-format
 msgid "You have to include the packages %1."
-msgstr ""
+msgstr "%1 paketeak sartu behar dituzu."
 
 #: kile.cpp:2432
-#, fuzzy, kde-format
+#, kde-format
 msgid "No Name"
 msgstr "Izenik gabe"
 
 #: kile.cpp:2468
-#, fuzzy, kde-format
+#, kde-format
 msgid "no name"
-msgstr "izenik ez"
+msgstr "izenik gabe"
 
 #: kile.cpp:2665
 #, kde-format
@@ -6192,34 +6196,36 @@ msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr ""
+"Uneko dokumentua maisu-dokumentu gisa gordetzeko, aurrena gorde egin behar "
+"da."
 
 #: kile.cpp:3007
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
-msgstr "Blokea"
+msgstr "BLOKEA"
 
 #: kile.cpp:3008
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
-msgstr "Lerroa"
+msgstr "LERROA"
 
 #: kile.cpp:3015
 #, kde-format
 msgid "Refreshing structure..."
-msgstr ""
+msgstr "Egitura freskatzen..."
 
 #: kile.cpp:3033
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
-"Honek menu-barra erabat ezkutatuko du. Berriz erakutsi dezakezu %1 "
-"tekleatuta."
+"Honek menu-barra erabat ezkutatuko du. %1 tekleatuta berriz erakutsi "
+"dezakezu."
 
 #: kile.cpp:3036
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hide menu bar"
 msgstr "Ezkutatu menu-barra"
 
@@ -6227,19 +6233,19 @@ msgstr "Ezkutatu menu-barra"
 #: kile.kcfg:17
 #, kde-format
 msgid "The resource file version."
-msgstr ""
+msgstr "Baliabide-fitxategiaren bertsioa."
 
 #. i18n: ectx: label, entry (MainwindowWidth), group (Geometries)
 #: kile.kcfg:39
 #, kde-format
 msgid "The main window's width."
-msgstr ""
+msgstr "Leiho nagusiaren zabalera."
 
 #. i18n: ectx: label, entry (MainwindowHeight), group (Geometries)
 #: kile.kcfg:45
 #, kde-format
 msgid "The main window's height."
-msgstr ""
+msgstr "Leiho nagusiaren altuera."
 
 #. i18n: ectx: label, entry (DefaultLevel), group (Structure)
 #: kile.kcfg:53
@@ -6881,9 +6887,9 @@ msgid "default livepreview tool."
 msgstr ""
 
 #: kileactions.cpp:336
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Label:"
-msgstr "&Etiketa:"
+msgstr "Eti&keta:"
 
 #: kiledocmanager.cpp:94
 #, kde-format
@@ -6911,11 +6917,14 @@ msgid ""
 "\n"
 "%2"
 msgstr ""
+"\"%1\" URLa ezin izan da ireki.\n"
+"\n"
+"%2"
 
 #: kiledocmanager.cpp:540 kiledocmanager.cpp:543
 #, kde-format
 msgid "Cannot open URL"
-msgstr ""
+msgstr "Ezin du URL ireki"
 
 #: kiledocmanager.cpp:543
 #, kde-format
@@ -6925,40 +6934,40 @@ msgstr ""
 #: kiledocmanager.cpp:682
 #, kde-format
 msgid "Could not find template: %1"
-msgstr ""
+msgstr "Ezin izan du txantiloia aurkitu: %1"
 
 #: kiledocmanager.cpp:682
-#, fuzzy, kde-format
+#, kde-format
 msgid "File Not Found"
-msgstr "Fitxategia ez da aurkitu"
+msgstr "Fitxategia ez du aurkitu"
 
 #: kiledocmanager.cpp:742
 #, kde-format
 msgid "Please save the file first."
-msgstr ""
+msgstr "Mesedez, aurrena, gorde fitxategia."
 
 #: kiledocmanager.cpp:747
 #, kde-format
 msgid "Open/create a document first."
-msgstr ""
+msgstr "Ireki/Sortu dokumentu bat aurrena."
 
 #: kiledocmanager.cpp:755
 #, kde-format
 msgid "A template for this type of document cannot be created."
-msgstr ""
+msgstr "Ezin da dokumentu-mota honetako txantiloi bat sortu."
 
 #: kiledocmanager.cpp:759
-#, fuzzy, kde-format
+#, kde-format
 msgid "Create Template From Document"
-msgstr "Txantiloia sortu dokumentu batetik..."
+msgstr "Sortu txantiloia dokumentutik"
 
 #: kiledocmanager.cpp:765
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remove Template"
 msgstr "Kendu txantiloia"
 
 #: kiledocmanager.cpp:830
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open Files"
 msgstr "Ireki fitxategiak"
 
@@ -6968,21 +6977,23 @@ msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
 "disk space left?"
 msgstr ""
+"«Kile»k %1 fitxategia gordetzeko arazoak izan ditu. Diskoan leku huts "
+"nahikoa duzu?"
 
 #: kiledocmanager.cpp:912
-#, fuzzy, kde-format
+#, kde-format
 msgid "Saving"
 msgstr "Gordetzen"
 
 #: kiledocmanager.cpp:945
-#, fuzzy, kde-format
+#, kde-format
 msgid "Any files (*)"
-msgstr "Edozein fitxategi"
+msgstr "Fitxategi oro (*)"
 
 #: kiledocmanager.cpp:947
 #, kde-format
 msgid "Save Compiled Document As..."
-msgstr ""
+msgstr "Gorde konpilatutako dokumentua honela..."
 
 #: kiledocmanager.cpp:972
 #, kde-format
@@ -6990,14 +7001,16 @@ msgid ""
 "The URL \"%1\" cannot be opened\n"
 "as it is a directory."
 msgstr ""
+"\"%1\" URLa ezin da ireki\n"
+"direktorio bat delako."
 
 #: kiledocmanager.cpp:973
 #, kde-format
 msgid "Cannot open directory"
-msgstr ""
+msgstr "Ezin du direktorioa ireki"
 
 #: kiledocmanager.cpp:1091
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save File"
 msgstr "Gorde fitxategia"
 
@@ -7005,17 +7018,17 @@ msgstr "Gorde fitxategia"
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
-msgstr ""
+msgstr "Jada \"%1\" izeneko fitxategi bat dago. Gainidatzi nahi duzu?"
 
 #: kiledocmanager.cpp:1129
-#, fuzzy, kde-format
+#, kde-format
 msgid "Overwrite File?"
-msgstr "Gainidatzi fitxategia?"
+msgstr "Fitxategia gainidatzi?"
 
 #: kiledocmanager.cpp:1305
 #, kde-format
 msgid "Refresh Project Tree"
-msgstr ""
+msgstr "Freskatu proiektuaren zuhaitza"
 
 #: kiledocmanager.cpp:1313
 #, kde-format
@@ -7028,13 +7041,13 @@ msgstr ""
 #: kiledocmanager.cpp:1313
 #, kde-format
 msgid "Could Not Refresh Project Tree"
-msgstr ""
+msgstr "Ezin izan du proiekturaren zuhaitza freskatu"
 
 #: kiledocmanager.cpp:1398 kiledocmanager.cpp:2169 kiledocmanager.cpp:2243
 #: kiledocmanager.cpp:2280
 #, kde-format
 msgid "Select Project"
-msgstr ""
+msgstr "Aukeratu proiektua"
 
 #: kiledocmanager.cpp:1423 kiledocmanager.cpp:1438 kiledocmanager.cpp:1445
 #, kde-format
@@ -7044,7 +7057,7 @@ msgstr "Gehitu proiektuari"
 #: kiledocmanager.cpp:1437
 #, kde-format
 msgid "The file %1 is already member of the project %2"
-msgstr ""
+msgstr "%1 fitxategia %2 proiekturen zatia da dagoeneko"
 
 #: kiledocmanager.cpp:1444
 #, kde-format
@@ -7072,9 +7085,9 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:1533
-#, fuzzy, kde-format
+#, kde-format
 msgid "Project Already Open"
-msgstr "Proiektua irekita dagoeneko"
+msgstr "Proiektua jada irekita dago"
 
 #: kiledocmanager.cpp:1544
 #, kde-format
@@ -7139,12 +7152,12 @@ msgid "Could Not Update Project File"
 msgstr ""
 
 #: kiledocmanager.cpp:1703
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open Project"
 msgstr "Ireki proiektua"
 
 #: kiledocmanager.cpp:1722
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save Project"
 msgstr "Gorde proiektua"
 
@@ -7164,15 +7177,15 @@ msgstr ""
 #: kiledocmanager.cpp:1795
 #, kde-format
 msgid "Add Files to Project"
-msgstr ""
+msgstr "Gehitu fitxategiak proiektuari"
 
 #: kiledocmanager.cpp:1808
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add Files"
-msgstr "Erantsi fitxategiak"
+msgstr "Gehitu fitxategiak"
 
 #: kiledocmanager.cpp:1811
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add"
 msgstr "Gehitu"
 
@@ -7232,40 +7245,40 @@ msgstr ""
 #: kiledocmanager.cpp:2080
 #, kde-format
 msgid "Switch Project"
-msgstr ""
+msgstr "Aldatu proiektua"
 
 #: kiledocmanager.cpp:2138
 #, kde-format
 msgid "Select Files to Remove"
-msgstr ""
+msgstr "Aukeratu kendu beharreko fitxategiak"
 
 #: kiledocmanager.cpp:2151 kiledocmanager.cpp:2154
 #, kde-format
 msgid "Show Project Files"
-msgstr ""
+msgstr "Erakutsi proiektuko fitxategiak"
 
 #: kiledocmanager.cpp:2151 kiledocmanager.cpp:2199
 #, kde-format
 msgid "project configuration file"
-msgstr ""
+msgstr "proiektua konfiguratzeko fitxategia"
 
 #: kiledocmanager.cpp:2154 kiledocmanager.cpp:2202
 #, kde-format
 msgid "graphics file"
-msgstr ""
+msgstr "grafiko-fitxategia"
 
 #: kiledocmanager.cpp:2199 kiledocmanager.cpp:2202
 #, kde-format
 msgid "Open All Project Files"
-msgstr ""
+msgstr "Ireki proiektuko fitxategi denak"
 
 #: kiledocmanager.cpp:2236
 #, kde-format
 msgid "not opened: %1 (%2)"
-msgstr ""
+msgstr "ireki gabe: %1 (%2)"
 
 #: kiledocmanager.cpp:2261 kiledocmanager.cpp:2298
-#, fuzzy, kde-format
+#, kde-format
 msgid "Project Files"
 msgstr "Proiektuaren fitxategiak"
 
@@ -7277,12 +7290,12 @@ msgstr ""
 #: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
 #, kde-format
 msgid "Project Error"
-msgstr ""
+msgstr "Proiektuaren errorea"
 
 #: kiledocmanager.cpp:2375
 #, kde-format
 msgid "Opening Project..."
-msgstr ""
+msgstr "Proiektua irekitzen..."
 
 #: kiledocmanager.cpp:2378
 #, kde-format
@@ -7292,37 +7305,37 @@ msgstr ""
 #: kileextensions.cpp:70
 #, kde-format
 msgid "(La)TeX Source Files"
-msgstr ""
+msgstr "(La)TeX sorburu-fitxategiak"
 
 #: kileextensions.cpp:74
 #, kde-format
 msgid "(La)TeX Packages"
-msgstr ""
+msgstr "(La)TeX paketeak"
 
 #: kileextensions.cpp:78
-#, fuzzy, kde-format
+#, kde-format
 msgid "BibTeX Files"
-msgstr "Bibtex fitxategiak"
+msgstr "BibTeX fitxategiak"
 
 #: kileextensions.cpp:86
 #, kde-format
 msgid "Metapost Files"
-msgstr ""
+msgstr "«Metapost» fitxategiak"
 
 #: kileextensions.cpp:90
 #, kde-format
 msgid "Kile Script Files"
-msgstr ""
+msgstr "Kile gidoi-fitaxtegiak"
 
 #: kileextensions.cpp:94
 #, kde-format
 msgid "Kile Project Files"
-msgstr ""
+msgstr "Kile proiektu-fitxategiak"
 
 #: kileextensions.cpp:108
-#, fuzzy, kde-format
+#, kde-format
 msgid "* |All Files"
-msgstr "Fitxategi guztiak"
+msgstr "* |Fitxategi guztiak"
 
 #: kilehelp.cpp:101
 #, kde-format
@@ -7337,29 +7350,29 @@ msgid "No help available for %1."
 msgstr ""
 
 #: kileinfo.cpp:351
-#, fuzzy, kde-format
+#, kde-format
 msgid "Undefined"
 msgstr "Definitu gabe"
 
 #: kileinfo.cpp:359
-#, fuzzy, kde-format
+#, kde-format
 msgid "Script"
 msgstr "Gidoia"
 
 #: kilelauncher.cpp:110
 #, kde-format
 msgid " output: \n"
-msgstr ""
+msgstr " irteera: \n"
 
 #: kilelauncher.cpp:220
-#, fuzzy, kde-format
+#, kde-format
 msgid "terminated"
-msgstr "amaituta"
+msgstr "bukatuta"
 
 #: kilelauncher.cpp:229
 #, kde-format
 msgid "Launching failed, diagnostics:"
-msgstr ""
+msgstr "Abiaraztea huts egin du, diagnostikoa:"
 
 #: kilelauncher.cpp:234
 #, kde-format
@@ -7404,24 +7417,24 @@ msgid "failed to start"
 msgstr "Hastean huts egin du"
 
 #: kilelauncher.cpp:310
-#, fuzzy, kde-format
+#, kde-format
 msgid "crashed"
-msgstr "Kraskatua"
+msgstr "kraskatu da"
 
 #: kilelauncher.cpp:313
 #, kde-format
 msgid "failed (error code %1)"
-msgstr ""
+msgstr "huts egin du (errore-kodea %1)"
 
 #: kilelauncher.cpp:354
 #, kde-format
 msgid "The document viewer is not available"
-msgstr ""
+msgstr "Dokumentu ikustailea ez dago erabilgarri"
 
 #: kilelauncher.cpp:358
 #, kde-format
 msgid "Please disable the live preview before launching this tool"
-msgstr ""
+msgstr "Mesedez ezgaitu zuzeneko aurreikuspena tresna hau abiarazi aurretik"
 
 #: kilelyxserver.cpp:241
 #, kde-format
@@ -7434,7 +7447,7 @@ msgid "Add BibTeX database"
 msgstr ""
 
 #: kilelyxserver.cpp:252
-#, fuzzy, kde-format
+#, kde-format
 msgid "Paste"
 msgstr "Itsatsi"
 
@@ -7482,7 +7495,7 @@ msgstr ""
 #: kilestdactions.cpp:40
 #, kde-format
 msgid "AMS Packages"
-msgstr ""
+msgstr "AMS paketeak"
 
 #: kilestdactions.cpp:40
 #, kde-format
@@ -7774,17 +7787,17 @@ msgstr ""
 #: kilestdactions.cpp:72
 #, kde-format
 msgid "Italics - \\textit{}"
-msgstr ""
+msgstr "Etzana - \\textit{}"
 
 #: kilestdactions.cpp:72
-#, fuzzy, kde-format
+#, kde-format
 msgid "Italics"
 msgstr "Etzana"
 
 #: kilestdactions.cpp:72
 #, kde-format
 msgid "\\textit{italic text}"
-msgstr ""
+msgstr "\\textit{testu etzana}"
 
 #: kilestdactions.cpp:73
 #, kde-format
@@ -8127,7 +8140,7 @@ msgstr ""
 #: kilestdactions.cpp:100
 #, kde-format
 msgid "&Part"
-msgstr ""
+msgstr "&Zatia"
 
 #: kilestdactions.cpp:100 kilestdactions.cpp:102 kilestdactions.cpp:103
 #: kilestdactions.cpp:104 kilestdactions.cpp:105 kilestdactions.cpp:107
@@ -8146,9 +8159,9 @@ msgid ""
 msgstr ""
 
 #: kilestdactions.cpp:102
-#, fuzzy, kde-format
+#, kde-format
 msgid "C&hapter"
-msgstr "Kapitulua"
+msgstr "&Kapitulua"
 
 #: kilestdactions.cpp:103
 #, kde-format
@@ -8159,9 +8172,9 @@ msgid ""
 msgstr ""
 
 #: kilestdactions.cpp:103
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Section"
-msgstr "Atala"
+msgstr "&Atala"
 
 #: kilestdactions.cpp:104
 #, kde-format
@@ -8172,9 +8185,9 @@ msgid ""
 msgstr ""
 
 #: kilestdactions.cpp:104
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Subsection"
-msgstr "Azpiatala"
+msgstr "A&zpiatala"
 
 #: kilestdactions.cpp:105
 #, kde-format
@@ -8198,9 +8211,9 @@ msgid ""
 msgstr ""
 
 #: kilestdactions.cpp:107
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Paragraph"
-msgstr "Paragrafoa"
+msgstr "&Paragrafoa"
 
 #: kilestdactions.cpp:108
 #, kde-format
@@ -8211,19 +8224,19 @@ msgid ""
 msgstr ""
 
 #: kilestdactions.cpp:108
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Subparagraph"
-msgstr "Azpiparagrafoa"
+msgstr "A&zpiparagrafoa"
 
 #: kilestdactions.cpp:110
-#, fuzzy, kde-format
+#, kde-format
 msgid "Size"
 msgstr "Neurria"
 
 #: kilestdactions.cpp:112
-#, fuzzy, kde-format
+#, kde-format
 msgid "tiny"
-msgstr "Ñimiñoa"
+msgstr "ñimiñoa"
 
 #: kilestdactions.cpp:113
 #, kde-format
@@ -8236,7 +8249,7 @@ msgid "footnotesize"
 msgstr ""
 
 #: kilestdactions.cpp:115
-#, fuzzy, kde-format
+#, kde-format
 msgid "small"
 msgstr "txikia"
 
@@ -8251,24 +8264,24 @@ msgid "large"
 msgstr "handia"
 
 #: kilestdactions.cpp:120
-#, fuzzy, kde-format
+#, kde-format
 msgid "Large"
 msgstr "Handia"
 
 #: kilestdactions.cpp:121
-#, fuzzy, kde-format
+#, kde-format
 msgid "LARGE"
-msgstr "Handia"
+msgstr "HANDIA"
 
 #: kilestdactions.cpp:122
-#, fuzzy, kde-format
+#, kde-format
 msgid "huge"
-msgstr "itzela"
+msgstr "erraldoia"
 
 #: kilestdactions.cpp:123
-#, fuzzy, kde-format
+#, kde-format
 msgid "Huge"
-msgstr "Itzela"
+msgstr "erraldoia"
 
 #: kilestdactions.cpp:125 widgets/projectview.cpp:481
 #: widgets/toolconfigwidget.cpp:77
@@ -8698,7 +8711,7 @@ msgid "Strong - \\strong{}"
 msgstr ""
 
 #: kilestdactions.cpp:195
-#, fuzzy, kde-format
+#, kde-format
 msgid "Strong"
 msgstr "Sendoa"
 
@@ -8733,7 +8746,7 @@ msgid "Monospace - \\ttfamily"
 msgstr ""
 
 #: kilestdactions.cpp:199
-#, fuzzy, kde-format
+#, kde-format
 msgid "Monospace"
 msgstr "Zabalera-finkoa"
 
@@ -8743,7 +8756,7 @@ msgid "Medium - \\mdseries"
 msgstr ""
 
 #: kilestdactions.cpp:201
-#, fuzzy, kde-format
+#, kde-format
 msgid "Medium"
 msgstr "Ertaina"
 
@@ -9115,102 +9128,102 @@ msgstr ""
 #: kilestdactions.cpp:388
 #, kde-format
 msgid "Left Delimiter"
-msgstr ""
+msgstr "Ezker mugatzailea"
 
 #: kilestdactions.cpp:390
-#, fuzzy, kde-format
+#, kde-format
 msgid "left ("
-msgstr "Ezkerra:"
+msgstr "ezker ("
 
 #: kilestdactions.cpp:391
-#, fuzzy, kde-format
+#, kde-format
 msgid "left ["
-msgstr "Ezkerra:"
+msgstr "ezker ["
 
 #: kilestdactions.cpp:392
-#, fuzzy, kde-format
+#, kde-format
 msgid "left {"
-msgstr "Ezkerra:"
+msgstr "ezker {"
 
 #: kilestdactions.cpp:393
 #, kde-format
 msgid "left &lt;"
-msgstr ""
+msgstr "ezker &lt;"
 
 #: kilestdactions.cpp:395
-#, fuzzy, kde-format
+#, kde-format
 msgid "left )"
-msgstr "Ezkerra:"
+msgstr "ezker )"
 
 #: kilestdactions.cpp:396
-#, fuzzy, kde-format
+#, kde-format
 msgid "left ]"
-msgstr "Ezkerra:"
+msgstr "ezker ]"
 
 #: kilestdactions.cpp:397
-#, fuzzy, kde-format
+#, kde-format
 msgid "left }"
-msgstr "Ezkerra:"
+msgstr "ezker }"
 
 #: kilestdactions.cpp:398
 #, kde-format
 msgid "left &gt;"
-msgstr ""
+msgstr "ezker &gt;"
 
 #: kilestdactions.cpp:400
-#, fuzzy, kde-format
+#, kde-format
 msgid "left ."
-msgstr "Ezkerra:"
+msgstr "ezker ."
 
 #: kilestdactions.cpp:402
 #, kde-format
 msgid "Right Delimiter"
-msgstr ""
+msgstr "Eskuin mugatzailea"
 
 #: kilestdactions.cpp:404
-#, fuzzy, kde-format
+#, kde-format
 msgid "right )"
-msgstr "Eskuina:"
+msgstr "eskuin )"
 
 #: kilestdactions.cpp:405
-#, fuzzy, kde-format
+#, kde-format
 msgid "right ]"
-msgstr "Eskuina:"
+msgstr "eskuin ]"
 
 #: kilestdactions.cpp:406
-#, fuzzy, kde-format
+#, kde-format
 msgid "right }"
-msgstr "Eskuina:"
+msgstr "eskuin }"
 
 #: kilestdactions.cpp:407
 #, kde-format
 msgid "right &gt;"
-msgstr ""
+msgstr "eskuin &gt;"
 
 #: kilestdactions.cpp:409
-#, fuzzy, kde-format
+#, kde-format
 msgid "right ("
-msgstr "Eskuina:"
+msgstr "eskuin ("
 
 #: kilestdactions.cpp:410
-#, fuzzy, kde-format
+#, kde-format
 msgid "right ["
-msgstr "Eskuina:"
+msgstr "eskuin ["
 
 #: kilestdactions.cpp:411
-#, fuzzy, kde-format
+#, kde-format
 msgid "right {"
-msgstr "Eskuina:"
+msgstr "eskuin {"
 
 #: kilestdactions.cpp:412
 #, kde-format
 msgid "right &lt;"
-msgstr ""
+msgstr "eskuin &lt;"
 
 #: kilestdactions.cpp:414
-#, fuzzy, kde-format
+#, kde-format
 msgid "right ."
-msgstr "Eskuina:"
+msgstr "eskuin ."
 
 #: kilestdactions.cpp:419
 #, kde-format

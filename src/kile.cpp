@@ -1159,7 +1159,6 @@ void Kile::setupTools()
 
     QStringList tools = KileTool::toolList(m_config.data());
     QList<QAction*> *pl;
-    QAction *act;
     ToolbarSelectAction *pSelectAction = Q_NULLPTR;
 
     m_compilerActions->saveCurrentAction();
@@ -1168,7 +1167,7 @@ void Kile::setupTools()
     m_quickActions->saveCurrentAction();
 
     // do plugActionList by hand ...
-    foreach(act, m_listQuickActions) {
+    for(QAction *act: std::as_const(m_listQuickActions)) {
         m_buildMenuTopLevel->removeAction(act);
     }
 
@@ -1214,7 +1213,7 @@ void Kile::setupTools()
 
         KILE_DEBUG_MAIN << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << Qt::endl;
 
-        act = actionCollection()->action("tool_" + tools[i]);
+        QAction *act = actionCollection()->action("tool_" + tools[i]);
         if(!act) {
             KILE_DEBUG_MAIN << "no tool for " << tools[i];
             createToolAction(tools[i]);
@@ -1340,7 +1339,8 @@ void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
     for ( it= list.begin(); it != list.end(); ++it) {
         QAction *act = *it;
         if ( act != Q_NULLPTR && !act->objectName().isEmpty() && !tools.contains(act->objectName().mid(5)) ) {
-            for (QObject *widget : act->associatedObjects()) {
+            const QList<QObject*> widgetList = act->associatedObjects();
+            for (QObject *widget : widgetList) {
                 if (qobject_cast<QWidget*>(widget) == toolBar("toolsToolBar")) {
                     toolBar("toolsToolBar")->removeAction(act);
                     break;

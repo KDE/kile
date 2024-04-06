@@ -269,7 +269,7 @@ QWidget * Manager::createTabs(QWidget *parent)
         }
         std::sort(views.begin(), views.end(), sortDocuments);
 
-        foreach(KTextEditor::View* view, views) {
+        for(KTextEditor::View* view: std::as_const(views)) {
             QAction *action = m_documentListButton->menu()->addAction(view->document()->documentName());
             action->setData(QVariant::fromValue(view));
         }
@@ -481,7 +481,8 @@ void Manager::installContextMenu(KTextEditor::View *view)
         if(usermenu) {
             KILE_DEBUG_MAIN << "Insert actions from user-defined latex menu";
             popupMenu->addSeparator();
-            foreach(QAction *action, usermenu->contextMenuActions()) {
+            const QList<QAction*> contextActions = usermenu->contextMenuActions();
+            for(QAction *action : contextActions) {
                 if(action) {
                     popupMenu->addAction(action);
                 }

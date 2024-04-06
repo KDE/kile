@@ -150,7 +150,6 @@ void usage()
 
 void outputXML(const QString &latexCommand, const QString &imageCommand, const QList< Package >& packages, bool mathMode)
 {
-    Package pkg;
     QString output;
     output = "<commandDefinition>\n";
     if(imageCommand == latexCommand) {
@@ -165,7 +164,7 @@ void outputXML(const QString &latexCommand, const QString &imageCommand, const Q
         output += "   <mathMode>true</mathMode>\n";
     }
 
-    foreach(pkg, packages) {
+    for(Package pkg: packages) {
         if(pkg.name.isEmpty()) {
             continue;
         }

@@ -1548,7 +1548,7 @@ QString PdfDialog::buildDeletePageList()
     bool ok;
     QBitArray arr(m_numpages + 1,false);
     QStringList pagelist = param.split(',');
-    foreach (const QString &s, pagelist) {
+    for(const QString &s: std::as_const(pagelist)) {
         if ( s.contains('-') && re.indexIn(s) >= 0 ) {
             int from = re.cap(1).toInt(&ok);
             int to = re.cap(2).toInt(&ok);
@@ -1624,7 +1624,7 @@ bool PdfDialog::checkParameter()
         // analyze page list
         bool ok;
         QStringList pagelist = param.split(',');
-        foreach (const QString &s, pagelist) {
+        for(const QString &s: std::as_const(pagelist)) {
             if ( s.contains('-') && re.indexIn(s)>=0 ) {
                 int from = re.cap(1).toInt(&ok);
                 int to = re.cap(2).toInt(&ok);

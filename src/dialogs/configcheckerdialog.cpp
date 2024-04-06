@@ -277,7 +277,8 @@ void ConfigChecker::finished(bool ok)
     }
     else {
         // start by hiding all the labels
-        for(QWidget *widget : m_testResultsPageWidgetItem->widget()->findChildren<QLabel*>()) {
+        const QList<QLabel*> widgets = m_testResultsPageWidgetItem->widget()->findChildren<QLabel*>();
+        for(QWidget *widget : widgets) {
             widget->setVisible(false);
         }
         // and then we show those again that we want

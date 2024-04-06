@@ -89,7 +89,7 @@ KileProjectDialogBase::KileProjectDialogBase(const QString &caption, KileDocumen
     m_defaultGraphicsExtensionCombo = new QComboBox(this);
     KileDocument::Extensions extManager;
     QStringList imageExtensions = extManager.images().split(' ');
-    foreach (const QString &extension, imageExtensions) {
+    for(const QString &extension: std::as_const(imageExtensions)) {
         const QString extName = extension.mid(1); // all characters right of "."
         m_defaultGraphicsExtensionCombo->addItem(extension, extName);
     }

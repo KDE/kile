@@ -86,7 +86,7 @@ QString KileUtilities::lastModifiedFile(const QStringList& files, const QString&
     QDateTime lastModifiedTime;
     const QString* lastModifiedFile = Q_NULLPTR;
 
-    for(const QString& file : absoluteFileNames) {
+    for(const QString& file : std::as_const(absoluteFileNames)) {
         QFileInfo fileInfo(file);
         if(!fileInfo.exists()) {
             KILE_DEBUG_MAIN << "file does not exist:" << file << "files:" << files;

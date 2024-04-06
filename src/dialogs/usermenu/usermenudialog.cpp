@@ -61,7 +61,8 @@ UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu
 
     // search for all action collections (needed for shortcut conflicts)
     QList<KActionCollection *> allCollections;
-    foreach (KXMLGUIClient *client, m_ki->mainWindow()->guiFactory()->clients()) {
+    const QList<KXMLGUIClient*> clients = m_ki->mainWindow()->guiFactory()->clients();
+    for(KXMLGUIClient *client : clients) {
         KILE_DEBUG_MAIN << "collection count: " << client->actionCollection()->count() ;
         allCollections += client->actionCollection();
     }

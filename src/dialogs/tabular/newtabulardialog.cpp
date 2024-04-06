@@ -269,7 +269,8 @@ void NewTabularDialog::alignItems(int alignment)
 {
     QList<int> checkColumns;
 
-    foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+    const QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+    for(QTableWidgetItem *item : selectedItems) {
         item->setTextAlignment(alignment | Qt::AlignVCenter);
 
         int column = item->column();
@@ -278,7 +279,7 @@ void NewTabularDialog::alignItems(int alignment)
         }
     }
 
-    foreach(int column, checkColumns) {
+    for(int column : std::as_const(checkColumns)) {
         if(checkForColumnAlignment(column)) {
             static_cast<TabularHeaderItem*>(m_Table->horizontalHeaderItem(column))->setAlignment(alignment);
         }
@@ -790,7 +791,7 @@ void NewTabularDialog::slotItemSelectionChanged()
     bool unsetBold = false;
     bool unsetItalic = false;
     bool unsetUnderline = false;
-    foreach(QTableWidgetItem *item, selectedItems) {
+    for(QTableWidgetItem *item: std::as_const(selectedItems)) {
         if(!unsetBold && !item->font().bold()) {
             m_acBold->setChecked(false);
             unsetBold = true;
@@ -857,7 +858,8 @@ void NewTabularDialog::slotAlignRight()
 
 void NewTabularDialog::slotBold()
 {
-    foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+    const QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+    for(QTableWidgetItem *item : selectedItems) {
         QFont font = item->font();
         font.setBold(!font.bold());
         item->setFont(font);
@@ -867,7 +869,8 @@ void NewTabularDialog::slotBold()
 
 void NewTabularDialog::slotItalic()
 {
-    foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+    const QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+    for(QTableWidgetItem *item : selectedItems) {
         QFont font = item->font();
         font.setItalic(!font.italic());
         item->setFont(font);
@@ -877,7 +880,8 @@ void NewTabularDialog::slotItalic()
 
 void NewTabularDialog::slotUnderline()
 {
-    foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+    const QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+    for(QTableWidgetItem *item : selectedItems) {
         QFont font = item->font();
         font.setUnderline(!font.underline());
         item->setFont(font);
@@ -901,7 +905,7 @@ void NewTabularDialog::slotJoinCells()
     int newColumnSpan = columns.size();
 
     /* check for already joined cells in range */
-    foreach(int column, columns) {
+    for(int column : std::as_const(columns)) {
         int thisColumnSpan = m_Table->columnSpan(row, column);
         if(thisColumnSpan > 1) {
             newColumnSpan = qMax(newColumnSpan, thisColumnSpan + column - columns.first());
@@ -931,7 +935,8 @@ void NewTabularDialog::slotSplitCells()
 
 void NewTabularDialog::slotFrame(int border)
 {
-    foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+    const QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+    for(QTableWidgetItem *item : selectedItems) {
         static_cast<TabularCell*>(item)->setBorder(border);
     }
 }
@@ -939,7 +944,8 @@ void NewTabularDialog::slotFrame(int border)
 void NewTabularDialog::slotBackground(const QColor &color)
 {
     m_clCurrentBackground = color;
-    foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+    const QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+    for(QTableWidgetItem *item : selectedItems) {
         item->setBackground(color);
     }
     m_acBackground->setIcon(generateColorIcon(true));
@@ -949,7 +955,8 @@ void NewTabularDialog::slotBackground(const QColor &color)
 void NewTabularDialog::slotForeground(const QColor &color)
 {
     m_clCurrentForeground = color;
-    foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+    const QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+    for(QTableWidgetItem *item : selectedItems) {
         item->setForeground(color);
     }
     m_acBackground->setIcon(generateColorIcon(true));
@@ -968,14 +975,16 @@ void NewTabularDialog::slotCurrentForeground()
 
 void NewTabularDialog::slotClearText()
 {
-    foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+    const QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+    for(QTableWidgetItem *item : selectedItems) {
         item->setText(QString());
     }
 }
 
 void NewTabularDialog::slotClearAttributes()
 {
-    foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+    const QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+    for(QTableWidgetItem *item : selectedItems) {
         item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         QFont font = item->font();
         font.setBold(false);

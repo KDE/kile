@@ -174,7 +174,8 @@ int main(int argc, char **argv)
             return EXIT_FAILURE;
         }
 
-        for(const QString& argument : parser.positionalArguments()) {
+        const QList<QString> argumentList = parser.positionalArguments();
+        for(const QString& argument : argumentList) {
             if(argument == "-") {
                 kile->openDocument(readDataFromStdin());
             }

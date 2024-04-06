@@ -203,7 +203,7 @@ void ManageCompletionFilesDialog::fillTreeView() {
     QStringList list = KileCodeCompletion::Manager::getAllCwlFiles(m_localCompletionDirectory, m_globalCompletionDirectory).values();
     std::sort(list.begin(), list.end());
     m_listView->clear();
-    foreach(QString filename, list) {
+    for(const QString &filename: std::as_const(list)) {
         QString expectedLocalPath = m_localCompletionDirectory + '/' + filename;
         QString expectedGlobalPath = m_globalCompletionDirectory + '/' + filename;
         if (QFileInfo::exists(expectedLocalPath) && QFileInfo(expectedLocalPath).isReadable()) {
@@ -233,7 +233,7 @@ void ManageCompletionFilesDialog::addCustomCompletionFiles()
         return;
     }
 
-    foreach (QString file, files) {
+    for(const QString &file: std::as_const(files)) {
         QFileInfo fileInf(file);
         QFileInfo localFile(m_localCompletionDirectory + '/' + fileInf.fileName());
         if (localFile.exists()) {

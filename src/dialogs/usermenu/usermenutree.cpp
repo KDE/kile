@@ -956,7 +956,7 @@ void  UserMenuTree::itemInfo(UserMenuItem *item)
     }
     else {
         msg += "<ul>";
-        foreach ( const QString &s, list ) {
+        for(const QString &s: std::as_const(list)) {
             msg += "<li>&nbsp;" + s + "</li>";
         }
         msg += "</ul></p>";

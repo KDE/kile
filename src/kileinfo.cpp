@@ -457,7 +457,7 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
     inputpaths.prepend(path);
 
     // the first match is supposed to be the correct one
-    foreach(const QString &string, inputpaths) {
+    for(const QString &string: std::as_const(inputpaths)) {
         KILE_DEBUG_MAIN << "path is " << string << "and file is " << file << Qt::endl;
         info.setFile(string + '/' + file);
         if(info.exists()) {

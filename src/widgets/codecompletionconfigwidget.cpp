@@ -186,7 +186,7 @@ void CodeCompletionConfigWidget::setListviewEntries(CompletionPage page)
     // add data from config list into ListView widget
     m_listview[page]->setUpdatesEnabled(false);
     m_listview[page]->clear();
-    for (const auto& curWord : m_wordlist[page]) {
+    for(const auto& curWord : std::as_const(m_wordlist[page])) {
         QString basename = curWord.right(curWord.length() - 2);
 
         QTreeWidgetItem *item = new QTreeWidgetItem(m_listview[page], QStringList(basename));
@@ -369,7 +369,8 @@ void CodeCompletionConfigWidget::removeClicked()
     QWidget *page = m_tabWidget->currentWidget();
     QTreeWidget *list = getListview(page);                              // determine page
 
-    foreach(QTreeWidgetItem *item, list->selectedItems()) {
+    const QList<QTreeWidgetItem*> selectedItems = list->selectedItems();
+    for(QTreeWidgetItem *item : selectedItems) {
         delete item;
     }
 

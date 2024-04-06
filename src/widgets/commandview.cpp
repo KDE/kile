@@ -95,7 +95,8 @@ void CommandViewToolBox::readCommandViewFiles()
 
     QStringList validCwlFiles;
 
-    for (const QString& file : KileConfig::completeTex()) {
+    const QStringList files = KileConfig::completeTex();
+    for (const QString& file : files) {
         // check, if the wordlist has to be read
         const QString validCwlFile = manager->validCwlFile(file);
 
@@ -125,7 +126,7 @@ void CommandViewToolBox::populateCommands(const QString& cwlFile)
 
     const QStringList wordlist = manager->readCWLFile("tex/" + cwlFile + ".cwl");
 
-    for(QString string : wordlist) {
+    for(const QString &string : wordlist) {
         m_commandView->addItem(string);
     }
 }

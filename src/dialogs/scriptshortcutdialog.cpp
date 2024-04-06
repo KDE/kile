@@ -61,7 +61,8 @@ ScriptShortcutDialog::ScriptShortcutDialog(QWidget *parent, KileInfo *ki, int ty
 
     // search for all action collections (needed for shortcut conflicts)
     QList<KActionCollection *> allCollections;
-    foreach ( KXMLGUIClient *client, ki->mainWindow()->guiFactory()->clients() ) {
+    const QList<KXMLGUIClient*> clients = ki->mainWindow()->guiFactory()->clients();
+    for(KXMLGUIClient *client : clients) {
         allCollections += client->actionCollection();
     }
     m_scriptShortcutDialog.m_keyChooser->setCheckActionCollections(allCollections);

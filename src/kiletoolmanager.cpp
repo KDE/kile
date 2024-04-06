@@ -722,7 +722,7 @@ void KileTool::Manager::buildBibliographyBackendSelection()
     m_bibliographyToolsList = toolsWithConfigurationsBasedOnClass(m_config, BibliographyCompile::ToolClass);
     std::sort(m_bibliographyToolsList.begin(), m_bibliographyToolsList.end()); // necessary for the user-visible actions in the menu bar
 
-    for(const ToolConfigPair& tool : m_bibliographyToolsList) {
+    for(const ToolConfigPair& tool : std::as_const(m_bibliographyToolsList)) {
         // create an action for backend selection
         QAction * action = m_bibliographyBackendSelectAction->addAction(tool.userStringRepresentation());
         action->setData(QVariant::fromValue(tool));

@@ -127,14 +127,16 @@ void Factory::resetToolConfigurations()
     m_config->deleteGroup(QLatin1String("ToolsGUI"));
 
     // we delete all the groups whose names start with "Tool/";
-    for (const QString& groupName : m_config->groupList()) {
+    const QList<QString> groupList = m_config->groupList();
+    for (const QString& groupName : groupList) {
         if(groupName.startsWith(QLatin1String("Tool/"))) {
             m_config->deleteGroup(groupName);
         }
     }
 
     // now we copy all the "Tool/" groups, the "Tools", and "ToolsGUI" groups over
-    for (const QString& groupName : stdToolConfig.groupList()) {
+    const QList<QString> groupConfigList = stdToolConfig.groupList();
+    for (const QString& groupName : groupConfigList) {
         if(groupName != SHORTCUTS_GROUP_NAME) {
             KConfigGroup configGroup = stdToolConfig.group(groupName);
             m_config->deleteGroup(groupName);

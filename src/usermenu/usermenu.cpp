@@ -166,7 +166,7 @@ void UserMenu::clear()
     m_menudata.clear();
 
     // remove all actions from actioncollection
-    for(QAction *action : m_actionlist) {
+    for(QAction *action : std::as_const(m_actionlist)) {
         m_actioncollection->removeAction(action);
     }
 
@@ -315,7 +315,7 @@ void UserMenu::refreshActionProperties()
 // will be refreshed again, when the dialog is finished
 void UserMenu::removeShortcuts()
 {
-    foreach ( QAction *action, m_actionlist ) {
+    for(QAction *action: std::as_const(m_actionlist)) {
         action->setShortcut( QKeySequence() );
     }
 }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-01 00:38+0000\n"
+"POT-Creation-Date: 2024-04-07 00:38+0000\n"
 "PO-Revision-Date: 2024-03-28 10:37+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -338,7 +338,7 @@ msgstr ""
 "disponeblas aŭ la instalita<br/>versio estas tro malnova). Viva antaŭrigardo "
 "do ne estas subtenata."
 
-#: dialogs/configcheckerdialog.cpp:289
+#: dialogs/configcheckerdialog.cpp:290
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "
@@ -3067,7 +3067,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "Neniu Projekta Nomo Donita"
 
-#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1047
+#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1048
 #, kde-format
 msgid "Untitled"
 msgstr "Sentitola"
@@ -4624,8 +4624,8 @@ msgstr "Purigas la tekston de la elektitaj ĉeloj kaj restarigas la atributojn."
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "Algluas tabelon konservitan en la tondujo en ĉi tiun sorĉiston."
 
-#: dialogs/tabular/newtabulardialog.cpp:653
-#: dialogs/tabular/newtabulardialog.cpp:675
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
@@ -4634,8 +4634,8 @@ msgstr ""
 "Agordi la novan grandecon por la tabelo forigos enhavon. Ĉu vi certe agordas "
 "la novan grandecon?"
 
-#: dialogs/tabular/newtabulardialog.cpp:653
-#: dialogs/tabular/newtabulardialog.cpp:675
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid "Resizing table"
 msgstr "Regrandigo de tablo"
@@ -4839,7 +4839,7 @@ msgstr "Movi &malsupren"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbXmlFile)
 #. i18n: ectx: property (text), widget (QLabel, m_lbFile)
-#: dialogs/userhelpdialog.cpp:118 dialogs/usermenu/usermenudialog.cpp:182
+#: dialogs/userhelpdialog.cpp:118 dialogs/usermenu/usermenudialog.cpp:183
 #: dialogs/usermenu/usermenudialog_base.ui:329
 #: dialogs/usermenu/usermenudialog_base.ui:459
 #, kde-format
@@ -4895,7 +4895,7 @@ msgstr ""
 msgid "Select File"
 msgstr "Elekti dosieron"
 
-#: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:299
+#: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:300
 #: dialogs/usermenu/usermenutree.cpp:233 usermenu/usermenu.cpp:339
 #: widgets/usermenuconfigwidget.cpp:74
 #, kde-format
@@ -4981,7 +4981,7 @@ msgstr ""
 "%T: Elektu citaĵan ŝlosilon el listo\n"
 "%S: Fontdosiernomo sen finaĵo"
 
-#: dialogs/usermenu/usermenudialog.cpp:216
+#: dialogs/usermenu/usermenudialog.cpp:217
 #, kde-format
 msgid ""
 "<p>You can create, change and install a user-defined menu, which will appear "
@@ -5028,13 +5028,13 @@ msgstr ""
 "informoj por ago, menueroj estas ruĝaj. Pliaj informoj haveblas uzante la "
 "funkcion <i>Kio ĉi tio estas</i> de la plej multaj fenestraĵoj.</p>"
 
-#: dialogs/usermenu/usermenudialog.cpp:238
+#: dialogs/usermenu/usermenudialog.cpp:239
 #, kde-format
 msgid "UserMenu Dialog"
 msgstr "Dialogo de UzantMenuo"
 
-#: dialogs/usermenu/usermenudialog.cpp:260
-#: dialogs/usermenu/usermenudialog.cpp:280
+#: dialogs/usermenu/usermenudialog.cpp:261
+#: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid ""
 "Current menu tree was modified, but not saved.\n"
@@ -5043,31 +5043,31 @@ msgstr ""
 "Nuna menuarbo estis modifita, sed ne konservita.\n"
 "Forĵeti ĉi tiun arbon?"
 
-#: dialogs/usermenu/usermenudialog.cpp:261
-#: dialogs/usermenu/usermenudialog.cpp:281
+#: dialogs/usermenu/usermenudialog.cpp:262
+#: dialogs/usermenu/usermenudialog.cpp:282
 #, kde-format
 msgid "Discard tree"
 msgstr "Forĵeti arbon"
 
-#: dialogs/usermenu/usermenudialog.cpp:288
-#: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:331
+#: dialogs/usermenu/usermenudialog.cpp:289
+#: dialogs/usermenu/usermenudialog.cpp:390 usermenu/usermenu.cpp:331
 #: widgets/usermenuconfigwidget.cpp:62
 #, kde-format
 msgid "User Menu Files (*.xml)"
 msgstr "Dosieroj de la menuo de uzanto (*.xml)"
 
-#: dialogs/usermenu/usermenudialog.cpp:290 usermenu/usermenu.cpp:333
+#: dialogs/usermenu/usermenudialog.cpp:291 usermenu/usermenu.cpp:333
 #: widgets/usermenuconfigwidget.cpp:64
 #, kde-format
 msgid "Select Menu File"
 msgstr "Elektu Menuo Dosiero"
 
-#: dialogs/usermenu/usermenudialog.cpp:391
+#: dialogs/usermenu/usermenudialog.cpp:392
 #, kde-format
 msgid "Save Menu File"
 msgstr "Konservu Menuodosiero"
 
-#: dialogs/usermenu/usermenudialog.cpp:397
+#: dialogs/usermenu/usermenudialog.cpp:398
 #, kde-format
 msgid ""
 "File '%1' does already exist.\n"
@@ -5076,12 +5076,12 @@ msgstr ""
 "Dosiero '%1' jam ekzistas.\n"
 "Anstataŭigi ĉi tiun dosieron?"
 
-#: dialogs/usermenu/usermenudialog.cpp:398
+#: dialogs/usermenu/usermenudialog.cpp:399
 #, kde-format
 msgid "Overwrite file"
 msgstr "Ĉu superskribi dosieron?"
 
-#: dialogs/usermenu/usermenudialog.cpp:412
+#: dialogs/usermenu/usermenudialog.cpp:413
 #, kde-format
 msgid ""
 "The menu tree contains some errors and installing this file may lead to "
@@ -5092,23 +5092,23 @@ msgstr ""
 "konduki al neantaŭvideblaj rezultoj.\n"
 "Ĉu vi vere volas konservi ĉi tiun dosieron?"
 
-#: dialogs/usermenu/usermenudialog.cpp:413
+#: dialogs/usermenu/usermenudialog.cpp:414
 #, kde-format
 msgid "Menu tree errors"
 msgstr "Menuarbaj eraroj"
 
-#: dialogs/usermenu/usermenudialog.cpp:568
+#: dialogs/usermenu/usermenudialog.cpp:569
 #, kde-format
 msgid "Menutype"
 msgstr "Menutipo"
 
-#: dialogs/usermenu/usermenudialog.cpp:568
+#: dialogs/usermenu/usermenudialog.cpp:569
 #, kde-format
 msgid "Please choose a menutype"
 msgstr "Bonvolu elekti menutipo"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbIcon)
-#: dialogs/usermenu/usermenudialog.cpp:980
+#: dialogs/usermenu/usermenudialog.cpp:981
 #: dialogs/usermenu/usermenudialog_base.ui:485
 #, kde-format
 msgid "Choose"
@@ -6360,22 +6360,22 @@ msgstr "BibTeX"
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1256 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1255 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Compile"
 msgstr "Kompilu"
 
-#: kile.cpp:1257 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1256 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "View"
 msgstr "Vido"
 
-#: kile.cpp:1258 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1257 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Convert"
 msgstr "Konvertu"
 
-#: kile.cpp:1259 widgets/toolconfigwidget.cpp:73
+#: kile.cpp:1258 widgets/toolconfigwidget.cpp:73
 #, kde-format
 msgid "Quick"
 msgstr "Rapide"
@@ -10207,43 +10207,43 @@ msgid "Bmatrix"
 msgstr "Bmatrico"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
-#: kilestdtools.cpp:328
+#: kilestdtools.cpp:330
 #, kde-format
 msgid "0 errors"
 msgstr "0 eraroj"
 
-#: kilestdtools.cpp:328
+#: kilestdtools.cpp:330
 #, kde-format
 msgid "1 error"
 msgid_plural "%1 errors"
 msgstr[0] "1 eraro"
 msgstr[1] "%1 eraroj"
 
-#: kilestdtools.cpp:329
+#: kilestdtools.cpp:331
 #, kde-format
 msgid "0 warnings"
 msgstr "0 avertoj"
 
-#: kilestdtools.cpp:329
+#: kilestdtools.cpp:331
 #, kde-format
 msgid "1 warning"
 msgid_plural "%1 warnings"
 msgstr[0] "1 averto"
 msgstr[1] "%1 avertoj"
 
-#: kilestdtools.cpp:330
+#: kilestdtools.cpp:332
 #, kde-format
 msgid "0 badboxes"
 msgstr "0 malbonaj skatoloj"
 
-#: kilestdtools.cpp:330
+#: kilestdtools.cpp:332
 #, kde-format
 msgid "1 badbox"
 msgid_plural "%1 badboxes"
 msgstr[0] "1 skatolaĉo"
 msgstr[1] "%1 skatolaĉoj"
 
-#: kilestdtools.cpp:333
+#: kilestdtools.cpp:335
 #, kde-format
 msgctxt ""
 "String displayed in the log panel showing the number of errors/warnings/"
@@ -10251,7 +10251,7 @@ msgctxt ""
 msgid "%1, %2, %3"
 msgstr "%1, %2, %3"
 
-#: kilestdtools.cpp:376
+#: kilestdtools.cpp:378
 #, kde-format
 msgid ""
 "Manually selected bibliography tool does not exist: trying to auto-detect it "
@@ -10259,7 +10259,7 @@ msgid ""
 msgstr ""
 "Mane elektita bibliografia ilo ne ekzistas: provas aŭtomate detekti ĝin nun."
 
-#: kilestdtools.cpp:660
+#: kilestdtools.cpp:662
 #, kde-format
 msgid ""
 "The version %1.%2.%3 of okular is too old for ForwardDVI. Please update "
@@ -10268,27 +10268,27 @@ msgstr ""
 "La versio %1.%2.%3 de okular estas tro malnova por ForwardDVI. Bonvolu "
 "ĝisdatigi okularan al versio 0.8.6 aŭ pli alta"
 
-#: kilestdtools.cpp:727
+#: kilestdtools.cpp:729
 #, kde-format
 msgid "Select Bibliography"
 msgstr "Elekti Bibliografion"
 
-#: kilestdtools.cpp:727
+#: kilestdtools.cpp:729
 #, kde-format
 msgid "Select a bibliography"
 msgstr "Elektu bibliografion"
 
-#: kilestdtools.cpp:736
+#: kilestdtools.cpp:738
 #, kde-format
 msgid "No bibliography selected."
 msgstr "Neniu bibliografio elektita."
 
-#: kilestdtools.cpp:748
+#: kilestdtools.cpp:750
 #, kde-format
 msgid "No bibliographies found."
 msgstr "Neniu bibliografio trovita"
 
-#: kilestdtools.cpp:784
+#: kilestdtools.cpp:786
 #, kde-format
 msgid ""
 "Unable to find %1 or %2; if you are trying to view some other HTML file, go "
@@ -10506,7 +10506,7 @@ msgstr "&Rigardi"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1162 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1163 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10811,27 +10811,27 @@ msgstr "Ne eblis krei redaktan vidon."
 msgid "Fatal Error"
 msgstr "Grava eraro"
 
-#: kileviewmanager.cpp:845
+#: kileviewmanager.cpp:846
 #, kde-format
 msgid "&QuickPreview Selection"
 msgstr "&Rapida Antaŭrigarda Elekto"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:847
 #, kde-format
 msgid "&QuickPreview Environment"
 msgstr "&Rapida Antaŭrigarda Medio"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:848
 #, kde-format
 msgid "&QuickPreview Math"
 msgstr "&Rapida Antaŭrigardo Matematiko"
 
-#: kileviewmanager.cpp:1135
+#: kileviewmanager.cpp:1136
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "Presi Kompilitan Dokumenton..."
 
-#: kileviewmanager.cpp:1141
+#: kileviewmanager.cpp:1142
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "Presa Antaŭrigardo Por Kompilita Dokumento..."
@@ -11292,7 +11292,7 @@ msgstr "Ne povas komenci la skripton: neniu vido disponebla"
 msgid "Script Error"
 msgstr "Skripto Eraro"
 
-#: scriptmanager.cpp:490
+#: scriptmanager.cpp:491
 #, kde-format
 msgid "Execution of %1"
 msgstr "Efektivigo de %1"

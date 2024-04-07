@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-01 00:38+0000\n"
+"POT-Creation-Date: 2024-04-07 00:38+0000\n"
 "PO-Revision-Date: 2019-12-30 17:01+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -338,7 +338,7 @@ msgstr ""
 "on paigaldatud versioon<br/>liiga vana). Seepärast ei ole reaalajas "
 "eelvaatlus toetatud."
 
-#: dialogs/configcheckerdialog.cpp:289
+#: dialogs/configcheckerdialog.cpp:290
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "
@@ -3066,7 +3066,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "Projektil puudub nimi"
 
-#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1047
+#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1048
 #, kde-format
 msgid "Untitled"
 msgstr "Nimetu"
@@ -4614,8 +4614,8 @@ msgstr "Valitud lahtritest teksti puhatamine ja atribuutide lähtestamine."
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "Lõikepuhvrisse salvestatud tabeli asetamine nõustajasse."
 
-#: dialogs/tabular/newtabulardialog.cpp:653
-#: dialogs/tabular/newtabulardialog.cpp:675
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
@@ -4623,8 +4623,8 @@ msgid ""
 msgstr ""
 "Tabelile uue suuruse määramine kustutab sisu. Kas tõesti määrata uus suurus?"
 
-#: dialogs/tabular/newtabulardialog.cpp:653
-#: dialogs/tabular/newtabulardialog.cpp:675
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid "Resizing table"
 msgstr "Tabeli suuruse muutmine"
@@ -4825,7 +4825,7 @@ msgstr "Lii&guta alla"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbXmlFile)
 #. i18n: ectx: property (text), widget (QLabel, m_lbFile)
-#: dialogs/userhelpdialog.cpp:118 dialogs/usermenu/usermenudialog.cpp:182
+#: dialogs/userhelpdialog.cpp:118 dialogs/usermenu/usermenudialog.cpp:183
 #: dialogs/usermenu/usermenudialog_base.ui:329
 #: dialogs/usermenu/usermenudialog_base.ui:459
 #, kde-format
@@ -4881,7 +4881,7 @@ msgstr ""
 msgid "Select File"
 msgstr "Faili valik"
 
-#: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:299
+#: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:300
 #: dialogs/usermenu/usermenutree.cpp:233 usermenu/usermenu.cpp:339
 #: widgets/usermenuconfigwidget.cpp:74
 #, kde-format
@@ -4967,7 +4967,7 @@ msgstr ""
 "%T: viitevõtme valimine loendist\n"
 "%S: lähtefaili nimi ilma laiendita"
 
-#: dialogs/usermenu/usermenudialog.cpp:216
+#: dialogs/usermenu/usermenudialog.cpp:217
 #, kde-format
 msgid ""
 "<p>You can create, change and install a user-defined menu, which will appear "
@@ -5013,13 +5013,13 @@ msgstr ""
 "on puudu, on menüüelement punane. Enamik vidinaid pakub rohkem teavet <i>Mis "
 "see on?</i> abi vahendusel.</p>"
 
-#: dialogs/usermenu/usermenudialog.cpp:238
+#: dialogs/usermenu/usermenudialog.cpp:239
 #, kde-format
 msgid "UserMenu Dialog"
 msgstr "Kasutajamenüü dialoog"
 
-#: dialogs/usermenu/usermenudialog.cpp:260
-#: dialogs/usermenu/usermenudialog.cpp:280
+#: dialogs/usermenu/usermenudialog.cpp:261
+#: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid ""
 "Current menu tree was modified, but not saved.\n"
@@ -5028,31 +5028,31 @@ msgstr ""
 "Aktiivset menüüpuud on muudetud, aga mitte salvestatud.\n"
 "Kas hüljata puu?"
 
-#: dialogs/usermenu/usermenudialog.cpp:261
-#: dialogs/usermenu/usermenudialog.cpp:281
+#: dialogs/usermenu/usermenudialog.cpp:262
+#: dialogs/usermenu/usermenudialog.cpp:282
 #, kde-format
 msgid "Discard tree"
 msgstr ""
 
-#: dialogs/usermenu/usermenudialog.cpp:288
-#: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:331
+#: dialogs/usermenu/usermenudialog.cpp:289
+#: dialogs/usermenu/usermenudialog.cpp:390 usermenu/usermenu.cpp:331
 #: widgets/usermenuconfigwidget.cpp:62
 #, kde-format
 msgid "User Menu Files (*.xml)"
 msgstr "Kasutajamenüü failid (*.xml)"
 
-#: dialogs/usermenu/usermenudialog.cpp:290 usermenu/usermenu.cpp:333
+#: dialogs/usermenu/usermenudialog.cpp:291 usermenu/usermenu.cpp:333
 #: widgets/usermenuconfigwidget.cpp:64
 #, kde-format
 msgid "Select Menu File"
 msgstr "Menüüfaili valik"
 
-#: dialogs/usermenu/usermenudialog.cpp:391
+#: dialogs/usermenu/usermenudialog.cpp:392
 #, kde-format
 msgid "Save Menu File"
 msgstr "Menüüfaili salvestamine"
 
-#: dialogs/usermenu/usermenudialog.cpp:397
+#: dialogs/usermenu/usermenudialog.cpp:398
 #, kde-format
 msgid ""
 "File '%1' does already exist.\n"
@@ -5061,13 +5061,13 @@ msgstr ""
 "Fail \"%1\" on juba olemas.\n"
 "Kas kirjutada see üle?"
 
-#: dialogs/usermenu/usermenudialog.cpp:398
+#: dialogs/usermenu/usermenudialog.cpp:399
 #, fuzzy, kde-format
 #| msgid "Overwrite File?"
 msgid "Overwrite file"
 msgstr "Kas kirjutada fail üle?"
 
-#: dialogs/usermenu/usermenudialog.cpp:412
+#: dialogs/usermenu/usermenudialog.cpp:413
 #, kde-format
 msgid ""
 "The menu tree contains some errors and installing this file may lead to "
@@ -5078,24 +5078,24 @@ msgstr ""
 "ootamatuid tagajärgi.\n"
 "Kas tõesti salvestada fail?"
 
-#: dialogs/usermenu/usermenudialog.cpp:413
+#: dialogs/usermenu/usermenudialog.cpp:414
 #, fuzzy, kde-format
 #| msgid "Menutree Error"
 msgid "Menu tree errors"
 msgstr "Menüüpuu tõrge"
 
-#: dialogs/usermenu/usermenudialog.cpp:568
+#: dialogs/usermenu/usermenudialog.cpp:569
 #, kde-format
 msgid "Menutype"
 msgstr "Menüütüüp"
 
-#: dialogs/usermenu/usermenudialog.cpp:568
+#: dialogs/usermenu/usermenudialog.cpp:569
 #, kde-format
 msgid "Please choose a menutype"
 msgstr "Palun vali menüütüüp"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbIcon)
-#: dialogs/usermenu/usermenudialog.cpp:980
+#: dialogs/usermenu/usermenudialog.cpp:981
 #: dialogs/usermenu/usermenudialog_base.ui:485
 #, kde-format
 msgid "Choose"
@@ -6347,22 +6347,22 @@ msgstr "BibTeX"
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1256 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1255 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Compile"
 msgstr "Kompileeri"
 
-#: kile.cpp:1257 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1256 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "View"
 msgstr "Näita"
 
-#: kile.cpp:1258 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1257 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Convert"
 msgstr "Teisenda"
 
-#: kile.cpp:1259 widgets/toolconfigwidget.cpp:73
+#: kile.cpp:1258 widgets/toolconfigwidget.cpp:73
 #, kde-format
 msgid "Quick"
 msgstr "Kiire"
@@ -10174,43 +10174,43 @@ msgid "Bmatrix"
 msgstr "Bmatrix"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
-#: kilestdtools.cpp:328
+#: kilestdtools.cpp:330
 #, kde-format
 msgid "0 errors"
 msgstr "0 viga"
 
-#: kilestdtools.cpp:328
+#: kilestdtools.cpp:330
 #, kde-format
 msgid "1 error"
 msgid_plural "%1 errors"
 msgstr[0] "1 viga"
 msgstr[1] "%1 viga"
 
-#: kilestdtools.cpp:329
+#: kilestdtools.cpp:331
 #, kde-format
 msgid "0 warnings"
 msgstr "0 hoiatust"
 
-#: kilestdtools.cpp:329
+#: kilestdtools.cpp:331
 #, kde-format
 msgid "1 warning"
 msgid_plural "%1 warnings"
 msgstr[0] "1 hoiatus"
 msgstr[1] "%1 hoiatust"
 
-#: kilestdtools.cpp:330
+#: kilestdtools.cpp:332
 #, kde-format
 msgid "0 badboxes"
 msgstr "0 veakasti"
 
-#: kilestdtools.cpp:330
+#: kilestdtools.cpp:332
 #, kde-format
 msgid "1 badbox"
 msgid_plural "%1 badboxes"
 msgstr[0] "1 veakast"
 msgstr[1] "%1 veakasti"
 
-#: kilestdtools.cpp:333
+#: kilestdtools.cpp:335
 #, kde-format
 msgctxt ""
 "String displayed in the log panel showing the number of errors/warnings/"
@@ -10218,7 +10218,7 @@ msgctxt ""
 msgid "%1, %2, %3"
 msgstr "%1, %2, %3"
 
-#: kilestdtools.cpp:376
+#: kilestdtools.cpp:378
 #, kde-format
 msgid ""
 "Manually selected bibliography tool does not exist: trying to auto-detect it "
@@ -10227,7 +10227,7 @@ msgstr ""
 "Käsitsi valitud bibliograafiatööriista ei ole olemas: nüüd püütakse seda "
 "automaatselt tuvastada."
 
-#: kilestdtools.cpp:660
+#: kilestdtools.cpp:662
 #, kde-format
 msgid ""
 "The version %1.%2.%3 of okular is too old for ForwardDVI. Please update "
@@ -10236,27 +10236,27 @@ msgstr ""
 "Okulari versioon %1.%2.%3 on ForwardDVI jaoks liiga vana. Palun uuenda "
 "Okular vähemalt versioonile 0.8.6"
 
-#: kilestdtools.cpp:727
+#: kilestdtools.cpp:729
 #, kde-format
 msgid "Select Bibliography"
 msgstr "Bibliograafia valik"
 
-#: kilestdtools.cpp:727
+#: kilestdtools.cpp:729
 #, kde-format
 msgid "Select a bibliography"
 msgstr "Vali bibliograafia"
 
-#: kilestdtools.cpp:736
+#: kilestdtools.cpp:738
 #, kde-format
 msgid "No bibliography selected."
 msgstr "Ühtegi bibliograafiat pole valitud."
 
-#: kilestdtools.cpp:748
+#: kilestdtools.cpp:750
 #, kde-format
 msgid "No bibliographies found."
 msgstr "Ühtegi bibliograafiat ei leitud."
 
-#: kilestdtools.cpp:784
+#: kilestdtools.cpp:786
 #, kde-format
 msgid ""
 "Unable to find %1 or %2; if you are trying to view some other HTML file, go "
@@ -10476,7 +10476,7 @@ msgstr "&Vaade"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1162 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1163 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10782,27 +10782,27 @@ msgstr "Redaktorivaate loomine nurjus."
 msgid "Fatal Error"
 msgstr "Saatuslik viga"
 
-#: kileviewmanager.cpp:845
+#: kileviewmanager.cpp:846
 #, kde-format
 msgid "&QuickPreview Selection"
 msgstr "&Valiku kiire eelvaatlus"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:847
 #, kde-format
 msgid "&QuickPreview Environment"
 msgstr "&Keskkonna kiire eelvaatlus"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:848
 #, kde-format
 msgid "&QuickPreview Math"
 msgstr "&Matemaatika kiire eelvaatlus"
 
-#: kileviewmanager.cpp:1135
+#: kileviewmanager.cpp:1136
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "Trüki kompileeritud dokument..."
 
-#: kileviewmanager.cpp:1141
+#: kileviewmanager.cpp:1142
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "Kompileeritud dokumendi trükkimise eelvaatlus..."
@@ -11263,7 +11263,7 @@ msgstr "Skripti käivitamine nurjus: vaadet pole"
 msgid "Script Error"
 msgstr "Skripti tõrge"
 
-#: scriptmanager.cpp:490
+#: scriptmanager.cpp:491
 #, kde-format
 msgid "Execution of %1"
 msgstr "%1 töölepanek"

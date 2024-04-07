@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-01 00:38+0000\n"
+"POT-Creation-Date: 2024-04-07 00:38+0000\n"
 "PO-Revision-Date: 2024-02-09 23:42+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -330,7 +330,7 @@ msgstr ""
 "내장된 문서 뷰어를 <b>사용할 수 없습니다</b>. Okular를 사용할 수 없거나 설치"
 "된 버전이<br/>너무 오래되었습니다. 즉시 미리 보기를 지원하지 않습니다."
 
-#: dialogs/configcheckerdialog.cpp:289
+#: dialogs/configcheckerdialog.cpp:290
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "
@@ -3037,7 +3037,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "프로젝트 이름을 입력하지 않았음"
 
-#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1047
+#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1048
 #, kde-format
 msgid "Untitled"
 msgstr "제목 없음"
@@ -4577,8 +4577,8 @@ msgstr "선택한 셀의 텍스트를 삭제하고 속성을 초기화합니다.
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "클립보드에 저장된 표를 이 마법사에 붙여 넣습니다."
 
-#: dialogs/tabular/newtabulardialog.cpp:653
-#: dialogs/tabular/newtabulardialog.cpp:675
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
@@ -4586,8 +4586,8 @@ msgid ""
 msgstr ""
 "새 표 크기를 설정하면 표 내용을 삭제합니다. 새 크기를 적용하시겠습니까?"
 
-#: dialogs/tabular/newtabulardialog.cpp:653
-#: dialogs/tabular/newtabulardialog.cpp:675
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid "Resizing table"
 msgstr "표 크기 조정"
@@ -4786,7 +4786,7 @@ msgstr "아래로 이동(&D)"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbXmlFile)
 #. i18n: ectx: property (text), widget (QLabel, m_lbFile)
-#: dialogs/userhelpdialog.cpp:118 dialogs/usermenu/usermenudialog.cpp:182
+#: dialogs/userhelpdialog.cpp:118 dialogs/usermenu/usermenudialog.cpp:183
 #: dialogs/usermenu/usermenudialog_base.ui:329
 #: dialogs/usermenu/usermenudialog_base.ui:459
 #, kde-format
@@ -4842,7 +4842,7 @@ msgstr ""
 msgid "Select File"
 msgstr "파일 선택"
 
-#: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:299
+#: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:300
 #: dialogs/usermenu/usermenutree.cpp:233 usermenu/usermenu.cpp:339
 #: widgets/usermenuconfigwidget.cpp:74
 #, kde-format
@@ -4927,7 +4927,7 @@ msgstr ""
 "%T: 목록에서 선택한 인용 키\n"
 "%S: 확장자를 제외한 원본 파일 이름"
 
-#: dialogs/usermenu/usermenudialog.cpp:216
+#: dialogs/usermenu/usermenudialog.cpp:217
 #, kde-format
 msgid ""
 "<p>You can create, change and install a user-defined menu, which will appear "
@@ -4970,13 +4970,13 @@ msgstr ""
 "의 중요한 정보가 빠져 있으면 메뉴 항목이 빨간색으로 표시됩니다. 더 많은 정보"
 "를 보려면 각각 위젯의 <i>이것에 대한 설명</i> 항목을 참조하십시오.</p>"
 
-#: dialogs/usermenu/usermenudialog.cpp:238
+#: dialogs/usermenu/usermenudialog.cpp:239
 #, kde-format
 msgid "UserMenu Dialog"
 msgstr "사용자 메뉴 대화 상자"
 
-#: dialogs/usermenu/usermenudialog.cpp:260
-#: dialogs/usermenu/usermenudialog.cpp:280
+#: dialogs/usermenu/usermenudialog.cpp:261
+#: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid ""
 "Current menu tree was modified, but not saved.\n"
@@ -4985,31 +4985,31 @@ msgstr ""
 "현재 메뉴 트리가 수정되었으나 저장되지 않았습니다.\n"
 "변경 사항을 버리시겠습니까?"
 
-#: dialogs/usermenu/usermenudialog.cpp:261
-#: dialogs/usermenu/usermenudialog.cpp:281
+#: dialogs/usermenu/usermenudialog.cpp:262
+#: dialogs/usermenu/usermenudialog.cpp:282
 #, kde-format
 msgid "Discard tree"
 msgstr "트리 버리기"
 
-#: dialogs/usermenu/usermenudialog.cpp:288
-#: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:331
+#: dialogs/usermenu/usermenudialog.cpp:289
+#: dialogs/usermenu/usermenudialog.cpp:390 usermenu/usermenu.cpp:331
 #: widgets/usermenuconfigwidget.cpp:62
 #, kde-format
 msgid "User Menu Files (*.xml)"
 msgstr "사용자 메뉴 파일 (*.xml)"
 
-#: dialogs/usermenu/usermenudialog.cpp:290 usermenu/usermenu.cpp:333
+#: dialogs/usermenu/usermenudialog.cpp:291 usermenu/usermenu.cpp:333
 #: widgets/usermenuconfigwidget.cpp:64
 #, kde-format
 msgid "Select Menu File"
 msgstr "메뉴 파일 선택"
 
-#: dialogs/usermenu/usermenudialog.cpp:391
+#: dialogs/usermenu/usermenudialog.cpp:392
 #, kde-format
 msgid "Save Menu File"
 msgstr "메뉴 파일 저장"
 
-#: dialogs/usermenu/usermenudialog.cpp:397
+#: dialogs/usermenu/usermenudialog.cpp:398
 #, kde-format
 msgid ""
 "File '%1' does already exist.\n"
@@ -5018,12 +5018,12 @@ msgstr ""
 "'%1' 파일이 이미 존재합니다.\n"
 "덮어쓰시겠습니까?"
 
-#: dialogs/usermenu/usermenudialog.cpp:398
+#: dialogs/usermenu/usermenudialog.cpp:399
 #, kde-format
 msgid "Overwrite file"
 msgstr "파일 덮어쓰기"
 
-#: dialogs/usermenu/usermenudialog.cpp:412
+#: dialogs/usermenu/usermenudialog.cpp:413
 #, kde-format
 msgid ""
 "The menu tree contains some errors and installing this file may lead to "
@@ -5034,23 +5034,23 @@ msgstr ""
 "습니다.\n"
 "이 파일을 저장하시겠습니까?"
 
-#: dialogs/usermenu/usermenudialog.cpp:413
+#: dialogs/usermenu/usermenudialog.cpp:414
 #, kde-format
 msgid "Menu tree errors"
 msgstr "메뉴 트리 오류"
 
-#: dialogs/usermenu/usermenudialog.cpp:568
+#: dialogs/usermenu/usermenudialog.cpp:569
 #, kde-format
 msgid "Menutype"
 msgstr "메뉴 종류"
 
-#: dialogs/usermenu/usermenudialog.cpp:568
+#: dialogs/usermenu/usermenudialog.cpp:569
 #, kde-format
 msgid "Please choose a menutype"
 msgstr "메뉴 종류를 선택하십시오"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbIcon)
-#: dialogs/usermenu/usermenudialog.cpp:980
+#: dialogs/usermenu/usermenudialog.cpp:981
 #: dialogs/usermenu/usermenudialog_base.ui:485
 #, kde-format
 msgid "Choose"
@@ -6295,22 +6295,22 @@ msgstr "BibTeX"
 msgid "Biblatex"
 msgstr "BibLaTeX"
 
-#: kile.cpp:1256 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1255 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Compile"
 msgstr "컴파일"
 
-#: kile.cpp:1257 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1256 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "View"
 msgstr "보기"
 
-#: kile.cpp:1258 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1257 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Convert"
 msgstr "변환"
 
-#: kile.cpp:1259 widgets/toolconfigwidget.cpp:73
+#: kile.cpp:1258 widgets/toolconfigwidget.cpp:73
 #, kde-format
 msgid "Quick"
 msgstr "빠르게"
@@ -10084,40 +10084,40 @@ msgid "Bmatrix"
 msgstr "Bmatrix"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
-#: kilestdtools.cpp:328
+#: kilestdtools.cpp:330
 #, kde-format
 msgid "0 errors"
 msgstr "오류 0개"
 
-#: kilestdtools.cpp:328
+#: kilestdtools.cpp:330
 #, kde-format
 msgid "1 error"
 msgid_plural "%1 errors"
 msgstr[0] "오류 %1개"
 
-#: kilestdtools.cpp:329
+#: kilestdtools.cpp:331
 #, kde-format
 msgid "0 warnings"
 msgstr "경고 0개"
 
-#: kilestdtools.cpp:329
+#: kilestdtools.cpp:331
 #, kde-format
 msgid "1 warning"
 msgid_plural "%1 warnings"
 msgstr[0] "경고 %1개"
 
-#: kilestdtools.cpp:330
+#: kilestdtools.cpp:332
 #, kde-format
 msgid "0 badboxes"
 msgstr "잘못된 상자 0개"
 
-#: kilestdtools.cpp:330
+#: kilestdtools.cpp:332
 #, kde-format
 msgid "1 badbox"
 msgid_plural "%1 badboxes"
 msgstr[0] "잘못된 상자 %1개"
 
-#: kilestdtools.cpp:333
+#: kilestdtools.cpp:335
 #, kde-format
 msgctxt ""
 "String displayed in the log panel showing the number of errors/warnings/"
@@ -10125,14 +10125,14 @@ msgctxt ""
 msgid "%1, %2, %3"
 msgstr "%1, %2, %3"
 
-#: kilestdtools.cpp:376
+#: kilestdtools.cpp:378
 #, kde-format
 msgid ""
 "Manually selected bibliography tool does not exist: trying to auto-detect it "
 "now."
 msgstr "수동으로 선택한 서지 정보 도구가 없음: 자동 감지를 시도합니다."
 
-#: kilestdtools.cpp:660
+#: kilestdtools.cpp:662
 #, kde-format
 msgid ""
 "The version %1.%2.%3 of okular is too old for ForwardDVI. Please update "
@@ -10141,27 +10141,27 @@ msgstr ""
 "ForwardDVI 기능을 사용하기에 Okular 버전 %1.%2.%3이(가) 너무 오래되었습니다. "
 "Okular 0.8.6 이상으로 업그레이드하십시오"
 
-#: kilestdtools.cpp:727
+#: kilestdtools.cpp:729
 #, kde-format
 msgid "Select Bibliography"
 msgstr "서지 정보 선택"
 
-#: kilestdtools.cpp:727
+#: kilestdtools.cpp:729
 #, kde-format
 msgid "Select a bibliography"
 msgstr "서지 정보 선택"
 
-#: kilestdtools.cpp:736
+#: kilestdtools.cpp:738
 #, kde-format
 msgid "No bibliography selected."
 msgstr "서지 정보를 선택하지 않았습니다."
 
-#: kilestdtools.cpp:748
+#: kilestdtools.cpp:750
 #, kde-format
 msgid "No bibliographies found."
 msgstr "서지 정보를 찾을 수 없습니다."
 
-#: kilestdtools.cpp:784
+#: kilestdtools.cpp:786
 #, kde-format
 msgid ""
 "Unable to find %1 or %2; if you are trying to view some other HTML file, go "
@@ -10375,7 +10375,7 @@ msgstr "보기(&V)"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1162 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1163 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10680,27 +10680,27 @@ msgstr "편집기 보기를 만들 수 없습니다."
 msgid "Fatal Error"
 msgstr "치명적 오류"
 
-#: kileviewmanager.cpp:845
+#: kileviewmanager.cpp:846
 #, kde-format
 msgid "&QuickPreview Selection"
 msgstr "선택 영역 빠른 미리 보기(&Q)"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:847
 #, kde-format
 msgid "&QuickPreview Environment"
 msgstr "환경 빠른 미리 보기(&Q)"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:848
 #, kde-format
 msgid "&QuickPreview Math"
 msgstr "수식 빠른 미리 보기(&Q)"
 
-#: kileviewmanager.cpp:1135
+#: kileviewmanager.cpp:1136
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "컴파일된 문서 인쇄..."
 
-#: kileviewmanager.cpp:1141
+#: kileviewmanager.cpp:1142
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "컴파일된 문서 미리 보기 인쇄..."
@@ -11158,7 +11158,7 @@ msgstr "스크립트를 시작할 수 없음: 보기가 없음"
 msgid "Script Error"
 msgstr "스크립트 오류"
 
-#: scriptmanager.cpp:490
+#: scriptmanager.cpp:491
 #, kde-format
 msgid "Execution of %1"
 msgstr "%1 실행"

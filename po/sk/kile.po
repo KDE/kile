@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-01 00:38+0000\n"
+"POT-Creation-Date: 2024-04-07 00:38+0000\n"
 "PO-Revision-Date: 2023-12-17 14:53+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -336,7 +336,7 @@ msgstr ""
 "nedostupný alebo nainštalovaná<br/>verzia príliš stará). Živý náhľad preto "
 "nie je podporovaný."
 
-#: dialogs/configcheckerdialog.cpp:289
+#: dialogs/configcheckerdialog.cpp:290
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "
@@ -3071,7 +3071,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "Názov projektu nie je zadaný."
 
-#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1047
+#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1048
 #, kde-format
 msgid "Untitled"
 msgstr "Bez názvu"
@@ -4619,8 +4619,8 @@ msgstr "Vymaže text z vybraných buniek a obnoví atribúty."
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "Vloží tabuľku uloženú v schránke do tohto sprievodcu."
 
-#: dialogs/tabular/newtabulardialog.cpp:653
-#: dialogs/tabular/newtabulardialog.cpp:675
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
@@ -4629,8 +4629,8 @@ msgstr ""
 "Nastavenie novej veľkosti tabuľky zmaže obsah. Naozaj chcete nastaviť novú "
 "veľkosť?"
 
-#: dialogs/tabular/newtabulardialog.cpp:653
-#: dialogs/tabular/newtabulardialog.cpp:675
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid "Resizing table"
 msgstr "Zmena veľkosti tabuľky"
@@ -4834,7 +4834,7 @@ msgstr "Posunúť &nižšie"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbXmlFile)
 #. i18n: ectx: property (text), widget (QLabel, m_lbFile)
-#: dialogs/userhelpdialog.cpp:118 dialogs/usermenu/usermenudialog.cpp:182
+#: dialogs/userhelpdialog.cpp:118 dialogs/usermenu/usermenudialog.cpp:183
 #: dialogs/usermenu/usermenudialog_base.ui:329
 #: dialogs/usermenu/usermenudialog_base.ui:459
 #, kde-format
@@ -4890,7 +4890,7 @@ msgstr ""
 msgid "Select File"
 msgstr "Vyberte súbor"
 
-#: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:299
+#: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:300
 #: dialogs/usermenu/usermenutree.cpp:233 usermenu/usermenu.cpp:339
 #: widgets/usermenuconfigwidget.cpp:74
 #, kde-format
@@ -4976,7 +4976,7 @@ msgstr ""
 "%T: Vybrať kľúč citácie zo zoznamu\n"
 "%S: Názov zdrojového súboru bez prípony"
 
-#: dialogs/usermenu/usermenudialog.cpp:216
+#: dialogs/usermenu/usermenudialog.cpp:217
 #, kde-format
 msgid ""
 "<p>You can create, change and install a user-defined menu, which will appear "
@@ -5024,13 +5024,13 @@ msgstr ""
 "Viac informácií je k dispozícii pomocou funkcie <i>Čo je to</i> väčšiny "
 "widgetov.</p>"
 
-#: dialogs/usermenu/usermenudialog.cpp:238
+#: dialogs/usermenu/usermenudialog.cpp:239
 #, kde-format
 msgid "UserMenu Dialog"
 msgstr "Dialóg používateľskej ponuky"
 
-#: dialogs/usermenu/usermenudialog.cpp:260
-#: dialogs/usermenu/usermenudialog.cpp:280
+#: dialogs/usermenu/usermenudialog.cpp:261
+#: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid ""
 "Current menu tree was modified, but not saved.\n"
@@ -5039,31 +5039,31 @@ msgstr ""
 "Aktuálny strom ponuky bol upravený, ale nebol uložený.\n"
 "Zahodiť tento strom?"
 
-#: dialogs/usermenu/usermenudialog.cpp:261
-#: dialogs/usermenu/usermenudialog.cpp:281
+#: dialogs/usermenu/usermenudialog.cpp:262
+#: dialogs/usermenu/usermenudialog.cpp:282
 #, kde-format
 msgid "Discard tree"
 msgstr "Zahodiť strom"
 
-#: dialogs/usermenu/usermenudialog.cpp:288
-#: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:331
+#: dialogs/usermenu/usermenudialog.cpp:289
+#: dialogs/usermenu/usermenudialog.cpp:390 usermenu/usermenu.cpp:331
 #: widgets/usermenuconfigwidget.cpp:62
 #, kde-format
 msgid "User Menu Files (*.xml)"
 msgstr "Súbory používateľskej ponuky (*.xml)"
 
-#: dialogs/usermenu/usermenudialog.cpp:290 usermenu/usermenu.cpp:333
+#: dialogs/usermenu/usermenudialog.cpp:291 usermenu/usermenu.cpp:333
 #: widgets/usermenuconfigwidget.cpp:64
 #, kde-format
 msgid "Select Menu File"
 msgstr "Vybrať súbor ponuky"
 
-#: dialogs/usermenu/usermenudialog.cpp:391
+#: dialogs/usermenu/usermenudialog.cpp:392
 #, kde-format
 msgid "Save Menu File"
 msgstr "Uložiť súbor ponuky"
 
-#: dialogs/usermenu/usermenudialog.cpp:397
+#: dialogs/usermenu/usermenudialog.cpp:398
 #, kde-format
 msgid ""
 "File '%1' does already exist.\n"
@@ -5072,12 +5072,12 @@ msgstr ""
 "Súbor '%1' už existuje.\n"
 "Prepísať tento súbor?"
 
-#: dialogs/usermenu/usermenudialog.cpp:398
+#: dialogs/usermenu/usermenudialog.cpp:399
 #, kde-format
 msgid "Overwrite file"
 msgstr "Prepísať súbor"
 
-#: dialogs/usermenu/usermenudialog.cpp:412
+#: dialogs/usermenu/usermenudialog.cpp:413
 #, kde-format
 msgid ""
 "The menu tree contains some errors and installing this file may lead to "
@@ -5088,24 +5088,24 @@ msgstr ""
 "nepredvídateľným výsledkom.\n"
 "Naozaj chcete uložiť tento súbor?"
 
-#: dialogs/usermenu/usermenudialog.cpp:413
+#: dialogs/usermenu/usermenudialog.cpp:414
 #, fuzzy, kde-format
 #| msgid "Menutree Error"
 msgid "Menu tree errors"
 msgstr "Editor stromu ponuky"
 
-#: dialogs/usermenu/usermenudialog.cpp:568
+#: dialogs/usermenu/usermenudialog.cpp:569
 #, kde-format
 msgid "Menutype"
 msgstr "Typ ponuky"
 
-#: dialogs/usermenu/usermenudialog.cpp:568
+#: dialogs/usermenu/usermenudialog.cpp:569
 #, kde-format
 msgid "Please choose a menutype"
 msgstr "Prosím, zvoľte typ ponuky"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbIcon)
-#: dialogs/usermenu/usermenudialog.cpp:980
+#: dialogs/usermenu/usermenudialog.cpp:981
 #: dialogs/usermenu/usermenudialog_base.ui:485
 #, kde-format
 msgid "Choose"
@@ -6361,22 +6361,22 @@ msgstr "BibTeX"
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1256 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1255 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Compile"
 msgstr "Preložiť"
 
-#: kile.cpp:1257 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1256 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "View"
 msgstr "Zobraziť"
 
-#: kile.cpp:1258 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1257 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Convert"
 msgstr "Previesť"
 
-#: kile.cpp:1259 widgets/toolconfigwidget.cpp:73
+#: kile.cpp:1258 widgets/toolconfigwidget.cpp:73
 #, kde-format
 msgid "Quick"
 msgstr "Rýchlo"
@@ -10199,12 +10199,12 @@ msgid "Bmatrix"
 msgstr "Bmatrix"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
-#: kilestdtools.cpp:328
+#: kilestdtools.cpp:330
 #, kde-format
 msgid "0 errors"
 msgstr "0 chýb"
 
-#: kilestdtools.cpp:328
+#: kilestdtools.cpp:330
 #, kde-format
 msgid "1 error"
 msgid_plural "%1 errors"
@@ -10212,12 +10212,12 @@ msgstr[0] "1 chyba"
 msgstr[1] "%1 chyby"
 msgstr[2] "%1 chýb"
 
-#: kilestdtools.cpp:329
+#: kilestdtools.cpp:331
 #, kde-format
 msgid "0 warnings"
 msgstr "0 upozornení"
 
-#: kilestdtools.cpp:329
+#: kilestdtools.cpp:331
 #, kde-format
 msgid "1 warning"
 msgid_plural "%1 warnings"
@@ -10225,12 +10225,12 @@ msgstr[0] "1 upozornenie"
 msgstr[1] "%1 upozornenia"
 msgstr[2] "%1 upozornení"
 
-#: kilestdtools.cpp:330
+#: kilestdtools.cpp:332
 #, kde-format
 msgid "0 badboxes"
 msgstr "0 badboxes"
 
-#: kilestdtools.cpp:330
+#: kilestdtools.cpp:332
 #, kde-format
 msgid "1 badbox"
 msgid_plural "%1 badboxes"
@@ -10238,7 +10238,7 @@ msgstr[0] "1 badbox"
 msgstr[1] "%1 badboxes"
 msgstr[2] "%1 badboxes"
 
-#: kilestdtools.cpp:333
+#: kilestdtools.cpp:335
 #, kde-format
 msgctxt ""
 "String displayed in the log panel showing the number of errors/warnings/"
@@ -10246,7 +10246,7 @@ msgctxt ""
 msgid "%1, %2, %3"
 msgstr "%1, %2, %3"
 
-#: kilestdtools.cpp:376
+#: kilestdtools.cpp:378
 #, kde-format
 msgid ""
 "Manually selected bibliography tool does not exist: trying to auto-detect it "
@@ -10255,7 +10255,7 @@ msgstr ""
 "Manuálne vybraný nástroj bibliografie neexistuje: skúšanie o jeho "
 "automatické zisťovanie teraz."
 
-#: kilestdtools.cpp:660
+#: kilestdtools.cpp:662
 #, kde-format
 msgid ""
 "The version %1.%2.%3 of okular is too old for ForwardDVI. Please update "
@@ -10264,27 +10264,27 @@ msgstr ""
 "Verzia Okular %1.%2.%3 je príliš stará pre ForwardDVI. Prosím aktualizujte "
 "na Okular verziu 0.8.6 alebo vyššiu"
 
-#: kilestdtools.cpp:727
+#: kilestdtools.cpp:729
 #, kde-format
 msgid "Select Bibliography"
 msgstr "Vybrať bibliografiu"
 
-#: kilestdtools.cpp:727
+#: kilestdtools.cpp:729
 #, kde-format
 msgid "Select a bibliography"
 msgstr "Vybrať bibliografiu"
 
-#: kilestdtools.cpp:736
+#: kilestdtools.cpp:738
 #, kde-format
 msgid "No bibliography selected."
 msgstr "Nie je vybraný žiadna bibliografia"
 
-#: kilestdtools.cpp:748
+#: kilestdtools.cpp:750
 #, kde-format
 msgid "No bibliographies found."
 msgstr "Nenájdené žiadne bibliografie."
 
-#: kilestdtools.cpp:784
+#: kilestdtools.cpp:786
 #, kde-format
 msgid ""
 "Unable to find %1 or %2; if you are trying to view some other HTML file, go "
@@ -10505,7 +10505,7 @@ msgstr "&Zobraziť"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1162 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1163 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10810,27 +10810,27 @@ msgstr "Nepodarilo sa vytvoriť pohľad editora"
 msgid "Fatal Error"
 msgstr "Fatálna chyba"
 
-#: kileviewmanager.cpp:845
+#: kileviewmanager.cpp:846
 #, kde-format
 msgid "&QuickPreview Selection"
 msgstr "Výber &QuickPreview"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:847
 #, kde-format
 msgid "&QuickPreview Environment"
 msgstr "Prostredie &QuickPreview"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:848
 #, kde-format
 msgid "&QuickPreview Math"
 msgstr "Matematika &QuickPreview"
 
-#: kileviewmanager.cpp:1135
+#: kileviewmanager.cpp:1136
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "Tlačiť zostavený dokument..."
 
-#: kileviewmanager.cpp:1141
+#: kileviewmanager.cpp:1142
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "Náhľad tlače pre zostavený dokument..."
@@ -11292,7 +11292,7 @@ msgstr "Nemôže sa spustiť skript: žiadny pohľad nie je k dispozícii"
 msgid "Script Error"
 msgstr "Chyba skriptu"
 
-#: scriptmanager.cpp:490
+#: scriptmanager.cpp:491
 #, kde-format
 msgid "Execution of %1"
 msgstr "Vykonanie %1"

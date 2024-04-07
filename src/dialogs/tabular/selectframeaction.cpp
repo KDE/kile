@@ -301,7 +301,7 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 
     QWidgetAction *widgetAction = new QWidgetAction(this);
     widgetAction->setDefaultWidget(page);
-    menu()->addAction(widgetAction);
+    popupMenu()->addAction(widgetAction);
 
     connect(this, SIGNAL(triggered(bool)),
             this, SLOT(slotTriggered()));
@@ -372,7 +372,7 @@ void SelectFrameAction::slotDoneClicked()
         setIcon(generateIcon());
     }
     Q_EMIT borderSelected(newBorder);
-    menu()->hide();
+    popupMenu()->hide();
 }
 
 }

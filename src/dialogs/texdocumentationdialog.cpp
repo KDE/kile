@@ -158,19 +158,17 @@ void TexDocDialog::readToc()
                 QFileInfo fi(list[2]);
                 basename = fi.baseName().toLower();
             }
-            else {
-                if (list.count() < 2) {
-                    continue;
+
+            if (list.count() >= 2) {
+                QString entry = list[0] + ';' + list[1];
+                if (!basename.isEmpty()) {
+                    entry += ';' + basename;
                 }
+                if (list.count() > 3) {
+                    entry += ';' + list[3];
+                }
+                m_tocSearchList.append(entry);
             }
-            QString entry = list[0] + ';' + list[1];
-            if (!basename.isEmpty()) {
-                entry += ';' + basename;
-            }
-            if (list.count() > 3) {
-                entry += ';' + list[3];
-            }
-            m_tocSearchList.append(entry);
         }
     }
 }

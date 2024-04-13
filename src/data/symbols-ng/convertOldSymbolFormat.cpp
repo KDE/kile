@@ -165,15 +165,13 @@ void outputXML(const QString &latexCommand, const QString &imageCommand, const Q
     }
 
     for(Package pkg: packages) {
-        if(pkg.name.isEmpty()) {
-            continue;
+        if(!pkg.name.isEmpty()) {
+            output += "   <package>\n      <name>" + Qt::escape(pkg.name) + "</name>\n";
+            if(!pkg.arguments.isEmpty()) {
+                output += "      <arguments>" + Qt::escape(pkg.arguments) + "</arguments>\n";
+            }
+            output += "   </package>\n";
         }
-        output += "   <package>\n\
-      <name>" + Qt::escape(pkg.name) + "</name>\n";
-        if(!pkg.arguments.isEmpty()) {
-            output += "      <arguments>" + Qt::escape(pkg.arguments) + "</arguments>\n";
-        }
-        output += "   </package>\n";
     }
 
     output += "</commandDefinition>\n";

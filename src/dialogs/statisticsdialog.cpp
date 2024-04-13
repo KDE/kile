@@ -110,29 +110,27 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
             for(QList<KileProjectItem*>::iterator i = items.begin(); i != items.end(); ++i) {
                 KileProjectItem *item = *i;
 
-                if (item->type() ==  KileProjectItem::ProjectFile) { // ignore project files
-                    continue;
-                }
+                if(item->type() != KileProjectItem::ProjectFile) { // only non-project files
+                    tempDocinfo = item->getInfo();
+                    if(tempDocinfo && tempDocinfo->getDoc()) { // closed items don't have a doc
+                        tempName = tempDocinfo->getDoc()->url().fileName();
+                        stats = tempDocinfo->getStatistics(m_view);
 
-                tempDocinfo = item->getInfo();
-                if(tempDocinfo && tempDocinfo->getDoc()) { // closed items don't have a doc
-                    tempName = tempDocinfo->getDoc()->url().fileName();
-                    stats = tempDocinfo->getStatistics(m_view);
+                        for(uint j = 0; j < SIZE_STAT_ARRAY; j++) {
+                            m_summarystats[j] += stats[j];
+                        }
 
-                    for (uint j = 0; j < SIZE_STAT_ARRAY; j++) {
-                        m_summarystats[j] += stats[j];
+                        tempWidget = new KileWidget::StatisticsWidget();
+                        KPageWidgetItem *itemTemp = new KPageWidgetItem(tempWidget, tempName);
+                        addPage(itemTemp);
+                        KILE_DEBUG_MAIN << "TempName is " << tempName << Qt::endl;
+                        m_pagetowidget[itemTemp] = tempWidget;
+                        m_pagetoname[itemTemp] = tempName;
+                        fillWidget(stats, tempWidget);
                     }
-
-                    tempWidget = new KileWidget::StatisticsWidget();
-                    KPageWidgetItem *itemTemp = new KPageWidgetItem(tempWidget, tempName);
-                    addPage(itemTemp);
-                    KILE_DEBUG_MAIN << "TempName is " << tempName << Qt::endl;
-                    m_pagetowidget[itemTemp] = tempWidget;
-                    m_pagetoname[itemTemp] = tempName;
-                    fillWidget(stats, tempWidget);
-                }
-                else {
-                    m_notAllFilesOpenWarning = true; // print warning
+                    else {
+                        m_notAllFilesOpenWarning = true; // print warning
+                    }
                 }
             }
 

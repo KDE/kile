@@ -129,15 +129,14 @@ void LogWidget::highlight(const OutputInfo& info, bool startFromBottom)
     for(int i = 0; i < count(); ++i) {
         QListWidgetItem *listItem = item(startFromBottom ? count() - 1 - i : i);
         QVariant variant = listItem->data(Qt::UserRole);
-        if(!variant.isValid()) {
-            continue;
-        }
-        OutputInfo info2 = variant.value<OutputInfo>();
-        if(info == info2) {
-            deselectAllItems();
-            scrollToItem(listItem);
-            listItem->setSelected(true);
-            break;
+        if(variant.isValid()) {
+            OutputInfo info2 = variant.value<OutputInfo>();
+            if(info == info2) {
+                deselectAllItems();
+                scrollToItem(listItem);
+                listItem->setSelected(true);
+                break;
+            }
         }
     }
 }

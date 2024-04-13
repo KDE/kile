@@ -257,27 +257,26 @@ void UserMenu::removeActionProperties()
     QDomElement e = actionPropElement.firstChildElement();
     while(!e.isNull()) {
         QString tag = e.tagName();
-        if(tag != "Action") {
-            continue;
-        }
+        if(tag == "Action") {
 
-        QString shortcut = e.attribute("shortcut");
-        QString name = e.attribute("name");
+            QString shortcut = e.attribute("shortcut");
+            QString name = e.attribute("name");
 
-        QDomElement removeElement;
-        if ( name.indexOf(re, 0, &match) == 0) {
-            int index = match.captured(1).toInt();
-            KILE_DEBUG_MAIN << "action property was changed: old=" << m_menudata[index].shortcut << " new=" << name << " actionIndex=" << index;
-            removeElement = e;
-            changed = true;
-        }
+            QDomElement removeElement;
+            if(name.indexOf(re, 0, &match) == 0) {
+                int index = match.captured(1).toInt();
+                KILE_DEBUG_MAIN << "action property was changed: old=" << m_menudata[index].shortcut << " new=" << name << " actionIndex=" << index;
+                removeElement = e;
+                changed = true;
+            }
 
-        e = e.nextSiblingElement();
+            e = e.nextSiblingElement();
 
-        // finally delete element
-        if ( !removeElement.isNull() ) {
-            KILE_DEBUG_MAIN << "remove ActionProperty: shortcut=" << shortcut << " name=" << name;
-            actionPropElement.removeChild(removeElement);
+            // finally delete element
+            if(!removeElement.isNull()) {
+                KILE_DEBUG_MAIN << "remove ActionProperty: shortcut=" << shortcut << " name=" << name;
+                actionPropElement.removeChild(removeElement);
+            }
         }
     }
 

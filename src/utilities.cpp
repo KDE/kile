@@ -88,14 +88,15 @@ QString KileUtilities::lastModifiedFile(const QStringList& files, const QString&
 
     for(const QString& file : std::as_const(absoluteFileNames)) {
         QFileInfo fileInfo(file);
-        if(!fileInfo.exists()) {
-            KILE_DEBUG_MAIN << "file does not exist:" << file << "files:" << files;
-            continue;
+        if(fileInfo.exists()) {
+            QDateTime modificationTime = fileInfo.lastModified();
+            if(!lastModifiedTime.isValid() || modificationTime > lastModifiedTime) {
+                lastModifiedFile = &file;
+                lastModifiedTime = modificationTime;
+            }
         }
-        QDateTime modificationTime = fileInfo.lastModified();
-        if(!lastModifiedTime.isValid() || modificationTime > lastModifiedTime) {
-            lastModifiedFile = &file;
-            lastModifiedTime = modificationTime;
+        else {
+            KILE_DEBUG_MAIN << "file does not exist:" << file << "files:" << files;
         }
     }
 

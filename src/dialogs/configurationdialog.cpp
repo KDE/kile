@@ -106,10 +106,9 @@ Config::Config(KConfig *config, KileInfo *ki, QWidget* parent)
         // and then we set the size of all the scroll widgets to the maximal page size
         for(KPageWidgetItem *item : const_cast<const QList<KPageWidgetItem*>&>(m_pageWidgetItemList)) { // use 'std::as_const' later
             KileWidget::ScrollWidget *scrollWidget = dynamic_cast<KileWidget::ScrollWidget*>(item->widget());
-            if(!scrollWidget) {
-                continue;
+            if(scrollWidget) {
+                scrollWidget->setPreferredSize(maximumSizeHint);
             }
-            scrollWidget->setPreferredSize(maximumSizeHint);
         }
     }
 

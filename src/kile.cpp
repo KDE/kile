@@ -1471,11 +1471,10 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
     for(int i = 0; i < viewManager()->textViewCount(); ++i) {
         KTextEditor::View *view2 = viewManager()->textView(i);
-        if(view == view2) {
-            continue;
+        if(view != view2) {
+            guiFactory()->removeClient(view2);
+            view2->clearFocus();
         }
-        guiFactory()->removeClient(view2);
-        view2->clearFocus();
     }
 
     guiFactory()->addClient(view);
@@ -1621,21 +1620,19 @@ bool Kile::queryClose()
     for(int i = 0; i < viewManager()->textViewCount(); ++i) {
         KTextEditor::Document *doc = viewManager()->textView(i)->document();
         const QUrl url = doc->url();
-        if(url.isEmpty()) {
-            continue;
+        if(!url.isEmpty()) {
+            m_listDocsOpenOnStart.append(url.toLocalFile());
+            m_listEncodingsOfDocsOpenOnStart.append(doc->encoding());
         }
-        m_listDocsOpenOnStart.append(url.toLocalFile());
-        m_listEncodingsOfDocsOpenOnStart.append(doc->encoding());
     }
 
     KILE_DEBUG_MAIN << "#projects = " << docManager()->projects().count() << Qt::endl;
     QList<KileProject*> projectList = docManager()->projects();
     for(QList<KileProject*>::iterator i = projectList.begin(); i != projectList.end(); ++i) {
         const QUrl url = (*i)->url();
-        if(url.isEmpty()) { // shouldn't happen, but just in case...
-            continue;
+        if(!url.isEmpty()) { // shoul always be the case, but just in case...
+            m_listProjectsOpenOnStart.append(url.toLocalFile());
         }
-        m_listProjectsOpenOnStart.append(url.toLocalFile());
     }
 
     bool stage1 = docManager()->projectCloseAll();

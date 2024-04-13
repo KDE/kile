@@ -1155,10 +1155,9 @@ bool Manager::fileCloseAllOthers(KTextEditor::View *currentView)
     QList<KTextEditor::View*> viewList;
     for(int i = 0; i < m_ki->viewManager()->textViewCount(); ++i) {
         KTextEditor::View *view = m_ki->viewManager()->textView(i);
-        if(currentView == view) {
-            continue;
+        if(currentView != view) {
+            viewList.push_back(view);
         }
-        viewList.push_back(view);
 
     }
     for(QList<KTextEditor::View*>::iterator it = viewList.begin();
@@ -2029,13 +2028,12 @@ void Manager::reloadXMLOnAllDocumentsAndViews()
         //        which has been closed, but this should be improved in the sense
         //        that 'm_textInfoList' should only contain 'TextInfo' objects which
         //        contain valid pointers to 'KTextEditor::Document' objects.
-        if(!doc) {
-            continue;
-        }
-        doc->reloadXML();
-        QList<KTextEditor::View*> views = doc->views();
-        for(QList<KTextEditor::View*>::iterator viewIt = views.begin(); viewIt != views.end(); ++viewIt) {
-            (*viewIt)->reloadXML();
+        if(doc) {
+            doc->reloadXML();
+            QList<KTextEditor::View*> views = doc->views();
+            for(QList<KTextEditor::View*>::iterator viewIt = views.begin(); viewIt != views.end(); ++viewIt) {
+                (*viewIt)->reloadXML();
+            }
         }
     }
 }

@@ -174,12 +174,11 @@ void Manager::scanScriptDirectories()
 
                 // filter out file paths that point to the same file (via symbolic links, for example)
                 // but later on we work with the original file path, possibly containing symbolic links
-                if(canonicalFilePath.isEmpty() || canonicalScriptFileNamesSet.contains(canonicalFilePath)) {
-                    continue;
-                }
-                canonicalScriptFileNamesSet.insert(canonicalFilePath);
+                if(!canonicalFilePath.isEmpty() && !canonicalScriptFileNamesSet.contains(canonicalFilePath)) {
+                    canonicalScriptFileNamesSet.insert(canonicalFilePath);
 
-                scriptFileNamesSet.insert(fileName);
+                    scriptFileNamesSet.insert(fileName);
+                }
             }
         }
     }

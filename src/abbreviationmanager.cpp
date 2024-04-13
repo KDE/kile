@@ -131,16 +131,14 @@ void Manager::addAbbreviationListToMap(const QStringList& list, bool global)
     for(QStringList::const_iterator i = list.begin(); i != list.end(); ++i) {
         QString entry = *i;
         int delimiter = entry.indexOf(QRegularExpression(QLatin1String("[^\\\\]=")));
-        if(delimiter < 0) {
-            continue;
+        if(delimiter >= 0) {
+            QString left = entry.left(delimiter + 1); // [^\\\\]= has length 2.
+            left.replace(QLatin1String("\\="), QLatin1String("="));
+            QString right = entry.mid(delimiter + 2); // [^\\\\]= has length 2.
+            if(!right.isEmpty()) {
+                m_abbreviationMap[left] = StringBooleanPair(right, global);
+            }
         }
-        QString left = entry.left(delimiter + 1); // [^\\\\]= has length 2.
-        left.replace(QLatin1String("\\="), QLatin1String("="));
-        QString right = entry.mid(delimiter + 2); // [^\\\\]= has length 2.
-        if(right.isEmpty()) {
-            continue;
-        }
-        m_abbreviationMap[left] = StringBooleanPair(right, global);
     }
 }
 

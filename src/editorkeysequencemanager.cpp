@@ -64,15 +64,14 @@ void Manager::removeKeySequence(const QStringList& l)
 {
     bool changed = false;
     for(QStringList::const_iterator i = l.begin(); i != l.end(); ++i) {
-        if((*i).isEmpty()) {
-            continue;
-        }
-        QMap<QString, Action*>::iterator it = m_actionMap.find(*i);
-        if(it != m_actionMap.end()) {
-            delete (it.value());
-            m_actionMap.erase(it);
-            m_watchedKeySequencesList.removeAll(*i);
-            changed = true;
+        if(!(*i).isEmpty()) {
+            QMap<QString, Action*>::iterator it = m_actionMap.find(*i);
+            if(it != m_actionMap.end()) {
+                delete (it.value());
+                m_actionMap.erase(it);
+                m_watchedKeySequencesList.removeAll(*i);
+                changed = true;
+            }
         }
     }
     if(changed) {
@@ -144,14 +143,13 @@ bool Manager::isSequenceAssigned(const QString& seq) const {
 QPair<int, QString> Manager::checkSequence(const QString& seq, const QString& skip)
 {
     for(QList<QString>::iterator iterator = m_watchedKeySequencesList.begin(); iterator != m_watchedKeySequencesList.end(); ++iterator) {
-        if (*iterator == skip) {
-            continue;
-        }
-        if(iterator->startsWith(seq)) {
-            return (*iterator == seq) ? std::pair<int, QString>(1, seq) : std::pair<int, QString>(2, *iterator);
-        }
-        if(!iterator->isEmpty() && seq.startsWith(*iterator)) {
-            return std::pair<int, QString>(3, *iterator);
+        if (*iterator != skip) {
+            if(iterator->startsWith(seq)) {
+                return (*iterator == seq) ? std::pair<int, QString>(1, seq) : std::pair<int, QString>(2, *iterator);
+            }
+            if(!iterator->isEmpty() && seq.startsWith(*iterator)) {
+                return std::pair<int, QString>(3, *iterator);
+            }
         }
     }
     return qMakePair<int, QString>(0, QString());

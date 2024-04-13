@@ -116,12 +116,11 @@ void SymbolView::extractPackageString(const QString&string, QList<Package> &pack
 
     for(int i = 0 ; i < pkgs.count() && i < args.count() ; i++) {
         const QString packageName = pkgs.at(i);
-        if(packageName.isEmpty()) {
-            continue;
+        if(!packageName.isEmpty()) {
+            pkg.name = packageName;
+            pkg.arguments = args.at(i);
+            packages.append(pkg);
         }
-        pkg.name = packageName;
-        pkg.arguments = args.at(i);
-        packages.append(pkg);
     }
 
 }

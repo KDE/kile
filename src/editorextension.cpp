@@ -379,19 +379,17 @@ void EditorExtension::closeAllEnvironments(KTextEditor::View *view)
 
         int row = entry[1].toInt(&ok1);
         int col = entry[2].toInt(&ok2);
-        if(!ok1 || !ok2) {
-            continue;
+        if(ok1 && ok2) {
+            outputCol = currentCol;
+            if(indent) {
+                QString whitespace = getWhiteSpace( doc->line(row).left(col) );
+                doc->insertText(KTextEditor::Cursor(currentRow, outputCol), whitespace);
+                outputCol += whitespace.length();
+            }
+            QString endtag = ( entry[0] == "\\[" ) ? "\\]\n" : "\\end{"+entry[0]+"}\n";
+            doc->insertText(KTextEditor::Cursor(currentRow, outputCol), endtag);
+            ++currentRow;
         }
-
-        outputCol = currentCol;
-        if(indent) {
-            QString whitespace = getWhiteSpace( doc->line(row).left(col) );
-            doc->insertText(KTextEditor::Cursor(currentRow, outputCol), whitespace);
-            outputCol += whitespace.length();
-        }
-        QString endtag = ( entry[0] == "\\[" ) ? "\\]\n" : "\\end{"+entry[0]+"}\n";
-        doc->insertText(KTextEditor::Cursor(currentRow, outputCol), endtag);
-        ++currentRow;
     }
 }
 
@@ -2061,25 +2059,24 @@ bool EditorExtension::findOpenBracketTag(KTextEditor::Document *doc, int row, in
     uint brackets = 0;
     for(int line = row; line >= 0; --line) {
         QString textline = getTextLineReal(doc, line);
-        if(textline.length() == 0) {
-            continue;
-        }
-        int start = (line == row && col < textline.length()) ? col : textline.length() - 1;
-        for (int i = start; i >= 0; --i) {
-            //KILE_DEBUG_MAIN << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].toLatin1();
-            if(textline[i] == '{') {
-                if(brackets > 0) {
-                    --brackets;
+        if(textline.length() > 0) {
+            int start = (line == row && col < textline.length()) ? col : textline.length() - 1;
+            for (int i = start; i >= 0; --i) {
+                //KILE_DEBUG_MAIN << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].toLatin1();
+                if(textline[i] == '{') {
+                    if(brackets > 0) {
+                        --brackets;
+                    }
+                    else {
+                        bracket.row = line;
+                        bracket.col = i;
+                        bracket.open = true;
+                        return true;
+                    }
                 }
-                else {
-                    bracket.row = line;
-                    bracket.col = i;
-                    bracket.open = true;
-                    return true;
+                else if(textline[i] == '}') {
+                    ++brackets;
                 }
-            }
-            else if(textline[i] == '}') {
-                ++brackets;
             }
         }
     }

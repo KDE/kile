@@ -810,14 +810,12 @@ static void fillTextHashForProject(KileProject *project, QHash<KileDocument::Tex
         KileProjectItem *item = *it;
 
         KileDocument::TextInfo *textInfo = item->getInfo();
-        if(!textInfo) {
-            continue;
+        if(textInfo) {
+            KTextEditor::Document *document = textInfo->getDoc();
+            if(document) {
+                textHash[textInfo] = computeHashOfDocument(document);
+            }
         }
-        KTextEditor::Document *document = textInfo->getDoc();
-        if(!document) {
-            continue;
-        }
-        textHash[textInfo] = computeHashOfDocument(document);
     }
 }
 
@@ -827,14 +825,12 @@ void LivePreviewManager::fillTextHashForMasterDocument(QHash<KileDocument::TextI
     QList<KileDocument::TextInfo*> textDocumentInfos = m_ki->docManager()->textDocumentInfos();
     for(QList<KileDocument::TextInfo*>::iterator it = textDocumentInfos.begin(); it != textDocumentInfos.end(); ++it) {
         KileDocument::TextInfo *textInfo = *it;
-        if(!textInfo) {
-            continue;
+        if(textInfo) {
+            KTextEditor::Document *document = textInfo->getDoc();
+            if(document) {
+                textHash[textInfo] = computeHashOfDocument(document);
+            }
         }
-        KTextEditor::Document *document = textInfo->getDoc();
-        if(!document) {
-            continue;
-        }
-        textHash[textInfo] = computeHashOfDocument(document);
     }
 }
 

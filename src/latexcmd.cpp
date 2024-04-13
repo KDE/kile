@@ -395,18 +395,15 @@ void LatexCommands::commandList(QStringList &list, uint attr, bool userdefined)
         it.next();
         // first check, if we need really need all environments and commands
         // or if a restriction to some attributes is given
-        if(attr != (uint)CmdAttrNone) {
-            if(!(attr & (uint)getCharAttr( it.value().at(2)))) {
-                continue;
-            }
-        }
+        if((attr == (uint)CmdAttrNone) || (attr & (uint)getCharAttr(it.value().at(2)))) {
 
-        // second check, if we need only user-defined environments or commands
-        if(!userdefined) {
-            list.append(it.key());
-        }
-        else if(it.value().at(0) == '-') {
-            list.append(it.key());
+            // second check, if we need only user-defined environments or commands
+            if(!userdefined) {
+                list.append(it.key());
+            }
+            else if(it.value().at(0) == '-') {
+                list.append(it.key());
+            }
         }
     }
 }

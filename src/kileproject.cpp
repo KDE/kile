@@ -972,25 +972,21 @@ bool KileProject::migrateProjectFileToVersion3()
 
     const QStringList groups = m_config->groupList();
     for (const auto& groupName : groups) {
-        if(!m_config->hasGroup(groupName)) { // 'groupName' might have been deleted
-            continue;                    // work around bug 384039
-        }
-
-        // these ones we move completely
-        if(groupName.startsWith(QLatin1String("document-settings,")) || groupName.startsWith(QLatin1String("view-settings,"))) {
-            KConfigGroup oldGroup(m_config, groupName);
-            KConfigGroup guiGroup(&projectGUIFile, groupName);
-            oldGroup.copyTo(&guiGroup);
-            m_config->deleteGroup(groupName);
-            continue;
-        }
-
-        if(groupName.startsWith(QLatin1String("item:"))) {
-            deleteConfigGroupKeys(m_config, groupName, keysToDeleteInItemGroups);
-            moveConfigGroupKeysAsStrings(m_config, &projectGUIFile, groupName, keysToMoveInItemGroups);
-        }
-        else if(groupName == QLatin1String("General")) {
-            moveConfigGroupKeysAsStrings(m_config, &projectGUIFile, groupName, keysToMoveInGeneralGroup);
+        if(m_config->hasGroup(groupName)) { // 'groupName' might have been deleted
+            // these ones we move completely
+            if(groupName.startsWith(QLatin1String("document-settings,")) || groupName.startsWith(QLatin1String("view-settings,"))) {
+                KConfigGroup oldGroup(m_config, groupName);
+                KConfigGroup guiGroup(&projectGUIFile, groupName);
+                oldGroup.copyTo(&guiGroup);
+                m_config->deleteGroup(groupName);
+            }
+            else if(groupName.startsWith(QLatin1String("item:"))) {
+                deleteConfigGroupKeys(m_config, groupName, keysToDeleteInItemGroups);
+                moveConfigGroupKeysAsStrings(m_config, &projectGUIFile, groupName, keysToMoveInItemGroups);
+            }
+            else if(groupName == QLatin1String("General")) {
+                moveConfigGroupKeysAsStrings(m_config, &projectGUIFile, groupName, keysToMoveInGeneralGroup);
+            }
         }
     }
 

@@ -99,9 +99,10 @@ Config::Config(KConfig *config, KileInfo *ki, QWidget* parent)
             QScrollArea *scrollArea = dynamic_cast<QScrollArea*>(item->widget());
             if(!scrollArea) {
                 qWarning() << "One scroll area not a KileWidget::ScrollWidget!";
-                continue;
             }
-            maximumSizeHint = maximumSizeHint.expandedTo(scrollArea->widget()->sizeHint());
+            else {
+                maximumSizeHint = maximumSizeHint.expandedTo(scrollArea->widget()->sizeHint());
+            }
         }
         // and then we set the size of all the scroll widgets to the maximal page size
         for(KPageWidgetItem *item : const_cast<const QList<KPageWidgetItem*>&>(m_pageWidgetItemList)) { // use 'std::as_const' later

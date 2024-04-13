@@ -836,10 +836,11 @@ void Manager::fileOpen()
         if(m_ki->extensions()->isProjectFile(url)) { // this can happen... (bug 317432)
             KILE_DEBUG_MAIN << "file is a project file:" << url;
             projectOpen(url);
-            continue;
         }
-
-        fileOpen(url, result.encoding);
+        else
+        {
+            fileOpen(url, result.encoding);
+        }
     }
 }
 

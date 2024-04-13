@@ -1839,11 +1839,13 @@ void Kile::enableGUI(bool enable)
     if(m_userMenu) {
         const QList<QAction *> useractions = m_userMenu->menuActions();
         for(QAction *action : useractions) {
-            if(!action) {
-                KILE_WARNING_MAIN << "null action found.";
-                continue;
+            if(action) {
+                action->setEnabled(enable);
             }
-            action->setEnabled(enable);
+            else
+            {
+                KILE_WARNING_MAIN << "null action found.";
+            }
         }
     }
 
@@ -2499,20 +2501,18 @@ void Kile::readRecentFileSettings()
     int n = group.readEntry("NoDOOS", 0);
     for (int i = 0; i < n; ++i) {
         const QString urlString = group.readPathEntry("DocsOpenOnStart" + QString::number(i), "");
-        if(urlString.isEmpty()) {
-            continue;
+        if(!urlString.isEmpty()) {
+            m_listDocsOpenOnStart.append(urlString);
+            m_listEncodingsOfDocsOpenOnStart.append(group.readPathEntry("EncodingsOfDocsOpenOnStart" + QString::number(i), ""));
         }
-        m_listDocsOpenOnStart.append(urlString);
-        m_listEncodingsOfDocsOpenOnStart.append(group.readPathEntry("EncodingsOfDocsOpenOnStart" + QString::number(i), ""));
     }
 
     n = group.readEntry("NoPOOS", 0);
     for(int i = 0; i < n; ++i) {
         const QString urlString = group.readPathEntry("ProjectsOpenOnStart" + QString::number(i), "");
-        if(urlString.isEmpty()) {
-            continue;
+        if(!urlString.isEmpty()) {
+            m_listProjectsOpenOnStart.append(urlString);
         }
-        m_listProjectsOpenOnStart.append(urlString);
     }
 }
 

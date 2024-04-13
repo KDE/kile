@@ -1908,21 +1908,19 @@ bool Manager::projectClose(const QUrl &url)
             docinfo = item->getInfo();
             if (docinfo) {
                 doc = docinfo->getDoc();
-            }
-            else {
-                continue;
-            }
-            if (doc) {
-                KILE_DEBUG_MAIN << "\t\tclosing item " << doc->url().toLocalFile();
-                bool r = fileClose(doc, true);
-                close = close && r;
-                if (!close) {
-                    break;
+
+                if (doc) {
+                    KILE_DEBUG_MAIN << "\t\tclosing item " << doc->url().toLocalFile();
+                    bool r = fileClose(doc, true);
+                    close = close && r;
+                    if (!close) {
+                        break;
+                    }
                 }
-            }
-            else {
-                // we still need to delete the TextInfo object
-                removeTextDocumentInfo(docinfo, true);
+                else {
+                    // we still need to delete the TextInfo object
+                    removeTextDocumentInfo(docinfo, true);
+                }
             }
         }
 

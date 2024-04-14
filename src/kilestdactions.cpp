@@ -371,6 +371,7 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
     (void) new KileAction::Tag(i18n("\\qquad"), QString(), "qquad", QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_qquad", "\\qquad ", QString(), 7);
 
     (void) new KileAction::Tag(i18n("Math Mode - $...$"), i18n("Math Mode"), "mathmode", QKeySequence(Qt::ALT | Qt::SHIFT | Qt::Key_M), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_mathmode","$","$",1);
+    (void) new KileAction::Tag(i18n("Math Mode - \\(...\\)"), i18n("Math Mode"), "mathmode_latex", QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, "tag_mathmode_latex", "\\(", "%C\\)", 2);
     (void) new KileAction::Tag(i18n("Displaymath Mode - \\[...\\]"), i18n("Displaymath Mode"), "displaymathmode", QKeySequence(Qt::ALT | Qt::SHIFT | Qt::Key_E), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_equation", "\\[","\\]", 2);
     (void) new KileAction::Tag(i18n("Equation - \\begin{equation}"), i18n("Equation"), "equation", QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_env_equation","\\begin{equation}\n","%E\n\\end{equation} ",0,1);
     (void) new KileAction::Tag(i18n("Subscript - _{}"), i18n("Subscript"), "format-text-subscript", QKeySequence(Qt::ALT | Qt::SHIFT | Qt::Key_D), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_subscript","_{","}",2);
@@ -448,6 +449,8 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
     (void) new KileAction::Tag(i18n("Intertext - \\intertext{}"), i18n("Intertext"), QKeySequence(), receiver, SLOT(insertAmsTag(KileAction::TagData)), ac,"tag_intertext", "\\intertext{","}\n", 11);
 
     // math environments
+    (void) new KileAction::Tag(i18n("Math - \\begin{math}"), i18n("Math"), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), ac, "tag_env_math", "\\begin{math}\n", "%C%E\n\\end{math}", 0, 1);
+
     (void) new KileAction::Tag(i18n("Displaymath - \\begin{displaymath}"), i18n("Displaymath"), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), ac,"tag_env_displaymath","\\begin{displaymath}\n","%E\n\\end{displaymath}\n",0,1);
 
     (void) new KileAction::Tag(i18n("Equation (not numbered) - \\begin{equation*}"), i18n("Equation (not numbered)"), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), ac,"tag_env_equation*","\\begin{equation*}\n","%E\n\\end{equation*}\n",0,1);
@@ -482,6 +485,17 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
     (void) new KileAction::Tag(i18n("Vmatrix - \\begin{Vmatrix}"), i18n("Vmatrix"), "VVmatrix", QKeySequence(), receiver, SLOT(insertAmsTag(KileAction::TagData)),ac,"tag_env_VVmatrix","\\begin{Vmatrix}\n","%E\n\\end{Vmatrix}\n", 0,1);
     (void) new KileAction::Tag(i18n("bmatrix - \\begin{bmatrix}"), i18n("bmatrix"), "bmatrix", QKeySequence(), receiver, SLOT(insertAmsTag(KileAction::TagData)),ac,"tag_env_bmatrix","\\begin{bmatrix}\n","%E\n\\end{bmatrix}\n", 0,1);
     (void) new KileAction::Tag(i18n("Bmatrix - \\begin{Bmatrix}"), i18n("Bmatrix"), "BBmatrix", QKeySequence(), receiver, SLOT(insertAmsTag(KileAction::TagData)),ac,"tag_env_BBmatrix","\\begin{Bmatrix}\n","%E\n\\end{Bmatrix}\n", 0,1);
+
+    // breqn environments
+    (void) new KileAction::Tag(i18n("dmath - \\begin{dmath}"), i18n("dmath"), QKeySequence(), receiver, SLOT(insertAmsTag(KileAction::TagData)), ac, "tag_env_dmath", "\\begin{dmath}\n", "%C%E\n\\end{dmath}", 0, 1);
+    (void) new KileAction::Tag(i18n("dmath* - \\begin{dmath*}"), i18n("dmath*"), QKeySequence(), receiver, SLOT(insertAmsTag(KileAction::TagData)), ac, "tag_env_dmath*", "\\begin{dmath*}\n", "%C%E\n\\end{dmath*}", 0, 1);
+
+    (void) new KileAction::Tag(i18n("dseries - \\begin{dseries}"), i18n("dseries"), QKeySequence(), receiver, SLOT(insertAmsTag(KileAction::TagData)), ac, "tag_env_dseries", "\\begin{dseries}\n", "\n\\end{dseries}", 0, 1);
+    (void) new KileAction::Tag(i18n("dseries* - \\begin{dseries*}"), i18n("dseries*"), QKeySequence(), receiver, SLOT(insertAmsTag(KileAction::TagData)), ac, "tag_env_dseries*", "\\begin{dseries*}\n", "\n\\end{dseries*}", 0, 1);
+
+    (void) new KileAction::Tag(i18n("dgroup - \\begin{dgroup}"), i18n("dgroup"), QKeySequence(), receiver, SLOT(insertAmsTag(KileAction::TagData)), ac, "tag_env_dgroup", "\\begin{dgroup}\n", "\n\\end{dgroup}", 0,1);
+    (void) new KileAction::Tag(i18n("dgroup* - \\begin{dgroup*}"), i18n("dgroup*"), QKeySequence(), receiver, SLOT(insertAmsTag(KileAction::TagData)), ac, "tag_env_dgroup*", "\\begin{dgroup*}\n", "\n\\end{dgroup*}", 0, 1);
+
 
 }
 

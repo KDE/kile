@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-07 00:38+0000\n"
+"POT-Creation-Date: 2024-04-15 00:38+0000\n"
 "PO-Revision-Date: 2019-10-12 16:08+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -1316,7 +1316,7 @@ msgstr "AMS-Math"
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1029 kileui.rc:569
+#: kile.cpp:1029 kilestdactions.cpp:452 kileui.rc:569
 #, kde-format
 msgid "Math"
 msgstr "Математические"
@@ -6396,7 +6396,7 @@ msgid "Quick Start"
 msgstr "Новый документ"
 
 # BUGME: add ellipsis --aspotashev
-#: kile.cpp:1026 kilestdactions.cpp:384
+#: kile.cpp:1026 kilestdactions.cpp:385
 #, kde-format
 msgid "Array"
 msgstr "Массив"
@@ -9705,107 +9705,113 @@ msgstr "\\qquad"
 msgid "Math Mode - $...$"
 msgstr "Режим формул — $...$"
 
-#: kilestdactions.cpp:373
+#: kilestdactions.cpp:373 kilestdactions.cpp:374
 #, kde-format
 msgid "Math Mode"
 msgstr "Режим формул"
 
 #: kilestdactions.cpp:374
+#, fuzzy, kde-format
+#| msgid "Math Mode - $...$"
+msgid "Math Mode - \\(...\\)"
+msgstr "Режим формул — $...$"
+
+#: kilestdactions.cpp:375
 #, kde-format
 msgid "Displaymath Mode - \\[...\\]"
 msgstr "Режим выключных формул — \\[...\\]"
 
-#: kilestdactions.cpp:374
+#: kilestdactions.cpp:375
 #, kde-format
 msgid "Displaymath Mode"
 msgstr "Режим выключных формул"
 
-#: kilestdactions.cpp:375
+#: kilestdactions.cpp:376
 #, kde-format
 msgid "Equation - \\begin{equation}"
 msgstr "Уравнение — \\begin{equation}"
 
-#: kilestdactions.cpp:375
+#: kilestdactions.cpp:376
 #, kde-format
 msgid "Equation"
 msgstr "Уравнение"
 
-#: kilestdactions.cpp:376
+#: kilestdactions.cpp:377
 #, kde-format
 msgid "Subscript - _{}"
 msgstr "Нижний индекс — _{}"
 
-#: kilestdactions.cpp:376
+#: kilestdactions.cpp:377
 #, kde-format
 msgid "Subscript"
 msgstr "Нижний индекс"
 
-#: kilestdactions.cpp:377
+#: kilestdactions.cpp:378
 #, kde-format
 msgid "Superscript - ^{}"
 msgstr "Верхний индекс — ^{}"
 
-#: kilestdactions.cpp:377
+#: kilestdactions.cpp:378
 #, kde-format
 msgid "Superscript"
 msgstr "Верхний индекс"
 
-#: kilestdactions.cpp:378
+#: kilestdactions.cpp:379
 #, kde-format
 msgid "Normal Fraction - \\frac{}{}"
 msgstr "Обыкновенная дробь — \\frac{}{}"
 
-#: kilestdactions.cpp:378
+#: kilestdactions.cpp:379
 #, kde-format
 msgid "Normal Fraction"
 msgstr "Обыкновенная дробь"
 
-#: kilestdactions.cpp:379
+#: kilestdactions.cpp:380
 #, kde-format
 msgid "Displaystyle Fraction - \\dfrac{}{}"
 msgstr "Выключная дробь — \\dfrac{}{}"
 
-#: kilestdactions.cpp:379
+#: kilestdactions.cpp:380
 #, kde-format
 msgid "Displaystyle Fraction"
 msgstr "Выключная дробь"
 
-#: kilestdactions.cpp:380
+#: kilestdactions.cpp:381
 #, kde-format
 msgid "Textstyle Fraction - \\tfrac{}{}"
 msgstr "Текстовая дробь — \\tfrac{}{}"
 
-#: kilestdactions.cpp:380
+#: kilestdactions.cpp:381
 #, kde-format
 msgid "Textstyle Fraction"
 msgstr "Текстовая дробь"
 
-#: kilestdactions.cpp:381
+#: kilestdactions.cpp:382
 #, kde-format
 msgid "Square Root - \\sqrt{}"
 msgstr "Квадратный корень — \\sqrt{}"
 
-#: kilestdactions.cpp:381
+#: kilestdactions.cpp:382
 #, kde-format
 msgid "Square Root"
 msgstr "Квадратный корень"
 
-#: kilestdactions.cpp:382
+#: kilestdactions.cpp:383
 #, kde-format
 msgid "\\left"
 msgstr "\\left"
 
-#: kilestdactions.cpp:383
+#: kilestdactions.cpp:384
 #, kde-format
 msgid "\\right"
 msgstr "\\right"
 
-#: kilestdactions.cpp:384
+#: kilestdactions.cpp:385
 #, kde-format
 msgid "Array - \\begin{array}"
 msgstr "Массив — \\begin{array}"
 
-#: kilestdactions.cpp:385
+#: kilestdactions.cpp:386
 #, kde-format
 msgid ""
 "\\begin{array}{col1col2...coln}\n"
@@ -9829,515 +9835,590 @@ msgstr ""
 "     l — выравнивание влево\n"
 "     r — выравнивание вправо\n"
 
-#: kilestdactions.cpp:388
+#: kilestdactions.cpp:389
 #, kde-format
 msgid "Left Delimiter"
 msgstr "Левый разделитель"
 
-#: kilestdactions.cpp:390
+#: kilestdactions.cpp:391
 #, kde-format
 msgid "left ("
 msgstr "Левая ("
 
-#: kilestdactions.cpp:391
+#: kilestdactions.cpp:392
 #, kde-format
 msgid "left ["
 msgstr "Левая ["
 
-#: kilestdactions.cpp:392
+#: kilestdactions.cpp:393
 #, kde-format
 msgid "left {"
 msgstr "Левая {"
 
-#: kilestdactions.cpp:393
+#: kilestdactions.cpp:394
 #, kde-format
 msgid "left &lt;"
 msgstr "Левая &lt;"
 
-#: kilestdactions.cpp:395
+#: kilestdactions.cpp:396
 #, kde-format
 msgid "left )"
 msgstr "Левая )"
 
-#: kilestdactions.cpp:396
+#: kilestdactions.cpp:397
 #, kde-format
 msgid "left ]"
 msgstr "Левая ]"
 
-#: kilestdactions.cpp:397
+#: kilestdactions.cpp:398
 #, kde-format
 msgid "left }"
 msgstr "Левая }"
 
-#: kilestdactions.cpp:398
+#: kilestdactions.cpp:399
 #, kde-format
 msgid "left &gt;"
 msgstr "Левая &gt;"
 
-#: kilestdactions.cpp:400
+#: kilestdactions.cpp:401
 #, kde-format
 msgid "left ."
 msgstr "Левая ."
 
-#: kilestdactions.cpp:402
+#: kilestdactions.cpp:403
 #, kde-format
 msgid "Right Delimiter"
 msgstr "Правый разделитель"
 
-#: kilestdactions.cpp:404
+#: kilestdactions.cpp:405
 #, kde-format
 msgid "right )"
 msgstr "Правая )"
 
-#: kilestdactions.cpp:405
+#: kilestdactions.cpp:406
 #, kde-format
 msgid "right ]"
 msgstr "Правая ]"
 
-#: kilestdactions.cpp:406
+#: kilestdactions.cpp:407
 #, kde-format
 msgid "right }"
 msgstr "Правая }"
 
-#: kilestdactions.cpp:407
+#: kilestdactions.cpp:408
 #, kde-format
 msgid "right &gt;"
 msgstr "Правая &gt;"
 
-#: kilestdactions.cpp:409
+#: kilestdactions.cpp:410
 #, kde-format
 msgid "right ("
 msgstr "Правая ("
 
-#: kilestdactions.cpp:410
+#: kilestdactions.cpp:411
 #, kde-format
 msgid "right ["
 msgstr "Правая ["
 
-#: kilestdactions.cpp:411
+#: kilestdactions.cpp:412
 #, kde-format
 msgid "right {"
 msgstr "Правая {"
 
-#: kilestdactions.cpp:412
+#: kilestdactions.cpp:413
 #, kde-format
 msgid "right &lt;"
 msgstr "Правая &lt;"
 
-#: kilestdactions.cpp:414
+#: kilestdactions.cpp:415
 #, kde-format
 msgid "right ."
 msgstr "Правая ."
 
-#: kilestdactions.cpp:419
+#: kilestdactions.cpp:420
 #, kde-format
 msgid "Normal Binomial - \\binom{}{}"
 msgstr "Биномиальные коэффициенты — \\binom{}{}"
 
-#: kilestdactions.cpp:419
+#: kilestdactions.cpp:420
 #, kde-format
 msgid "Normal Binomial"
 msgstr "Биномиальные коэффициенты"
 
-#: kilestdactions.cpp:421
+#: kilestdactions.cpp:422
 #, kde-format
 msgid "Displaystyle Binomial - \\dbinom{}{}"
 msgstr "Выключные бином. коэффициенты — \\dbinom{}{}"
 
-#: kilestdactions.cpp:421
+#: kilestdactions.cpp:422
 #, kde-format
 msgid "Displaystyle Binomial"
 msgstr "Выключные бином. коэффициенты"
 
-#: kilestdactions.cpp:423
+#: kilestdactions.cpp:424
 #, kde-format
 msgid "Textstyle Binomial - \\tbinom{}{}"
 msgstr "Текстовые бином. коэффициенты — \\tbinom{}{}"
 
-#: kilestdactions.cpp:423
+#: kilestdactions.cpp:424
 #, kde-format
 msgid "Textstyle Binomial"
 msgstr "Текстовые бином. коэффициенты"
 
-#: kilestdactions.cpp:425
+#: kilestdactions.cpp:426
 #, kde-format
 msgid "N-th Root - \\sqrt[]{}"
 msgstr "Корень n-й степени — \\sqrt[]{}"
 
-#: kilestdactions.cpp:425
+#: kilestdactions.cpp:426
 #, kde-format
 msgid "N-th Root"
 msgstr "Корень n-й степени"
 
-#: kilestdactions.cpp:427
+#: kilestdactions.cpp:428
 #, kde-format
 msgid "Left-Right () - \\left(..\\right)"
 msgstr "Левая и правая () — \\left(..\\right)"
 
-#: kilestdactions.cpp:427
+#: kilestdactions.cpp:428
 #, kde-format
 msgid "Left-Right ()"
 msgstr "Левая и правая ()"
 
-#: kilestdactions.cpp:429
+#: kilestdactions.cpp:430
 #, kde-format
 msgid "Extendable Left Arrow - \\xleftarrow{}"
 msgstr "Расширяемая стрелка влево — \\xleftarrow{}"
 
-#: kilestdactions.cpp:429
+#: kilestdactions.cpp:430
 #, kde-format
 msgid "Extendable Left Arrow"
 msgstr "Расширяемая стрелка влево"
 
-#: kilestdactions.cpp:431
+#: kilestdactions.cpp:432
 #, kde-format
 msgid "Extendable Right Arrow - \\xrightarrow{}"
 msgstr "Расширяемая стрелка вправо — \\xrightarrow{}"
 
-#: kilestdactions.cpp:431
+#: kilestdactions.cpp:432
 #, kde-format
 msgid "Extendable Right Arrow"
 msgstr "Расширяемая стрелка вправо"
 
-#: kilestdactions.cpp:433
+#: kilestdactions.cpp:434
 #, kde-format
 msgid "Boxed Formula - \\boxed{}"
 msgstr "Формула в рамке — \\boxed{}"
 
-#: kilestdactions.cpp:433
+#: kilestdactions.cpp:434
 #, kde-format
 msgid "Boxed Formula"
 msgstr "Формула в рамке"
 
-#: kilestdactions.cpp:435
+#: kilestdactions.cpp:436
 #, kde-format
 msgid "bigl - \\bigl"
 msgstr "большой лев. знак — \\bigl"
 
-#: kilestdactions.cpp:435
+#: kilestdactions.cpp:436
 #, kde-format
 msgid "bigl"
 msgstr "большой лев. знак"
 
-#: kilestdactions.cpp:436
+#: kilestdactions.cpp:437
 #, kde-format
 msgid "Bigl - \\Bigl"
 msgstr "Большой лев. знак — \\Bigl"
 
-#: kilestdactions.cpp:436
+#: kilestdactions.cpp:437
 #, kde-format
 msgid "Bigl"
 msgstr "Большой лев. знак"
 
-#: kilestdactions.cpp:437
+#: kilestdactions.cpp:438
 #, kde-format
 msgid "biggl - \\biggl"
 msgstr "боольшой лев. знак — \\biggl"
 
-#: kilestdactions.cpp:437
+#: kilestdactions.cpp:438
 #, kde-format
 msgid "biggl"
 msgstr "боольшой лев. знак"
 
-#: kilestdactions.cpp:438
+#: kilestdactions.cpp:439
 #, kde-format
 msgid "Biggl - \\Biggl"
 msgstr "Боольшой лев. знак — \\Biggl"
 
-#: kilestdactions.cpp:438
+#: kilestdactions.cpp:439
 #, kde-format
 msgid "Biggl"
 msgstr "Боольшой лев. знак"
 
-#: kilestdactions.cpp:440
+#: kilestdactions.cpp:441
 #, kde-format
 msgid "bigr - \\bigr"
 msgstr "большой прав. знак — \\bigr"
 
-#: kilestdactions.cpp:440
+#: kilestdactions.cpp:441
 #, kde-format
 msgid "bigr"
 msgstr "большой прав. знак"
 
-#: kilestdactions.cpp:441
+#: kilestdactions.cpp:442
 #, kde-format
 msgid "Bigr - \\Bigr"
 msgstr "Большой прав. знак — \\Bigr"
 
-#: kilestdactions.cpp:441
+#: kilestdactions.cpp:442
 #, kde-format
 msgid "Bigr"
 msgstr "Большой прав. знак"
 
-#: kilestdactions.cpp:442
+#: kilestdactions.cpp:443
 #, kde-format
 msgid "biggr - \\biggr"
 msgstr "боольшой прав. знак — \\biggr"
 
-#: kilestdactions.cpp:442
+#: kilestdactions.cpp:443
 #, kde-format
 msgid "biggr"
 msgstr "боольшой прав. знак"
 
-#: kilestdactions.cpp:443
+#: kilestdactions.cpp:444
 #, kde-format
 msgid "Biggr - \\Biggr"
 msgstr "Боольшой прав. знак — \\Biggr"
 
-#: kilestdactions.cpp:443
+#: kilestdactions.cpp:444
 #, kde-format
 msgid "Biggr"
 msgstr "Боольшой прав. знак"
 
-#: kilestdactions.cpp:446
+#: kilestdactions.cpp:447
 #, kde-format
 msgid "Text in Mathmode - \\text{}"
 msgstr "Текст внутри мат. формулы — \\text{}"
 
-#: kilestdactions.cpp:446
+#: kilestdactions.cpp:447
 #, kde-format
 msgid "Text in Mathmode"
 msgstr "Текст внутри мат. формулы"
 
-#: kilestdactions.cpp:448
+#: kilestdactions.cpp:449
 #, kde-format
 msgid "Intertext - \\intertext{}"
 msgstr "Внутритекст — \\intertext{}"
 
-#: kilestdactions.cpp:448
+#: kilestdactions.cpp:449
 #, kde-format
 msgid "Intertext"
 msgstr "Внутритекст"
 
-#: kilestdactions.cpp:451
+#: kilestdactions.cpp:452
+#, fuzzy, kde-format
+#| msgid "Gather - \\begin{gather}"
+msgid "Math - \\begin{math}"
+msgstr "Собрать — \\begin{gather}"
+
+#: kilestdactions.cpp:454
 #, kde-format
 msgid "Displaymath - \\begin{displaymath}"
 msgstr "Выключная формула — \\begin{displaymath}"
 
-#: kilestdactions.cpp:451
+#: kilestdactions.cpp:454
 #, kde-format
 msgid "Displaymath"
 msgstr "Выключная формула"
 
-#: kilestdactions.cpp:453
+#: kilestdactions.cpp:456
 #, kde-format
 msgid "Equation (not numbered) - \\begin{equation*}"
 msgstr "Уравнение (без нумерации) — \\begin{equation*}"
 
-#: kilestdactions.cpp:453
+#: kilestdactions.cpp:456
 #, kde-format
 msgid "Equation (not numbered)"
 msgstr "Уравнение (без нумерации)"
 
-#: kilestdactions.cpp:456
+#: kilestdactions.cpp:459
 #, kde-format
 msgid "Multline - \\begin{multline}"
 msgstr "Многострочный текст — \\begin{multline}"
 
-#: kilestdactions.cpp:456
+#: kilestdactions.cpp:459
 #, kde-format
 msgid "Multline"
 msgstr "Многострочный текст"
 
-#: kilestdactions.cpp:457
+#: kilestdactions.cpp:460
 #, kde-format
 msgid "Multline* - \\begin{multline*}"
 msgstr "Многострочный текст* — \\begin{multline*}"
 
-#: kilestdactions.cpp:457
+#: kilestdactions.cpp:460
 #, kde-format
 msgid "Multline*"
 msgstr "Многострочный текст*"
 
-#: kilestdactions.cpp:459
+#: kilestdactions.cpp:462
 #, kde-format
 msgid "Split - \\begin{split}"
 msgstr "Разбить — \\begin{split}"
 
-#: kilestdactions.cpp:459
+#: kilestdactions.cpp:462
 #, kde-format
 msgid "Split"
 msgstr "Разбить"
 
-#: kilestdactions.cpp:461
+#: kilestdactions.cpp:464
 #, kde-format
 msgid "Gather - \\begin{gather}"
 msgstr "Собрать — \\begin{gather}"
 
-#: kilestdactions.cpp:461
+#: kilestdactions.cpp:464
 #, kde-format
 msgid "Gather"
 msgstr "Собрать"
 
-#: kilestdactions.cpp:462
+#: kilestdactions.cpp:465
 #, kde-format
 msgid "Gather* - \\begin{gather*}"
 msgstr "Собрать* — \\begin{gather*}"
 
-#: kilestdactions.cpp:462
+#: kilestdactions.cpp:465
 #, kde-format
 msgid "Gather*"
 msgstr "Собрать*"
 
-#: kilestdactions.cpp:464
+#: kilestdactions.cpp:467
 #, kde-format
 msgid "Align - \\begin{align}"
 msgstr "Выровнять — \\begin{align}"
 
-#: kilestdactions.cpp:464
+#: kilestdactions.cpp:467
 #, kde-format
 msgid "Align"
 msgstr "Выровнять"
 
-#: kilestdactions.cpp:465
+#: kilestdactions.cpp:468
 #, kde-format
 msgid "Align* - \\begin{align*}"
 msgstr "Выровнять* — \\begin{align*}"
 
-#: kilestdactions.cpp:465
+#: kilestdactions.cpp:468
 #, kde-format
 msgid "Align*"
 msgstr "Выровнять*"
 
-#: kilestdactions.cpp:467
+#: kilestdactions.cpp:470
 #, kde-format
 msgid "Flalign - \\begin{flalign}"
 msgstr "ВыровнятьПЛ — \\begin{flalign}"
 
-#: kilestdactions.cpp:467
+#: kilestdactions.cpp:470
 #, kde-format
 msgid "Flalign"
 msgstr "Выровнять первую строку влево"
 
-#: kilestdactions.cpp:468
+#: kilestdactions.cpp:471
 #, kde-format
 msgid "Flalign* - \\begin{flalign*}"
 msgstr "ВыровнятьПЛ* — \\begin{flalign*}"
 
-#: kilestdactions.cpp:468
+#: kilestdactions.cpp:471
 #, kde-format
 msgid "Flalign*"
 msgstr "Выровнять первую строку влево*"
 
-#: kilestdactions.cpp:470
+#: kilestdactions.cpp:473
 #, kde-format
 msgid "Alignat - \\begin{alignat}"
 msgstr "ВыровнятьН — \\begin{alignat}"
 
-#: kilestdactions.cpp:470
+#: kilestdactions.cpp:473
 #, kde-format
 msgid "Alignat"
 msgstr "Выровнять несколько столбцов"
 
-#: kilestdactions.cpp:471
+#: kilestdactions.cpp:474
 #, kde-format
 msgid "Alignat* - \\begin{alignat*}"
 msgstr "ВыровнятьН — \\begin{alignat}"
 
-#: kilestdactions.cpp:471
+#: kilestdactions.cpp:474
 #, kde-format
 msgid "Alignat*"
 msgstr "Выровнять несколько столбцов*"
 
-#: kilestdactions.cpp:473
+#: kilestdactions.cpp:476
 #, kde-format
 msgid "Aligned - \\begin{aligned}"
 msgstr "Выровнено — \\begin{aligned}"
 
-#: kilestdactions.cpp:473
+#: kilestdactions.cpp:476
 #, kde-format
 msgid "Aligned"
 msgstr "Выровнено"
 
-#: kilestdactions.cpp:474
+#: kilestdactions.cpp:477
 #, kde-format
 msgid "Gathered - \\begin{gathered}"
 msgstr "Собрано — \\begin{gathered}"
 
-#: kilestdactions.cpp:474
+#: kilestdactions.cpp:477
 #, kde-format
 msgid "Gathered"
 msgstr "Собрано"
 
-#: kilestdactions.cpp:475
+#: kilestdactions.cpp:478
 #, kde-format
 msgid "Alignedat - \\begin{alignedat}"
 msgstr "ВыровненоН — \\begin{alignedat}"
 
-#: kilestdactions.cpp:475
+#: kilestdactions.cpp:478
 #, kde-format
 msgid "Alignedat"
 msgstr "Выровнено несколько столбцов"
 
-#: kilestdactions.cpp:477
+#: kilestdactions.cpp:480
 #, kde-format
 msgid "Cases - \\begin{cases}"
 msgstr "Варианты — \\begin{cases}"
 
-#: kilestdactions.cpp:477
+#: kilestdactions.cpp:480
 #, kde-format
 msgid "Cases"
 msgstr "Варианты"
 
-#: kilestdactions.cpp:479
+#: kilestdactions.cpp:482
 #, kde-format
 msgid "matrix - \\begin{matrix}"
 msgstr "Матрица — \\begin{matrix}"
 
-#: kilestdactions.cpp:479
+#: kilestdactions.cpp:482
 #, kde-format
 msgid "matrix"
 msgstr "Матрица"
 
-#: kilestdactions.cpp:480
+#: kilestdactions.cpp:483
 #, kde-format
 msgid "pmatrix - \\begin{pmatrix}"
 msgstr "(Матрица) — \\begin{pmatrix}"
 
-#: kilestdactions.cpp:480
+#: kilestdactions.cpp:483
 #, kde-format
 msgid "pmatrix"
 msgstr "(Матрица)"
 
-#: kilestdactions.cpp:481
+#: kilestdactions.cpp:484
 #, kde-format
 msgid "vmatrix - \\begin{vmatrix}"
 msgstr "|Матрица| — \\begin{vmatrix}"
 
-#: kilestdactions.cpp:481
+#: kilestdactions.cpp:484
 #, kde-format
 msgid "vmatrix"
 msgstr "|Матрица|"
 
-#: kilestdactions.cpp:482
+#: kilestdactions.cpp:485
 #, kde-format
 msgid "Vmatrix - \\begin{Vmatrix}"
 msgstr "||Матрица|| — \\begin{Vmatrix}"
 
-#: kilestdactions.cpp:482
+#: kilestdactions.cpp:485
 #, kde-format
 msgid "Vmatrix"
 msgstr "||Матрица||"
 
-#: kilestdactions.cpp:483
+#: kilestdactions.cpp:486
 #, kde-format
 msgid "bmatrix - \\begin{bmatrix}"
 msgstr "[Матрица] — \\begin{bmatrix}"
 
-#: kilestdactions.cpp:483
+#: kilestdactions.cpp:486
 #, kde-format
 msgid "bmatrix"
 msgstr "[Матрица]"
 
-#: kilestdactions.cpp:484
+#: kilestdactions.cpp:487
 #, kde-format
 msgid "Bmatrix - \\begin{Bmatrix}"
 msgstr "{Матрица} — \\begin{Bmatrix}"
 
-#: kilestdactions.cpp:484
+#: kilestdactions.cpp:487
 #, kde-format
 msgid "Bmatrix"
 msgstr "{Матрица}"
+
+#: kilestdactions.cpp:490
+#, fuzzy, kde-format
+#| msgid "Gather - \\begin{gather}"
+msgid "dmath - \\begin{dmath}"
+msgstr "Собрать — \\begin{gather}"
+
+#: kilestdactions.cpp:490
+#, kde-format
+msgid "dmath"
+msgstr ""
+
+#: kilestdactions.cpp:491
+#, fuzzy, kde-format
+#| msgid "Gather* - \\begin{gather*}"
+msgid "dmath* - \\begin{dmath*}"
+msgstr "Собрать* — \\begin{gather*}"
+
+#: kilestdactions.cpp:491
+#, kde-format
+msgid "dmath*"
+msgstr ""
+
+#: kilestdactions.cpp:493
+#, fuzzy, kde-format
+#| msgid "Cases - \\begin{cases}"
+msgid "dseries - \\begin{dseries}"
+msgstr "Варианты — \\begin{cases}"
+
+#: kilestdactions.cpp:493
+#, fuzzy, kde-format
+#| msgid "Bold - \\bfseries"
+msgid "dseries"
+msgstr "Полужирный — \\bfseries"
+
+#: kilestdactions.cpp:494
+#, fuzzy, kde-format
+#| msgid "Verse - \\begin{verse}"
+msgid "dseries* - \\begin{dseries*}"
+msgstr "Стихи — \\begin{verse}"
+
+#: kilestdactions.cpp:494
+#, kde-format
+msgid "dseries*"
+msgstr ""
+
+#: kilestdactions.cpp:496
+#, fuzzy, kde-format
+#| msgid "Figure - \\begin{figure}"
+msgid "dgroup - \\begin{dgroup}"
+msgstr "Врезка — \\begin{figure}"
+
+#: kilestdactions.cpp:496
+#, fuzzy, kde-format
+#| msgid "Mathgroup"
+msgid "dgroup"
+msgstr "Математическая группа"
+
+#: kilestdactions.cpp:497
+#, fuzzy, kde-format
+#| msgid "Gather* - \\begin{gather*}"
+msgid "dgroup* - \\begin{dgroup*}"
+msgstr "Собрать* — \\begin{gather*}"
+
+#: kilestdactions.cpp:497
+#, fuzzy, kde-format
+#| msgid "Mathgroup"
+msgid "dgroup*"
+msgstr "Математическая группа"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-07 00:38+0000\n"
+"POT-Creation-Date: 2024-04-15 00:38+0000\n"
 "PO-Revision-Date: 2022-11-12 08:09+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <kde-i18n-doc@kde.org>\n"
@@ -1234,7 +1234,7 @@ msgstr "Matematic AMS"
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1029 kileui.rc:569
+#: kile.cpp:1029 kilestdactions.cpp:452 kileui.rc:569
 #, kde-format
 msgid "Math"
 msgstr "Matematic"
@@ -6017,7 +6017,7 @@ msgstr "Biblatex"
 msgid "Quick Start"
 msgstr "&Rapid"
 
-#: kile.cpp:1026 kilestdactions.cpp:384
+#: kile.cpp:1026 kilestdactions.cpp:385
 #, kde-format
 msgid "Array"
 msgstr "Vector"
@@ -9000,107 +9000,113 @@ msgstr "\\qquad"
 msgid "Math Mode - $...$"
 msgstr "Mode matematic - $...$"
 
-#: kilestdactions.cpp:373
+#: kilestdactions.cpp:373 kilestdactions.cpp:374
 #, kde-format
 msgid "Math Mode"
 msgstr "Mode matematic"
 
 #: kilestdactions.cpp:374
 #, fuzzy, kde-format
+#| msgid "Math Mode - $...$"
+msgid "Math Mode - \\(...\\)"
+msgstr "Mode matematic - $...$"
+
+#: kilestdactions.cpp:375
+#, fuzzy, kde-format
 msgid "Displaymath Mode - \\[...\\]"
 msgstr "Mode: "
 
-#: kilestdactions.cpp:374
+#: kilestdactions.cpp:375
 #, fuzzy, kde-format
 msgid "Displaymath Mode"
 msgstr "Mode: "
 
-#: kilestdactions.cpp:375
+#: kilestdactions.cpp:376
 #, fuzzy, kde-format
 msgid "Equation - \\begin{equation}"
 msgstr "Ples provider li formul de plural-forme"
 
-#: kilestdactions.cpp:375
+#: kilestdactions.cpp:376
 #, fuzzy, kde-format
 msgid "Equation"
 msgstr "Ples provider li formul de plural-forme"
 
-#: kilestdactions.cpp:376
+#: kilestdactions.cpp:377
 #, kde-format
 msgid "Subscript - _{}"
 msgstr "Subscrition - _{}"
 
-#: kilestdactions.cpp:376
+#: kilestdactions.cpp:377
 #, kde-format
 msgid "Subscript"
 msgstr "Subscrition"
 
-#: kilestdactions.cpp:377
+#: kilestdactions.cpp:378
 #, kde-format
 msgid "Superscript - ^{}"
 msgstr "Superscrition - ^{}"
 
-#: kilestdactions.cpp:377
+#: kilestdactions.cpp:378
 #, kde-format
 msgid "Superscript"
 msgstr "Superscrition"
 
-#: kilestdactions.cpp:378
+#: kilestdactions.cpp:379
 #, fuzzy, kde-format
 msgid "Normal Fraction - \\frac{}{}"
 msgstr "Fraction"
 
-#: kilestdactions.cpp:378
+#: kilestdactions.cpp:379
 #, fuzzy, kde-format
 msgid "Normal Fraction"
 msgstr "Fraction"
 
-#: kilestdactions.cpp:379
+#: kilestdactions.cpp:380
 #, fuzzy, kde-format
 msgid "Displaystyle Fraction - \\dfrac{}{}"
 msgstr "Fraction"
 
-#: kilestdactions.cpp:379
+#: kilestdactions.cpp:380
 #, fuzzy, kde-format
 msgid "Displaystyle Fraction"
 msgstr "Fraction"
 
-#: kilestdactions.cpp:380
+#: kilestdactions.cpp:381
 #, fuzzy, kde-format
 msgid "Textstyle Fraction - \\tfrac{}{}"
 msgstr "Fraction"
 
-#: kilestdactions.cpp:380
+#: kilestdactions.cpp:381
 #, fuzzy, kde-format
 msgid "Textstyle Fraction"
 msgstr "Fraction"
 
-#: kilestdactions.cpp:381
+#: kilestdactions.cpp:382
 #, kde-format
 msgid "Square Root - \\sqrt{}"
 msgstr "Radica quadratic - \\sqrt{}"
 
-#: kilestdactions.cpp:381
+#: kilestdactions.cpp:382
 #, kde-format
 msgid "Square Root"
 msgstr "Radica quadratic"
 
-#: kilestdactions.cpp:382
+#: kilestdactions.cpp:383
 #, fuzzy, kde-format
 msgid "\\left"
 msgstr "A _levul"
 
-#: kilestdactions.cpp:383
+#: kilestdactions.cpp:384
 #, fuzzy, kde-format
 msgid "\\right"
 msgstr "A _dextri"
 
-#: kilestdactions.cpp:384
+#: kilestdactions.cpp:385
 #, kde-format
 msgid "Array - \\begin{array}"
 msgstr "Vector - \\begin{array}"
 
-#: kilestdactions.cpp:385
+#: kilestdactions.cpp:386
 #, kde-format
 msgid ""
 "\\begin{array}{col1col2...coln}\n"
@@ -9114,515 +9120,584 @@ msgid ""
 "     r -- for flush right\n"
 msgstr ""
 
-#: kilestdactions.cpp:388
+#: kilestdactions.cpp:389
 #, fuzzy, kde-format
 msgid "Left Delimiter"
 msgstr "Delimitator CDATA"
 
-#: kilestdactions.cpp:390
+#: kilestdactions.cpp:391
 #, kde-format
 msgid "left ("
 msgstr "levul ("
 
-#: kilestdactions.cpp:391
+#: kilestdactions.cpp:392
 #, kde-format
 msgid "left ["
 msgstr "levul ["
 
-#: kilestdactions.cpp:392
+#: kilestdactions.cpp:393
 #, kde-format
 msgid "left {"
 msgstr "levul {"
 
-#: kilestdactions.cpp:393
+#: kilestdactions.cpp:394
 #, kde-format
 msgid "left &lt;"
 msgstr "levul &lt;"
 
-#: kilestdactions.cpp:395
+#: kilestdactions.cpp:396
 #, kde-format
 msgid "left )"
 msgstr "levul )"
 
-#: kilestdactions.cpp:396
+#: kilestdactions.cpp:397
 #, kde-format
 msgid "left ]"
 msgstr "levul ]"
 
-#: kilestdactions.cpp:397
+#: kilestdactions.cpp:398
 #, kde-format
 msgid "left }"
 msgstr "levul }"
 
-#: kilestdactions.cpp:398
+#: kilestdactions.cpp:399
 #, kde-format
 msgid "left &gt;"
 msgstr "levul &gt;"
 
-#: kilestdactions.cpp:400
+#: kilestdactions.cpp:401
 #, kde-format
 msgid "left ."
 msgstr "levul ."
 
-#: kilestdactions.cpp:402
+#: kilestdactions.cpp:403
 #, fuzzy, kde-format
 msgid "Right Delimiter"
 msgstr "Delimitator CDATA"
 
-#: kilestdactions.cpp:404
+#: kilestdactions.cpp:405
 #, kde-format
 msgid "right )"
 msgstr "dextri )"
 
-#: kilestdactions.cpp:405
+#: kilestdactions.cpp:406
 #, kde-format
 msgid "right ]"
 msgstr "dextri ]"
 
-#: kilestdactions.cpp:406
+#: kilestdactions.cpp:407
 #, kde-format
 msgid "right }"
 msgstr "dextri }"
 
-#: kilestdactions.cpp:407
+#: kilestdactions.cpp:408
 #, kde-format
 msgid "right &gt;"
 msgstr "dextri &gt;"
 
-#: kilestdactions.cpp:409
+#: kilestdactions.cpp:410
 #, kde-format
 msgid "right ("
 msgstr "dextri ("
 
-#: kilestdactions.cpp:410
+#: kilestdactions.cpp:411
 #, kde-format
 msgid "right ["
 msgstr "dextri {"
 
-#: kilestdactions.cpp:411
+#: kilestdactions.cpp:412
 #, kde-format
 msgid "right {"
 msgstr "dextri {"
 
-#: kilestdactions.cpp:412
+#: kilestdactions.cpp:413
 #, fuzzy, kde-format
 msgid "right &lt;"
 msgstr "A dextri"
 
-#: kilestdactions.cpp:414
+#: kilestdactions.cpp:415
 #, kde-format
 msgid "right ."
 msgstr "dextri ."
 
-#: kilestdactions.cpp:419
+#: kilestdactions.cpp:420
 #, fuzzy, kde-format
 msgid "Normal Binomial - \\binom{}{}"
 msgstr "_Normal"
 
-#: kilestdactions.cpp:419
+#: kilestdactions.cpp:420
 #, fuzzy, kde-format
 msgid "Normal Binomial"
 msgstr "_Normal"
 
-#: kilestdactions.cpp:421
+#: kilestdactions.cpp:422
 #, kde-format
 msgid "Displaystyle Binomial - \\dbinom{}{}"
 msgstr ""
 
-#: kilestdactions.cpp:421
+#: kilestdactions.cpp:422
 #, kde-format
 msgid "Displaystyle Binomial"
 msgstr ""
 
-#: kilestdactions.cpp:423
+#: kilestdactions.cpp:424
 #, kde-format
 msgid "Textstyle Binomial - \\tbinom{}{}"
 msgstr ""
 
-#: kilestdactions.cpp:423
+#: kilestdactions.cpp:424
 #, kde-format
 msgid "Textstyle Binomial"
 msgstr ""
 
-#: kilestdactions.cpp:425
+#: kilestdactions.cpp:426
 #, fuzzy, kde-format
 msgid "N-th Root - \\sqrt[]{}"
 msgstr "Radica quadratic - \\sqrt{}"
 
-#: kilestdactions.cpp:425
+#: kilestdactions.cpp:426
 #, fuzzy, kde-format
 msgid "N-th Root"
 msgstr "<th>Files:</th>"
 
-#: kilestdactions.cpp:427
+#: kilestdactions.cpp:428
 #, fuzzy, kde-format
 msgid "Left-Right () - \\left(..\\right)"
 msgstr "Dextri-a-levul, FQDN prim"
 
-#: kilestdactions.cpp:427
+#: kilestdactions.cpp:428
 #, fuzzy, kde-format
 msgid "Left-Right ()"
 msgstr "Levul, dextri"
 
-#: kilestdactions.cpp:429
+#: kilestdactions.cpp:430
 #, kde-format
 msgid "Extendable Left Arrow - \\xleftarrow{}"
 msgstr ""
 
-#: kilestdactions.cpp:429
+#: kilestdactions.cpp:430
 #, fuzzy, kde-format
 msgid "Extendable Left Arrow"
 msgstr "Extensibil"
 
-#: kilestdactions.cpp:431
+#: kilestdactions.cpp:432
 #, kde-format
 msgid "Extendable Right Arrow - \\xrightarrow{}"
 msgstr ""
 
-#: kilestdactions.cpp:431
+#: kilestdactions.cpp:432
 #, fuzzy, kde-format
 msgid "Extendable Right Arrow"
 msgstr "Extensibil"
 
-#: kilestdactions.cpp:433
+#: kilestdactions.cpp:434
 #, fuzzy, kde-format
 msgid "Boxed Formula - \\boxed{}"
 msgstr "Redactor de formulas"
 
-#: kilestdactions.cpp:433
+#: kilestdactions.cpp:434
 #, fuzzy, kde-format
 msgid "Boxed Formula"
 msgstr "Redactor de formulas"
 
-#: kilestdactions.cpp:435
+#: kilestdactions.cpp:436
 #, kde-format
 msgid "bigl - \\bigl"
 msgstr "bigl - \\bigl"
 
-#: kilestdactions.cpp:435
+#: kilestdactions.cpp:436
 #, kde-format
 msgid "bigl"
 msgstr "bigl"
 
-#: kilestdactions.cpp:436
+#: kilestdactions.cpp:437
 #, kde-format
 msgid "Bigl - \\Bigl"
 msgstr "Bigl - \\Bigl"
 
-#: kilestdactions.cpp:436
+#: kilestdactions.cpp:437
 #, kde-format
 msgid "Bigl"
 msgstr "Bigl"
 
-#: kilestdactions.cpp:437
+#: kilestdactions.cpp:438
 #, kde-format
 msgid "biggl - \\biggl"
 msgstr "biggl - \\biggl"
 
-#: kilestdactions.cpp:437
+#: kilestdactions.cpp:438
 #, kde-format
 msgid "biggl"
 msgstr "biggl"
 
-#: kilestdactions.cpp:438
+#: kilestdactions.cpp:439
 #, kde-format
 msgid "Biggl - \\Biggl"
 msgstr "Biggl - \\Biggl"
 
-#: kilestdactions.cpp:438
+#: kilestdactions.cpp:439
 #, kde-format
 msgid "Biggl"
 msgstr "Biggl"
 
-#: kilestdactions.cpp:440
+#: kilestdactions.cpp:441
 #, kde-format
 msgid "bigr - \\bigr"
 msgstr "bigr - \\bigr"
 
-#: kilestdactions.cpp:440
+#: kilestdactions.cpp:441
 #, kde-format
 msgid "bigr"
 msgstr "bigr"
 
-#: kilestdactions.cpp:441
+#: kilestdactions.cpp:442
 #, kde-format
 msgid "Bigr - \\Bigr"
 msgstr "Bigr - \\Bigr"
 
-#: kilestdactions.cpp:441
+#: kilestdactions.cpp:442
 #, kde-format
 msgid "Bigr"
 msgstr "Bigr"
 
-#: kilestdactions.cpp:442
+#: kilestdactions.cpp:443
 #, kde-format
 msgid "biggr - \\biggr"
 msgstr "biggr - \\biggr"
 
-#: kilestdactions.cpp:442
+#: kilestdactions.cpp:443
 #, kde-format
 msgid "biggr"
 msgstr "biggr"
 
-#: kilestdactions.cpp:443
+#: kilestdactions.cpp:444
 #, kde-format
 msgid "Biggr - \\Biggr"
 msgstr "Biggr - \\Biggr"
 
-#: kilestdactions.cpp:443
+#: kilestdactions.cpp:444
 #, kde-format
 msgid "Biggr"
 msgstr "Biggr"
 
-#: kilestdactions.cpp:446
+#: kilestdactions.cpp:447
 #, fuzzy, kde-format
 msgid "Text in Mathmode - \\text{}"
 msgstr "Sin textu"
 
-#: kilestdactions.cpp:446
+#: kilestdactions.cpp:447
 #, fuzzy, kde-format
 msgid "Text in Mathmode"
 msgstr "Sin textu"
 
-#: kilestdactions.cpp:448
+#: kilestdactions.cpp:449
 #, kde-format
 msgid "Intertext - \\intertext{}"
 msgstr ""
 
-#: kilestdactions.cpp:448
+#: kilestdactions.cpp:449
 #, kde-format
 msgid "Intertext"
 msgstr ""
 
-#: kilestdactions.cpp:451
+#: kilestdactions.cpp:452
+#, fuzzy, kde-format
+msgid "Math - \\begin{math}"
+msgstr "Comense:"
+
+#: kilestdactions.cpp:454
 #, fuzzy, kde-format
 msgid "Displaymath - \\begin{displaymath}"
 msgstr "Comensar li sercha"
 
-#: kilestdactions.cpp:451
+#: kilestdactions.cpp:454
 #, kde-format
 msgid "Displaymath"
 msgstr ""
 
-#: kilestdactions.cpp:453
+#: kilestdactions.cpp:456
 #, fuzzy, kde-format
 msgid "Equation (not numbered) - \\begin{equation*}"
 msgstr "Ples provider li formul de plural-forme"
 
-#: kilestdactions.cpp:453
+#: kilestdactions.cpp:456
 #, fuzzy, kde-format
 msgid "Equation (not numbered)"
 msgstr "_Numerat liste"
 
-#: kilestdactions.cpp:456
+#: kilestdactions.cpp:459
 #, fuzzy, kde-format
 msgid "Multline - \\begin{multline}"
 msgstr "Comensar li sercha"
 
-#: kilestdactions.cpp:456
+#: kilestdactions.cpp:459
 #, kde-format
 msgid "Multline"
 msgstr ""
 
-#: kilestdactions.cpp:457
+#: kilestdactions.cpp:460
 #, fuzzy, kde-format
 msgid "Multline* - \\begin{multline*}"
 msgstr "Comensar li sercha"
 
-#: kilestdactions.cpp:457
+#: kilestdactions.cpp:460
 #, kde-format
 msgid "Multline*"
 msgstr ""
 
-#: kilestdactions.cpp:459
+#: kilestdactions.cpp:462
 #, fuzzy, kde-format
 msgid "Split - \\begin{split}"
 msgstr "_Separar"
 
-#: kilestdactions.cpp:459
+#: kilestdactions.cpp:462
 #, fuzzy, kde-format
 msgid "Split"
 msgstr "Fender"
 
-#: kilestdactions.cpp:461
+#: kilestdactions.cpp:464
 #, fuzzy, kde-format
 msgid "Gather - \\begin{gather}"
 msgstr "Comense:"
 
-#: kilestdactions.cpp:461
+#: kilestdactions.cpp:464
 #, kde-format
 msgid "Gather"
 msgstr ""
 
-#: kilestdactions.cpp:462
+#: kilestdactions.cpp:465
 #, fuzzy, kde-format
 msgid "Gather* - \\begin{gather*}"
 msgstr "Comense:"
 
-#: kilestdactions.cpp:462
+#: kilestdactions.cpp:465
 #, kde-format
 msgid "Gather*"
 msgstr ""
 
-#: kilestdactions.cpp:464
+#: kilestdactions.cpp:467
 #, fuzzy, kde-format
 msgid "Align - \\begin{align}"
 msgstr "&Alignament:"
 
-#: kilestdactions.cpp:464
+#: kilestdactions.cpp:467
 #, fuzzy, kde-format
 msgid "Align"
 msgstr "Alignament"
 
-#: kilestdactions.cpp:465
+#: kilestdactions.cpp:468
 #, fuzzy, kde-format
 msgid "Align* - \\begin{align*}"
 msgstr "&Alignament:"
 
-#: kilestdactions.cpp:465
+#: kilestdactions.cpp:468
 #, fuzzy, kde-format
 msgid "Align*"
 msgstr "&Alignament:"
 
-#: kilestdactions.cpp:467
+#: kilestdactions.cpp:470
 #, fuzzy, kde-format
 msgid "Flalign - \\begin{flalign}"
 msgstr "Comense:"
 
-#: kilestdactions.cpp:467
+#: kilestdactions.cpp:470
 #, kde-format
 msgid "Flalign"
 msgstr ""
 
-#: kilestdactions.cpp:468
+#: kilestdactions.cpp:471
 #, fuzzy, kde-format
 msgid "Flalign* - \\begin{flalign*}"
 msgstr "Comensar li sercha"
 
-#: kilestdactions.cpp:468
+#: kilestdactions.cpp:471
 #, kde-format
 msgid "Flalign*"
 msgstr ""
 
-#: kilestdactions.cpp:470
+#: kilestdactions.cpp:473
 #, fuzzy, kde-format
 msgid "Alignat - \\begin{alignat}"
 msgstr "Comense:"
 
-#: kilestdactions.cpp:470
+#: kilestdactions.cpp:473
 #, kde-format
 msgid "Alignat"
 msgstr ""
 
-#: kilestdactions.cpp:471
+#: kilestdactions.cpp:474
 #, fuzzy, kde-format
 msgid "Alignat* - \\begin{alignat*}"
 msgstr "Comensar li sercha"
 
-#: kilestdactions.cpp:471
+#: kilestdactions.cpp:474
 #, kde-format
 msgid "Alignat*"
 msgstr ""
 
-#: kilestdactions.cpp:473
+#: kilestdactions.cpp:476
 #, fuzzy, kde-format
 msgid "Aligned - \\begin{aligned}"
 msgstr "Man_tener alineament"
 
-#: kilestdactions.cpp:473
+#: kilestdactions.cpp:476
 #, fuzzy, kde-format
 msgid "Aligned"
 msgstr "Man_tener alineament"
 
-#: kilestdactions.cpp:474
+#: kilestdactions.cpp:477
 #, fuzzy, kde-format
 msgid "Gathered - \\begin{gathered}"
 msgstr "Comensar li sercha"
 
-#: kilestdactions.cpp:474
+#: kilestdactions.cpp:477
 #, kde-format
 msgid "Gathered"
 msgstr ""
 
-#: kilestdactions.cpp:475
+#: kilestdactions.cpp:478
 #, fuzzy, kde-format
 msgid "Alignedat - \\begin{alignedat}"
 msgstr "Comensar li sercha"
 
-#: kilestdactions.cpp:475
+#: kilestdactions.cpp:478
 #, kde-format
 msgid "Alignedat"
 msgstr ""
 
-#: kilestdactions.cpp:477
+#: kilestdactions.cpp:480
 #, fuzzy, kde-format
 msgid "Cases - \\begin{cases}"
 msgstr "Comense:"
 
-#: kilestdactions.cpp:477
+#: kilestdactions.cpp:480
 #, kde-format
 msgid "Cases"
 msgstr ""
 
-#: kilestdactions.cpp:479
+#: kilestdactions.cpp:482
 #, kde-format
 msgid "matrix - \\begin{matrix}"
 msgstr "matricie - \\begin{matrix}"
 
-#: kilestdactions.cpp:479
+#: kilestdactions.cpp:482
 #, kde-format
 msgid "matrix"
 msgstr "matricie"
 
-#: kilestdactions.cpp:480
+#: kilestdactions.cpp:483
 #, fuzzy, kde-format
 msgid "pmatrix - \\begin{pmatrix}"
 msgstr "Comense:"
 
-#: kilestdactions.cpp:480
+#: kilestdactions.cpp:483
 #, kde-format
 msgid "pmatrix"
 msgstr ""
 
-#: kilestdactions.cpp:481
+#: kilestdactions.cpp:484
 #, fuzzy, kde-format
 msgid "vmatrix - \\begin{vmatrix}"
 msgstr "Comense:"
 
-#: kilestdactions.cpp:481
+#: kilestdactions.cpp:484
 #, kde-format
 msgid "vmatrix"
 msgstr ""
 
-#: kilestdactions.cpp:482
+#: kilestdactions.cpp:485
 #, fuzzy, kde-format
 msgid "Vmatrix - \\begin{Vmatrix}"
 msgstr "Comense:"
 
-#: kilestdactions.cpp:482
+#: kilestdactions.cpp:485
 #, kde-format
 msgid "Vmatrix"
 msgstr ""
 
-#: kilestdactions.cpp:483
+#: kilestdactions.cpp:486
 #, fuzzy, kde-format
 msgid "bmatrix - \\begin{bmatrix}"
 msgstr "Comense:"
 
-#: kilestdactions.cpp:483
+#: kilestdactions.cpp:486
 #, kde-format
 msgid "bmatrix"
 msgstr ""
 
-#: kilestdactions.cpp:484
+#: kilestdactions.cpp:487
 #, fuzzy, kde-format
 msgid "Bmatrix - \\begin{Bmatrix}"
 msgstr "Comense:"
 
-#: kilestdactions.cpp:484
+#: kilestdactions.cpp:487
 #, kde-format
 msgid "Bmatrix"
 msgstr ""
+
+#: kilestdactions.cpp:490
+#, fuzzy, kde-format
+msgid "dmath - \\begin{dmath}"
+msgstr "Comense:"
+
+#: kilestdactions.cpp:490
+#, kde-format
+msgid "dmath"
+msgstr ""
+
+#: kilestdactions.cpp:491
+#, fuzzy, kde-format
+msgid "dmath* - \\begin{dmath*}"
+msgstr "Comense:"
+
+#: kilestdactions.cpp:491
+#, kde-format
+msgid "dmath*"
+msgstr ""
+
+#: kilestdactions.cpp:493
+#, fuzzy, kde-format
+msgid "dseries - \\begin{dseries}"
+msgstr "Comense:"
+
+#: kilestdactions.cpp:493
+#, fuzzy, kde-format
+#| msgid "Bold - \\bfseries"
+msgid "dseries"
+msgstr "Grass - \\bfseries"
+
+#: kilestdactions.cpp:494
+#, fuzzy, kde-format
+#| msgid "Verse - \\begin{verse}"
+msgid "dseries* - \\begin{dseries*}"
+msgstr "Strofe - \\begin{verse}"
+
+#: kilestdactions.cpp:494
+#, kde-format
+msgid "dseries*"
+msgstr ""
+
+#: kilestdactions.cpp:496
+#, fuzzy, kde-format
+msgid "dgroup - \\begin{dgroup}"
+msgstr "Illustration"
+
+#: kilestdactions.cpp:496
+#, fuzzy, kde-format
+#| msgid "Mathgroup"
+msgid "dgroup"
+msgstr "Mathgroup"
+
+#: kilestdactions.cpp:497
+#, fuzzy, kde-format
+msgid "dgroup* - \\begin{dgroup*}"
+msgstr "Comense:"
+
+#: kilestdactions.cpp:497
+#, fuzzy, kde-format
+#| msgid "Mathgroup"
+msgid "dgroup*"
+msgstr "Mathgroup"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330

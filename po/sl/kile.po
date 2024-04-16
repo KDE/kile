@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-15 00:38+0000\n"
-"PO-Revision-Date: 2023-11-06 10:04+0100\n"
+"PO-Revision-Date: 2024-04-15 06:54+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Lokalize 23.08.1\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Accelerator-Marker: ~\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
@@ -9565,20 +9565,19 @@ msgid "Math Mode"
 msgstr "Matematični način"
 
 #: kilestdactions.cpp:374
-#, fuzzy, kde-format
-#| msgid "Math Mode - $...$"
+#, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr "Matematični način - $...$"
+msgstr "Matematični način - \\(...\\)"
 
 #: kilestdactions.cpp:375
 #, kde-format
 msgid "Displaymath Mode - \\[...\\]"
-msgstr "Displaymath Mode - \\[...\\]"
+msgstr "Način Displaymath - \\[...\\]"
 
 #: kilestdactions.cpp:375
 #, kde-format
 msgid "Displaymath Mode"
-msgstr "Displaymath Mode - \\[...\\]"
+msgstr "Način Displaymath - \\[...\\]"
 
 #: kilestdactions.cpp:376
 #, kde-format
@@ -9968,10 +9967,9 @@ msgid "Intertext"
 msgstr "Intertext"
 
 #: kilestdactions.cpp:452
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "Math - \\begin{math}"
-msgstr "Gather - \\begin{gather}"
+msgstr "Math - \\begin{math}"
 
 #: kilestdactions.cpp:454
 #, kde-format
@@ -10204,73 +10202,64 @@ msgid "Bmatrix"
 msgstr "Bmatrix"
 
 #: kilestdactions.cpp:490
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "dmath - \\begin{dmath}"
-msgstr "Gather - \\begin{gather}"
+msgstr "dmath - \\begin{dmath}"
 
 #: kilestdactions.cpp:490
 #, kde-format
 msgid "dmath"
-msgstr ""
+msgstr "dmath"
 
 #: kilestdactions.cpp:491
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dmath* - \\begin{dmath*}"
-msgstr "Gather* - \\begin{gather*}"
+msgstr "dmath* - \\begin{dmath*}"
 
 #: kilestdactions.cpp:491
 #, kde-format
 msgid "dmath*"
-msgstr ""
+msgstr "dmath*"
 
 #: kilestdactions.cpp:493
-#, fuzzy, kde-format
-#| msgid "Cases - \\begin{cases}"
+#, kde-format
 msgid "dseries - \\begin{dseries}"
-msgstr "Cases - \\begin{cases}"
+msgstr "dseries - \\begin{dseries}"
 
 #: kilestdactions.cpp:493
-#, fuzzy, kde-format
-#| msgid "Bold - \\bfseries"
+#, kde-format
 msgid "dseries"
-msgstr "Krepko - \\bfseries"
+msgstr "dseries"
 
 #: kilestdactions.cpp:494
-#, fuzzy, kde-format
-#| msgid "Verse - \\begin{verse}"
+#, kde-format
 msgid "dseries* - \\begin{dseries*}"
-msgstr "Verz - \\begin{verse}"
+msgstr "dseries* - \\begin{dseries*}"
 
 #: kilestdactions.cpp:494
 #, kde-format
 msgid "dseries*"
-msgstr ""
+msgstr "dseries*"
 
 #: kilestdactions.cpp:496
-#, fuzzy, kde-format
-#| msgid "Figure - \\begin{figure}"
+#, kde-format
 msgid "dgroup - \\begin{dgroup}"
-msgstr "Slika - \\begin{figure}"
+msgstr "dgroup - \\begin{dgroup}"
 
 #: kilestdactions.cpp:496
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup"
-msgstr "Matematična grupa"
+msgstr "dgroup"
 
 #: kilestdactions.cpp:497
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dgroup* - \\begin{dgroup*}"
-msgstr "Gather* - \\begin{gather*}"
+msgstr "dgroup* - \\begin{dgroup*}"
 
 #: kilestdactions.cpp:497
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup*"
-msgstr "Matematična grupa"
+msgstr "dgroup*"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330

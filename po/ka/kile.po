@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-15 00:38+0000\n"
-"PO-Revision-Date: 2024-03-19 05:39+0100\n"
+"PO-Revision-Date: 2024-04-15 05:10+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -9376,10 +9376,9 @@ msgid "Math Mode"
 msgstr "მათ. რეჟიმი"
 
 #: kilestdactions.cpp:374
-#, fuzzy, kde-format
-#| msgid "Math Mode - $...$"
+#, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr "მათ. რეჟიმი - $...$"
+msgstr "მათ. რეჟიმი - \\(...\\)"
 
 #: kilestdactions.cpp:375
 #, kde-format
@@ -9771,10 +9770,9 @@ msgid "Intertext"
 msgstr "შიდატექსტი"
 
 #: kilestdactions.cpp:452
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "Math - \\begin{math}"
-msgstr "შეგროვება - \\begin{gather}"
+msgstr "მათემატიკა - \\begin{math}"
 
 #: kilestdactions.cpp:454
 #, kde-format
@@ -10007,73 +10005,64 @@ msgid "Bmatrix"
 msgstr "{მატრიცა}"
 
 #: kilestdactions.cpp:490
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "dmath - \\begin{dmath}"
-msgstr "შეგროვება - \\begin{gather}"
+msgstr "dmath - \\begin{dmath}"
 
 #: kilestdactions.cpp:490
 #, kde-format
 msgid "dmath"
-msgstr ""
+msgstr "dmath"
 
 #: kilestdactions.cpp:491
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dmath* - \\begin{dmath*}"
-msgstr "შეგროვება* - \\begin{gather*}"
+msgstr "dmath* - \\begin{dmath*}"
 
 #: kilestdactions.cpp:491
 #, kde-format
 msgid "dmath*"
-msgstr ""
+msgstr "dmath*"
 
 #: kilestdactions.cpp:493
-#, fuzzy, kde-format
-#| msgid "Cases - \\begin{cases}"
+#, kde-format
 msgid "dseries - \\begin{dseries}"
-msgstr "შემთხვევები - \\begin{cases}"
+msgstr "dseries - \\begin{dseries}"
 
 #: kilestdactions.cpp:493
-#, fuzzy, kde-format
-#| msgid "Bold - \\bfseries"
+#, kde-format
 msgid "dseries"
-msgstr "სქელი - \\bfseries"
+msgstr "dseries"
 
 #: kilestdactions.cpp:494
-#, fuzzy, kde-format
-#| msgid "Verse - \\begin{verse}"
+#, kde-format
 msgid "dseries* - \\begin{dseries*}"
-msgstr "ლექსი - \\begin{verse}"
+msgstr "dseries* - \\begin{dseries*}"
 
 #: kilestdactions.cpp:494
 #, kde-format
 msgid "dseries*"
-msgstr ""
+msgstr "dseries*"
 
 #: kilestdactions.cpp:496
-#, fuzzy, kde-format
-#| msgid "Figure - \\begin{figure}"
+#, kde-format
 msgid "dgroup - \\begin{dgroup}"
-msgstr "ფიგურა - \\begin{figure}"
+msgstr "dgroup - \\begin{dgroup}"
 
 #: kilestdactions.cpp:496
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup"
-msgstr "მათემატიკის ჯგუფი"
+msgstr "dgroup"
 
 #: kilestdactions.cpp:497
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dgroup* - \\begin{dgroup*}"
-msgstr "შეგროვება* - \\begin{gather*}"
+msgstr "dgroup* - \\begin{dgroup*}"
 
 #: kilestdactions.cpp:497
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup*"
-msgstr "მათემატიკის ჯგუფი"
+msgstr "dgroup*"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330

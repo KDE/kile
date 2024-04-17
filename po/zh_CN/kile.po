@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-15 00:38+0000\n"
-"PO-Revision-Date: 2024-04-12 19:12\n"
+"PO-Revision-Date: 2024-04-16 14:00\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -9350,10 +9350,9 @@ msgid "Math Mode"
 msgstr "数学模式"
 
 #: kilestdactions.cpp:374
-#, fuzzy, kde-format
-#| msgid "Math Mode - $...$"
+#, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr "数学模式 - $...$"
+msgstr ""
 
 #: kilestdactions.cpp:375
 #, kde-format
@@ -9753,10 +9752,9 @@ msgid "Intertext"
 msgstr "公式间文本"
 
 #: kilestdactions.cpp:452
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "Math - \\begin{math}"
-msgstr "居中对齐公式 - \\begin{gather}"
+msgstr ""
 
 #: kilestdactions.cpp:454
 #, kde-format
@@ -9989,10 +9987,9 @@ msgid "Bmatrix"
 msgstr "Bmatrix"
 
 #: kilestdactions.cpp:490
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "dmath - \\begin{dmath}"
-msgstr "居中对齐公式 - \\begin{gather}"
+msgstr ""
 
 #: kilestdactions.cpp:490
 #, kde-format
@@ -10000,10 +9997,9 @@ msgid "dmath"
 msgstr ""
 
 #: kilestdactions.cpp:491
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dmath* - \\begin{dmath*}"
-msgstr "无编号居中对齐公式 - \\begin{gather*}"
+msgstr ""
 
 #: kilestdactions.cpp:491
 #, kde-format
@@ -10011,22 +10007,19 @@ msgid "dmath*"
 msgstr ""
 
 #: kilestdactions.cpp:493
-#, fuzzy, kde-format
-#| msgid "Cases - \\begin{cases}"
+#, kde-format
 msgid "dseries - \\begin{dseries}"
-msgstr "分段定义 - \\begin{case}"
+msgstr ""
 
 #: kilestdactions.cpp:493
-#, fuzzy, kde-format
-#| msgid "Bold - \\bfseries"
+#, kde-format
 msgid "dseries"
-msgstr "粗体 - \\bfseries"
+msgstr ""
 
 #: kilestdactions.cpp:494
-#, fuzzy, kde-format
-#| msgid "Verse - \\begin{verse}"
+#, kde-format
 msgid "dseries* - \\begin{dseries*}"
-msgstr "韵文  - \\begin{verse}"
+msgstr ""
 
 #: kilestdactions.cpp:494
 #, kde-format
@@ -10034,28 +10027,24 @@ msgid "dseries*"
 msgstr ""
 
 #: kilestdactions.cpp:496
-#, fuzzy, kde-format
-#| msgid "Figure - \\begin{figure}"
+#, kde-format
 msgid "dgroup - \\begin{dgroup}"
-msgstr "插图 - \\begin{figure}"
+msgstr ""
 
 #: kilestdactions.cpp:496
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup"
-msgstr "数学组"
+msgstr ""
 
 #: kilestdactions.cpp:497
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dgroup* - \\begin{dgroup*}"
-msgstr "无编号居中对齐公式 - \\begin{gather*}"
+msgstr ""
 
 #: kilestdactions.cpp:497
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup*"
-msgstr "数学组"
+msgstr ""
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330

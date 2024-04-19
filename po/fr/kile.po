@@ -17,7 +17,7 @@
 # Sébastien Renard <Sebastien.Renard@digitalfox.org>, 2008, 2009.
 # Ludovic grossard <grossard@kde.org>, 2008, 2009, 2011, 2012, 2013, 2014, 2017.
 # Anne-Marie Mahfouf <annma@kde.org>, 2012.
-# SPDX-FileCopyrightText: 2012, 2014, 2021, 2022, 2023 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2012, 2014, 2021, 2022, 2023, 2024 Xavier Besnard <xavier.besnard@kde.org>
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019, 2020.
 # Xavier Besnard <xavier.besnard@kde.org>, 2023.
 #
@@ -27,15 +27,15 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-15 00:38+0000\n"
-"PO-Revision-Date: 2023-11-07 09:51+0100\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
-"Language-Team: French <kde-francophone@kde.org>\n"
+"PO-Revision-Date: 2024-04-17 09:34+0200\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
+"Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Lokalize 23.08.5\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -9801,10 +9801,9 @@ msgid "Math Mode"
 msgstr "Mode mathématiques"
 
 #: kilestdactions.cpp:374
-#, fuzzy, kde-format
-#| msgid "Math Mode - $...$"
+#, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr "Mode mathématiques - $...$"
+msgstr "Mode mathématiques - \\(...\\)"
 
 #: kilestdactions.cpp:375
 #, kde-format
@@ -10206,10 +10205,9 @@ msgid "Intertext"
 msgstr "Intertexte"
 
 #: kilestdactions.cpp:452
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "Math - \\begin{math}"
-msgstr "Regroupement - \\begin{gather}"
+msgstr "Math - \\begin{math}"
 
 #: kilestdactions.cpp:454
 #, kde-format
@@ -10442,73 +10440,64 @@ msgid "Bmatrix"
 msgstr "Bmatrix"
 
 #: kilestdactions.cpp:490
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "dmath - \\begin{dmath}"
-msgstr "Regroupement - \\begin{gather}"
+msgstr "dmath - \\begin{dmath}"
 
 #: kilestdactions.cpp:490
 #, kde-format
 msgid "dmath"
-msgstr ""
+msgstr "dmath"
 
 #: kilestdactions.cpp:491
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dmath* - \\begin{dmath*}"
-msgstr "Regroupement* - \\begin{gather*}"
+msgstr "dmath* - \\begin{dmath*}"
 
 #: kilestdactions.cpp:491
 #, kde-format
 msgid "dmath*"
-msgstr ""
+msgstr "dmath*"
 
 #: kilestdactions.cpp:493
-#, fuzzy, kde-format
-#| msgid "Cases - \\begin{cases}"
+#, kde-format
 msgid "dseries - \\begin{dseries}"
-msgstr "Cases - \\begin{cases}"
+msgstr "dseries - \\begin{dseries}"
 
 #: kilestdactions.cpp:493
-#, fuzzy, kde-format
-#| msgid "Bold - \\bfseries"
+#, kde-format
 msgid "dseries"
-msgstr "Gras - \\bfseries"
+msgstr "dseries"
 
 #: kilestdactions.cpp:494
-#, fuzzy, kde-format
-#| msgid "Verse - \\begin{verse}"
+#, kde-format
 msgid "dseries* - \\begin{dseries*}"
-msgstr "Poésie (vers) - \\begin{verse}"
+msgstr "dseries* - \\begin{dseries*}"
 
 #: kilestdactions.cpp:494
 #, kde-format
 msgid "dseries*"
-msgstr ""
+msgstr "dseries*"
 
 #: kilestdactions.cpp:496
-#, fuzzy, kde-format
-#| msgid "Figure - \\begin{figure}"
+#, kde-format
 msgid "dgroup - \\begin{dgroup}"
-msgstr "Figure - \\begin{figure}"
+msgstr "dgroup - \\begin{dgroup}"
 
 #: kilestdactions.cpp:496
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup"
-msgstr "Groupe mathématique"
+msgstr "dgroup"
 
 #: kilestdactions.cpp:497
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dgroup* - \\begin{dgroup*}"
-msgstr "Regroupement* - \\begin{gather*}"
+msgstr "dgroup* - \\begin{dgroup*}"
 
 #: kilestdactions.cpp:497
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup*"
-msgstr "Groupe mathématique"
+msgstr "dgroup*"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330

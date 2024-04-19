@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-15 00:38+0000\n"
-"PO-Revision-Date: 2024-04-05 23:28+0900\n"
+"PO-Revision-Date: 2024-04-19 03:00+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -131,15 +131,11 @@ msgid "Source Specials Switch"
 msgstr "來源特別切換"
 
 #: configtester.cpp:519
-#, fuzzy, kde-format
-#| msgid ""
-#| "Supported, use the 'Modern' configuration for (La)TeX and PDF(La)TeX to "
-#| "auto-enable inverse and forward search capabilities."
+#, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
 "and forward search capabilities."
-msgstr ""
-"支援，用「現代」的 (La)TeX 與 PDF(La)TeX 設定來自動開啟往前或往後搜尋功能。"
+msgstr "支援，用 (La)TeX 的「現代」設定來自動開啟往前或往後搜尋功能。"
 
 #: configtester.cpp:526
 #, kde-format
@@ -155,15 +151,12 @@ msgid "SyncTeX Support"
 msgstr "文稿支援"
 
 #: configtester.cpp:546
-#, fuzzy, kde-format
-#| msgid ""
-#| "Supported, use the 'Modern' configuration for (La)TeX and PDF(La)TeX to "
-#| "auto-enable inverse and forward search capabilities."
+#, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
 "enable inverse and forward search capabilities."
 msgstr ""
-"支援，用「現代」的 (La)TeX 與 PDF(La)TeX 設定來自動開啟往前或往後搜尋功能。"
+"支援，用 PDFLaTeX 及 XeLaTeX 的「現代」設定來自動開啟往前或往後搜尋功能。"
 
 #: configtester.cpp:553
 #, fuzzy, kde-format
@@ -497,7 +490,7 @@ msgstr "圖形"
 #: dialogs/configurationdialog.cpp:309 widgets/structureviewconfigwidget.ui:26
 #, kde-format
 msgid "Structure View"
-msgstr "結構化檢視"
+msgstr "結構檢視"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetSymbolViewConfig)
 #: dialogs/configurationdialog.cpp:316 widgets/symbolviewconfigwidget.ui:14
@@ -651,16 +644,7 @@ msgid ""
 msgstr "請在此輸入要搜尋的檔案名稱樣式。您可以用逗號來區隔多個樣式。"
 
 #: dialogs/findfilesdialog.cpp:284
-#, fuzzy, kde-format
-#| msgid ""
-#| "Choose one search mode. For the first modes, the search pattern is build "
-#| "from the editable template, where '%s' is replaced by the given pattern."
-#| "<br><br>There are additional fixed predefined modes for environments, "
-#| "graphics, labels, references and input files. If the pattern is empty, "
-#| "Kile will search for all commands of this mode. If a pattern is given, it "
-#| "will be inserted as a parameter. For example, in environment mode with "
-#| "pattern 'center', Kile will search for '\\begin{center}', and in graphics "
-#| "mode with pattern '.*\\.png', Kile will search for all png files."
+#, kde-format
 msgid ""
 "Choose one search mode. For the first modes, the search pattern is built "
 "from the editable template, where '%s' is replaced by the given pattern."
@@ -1344,8 +1328,7 @@ msgid "References"
 msgstr "參考"
 
 #: dialogs/latexcommanddialog.cpp:396
-#, fuzzy, kde-format
-#| msgid "Bibliography"
+#, kde-format
 msgid "Bibliographies"
 msgstr "參考書目"
 
@@ -2083,7 +2066,7 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog.cpp:419
 #, kde-format
 msgid "PDFTK-Password"
-msgstr ""
+msgstr "PDFTK 密碼"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:420
 #, kde-format
@@ -2092,11 +2075,14 @@ msgid ""
 "Please enter the password for this PDF file\n"
 " or leave it blank to try another method: "
 msgstr ""
+"此 PDF 檔案已加密，而 'pdftk' 無法開啟它。\n"
+"請輸入這個 PDF 檔案的密碼，\n"
+"或是留空來嘗試別的方法："
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:566
 #, kde-format
 msgid "A password is necessary to set or change the current settings."
-msgstr ""
+msgstr "需要密碼才能調整或變更目前的設定。"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:570
 #, kde-format
@@ -2126,7 +2112,7 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog.cpp:587
 #, kde-format
 msgid "A password is necessary to rearrange pages."
-msgstr ""
+msgstr "需要密碼才能重新排序頁面。"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:588
 #, kde-format
@@ -2156,7 +2142,7 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog.cpp:597
 #, kde-format
 msgid "This wizard can't work, because no tool was found (see help section)."
-msgstr ""
+msgstr "沒有找到工具，因此這個精靈無法正常運作（請見說明區段）。"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:602
 #, kde-format
@@ -2194,12 +2180,12 @@ msgstr "參數："
 #: dialogs/pdf-wizard/pdfdialog.cpp:791
 #, kde-format
 msgid "All options for 'pdftk'"
-msgstr ""
+msgstr "所有 'pdftk' 的選項"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:796
 #, kde-format
 msgid "All options for 'pdfpages'"
-msgstr ""
+msgstr "所有 'pdfpages' 的選項"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:818
 #, kde-format
@@ -2320,7 +2306,7 @@ msgstr "重新安排檔案時發生錯誤。"
 #: dialogs/pdf-wizard/pdfdialog.cpp:1157
 #, kde-format
 msgid "Finished with an error (wrong password)"
-msgstr ""
+msgstr "完成但有錯誤（密碼錯誤）"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1160
 #, kde-format
@@ -2406,14 +2392,14 @@ msgid "This input file does not exist."
 msgstr "輸入檔不存在。"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1754
-#, fuzzy, kde-format
+#, kde-format
 msgid "No password is given."
-msgstr "沒有指定輸入檔。"
+msgstr "未提供密碼。"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1759
 #, kde-format
 msgid "The password should be at least 6 characters long."
-msgstr ""
+msgstr "密碼最少要有 6 個字元。"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
 #: dialogs/texdocumentationdialog.cpp:436
@@ -3849,17 +3835,17 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:1043
 #, kde-format
 msgid "Make bookmarks"
-msgstr ""
+msgstr "建立書籤"
 
 #: dialogs/quickdocumentdialog.cpp:1044
 #, kde-format
 msgid "Put section numbers in bookmarks"
-msgstr "在書簽中加入小節編號"
+msgstr "在書籤中加入章節編號"
 
 #: dialogs/quickdocumentdialog.cpp:1045
 #, kde-format
 msgid "Open up bookmark tree"
-msgstr "開啟書簽樹"
+msgstr "開啟書籤樹"
 
 #: dialogs/quickdocumentdialog.cpp:1046
 #, kde-format
@@ -4309,10 +4295,9 @@ msgstr "未命名的統計資訊"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/tabbingdialog_base.ui:29
-#, fuzzy, kde-format
-#| msgid "Num of &columns:"
+#, kde-format
 msgid "Number of &columns:"
-msgstr "欄數(&R)："
+msgstr "欄數(&C)："
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/tabbingdialog_base.ui:63
@@ -4661,10 +4646,9 @@ msgid "Reset list to all available documentation files."
 msgstr "重設目次以顯示所有可用檔案。"
 
 #: dialogs/texdocumentationdialog.cpp:91
-#, fuzzy, kde-format
-#| msgid "&Search"
+#, kde-format
 msgid "Cancel &Search"
-msgstr "搜尋(&S)"
+msgstr "取消搜尋(&S)"
 
 #: dialogs/texdocumentationdialog.cpp:138
 #, kde-format
@@ -4703,6 +4687,8 @@ msgid ""
 "Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'."
 "<br/>Unfortunately, Kile cannot show any useful information."
 msgstr ""
+"無法判斷 TexLive/teTeX 或是檔案「texdoctk.dat」的搜尋路徑。<br/>因此不幸地，"
+"Kile 無法顯示任何有用的資訊。"
 
 #: dialogs/texdocumentationdialog.cpp:437
 #, kde-format
@@ -5594,7 +5580,7 @@ msgstr "你必須引入套件 %1 以使用 %2。"
 msgid ""
 "The document was modified and the structure view should be updated, before "
 "starting such an operation."
-msgstr "文件已被修改，在執行這樣的操作之前應該更新結構檢視。"
+msgstr "文件已被修改，在執行這樣的操作之前應該先更新結構檢視。"
 
 #: editorextension.cpp:3502
 #, kde-format
@@ -5937,12 +5923,12 @@ msgstr "將分頁右移"
 #: kile.cpp:870
 #, kde-format
 msgid "Next section"
-msgstr "下一個小節"
+msgstr "下一個章節"
 
 #: kile.cpp:872
 #, kde-format
 msgid "Prev section"
-msgstr "前一個小節"
+msgstr "前一個章節"
 
 #: kile.cpp:874
 #, kde-format
@@ -6435,7 +6421,7 @@ msgstr ""
 #: kile.kcfg:61
 #, kde-format
 msgid "Show undefined references in the structure view"
-msgstr ""
+msgstr "在結構檢視中顯示未定義的參考"
 
 #. i18n: ectx: label, entry (SvShowBibitems), group (Structure)
 #: kile.kcfg:65
@@ -6465,7 +6451,7 @@ msgstr ""
 #: kile.kcfg:81
 #, kde-format
 msgid "Show labels as child of sectioning items in the structure view"
-msgstr ""
+msgstr "在結構檢視中將文字標籤作為分段項目的子項目顯示"
 
 #. i18n: ectx: label, entry (SvShowTodo), group (Structure)
 #: kile.kcfg:85
@@ -6483,7 +6469,7 @@ msgstr ""
 #: kile.kcfg:93
 #, kde-format
 msgid "Open the parent item for all undefined references in the structure view"
-msgstr ""
+msgstr "開啟結構檢視中所有未定義的參考的上層項目"
 
 #. i18n: ectx: label, entry (SvOpenBibitems), group (Structure)
 #: kile.kcfg:97
@@ -6827,16 +6813,15 @@ msgstr "預設解析度："
 
 #. i18n: ectx: label, entry (kilerefs), group (Help)
 #: kile.kcfg:306
-#, fuzzy, kde-format
-#| msgid "Use the &Kile LaTeX reference"
+#, kde-format
 msgid "Use the Kile LaTeX reference for the contextual help."
-msgstr "使用 Kile 的 LaTeX 參考(&K)"
+msgstr "為內文說明使用 Kile 的 LaTeX 參考。"
 
 #. i18n: ectx: label, entry (latex2erefs), group (Help)
 #: kile.kcfg:310
 #, kde-format
 msgid "Use the system's TexLive LaTeX2e reference for the contextual help."
-msgstr ""
+msgstr "為內文說明使用系統上的 TexLive LaTeX2e 的參考。"
 
 #. i18n: ectx: label, entry (Restore), group (Files)
 #: kile.kcfg:316
@@ -6871,10 +6856,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (DocumentClassOptions), group (User)
 #: kile.kcfg:350
-#, fuzzy, kde-format
-#| msgid "This document class option already exists."
+#, kde-format
 msgid "The Documentclass template variable."
-msgstr "此文件類別選項已存在。"
+msgstr "「文件類別」(Documentclass) 樣本變數。"
 
 #. i18n: ectx: label, entry (TemplateEncoding), group (User)
 #: kile.kcfg:354
@@ -8349,7 +8333,7 @@ msgstr ""
 #: kilestdactions.cpp:98 widgets/structurewidget.cpp:774
 #, kde-format
 msgid "Sectioning"
-msgstr ""
+msgstr "章節設定"
 
 #: kilestdactions.cpp:100
 #, kde-format
@@ -8392,11 +8376,13 @@ msgid ""
 "\\section*{title} : do not include a number and do not make an entry in the "
 "table of contents"
 msgstr ""
+"\\section{標題}\n"
+"\\section*{標題}：不要包含編號也不要在目錄中加入條目"
 
 #: kilestdactions.cpp:103
 #, kde-format
 msgid "&Section"
-msgstr "小節(&S)"
+msgstr "章節(&S)"
 
 #: kilestdactions.cpp:104
 #, kde-format
@@ -8405,11 +8391,13 @@ msgid ""
 "\\subsection*{title} : do not include a number and do not make an entry in "
 "the table of contents"
 msgstr ""
+"\\subsection{標題}\n"
+"\\subsection*{標題}：不要包含編號也不要在目錄中加入條目"
 
 #: kilestdactions.cpp:104
 #, kde-format
 msgid "&Subsection"
-msgstr ""
+msgstr "子章節(&S)"
 
 #: kilestdactions.cpp:105
 #, kde-format
@@ -8418,11 +8406,13 @@ msgid ""
 "\\subsubsection*{title} : do not include a number and do not make an entry "
 "in the table of contents"
 msgstr ""
+"\\subsubsection{標題}\n"
+"\\subsubsection*{標題}：不要包含編號也不要在目錄中加入條目"
 
 #: kilestdactions.cpp:105
 #, kde-format
 msgid "&Subsubsection"
-msgstr ""
+msgstr "子子章節(&S)"
 
 #: kilestdactions.cpp:107
 #, kde-format
@@ -8533,6 +8523,8 @@ msgid ""
 "the ref entry in the bib file\n"
 "You can open the bib file with Kile to see all the available references"
 msgstr ""
+"這個指令會在文內產生參考 bib 檔案內的項目的引用。\n"
+"您可以使用 Kile 開啟該 bib 檔案來看所有可用的參考文獻。"
 
 #: kilestdactions.cpp:136
 #, kde-format
@@ -10293,7 +10285,7 @@ msgstr "表格與清單"
 #: kileui.rc:228
 #, kde-format
 msgid "&Sectioning"
-msgstr "章節(&S)"
+msgstr "章節設定(&S)"
 
 #. i18n: ectx: Menu (references)
 #: kileui.rc:239
@@ -11398,31 +11390,27 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: widgets/generalconfigwidget.ui:74
-#, fuzzy, kde-format
-#| msgid "Environment Variables"
+#, kde-format
 msgid "Template Variables"
-msgstr "環境變數"
+msgstr "樣本變數"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: widgets/generalconfigwidget.ui:92
-#, fuzzy, kde-format
-#| msgid "Author:"
+#, kde-format
 msgid "A&uthor:"
-msgstr "作者："
+msgstr "作者(&U)："
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: widgets/generalconfigwidget.ui:105
-#, fuzzy, kde-format
-#| msgid "Doc&ument class:"
+#, kde-format
 msgid "Document c&lass options:"
-msgstr "文件類別(&U)："
+msgstr "文件類別選項(&L)："
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: widgets/generalconfigwidget.ui:118
-#, fuzzy, kde-format
-#| msgid "E&ncoding:"
+#, kde-format
 msgid "I&nput encoding:"
-msgstr "編碼(&N)："
+msgstr "輸入編碼(&N)："
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox4)
 #: widgets/generalconfigwidget.ui:134
@@ -11456,10 +11444,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolution)
 #: widgets/graphicsconfigwidget.ui:29
-#, fuzzy, kde-format
-#| msgid "Default resolution:"
+#, kde-format
 msgid "&Default resolution:"
-msgstr "預設解析度："
+msgstr "預設解析度(&D)："
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolutionHelp)
 #: widgets/graphicsconfigwidget.ui:51
@@ -11499,15 +11486,13 @@ msgstr "內文相關說明"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_latex2erefs)
 #: widgets/helpconfigwidget.ui:41
-#, fuzzy, kde-format
-#| msgid "Use the &Kile LaTeX reference"
+#, kde-format
 msgid "&Use the LaTeX2e unofficial reference manual"
-msgstr "使用 Kile 的 LaTeX 參考(&K)"
+msgstr "使用 LaTeX2e 非官方參考文件(&U)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_kilerefs)
 #: widgets/helpconfigwidget.ui:51
-#, fuzzy, kde-format
-#| msgid "Use the &Kile LaTeX reference"
+#, kde-format
 msgid "Use &Kile's LaTeX reference"
 msgstr "使用 Kile 的 LaTeX 參考(&K)"
 
@@ -11810,10 +11795,9 @@ msgstr "樣本"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: widgets/newdocumentwidget.ui:80
-#, fuzzy, kde-format
-#| msgid "Please select a template that should be removed."
+#, kde-format
 msgid "Please select the template that should be used:"
-msgstr "請選擇要移除的樣本。"
+msgstr "請選擇要使用的樣本："
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickStartWizardCheckBox)
 #: widgets/newdocumentwidget.ui:93
@@ -11897,9 +11881,9 @@ msgid "dvipng:"
 msgstr ""
 
 #: widgets/previewconfigwidget.cpp:99
-#, fuzzy, kde-format
+#, kde-format
 msgid "convert:"
-msgstr "轉換"
+msgstr "轉換："
 
 #: widgets/previewconfigwidget.cpp:127
 #, kde-format
@@ -11912,9 +11896,9 @@ msgid "Conversion to image:"
 msgstr ""
 
 #: widgets/previewconfigwidget.cpp:129
-#, fuzzy, kde-format
+#, kde-format
 msgid "Selection:"
-msgstr "選擇"
+msgstr "選取區："
 
 #: widgets/previewconfigwidget.cpp:130
 #, kde-format
@@ -11927,9 +11911,9 @@ msgid "Mathgroup:"
 msgstr "數學群組"
 
 #: widgets/previewconfigwidget.cpp:132
-#, fuzzy, kde-format
+#, kde-format
 msgid "Subdocument:"
-msgstr "子文件"
+msgstr "子文件："
 
 #: widgets/previewconfigwidget.cpp:133
 #, kde-format
@@ -12019,20 +12003,17 @@ msgid "Include in Archive"
 msgstr "包含入封存"
 
 #: widgets/projectview.cpp:468
-#, fuzzy, kde-format
-#| msgid "Project Files"
+#, kde-format
 msgid "Project File"
 msgstr "專案檔案"
 
 #: widgets/projectview.cpp:471
-#, fuzzy, kde-format
-#| msgid "&Packages"
+#, kde-format
 msgid "Packages"
-msgstr "套件(&P)"
+msgstr "套件"
 
 #: widgets/projectview.cpp:474
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "Images"
 msgstr "影像"
 
@@ -12204,9 +12185,9 @@ msgid "The shorter sequence \"%1\" is already assigned to the action \"%2\""
 msgstr "較短的快捷鍵「%1」已經指派給動作「%2」了"
 
 #: widgets/statisticswidget.cpp:44
-#, fuzzy, kde-format
+#, kde-format
 msgid "Characters"
-msgstr "字元數"
+msgstr "字元"
 
 #: widgets/statisticswidget.cpp:51
 #, kde-format
@@ -12266,10 +12247,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: widgets/structureviewconfigwidget.ui:52
-#, fuzzy, kde-format
-#| msgid "Default &value"
+#, kde-format
 msgid "&Default value"
-msgstr "預設值(&V)"
+msgstr "預設值(&D)"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2_2)
 #: widgets/structureviewconfigwidget.ui:112
@@ -12293,14 +12273,13 @@ msgstr ""
 #: widgets/structureviewconfigwidget.ui:151
 #, kde-format
 msgid "Show undefined references"
-msgstr ""
+msgstr "顯示未定義的參考"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenReferences)
 #: widgets/structureviewconfigwidget.ui:158
-#, fuzzy, kde-format
-#| msgid "References"
+#, kde-format
 msgid "Open references item"
-msgstr "參考"
+msgstr "開啟參考項目"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowBibitems)
 #: widgets/structureviewconfigwidget.ui:165
@@ -12336,10 +12315,9 @@ msgstr "使用圖形環境"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowGraphics)
 #: widgets/structureviewconfigwidget.ui:200
-#, fuzzy, kde-format
-#| msgid "graphics file"
+#, kde-format
 msgid "Show graphic files"
-msgstr "圖形檔"
+msgstr "顯示圖形檔"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowInputFiles)
 #: widgets/structureviewconfigwidget.ui:207
@@ -12349,10 +12327,9 @@ msgstr "顯示輸入檔"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowSectioningLabels)
 #: widgets/structureviewconfigwidget.ui:217
-#, fuzzy, kde-format
-#| msgid "Next section"
+#, kde-format
 msgid "No extra section for labels"
-msgstr "下一個小節"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/structureviewconfigwidget.ui:229
@@ -12414,7 +12391,7 @@ msgstr ""
 #, kde-format
 msgctxt "structure view entry: title (line)"
 msgid "%1 (line %2)"
-msgstr ""
+msgstr "%1（第 %2 行）"
 
 #: widgets/structurewidget.cpp:129
 #, kde-format
@@ -12429,12 +12406,12 @@ msgstr ""
 #: widgets/structurewidget.cpp:336
 #, kde-format
 msgid "BibTeX References"
-msgstr ""
+msgstr "BibTeX 參考"
 
 #: widgets/structurewidget.cpp:340
 #, kde-format
 msgid "Undefined References"
-msgstr ""
+msgstr "未定義的參考"
 
 #: widgets/structurewidget.cpp:344
 #, kde-format
@@ -12516,12 +12493,12 @@ msgstr "插入文字標籤"
 #: widgets/structurewidget.cpp:813
 #, kde-format
 msgid "As &reference"
-msgstr ""
+msgstr "作為參考(&R)"
 
 #: widgets/structurewidget.cpp:814
 #, kde-format
 msgid "As &page reference"
-msgstr ""
+msgstr "作為頁面參考(&P)"
 
 #: widgets/structurewidget.cpp:815
 #, kde-format
@@ -12536,12 +12513,12 @@ msgstr ""
 #: widgets/structurewidget.cpp:818
 #, kde-format
 msgid "As reference"
-msgstr ""
+msgstr "作為參考"
 
 #: widgets/structurewidget.cpp:819
 #, kde-format
 msgid "As page reference"
-msgstr ""
+msgstr "作為頁面參考"
 
 #: widgets/structurewidget.cpp:820
 #, kde-format
@@ -12554,10 +12531,9 @@ msgid "Command: %1"
 msgstr "指令：%1"
 
 #: widgets/symbolview.cpp:207
-#, fuzzy, kde-format
-#| msgid "Unicode"
+#, kde-format
 msgid "<br/>Unicode: %1"
-msgstr "萬國碼"
+msgstr "<br/>萬國碼：%1"
 
 #: widgets/symbolview.cpp:235
 #, kde-format
@@ -12572,10 +12548,9 @@ msgstr "註解：%1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: widgets/symbolviewconfigwidget.ui:28
-#, fuzzy, kde-format
-#| msgid "Most Frequently Used"
+#, kde-format
 msgid "Most Frequently Used Symbols"
-msgstr "最常使用的"
+msgstr "最常使用的符號"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayMFUS)
 #: widgets/symbolviewconfigwidget.ui:37

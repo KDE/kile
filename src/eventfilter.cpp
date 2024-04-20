@@ -106,7 +106,11 @@ bool LaTeXEventFilter::eventFilter(QObject* /* o */, QEvent *e)
             return m_edit->insertSpecialCharacter("^\\circ", m_view);
         case Qt::Key_plusminus:
             return m_edit->insertSpecialCharacter("\\pm", m_view);
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
         case Qt::Key_mu:
+#else
+        case Qt::Key_micro:
+#endif
             return m_edit->insertSpecialCharacter("\\mu", m_view);
         case Qt::Key_paragraph:
             return m_edit->insertSpecialCharacter("\\P", m_view);

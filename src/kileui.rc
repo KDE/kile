@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="49">
+<kpartgui name="kile" version="50">
 <Menu name="ktexteditor_popup" noMerge="1">
     <DefineGroup name="popup_operations" />
     <Action name="popup_pasteaslatex"/>

@@ -291,6 +291,7 @@
     <Separator/>
     <Menu name="menu_math"><text>&amp;Math Commands</text>
         <Action name="tag_mathmode"/>
+        <Action name="tag_mathmode_latex"/>
         <Action name="tag_equation"/>
         <Separator/>
         <Action name="tag_subscript"/>
@@ -372,6 +373,7 @@
         </Menu>
     </Menu>
     <Menu name="menu_mathenv"><text>Standard Math &amp;Environments</text>
+        <Action name="tag_env_math"/>
         <Action name="tag_env_displaymath"/>
         <Separator/>
         <Action name="tag_env_equation"/>
@@ -417,6 +419,16 @@
         </Menu>
         <Separator/>
         <Action name="tag_env_cases"/>
+    </Menu>
+    <Menu name="menu_mathamsenv"><text>breqn Math Environments</text>
+        <Action name="tag_env_dmath"/>
+        <Action name="tag_env_dmath*"/>
+        <Separator/>
+        <Action name="tag_env_dseries"/>
+        <Action name="tag_env_dseries*"/>
+        <Separator/>
+        <Action name="tag_env_dgroup"/>
+        <Action name="tag_env_dgroup*"/>
     </Menu>
     <Separator/>
     <Action name="menu_bibliography"/>

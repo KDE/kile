@@ -74,6 +74,7 @@ set(kile_action_ICONS
 	16-actions-math8.png
 	16-actions-math9.png
 	16-actions-mathmode.png
+	16-actions-mathmode_latex.png
 	16-actions-matrix.png
 	16-actions-medskip.png
 	16-actions-medspace.png
@@ -287,5 +288,5 @@ set(kile_action_ICONS
 
 ecm_install_icons(
 	ICONS ${kile_action_ICONS}
-	DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile/icons
+	DESTINATION ${KDE_INSTALL_ICONDIR}
 )

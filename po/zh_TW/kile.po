@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-15 00:38+0000\n"
+"POT-Creation-Date: 2024-04-22 00:38+0000\n"
 "PO-Revision-Date: 2024-04-19 03:00+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -376,7 +376,7 @@ msgid "LaTeX"
 msgstr "LaTeX"
 
 #. i18n: ectx: ToolBar (toolsToolBar)
-#: dialogs/configurationdialog.cpp:71 kileui.rc:540
+#: dialogs/configurationdialog.cpp:71 kileui.rc:552
 #, kde-format
 msgid "Tools"
 msgstr "工具"
@@ -418,7 +418,7 @@ msgid "Scripting"
 msgstr "文稿"
 
 #. i18n: ectx: Menu (menu_usermenu)
-#: dialogs/configurationdialog.cpp:229 kileui.rc:484 usermenu/usermenu.cpp:68
+#: dialogs/configurationdialog.cpp:229 kileui.rc:496 usermenu/usermenu.cpp:68
 #, kde-format
 msgid "User Menu"
 msgstr "使用者選單"
@@ -1297,7 +1297,7 @@ msgstr "AMS-Math"
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1029 kilestdactions.cpp:452 kileui.rc:569
+#: kile.cpp:1029 kilestdactions.cpp:452 kileui.rc:581
 #, kde-format
 msgid "Math"
 msgstr "數學"
@@ -6165,7 +6165,7 @@ msgid "&Bibliography"
 msgstr "參考書目(&B)"
 
 #. i18n: ectx: Menu (settings)
-#: kile.cpp:1009 kileui.rc:503
+#: kile.cpp:1009 kileui.rc:515
 #, kde-format
 msgid "&Settings"
 msgstr "設定(&S)"
@@ -10330,175 +10330,182 @@ msgid "&Math Commands"
 msgstr "數學指令(&M)"
 
 #. i18n: ectx: Menu (menu_mathbraces)
-#: kileui.rc:302
+#: kileui.rc:303
 #, kde-format
 msgid "Braces"
 msgstr "括號"
 
 #. i18n: ectx: Menu (menu_mathtext)
-#: kileui.rc:320
+#: kileui.rc:321
 #, kde-format
 msgid "AMS Text and Boxes"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_mathfrac)
-#: kileui.rc:326
+#: kileui.rc:327
 #, fuzzy, kde-format
 #| msgid "&Section"
 msgid "AMS Fraction"
 msgstr "小節(&S)"
 
 #. i18n: ectx: Menu (menu_mathbinom)
-#: kileui.rc:331
+#: kileui.rc:332
 #, kde-format
 msgid "AMS Binomial Expression"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_mathcommands)
-#: kileui.rc:336
+#: kileui.rc:337
 #, fuzzy, kde-format
 #| msgid "Arrows"
 msgid "AMS Arrows"
 msgstr "箭號"
 
 #. i18n: ectx: Menu (menu_mathfontstyles)
-#: kileui.rc:341
+#: kileui.rc:342
 #, fuzzy, kde-format
 #| msgid "&Font Styles"
 msgid "Math &Font Styles"
 msgstr "字型樣式(&F)"
 
 #. i18n: ectx: Menu (menu_mathaccents)
-#: kileui.rc:351
+#: kileui.rc:352
 #, fuzzy, kde-format
 #| msgid "Math Environments"
 msgid "Math &Accents"
 msgstr "數學環境"
 
 #. i18n: ectx: Menu (menu_mathspaces)
-#: kileui.rc:363
+#: kileui.rc:364
 #, kde-format
 msgid "Math &Spaces"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_mathenv)
-#: kileui.rc:374
+#: kileui.rc:375
 #, fuzzy, kde-format
 #| msgid "Math Environments"
 msgid "Standard Math &Environments"
 msgstr "數學環境"
 
 #. i18n: ectx: Menu (menu_mathamsenv)
-#: kileui.rc:382
+#: kileui.rc:384
 #, fuzzy, kde-format
 #| msgid "Math Environments"
 msgid "&AMS Math Environments"
 msgstr "數學環境"
 
 #. i18n: ectx: Menu (menu_amsenv_align)
-#: kileui.rc:383
+#: kileui.rc:385
 #, fuzzy, kde-format
 #| msgid "&Floating Environment"
 msgid "&Align Environments"
 msgstr "浮動環境(&F)"
 
 #. i18n: ectx: Menu (menu_amsenv_center)
-#: kileui.rc:396
+#: kileui.rc:398
 #, fuzzy, kde-format
 #| msgid "&Code Environment"
 msgid "&Center Environments"
 msgstr "代碼環境(&C)"
 
 #. i18n: ectx: Menu (menu_amsenv_multiline)
-#: kileui.rc:402
+#: kileui.rc:404
 #, fuzzy, kde-format
 #| msgid "Math Environments"
 msgid "Multi &Line Environments"
 msgstr "數學環境"
 
 #. i18n: ectx: Menu (menu_amsenv_matrix)
-#: kileui.rc:408
+#: kileui.rc:410
 #, fuzzy, kde-format
 #| msgid "Math Environments"
 msgid "&Matrix Environments"
 msgstr "數學環境"
 
+#. i18n: ectx: Menu (menu_mathamsenv)
+#: kileui.rc:423
+#, fuzzy, kde-format
+#| msgid "Math Environments"
+msgid "breqn Math Environments"
+msgstr "數學環境"
+
 #. i18n: ectx: Menu (menu_fontstyles)
-#: kileui.rc:424
+#: kileui.rc:436
 #, kde-format
 msgid "&Font Styles"
 msgstr "字型樣式(&F)"
 
 #. i18n: ectx: Menu (menu_fontfamily)
-#: kileui.rc:434
+#: kileui.rc:446
 #, kde-format
 msgid "Font Family"
 msgstr "字族"
 
 #. i18n: ectx: Menu (menu_fontseries)
-#: kileui.rc:439
+#: kileui.rc:451
 #, kde-format
 msgid "Font Series"
 msgstr "字型系列"
 
 #. i18n: ectx: Menu (menu_fontshape)
-#: kileui.rc:443
+#: kileui.rc:455
 #, kde-format
 msgid "Font Shape"
 msgstr "字形"
 
 #. i18n: ectx: Menu (menu_spacing)
-#: kileui.rc:450
+#: kileui.rc:462
 #, kde-format
 msgid "Spa&cing"
 msgstr "間隔(&C)："
 
 #. i18n: ectx: Menu (menu_breaks)
-#: kileui.rc:451
+#: kileui.rc:463
 #, fuzzy, kde-format
 #| msgid "Page Break"
 msgid "Page- and Linebreaks"
 msgstr "頁面中斷"
 
 #. i18n: ectx: Menu (menu_skips)
-#: kileui.rc:458
+#: kileui.rc:470
 #, kde-format
 msgid "Space"
 msgstr "空白"
 
 #. i18n: ectx: Menu (menu_rubberlength)
-#: kileui.rc:469
+#: kileui.rc:481
 #, kde-format
 msgid "Rubber Lengths"
 msgstr ""
 
 #. i18n: ectx: Menu (wizard)
-#: kileui.rc:487
+#: kileui.rc:499
 #, kde-format
 msgid "&Wizard"
 msgstr "精靈(&W)"
 
 #. i18n: ectx: Menu (help)
-#: kileui.rc:516
+#: kileui.rc:528
 #, kde-format
 msgid "&Help"
 msgstr "說明(&H)"
 
 #. i18n: ectx: Menu (help_tex)
-#: kileui.rc:519
+#: kileui.rc:531
 #, fuzzy, kde-format
 #| msgid "Documentation"
 msgid "LaTeX Documentation"
 msgstr "文件"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: kileui.rc:534
+#: kileui.rc:546
 #, kde-format
 msgid "Main"
 msgstr "主要"
 
 #. i18n: ectx: ToolBar (editToolBar)
-#: kileui.rc:550
+#: kileui.rc:562
 #, kde-format
 msgid "Edit"
 msgstr "編輯"

@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-15 00:38+0000\n"
+"POT-Creation-Date: 2024-04-22 00:38+0000\n"
 "PO-Revision-Date: 2024-04-15 17:20+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -397,7 +397,7 @@ msgid "LaTeX"
 msgstr "LaTeX"
 
 #. i18n: ectx: ToolBar (toolsToolBar)
-#: dialogs/configurationdialog.cpp:71 kileui.rc:540
+#: dialogs/configurationdialog.cpp:71 kileui.rc:552
 #, kde-format
 msgid "Tools"
 msgstr "Herramientas"
@@ -439,7 +439,7 @@ msgid "Scripting"
 msgstr "Guiones"
 
 #. i18n: ectx: Menu (menu_usermenu)
-#: dialogs/configurationdialog.cpp:229 kileui.rc:484 usermenu/usermenu.cpp:68
+#: dialogs/configurationdialog.cpp:229 kileui.rc:496 usermenu/usermenu.cpp:68
 #, kde-format
 msgid "User Menu"
 msgstr "Menú del usuario"
@@ -1330,7 +1330,7 @@ msgstr "AMS-Matemática"
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1029 kilestdactions.cpp:452 kileui.rc:569
+#: kile.cpp:1029 kilestdactions.cpp:452 kileui.rc:581
 #, kde-format
 msgid "Math"
 msgstr "Matemática"
@@ -6371,7 +6371,7 @@ msgid "&Bibliography"
 msgstr "&Bibliografía"
 
 #. i18n: ectx: Menu (settings)
-#: kile.cpp:1009 kileui.rc:503
+#: kile.cpp:1009 kileui.rc:515
 #, kde-format
 msgid "&Settings"
 msgstr "&Preferencias"
@@ -10851,163 +10851,170 @@ msgid "&Math Commands"
 msgstr "Órdenes &matemáticas"
 
 #. i18n: ectx: Menu (menu_mathbraces)
-#: kileui.rc:302
+#: kileui.rc:303
 #, kde-format
 msgid "Braces"
 msgstr "Llaves"
 
 #. i18n: ectx: Menu (menu_mathtext)
-#: kileui.rc:320
+#: kileui.rc:321
 #, kde-format
 msgid "AMS Text and Boxes"
 msgstr "Texto y cajas AMS"
 
 #. i18n: ectx: Menu (menu_mathfrac)
-#: kileui.rc:326
+#: kileui.rc:327
 #, kde-format
 msgid "AMS Fraction"
 msgstr "Fracción AMS"
 
 #. i18n: ectx: Menu (menu_mathbinom)
-#: kileui.rc:331
+#: kileui.rc:332
 #, kde-format
 msgid "AMS Binomial Expression"
 msgstr "Expresión binomial AMS"
 
 #. i18n: ectx: Menu (menu_mathcommands)
-#: kileui.rc:336
+#: kileui.rc:337
 #, kde-format
 msgid "AMS Arrows"
 msgstr "Flechas AMS"
 
 #. i18n: ectx: Menu (menu_mathfontstyles)
-#: kileui.rc:341
+#: kileui.rc:342
 #, kde-format
 msgid "Math &Font Styles"
 msgstr "Estilos de tipos de &letra matemáticas"
 
 #. i18n: ectx: Menu (menu_mathaccents)
-#: kileui.rc:351
+#: kileui.rc:352
 #, kde-format
 msgid "Math &Accents"
 msgstr "&Acentos matemáticos"
 
 #. i18n: ectx: Menu (menu_mathspaces)
-#: kileui.rc:363
+#: kileui.rc:364
 #, kde-format
 msgid "Math &Spaces"
 msgstr "E&spacios matemáticos"
 
 #. i18n: ectx: Menu (menu_mathenv)
-#: kileui.rc:374
+#: kileui.rc:375
 #, kde-format
 msgid "Standard Math &Environments"
 msgstr "&Entornos matemático estándar"
 
 #. i18n: ectx: Menu (menu_mathamsenv)
-#: kileui.rc:382
+#: kileui.rc:384
 #, kde-format
 msgid "&AMS Math Environments"
 msgstr "Entornos matemáticos &AMS"
 
 #. i18n: ectx: Menu (menu_amsenv_align)
-#: kileui.rc:383
+#: kileui.rc:385
 #, kde-format
 msgid "&Align Environments"
 msgstr "&Alinear entornos"
 
 #. i18n: ectx: Menu (menu_amsenv_center)
-#: kileui.rc:396
+#: kileui.rc:398
 #, kde-format
 msgid "&Center Environments"
 msgstr "&Centrar entornos"
 
 #. i18n: ectx: Menu (menu_amsenv_multiline)
-#: kileui.rc:402
+#: kileui.rc:404
 #, kde-format
 msgid "Multi &Line Environments"
 msgstr "Entornos multi&línea"
 
 #. i18n: ectx: Menu (menu_amsenv_matrix)
-#: kileui.rc:408
+#: kileui.rc:410
 #, kde-format
 msgid "&Matrix Environments"
 msgstr "Entornos de &matrices"
 
+#. i18n: ectx: Menu (menu_mathamsenv)
+#: kileui.rc:423
+#, fuzzy, kde-format
+#| msgid "Math Environments"
+msgid "breqn Math Environments"
+msgstr "Entornos matemáticos"
+
 #. i18n: ectx: Menu (menu_fontstyles)
-#: kileui.rc:424
+#: kileui.rc:436
 #, kde-format
 msgid "&Font Styles"
 msgstr "Es&tilos de tipo de letra"
 
 #. i18n: ectx: Menu (menu_fontfamily)
-#: kileui.rc:434
+#: kileui.rc:446
 #, kde-format
 msgid "Font Family"
 msgstr "Familia de tipo de letra"
 
 #. i18n: ectx: Menu (menu_fontseries)
-#: kileui.rc:439
+#: kileui.rc:451
 #, kde-format
 msgid "Font Series"
 msgstr "Series de tipo de letra"
 
 #. i18n: ectx: Menu (menu_fontshape)
-#: kileui.rc:443
+#: kileui.rc:455
 #, kde-format
 msgid "Font Shape"
 msgstr "Formas de tipo de letra"
 
 #. i18n: ectx: Menu (menu_spacing)
-#: kileui.rc:450
+#: kileui.rc:462
 #, kde-format
 msgid "Spa&cing"
 msgstr "Espa&ciado"
 
 #. i18n: ectx: Menu (menu_breaks)
-#: kileui.rc:451
+#: kileui.rc:463
 #, kde-format
 msgid "Page- and Linebreaks"
 msgstr "Saltos de página y línea"
 
 #. i18n: ectx: Menu (menu_skips)
-#: kileui.rc:458
+#: kileui.rc:470
 #, kde-format
 msgid "Space"
 msgstr "Espacio"
 
 #. i18n: ectx: Menu (menu_rubberlength)
-#: kileui.rc:469
+#: kileui.rc:481
 #, kde-format
 msgid "Rubber Lengths"
 msgstr "Longitudes elásticas"
 
 #. i18n: ectx: Menu (wizard)
-#: kileui.rc:487
+#: kileui.rc:499
 #, kde-format
 msgid "&Wizard"
 msgstr "&Asistente"
 
 #. i18n: ectx: Menu (help)
-#: kileui.rc:516
+#: kileui.rc:528
 #, kde-format
 msgid "&Help"
 msgstr "&Ayuda"
 
 #. i18n: ectx: Menu (help_tex)
-#: kileui.rc:519
+#: kileui.rc:531
 #, kde-format
 msgid "LaTeX Documentation"
 msgstr "Documentación de LaTeX"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: kileui.rc:534
+#: kileui.rc:546
 #, kde-format
 msgid "Main"
 msgstr "Principal"
 
 #. i18n: ectx: ToolBar (editToolBar)
-#: kileui.rc:550
+#: kileui.rc:562
 #, kde-format
 msgid "Edit"
 msgstr "Editar"

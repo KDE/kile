@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-15 00:38+0000\n"
-"PO-Revision-Date: 2024-03-17 18:25+0530\n"
+"POT-Creation-Date: 2024-04-22 00:38+0000\n"
+"PO-Revision-Date: 2024-04-21 21:57+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.0\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -108,7 +108,7 @@ msgstr ""
 #: configtester.cpp:397
 #, kde-format
 msgid "Simple Test"
-msgstr ""
+msgstr "அடிப்படை சோதனை"
 
 #: configtester.cpp:472
 #, kde-format
@@ -186,17 +186,17 @@ msgstr ""
 #: dialogs/cleandialog.cpp:39
 #, kde-format
 msgid "Delete Files"
-msgstr ""
+msgstr "கோப்புக்களை நீக்குவது"
 
 #: dialogs/cleandialog.cpp:62
 #, kde-format
 msgid "Do you really want to delete these files?"
-msgstr ""
+msgstr "இந்து கோப்புகளை உறுதியாக நீக்க வேண்டுமா?"
 
 #: dialogs/cleandialog.cpp:70 dialogs/listselector.cpp:60
 #, kde-format
 msgid "Files"
-msgstr ""
+msgstr "கோப்புகள்"
 
 #: dialogs/configcheckerdialog.cpp:84
 #, kde-format
@@ -211,7 +211,7 @@ msgstr ""
 #: dialogs/configcheckerdialog.cpp:105
 #, kde-format
 msgid "System Check"
-msgstr ""
+msgstr "கணினி சரிபார்ப்பு"
 
 #: dialogs/configcheckerdialog.cpp:113
 #, kde-format
@@ -259,7 +259,7 @@ msgstr ""
 #: dialogs/configcheckerdialog.cpp:156
 #, kde-format
 msgid "Test Results"
-msgstr ""
+msgstr "சோதனையின் முடிவுகள்"
 
 #: dialogs/configcheckerdialog.cpp:231
 #, kde-format
@@ -317,12 +317,12 @@ msgstr ""
 #: widgets/maintoolconfigwidget.ui:26
 #, kde-format
 msgid "Configure"
-msgstr ""
+msgstr "அமை"
 
 #: dialogs/configurationdialog.cpp:69 main.cpp:101
 #, kde-format
 msgid "Kile"
-msgstr ""
+msgstr "கைல்"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLatexConfig)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetEnvironmentConfig)
@@ -334,15 +334,15 @@ msgid "LaTeX"
 msgstr ""
 
 #. i18n: ectx: ToolBar (toolsToolBar)
-#: dialogs/configurationdialog.cpp:71 kileui.rc:540
+#: dialogs/configurationdialog.cpp:71 kileui.rc:552
 #, kde-format
 msgid "Tools"
-msgstr ""
+msgstr "கருவிகள்"
 
 #: dialogs/configurationdialog.cpp:72
 #, kde-format
 msgid "Editor"
-msgstr ""
+msgstr "உரைத்திருத்தி"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
@@ -352,12 +352,12 @@ msgstr ""
 #: widgets/maintoolconfigwidget.ui:245
 #, kde-format
 msgid "General"
-msgstr ""
+msgstr "பொதுவானவை"
 
 #: dialogs/configurationdialog.cpp:200
 #, kde-format
 msgid "General Settings"
-msgstr ""
+msgstr "பொதுவான அமைப்புகள்"
 
 #: dialogs/configurationdialog.cpp:209
 #, kde-format
@@ -376,38 +376,38 @@ msgid "Scripting"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_usermenu)
-#: dialogs/configurationdialog.cpp:229 kileui.rc:484 usermenu/usermenu.cpp:68
+#: dialogs/configurationdialog.cpp:229 kileui.rc:496 usermenu/usermenu.cpp:68
 #, kde-format
 msgid "User Menu"
-msgstr ""
+msgstr "பயனர் பட்டி"
 
 #: dialogs/configurationdialog.cpp:241
 #, kde-format
 msgid "Complete"
-msgstr ""
+msgstr "நிரப்பல்"
 
 #: dialogs/configurationdialog.cpp:241
 #, kde-format
 msgid "Code Completion"
-msgstr ""
+msgstr "நிரல்தொடர் நிரப்பல்"
 
 #. i18n: ectx: Menu (quickpreview)
 #: dialogs/configurationdialog.cpp:251 kileui.rc:148
 #, kde-format
 msgid "Quick Preview"
-msgstr ""
+msgstr "விரை முன்னோட்டம்"
 
 #: dialogs/configurationdialog.cpp:251 kile.cpp:751
 #, kde-format
 msgid "Preview"
-msgstr ""
+msgstr "முன்னோட்டம்"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetHelpConfig)
 #: dialogs/configurationdialog.cpp:259 kilehelp.cpp:171
 #: widgets/helpconfigwidget.ui:20
 #, kde-format
 msgid "Help"
-msgstr ""
+msgstr "உதவி"
 
 #. i18n: ectx: Menu (menu_livepreview)
 #: dialogs/configurationdialog.cpp:267 kileui.rc:145
@@ -418,7 +418,7 @@ msgstr ""
 #: dialogs/configurationdialog.cpp:275
 #, kde-format
 msgid "Appearance"
-msgstr ""
+msgstr "தோற்றம்"
 
 #. i18n: ectx: attribute (title), widget (QWidget, pageEnvironments)
 #: dialogs/configurationdialog.cpp:294 dialogs/latexcommanddialog_base.ui:41
@@ -442,7 +442,7 @@ msgstr ""
 #: dialogs/configurationdialog.cpp:302 widgets/graphicsconfigwidget.ui:14
 #, kde-format
 msgid "Graphics"
-msgstr ""
+msgstr "வரைகலை"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetStructureViewConfig)
 #: dialogs/configurationdialog.cpp:309 widgets/structureviewconfigwidget.ui:26
@@ -459,33 +459,33 @@ msgstr ""
 #: dialogs/findfilesdialog.cpp:94 dialogs/projectdialogs.cpp:57
 #, kde-format
 msgid "Project"
-msgstr ""
+msgstr "திட்டப்பணி"
 
 #: dialogs/findfilesdialog.cpp:100 dialogs/managetemplatesdialog.cpp:84
 #: dialogs/tabular/newtabulardialog.cpp:127
 #, kde-format
 msgid "Name:"
-msgstr ""
+msgstr "பெயர்:"
 
 #: dialogs/findfilesdialog.cpp:103 dialogs/findfilesdialog.cpp:186
 #, kde-format
 msgid "Directory:"
-msgstr ""
+msgstr "அடைவு:"
 
 #: dialogs/findfilesdialog.cpp:118 dialogs/texdocumentationdialog.cpp:70
 #, kde-format
 msgid "Search"
-msgstr ""
+msgstr "தேடல்"
 
 #: dialogs/findfilesdialog.cpp:124
 #, kde-format
 msgid "Pattern:"
-msgstr ""
+msgstr "பாங்கு"
 
 #: dialogs/findfilesdialog.cpp:135
 #, kde-format
 msgid "Template:"
-msgstr ""
+msgstr "வார்ப்புரு:"
 
 #: dialogs/findfilesdialog.cpp:141
 #, kde-format
@@ -515,7 +515,7 @@ msgstr ""
 #: dialogs/findfilesdialog.cpp:145
 #, kde-format
 msgid "Image"
-msgstr ""
+msgstr "படம்"
 
 #: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:128
 #: kilestdactions.cpp:129 usermenu/usermenu.cpp:909
@@ -534,17 +534,17 @@ msgstr ""
 #: dialogs/projectdialogs.cpp:233
 #, kde-format
 msgid "File"
-msgstr ""
+msgstr "கோப்பு"
 
 #: dialogs/findfilesdialog.cpp:171
 #, kde-format
 msgid "Directory Options"
-msgstr ""
+msgstr "அடைவு விருப்பங்கள்"
 
 #: dialogs/findfilesdialog.cpp:177
 #, kde-format
 msgid "Filter:"
-msgstr ""
+msgstr "வடிகட்டி:"
 
 #: dialogs/findfilesdialog.cpp:197
 #, kde-format
@@ -555,12 +555,12 @@ msgstr ""
 #: dialogs/texdocumentationdialog.cpp:79
 #, kde-format
 msgid "&Search"
-msgstr ""
+msgstr "&தேடு"
 
 #: dialogs/findfilesdialog.cpp:221
 #, kde-format
 msgid "&Clear"
-msgstr ""
+msgstr "&காலியாக்கு"
 
 #: dialogs/findfilesdialog.cpp:257
 #, kde-format
@@ -1227,7 +1227,7 @@ msgstr ""
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1029 kilestdactions.cpp:452 kileui.rc:569
+#: kile.cpp:1029 kilestdactions.cpp:452 kileui.rc:581
 #, kde-format
 msgid "Math"
 msgstr ""
@@ -5980,7 +5980,7 @@ msgid "&Bibliography"
 msgstr ""
 
 #. i18n: ectx: Menu (settings)
-#: kile.cpp:1009 kileui.rc:503
+#: kile.cpp:1009 kileui.rc:515
 #, kde-format
 msgid "&Settings"
 msgstr ""
@@ -10061,163 +10061,169 @@ msgid "&Math Commands"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_mathbraces)
-#: kileui.rc:302
+#: kileui.rc:303
 #, kde-format
 msgid "Braces"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_mathtext)
-#: kileui.rc:320
+#: kileui.rc:321
 #, kde-format
 msgid "AMS Text and Boxes"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_mathfrac)
-#: kileui.rc:326
+#: kileui.rc:327
 #, kde-format
 msgid "AMS Fraction"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_mathbinom)
-#: kileui.rc:331
+#: kileui.rc:332
 #, kde-format
 msgid "AMS Binomial Expression"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_mathcommands)
-#: kileui.rc:336
+#: kileui.rc:337
 #, kde-format
 msgid "AMS Arrows"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_mathfontstyles)
-#: kileui.rc:341
+#: kileui.rc:342
 #, kde-format
 msgid "Math &Font Styles"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_mathaccents)
-#: kileui.rc:351
+#: kileui.rc:352
 #, kde-format
 msgid "Math &Accents"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_mathspaces)
-#: kileui.rc:363
+#: kileui.rc:364
 #, kde-format
 msgid "Math &Spaces"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_mathenv)
-#: kileui.rc:374
+#: kileui.rc:375
 #, kde-format
 msgid "Standard Math &Environments"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_mathamsenv)
-#: kileui.rc:382
+#: kileui.rc:384
 #, kde-format
 msgid "&AMS Math Environments"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_amsenv_align)
-#: kileui.rc:383
+#: kileui.rc:385
 #, kde-format
 msgid "&Align Environments"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_amsenv_center)
-#: kileui.rc:396
+#: kileui.rc:398
 #, kde-format
 msgid "&Center Environments"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_amsenv_multiline)
-#: kileui.rc:402
+#: kileui.rc:404
 #, kde-format
 msgid "Multi &Line Environments"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_amsenv_matrix)
-#: kileui.rc:408
+#: kileui.rc:410
 #, kde-format
 msgid "&Matrix Environments"
 msgstr ""
 
+#. i18n: ectx: Menu (menu_mathamsenv)
+#: kileui.rc:423
+#, kde-format
+msgid "breqn Math Environments"
+msgstr ""
+
 #. i18n: ectx: Menu (menu_fontstyles)
-#: kileui.rc:424
+#: kileui.rc:436
 #, kde-format
 msgid "&Font Styles"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_fontfamily)
-#: kileui.rc:434
+#: kileui.rc:446
 #, kde-format
 msgid "Font Family"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_fontseries)
-#: kileui.rc:439
+#: kileui.rc:451
 #, kde-format
 msgid "Font Series"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_fontshape)
-#: kileui.rc:443
+#: kileui.rc:455
 #, kde-format
 msgid "Font Shape"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_spacing)
-#: kileui.rc:450
+#: kileui.rc:462
 #, kde-format
 msgid "Spa&cing"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_breaks)
-#: kileui.rc:451
+#: kileui.rc:463
 #, kde-format
 msgid "Page- and Linebreaks"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_skips)
-#: kileui.rc:458
+#: kileui.rc:470
 #, kde-format
 msgid "Space"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_rubberlength)
-#: kileui.rc:469
+#: kileui.rc:481
 #, kde-format
 msgid "Rubber Lengths"
 msgstr ""
 
 #. i18n: ectx: Menu (wizard)
-#: kileui.rc:487
+#: kileui.rc:499
 #, kde-format
 msgid "&Wizard"
 msgstr ""
 
 #. i18n: ectx: Menu (help)
-#: kileui.rc:516
+#: kileui.rc:528
 #, kde-format
 msgid "&Help"
 msgstr ""
 
 #. i18n: ectx: Menu (help_tex)
-#: kileui.rc:519
+#: kileui.rc:531
 #, kde-format
 msgid "LaTeX Documentation"
 msgstr ""
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: kileui.rc:534
+#: kileui.rc:546
 #, kde-format
 msgid "Main"
 msgstr ""
 
 #. i18n: ectx: ToolBar (editToolBar)
-#: kileui.rc:550
+#: kileui.rc:562
 #, kde-format
 msgid "Edit"
 msgstr ""

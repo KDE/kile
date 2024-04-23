@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-22 00:38+0000\n"
-"PO-Revision-Date: 2024-04-16 03:44+0200\n"
+"PO-Revision-Date: 2024-04-22 10:15+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -10554,10 +10554,9 @@ msgstr "&მატრიცული გარემოები"
 
 #. i18n: ectx: Menu (menu_mathamsenv)
 #: kileui.rc:423
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "breqn Math Environments"
-msgstr "მათემატიკის გარემოები"
+msgstr "breqn მათემატიკის გარემოები"
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:436

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-22 00:38+0000\n"
-"PO-Revision-Date: 2024-04-15 06:54+0200\n"
+"PO-Revision-Date: 2024-04-22 06:27+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -10761,10 +10761,9 @@ msgstr "Matična okolja"
 
 #. i18n: ectx: Menu (menu_mathamsenv)
 #: kileui.rc:423
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "breqn Math Environments"
-msgstr "Matematična okolja"
+msgstr "Matematična okolja breqn"
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:436

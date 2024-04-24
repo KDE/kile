@@ -9507,10 +9507,9 @@ msgid "Math Mode"
 msgstr "Matematika"
 
 #: kilestdactions.cpp:374
-#, fuzzy, kde-format
-#| msgid "Math Mode - $...$"
+#, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr "&Matematika - $...$"
+msgstr ""
 
 #: kilestdactions.cpp:375
 #, kde-format
@@ -9910,10 +9909,9 @@ msgid "Intertext"
 msgstr "Text mezi rovnicemi"
 
 #: kilestdactions.cpp:452
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "Math - \\begin{math}"
-msgstr "Seskupená - \\begin{gather}"
+msgstr ""
 
 #: kilestdactions.cpp:454
 #, kde-format
@@ -10146,10 +10144,9 @@ msgid "Bmatrix"
 msgstr "Bmatrix"
 
 #: kilestdactions.cpp:490
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "dmath - \\begin{dmath}"
-msgstr "Seskupená - \\begin{gather}"
+msgstr ""
 
 #: kilestdactions.cpp:490
 #, kde-format
@@ -10157,10 +10154,9 @@ msgid "dmath"
 msgstr ""
 
 #: kilestdactions.cpp:491
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dmath* - \\begin{dmath*}"
-msgstr "Seskupená* - \\begin{gather*}"
+msgstr ""
 
 #: kilestdactions.cpp:491
 #, kde-format
@@ -10168,22 +10164,19 @@ msgid "dmath*"
 msgstr ""
 
 #: kilestdactions.cpp:493
-#, fuzzy, kde-format
-#| msgid "Cases - \\begin{cases}"
+#, kde-format
 msgid "dseries - \\begin{dseries}"
-msgstr "Případy - \\begin{cases}"
+msgstr ""
 
 #: kilestdactions.cpp:493
-#, fuzzy, kde-format
-#| msgid "Bold - \\bfseries"
+#, kde-format
 msgid "dseries"
-msgstr "Tučné - \\bfseries"
+msgstr ""
 
 #: kilestdactions.cpp:494
-#, fuzzy, kde-format
-#| msgid "Verse - \\begin{verse}"
+#, kde-format
 msgid "dseries* - \\begin{dseries*}"
-msgstr "Verše - \\begin{verse}"
+msgstr ""
 
 #: kilestdactions.cpp:494
 #, kde-format
@@ -10191,28 +10184,24 @@ msgid "dseries*"
 msgstr ""
 
 #: kilestdactions.cpp:496
-#, fuzzy, kde-format
-#| msgid "Figure - \\begin{figure}"
+#, kde-format
 msgid "dgroup - \\begin{dgroup}"
-msgstr "Obrázek plovoucí - \\begin{figure}"
+msgstr ""
 
 #: kilestdactions.cpp:496
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup"
-msgstr "Matematická skupina"
+msgstr ""
 
 #: kilestdactions.cpp:497
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dgroup* - \\begin{dgroup*}"
-msgstr "Seskupená* - \\begin{gather*}"
+msgstr ""
 
 #: kilestdactions.cpp:497
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup*"
-msgstr "Matematická skupina"
+msgstr ""
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330
@@ -10710,10 +10699,9 @@ msgstr "&Maticová"
 
 #. i18n: ectx: Menu (menu_mathamsenv)
 #: kileui.rc:423
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "breqn Math Environments"
-msgstr "Matematická prostředí"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:436

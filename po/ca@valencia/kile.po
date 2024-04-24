@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-22 00:38+0000\n"
-"PO-Revision-Date: 2024-04-15 10:11+0200\n"
+"PO-Revision-Date: 2024-04-22 12:11+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -702,7 +702,7 @@ msgstr ""
 #: dialogs/findfilesdialog.cpp:299
 #, kde-format
 msgid "Check this box to search in all subdirectories."
-msgstr "Seleccioneu esta casella per a buscar en tots els subdirectoris."
+msgstr "Marqueu esta casella per a buscar en tots els subdirectoris."
 
 #: dialogs/findfilesdialog.cpp:301
 #, kde-format
@@ -3086,7 +3086,7 @@ msgid ""
 "If you want Kile to create a new file and add it to the project, then check "
 "this option and select a template from the list that will appear below."
 msgstr ""
-"Si voleu que Kile cree un fitxer nou i l'afija al projecte, seleccioneu esta "
+"Si voleu que Kile cree un fitxer nou i l'afija al projecte, marqueu esta "
 "opció i seleccioneu una plantilla de la llista que apareixerà davall."
 
 #: dialogs/projectdialogs.cpp:336
@@ -10905,10 +10905,9 @@ msgstr "Entorns de &matriu"
 
 #. i18n: ectx: Menu (menu_mathamsenv)
 #: kileui.rc:423
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "breqn Math Environments"
-msgstr "Entorns matemàtics"
+msgstr "Entorns matemàtics «breqn»"
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:436
@@ -11176,7 +11175,7 @@ msgstr "Simon Martin"
 #: main.cpp:114
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
-msgstr "KConfig XT, diverses millores i correcció d'errors"
+msgstr "KConfig XT, diverses millores i esmena d'errors"
 
 #: main.cpp:115
 #, kde-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-22 00:38+0000\n"
-"PO-Revision-Date: 2024-04-22 10:15+0200\n"
+"PO-Revision-Date: 2024-04-24 09:55+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -3996,7 +3996,7 @@ msgstr "ჩართავს ქვეფიგურებს ფიგურ�
 #: dialogs/quickdocumentdialog.cpp:1062
 #, kde-format
 msgid "Typesetting capital Greek letters"
-msgstr ""
+msgstr "დიდი ბერძნული ასოების აკრეფა"
 
 #: dialogs/quickdocumentdialog.cpp:1063
 #, kde-format
@@ -7885,6 +7885,9 @@ msgid ""
 "The \\title command declares text to be the title.\n"
 "Use \\\\ to tell LaTeX where to start a new line in a long title."
 msgstr ""
+"\\title{text}\n"
+"ბრძანება \\title აღწერს ტექსტს სათაურისთვის.\n"
+"გამოიყენეთ \\\\ რომ უთხრათ LaTeX-ს, სად ადიწყოს ახალი ხაზი გრძელ სათაურში."
 
 #: kilestdactions.cpp:45
 #, kde-format

@@ -636,11 +636,7 @@ KTextEditor::View * Manager::textView(KileDocument::TextInfo *info) const
     }
     for(int i = 0; i < m_tabBar->count(); ++i) {
         KTextEditor::View *view = textViewAtTab(i);
-        if(!view) {
-            continue;
-        }
-
-        if(view->document() == doc) {
+        if(view && (view->document() == doc)) {
             return view;
         }
     }
@@ -1323,10 +1319,7 @@ bool Manager::viewForLocalFilePresent(const QString& localFileName)
 {
     for(int i = 0; i < m_tabBar->count(); ++i) {
         KTextEditor::View *view = textViewAtTab(i);
-        if(!view) {
-            continue;
-        }
-        if(view->document()->url().toLocalFile() == localFileName) {
+        if(view && (view->document()->url().toLocalFile() == localFileName)) {
             return true;
         }
     }

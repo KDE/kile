@@ -524,10 +524,8 @@ bool KileProject::load()
 
     //retrieve all the project files and create and initialize project items for them
     for (const auto& group : groups) {
-        if(!m_config->hasGroup(group)) { // 'group' might have been deleted
-            continue;                // work around bug 384039
-        }
-        if (group.left(5) == "item:") {
+        if(m_config->hasGroup(group) // 'group' might have been deleted
+           && (group.left(5) == "item:")) {
             QString path = group.mid(5);
             if (QDir::isAbsolutePath(path)) {
                 projectUrl = QUrl::fromLocalFile(path);
@@ -648,10 +646,8 @@ void KileProject::removeConfigGroupsForItem(KileProjectItem *projectItem)
     QString itemString = "item:" + projectItem->path();
     const QStringList groupList = m_config->groupList();
     for (const auto& groupName : groupList) {
-        if(!m_config->hasGroup(groupName)) { // 'groupName' might have been deleted
-            continue;                    // work around bug 384039
-        }
-        if(groupName.indexOf(itemString) >= 0) {
+        if(m_config->hasGroup(groupName) // 'groupName' might have been deleted
+           && (groupName.indexOf(itemString) >= 0)) {
             m_config->deleteGroup(groupName);
         }
     }

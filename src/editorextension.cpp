@@ -739,10 +739,8 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
                     mathdata.numdollar = 0;
                     return true;
                 }
-                else {
-                    //KILE_DEBUG_MAIN << "error: dollar not allowed in \\[ or \\( mode";
-                    return false;
-                }
+                //KILE_DEBUG_MAIN << "error: dollar not allowed in \\[ or \\( mode";
+                return false;
             }
             else if(mathname=="\\]" || mathname=="\\)") {
                 continueSearch = false;
@@ -1039,9 +1037,7 @@ bool EditorExtension::findOpenedEnvironment(int &row, int &col, QString &envname
         envname = env.name;
         return true;
     }
-    else {
-        return false;
-    }
+    return false;
 }
 
 QStringList EditorExtension::findOpenedEnvironmentList(KTextEditor::View *view, bool position)

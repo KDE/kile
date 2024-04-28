@@ -191,10 +191,7 @@ void TexDocDialog::showToc(const QString &caption, const QStringList &doclist, b
         }
         else {
             keylist = doclist[i].split(';', Qt::KeepEmptyParts);
-            if (keylist.size() < 4) {
-                continue;
-            }
-            if (itemsection) {
+            if((keylist.size() >= 4) && itemsection) {
                 QTreeWidgetItem *item = new QTreeWidgetItem(itemsection, QStringList() << keylist[1] << keylist[0]);
                 item->setIcon(0, QIcon::fromTheme(getIconName(keylist[2])));
 

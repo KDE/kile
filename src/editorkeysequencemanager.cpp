@@ -84,10 +84,7 @@ void Manager::addActionMap(const QMap<QString, Action*>& map)
 {
     bool changed = false;
     for(QMap<QString, Action*>::const_iterator i = map.begin(); i != map.end(); ++i) {
-        if(i.key().isEmpty()) {
-            continue;
-        }
-        if(m_actionMap[i.key()] != i.value()) {
+        if(!i.key().isEmpty() && (m_actionMap[i.key()] != i.value())) {
             m_actionMap[i.key()] = i.value();
             changed = true;
         }

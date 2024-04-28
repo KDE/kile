@@ -1098,10 +1098,9 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
                                             m_ki->extensions()->isTexFile(saveAsUrl), false); // don't check for file existence
         }
 
-        if(!checkForFileOverwritePermission(saveAsUrl)) {
-            continue;
+        if(checkForFileOverwritePermission(saveAsUrl)) {
+            break;
         }
-        break;
     }
     doc->setEncoding(result.encoding);
     if(!doc->saveAs(saveAsUrl)) {
@@ -1934,8 +1933,7 @@ bool Manager::projectClose(const QUrl &url)
             Q_EMIT(updateModeStatus());
             return true;
         }
-        else
-            return false;
+        return false;
     }
     else if (m_projects.count() == 0)
         KMessageBox::error(m_ki->mainWindow(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to close, then choose Close Project again."),i18n( "Could Not Close Project"));
@@ -2500,11 +2498,9 @@ void Manager::deleteDocumentAndViewSettingsGroups(const QUrl &url)
     QString urlString = url.url();
     const QStringList groupList = KSharedConfig::openConfig()->groupList();
     for (const auto& groupName : groupList) {
-        if(!KSharedConfig::openConfig()->hasGroup(groupName)) { // 'groupName' might have been deleted
-            continue;                                       // work around bug 384039
-        }
-        if(groupName.startsWith(QLatin1String("Document-Settings"))
-                || groupName.startsWith(QLatin1String("View-Settings"))) {
+        if(KSharedConfig::openConfig()->hasGroup(groupName) // 'groupName' might have been deleted
+           && (groupName.startsWith(QLatin1String("Document-Settings"))
+               || groupName.startsWith(QLatin1String("View-Settings")))) {
             int urlIndex = groupName.indexOf("URL=");
             if(urlIndex >= 0 && groupName.mid(urlIndex + 4) == urlString) {
                 KSharedConfig::openConfig()->deleteGroup(groupName);

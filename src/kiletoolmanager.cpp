@@ -523,17 +523,13 @@ QStringList toolList(KConfig *config, bool menuOnly)
     QString name;
 
     for (const auto& group : groups) {
-        if(!config->hasGroup(group)) { // 'group' might have been deleted
-            continue;                // work around bug 384039
-        }
-        if(re.exactMatch(group)) {
+        if(config->hasGroup(group) // 'group' might have been deleted
+           && re.exactMatch(group)) {
             name = configName(re.cap(1), config);
 
-            if(name.isEmpty() || !group.endsWith(name)) {
-                continue;
-            }
-
-            if((!menuOnly) || (menuFor(re.cap(1), config) != "none")) {
+            if(!name.isEmpty()
+               && group.endsWith(name)
+               && ((!menuOnly) || (menuFor(re.cap(1), config) != "none"))) {
                 tools.append(re.cap(1));
             }
         }
@@ -553,18 +549,13 @@ QList<ToolConfigPair> toolsWithConfigurationsBasedOnClass(KConfig *config, const
     QList<ToolConfigPair> toReturn;
 
     for (const auto& group : groups) {
-        if(!config->hasGroup(group)) { // 'group' might have been deleted
-            continue;                // work around bug 384039
-        }
-        if(re.exactMatch(group)) {
+        if(config->hasGroup(group) // 'group' might have been deleted
+           && re.exactMatch(group)) {
             const QString toolName = re.cap(1);
             const QString configName = re.cap(2);
 
-            if(toolName.isEmpty()) {
-                continue;
-            }
-
-            if(config->group(group).readEntry("class", "") == className) {
+            if(!toolName.isEmpty()
+               && (config->group(group).readEntry("class", "") == className)) {
                 toReturn.push_back(ToolConfigPair(toolName, configName));
             }
         }
@@ -634,10 +625,8 @@ QStringList configNames(const QString &tool, KConfig *config)
     QRegExp re = QRegExp("Tool/"+ tool +"/(.+)");
 
     for (const auto& group : groups) {
-        if(!config->hasGroup(group)) { // 'group' might have been deleted
-            continue;                // work around bug 384039
-        }
-        if(re.exactMatch(group)) {
+        if(config->hasGroup(group) // 'group' might have been deleted
+           && re.exactMatch(group)) {
             configs.append(re.cap(1));
         }
     }

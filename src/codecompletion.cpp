@@ -120,9 +120,7 @@ static bool laTeXCommandLessThan(const QString& s1, const QString& s2)
             if(isSpecialLaTeXCommandCharacter(c2)) {
                 return false;
             }
-            else {
-                return (c1 < c2);
-            }
+            return (c1 < c2);
         }
         else if(isSpecialLaTeXCommandCharacter(c1)) {
             if(isSpecialLaTeXCommandCharacter(c2)) {
@@ -132,9 +130,7 @@ static bool laTeXCommandLessThan(const QString& s1, const QString& s2)
             else if(c2.isLetterOrNumber()) {
                 return true;
             }
-            else {
-                return (c1 < c2);
-            }
+            return (c1 < c2);
         }
     }
     return true;

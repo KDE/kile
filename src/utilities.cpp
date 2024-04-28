@@ -102,9 +102,7 @@ QString KileUtilities::lastModifiedFile(const QStringList& files, const QString&
     if(lastModifiedFile) {
         return *lastModifiedFile;
     }
-    else {
-        return QString();
-    }
+    return QString();
 }
 
 void centerWidgetRelativeToParentRect(QWidget *widget, const QRect& parentRect)

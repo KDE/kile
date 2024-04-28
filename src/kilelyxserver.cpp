@@ -182,7 +182,6 @@ bool KileLyxServer::openPipes()
                 qCritical() << "The file " << pipeInfo.absoluteFilePath() <<  "we just created is not a pipe!";
                 file->close();
                 delete file;
-                continue;
             }
             else {
                 m_pipeIn.append(file);

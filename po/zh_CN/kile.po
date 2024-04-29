@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 00:38+0000\n"
+"POT-Creation-Date: 2024-04-29 00:39+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -842,7 +842,7 @@ msgstr "所有文件 (*)"
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr "必须包含 wrapfig 包才能使用文本环绕选项"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3241
 #, kde-format
 msgid "Missing Package"
 msgstr "缺少宏包"
@@ -2392,13 +2392,13 @@ msgid "The password should be at least 6 characters long."
 msgstr "密码长度不得少于6个字符。"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
-#: dialogs/texdocumentationdialog.cpp:436
+#: dialogs/texdocumentationdialog.cpp:433
 #, kde-format
 msgid "<center>"
 msgstr "<center>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
-#: dialogs/texdocumentationdialog.cpp:437
+#: dialogs/texdocumentationdialog.cpp:434
 #, kde-format
 msgid "</center>"
 msgstr "</center>"
@@ -2989,7 +2989,7 @@ msgstr "您没有输入工程名，如果您继续，工程名将被设置为：
 msgid "No Project Name Given"
 msgstr "为给定项目名"
 
-#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1048
+#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1044
 #, kde-format
 msgid "Untitled"
 msgstr "无标题"
@@ -4597,7 +4597,7 @@ msgstr "剪贴板为空"
 msgid "Documentation Browser"
 msgstr "文档浏览器"
 
-#: dialogs/texdocumentationdialog.cpp:67 dialogs/texdocumentationdialog.cpp:386
+#: dialogs/texdocumentationdialog.cpp:67 dialogs/texdocumentationdialog.cpp:383
 #: kilestdactions.cpp:43
 #, kde-format
 msgid "Table of Contents"
@@ -4641,32 +4641,32 @@ msgstr "取消搜索(&S)"
 msgid "Could not read 'texdoctk.dat'."
 msgstr "无法读取“texdoctk.dat”文件。"
 
-#: dialogs/texdocumentationdialog.cpp:301
+#: dialogs/texdocumentationdialog.cpp:298
 #, kde-format
 msgid "No KDE service found for this file."
 msgstr "找不到该文件的 KDE 服务。"
 
-#: dialogs/texdocumentationdialog.cpp:333
+#: dialogs/texdocumentationdialog.cpp:330
 #, kde-format
 msgid "Could not find the documentation file '%1'"
 msgstr "无法找到任何关于“%1”的文档"
 
-#: dialogs/texdocumentationdialog.cpp:349
+#: dialogs/texdocumentationdialog.cpp:346
 #, kde-format
 msgid "No keyword given."
 msgstr "未给定关键词。"
 
-#: dialogs/texdocumentationdialog.cpp:375
+#: dialogs/texdocumentationdialog.cpp:372
 #, kde-format
 msgid "Search results for keyword '%1'"
 msgstr "关键字“%1”的搜索结果"
 
-#: dialogs/texdocumentationdialog.cpp:378
+#: dialogs/texdocumentationdialog.cpp:375
 #, kde-format
 msgid "No documents found for keyword '%1'."
 msgstr "找不到关键字“%1”的文档。"
 
-#: dialogs/texdocumentationdialog.cpp:436
+#: dialogs/texdocumentationdialog.cpp:433
 #, kde-format
 msgid ""
 "Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'."
@@ -4675,12 +4675,12 @@ msgstr ""
 "无法检测到 TexLive、teTeX 或“texdoctk.dat”文件的搜索路径。<br/>很抱歉，Kile "
 "也无法提供有用的相关信息。"
 
-#: dialogs/texdocumentationdialog.cpp:437
+#: dialogs/texdocumentationdialog.cpp:434
 #, kde-format
 msgid "TexDoc Dialog"
 msgstr "TexDoc 对话框"
 
-#: dialogs/texdocumentationdialog.cpp:449
+#: dialogs/texdocumentationdialog.cpp:446
 #, kde-format
 msgid ""
 "Could not determine the installation path of your TeX distribution or find "
@@ -4781,7 +4781,7 @@ msgstr ""
 "网站文件 (HTML) (*.html *.htm);;文档 (PDF, PS, DVI, EPUB) (*.ps *.pdf *.dvi "
 "*.epub);;全部文件 (*)"
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2148
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2146
 #, kde-format
 msgid "Select File"
 msgstr "选择文件"
@@ -5557,24 +5557,24 @@ msgstr "捷克文引号：   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "csquotes 宏包：   \\enquote{}"
 
-#: editorextension.cpp:3245
+#: editorextension.cpp:3241
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "您必须包含宏包 %1 才能使用 %2。"
 
-#: editorextension.cpp:3501
+#: editorextension.cpp:3497
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
 "starting such an operation."
 msgstr "文档被修改，在执行这样的操作之前应该更新结构视图。"
 
-#: editorextension.cpp:3502
+#: editorextension.cpp:3498
 #, kde-format
 msgid "Structure View Error"
 msgstr "结构视图错误"
 
-#: editorkeysequencemanager.cpp:254
+#: editorkeysequencemanager.cpp:251
 #, kde-format
 msgid "Script execution of %1"
 msgstr "脚本 %1 执行"
@@ -5996,8 +5996,8 @@ msgstr "打开所有工程文件(&P)"
 msgid "Find in &Project..."
 msgstr "在工程中查找(&P)..."
 
-#: kile.cpp:909 kile.cpp:1007 kile.cpp:2131 kiledocmanager.cpp:1997
-#: kiledocmanager.cpp:2007
+#: kile.cpp:909 kile.cpp:1007 kile.cpp:2131 kiledocmanager.cpp:1995
+#: kiledocmanager.cpp:2005
 #, kde-format
 msgid "Clean"
 msgstr "清理"
@@ -7164,23 +7164,23 @@ msgstr "无法打开目录"
 msgid "Save File"
 msgstr "保存文件"
 
-#: kiledocmanager.cpp:1128
+#: kiledocmanager.cpp:1127
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "与“%1”同名的文件已经存在。您想要覆盖它吗？"
 
-#: kiledocmanager.cpp:1129
+#: kiledocmanager.cpp:1128
 #, kde-format
 msgid "Overwrite File?"
 msgstr "要覆盖文件吗？"
 
-#: kiledocmanager.cpp:1305
+#: kiledocmanager.cpp:1304
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "刷新工程树"
 
-#: kiledocmanager.cpp:1313
+#: kiledocmanager.cpp:1312
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7190,34 +7190,34 @@ msgstr ""
 "当前文档未与工程相关联。请激活一个与您要编译树的工程相关联的文档，然后再次选"
 "择刷新工程树。"
 
-#: kiledocmanager.cpp:1313
+#: kiledocmanager.cpp:1312
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "无法刷新工程树"
 
-#: kiledocmanager.cpp:1398 kiledocmanager.cpp:2169 kiledocmanager.cpp:2243
-#: kiledocmanager.cpp:2280
+#: kiledocmanager.cpp:1397 kiledocmanager.cpp:2167 kiledocmanager.cpp:2241
+#: kiledocmanager.cpp:2278
 #, kde-format
 msgid "Select Project"
 msgstr "选择工程"
 
-#: kiledocmanager.cpp:1423 kiledocmanager.cpp:1438 kiledocmanager.cpp:1445
+#: kiledocmanager.cpp:1422 kiledocmanager.cpp:1437 kiledocmanager.cpp:1444
 #, kde-format
 msgid "Add to Project"
 msgstr "添加到工程"
 
-#: kiledocmanager.cpp:1437
+#: kiledocmanager.cpp:1436
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "文件 %1 已经是工程 %2 的一部分。"
 
-#: kiledocmanager.cpp:1444
+#: kiledocmanager.cpp:1443
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr "文件 %1 不能被添加，因为该文件不存在或不可读。"
 
-#: kiledocmanager.cpp:1463
+#: kiledocmanager.cpp:1462
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
@@ -7226,12 +7226,12 @@ msgstr ""
 "此文件为工程文件，它包含所有有关您的工程的信息。因此，不允许从工程删除此文"
 "件。"
 
-#: kiledocmanager.cpp:1463
+#: kiledocmanager.cpp:1462
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "无法从工程删除文件"
 
-#: kiledocmanager.cpp:1531
+#: kiledocmanager.cpp:1530
 #, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
@@ -7240,12 +7240,12 @@ msgstr ""
 "<p>您要打开的项目“%1”已经打开过了。</p><p>如果您要重新加载此项目，请先关闭此"
 "项目然后再打开。</p>"
 
-#: kiledocmanager.cpp:1533
+#: kiledocmanager.cpp:1532
 #, kde-format
 msgid "Project Already Open"
 msgstr "工程已经打开"
 
-#: kiledocmanager.cpp:1544
+#: kiledocmanager.cpp:1543
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7255,36 +7255,36 @@ msgstr ""
 "<p>项目“%1”的项目文件不存在或不可读。</p><p>您要从最近项目列表中删除此项目"
 "吗？</p>"
 
-#: kiledocmanager.cpp:1547
+#: kiledocmanager.cpp:1546
 #, kde-format
 msgid "Could Not Open Project"
 msgstr "无法打开项目"
 
-#: kiledocmanager.cpp:1565
+#: kiledocmanager.cpp:1564
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
 "file.</p>"
 msgstr "文件 %1 不能被添加，因为该文件不存在或不可读。"
 
-#: kiledocmanager.cpp:1567
+#: kiledocmanager.cpp:1566
 #, kde-format
 msgid "Impossible to Open Project File"
 msgstr "无法打开项目文件"
 
-#: kiledocmanager.cpp:1577
+#: kiledocmanager.cpp:1576
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
 "version of Kile.</p>"
 msgstr "<p>无法打开项目“%1”，<br/>因为它是由新版的 Kile 创建的。</p>"
 
-#: kiledocmanager.cpp:1579
+#: kiledocmanager.cpp:1578
 #, kde-format
 msgid "Impossible to Open Project"
 msgstr "无法打开项目"
 
-#: kiledocmanager.cpp:1589
+#: kiledocmanager.cpp:1588
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7295,34 +7295,34 @@ msgstr ""
 "的结果。\n"
 "\t\t\t\t您真的要继续么(不推荐)？"
 
-#: kiledocmanager.cpp:1592
+#: kiledocmanager.cpp:1591
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr "需要更新项目文件"
 
-#: kiledocmanager.cpp:1599
+#: kiledocmanager.cpp:1598
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
 "this project from the recent projects list?</p>"
 msgstr "<p>无法更新项目文件“%1”。</p><p>您要从最近项目列表中删除此项目吗？</p>"
 
-#: kiledocmanager.cpp:1601
+#: kiledocmanager.cpp:1600
 #, kde-format
 msgid "Could Not Update Project File"
 msgstr "无法更新项目文件"
 
-#: kiledocmanager.cpp:1703
+#: kiledocmanager.cpp:1702
 #, kde-format
 msgid "Open Project"
 msgstr "打开工程"
 
-#: kiledocmanager.cpp:1722
+#: kiledocmanager.cpp:1721
 #, kde-format
 msgid "Save Project"
 msgstr "保存工程"
 
-#: kiledocmanager.cpp:1774
+#: kiledocmanager.cpp:1773
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7332,44 +7332,44 @@ msgstr ""
 "当前文档未与工程相关联。请先激活一个与您要保存工程相关联的文档，然后再次选择"
 "保存工程。"
 
-#: kiledocmanager.cpp:1774
+#: kiledocmanager.cpp:1773
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "无法确定活动的工程"
 
-#: kiledocmanager.cpp:1795
+#: kiledocmanager.cpp:1794
 #, kde-format
 msgid "Add Files to Project"
 msgstr "添加文件到工程"
 
-#: kiledocmanager.cpp:1808
+#: kiledocmanager.cpp:1807
 #, kde-format
 msgid "Add Files"
 msgstr "添加文件"
 
-#: kiledocmanager.cpp:1811
+#: kiledocmanager.cpp:1810
 #, kde-format
 msgid "Add"
 msgstr "添加"
 
-#: kiledocmanager.cpp:1826
+#: kiledocmanager.cpp:1825
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
 "to, then choose Add Files again."
 msgstr "没有工程打开。请打开您要添加文件的工程，然后再次选择添加文件。"
 
-#: kiledocmanager.cpp:1826 kiledocmanager.cpp:1861
+#: kiledocmanager.cpp:1825 kiledocmanager.cpp:1860
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "无法确定活动的工程"
 
-#: kiledocmanager.cpp:1852
+#: kiledocmanager.cpp:1851
 #, kde-format
 msgid "Project Options For"
 msgstr "工程选项"
 
-#: kiledocmanager.cpp:1861
+#: kiledocmanager.cpp:1860
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7379,12 +7379,12 @@ msgstr ""
 "当前文档未与工程相关联。请先激活一个与您要修改的工程相关联的文档，然后再次选"
 "择工程选项。"
 
-#: kiledocmanager.cpp:1887
+#: kiledocmanager.cpp:1886
 #, kde-format
 msgid "Close Project"
 msgstr "关闭工程"
 
-#: kiledocmanager.cpp:1941
+#: kiledocmanager.cpp:1939
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7394,77 +7394,77 @@ msgstr ""
 "当前文档未与工程相关联。请先激活一个与您要关闭的工程相关联的文档，然后再次选"
 "择关闭工程。"
 
-#: kiledocmanager.cpp:1941
+#: kiledocmanager.cpp:1939
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "无法关闭工程"
 
-#: kiledocmanager.cpp:1996
+#: kiledocmanager.cpp:1994
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr "%1 没有要清理的内容"
 
-#: kiledocmanager.cpp:2006
+#: kiledocmanager.cpp:2004
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "正在清理 %1：%2"
 
-#: kiledocmanager.cpp:2080
+#: kiledocmanager.cpp:2078
 #, kde-format
 msgid "Switch Project"
 msgstr "切换工程"
 
-#: kiledocmanager.cpp:2138
+#: kiledocmanager.cpp:2136
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "选择要删除的文件"
 
-#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2154
+#: kiledocmanager.cpp:2149 kiledocmanager.cpp:2152
 #, kde-format
 msgid "Show Project Files"
 msgstr "显示工程文件"
 
-#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2199
+#: kiledocmanager.cpp:2149 kiledocmanager.cpp:2197
 #, kde-format
 msgid "project configuration file"
 msgstr "工程配置文件"
 
-#: kiledocmanager.cpp:2154 kiledocmanager.cpp:2202
+#: kiledocmanager.cpp:2152 kiledocmanager.cpp:2200
 #, kde-format
 msgid "graphics file"
 msgstr "图形文件"
 
-#: kiledocmanager.cpp:2199 kiledocmanager.cpp:2202
+#: kiledocmanager.cpp:2197 kiledocmanager.cpp:2200
 #, kde-format
 msgid "Open All Project Files"
 msgstr "打开所有工程文件"
 
-#: kiledocmanager.cpp:2236
+#: kiledocmanager.cpp:2234
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "未打开：%1(%2)"
 
-#: kiledocmanager.cpp:2261 kiledocmanager.cpp:2298
+#: kiledocmanager.cpp:2259 kiledocmanager.cpp:2296
 #, kde-format
 msgid "Project Files"
 msgstr "工程文件"
 
-#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
+#: kiledocmanager.cpp:2267 kiledocmanager.cpp:2306
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "无法确定选定文件。"
 
-#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
+#: kiledocmanager.cpp:2267 kiledocmanager.cpp:2306
 #, kde-format
 msgid "Project Error"
 msgstr "工程错误"
 
-#: kiledocmanager.cpp:2375
+#: kiledocmanager.cpp:2373
 #, kde-format
 msgid "Opening Project..."
 msgstr "正在打开工程..."
 
-#: kiledocmanager.cpp:2378
+#: kiledocmanager.cpp:2376
 #, kde-format
 msgid "Scanning project files..."
 msgstr "扫描工程文件..."
@@ -7604,17 +7604,17 @@ msgstr "文档查看器不可用"
 msgid "Please disable the live preview before launching this tool"
 msgstr "请在启动此工具之前禁用实时预览"
 
-#: kilelyxserver.cpp:241
+#: kilelyxserver.cpp:240
 #, kde-format
 msgid "Cite"
 msgstr "引用"
 
-#: kilelyxserver.cpp:247
+#: kilelyxserver.cpp:246
 #, kde-format
 msgid "Add BibTeX database"
 msgstr "添加 BibTeX 数据库"
 
-#: kilelyxserver.cpp:252
+#: kilelyxserver.cpp:251
 #, kde-format
 msgid "Paste"
 msgstr "粘贴"
@@ -10239,27 +10239,27 @@ msgstr "已放弃"
 msgid "Cannot find the tool \"%1\" in the configuration database."
 msgstr "在配置数据库中找不到工具 %1。"
 
-#: kiletoolmanager.cpp:741
+#: kiletoolmanager.cpp:730
 #, kde-format
 msgid "&Stop"
 msgstr "停止(&S)"
 
-#: kiletoolmanager.cpp:750
+#: kiletoolmanager.cpp:739
 #, kde-format
 msgid "Bibliography Back End"
 msgstr "参考文献后端"
 
-#: kiletoolmanager.cpp:751
+#: kiletoolmanager.cpp:740
 #, kde-format
 msgid "Auto-Detect"
 msgstr "自动检测"
 
-#: kiletoolmanager.cpp:752
+#: kiletoolmanager.cpp:741
 #, kde-format
 msgid "Auto-detect the bibliography back end from LaTeX output"
 msgstr ""
 
-#: kiletoolmanager.cpp:757
+#: kiletoolmanager.cpp:746
 #, kde-format
 msgid "Reset Auto-Detected Back End"
 msgstr ""
@@ -10333,7 +10333,7 @@ msgstr "视图(&V)"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1163 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1159 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10644,27 +10644,27 @@ msgstr "无法创建编辑器视图。"
 msgid "Fatal Error"
 msgstr "致命错误"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:842
 #, kde-format
 msgid "&QuickPreview Selection"
 msgstr "快速预览选中范围(&Q)"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:843
 #, kde-format
 msgid "&QuickPreview Environment"
 msgstr "快速预览环境(&Q)"
 
-#: kileviewmanager.cpp:848
+#: kileviewmanager.cpp:844
 #, kde-format
 msgid "&QuickPreview Math"
 msgstr "快速预览数学(&Q)"
 
-#: kileviewmanager.cpp:1136
+#: kileviewmanager.cpp:1132
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "打印编译出的文档..."
 
-#: kileviewmanager.cpp:1142
+#: kileviewmanager.cpp:1138
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "显示编译出的文档的打印预览"

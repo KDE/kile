@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-22 00:38+0000\n"
+"POT-Creation-Date: 2024-04-29 00:39+0000\n"
 "PO-Revision-Date: 2024-04-02 05:59+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -809,7 +809,7 @@ msgstr "Fitxategi guztiak (*)"
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr ""
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3245
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3241
 #, kde-format
 msgid "Missing Package"
 msgstr "Falta den paketea"
@@ -2314,13 +2314,13 @@ msgid "The password should be at least 6 characters long."
 msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
-#: dialogs/texdocumentationdialog.cpp:436
+#: dialogs/texdocumentationdialog.cpp:433
 #, kde-format
 msgid "<center>"
 msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
-#: dialogs/texdocumentationdialog.cpp:437
+#: dialogs/texdocumentationdialog.cpp:434
 #, kde-format
 msgid "</center>"
 msgstr ""
@@ -2904,7 +2904,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr ""
 
-#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1048
+#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1044
 #, kde-format
 msgid "Untitled"
 msgstr "Izengabea"
@@ -4506,7 +4506,7 @@ msgstr ""
 msgid "Documentation Browser"
 msgstr ""
 
-#: dialogs/texdocumentationdialog.cpp:67 dialogs/texdocumentationdialog.cpp:386
+#: dialogs/texdocumentationdialog.cpp:67 dialogs/texdocumentationdialog.cpp:383
 #: kilestdactions.cpp:43
 #, fuzzy, kde-format
 msgid "Table of Contents"
@@ -4548,44 +4548,44 @@ msgstr ""
 msgid "Could not read 'texdoctk.dat'."
 msgstr ""
 
-#: dialogs/texdocumentationdialog.cpp:301
+#: dialogs/texdocumentationdialog.cpp:298
 #, kde-format
 msgid "No KDE service found for this file."
 msgstr ""
 
-#: dialogs/texdocumentationdialog.cpp:333
+#: dialogs/texdocumentationdialog.cpp:330
 #, kde-format
 msgid "Could not find the documentation file '%1'"
 msgstr ""
 
-#: dialogs/texdocumentationdialog.cpp:349
+#: dialogs/texdocumentationdialog.cpp:346
 #, kde-format
 msgid "No keyword given."
 msgstr ""
 
-#: dialogs/texdocumentationdialog.cpp:375
+#: dialogs/texdocumentationdialog.cpp:372
 #, kde-format
 msgid "Search results for keyword '%1'"
 msgstr ""
 
-#: dialogs/texdocumentationdialog.cpp:378
+#: dialogs/texdocumentationdialog.cpp:375
 #, kde-format
 msgid "No documents found for keyword '%1'."
 msgstr ""
 
-#: dialogs/texdocumentationdialog.cpp:436
+#: dialogs/texdocumentationdialog.cpp:433
 #, kde-format
 msgid ""
 "Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'."
 "<br/>Unfortunately, Kile cannot show any useful information."
 msgstr ""
 
-#: dialogs/texdocumentationdialog.cpp:437
+#: dialogs/texdocumentationdialog.cpp:434
 #, kde-format
 msgid "TexDoc Dialog"
 msgstr ""
 
-#: dialogs/texdocumentationdialog.cpp:449
+#: dialogs/texdocumentationdialog.cpp:446
 #, kde-format
 msgid ""
 "Could not determine the installation path of your TeX distribution or find "
@@ -4684,7 +4684,7 @@ msgstr ""
 "Webguneak (HTML) (*.html *.htm);;Dokumentuak (PDF, PS, DVI, EPUB) (*.ps *."
 "pdf *.dvi *.epub);;All Fitxategiak (*)"
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2148
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2146
 #, kde-format
 msgid "Select File"
 msgstr "Hautatu fitxategia"
@@ -5422,24 +5422,24 @@ msgstr ""
 msgid "csquotes package:   \\enquote{}"
 msgstr ""
 
-#: editorextension.cpp:3245
+#: editorextension.cpp:3241
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr ""
 
-#: editorextension.cpp:3501
+#: editorextension.cpp:3497
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
 "starting such an operation."
 msgstr ""
 
-#: editorextension.cpp:3502
+#: editorextension.cpp:3498
 #, kde-format
 msgid "Structure View Error"
 msgstr ""
 
-#: editorkeysequencemanager.cpp:254
+#: editorkeysequencemanager.cpp:251
 #, kde-format
 msgid "Script execution of %1"
 msgstr ""
@@ -5853,8 +5853,8 @@ msgstr "Ireki &proiektuko fitxategi denak"
 msgid "Find in &Project..."
 msgstr "Bilatu &proiektuan..."
 
-#: kile.cpp:909 kile.cpp:1007 kile.cpp:2131 kiledocmanager.cpp:1997
-#: kiledocmanager.cpp:2007
+#: kile.cpp:909 kile.cpp:1007 kile.cpp:2131 kiledocmanager.cpp:1995
+#: kiledocmanager.cpp:2005
 #, kde-format
 msgid "Clean"
 msgstr "Garbitu"
@@ -7014,23 +7014,23 @@ msgstr "Ezin du direktorioa ireki"
 msgid "Save File"
 msgstr "Gorde fitxategia"
 
-#: kiledocmanager.cpp:1128
+#: kiledocmanager.cpp:1127
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "Jada \"%1\" izeneko fitxategi bat dago. Gainidatzi nahi duzu?"
 
-#: kiledocmanager.cpp:1129
+#: kiledocmanager.cpp:1128
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Fitxategia gainidatzi?"
 
-#: kiledocmanager.cpp:1305
+#: kiledocmanager.cpp:1304
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "Freskatu proiektuaren zuhaitza"
 
-#: kiledocmanager.cpp:1313
+#: kiledocmanager.cpp:1312
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7038,58 +7038,58 @@ msgid ""
 "then choose Refresh Project Tree again."
 msgstr ""
 
-#: kiledocmanager.cpp:1313
+#: kiledocmanager.cpp:1312
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "Ezin izan du proiekturaren zuhaitza freskatu"
 
-#: kiledocmanager.cpp:1398 kiledocmanager.cpp:2169 kiledocmanager.cpp:2243
-#: kiledocmanager.cpp:2280
+#: kiledocmanager.cpp:1397 kiledocmanager.cpp:2167 kiledocmanager.cpp:2241
+#: kiledocmanager.cpp:2278
 #, kde-format
 msgid "Select Project"
 msgstr "Aukeratu proiektua"
 
-#: kiledocmanager.cpp:1423 kiledocmanager.cpp:1438 kiledocmanager.cpp:1445
+#: kiledocmanager.cpp:1422 kiledocmanager.cpp:1437 kiledocmanager.cpp:1444
 #, kde-format
 msgid "Add to Project"
 msgstr "Gehitu proiektuari"
 
-#: kiledocmanager.cpp:1437
+#: kiledocmanager.cpp:1436
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "%1 fitxategia %2 proiekturen zatia da dagoeneko"
 
-#: kiledocmanager.cpp:1444
+#: kiledocmanager.cpp:1443
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr ""
 
-#: kiledocmanager.cpp:1463
+#: kiledocmanager.cpp:1462
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
 "project.  As such, it cannot be removed from the project."
 msgstr ""
 
-#: kiledocmanager.cpp:1463
+#: kiledocmanager.cpp:1462
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr ""
 
-#: kiledocmanager.cpp:1531
+#: kiledocmanager.cpp:1530
 #, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
 "project, close the project before you re-open it.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1533
+#: kiledocmanager.cpp:1532
 #, kde-format
 msgid "Project Already Open"
 msgstr "Proiektua jada irekita dago"
 
-#: kiledocmanager.cpp:1544
+#: kiledocmanager.cpp:1543
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7097,36 +7097,36 @@ msgid ""
 "list?</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1547
+#: kiledocmanager.cpp:1546
 #, fuzzy, kde-format
 msgid "Could Not Open Project"
 msgstr "Ezin izan da proiektua ireki."
 
-#: kiledocmanager.cpp:1565
+#: kiledocmanager.cpp:1564
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
 "file.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1567
+#: kiledocmanager.cpp:1566
 #, kde-format
 msgid "Impossible to Open Project File"
 msgstr ""
 
-#: kiledocmanager.cpp:1577
+#: kiledocmanager.cpp:1576
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
 "version of Kile.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1579
+#: kiledocmanager.cpp:1578
 #, kde-format
 msgid "Impossible to Open Project"
 msgstr ""
 
-#: kiledocmanager.cpp:1589
+#: kiledocmanager.cpp:1588
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7134,34 +7134,34 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1592
+#: kiledocmanager.cpp:1591
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr ""
 
-#: kiledocmanager.cpp:1599
+#: kiledocmanager.cpp:1598
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
 "this project from the recent projects list?</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1601
+#: kiledocmanager.cpp:1600
 #, kde-format
 msgid "Could Not Update Project File"
 msgstr ""
 
-#: kiledocmanager.cpp:1703
+#: kiledocmanager.cpp:1702
 #, kde-format
 msgid "Open Project"
 msgstr "Ireki proiektua"
 
-#: kiledocmanager.cpp:1722
+#: kiledocmanager.cpp:1721
 #, kde-format
 msgid "Save Project"
 msgstr "Gorde proiektua"
 
-#: kiledocmanager.cpp:1774
+#: kiledocmanager.cpp:1773
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7169,44 +7169,44 @@ msgid ""
 "Save Project again."
 msgstr ""
 
-#: kiledocmanager.cpp:1774
+#: kiledocmanager.cpp:1773
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr ""
 
-#: kiledocmanager.cpp:1795
+#: kiledocmanager.cpp:1794
 #, kde-format
 msgid "Add Files to Project"
 msgstr "Gehitu fitxategiak proiektuari"
 
-#: kiledocmanager.cpp:1808
+#: kiledocmanager.cpp:1807
 #, kde-format
 msgid "Add Files"
 msgstr "Gehitu fitxategiak"
 
-#: kiledocmanager.cpp:1811
+#: kiledocmanager.cpp:1810
 #, kde-format
 msgid "Add"
 msgstr "Gehitu"
 
-#: kiledocmanager.cpp:1826
+#: kiledocmanager.cpp:1825
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
 "to, then choose Add Files again."
 msgstr ""
 
-#: kiledocmanager.cpp:1826 kiledocmanager.cpp:1861
+#: kiledocmanager.cpp:1825 kiledocmanager.cpp:1860
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr ""
 
-#: kiledocmanager.cpp:1852
+#: kiledocmanager.cpp:1851
 #, kde-format
 msgid "Project Options For"
 msgstr ""
 
-#: kiledocmanager.cpp:1861
+#: kiledocmanager.cpp:1860
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7214,12 +7214,12 @@ msgid ""
 "Project Options again."
 msgstr ""
 
-#: kiledocmanager.cpp:1887
+#: kiledocmanager.cpp:1886
 #, fuzzy, kde-format
 msgid "Close Project"
 msgstr "Itxi proiektua"
 
-#: kiledocmanager.cpp:1941
+#: kiledocmanager.cpp:1939
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7227,77 +7227,77 @@ msgid ""
 "Close Project again."
 msgstr ""
 
-#: kiledocmanager.cpp:1941
+#: kiledocmanager.cpp:1939
 #, kde-format
 msgid "Could Not Close Project"
 msgstr ""
 
-#: kiledocmanager.cpp:1996
+#: kiledocmanager.cpp:1994
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr ""
 
-#: kiledocmanager.cpp:2006
+#: kiledocmanager.cpp:2004
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr ""
 
-#: kiledocmanager.cpp:2080
+#: kiledocmanager.cpp:2078
 #, kde-format
 msgid "Switch Project"
 msgstr "Aldatu proiektua"
 
-#: kiledocmanager.cpp:2138
+#: kiledocmanager.cpp:2136
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "Aukeratu kendu beharreko fitxategiak"
 
-#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2154
+#: kiledocmanager.cpp:2149 kiledocmanager.cpp:2152
 #, kde-format
 msgid "Show Project Files"
 msgstr "Erakutsi proiektuko fitxategiak"
 
-#: kiledocmanager.cpp:2151 kiledocmanager.cpp:2199
+#: kiledocmanager.cpp:2149 kiledocmanager.cpp:2197
 #, kde-format
 msgid "project configuration file"
 msgstr "proiektua konfiguratzeko fitxategia"
 
-#: kiledocmanager.cpp:2154 kiledocmanager.cpp:2202
+#: kiledocmanager.cpp:2152 kiledocmanager.cpp:2200
 #, kde-format
 msgid "graphics file"
 msgstr "grafiko-fitxategia"
 
-#: kiledocmanager.cpp:2199 kiledocmanager.cpp:2202
+#: kiledocmanager.cpp:2197 kiledocmanager.cpp:2200
 #, kde-format
 msgid "Open All Project Files"
 msgstr "Ireki proiektuko fitxategi denak"
 
-#: kiledocmanager.cpp:2236
+#: kiledocmanager.cpp:2234
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "ireki gabe: %1 (%2)"
 
-#: kiledocmanager.cpp:2261 kiledocmanager.cpp:2298
+#: kiledocmanager.cpp:2259 kiledocmanager.cpp:2296
 #, kde-format
 msgid "Project Files"
 msgstr "Proiektuaren fitxategiak"
 
-#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
+#: kiledocmanager.cpp:2267 kiledocmanager.cpp:2306
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr ""
 
-#: kiledocmanager.cpp:2269 kiledocmanager.cpp:2308
+#: kiledocmanager.cpp:2267 kiledocmanager.cpp:2306
 #, kde-format
 msgid "Project Error"
 msgstr "Proiektuaren errorea"
 
-#: kiledocmanager.cpp:2375
+#: kiledocmanager.cpp:2373
 #, kde-format
 msgid "Opening Project..."
 msgstr "Proiektua irekitzen..."
 
-#: kiledocmanager.cpp:2378
+#: kiledocmanager.cpp:2376
 #, kde-format
 msgid "Scanning project files..."
 msgstr ""
@@ -7436,17 +7436,17 @@ msgstr "Dokumentu ikustailea ez dago erabilgarri"
 msgid "Please disable the live preview before launching this tool"
 msgstr "Mesedez ezgaitu zuzeneko aurreikuspena tresna hau abiarazi aurretik"
 
-#: kilelyxserver.cpp:241
+#: kilelyxserver.cpp:240
 #, kde-format
 msgid "Cite"
 msgstr ""
 
-#: kilelyxserver.cpp:247
+#: kilelyxserver.cpp:246
 #, kde-format
 msgid "Add BibTeX database"
 msgstr ""
 
-#: kilelyxserver.cpp:252
+#: kilelyxserver.cpp:251
 #, kde-format
 msgid "Paste"
 msgstr "Itsatsi"
@@ -9903,27 +9903,27 @@ msgstr "Abortatuta"
 msgid "Cannot find the tool \"%1\" in the configuration database."
 msgstr ""
 
-#: kiletoolmanager.cpp:741
+#: kiletoolmanager.cpp:730
 #, fuzzy, kde-format
 msgid "&Stop"
 msgstr "&Gelditu"
 
-#: kiletoolmanager.cpp:750
+#: kiletoolmanager.cpp:739
 #, kde-format
 msgid "Bibliography Back End"
 msgstr ""
 
-#: kiletoolmanager.cpp:751
+#: kiletoolmanager.cpp:740
 #, fuzzy, kde-format
 msgid "Auto-Detect"
 msgstr "Autodetektatu"
 
-#: kiletoolmanager.cpp:752
+#: kiletoolmanager.cpp:741
 #, kde-format
 msgid "Auto-detect the bibliography back end from LaTeX output"
 msgstr ""
 
-#: kiletoolmanager.cpp:757
+#: kiletoolmanager.cpp:746
 #, kde-format
 msgid "Reset Auto-Detected Back End"
 msgstr "Berrezarri automatikoki antzemandako bizkarraldekoa"
@@ -9997,7 +9997,7 @@ msgstr "&Ikuspegia"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1163 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1159 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10309,27 +10309,27 @@ msgstr "Ezin izan du editore-ikuspegi bat sortu."
 msgid "Fatal Error"
 msgstr "Errore larria"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:842
 #, kde-format
 msgid "&QuickPreview Selection"
 msgstr "&Aurreikuspegi azkarra Hautapena"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:843
 #, kde-format
 msgid "&QuickPreview Environment"
 msgstr "&Aurreikuspegi azkarra Ingurunea"
 
-#: kileviewmanager.cpp:848
+#: kileviewmanager.cpp:844
 #, kde-format
 msgid "&QuickPreview Math"
 msgstr "&Aurreikuspegi azkarra Matematika"
 
-#: kileviewmanager.cpp:1136
+#: kileviewmanager.cpp:1132
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "Inprimatu konpilatutako dokumentua..."
 
-#: kileviewmanager.cpp:1142
+#: kileviewmanager.cpp:1138
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "Konpilatutako dokumenturako inprimatze aurreikuspegia..."

@@ -315,6 +315,7 @@ void ToolConfig::switchTo(const QString & tool, bool save /* = true */)
     m_current = tool;
 
     m_configWidget->m_pshbRemoveTool->setEnabled(KileTool::menuFor(m_current, m_config) != QStringLiteral("none"));
+    m_tabMenu->setEnabled(KileTool::menuFor(m_current, m_config) != QStringLiteral("none"));
 
     m_map.clear();
     if (!m_manager->retrieveEntryMap(m_current, m_map, false, false)) {

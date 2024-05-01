@@ -67,6 +67,8 @@ ToolConfig::ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char *nam
     if (item)
         m_configWidget->m_lstbTools->setCurrentItem(item);
 
+    connect(m_configWidget->m_cbShowAllTools, &QCheckBox::stateChanged, this, &ToolConfig::updateToollist);
+
     connect(m_configWidget->m_cbConfig, SIGNAL(activated(int)), this, SLOT(switchConfig(int)));
 
     // 'm_cbMenu' also stores a mapping from English menu names to their translation
@@ -239,10 +241,19 @@ void ToolConfig::writeDefaults()
 
 void ToolConfig::updateToollist()
 {
+    QString last_current = m_current;
     //KILE_DEBUG_MAIN << "==ToolConfig::updateToollist()====================";
     m_configWidget->m_lstbTools->clear();
-    m_configWidget->m_lstbTools->addItems(KileTool::toolList(m_config, true));
+    m_configWidget->m_lstbTools->addItems(KileTool::toolList(m_config, m_configWidget->m_cbShowAllTools->checkState() == Qt::Unchecked));
     m_configWidget->m_lstbTools->sortItems();
+
+    QList<QListWidgetItem *> itemsList = m_configWidget->m_lstbTools->findItems(last_current, Qt::MatchExactly);
+    if(itemsList.isEmpty()) {
+        return;
+    }
+
+    m_configWidget->m_lstbTools->setCurrentItem(itemsList.first());
+    switchTo(last_current, false);
 }
 
 void ToolConfig::setMenu(int index)
@@ -302,6 +313,8 @@ void ToolConfig::switchTo(const QString & tool, bool save /* = true */)
     }
 
     m_current = tool;
+
+    m_configWidget->m_pshbRemoveTool->setEnabled(KileTool::menuFor(m_current, m_config) != QStringLiteral("none"));
 
     m_map.clear();
     if (!m_manager->retrieveEntryMap(m_current, m_map, false, false)) {

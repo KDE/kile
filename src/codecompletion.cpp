@@ -987,7 +987,6 @@ void Manager::buildReferenceCitationRegularExpressions()
 QString Manager::getCommandsString(KileDocument::CmdAttribute attrtype)
 {
     QStringList cmdlist;
-    QStringList::ConstIterator it;
 
     // get info about user-defined references
     KileDocument::LatexCommands *cmd = m_ki->latexCommands();
@@ -995,11 +994,11 @@ QString Manager::getCommandsString(KileDocument::CmdAttribute attrtype)
 
     // build list of references
     QString commands;
-    for(it = cmdlist.constBegin(); it != cmdlist.constEnd(); ++it) {
-        if(cmd->isStarredEnv(*it) ) {
-            commands += QLatin1Char('|') + (*it).mid(1) + QLatin1Char('*');
+    for(const QString& cmdEntry : std::as_const(cmdlist)) {
+        if(cmd->isStarredEnv(cmdEntry) ) {
+            commands += QLatin1Char('|') + cmdEntry.mid(1) + QLatin1Char('*');
         }
-        commands += QLatin1Char('|') + (*it).mid(1);
+        commands += QLatin1Char('|') + cmdEntry.mid(1);
     }
     return commands;
 }
@@ -1007,7 +1006,6 @@ QString Manager::getCommandsString(KileDocument::CmdAttribute attrtype)
 void Manager::addUserDefinedLaTeXCommands(QStringList &wordlist)
 {
     QStringList cmdlist;
-    QStringList::ConstIterator it;
     KileDocument::LatexCmdAttributes attr;
 
     // get info about user-defined commands and environments
@@ -1015,16 +1013,16 @@ void Manager::addUserDefinedLaTeXCommands(QStringList &wordlist)
     cmd->commandList(cmdlist, KileDocument::CmdAttrNone, true);
 
     // add entries to wordlist
-    for(it = cmdlist.constBegin(); it != cmdlist.constEnd(); ++it) {
-        if(cmd->commandAttributes(*it, attr)) {
+    for(const QString& cmdEntry : std::as_const(cmdlist)) {
+        if(cmd->commandAttributes(cmdEntry, attr)) {
             QString command,eos;
             QStringList entrylist;
             if(attr.type < KileDocument::CmdAttrLabel) {         // environment
-                command = QLatin1String("\\begin{") + (*it);
+                command = QLatin1String("\\begin{") + cmdEntry;
                 eos = QLatin1Char('}');
             }
             else {                                                   // command
-                command = (*it);
+                command = cmdEntry;
                 // eos.clear();
             }
 
@@ -1041,9 +1039,7 @@ void Manager::addUserDefinedLaTeXCommands(QStringList &wordlist)
             }
 
             // finally append entries to wordlist
-            QStringList::ConstIterator itentry;
-            for(itentry = entrylist.constBegin(); itentry != entrylist.constEnd(); ++itentry) {
-                QString entry = (*itentry);
+            for(QString entry : std::as_const(entrylist)) {
                 if(!attr.parameter.isEmpty()) {
                     entry += QLatin1String("{param}");
                 }
@@ -1104,11 +1100,11 @@ QString Manager::validCwlFile(const QString &filename)
 
 static void getCwlFiles(QMap<QString, QString> &map, const QString &dir)
 {
-    QStringList files = QDir(dir, QLatin1String("*.cwl")).entryList();
-    for (QStringList::ConstIterator it = files.constBegin(); it != files.constEnd(); ++it) {
-        QString filename = QFileInfo(*it).fileName();
+    const QStringList files = QDir(dir, QLatin1String("*.cwl")).entryList();
+    for(const QString& file : files) {
+        QString filename = QFileInfo(file).fileName();
         if(!map.contains(filename)) {
-            map[filename] = dir + QLatin1Char('/') + (*it);
+            map[filename] = dir + QLatin1Char('/') + file;
         }
     }
 }
@@ -1129,9 +1125,9 @@ QPair<QString, QString> Manager::getCwlBaseDirs()
     QString globalDir;
 
     const QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, QLatin1String("complete"), QStandardPaths::LocateDirectory);
-    for(QStringList::ConstIterator it = dirs.constBegin(); it != dirs.constEnd(); ++it) {
-        if((*it) != localDir) {
-            globalDir = (*it);
+    for(const QString& dir : dirs) {
+        if(dir != localDir) {
+            globalDir = dir;
             break;
         }
     }

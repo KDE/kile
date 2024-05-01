@@ -128,8 +128,7 @@ void Manager::saveLocalAbbreviations()
 void Manager::addAbbreviationListToMap(const QStringList& list, bool global)
 {
     // a '=' symbol in the left-hand side is encoded by '\='
-    for(QStringList::const_iterator i = list.begin(); i != list.end(); ++i) {
-        QString entry = *i;
+    for(const QString& entry : list) {
         int delimiter = entry.indexOf(QRegularExpression(QLatin1String("[^\\\\]=")));
         if(delimiter < 0) {
             continue;

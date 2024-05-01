@@ -398,12 +398,11 @@ void LatexCommandsDialog::resetListviews()
     m_lviInputs     = new QTreeWidgetItem(m_widget.commands, QStringList(i18n("Includes")));
 
     QStringList list;
-    QStringList::ConstIterator it;
     KileDocument::LatexCmdAttributes attr;
 
     m_commands->commandList(list, KileDocument::CmdAttrNone, m_widget.showOnlyUserDefined->isChecked());
-    for (it = list.constBegin(); it != list.constEnd(); ++it) {
-        if (m_commands->commandAttributes(*it, attr)) {
+    for(const QString &command : std::as_const(list)) {
+        if (m_commands->commandAttributes(command, attr)) {
             QTreeWidgetItem *parent;
             switch (attr.type) {
             case KileDocument::CmdAttrAmsmath:
@@ -439,7 +438,7 @@ void LatexCommandsDialog::resetListviews()
             default:
                 continue;
             }
-            setEntry(parent, *it, attr);
+            setEntry(parent, command, attr);
         }
     }
 }

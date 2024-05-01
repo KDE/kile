@@ -155,8 +155,8 @@ void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= Q_NULLP
 // update all Info's with changed user commands
 void Manager::updateInfos()
 {
-    for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
-        (*it)->updateStructLevelInfo();
+    for(TextInfo* textInfo : std::as_const(m_textInfoList)) {
+        textInfo->updateStructLevelInfo();
     }
 }
 
@@ -172,9 +172,7 @@ KTextEditor::Editor* Manager::getEditor()
 
 KTextEditor::Document* Manager::docFor(const QUrl &url)
 {
-    for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
-        TextInfo *info = *it;
-
+    for(TextInfo* info : std::as_const(m_textInfoList)) {
         if(m_ki->similarOrEqualURL(info->url(), url)) {
             return info->getDoc();
         }
@@ -202,9 +200,7 @@ TextInfo* Manager::textInfoFor(const QUrl &url)
 
     KILE_DEBUG_MAIN << "==KileInfo::textInfoFor(" << url << ")==========================";
 
-    for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
-        TextInfo *info = *it;
-
+    for(TextInfo* info : std::as_const(m_textInfoList)) {
         if (info->url() == url) {
             return info;
         }
@@ -212,8 +208,8 @@ TextInfo* Manager::textInfoFor(const QUrl &url)
 
     // the URL might belong to a TextInfo* which currently doesn't have a KTextEditor::Document*
     // associated with it, i.e. a project item which isn't open in the editor
-    for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-        KileProjectItem *item = (*it)->item(url);
+    for(KileProject* project : std::as_const(m_projects)) {
+        KileProjectItem *item = project->item(url);
 
         // all project items (across different projects) that share a URL have the same TextInfo*;
         // so, the first one we find is good enough
@@ -237,9 +233,9 @@ TextInfo* Manager::textInfoFor(KTextEditor::Document* doc) const
 
     // TextInfo* objects that contain KTextEditor::Document* pointers must be open in the editor, i.e.
     // we don't have to look through the project items
-    for(QList<TextInfo*>::const_iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
-        if((*it)->getDoc() == doc) {
-            return (*it);
+    for(TextInfo* info : m_textInfoList) {
+        if(info->getDoc() == doc) {
+            return info;
         }
     }
 
@@ -266,9 +262,7 @@ QUrl Manager::urlFor(TextInfo* textInfo)
 
 KileProject* Manager::projectForMember(const QUrl &memberUrl)
 {
-    for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-        KileProject *project = *it;
-
+    for(KileProject* project : std::as_const(m_projects)) {
         if(project->contains(memberUrl)) {
             return project;
         }
@@ -279,8 +273,7 @@ KileProject* Manager::projectForMember(const QUrl &memberUrl)
 KileProject* Manager::projectFor(const QUrl &projecturl)
 {
     //find project with url = projecturl
-    for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-        KileProject *project = *it;
+    for(KileProject* project : std::as_const(m_projects)) {
         if(project->url() == projecturl) {
             return project;
         }
@@ -292,9 +285,7 @@ KileProject* Manager::projectFor(const QUrl &projecturl)
 KileProject* Manager::projectFor(const QString &name)
 {
     //find project with url = projecturl
-    for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-        KileProject *project = *it;
-
+    for(KileProject* project : std::as_const(m_projects)) {
         if (project->name() == name) {
             return project;
         }
@@ -306,9 +297,7 @@ KileProject* Manager::projectFor(const QString &name)
 KileProjectItem* Manager::itemFor(const QUrl &url, KileProject *project /*=0L*/) const
 {
     if (!project) {
-        for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-            KileProject *curProject = *it;
-
+        for(KileProject* curProject : std::as_const(m_projects)) {
             KileProjectItem *item = curProject->item(url);
             if(item) {
                 return item;
@@ -324,9 +313,7 @@ KileProjectItem* Manager::itemFor(const QUrl &url, KileProject *project /*=0L*/)
 KileProjectItem* Manager::itemFor(TextInfo *docinfo, KileProject *project /*=0*/) const
 {
     if (!project) {
-        for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-            KileProject *curProject = *it;
-
+        for(KileProject* curProject : std::as_const(m_projects)) {
             KileProjectItem *item = curProject->item(docinfo);
             if(item) {
                 return item;
@@ -347,10 +334,8 @@ QList<KileProjectItem*> Manager::itemsFor(Info *docinfo) const
 
     KILE_DEBUG_MAIN << "==KileInfo::itemsFor(" << docinfo->url().fileName() << ")============";
     QList<KileProjectItem*> list;
-    for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-        KileProject *project = *it;
-
-        KILE_DEBUG_MAIN << "\tproject: " << (*it)->name();
+    for(KileProject* project : std::as_const(m_projects)) {
+        KILE_DEBUG_MAIN << "\tproject: " << project->name();
         if(project->contains(docinfo)) {
             KILE_DEBUG_MAIN << "\t\tcontains";
             list.append(project->item(docinfo));
@@ -363,9 +348,7 @@ QList<KileProjectItem*> Manager::itemsFor(Info *docinfo) const
 QList<KileProjectItem*> Manager::itemsFor(const QUrl &url) const
 {
     QList<KileProjectItem*> list;
-    for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-        KileProject *project = *it;
-
+    for(KileProject* project : std::as_const(m_projects)) {
         if(project->contains(url)) {
             list.append(project->item(url));
         }
@@ -397,11 +380,9 @@ KileProjectItem* Manager::activeProjectItem()
     KTextEditor::Document *doc = m_ki->activeTextDocument();
 
     if (curpr && doc) {
-        QList<KileProjectItem*> list = curpr->items();
+        const QList<KileProjectItem*> list = curpr->items();
 
-        for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
-            KileProjectItem *item = *it;
-
+        for(KileProjectItem* item : list) {
             if (item->url() == doc->url()) {
                 return item;
             }
@@ -466,14 +447,14 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const QUrl &u
 
 void Manager::recreateTextDocumentInfo(TextInfo *oldinfo)
 {
-    QList<KileProjectItem*> list = itemsFor(oldinfo);
+    const QList<KileProjectItem*> list = itemsFor(oldinfo);
     QUrl url = oldinfo->url();
     TextInfo *newinfo = createTextDocumentInfo(m_ki->extensions()->determineDocumentType(url), url, oldinfo->getBaseDirectory());
 
     newinfo->setDoc(oldinfo->getDoc());
 
-    for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
-        (*it)->setInfo(newinfo);
+    for(KileProjectItem* item : list) {
+        item->setInfo(newinfo);
     }
 
     removeTextDocumentInfo(oldinfo);

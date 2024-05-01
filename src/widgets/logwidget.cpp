@@ -194,10 +194,8 @@ void LogWidget::keyPressEvent(QKeyEvent *event)
 
 void LogWidget::deselectAllItems()
 {
-    QList<QListWidgetItem*> items = selectedItems();
-    for(QList<QListWidgetItem*>::iterator i = items.begin();
-            i != items.end(); ++i) {
-        QListWidgetItem *item = *i;
+    const QList<QListWidgetItem*> items = selectedItems();
+    for(QListWidgetItem *item : items) {
         item->setSelected(false);
     }
 }
@@ -298,8 +296,8 @@ void LogWidget::printProblem(int type, const QString& problem, const OutputInfo&
 void LogWidget::printProblems(const QList<KileWidget::LogWidget::ProblemInformation>& list)
 {
     setUpdatesEnabled(false);
-    for(QList<ProblemInformation>::const_iterator i = list.begin(); i != list.end(); ++i) {
-        printMessage((*i).type, (*i).message, QString(), (*i).outputInfo, false, false);
+    for(const ProblemInformation& i : list) {
+        printMessage(i.type, i.message, QString(), i.outputInfo, false, false);
     }
     setUpdatesEnabled(true);
     scrollToBottom();

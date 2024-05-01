@@ -100,15 +100,14 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
         setWindowTitle(i18n("Statistics for the Project %1", m_project->name()));
         KILE_DEBUG_MAIN << "Project file is " << project->baseURL() << Qt::endl;
 
-        QList<KileProjectItem*> items = project->items();
 
         if (m_hasSelection) { // if the active doc has a selection
             stats = m_docinfo->getStatistics(m_view);
             fillWidget(stats, summary); // if yes we fill the summary widget and are finished
         }
         else {
-            for(QList<KileProjectItem*>::iterator i = items.begin(); i != items.end(); ++i) {
-                KileProjectItem *item = *i;
+            const QList<KileProjectItem*> items = project->items();
+            for(const KileProjectItem *item : items) {
 
                 if (item->type() ==  KileProjectItem::ProjectFile) { // ignore project files
                     continue;

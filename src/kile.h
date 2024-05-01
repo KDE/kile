@@ -238,7 +238,7 @@ private:
     void transformOldUserTags();
 
     void initMenu();
-    void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
+    void setMenuItems(const QStringList &list, QMap<QString,bool> &dict);
     void updateMenu();
     bool updateMenuActivationStatus(QMenu *menu);
     bool updateMenuActivationStatus(QMenu *menu, const QSet<QMenu*>& visited);

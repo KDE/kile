@@ -63,15 +63,15 @@ void Manager::removeKeySequence(const QString& seq)
 void Manager::removeKeySequence(const QStringList& l)
 {
     bool changed = false;
-    for(QStringList::const_iterator i = l.begin(); i != l.end(); ++i) {
-        if((*i).isEmpty()) {
+    for(const QString& entry : l) {
+        if(entry.isEmpty()) {
             continue;
         }
-        QMap<QString, Action*>::iterator it = m_actionMap.find(*i);
+        QMap<QString, Action*>::iterator it = m_actionMap.find(entry);
         if(it != m_actionMap.end()) {
             delete (it.value());
             m_actionMap.erase(it);
-            m_watchedKeySequencesList.removeAll(*i);
+            m_watchedKeySequencesList.removeAll(entry);
             changed = true;
         }
     }
@@ -133,8 +133,8 @@ const QStringList& Manager::getWatchedKeySequences()
 }
 
 bool Manager::isSequenceAssigned(const QString& seq) const {
-    for(QList<QString>::const_iterator i = m_watchedKeySequencesList.begin(); i != m_watchedKeySequencesList.end(); ++i) {
-        if((*i).startsWith(seq)) {
+    for(const QString& entry : std::as_const(m_watchedKeySequencesList)) {
+        if(entry.startsWith(seq)) {
             return true;
         }
     }
@@ -143,15 +143,15 @@ bool Manager::isSequenceAssigned(const QString& seq) const {
 
 QPair<int, QString> Manager::checkSequence(const QString& seq, const QString& skip)
 {
-    for(QList<QString>::iterator iterator = m_watchedKeySequencesList.begin(); iterator != m_watchedKeySequencesList.end(); ++iterator) {
-        if (*iterator == skip) {
+    for(const QString& entry : std::as_const(m_watchedKeySequencesList)) {
+        if (entry == skip) {
             continue;
         }
-        if(iterator->startsWith(seq)) {
-            return (*iterator == seq) ? std::pair<int, QString>(1, seq) : std::pair<int, QString>(2, *iterator);
+        if(entry.startsWith(seq)) {
+            return (entry == seq) ? std::pair<int, QString>(1, seq) : std::pair<int, QString>(2, entry);
         }
-        if(!iterator->isEmpty() && seq.startsWith(*iterator)) {
-            return std::pair<int, QString>(3, *iterator);
+        if(!entry.isEmpty() && seq.startsWith(entry)) {
+            return std::pair<int, QString>(3, entry);
         }
     }
     return qMakePair<int, QString>(0, QString());

@@ -1132,9 +1132,8 @@ QAction* Kile::createToolAction(const QString& toolName)
 
 void Kile::createToolActions()
 {
-    QStringList tools = KileTool::toolList(m_config.data());
-    for (QStringList::iterator i = tools.begin(); i != tools.end(); ++i) {
-        QString toolName = *i;
+    const QStringList tools = KileTool::toolList(m_config.data());
+    for(const QString& toolName : tools) {
         if(!actionCollection()->action("tool_" + toolName)) {
             KILE_DEBUG_MAIN << "Creating action for tool" << toolName;
             createToolAction(toolName);
@@ -1271,63 +1270,63 @@ void Kile::initSelectActions() {
 void Kile::saveLastSelectedAction() {
 
     KILE_DEBUG_MAIN << "Kile::saveLastSelectedAction()" << Qt::endl;
-    QStringList list;
-    list << "Compile" << "Convert" << "View" << "Quick";
+    const QStringList list =
+        {QLatin1String("Compile"), QLatin1String("Convert"), QLatin1String("View"), QLatin1String("Quick")};
 
     ToolbarSelectAction *pSelectAction = Q_NULLPTR ;
 
     KConfigGroup grp = m_config->group("ToolSelectAction");
 
-    for(QStringList::Iterator it = list.begin(); it != list.end() ; ++it) {
-        if ( *it == "Compile" ) {
+    for(const QString& action : list) {
+        if(action == "Compile") {
             pSelectAction = m_compilerActions;
         }
-        else if ( *it == "View" ) {
+        else if(action == "View") {
             pSelectAction = m_viewActions;
         }
-        else if ( *it == "Convert" ) {
+        else if(action == "Convert") {
             pSelectAction = m_convertActions;
         }
-        else if ( *it == "Quick" ) {
+        else if(action == "Quick") {
             pSelectAction = m_quickActions;
         }
 
         KILE_DEBUG_MAIN << "current item is " << pSelectAction->currentItem();
 
-        grp.writeEntry(*it, pSelectAction->currentItem());
+        grp.writeEntry(action, pSelectAction->currentItem());
     }
 }
 
 void Kile::restoreLastSelectedAction() {
 
-    QStringList list;
-    list << "Compile" << "Convert" << "View" << "Quick";
+    const QStringList list =
+        {QLatin1String("Compile"), QLatin1String("Convert"), QLatin1String("View"), QLatin1String("Quick")};
 
     ToolbarSelectAction *pSelectAction = Q_NULLPTR;
     int defaultAction = 0;
 
     KConfigGroup grp = m_config->group("ToolSelectAction");
 
-    for(QStringList::Iterator it = list.begin(); it != list.end(); ++it) {
-        if ( *it == "Compile" ) {
+    for(const QString& action : list) {
+        if(action == "Compile") {
             pSelectAction = m_compilerActions;
             defaultAction = 9; // PDFLatex
         }
-        else if ( *it == "View" ) {
+        else if(action == "View") {
             pSelectAction = m_viewActions;
             defaultAction = 4; // ViewPDF
         }
-        else if ( *it == "Convert" ) {
+        else if(action == "Convert") {
             pSelectAction = m_convertActions;
             defaultAction = 0;
         }
-        else if ( *it == "Quick" ) {
+        else if(action == "Quick") {
             pSelectAction = m_quickActions;
             defaultAction = 0;
         }
 
-        int actIndex = grp.readEntry(*it, defaultAction);
-        KILE_DEBUG_MAIN << "selecting" << actIndex << "for" << *it;
+        int actIndex = grp.readEntry(action, defaultAction);
+        KILE_DEBUG_MAIN << "selecting" << actIndex << "for" << action;
         pSelectAction->setCurrentItem(actIndex);
     }
 }
@@ -1457,12 +1456,10 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
     //disable gui updates to avoid flickering of toolbars
     setUpdatesEnabled(false);
 
-    QList<KToolBar*> toolBarsList = toolBars();
+    const QList<KToolBar*> toolBarsList = toolBars();
     QHash<KToolBar*, bool> toolBarVisibilityHash;
 
-    for(QList<KToolBar*>::iterator i = toolBarsList.begin();
-            i != toolBarsList.end(); ++i) {
-        KToolBar *toolBar = *i;
+    for(KToolBar* toolBar : toolBarsList) {
         toolBarVisibilityHash[toolBar] = toolBar->isVisible();
     }
 
@@ -1480,10 +1477,8 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
     guiFactory()->addClient(view);
 
-    for(QList<KToolBar*>::iterator i = toolBarsList.begin();
-            i != toolBarsList.end(); ++i) {
-        KToolBar *toolBar = *i;
-        toolBar->setVisible(toolBarVisibilityHash[*i]);
+    for(KToolBar* toolBar : toolBarsList) {
+        toolBar->setVisible(toolBarVisibilityHash[toolBar]);
     }
 
     setUpdatesEnabled(true);
@@ -1629,9 +1624,9 @@ bool Kile::queryClose()
     }
 
     KILE_DEBUG_MAIN << "#projects = " << docManager()->projects().count() << Qt::endl;
-    QList<KileProject*> projectList = docManager()->projects();
-    for(QList<KileProject*>::iterator i = projectList.begin(); i != projectList.end(); ++i) {
-        const QUrl url = (*i)->url();
+    const QList<KileProject*> projectList = docManager()->projects();
+    for(const KileProject* project : projectList) {
+        const QUrl url = project->url();
         if(!url.isEmpty()) { // shoul always be the case, but just in case...
             m_listProjectsOpenOnStart.append(url.toLocalFile());
         }
@@ -1829,11 +1824,11 @@ void Kile::updateUserDefinedMenus()
 void Kile::enableGUI(bool enable)
 {
     // update action lists
-    QList<QAction *> actions = actionCollection()->actions();
-    for(QList<QAction *>::iterator itact = actions.begin(); itact != actions.end(); ++itact) {
-        if (m_dictMenuAction.contains((*itact)->objectName())
-                || m_dictMenuFile.contains((*itact)->objectName())) {
-            (*itact)->setEnabled(enable);
+    const QList<QAction *> actions = actionCollection()->actions();
+    for(QAction *action : actions) {
+        if (m_dictMenuAction.contains(action->objectName())
+                || m_dictMenuFile.contains(action->objectName())) {
+            action->setEnabled(enable);
         }
     }
 
@@ -1861,20 +1856,20 @@ void Kile::enableGUI(bool enable)
                << m_listViewerActions
                << m_listOtherActions;
     // enable or disable list actions
-    for(QList<QAction*>::iterator i = actionList.begin(); i != actionList.end(); ++i) {
-        (*i)->setEnabled(enable);
+    for(QAction* action : std::as_const(actionList)) {
+        action->setEnabled(enable);
     }
 
     // enable or disable bibliography menu entries
-    actionList = m_bibTagActionMenu->menu()->actions();
-    for(QList<QAction*>::iterator it = actionList.begin(); it != actionList.end(); ++it) {
-        (*it)->setEnabled(enable);
+    const QList<QAction*> bibTagActionList = m_bibTagActionMenu->menu()->actions();
+    for(QAction* action : bibTagActionList) {
+        action->setEnabled(enable);
     }
 
-    QStringList menuList;
-    menuList << "file" << "edit" << "view" << "menu_build" << "menu_project" << "menu_latex" << "wizard" << "tools";
-    for(QStringList::iterator it = menuList.begin(); it != menuList.end(); ++it) {
-        QMenu *menu = dynamic_cast<QMenu*>(guiFactory()->container(*it, this));
+    const QStringList menuList =
+        {"file", "edit", "view", "menu_build", "menu_project", "menu_latex", "wizard", "tools"};
+    for(const QString& entry : menuList) {
+        QMenu *menu = dynamic_cast<QMenu*>(guiFactory()->container(entry, this));
         if(menu) {
             updateMenuActivationStatus(menu);
         }
@@ -2016,32 +2011,30 @@ void Kile::initMenu()
     setMenuItems(actionlist,m_dictMenuAction);
 }
 
-void Kile::setMenuItems(QStringList &list, QMap<QString,bool> &dict)
+void Kile::setMenuItems(const QStringList &list, QMap<QString,bool> &dict)
 {
-    for ( QStringList::Iterator it=list.begin(); it!=list.end(); ++it ) {
-        dict[(*it)] = true;
+    for(const QString& entry : list) {
+        dict[entry] = true;
     }
 }
 
 void Kile::updateMenu()
 {
     KILE_DEBUG_MAIN << "==Kile::updateMenu()====================" << Qt::endl;
-    QAction *a;
-    QMap<QString,bool>::Iterator it;
 
     // update project menus
     m_actRecentProjects->setEnabled( m_actRecentProjects->items().count() > 0 );
     bool project_open = ( docManager()->isProjectOpen() ) ;
 
-    for ( it=m_dictMenuProject.begin(); it!=m_dictMenuProject.end(); ++it ) {
-        a = actionCollection()->action(it.key());
+    for(auto [key, value] : m_dictMenuProject.asKeyValueRange()) {
+        QAction *a = actionCollection()->action(key);
         if(a) {
             a->setEnabled(project_open);
         }
     }
 
     // project_show is only enabled, when more than 1 project is opened
-    a = actionCollection()->action("project_show");
+    QAction *a = actionCollection()->action("project_show");
     if(a) {
         a->setEnabled(project_open && docManager()->projects().count() > 1);
     }
@@ -2072,10 +2065,9 @@ bool Kile::updateMenuActivationStatus(QMenu *menu, const QSet<QMenu*>& visited)
     }
 
     bool enabled = false;
-    QList<QAction*> actionList = menu->actions();
+    const QList<QAction*> actionList = menu->actions();
 
-    for(QList<QAction*>::iterator it = actionList.begin(); it != actionList.end(); ++it) {
-        QAction *action = *it;
+    for(QAction *action : actionList) {
         QMenu *subMenu = action->menu();
         if(subMenu) {
             QSet<QMenu*> newVisited(visited);
@@ -2195,12 +2187,11 @@ void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
     KileDocument::TextInfo *docinfo = docManager()->textInfoFor(getCompileName());
     if(docinfo) {
         QStringList packagelist = allPackages(docinfo);
-        QStringList::const_iterator it;
         QStringList warnPkgs;
 
-        for ( it = pkgs.begin(); it != pkgs.end(); ++it) {
-            if(!packagelist.contains(*it)) {
-                warnPkgs.append(*it);
+        for(const QString& pkg : pkgs) {
+            if(!packagelist.contains(pkg)) {
+                warnPkgs.append(pkg);
             }
         }
 

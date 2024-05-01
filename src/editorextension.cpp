@@ -352,7 +352,7 @@ void EditorExtension::closeAllEnvironments(KTextEditor::View *view)
         return;
     }
 
-    QStringList envlist = findOpenedEnvironmentList(view, true);
+    const QStringList envlist = findOpenedEnvironmentList(view, true);
     if(envlist.count() == 0) {
         return;
     }
@@ -371,8 +371,8 @@ void EditorExtension::closeAllEnvironments(KTextEditor::View *view)
     }
 
     bool ok1,ok2;
-    for(QStringList::Iterator it = envlist.begin(); it != envlist.end(); ++it) {
-        QStringList entry = (*it).split(',');
+    for(const QString& envEntry : envlist) {
+        QStringList entry = envEntry.split(',');
         if(entry[0] == "document") {
             break;
         }

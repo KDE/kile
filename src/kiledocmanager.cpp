@@ -836,10 +836,11 @@ void Manager::fileOpen()
         if(m_ki->extensions()->isProjectFile(url)) { // this can happen... (bug 317432)
             KILE_DEBUG_MAIN << "file is a project file:" << url;
             projectOpen(url);
-            continue;
         }
-
-        fileOpen(url, result.encoding);
+        else
+        {
+            fileOpen(url, result.encoding);
+        }
     }
 }
 
@@ -1155,10 +1156,9 @@ bool Manager::fileCloseAllOthers(KTextEditor::View *currentView)
     QList<KTextEditor::View*> viewList;
     for(int i = 0; i < m_ki->viewManager()->textViewCount(); ++i) {
         KTextEditor::View *view = m_ki->viewManager()->textView(i);
-        if(currentView == view) {
-            continue;
+        if(currentView != view) {
+            viewList.push_back(view);
         }
-        viewList.push_back(view);
 
     }
     for(QList<KTextEditor::View*>::iterator it = viewList.begin();

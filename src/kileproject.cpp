@@ -982,10 +982,8 @@ bool KileProject::migrateProjectFileToVersion3()
             KConfigGroup guiGroup(&projectGUIFile, groupName);
             oldGroup.copyTo(&guiGroup);
             m_config->deleteGroup(groupName);
-            continue;
         }
-
-        if(groupName.startsWith(QLatin1String("item:"))) {
+        else if(groupName.startsWith(QLatin1String("item:"))) {
             deleteConfigGroupKeys(m_config, groupName, keysToDeleteInItemGroups);
             moveConfigGroupKeysAsStrings(m_config, &projectGUIFile, groupName, keysToMoveInItemGroups);
         }

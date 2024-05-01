@@ -1632,10 +1632,9 @@ bool Kile::queryClose()
     QList<KileProject*> projectList = docManager()->projects();
     for(QList<KileProject*>::iterator i = projectList.begin(); i != projectList.end(); ++i) {
         const QUrl url = (*i)->url();
-        if(url.isEmpty()) { // shouldn't happen, but just in case...
-            continue;
+        if(!url.isEmpty()) { // shoul always be the case, but just in case...
+            m_listProjectsOpenOnStart.append(url.toLocalFile());
         }
-        m_listProjectsOpenOnStart.append(url.toLocalFile());
     }
 
     bool stage1 = docManager()->projectCloseAll();
@@ -1842,11 +1841,13 @@ void Kile::enableGUI(bool enable)
     if(m_userMenu) {
         const QList<QAction *> useractions = m_userMenu->menuActions();
         for(QAction *action : useractions) {
-            if(!action) {
-                KILE_WARNING_MAIN << "null action found.";
-                continue;
+            if(action) {
+                action->setEnabled(enable);
             }
-            action->setEnabled(enable);
+            else
+            {
+                KILE_WARNING_MAIN << "null action found.";
+            }
         }
     }
 
@@ -2512,10 +2513,9 @@ void Kile::readRecentFileSettings()
     n = group.readEntry("NoPOOS", 0);
     for(int i = 0; i < n; ++i) {
         const QString urlString = group.readPathEntry("ProjectsOpenOnStart" + QString::number(i), "");
-        if(urlString.isEmpty()) {
-            continue;
+        if(!urlString.isEmpty()) {
+            m_listProjectsOpenOnStart.append(urlString);
         }
-        m_listProjectsOpenOnStart.append(urlString);
     }
 }
 

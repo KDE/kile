@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-29 00:39+0000\n"
+"POT-Creation-Date: 2024-05-02 00:38+0000\n"
 "PO-Revision-Date: 2024-04-19 18:24+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -387,111 +387,111 @@ msgstr "Editor"
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetGeneralConfig)
-#: dialogs/configurationdialog.cpp:200 dialogs/configurationdialog.cpp:287
+#: dialogs/configurationdialog.cpp:201 dialogs/configurationdialog.cpp:288
 #: widgets/appearanceconfigwidget.ui:20 widgets/generalconfigwidget.ui:26
-#: widgets/maintoolconfigwidget.ui:245
+#: widgets/maintoolconfigwidget.ui:268
 #, kde-format
 msgid "General"
 msgstr "Generale"
 
-#: dialogs/configurationdialog.cpp:200
+#: dialogs/configurationdialog.cpp:201
 #, kde-format
 msgid "General Settings"
 msgstr "Impostazioni generali"
 
-#: dialogs/configurationdialog.cpp:209
+#: dialogs/configurationdialog.cpp:210
 #, kde-format
 msgid "Build"
 msgstr "Costruzione"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetScriptingConfig)
-#: dialogs/configurationdialog.cpp:220 widgets/scriptingconfigwidget.ui:21
+#: dialogs/configurationdialog.cpp:221 widgets/scriptingconfigwidget.ui:21
 #, kde-format
 msgid "Scripting Support"
 msgstr "Supporto per script"
 
-#: dialogs/configurationdialog.cpp:220
+#: dialogs/configurationdialog.cpp:221
 #, kde-format
 msgid "Scripting"
 msgstr "Script"
 
 #. i18n: ectx: Menu (menu_usermenu)
-#: dialogs/configurationdialog.cpp:229 kileui.rc:496 usermenu/usermenu.cpp:68
+#: dialogs/configurationdialog.cpp:230 kileui.rc:496 usermenu/usermenu.cpp:68
 #, kde-format
 msgid "User Menu"
 msgstr "Menu dell'utente"
 
-#: dialogs/configurationdialog.cpp:241
+#: dialogs/configurationdialog.cpp:242
 #, kde-format
 msgid "Complete"
 msgstr "Completa"
 
-#: dialogs/configurationdialog.cpp:241
+#: dialogs/configurationdialog.cpp:242
 #, kde-format
 msgid "Code Completion"
 msgstr "Completamento del codice"
 
 #. i18n: ectx: Menu (quickpreview)
-#: dialogs/configurationdialog.cpp:251 kileui.rc:148
+#: dialogs/configurationdialog.cpp:252 kileui.rc:148
 #, kde-format
 msgid "Quick Preview"
 msgstr "Anteprima veloce"
 
-#: dialogs/configurationdialog.cpp:251 kile.cpp:751
+#: dialogs/configurationdialog.cpp:252 kile.cpp:751
 #, kde-format
 msgid "Preview"
 msgstr "Anteprima"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetHelpConfig)
-#: dialogs/configurationdialog.cpp:259 kilehelp.cpp:171
+#: dialogs/configurationdialog.cpp:260 kilehelp.cpp:171
 #: widgets/helpconfigwidget.ui:20
 #, kde-format
 msgid "Help"
 msgstr "Aiuto"
 
 #. i18n: ectx: Menu (menu_livepreview)
-#: dialogs/configurationdialog.cpp:267 kileui.rc:145
+#: dialogs/configurationdialog.cpp:268 kileui.rc:145
 #, kde-format
 msgid "Live Preview"
 msgstr "Anteprima in diretta"
 
-#: dialogs/configurationdialog.cpp:275
+#: dialogs/configurationdialog.cpp:276
 #, kde-format
 msgid "Appearance"
 msgstr "Aspetto"
 
 #. i18n: ectx: attribute (title), widget (QWidget, pageEnvironments)
-#: dialogs/configurationdialog.cpp:294 dialogs/latexcommanddialog_base.ui:41
+#: dialogs/configurationdialog.cpp:295 dialogs/latexcommanddialog_base.ui:41
 #, kde-format
 msgid "Environments"
 msgstr "Ambienti"
 
-#: dialogs/configurationdialog.cpp:301 widgets/previewconfigwidget.cpp:246
+#: dialogs/configurationdialog.cpp:302 widgets/previewconfigwidget.cpp:246
 #: widgets/previewconfigwidget.cpp:247
 #, kde-format
 msgid "installed"
 msgstr "installato"
 
-#: dialogs/configurationdialog.cpp:301 widgets/previewconfigwidget.cpp:246
+#: dialogs/configurationdialog.cpp:302 widgets/previewconfigwidget.cpp:246
 #: widgets/previewconfigwidget.cpp:247
 #, kde-format
 msgid "not installed"
 msgstr "non installato"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetGraphicsConfig)
-#: dialogs/configurationdialog.cpp:302 widgets/graphicsconfigwidget.ui:14
+#: dialogs/configurationdialog.cpp:303 widgets/graphicsconfigwidget.ui:14
 #, kde-format
 msgid "Graphics"
 msgstr "Grafica"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetStructureViewConfig)
-#: dialogs/configurationdialog.cpp:309 widgets/structureviewconfigwidget.ui:26
+#: dialogs/configurationdialog.cpp:310 widgets/structureviewconfigwidget.ui:26
 #, kde-format
 msgid "Structure View"
 msgstr "Vista strutturale"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetSymbolViewConfig)
-#: dialogs/configurationdialog.cpp:316 widgets/symbolviewconfigwidget.ui:14
+#: dialogs/configurationdialog.cpp:317 widgets/symbolviewconfigwidget.ui:14
 #, kde-format
 msgid "Symbol View"
 msgstr "Vista dei simboli"
@@ -6164,7 +6164,7 @@ msgstr "Apri tutti i file del &progetto"
 msgid "Find in &Project..."
 msgstr "Trova nel &progetto..."
 
-#: kile.cpp:909 kile.cpp:1007 kile.cpp:2131 kiledocmanager.cpp:1995
+#: kile.cpp:909 kile.cpp:1007 kile.cpp:2132 kiledocmanager.cpp:1995
 #: kiledocmanager.cpp:2005
 #, kde-format
 msgid "Clean"
@@ -6329,7 +6329,7 @@ msgstr "Impostazioni di BibTeX"
 msgid "Settings for Biblatex"
 msgstr "Impostazioni di Biblatex"
 
-#: kile.cpp:1023 kile.cpp:2237
+#: kile.cpp:1023 kile.cpp:2238
 #, kde-format
 msgid "Quick Start"
 msgstr "Avvio rapido"
@@ -6339,7 +6339,7 @@ msgstr "Avvio rapido"
 msgid "Array"
 msgstr "Matrice"
 
-#: kile.cpp:1027 kile.cpp:2289 kilestdactions.cpp:79
+#: kile.cpp:1027 kile.cpp:2290 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "Tabulazione"
@@ -6399,22 +6399,22 @@ msgstr "BibTeX"
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1255 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1255 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Compile"
 msgstr "Compila"
 
-#: kile.cpp:1256 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1256 widgets/toolconfigwidget.cpp:78
 #, kde-format
 msgid "View"
 msgstr "Visualizza"
 
-#: kile.cpp:1257 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1257 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "Convert"
 msgstr "Converti"
 
-#: kile.cpp:1258 widgets/toolconfigwidget.cpp:73
+#: kile.cpp:1258 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Quick"
 msgstr "Rapido"
@@ -6465,38 +6465,38 @@ msgstr "Definisci il documento attuale come «documento principale»"
 msgid "Normal mode (current master document: %1)"
 msgstr "Modo normale (documento principale attuale: %1)"
 
-#: kile.cpp:1746
+#: kile.cpp:1745
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr "%1 [sola lettura]"
 
-#: kile.cpp:2124
+#: kile.cpp:2125
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "Non c'è un documento attivo, o non è salvato."
 
-#: kile.cpp:2208
+#: kile.cpp:2209
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "Devi includere il pacchetto %1."
 
-#: kile.cpp:2208 kile.cpp:2211
+#: kile.cpp:2209 kile.cpp:2212
 #, kde-format
 msgid "Insert text"
 msgstr "Inserisci testo"
 
-#: kile.cpp:2211
+#: kile.cpp:2212
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "Devi includere i pacchetti %1."
 
-#: kile.cpp:2432
+#: kile.cpp:2433
 #, kde-format
 msgid "No Name"
 msgstr "Senza nome"
 
-#: kile.cpp:2468
+#: kile.cpp:2469
 #, kde-format
 msgid "no name"
 msgstr "nessun nome"
@@ -7355,7 +7355,7 @@ msgstr "Rimuovi modello"
 msgid "Open Files"
 msgstr "Apri file"
 
-#: kiledocmanager.cpp:911
+#: kiledocmanager.cpp:912
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
@@ -7364,22 +7364,22 @@ msgstr ""
 "Kile ha rilevato problemi nel salvataggio del file %1. Hai abbastanza spazio "
 "libero sul disco?"
 
-#: kiledocmanager.cpp:912
+#: kiledocmanager.cpp:913
 #, kde-format
 msgid "Saving"
 msgstr "Salvataggio"
 
-#: kiledocmanager.cpp:945
+#: kiledocmanager.cpp:946
 #, kde-format
 msgid "Any files (*)"
 msgstr "Qualsiasi file (*)"
 
-#: kiledocmanager.cpp:947
+#: kiledocmanager.cpp:948
 #, kde-format
 msgid "Save Compiled Document As..."
 msgstr "Salva il documento compilato come..."
 
-#: kiledocmanager.cpp:972
+#: kiledocmanager.cpp:973
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
@@ -7388,23 +7388,23 @@ msgstr ""
 "L'URL «%1» non può essere aperto\n"
 "perché è una cartella."
 
-#: kiledocmanager.cpp:973
+#: kiledocmanager.cpp:974
 #, kde-format
 msgid "Cannot open directory"
 msgstr "Impossibile aprire la cartella"
 
-#: kiledocmanager.cpp:1091
+#: kiledocmanager.cpp:1092
 #, kde-format
 msgid "Save File"
 msgstr "Salva file"
 
-#: kiledocmanager.cpp:1127
+#: kiledocmanager.cpp:1128
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "Un file chiamato «%1» esiste già. Sei sicuro di volerlo sovrascrivere?"
 
-#: kiledocmanager.cpp:1128
+#: kiledocmanager.cpp:1129
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Sovrascrivere il file?"
@@ -8867,7 +8867,7 @@ msgid "Huge"
 msgstr "Gigantesco"
 
 #: kilestdactions.cpp:125 widgets/projectview.cpp:481
-#: widgets/toolconfigwidget.cpp:77
+#: widgets/toolconfigwidget.cpp:79
 #, kde-format
 msgid "Other"
 msgstr "Altro"
@@ -11690,7 +11690,7 @@ msgstr "Aggiungi..."
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbRemoveConfig)
 #. i18n: ectx: property (text), widget (QPushButton, m_pbRemove)
 #: widgets/codecompletionconfigwidget.ui:140
-#: widgets/maintoolconfigwidget.ui:116 widgets/maintoolconfigwidget.ui:212
+#: widgets/maintoolconfigwidget.ui:123 widgets/maintoolconfigwidget.ui:235
 #: widgets/usermenuconfigwidget.ui:115
 #, kde-format
 msgid "Remove"
@@ -11973,7 +11973,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlType)
 #. i18n: ectx: property (text), widget (QLabel, m_lbType)
-#: widgets/latexconfigwidget.ui:89 widgets/maintoolconfigwidget.ui:342
+#: widgets/latexconfigwidget.ui:89 widgets/maintoolconfigwidget.ui:365
 #, kde-format
 msgid "&Type:"
 msgstr "&Tipo:"
@@ -12138,87 +12138,94 @@ msgstr "Nascondi a&vvisi (La)TeX"
 msgid "Select a tool"
 msgstr "Seleziona uno strumento"
 
+#. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
+#: widgets/maintoolconfigwidget.ui:94
+#, fuzzy, kde-format
+#| msgid "Show Main Toolbar"
+msgid "Show hidden tools"
+msgstr "Mostra la barra principale"
+
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)
-#: widgets/maintoolconfigwidget.ui:109 widgets/maintoolconfigwidget.ui:193
+#: widgets/maintoolconfigwidget.ui:116 widgets/maintoolconfigwidget.ui:216
 #, kde-format
 msgid "New..."
 msgstr "Nuovo..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_groupBox)
-#: widgets/maintoolconfigwidget.ui:129
+#: widgets/maintoolconfigwidget.ui:152
 #, kde-format
 msgid "Choose a configuration for the current tool"
 msgstr "Scegli una configurazione per lo strumento attuale"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
-#: widgets/maintoolconfigwidget.ui:152
+#: widgets/maintoolconfigwidget.ui:175
 #, kde-format
 msgid "Se&lect:"
 msgstr "Se&leziona:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
-#: widgets/maintoolconfigwidget.ui:308
+#: widgets/maintoolconfigwidget.ui:331
 #, kde-format
 msgid "Advanced"
 msgstr "Avanzate"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbClass)
-#: widgets/maintoolconfigwidget.ui:365
+#: widgets/maintoolconfigwidget.ui:388
 #, kde-format
 msgid "C&lass:"
 msgstr "C&lasse:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbSource)
-#: widgets/maintoolconfigwidget.ui:388
+#: widgets/maintoolconfigwidget.ui:411
 #, kde-format
 msgid "Source e&xtension:"
 msgstr "Estensione dei file &sorgente:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbTarget)
-#: widgets/maintoolconfigwidget.ui:411
+#: widgets/maintoolconfigwidget.ui:434
 #, kde-format
 msgid "Tar&get extension:"
 msgstr "Estensione dei file ris&ultante:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: widgets/maintoolconfigwidget.ui:434
+#: widgets/maintoolconfigwidget.ui:457
 #, kde-format
 msgid "Target &file:"
 msgstr "&File risultante:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
-#: widgets/maintoolconfigwidget.ui:460
+#: widgets/maintoolconfigwidget.ui:483
 #, kde-format
 msgid "&Relative dir:"
 msgstr "Cartella &relativa:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckClose)
-#: widgets/maintoolconfigwidget.ui:488
+#: widgets/maintoolconfigwidget.ui:511
 #, kde-format
 msgid "Close Konsole when tool is finished"
 msgstr "Chiudi Konsole quando lo strumento ha finito"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage)
-#: widgets/maintoolconfigwidget.ui:511
+#: widgets/maintoolconfigwidget.ui:534
 #, kde-format
 msgid "Menu"
 msgstr "Menu"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenu)
-#: widgets/maintoolconfigwidget.ui:534
+#: widgets/maintoolconfigwidget.ui:557
 #, kde-format
 msgid "Add &tool to Build menu:"
 msgstr "Aggiungi s&trumento al menu di costruzione:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbIcon)
-#: widgets/maintoolconfigwidget.ui:557
+#: widgets/maintoolconfigwidget.ui:580
 #, kde-format
 msgid "&Icon:"
 msgstr "&Icona:"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbDefault)
-#: widgets/maintoolconfigwidget.ui:628
+#: widgets/maintoolconfigwidget.ui:651
 #, kde-format
 msgid "Restore Default Tools..."
 msgstr "Ripristina gli strumenti predefiniti..."
@@ -13094,32 +13101,32 @@ msgstr ""
 "Inserisci la rappresentazione Unicode del simbolo selezionato (quando "
 "disponibile)"
 
-#: widgets/toolconfigwidget.cpp:109
+#: widgets/toolconfigwidget.cpp:111
 #, kde-format
 msgid "Run Outside of Kile"
 msgstr "Esegui al di fuori di Kile"
 
-#: widgets/toolconfigwidget.cpp:110
+#: widgets/toolconfigwidget.cpp:112
 #, kde-format
 msgid "Run in Konsole"
 msgstr "Esegui in Konsole"
 
-#: widgets/toolconfigwidget.cpp:111
+#: widgets/toolconfigwidget.cpp:113
 #, kde-format
 msgid "Use Document Viewer"
 msgstr "Usa il visore di documenti"
 
-#: widgets/toolconfigwidget.cpp:112
+#: widgets/toolconfigwidget.cpp:114
 #, kde-format
 msgid "Run Sequence of Tools"
 msgstr "Esegui una sequenza di strumenti"
 
-#: widgets/toolconfigwidget.cpp:159
+#: widgets/toolconfigwidget.cpp:161
 #, kde-format
 msgid "Use the \"Advanced\" tab to configure this tool."
 msgstr "Usa la scheda «Avanzate» per configurare questo strumento."
 
-#: widgets/toolconfigwidget.cpp:170
+#: widgets/toolconfigwidget.cpp:172
 #, kde-format
 msgid ""
 "Unknown tool type; your configuration data is malformed.\n"
@@ -13128,7 +13135,7 @@ msgstr ""
 "Tipo di strumento sconosciuto; i tuoi dati di configurazione sono corrotti.\n"
 "Forse è una buona idea ripristinare le impostazioni predefinite."
 
-#: widgets/toolconfigwidget.cpp:223
+#: widgets/toolconfigwidget.cpp:225
 #, kde-format
 msgid ""
 "All your tool settings will be overwritten with the default settings.\n"
@@ -13138,37 +13145,37 @@ msgstr ""
 "predefinite.\n"
 "Sei sicuro di voler continuare?"
 
-#: widgets/toolconfigwidget.cpp:337
+#: widgets/toolconfigwidget.cpp:350
 #, kde-format
 msgid "Choose a configuration for the tool %1"
 msgstr "Scegli una configurazione per lo strumento %1"
 
-#: widgets/toolconfigwidget.cpp:407
+#: widgets/toolconfigwidget.cpp:420
 #, kde-format
 msgid "New Configuration"
 msgstr "Nuova configurazione"
 
-#: widgets/toolconfigwidget.cpp:407
+#: widgets/toolconfigwidget.cpp:420
 #, kde-format
 msgid "Enter new configuration name:"
 msgstr "Inserisci il nome della nuova configurazione:"
 
-#: widgets/toolconfigwidget.cpp:434
+#: widgets/toolconfigwidget.cpp:447
 #, kde-format
 msgid "Are you sure you want to remove the tool %1?"
 msgstr "Sei sicuro di voler rimuovere lo strumento %1?"
 
-#: widgets/toolconfigwidget.cpp:464
+#: widgets/toolconfigwidget.cpp:477
 #, kde-format
 msgid "Are you sure that you want to remove this configuration?"
 msgstr "Sei sicuro di voler rimuovere questa configurazione?"
 
-#: widgets/toolconfigwidget.cpp:478
+#: widgets/toolconfigwidget.cpp:491
 #, kde-format
 msgid "You need at least one configuration for each tool."
 msgstr "Hai bisogno di almeno una configurazione per ogni strumento."
 
-#: widgets/toolconfigwidget.cpp:478
+#: widgets/toolconfigwidget.cpp:491
 #, kde-format
 msgid "Cannot Remove Configuration"
 msgstr "Impossibile rimuovere la configurazione"
@@ -15142,9 +15149,6 @@ msgstr "Mostra il menu dell'&utente nella barra dei menu"
 
 #~ msgid "Standard Menu Shortcuts"
 #~ msgstr "Scorciatoie standard del menu"
-
-#~ msgid "Show Main Toolbar"
-#~ msgstr "Mostra la barra principale"
 
 #~ msgid "Show Tools Toolbar"
 #~ msgstr "Mostra la barra strumenti"

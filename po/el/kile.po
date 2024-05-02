@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-29 00:39+0000\n"
+"POT-Creation-Date: 2024-05-02 00:38+0000\n"
 "PO-Revision-Date: 2020-09-21 10:54+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -401,111 +401,111 @@ msgstr "Επεξεργαστής"
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetGeneralConfig)
-#: dialogs/configurationdialog.cpp:200 dialogs/configurationdialog.cpp:287
+#: dialogs/configurationdialog.cpp:201 dialogs/configurationdialog.cpp:288
 #: widgets/appearanceconfigwidget.ui:20 widgets/generalconfigwidget.ui:26
-#: widgets/maintoolconfigwidget.ui:245
+#: widgets/maintoolconfigwidget.ui:268
 #, kde-format
 msgid "General"
 msgstr "Γενικά"
 
-#: dialogs/configurationdialog.cpp:200
+#: dialogs/configurationdialog.cpp:201
 #, kde-format
 msgid "General Settings"
 msgstr "Γενικές ρυθμίσεις"
 
-#: dialogs/configurationdialog.cpp:209
+#: dialogs/configurationdialog.cpp:210
 #, kde-format
 msgid "Build"
 msgstr "Κατασκευή"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetScriptingConfig)
-#: dialogs/configurationdialog.cpp:220 widgets/scriptingconfigwidget.ui:21
+#: dialogs/configurationdialog.cpp:221 widgets/scriptingconfigwidget.ui:21
 #, kde-format
 msgid "Scripting Support"
 msgstr "Υποστήριξη σεναρίων"
 
-#: dialogs/configurationdialog.cpp:220
+#: dialogs/configurationdialog.cpp:221
 #, kde-format
 msgid "Scripting"
 msgstr "Σενάρια"
 
 #. i18n: ectx: Menu (menu_usermenu)
-#: dialogs/configurationdialog.cpp:229 kileui.rc:496 usermenu/usermenu.cpp:68
+#: dialogs/configurationdialog.cpp:230 kileui.rc:496 usermenu/usermenu.cpp:68
 #, kde-format
 msgid "User Menu"
 msgstr "Μενού χρήστη"
 
-#: dialogs/configurationdialog.cpp:241
+#: dialogs/configurationdialog.cpp:242
 #, kde-format
 msgid "Complete"
 msgstr "Συμπλήρωση"
 
-#: dialogs/configurationdialog.cpp:241
+#: dialogs/configurationdialog.cpp:242
 #, kde-format
 msgid "Code Completion"
 msgstr "Συμπλήρωση κώδικα"
 
 #. i18n: ectx: Menu (quickpreview)
-#: dialogs/configurationdialog.cpp:251 kileui.rc:148
+#: dialogs/configurationdialog.cpp:252 kileui.rc:148
 #, kde-format
 msgid "Quick Preview"
 msgstr "Γρήγορη προεπισκόπηση"
 
-#: dialogs/configurationdialog.cpp:251 kile.cpp:751
+#: dialogs/configurationdialog.cpp:252 kile.cpp:751
 #, kde-format
 msgid "Preview"
 msgstr "Προεπισκόπηση"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetHelpConfig)
-#: dialogs/configurationdialog.cpp:259 kilehelp.cpp:171
+#: dialogs/configurationdialog.cpp:260 kilehelp.cpp:171
 #: widgets/helpconfigwidget.ui:20
 #, kde-format
 msgid "Help"
 msgstr "Βοήθεια"
 
 #. i18n: ectx: Menu (menu_livepreview)
-#: dialogs/configurationdialog.cpp:267 kileui.rc:145
+#: dialogs/configurationdialog.cpp:268 kileui.rc:145
 #, kde-format
 msgid "Live Preview"
 msgstr "Ζωντανή προεπισκόπηση"
 
-#: dialogs/configurationdialog.cpp:275
+#: dialogs/configurationdialog.cpp:276
 #, kde-format
 msgid "Appearance"
 msgstr "Εμφάνιση"
 
 #. i18n: ectx: attribute (title), widget (QWidget, pageEnvironments)
-#: dialogs/configurationdialog.cpp:294 dialogs/latexcommanddialog_base.ui:41
+#: dialogs/configurationdialog.cpp:295 dialogs/latexcommanddialog_base.ui:41
 #, kde-format
 msgid "Environments"
 msgstr "Περιβάλλουσες"
 
-#: dialogs/configurationdialog.cpp:301 widgets/previewconfigwidget.cpp:246
+#: dialogs/configurationdialog.cpp:302 widgets/previewconfigwidget.cpp:246
 #: widgets/previewconfigwidget.cpp:247
 #, kde-format
 msgid "installed"
 msgstr "εγκατεστημένο"
 
-#: dialogs/configurationdialog.cpp:301 widgets/previewconfigwidget.cpp:246
+#: dialogs/configurationdialog.cpp:302 widgets/previewconfigwidget.cpp:246
 #: widgets/previewconfigwidget.cpp:247
 #, kde-format
 msgid "not installed"
 msgstr "μη εγκατεστημένο"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetGraphicsConfig)
-#: dialogs/configurationdialog.cpp:302 widgets/graphicsconfigwidget.ui:14
+#: dialogs/configurationdialog.cpp:303 widgets/graphicsconfigwidget.ui:14
 #, kde-format
 msgid "Graphics"
 msgstr "Γραφικά"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetStructureViewConfig)
-#: dialogs/configurationdialog.cpp:309 widgets/structureviewconfigwidget.ui:26
+#: dialogs/configurationdialog.cpp:310 widgets/structureviewconfigwidget.ui:26
 #, kde-format
 msgid "Structure View"
 msgstr "Προβολή δομής"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetSymbolViewConfig)
-#: dialogs/configurationdialog.cpp:316 widgets/symbolviewconfigwidget.ui:14
+#: dialogs/configurationdialog.cpp:317 widgets/symbolviewconfigwidget.ui:14
 #, kde-format
 msgid "Symbol View"
 msgstr "Προβολή συμβόλων"
@@ -6245,7 +6245,7 @@ msgstr "Άνοιγμα όλων των αρχείων έρ&γου"
 msgid "Find in &Project..."
 msgstr "Αναζήτηση στο έ&ργο..."
 
-#: kile.cpp:909 kile.cpp:1007 kile.cpp:2131 kiledocmanager.cpp:1995
+#: kile.cpp:909 kile.cpp:1007 kile.cpp:2132 kiledocmanager.cpp:1995
 #: kiledocmanager.cpp:2005
 #, kde-format
 msgid "Clean"
@@ -6410,7 +6410,7 @@ msgstr "Ρυθμίσεις για BibTeX"
 msgid "Settings for Biblatex"
 msgstr "Ρυθμίσεις για Biblatex"
 
-#: kile.cpp:1023 kile.cpp:2237
+#: kile.cpp:1023 kile.cpp:2238
 #, kde-format
 msgid "Quick Start"
 msgstr "Γρήγορη εκκίνηση"
@@ -6420,7 +6420,7 @@ msgstr "Γρήγορη εκκίνηση"
 msgid "Array"
 msgstr "Μητρώο"
 
-#: kile.cpp:1027 kile.cpp:2289 kilestdactions.cpp:79
+#: kile.cpp:1027 kile.cpp:2290 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "Στηλοθέτες"
@@ -6480,22 +6480,22 @@ msgstr "BibTeX"
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1255 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1255 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Compile"
 msgstr "Μεταγλώττιση"
 
-#: kile.cpp:1256 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1256 widgets/toolconfigwidget.cpp:78
 #, kde-format
 msgid "View"
 msgstr "Προβολή"
 
-#: kile.cpp:1257 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1257 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "Convert"
 msgstr "Μετατροπή"
 
-#: kile.cpp:1258 widgets/toolconfigwidget.cpp:73
+#: kile.cpp:1258 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Quick"
 msgstr "Γρήγορη"
@@ -6546,38 +6546,38 @@ msgstr "Ορισμός του τρέχοντος εγγράφου ως 'Κύρι
 msgid "Normal mode (current master document: %1)"
 msgstr "Κανονική λειτουργία (τρέχον κύριο έγγραφο: %1)"
 
-#: kile.cpp:1746
+#: kile.cpp:1745
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr "%1 [Μόνο για ανάγνωση]"
 
-#: kile.cpp:2124
+#: kile.cpp:2125
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "Δεν υπάρχει ενεργό έγγραφο ή δεν είναι αποθηκευμένο."
 
-#: kile.cpp:2208
+#: kile.cpp:2209
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "Πρέπει να ενσωματώσετε το πακέτο %1."
 
-#: kile.cpp:2208 kile.cpp:2211
+#: kile.cpp:2209 kile.cpp:2212
 #, kde-format
 msgid "Insert text"
 msgstr "Εισαγωγή κειμένου"
 
-#: kile.cpp:2211
+#: kile.cpp:2212
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "Πρέπει να ενσωματώσετε τα πακέτα %1."
 
-#: kile.cpp:2432
+#: kile.cpp:2433
 #, kde-format
 msgid "No Name"
 msgstr "Χωρίς όνομα"
 
-#: kile.cpp:2468
+#: kile.cpp:2469
 #, kde-format
 msgid "no name"
 msgstr "χωρίς όνομα"
@@ -7428,7 +7428,7 @@ msgstr "Αφαίρεση προτύπου"
 msgid "Open Files"
 msgstr "Άνοιγμα αρχείων"
 
-#: kiledocmanager.cpp:911
+#: kiledocmanager.cpp:912
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
@@ -7437,22 +7437,22 @@ msgstr ""
 "Το Kile αντιμετώπισε προβλήματα κατά την αποθήκευση του αρχείου %1. "
 "Διαθέτετε αρκετό ελεύθερο χώρο στο δίσκο;"
 
-#: kiledocmanager.cpp:912
+#: kiledocmanager.cpp:913
 #, kde-format
 msgid "Saving"
 msgstr "Αποθήκευση"
 
-#: kiledocmanager.cpp:945
+#: kiledocmanager.cpp:946
 #, kde-format
 msgid "Any files (*)"
 msgstr "Οποιαδήποτε αρχεία (*)"
 
-#: kiledocmanager.cpp:947
+#: kiledocmanager.cpp:948
 #, kde-format
 msgid "Save Compiled Document As..."
 msgstr "Αποθήκευση μεταγλωττισμένου εγγράφου ως..."
 
-#: kiledocmanager.cpp:972
+#: kiledocmanager.cpp:973
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
@@ -7461,24 +7461,24 @@ msgstr ""
 "Αδυναμία ανοίγματος του URL «%1»\n"
 "καθώς πρόκειται για κατάλογο."
 
-#: kiledocmanager.cpp:973
+#: kiledocmanager.cpp:974
 #, kde-format
 msgid "Cannot open directory"
 msgstr "Αδυναμία ανοίγματος του καταλόγου"
 
-#: kiledocmanager.cpp:1091
+#: kiledocmanager.cpp:1092
 #, kde-format
 msgid "Save File"
 msgstr "Αποθήκευση αρχείου"
 
-#: kiledocmanager.cpp:1127
+#: kiledocmanager.cpp:1128
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr ""
 "Ένα αρχείο το όνομα \"%1\" υπάρχει ήδη. Επιθυμείτε την αντικατάστασή του;"
 
-#: kiledocmanager.cpp:1128
+#: kiledocmanager.cpp:1129
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Αντικατάσταση αρχείου;"
@@ -8955,7 +8955,7 @@ msgid "Huge"
 msgstr "Τεράστιο"
 
 #: kilestdactions.cpp:125 widgets/projectview.cpp:481
-#: widgets/toolconfigwidget.cpp:77
+#: widgets/toolconfigwidget.cpp:79
 #, kde-format
 msgid "Other"
 msgstr "Άλλο"
@@ -11802,7 +11802,7 @@ msgstr "Προσθήκη..."
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbRemoveConfig)
 #. i18n: ectx: property (text), widget (QPushButton, m_pbRemove)
 #: widgets/codecompletionconfigwidget.ui:140
-#: widgets/maintoolconfigwidget.ui:116 widgets/maintoolconfigwidget.ui:212
+#: widgets/maintoolconfigwidget.ui:123 widgets/maintoolconfigwidget.ui:235
 #: widgets/usermenuconfigwidget.ui:115
 #, kde-format
 msgid "Remove"
@@ -12084,7 +12084,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlType)
 #. i18n: ectx: property (text), widget (QLabel, m_lbType)
-#: widgets/latexconfigwidget.ui:89 widgets/maintoolconfigwidget.ui:342
+#: widgets/latexconfigwidget.ui:89 widgets/maintoolconfigwidget.ui:365
 #, kde-format
 msgid "&Type:"
 msgstr "&Τύπος:"
@@ -12251,87 +12251,94 @@ msgstr "Απόκρυψη &προειδοποιήσεων (La)TeX"
 msgid "Select a tool"
 msgstr "Επιλογή εργαλείου"
 
+#. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
+#: widgets/maintoolconfigwidget.ui:94
+#, fuzzy, kde-format
+#| msgid "Show input files"
+msgid "Show hidden tools"
+msgstr "Εμφάνιση αρχείων εισόδου"
+
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)
-#: widgets/maintoolconfigwidget.ui:109 widgets/maintoolconfigwidget.ui:193
+#: widgets/maintoolconfigwidget.ui:116 widgets/maintoolconfigwidget.ui:216
 #, kde-format
 msgid "New..."
 msgstr "Νέο..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_groupBox)
-#: widgets/maintoolconfigwidget.ui:129
+#: widgets/maintoolconfigwidget.ui:152
 #, kde-format
 msgid "Choose a configuration for the current tool"
 msgstr "Επιλέξτε μία διαμόρφωση για το τρέχον εργαλείο"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
-#: widgets/maintoolconfigwidget.ui:152
+#: widgets/maintoolconfigwidget.ui:175
 #, kde-format
 msgid "Se&lect:"
 msgstr "Επι&λογή:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
-#: widgets/maintoolconfigwidget.ui:308
+#: widgets/maintoolconfigwidget.ui:331
 #, kde-format
 msgid "Advanced"
 msgstr "Για προχωρημένους"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbClass)
-#: widgets/maintoolconfigwidget.ui:365
+#: widgets/maintoolconfigwidget.ui:388
 #, kde-format
 msgid "C&lass:"
 msgstr "Κ&λάση:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbSource)
-#: widgets/maintoolconfigwidget.ui:388
+#: widgets/maintoolconfigwidget.ui:411
 #, kde-format
 msgid "Source e&xtension:"
 msgstr "Επέκταση &πηγής:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbTarget)
-#: widgets/maintoolconfigwidget.ui:411
+#: widgets/maintoolconfigwidget.ui:434
 #, kde-format
 msgid "Tar&get extension:"
 msgstr "Ε&πέκταση προορισμού:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: widgets/maintoolconfigwidget.ui:434
+#: widgets/maintoolconfigwidget.ui:457
 #, kde-format
 msgid "Target &file:"
 msgstr "&Αρχείο προορισμού:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
-#: widgets/maintoolconfigwidget.ui:460
+#: widgets/maintoolconfigwidget.ui:483
 #, kde-format
 msgid "&Relative dir:"
 msgstr "&Σχετικός κατάλογος:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckClose)
-#: widgets/maintoolconfigwidget.ui:488
+#: widgets/maintoolconfigwidget.ui:511
 #, kde-format
 msgid "Close Konsole when tool is finished"
 msgstr "Κλείσιμο του Konsole με την ολοκλήρωση του εργαλείου"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage)
-#: widgets/maintoolconfigwidget.ui:511
+#: widgets/maintoolconfigwidget.ui:534
 #, kde-format
 msgid "Menu"
 msgstr "Μενού"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenu)
-#: widgets/maintoolconfigwidget.ui:534
+#: widgets/maintoolconfigwidget.ui:557
 #, kde-format
 msgid "Add &tool to Build menu:"
 msgstr "Προσθήκη εργαλείου σ&το μενού κατασκευής:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbIcon)
-#: widgets/maintoolconfigwidget.ui:557
+#: widgets/maintoolconfigwidget.ui:580
 #, kde-format
 msgid "&Icon:"
 msgstr "&Εικονίδιο:"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbDefault)
-#: widgets/maintoolconfigwidget.ui:628
+#: widgets/maintoolconfigwidget.ui:651
 #, kde-format
 msgid "Restore Default Tools..."
 msgstr "Επαναφορά προκαθορισμένων εργαλείων..."
@@ -13205,34 +13212,34 @@ msgid "Insert Unicode representation of the selected symbol (when available)"
 msgstr ""
 "Εισαγωγή αναπαράστασης Unicode του επιλεγμένου συμβόλου (αν είναι διαθέσιμη)"
 
-#: widgets/toolconfigwidget.cpp:109
+#: widgets/toolconfigwidget.cpp:111
 #, kde-format
 msgid "Run Outside of Kile"
 msgstr "Εκτέλεση έξω από το Kile"
 
-#: widgets/toolconfigwidget.cpp:110
+#: widgets/toolconfigwidget.cpp:112
 #, kde-format
 msgid "Run in Konsole"
 msgstr "Εκτέλεση στο Konsole"
 
-#: widgets/toolconfigwidget.cpp:111
+#: widgets/toolconfigwidget.cpp:113
 #, kde-format
 msgid "Use Document Viewer"
 msgstr "Χρήση προβολέα εγγράφων"
 
-#: widgets/toolconfigwidget.cpp:112
+#: widgets/toolconfigwidget.cpp:114
 #, kde-format
 msgid "Run Sequence of Tools"
 msgstr "Εκτέλεση ακολουθίας εργαλείων"
 
-#: widgets/toolconfigwidget.cpp:159
+#: widgets/toolconfigwidget.cpp:161
 #, kde-format
 msgid "Use the \"Advanced\" tab to configure this tool."
 msgstr ""
 "Χρησιμοποιήστε την καρτέλα \"Προχωρημένα\" για τη ρύθμιση αυτού του "
 "εργαλείου."
 
-#: widgets/toolconfigwidget.cpp:170
+#: widgets/toolconfigwidget.cpp:172
 #, kde-format
 msgid ""
 "Unknown tool type; your configuration data is malformed.\n"
@@ -13241,7 +13248,7 @@ msgstr ""
 "Άγνωστος τύπος εργαλείου: τα δεδομένα διαμόρφωσης είναι κατεστραμμένα.\n"
 "Ίσως θα ήταν καλή ιδέα η επαναφορά των προκαθορισμένων ρυθμίσεων."
 
-#: widgets/toolconfigwidget.cpp:223
+#: widgets/toolconfigwidget.cpp:225
 #, kde-format
 msgid ""
 "All your tool settings will be overwritten with the default settings.\n"
@@ -13250,37 +13257,37 @@ msgstr ""
 "Όλες οι ρυθμίσεις εργαλείων σας θα αντικατασταθούν με τις προκαθορισμένες.\n"
 "Επιθυμείτε σίγουρα τη συνέχεια;"
 
-#: widgets/toolconfigwidget.cpp:337
+#: widgets/toolconfigwidget.cpp:350
 #, kde-format
 msgid "Choose a configuration for the tool %1"
 msgstr "Επιλέξτε μία διαμόρφωση για το εργαλείο %1"
 
-#: widgets/toolconfigwidget.cpp:407
+#: widgets/toolconfigwidget.cpp:420
 #, kde-format
 msgid "New Configuration"
 msgstr "Νέα διαμόρφωση"
 
-#: widgets/toolconfigwidget.cpp:407
+#: widgets/toolconfigwidget.cpp:420
 #, kde-format
 msgid "Enter new configuration name:"
 msgstr "Εισαγάγετε το όνομα της νέας διαμόρφωσης:"
 
-#: widgets/toolconfigwidget.cpp:434
+#: widgets/toolconfigwidget.cpp:447
 #, kde-format
 msgid "Are you sure you want to remove the tool %1?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του εργαλείου %1;"
 
-#: widgets/toolconfigwidget.cpp:464
+#: widgets/toolconfigwidget.cpp:477
 #, kde-format
 msgid "Are you sure that you want to remove this configuration?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση αυτής της διαμόρφωσης;"
 
-#: widgets/toolconfigwidget.cpp:478
+#: widgets/toolconfigwidget.cpp:491
 #, kde-format
 msgid "You need at least one configuration for each tool."
 msgstr "Χρειάζεται τουλάχιστον μία διαμόρφωση για κάθε εργαλείο."
 
-#: widgets/toolconfigwidget.cpp:478
+#: widgets/toolconfigwidget.cpp:491
 #, kde-format
 msgid "Cannot Remove Configuration"
 msgstr "Αδυναμία αφαίρεσης της διαμόρφωσης"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-02 00:38+0000\n"
-"PO-Revision-Date: 2024-04-22 22:51+0100\n"
+"PO-Revision-Date: 2024-05-02 23:45+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -12038,10 +12038,9 @@ msgstr "Elektu ilon"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
 #: widgets/maintoolconfigwidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Show input files"
+#, kde-format
 msgid "Show hidden tools"
-msgstr "Montru enigajn dosierojn"
+msgstr "Montri kaŝitajn ilojn"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)
@@ -13103,4 +13102,4 @@ msgstr "Montru &la uzantmenuon en la LaTeX-menuo"
 #: widgets/usermenuconfigwidget.ui:177
 #, kde-format
 msgid "Show the &user menu in the menu bar"
-msgstr "Montru la &uzantmenuon en la menubreto"
+msgstr "Montri la &uzantmenuon en la menubreto"

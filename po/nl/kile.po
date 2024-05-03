@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-02 00:38+0000\n"
-"PO-Revision-Date: 2024-04-22 10:18+0200\n"
+"PO-Revision-Date: 2024-05-02 10:20+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -12173,10 +12173,9 @@ msgstr "Hulpmiddel selecteren"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
 #: widgets/maintoolconfigwidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Show input files"
+#, kde-format
 msgid "Show hidden tools"
-msgstr "Invoerbestanden tonen"
+msgstr "Verborgen hulpmiddelen tonen"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)

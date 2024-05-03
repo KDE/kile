@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-02 00:38+0000\n"
-"PO-Revision-Date: 2024-04-22 13:57+0300\n"
+"PO-Revision-Date: 2024-05-02 09:07+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -12109,10 +12109,9 @@ msgstr "Виберіть інструмент"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
 #: widgets/maintoolconfigwidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Show input files"
+#, kde-format
 msgid "Show hidden tools"
-msgstr "Показувати вхідні файли"
+msgstr "Показувати приховані інструменти"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)

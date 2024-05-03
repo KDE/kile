@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-02 00:38+0000\n"
-"PO-Revision-Date: 2024-04-25 10:21+0200\n"
+"PO-Revision-Date: 2024-05-02 05:56+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -9099,7 +9099,7 @@ msgstr "Sans Serif - \\sffamily"
 #: kilestdactions.cpp:198
 #, kde-format
 msgid "Sans Serif"
-msgstr "შესახებ"
+msgstr "Sans Serif"
 
 #: kilestdactions.cpp:199
 #, kde-format
@@ -11824,10 +11824,9 @@ msgstr "აირჩიეთ ხელსაწყო"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
 #: widgets/maintoolconfigwidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Show input files"
+#, kde-format
 msgid "Show hidden tools"
-msgstr "შეყვანის ფაილების ჩვენება"
+msgstr "დამალული ხელსაწყოების ჩვენება"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)

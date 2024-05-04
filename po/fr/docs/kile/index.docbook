@@ -6367,7 +6367,7 @@
 
 			<listitem
 ><para
->Évidemment, puisque vous exécutez &latex; comme utilisateur et non en superutilisateur, vous devez <emphasis
+>Évidemment, puisque vous exécutez &latex; comme utilisateur et non en mode administrateur, vous devez <emphasis
 >permettre</emphasis
 > aux utilisateurs d'accéder aux nouveaux fichiers. Assurez-vous que tous les dossiers et fichiers sont accessibles en utilisant la commande <command
 >chmod</command

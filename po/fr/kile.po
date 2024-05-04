@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-02 00:38+0000\n"
-"PO-Revision-Date: 2024-04-17 09:34+0200\n"
+"PO-Revision-Date: 2024-05-02 12:06+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -2117,7 +2117,7 @@ msgstr "Appliquer un tampon à l'avant plan"
 #: dialogs/pdf-wizard/pdfdialog.cpp:147
 #, kde-format
 msgid "pdftk: Choose Parameter"
-msgstr "pdftk : choisissez un paramètre"
+msgstr "pdftk : sélectionnez un paramètre"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:148
 #, kde-format
@@ -2138,7 +2138,7 @@ msgstr "Erreur : nombre de pages inconnu"
 #: dialogs/pdf-wizard/pdfdialog.cpp:419
 #, kde-format
 msgid "PDFTK-Password"
-msgstr "Mot de passe PDFTK"
+msgstr "Mot de passe de pdftk"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:420
 #, kde-format
@@ -2147,8 +2147,8 @@ msgid ""
 "Please enter the password for this PDF file\n"
 " or leave it blank to try another method: "
 msgstr ""
-"Ce fichier PDF est chiffré et pdftk ne peut pas l'ouvrir.\n"
-"Veuillez saisir un mot de passe pour ce fichier PDF\n"
+"Ce fichier « PDF » est chiffré et pdftk ne peut pas l'ouvrir.\n"
+"Veuillez saisir un mot de passe pour ce fichier« PDF »\n"
 "ou laissez-le blanc pour essayer une autre méthode."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:566
@@ -2283,7 +2283,7 @@ msgid ""
 "the input PDF. This page is scaled and rotated as needed to fit the input "
 "page."
 msgstr ""
-"Applique un filigrane PDF à l'arrière plan d'un fichier PDF unique. Le "
+"Applique un filigrane « PDF » à l'arrière plan d'un fichier PDF unique. Le "
 "module « pdftk » utilise uniquement la première page du « PDF » pour le fond "
 "et l'applique à toutes les pages du « PDF » en entrée. Cette page est "
 "redimensionnée et orientée si nécessaire afin de l'adapter à la page."
@@ -2337,11 +2337,11 @@ msgid ""
 "polite but firm request to respect the author's wishes.</p>"
 msgstr ""
 "<center>Assistant PDF</center><br>Cet assistant utilise « pdftk » et le "
-"paquet LaTeX « pdfpages » pour<ul><li>réarranger les pages d'un document PDF "
-"existant</li><li>lire et mettre à jour les informations concernant un "
-"document PDF (pdftk uniquement)</li><li>lire, régler ou modifier certaines "
-"permissions pour un document PDF (pdftk uniquement). Un mot de passe est "
-"nécessaire pour régler ou modifier les réglages de ce document. Un "
+"paquet LaTeX « pdfpages » pour<ul><li>réarranger les pages d'un document "
+"« PDF » existant</li><li>lire et mettre à jour les informations concernant "
+"un document « PDF » (pdftk uniquement)</li><li>lire, régler ou modifier "
+"certaines permissions pour un document PDF (pdftk uniquement). Un mot de "
+"passe est nécessaire pour régler ou modifier les réglages de ce document. Un "
 "chiffrement supplémentaire du PDF est effectué pour verrouiller le contenu "
 "du fichier avec ce mot de passe.</li></ul><p>Le paquet « pdfpages » ne "
 "fonctionnera qu'avec des documents non chiffrés. « pdftk » deux gérer les "

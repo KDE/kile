@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-02 00:38+0000\n"
-"PO-Revision-Date: 2024-04-28 16:32+0530\n"
+"PO-Revision-Date: 2024-05-05 14:17+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -20,12 +20,12 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "கோ. கிஷோர்"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "Kde-l10n-ta@kde.org"
 
 #: abbreviationmanager.cpp:104
 #, kde-format
@@ -55,12 +55,12 @@ msgstr ""
 #: configtester.cpp:269 configtester.cpp:464 dialogs/configcheckerdialog.cpp:80
 #, kde-format
 msgid "Passed"
-msgstr ""
+msgstr "வெற்றி"
 
 #: configtester.cpp:279 configtester.cpp:475
 #, kde-format
 msgid "Failed"
-msgstr ""
+msgstr "தோல்வி"
 
 #: configtester.cpp:298
 #, kde-format
@@ -75,35 +75,35 @@ msgstr "ஆக்குலரை உட்பொதிப்பது ஆதர�
 #: configtester.cpp:337
 #, kde-format
 msgid "Binary"
-msgstr ""
+msgstr "நிரல்"
 
 #: configtester.cpp:364
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
-msgstr ""
+msgstr "அத்தியாவசிமான இக்கருவிக்கான நிரலைக் கண்டுபிடிக்க முடியவில்லை. %1"
 
 #: configtester.cpp:368
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "No executable '%1' found. %2"
-msgstr ""
+msgstr "'%1' எனும் நிரல் கண்டுபிடிக்கப்படவில்லை. %2"
 
 #: configtester.cpp:373
 #, kde-format
 msgid "Could not find the binary for this essential tool"
-msgstr ""
+msgstr "அத்தியாவசிமான இக்கருவிக்கான நிரலைக் கண்டுபிடிக்க முடியவில்லை"
 
 #: configtester.cpp:376
 #, kde-format
 msgid "No executable '%1' found"
-msgstr ""
+msgstr "'%1' எனும் நிரல் கண்டுபிடிக்கப்படவில்லை"
 
 #: configtester.cpp:382
 #, kde-format
 msgctxt "executable => path"
 msgid "Found (%1 => %2)"
-msgstr ""
+msgstr "கண்டுபிடிக்கப்பட்டது (%1 => %2)"
 
 #: configtester.cpp:397
 #, kde-format
@@ -114,6 +114,7 @@ msgstr "அடிப்படை சோதனை"
 #, kde-format
 msgid "This essential tool does not work; please check your installation."
 msgstr ""
+"இந்த அத்தியாவசிமான கருவி இயங்கவில்லை; இது சரியாக நிறுவப்பட்டுள்ளதா என பார்க்கவும்."
 
 #: configtester.cpp:487
 #, kde-format
@@ -166,22 +167,22 @@ msgstr ""
 #: dialogs/abbreviationinputdialog.cpp:44
 #, kde-format
 msgid "Add Abbreviation"
-msgstr ""
+msgstr "சுருக்கத்தை சேர்"
 
 #: dialogs/abbreviationinputdialog.cpp:53
 #, kde-format
 msgid "Edit Abbreviation"
-msgstr ""
+msgstr "சுருக்கத்தை திருத்து"
 
 #: dialogs/abbreviationinputdialog.cpp:60
 #, kde-format
 msgid "&Abbreviation:"
-msgstr ""
+msgstr "&சுருக்கம்:"
 
 #: dialogs/abbreviationinputdialog.cpp:62
 #, kde-format
 msgid "&Expanded Text:"
-msgstr ""
+msgstr "&விரிவான உரை:"
 
 #: dialogs/cleandialog.cpp:39
 #, kde-format
@@ -201,12 +202,12 @@ msgstr "கோப்புகள்"
 #: dialogs/configcheckerdialog.cpp:84
 #, kde-format
 msgid "Critical failure, Kile will not function properly"
-msgstr ""
+msgstr "நெருக்கடியான சிக்கல், கைல் சரியாக பணிபுரியாது"
 
 #: dialogs/configcheckerdialog.cpp:88
 #, kde-format
 msgid "Failed, but not critical"
-msgstr ""
+msgstr "தோல்வியடைந்தது, ஆனால் அத்தியாவசியம் இல்லை"
 
 #: dialogs/configcheckerdialog.cpp:105
 #, kde-format
@@ -362,7 +363,7 @@ msgstr "பொதுவான அமைப்புகள்"
 #: dialogs/configurationdialog.cpp:210
 #, kde-format
 msgid "Build"
-msgstr ""
+msgstr "இரும‍மாக்கு"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetScriptingConfig)
 #: dialogs/configurationdialog.cpp:221 widgets/scriptingconfigwidget.ui:21
@@ -12311,7 +12312,7 @@ msgstr ""
 #: widgets/toolconfigwidget.cpp:420
 #, kde-format
 msgid "New Configuration"
-msgstr ""
+msgstr "புதிய அமைப்புத்திட்டம்"
 
 #: widgets/toolconfigwidget.cpp:420
 #, kde-format
@@ -12331,12 +12332,12 @@ msgstr ""
 #: widgets/toolconfigwidget.cpp:491
 #, kde-format
 msgid "You need at least one configuration for each tool."
-msgstr ""
+msgstr "ஒவ்வொரு கருவிக்கும் ஒரு அமைப்புத்திட்டமாவது இருக்க வேண்டும்."
 
 #: widgets/toolconfigwidget.cpp:491
 #, kde-format
 msgid "Cannot Remove Configuration"
-msgstr ""
+msgstr "அமைப்புத்திட்டத்தை நீக்க முடியாது"
 
 #: widgets/usermenuconfigwidget.cpp:89
 #, kde-format
@@ -12353,13 +12354,13 @@ msgstr ""
 #: widgets/usermenuconfigwidget.ui:69
 #, kde-format
 msgid "File "
-msgstr ""
+msgstr "கோப்பு "
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/usermenuconfigwidget.ui:149
 #, kde-format
 msgid "Location"
-msgstr ""
+msgstr "இருப்பிடம்"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbLaTeXMenuLocation)
 #: widgets/usermenuconfigwidget.ui:161

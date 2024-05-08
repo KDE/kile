@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-02 00:38+0000\n"
-"PO-Revision-Date: 2024-04-19 18:24+0200\n"
+"PO-Revision-Date: 2024-05-07 18:01+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -10860,10 +10860,9 @@ msgstr "Ambienti &matriciali"
 
 #. i18n: ectx: Menu (menu_mathamsenv)
 #: kileui.rc:423
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "breqn Math Environments"
-msgstr "Ambienti matematici"
+msgstr "Ambienti matematici breqn"
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:436
@@ -12140,10 +12139,9 @@ msgstr "Seleziona uno strumento"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
 #: widgets/maintoolconfigwidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Show Main Toolbar"
+#, kde-format
 msgid "Show hidden tools"
-msgstr "Mostra la barra principale"
+msgstr "Mostra gli strumenti nascosti"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)

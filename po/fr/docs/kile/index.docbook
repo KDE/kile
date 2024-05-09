@@ -1398,7 +1398,7 @@
 >Résolution des erreurs</title>
 
 		<para
->Si vous essayez d'utiliser QuickBuild, et que l'afficheur &DVI; ne s'ouvre pas, il est probable que vous avez une erreur. Si c'est le cas, elle sera visible dans le fichier journal ou la zone de message, et le résumé de l'erreur sera donné.</para>
+>Si vous essayez d'utiliser Quickbuild, et que l'afficheur &DVI; ne s'ouvre pas, il est probable que vous avez une erreur. Si c'est le cas, elle sera visible dans le fichier journal ou la zone de message, et le résumé de l'erreur sera donné.</para>
 
 		<para
 >Le fichier journal explique la source de l'erreur dans votre code. Dans l'éditeur, vous pouvez utiliser les boutons de la barre d'outils nommés <guibutton
@@ -2748,7 +2748,7 @@
 >Lorsque vous appuyez sur &Correction;, la dernière lettre de votre motif est effacée, et la liste de complètement devrait augmenter. En revanche, si vous saisissez une nouvelle lettre, le motif est étendu et les mots visibles dans la liste devraient être moins nombreux.</para>
 
 		<para
->Si vous décidez de ne pas utiliser les suggestions de cette liste, faites-la disparaître avec Échap;.</para>
+>Si vous décidez de ne pas utiliser les suggestions de cette liste, faites-la disparaître avec &Esc;.</para>
 
 		<para
 >Vous verrez que toutes les commandes sont écrites avec une courte description de leurs paramètres. Ces descriptions disparaissent bien évidemment lorsque vous choisissez une commande. Vous pouvez également si vous le souhaitez laisser &kile; insérer des puces à ces endroits, de façon à pouvoir y aller facilement avec <menuchoice
@@ -4521,7 +4521,7 @@
 ><userinput
 >\bibitem</userinput
 > est une commande utilisée pour saisir une référence dans un environnement <userinput
->thebibliography</userinput
+>de bibliographie</userinput
 > dans votre document. La syntaxe pour utiliser <userinput
 >\bibitem</userinput
 > est <userinput
@@ -4545,7 +4545,7 @@
 > contient le label associé avec le futur <userinput
 >\bibitem</userinput
 >, qui se trouve dans un environnement <userinput
->thebibliography</userinput
+>de bibliographie</userinput
 >, et contient les données de la référence. Deux <userinput
 >\bibitem</userinput
 > et <userinput
@@ -4553,7 +4553,7 @@
 > correspondant doivent avoir la même <userinput
 >{key}</userinput
 > ; le moyen le plus simple d'organiser les clés est d'utiliser le nom de l'auteur. Les secondes accolades dans l'environnement <userinput
->thebibliography</userinput
+>de bibliographie</userinput
 > correspond au label bibliographique le plus long que vous comptez utiliser. Ainsi, en insérant <userinput
 >{<replaceable
 >machin</replaceable
@@ -5496,16 +5496,16 @@
 
 			<para
 >Lorsque vous lancez la commande <guibutton
->QuickBuild</guibutton
+>Quickbuild</guibutton
 >, un afficheur est normalement appelé après la compilation. Si vous n'utilisez pas d'afficheur intégré, une nouvelle fenêtre s'affichera à chaque fois.</para>
 
 			<para
 >Si vous ajustez l'apparence de votre document, vous lancez probablement très souvent <guibutton
->QuickBuild</guibutton
+>Quickbuild</guibutton
 >, et aurez par conséquent beaucoup de fenêtres ouvertes sur votre bureau. Pour éviter la confusion, vous pouvez activer le mode <guibutton
 >surveillance fichier</guibutton
 >, qui empêchera <guibutton
->QuickBuild</guibutton
+>Quickbuild</guibutton
 > de lancer un afficheur.</para>
 
 			<para

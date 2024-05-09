@@ -1333,8 +1333,12 @@
 >.</para>
 
 		<para
->Per eseguire una ricerca in avanti, metti il cursore su una riga di codice sorgente, e fai clic su <guilabel
->Ricerca in avanti</guilabel
+>Per eseguire una ricerca in avanti, metti il cursore su una riga di codice sorgente, e fai clic sul pulsante <guilabel
+>sinistro</guilabel
+> del mouse mentre tieni premuto il tasto &Shift;, oppure fai clic su <guilabel
+>Forward DVI</guilabel
+>/<guilabel
+>Forward PDF</guilabel
 > per saltare alla posizione associata nella finestra del visore &DVI; o PDF.</para>
 	</sect1>
 

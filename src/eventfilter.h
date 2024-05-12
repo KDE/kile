@@ -51,6 +51,7 @@ public Q_SLOTS:
 protected:
     bool eventFilter(QObject *o, QEvent *e) override;
     bool isCapsLockEnabled();
+    bool doForwardSearch(const QPoint&);
 
 private:
     bool m_bCompleteEnvironment;

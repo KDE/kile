@@ -22,22 +22,26 @@
 
 #include "ui_latexconfigwidget.h"
 
-class KileWidgetLatexConfig : public QWidget, public Ui::KileWidgetLatexConfig
-{
+class KileWidgetLatexConfig : public QWidget, public Ui::KileWidgetLatexConfig {
     Q_OBJECT
 
 public:
-    explicit KileWidgetLatexConfig(QWidget *parent = 0);
+    explicit KileWidgetLatexConfig(KConfig* config, KileInfo* ki, QWidget* parent = Q_NULLPTR);
     ~KileWidgetLatexConfig();
 
-    void setLatexCommands(KConfig *config, KileDocument::LatexCommands *commands);
+    void readConfig();
+    void writeConfig();
 
 protected Q_SLOTS:
     void slotConfigure();
 
 protected:
-    KConfig *m_config;
-    KileDocument::LatexCommands *m_commands;
+    void initModifierComboBox(QComboBox* combobox, int initial);
+
+    KConfig* m_config;
+    KileInfo* m_ki;
+    KileDocument::LatexCommands* m_commands;
+    QMap<int, QString> m_modifiers;
 };
 
 #endif

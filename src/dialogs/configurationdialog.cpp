@@ -49,8 +49,7 @@
 #include "widgets/toolconfigwidget.h"
 #include "widgets/usermenuconfigwidget.h"
 
-namespace KileDialog
-{
+namespace KileDialog {
 Config::Config(KConfig *config, KileInfo *ki, QWidget* parent)
     : KPageDialog(parent),
       m_config(config),
@@ -280,10 +279,8 @@ void Config::setupAppearance(KPageWidgetItem* parent)
 
 void Config::setupLatex(KPageWidgetItem* parent)
 {
-    latexPage = new KileWidgetLatexConfig(this);
-    latexPage->setObjectName("LaTeX");
-    latexPage->kcfg_DoubleQuotes->addItems(m_ki->editorExtension()->doubleQuotesListI18N());
-    latexPage->setLatexCommands(m_config,m_ki->latexCommands());
+    latexPage = new KileWidgetLatexConfig(m_config, m_ki, this);
+    latexPage->readConfig();
 
     addConfigPage(parent, latexPage, i18n("General"), "configure");
 }
@@ -361,8 +358,8 @@ void Config::slotAcceptChanges()
     previewPage->writeConfig();   // Quick Preview (dani)
     usermenuPage->writeConfig();
     livePreviewPage->writeConfig();
+    latexPage->writeConfig();
 
     m_config->sync();
 }
-}
-
+} // namespace KileDialog

@@ -60,7 +60,7 @@ msgid ""
 msgstr ""
 "No s'ha trobat l'eina.\n"
 "Kile no està configurat correctament. Aneu fins a «Configuració -> Configura "
-"Kile... -> Eines» i arregleu el problema o canvieu en les opcions de "
+"Kile… -> Eines» i arregleu el problema o canvieu en les opcions de "
 "configuració predeterminades."
 
 #: configtester.cpp:269 configtester.cpp:464 dialogs/configcheckerdialog.cpp:80
@@ -259,7 +259,7 @@ msgstr "Assistent de comprovació i configuració del sistema"
 #: dialogs/configcheckerdialog.cpp:127
 #, kde-format
 msgid "Checking whether the system is set up correctly..."
-msgstr "S'està comprovant que este sistema està configurat correctament..."
+msgstr "S'està comprovant que este sistema està configurat correctament…"
 
 #: dialogs/configcheckerdialog.cpp:147
 #, kde-format
@@ -800,7 +800,7 @@ msgstr "Part superior de la pàgina"
 #: dialogs/floatdialog_base.ui:88
 #, kde-format
 msgid "Extra page"
-msgstr "Pàgina extra"
+msgstr "Pàgina addicional"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbCenter)
 #: dialogs/floatdialog_base.ui:116 dialogs/tabular/newtabulardialog.cpp:159
@@ -1072,7 +1072,7 @@ msgstr "Part inferior de la pàgina (b)"
 #: dialogs/includegraphicsdialog_base.ui:355
 #, kde-format
 msgid "Extra page (p)"
-msgstr "Pàgina extra (p)"
+msgstr "Pàgina addicional (p)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_Here)
 #: dialogs/includegraphicsdialog_base.ui:365
@@ -1491,7 +1491,7 @@ msgstr "Afig un entorn nou."
 #: dialogs/userhelpdialog.cpp:75
 #, kde-format
 msgid "&Add..."
-msgstr "Afi&g..."
+msgstr "Afi&g…"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, deleteButton)
 #: dialogs/latexcommanddialog_base.ui:186
@@ -1516,7 +1516,7 @@ msgstr "Edita un entorn definit per l'usuari."
 #: dialogs/latexcommanddialog_base.ui:199
 #, kde-format
 msgid "&Edit..."
-msgstr "Edi&ta..."
+msgstr "Edi&ta…"
 
 #. i18n: ectx: property (text), widget (QCheckBox, showOnlyUserDefined)
 #: dialogs/latexcommanddialog_base.ui:222
@@ -1674,7 +1674,7 @@ msgstr "Icona:"
 #: dialogs/managetemplatesdialog.cpp:103
 #, kde-format
 msgid "Select..."
-msgstr "Selecciona..."
+msgstr "Selecciona…"
 
 #: dialogs/managetemplatesdialog.cpp:110 dialogs/managetemplatesdialog.cpp:166
 #, kde-format
@@ -3292,7 +3292,7 @@ msgstr "Afig una opció nova de classe"
 #: dialogs/quickdocumentdialog.cpp:249 dialogs/quickdocumentdialog.cpp:307
 #, kde-format
 msgid "Ed&it..."
-msgstr "Ed&ita..."
+msgstr "Ed&ita…"
 
 #: dialogs/quickdocumentdialog.cpp:251
 #, kde-format
@@ -3322,7 +3322,7 @@ msgstr "Valor"
 #: dialogs/quickdocumentdialog.cpp:297
 #, kde-format
 msgid "&Add Package..."
-msgstr "Afi&g paquet..."
+msgstr "Afi&g paquet…"
 
 #: dialogs/quickdocumentdialog.cpp:299
 #, kde-format
@@ -3332,7 +3332,7 @@ msgstr "Afig un paquet nou"
 #: dialogs/quickdocumentdialog.cpp:302
 #, kde-format
 msgid "Add Op&tion..."
-msgstr "Afig &opció..."
+msgstr "Afig &opció…"
 
 #: dialogs/quickdocumentdialog.cpp:304
 #, kde-format
@@ -3418,7 +3418,7 @@ msgstr "Alinea les fórmules en el costat esquerre"
 #: dialogs/quickdocumentdialog.cpp:658
 #, kde-format
 msgid "Puts title and abstract on an extra page"
-msgstr "Col·loca el títol i l'extracte en una pàgina extra"
+msgstr "Col·loca el títol i l'extracte en una pàgina addicional"
 
 #: dialogs/quickdocumentdialog.cpp:659
 #, kde-format
@@ -5872,7 +5872,7 @@ msgstr ""
 "Heu definit algunes eines en el menú usuari. A partir d'ara, estes eines "
 "estaran disponibles des del menú «Construïx -> Altres» i es poden configurar "
 "en el diàleg de configuració (aneu fins al menú Configuració i seleccioneu "
-"«Configura Kile...». Açò té alguns avantatges, ara les vostres pròpies eines "
+"«Configura Kile…». Açò té alguns avantatges, ara les vostres pròpies eines "
 "es poden utilitzar en una ordre de construcció ràpida si voleu."
 
 #: kile.cpp:392
@@ -6018,12 +6018,12 @@ msgstr "Guarda-ho tot"
 #: kile.cpp:850
 #, kde-format
 msgid "Create Template From Document..."
-msgstr "Crea una plantilla des de document..."
+msgstr "Crea una plantilla des de document…"
 
 #: kile.cpp:851
 #, kde-format
 msgid "&Remove Template..."
-msgstr "&Elimina plantilla..."
+msgstr "&Elimina plantilla…"
 
 #: kile.cpp:853 kile.cpp:983
 #, kde-format
@@ -6118,7 +6118,7 @@ msgstr "Paràgraf anterior"
 #: kile.cpp:879
 #, kde-format
 msgid "Find &in Files..."
-msgstr "Bu&sca en els fitxers..."
+msgstr "Bu&sca en els fitxers…"
 
 #: kile.cpp:881
 #, kde-format
@@ -6128,12 +6128,12 @@ msgstr "Actualitza l'estr&uctura"
 #: kile.cpp:884
 #, kde-format
 msgid "&New Project..."
-msgstr "Projecte &nou..."
+msgstr "Projecte &nou…"
 
 #: kile.cpp:885
 #, kde-format
 msgid "&Open Project..."
-msgstr "O&bri un projecte..."
+msgstr "O&bri un projecte…"
 
 #: kile.cpp:887
 #, kde-format
@@ -6143,7 +6143,7 @@ msgstr "Obri un projecte &recent"
 #: kile.cpp:894
 #, kde-format
 msgid "A&dd Files to Project..."
-msgstr "Afi&g fitxers al projecte..."
+msgstr "Afi&g fitxers al projecte…"
 
 #: kile.cpp:895 widgets/projectview.cpp:870
 #, kde-format
@@ -6168,17 +6168,17 @@ msgstr "&Tanca el projecte"
 #: kile.cpp:901
 #, kde-format
 msgid "&Show Projects..."
-msgstr "Mo&stra els projectes..."
+msgstr "Mo&stra els projectes…"
 
 #: kile.cpp:902
 #, kde-format
 msgid "Re&move Files From Project..."
-msgstr "Eli&mina fitxers del projecte..."
+msgstr "Eli&mina fitxers del projecte…"
 
 #: kile.cpp:903
 #, kde-format
 msgid "Show Project &Files..."
-msgstr "Mostra els fi&txers del projecte..."
+msgstr "Mostra els fi&txers del projecte…"
 
 #: kile.cpp:905 widgets/projectview.cpp:868
 #, kde-format
@@ -6188,7 +6188,7 @@ msgstr "Obri tots els fitxers del &projecte"
 #: kile.cpp:906
 #, kde-format
 msgid "Find in &Project..."
-msgstr "Busca en el &projecte..."
+msgstr "Busca en el &projecte…"
 
 #: kile.cpp:909 kile.cpp:1007 kile.cpp:2132 kiledocmanager.cpp:1995
 #: kiledocmanager.cpp:2005
@@ -6413,7 +6413,7 @@ msgstr "&Quant al component de l'editor"
 #: kile.cpp:1088
 #, kde-format
 msgid "&System Check..."
-msgstr "Comprova el &sistema..."
+msgstr "Comprova el &sistema…"
 
 #: kile.cpp:1106 kileinfo.cpp:357
 #, kde-format
@@ -6551,7 +6551,7 @@ msgstr "LÍNIA"
 #: kile.cpp:3015
 #, kde-format
 msgid "Refreshing structure..."
-msgstr "S'està actualitzant l'estructura..."
+msgstr "S'està actualitzant l'estructura…"
 
 #: kile.cpp:3033
 #, kde-format
@@ -7410,7 +7410,7 @@ msgstr "Qualsevol fitxer (*)"
 #: kiledocmanager.cpp:948
 #, kde-format
 msgid "Save Compiled Document As..."
-msgstr "Guarda el document compilat com a..."
+msgstr "Guarda el document compilat com a…"
 
 #: kiledocmanager.cpp:973
 #, kde-format
@@ -7740,12 +7740,12 @@ msgstr "S'ha produït un error de projecte"
 #: kiledocmanager.cpp:2373
 #, kde-format
 msgid "Opening Project..."
-msgstr "S'està obrint el projecte..."
+msgstr "S'està obrint el projecte…"
 
 #: kiledocmanager.cpp:2376
 #, kde-format
 msgid "Scanning project files..."
-msgstr "S'estan explorant els fitxers del projecte..."
+msgstr "S'estan explorant els fitxers del projecte…"
 
 #: kileextensions.cpp:70
 #, kde-format
@@ -7789,7 +7789,7 @@ msgid ""
 "Settings->Configure Kile->Help."
 msgstr ""
 "No s'ha pogut trobar la documentació de LaTeX a %1. Establiu el camí "
-"correcte a «Configuració -> Configura Kile... -> Ajuda»."
+"correcte a «Configuració -> Configura Kile… -> Ajuda»."
 
 #: kilehelp.cpp:171
 #, kde-format
@@ -8480,8 +8480,8 @@ msgid ""
 "depth of its row."
 msgstr ""
 "\\begin{tabular}[pos]{cols}\n"
-"columna 1 entrada & columna 2 entrada... & columna n entrada \\\\\n"
-"...\n"
+"columna 1 entrada & columna 2 entrada… & columna n entrada \\\\\n"
+"…\n"
 "\\end{tabular}\n"
 "pos: Indica la posició vertical; de manera predeterminada està alineada al "
 "centre de l'entorn.\n"
@@ -8992,8 +8992,8 @@ msgid ""
 "stretch to fill out the specified width."
 msgstr ""
 "\\begin{tabular*}{width}[pos]{cols}\n"
-"columna 1 entrada & columna 2 entrada... & columna n entrada \\\\\n"
-"...\n"
+"columna 1 entrada & columna 2 entrada… & columna n entrada \\\\\n"
+"…\n"
 "\\end{tabular*}\n"
 "Esta és una versió ampliada de l'entorn de taula amb un paràmetre extra per "
 "a l'amplària. Hi ha d'haver un espai elàstic entre les columnes que es pot "
@@ -9120,7 +9120,7 @@ msgid ""
 msgstr ""
 "\\begin{thebibliography}{widest-label}\n"
 "\\bibitem[label]{cite_key}\n"
-"...\n"
+"…\n"
 "\\end{thebibliography}\n"
 "\n"
 "widest-label: Text que, una vegada imprés, és aproximadament tan ample com "
@@ -9561,13 +9561,12 @@ msgstr "Imprimix la llista d'abreviatures"
 #: kilestdactions.cpp:330
 #, kde-format
 msgid "ALT.... : you have the choice between these two fields\n"
-msgstr "ALT....: heu de triar entre estos dos camps\n"
+msgstr "ALT….: heu de triar entre estos dos camps\n"
 
 #: kilestdactions.cpp:331
 #, kde-format
 msgid "OPT.... : optional fields (use the 'Clean' command to remove them)"
-msgstr ""
-"OPT....: camps opcionals (utilitzeu l'ordre «Clean» per a eliminar-los)"
+msgstr "OPT….: camps opcionals (utilitzeu l'ordre «Clean» per a eliminar-los)"
 
 #: kilestdactions.cpp:332
 #, kde-format
@@ -9692,7 +9691,7 @@ msgstr "\\qquad"
 #: kilestdactions.cpp:373
 #, kde-format
 msgid "Math Mode - $...$"
-msgstr "Mode matemàtic - $...$"
+msgstr "Mode matemàtic - $…$"
 
 #: kilestdactions.cpp:373 kilestdactions.cpp:374
 #, kde-format
@@ -9702,12 +9701,12 @@ msgstr "Mode matemàtic"
 #: kilestdactions.cpp:374
 #, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr "Mode matemàtic - \\(...\\)"
+msgstr "Mode matemàtic - \\(…\\)"
 
 #: kilestdactions.cpp:375
 #, kde-format
 msgid "Displaymath Mode - \\[...\\]"
-msgstr "Mode de visualització matemàtica - \\[...\\]"
+msgstr "Mode de visualització matemàtica - \\[…\\]"
 
 #: kilestdactions.cpp:375
 #, kde-format
@@ -9813,9 +9812,9 @@ msgid ""
 "     l -- for flush left \n"
 "     r -- for flush right\n"
 msgstr ""
-"\\begin{array}{col1col2...coln}\n"
-"columna 1 entrada & columna 2 entrada... & columna n entrada \\\\ \n"
-"...\n"
+"\\begin{array}{col1col2…coln}\n"
+"columna 1 entrada & columna 2 entrada… & columna n entrada \\\\ \n"
+"…\n"
 "\\end{array}\n"
 "Cada columna, coln, es declara amb una lletra que indica com s'han de donar "
 "format als seus elements.\n"
@@ -10494,7 +10493,7 @@ msgid ""
 "to Settings->Configure Kile->Tools->ViewHTML->Advanced."
 msgstr ""
 "No s'ha pogut trobar %1 o %2: si esteu intentant visualitzar algun altre "
-"fitxer HTML, aneu fins a «Configuració -> Configura Kile... -> Eines -> "
+"fitxer HTML, aneu fins a «Configuració -> Configura Kile… -> Eines -> "
 "ViewHTML -> Avançat»."
 
 #: kiletool.cpp:57
@@ -11040,12 +11039,12 @@ msgstr "Vista prèvia &ràpida matemàtica"
 #: kileviewmanager.cpp:1132
 #, kde-format
 msgid "Print Compiled Document..."
-msgstr "Imprimix el document compilat..."
+msgstr "Imprimix el document compilat…"
 
 #: kileviewmanager.cpp:1138
 #, kde-format
 msgid "Print Preview For Compiled Document..."
-msgstr "Imprimix una vista prèvia per al document compilat..."
+msgstr "Imprimix una vista prèvia per al document compilat…"
 
 #: livepreview.cpp:187
 #, kde-format
@@ -11060,7 +11059,7 @@ msgstr "Torna a compilar la vista prèvia en viu"
 #: livepreview.cpp:197
 #, kde-format
 msgid "Save Compiled Document..."
-msgstr "Guarda el document compilat..."
+msgstr "Guarda el document compilat…"
 
 #: livepreview.cpp:908
 #, kde-format
@@ -11733,7 +11732,7 @@ msgstr "Compleció a&utomàtica per a les abreviatures"
 #: widgets/codecompletionconfigwidget.ui:133
 #, kde-format
 msgid "Add..."
-msgstr "Afig..."
+msgstr "Afig…"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_removeFileButton)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbRemoveTool)
@@ -11787,7 +11786,7 @@ msgstr "S'està comprovant el sistema"
 #, kde-format
 msgid "Checking if your TeX system is installed correctly..."
 msgstr ""
-"S'està comprovant si este sistema TeX es troba instal·lat correctament..."
+"S'està comprovant si este sistema TeX es troba instal·lat correctament…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_grpResults)
 #: widgets/configcheckerwidget.ui:55
@@ -11994,13 +11993,13 @@ msgstr "Utilitza la referència LaTeX de &Kile"
 #: widgets/helpconfigwidget.ui:97
 #, kde-format
 msgid "Con&figure..."
-msgstr "Con&figura..."
+msgstr "Con&figura…"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
 #, kde-format
 msgid "Configure..."
-msgstr "Configura..."
+msgstr "Configura…"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlCommands)
 #: widgets/latexconfigwidget.ui:50
@@ -12199,7 +12198,7 @@ msgstr "Mostra les eines ocultes"
 #: widgets/maintoolconfigwidget.ui:116 widgets/maintoolconfigwidget.ui:216
 #, kde-format
 msgid "New..."
-msgstr "Nova..."
+msgstr "Nova…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_groupBox)
 #: widgets/maintoolconfigwidget.ui:152
@@ -12277,7 +12276,7 @@ msgstr "&Icona:"
 #: widgets/maintoolconfigwidget.ui:651
 #, kde-format
 msgid "Restore Default Tools..."
-msgstr "Restaura les eines predeterminades..."
+msgstr "Restaura les eines predeterminades…"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/newdocumentwidget.ui:38
@@ -12577,7 +12576,7 @@ msgstr "O&bri amb"
 #: widgets/projectview.cpp:820 widgets/structurewidget.cpp:807
 #, kde-format
 msgid "Other..."
-msgstr "Altres..."
+msgstr "Altres…"
 
 #: widgets/projectview.cpp:826
 #, kde-format
@@ -12607,7 +12606,7 @@ msgstr "Elimina del p&rojecte"
 #: widgets/projectview.cpp:866
 #, kde-format
 msgid "A&dd Files..."
-msgstr "Afig fi&txers..."
+msgstr "Afig fi&txers…"
 
 #: widgets/projectview.cpp:882 widgets/projectview.cpp:885
 #, kde-format
@@ -12809,7 +12808,7 @@ msgstr "Valor pre&determinat"
 #: widgets/structureviewconfigwidget.ui:112
 #, kde-format
 msgid "(&1=part, 2=chapter, 3=section, 4=subsection, 5=subsubsection, ...)"
-msgstr "(&1=part, 2=capítol, 3=secció, 4=subsecció, 5=subsubsecció,...)"
+msgstr "(&1=part, 2=capítol, 3=secció, 4=subsecció, 5=subsubsecció…)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowLabels)
 #: widgets/structureviewconfigwidget.ui:137

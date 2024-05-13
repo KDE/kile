@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-02 00:38+0000\n"
+"POT-Creation-Date: 2024-05-13 00:38+0000\n"
 "PO-Revision-Date: 2024-05-02 09:07+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
@@ -361,21 +361,21 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UserMenuDialog)
 #. i18n: ectx: property (windowTitle), widget (QWidget, ToolConfigWidget)
-#: dialogs/configurationdialog.cpp:59
+#: dialogs/configurationdialog.cpp:58
 #: dialogs/usermenu/usermenudialog_base.ui:26
 #: widgets/maintoolconfigwidget.ui:26
 #, kde-format
 msgid "Configure"
 msgstr "Налаштувати"
 
-#: dialogs/configurationdialog.cpp:69 main.cpp:101
+#: dialogs/configurationdialog.cpp:68 main.cpp:101
 #, kde-format
 msgid "Kile"
 msgstr "Kile"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLatexConfig)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetEnvironmentConfig)
-#: dialogs/configurationdialog.cpp:70 kile.cpp:695 kile.cpp:1074
+#: dialogs/configurationdialog.cpp:69 kile.cpp:695 kile.cpp:1074
 #: kileinfo.cpp:355 widgets/environmentconfigwidget.ui:20
 #: widgets/latexconfigwidget.ui:14
 #, kde-format
@@ -383,12 +383,12 @@ msgid "LaTeX"
 msgstr "LaTeX"
 
 #. i18n: ectx: ToolBar (toolsToolBar)
-#: dialogs/configurationdialog.cpp:71 kileui.rc:552
+#: dialogs/configurationdialog.cpp:70 kileui.rc:552
 #, kde-format
 msgid "Tools"
 msgstr "Інструменти"
 
-#: dialogs/configurationdialog.cpp:72
+#: dialogs/configurationdialog.cpp:71
 #, kde-format
 msgid "Editor"
 msgstr "Редактор"
@@ -396,111 +396,111 @@ msgstr "Редактор"
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetGeneralConfig)
-#: dialogs/configurationdialog.cpp:201 dialogs/configurationdialog.cpp:288
+#: dialogs/configurationdialog.cpp:200 dialogs/configurationdialog.cpp:285
 #: widgets/appearanceconfigwidget.ui:20 widgets/generalconfigwidget.ui:26
 #: widgets/maintoolconfigwidget.ui:268
 #, kde-format
 msgid "General"
 msgstr "Загальне"
 
-#: dialogs/configurationdialog.cpp:201
+#: dialogs/configurationdialog.cpp:200
 #, kde-format
 msgid "General Settings"
 msgstr "Загальні параметри"
 
-#: dialogs/configurationdialog.cpp:210
+#: dialogs/configurationdialog.cpp:209
 #, kde-format
 msgid "Build"
 msgstr "Збирання"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetScriptingConfig)
-#: dialogs/configurationdialog.cpp:221 widgets/scriptingconfigwidget.ui:21
+#: dialogs/configurationdialog.cpp:220 widgets/scriptingconfigwidget.ui:21
 #, kde-format
 msgid "Scripting Support"
 msgstr "Підтримка запису скриптів"
 
-#: dialogs/configurationdialog.cpp:221
+#: dialogs/configurationdialog.cpp:220
 #, kde-format
 msgid "Scripting"
 msgstr "Запис скриптів"
 
 #. i18n: ectx: Menu (menu_usermenu)
-#: dialogs/configurationdialog.cpp:230 kileui.rc:496 usermenu/usermenu.cpp:68
+#: dialogs/configurationdialog.cpp:229 kileui.rc:496 usermenu/usermenu.cpp:68
 #, kde-format
 msgid "User Menu"
 msgstr "Меню користувача"
 
-#: dialogs/configurationdialog.cpp:242
+#: dialogs/configurationdialog.cpp:241
 #, kde-format
 msgid "Complete"
 msgstr "Завершення"
 
-#: dialogs/configurationdialog.cpp:242
+#: dialogs/configurationdialog.cpp:241
 #, kde-format
 msgid "Code Completion"
 msgstr "Автозавершення коду"
 
 #. i18n: ectx: Menu (quickpreview)
-#: dialogs/configurationdialog.cpp:252 kileui.rc:148
+#: dialogs/configurationdialog.cpp:251 kileui.rc:148
 #, kde-format
 msgid "Quick Preview"
 msgstr "Швидкий попередній перегляд"
 
-#: dialogs/configurationdialog.cpp:252 kile.cpp:751
+#: dialogs/configurationdialog.cpp:251 kile.cpp:751
 #, kde-format
 msgid "Preview"
 msgstr "Переглянути"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetHelpConfig)
-#: dialogs/configurationdialog.cpp:260 kilehelp.cpp:171
+#: dialogs/configurationdialog.cpp:259 kilehelp.cpp:171
 #: widgets/helpconfigwidget.ui:20
 #, kde-format
 msgid "Help"
 msgstr "Довідка"
 
 #. i18n: ectx: Menu (menu_livepreview)
-#: dialogs/configurationdialog.cpp:268 kileui.rc:145
+#: dialogs/configurationdialog.cpp:267 kileui.rc:145
 #, kde-format
 msgid "Live Preview"
 msgstr "Інтерактивний перегляд"
 
-#: dialogs/configurationdialog.cpp:276
+#: dialogs/configurationdialog.cpp:275
 #, kde-format
 msgid "Appearance"
 msgstr "Вигляд"
 
 #. i18n: ectx: attribute (title), widget (QWidget, pageEnvironments)
-#: dialogs/configurationdialog.cpp:295 dialogs/latexcommanddialog_base.ui:41
+#: dialogs/configurationdialog.cpp:292 dialogs/latexcommanddialog_base.ui:41
 #, kde-format
 msgid "Environments"
 msgstr "Середовища"
 
-#: dialogs/configurationdialog.cpp:302 widgets/previewconfigwidget.cpp:246
+#: dialogs/configurationdialog.cpp:299 widgets/previewconfigwidget.cpp:246
 #: widgets/previewconfigwidget.cpp:247
 #, kde-format
 msgid "installed"
 msgstr "встановлено"
 
-#: dialogs/configurationdialog.cpp:302 widgets/previewconfigwidget.cpp:246
+#: dialogs/configurationdialog.cpp:299 widgets/previewconfigwidget.cpp:246
 #: widgets/previewconfigwidget.cpp:247
 #, kde-format
 msgid "not installed"
 msgstr "не встановлено"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetGraphicsConfig)
-#: dialogs/configurationdialog.cpp:303 widgets/graphicsconfigwidget.ui:14
+#: dialogs/configurationdialog.cpp:300 widgets/graphicsconfigwidget.ui:14
 #, kde-format
 msgid "Graphics"
 msgstr "Графіка"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetStructureViewConfig)
-#: dialogs/configurationdialog.cpp:310 widgets/structureviewconfigwidget.ui:26
+#: dialogs/configurationdialog.cpp:307 widgets/structureviewconfigwidget.ui:26
 #, kde-format
 msgid "Structure View"
 msgstr "Перегляд структури"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetSymbolViewConfig)
-#: dialogs/configurationdialog.cpp:317 widgets/symbolviewconfigwidget.ui:14
+#: dialogs/configurationdialog.cpp:314 widgets/symbolviewconfigwidget.ui:14
 #, kde-format
 msgid "Symbol View"
 msgstr "Перегляд символів"
@@ -6859,141 +6859,153 @@ msgstr ""
 msgid "Use this number of spaces to autoindent environments"
 msgstr "Використовувати цю кількість пробілів для автовідступу у середовищах"
 
-#. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
+#. i18n: ectx: label, entry (envEventSelectModifier), group (Editor Ext)
+#: kile.kcfg:214
+#, kde-format
+msgid "Click in editor to select from cursor"
+msgstr ""
+
+#. i18n: ectx: label, entry (envEventSearchModifier), group (Editor Ext)
 #: kile.kcfg:218
+#, kde-format
+msgid "Click in editor to search in viewer"
+msgstr ""
+
+#. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
+#: kile.kcfg:226
 #, kde-format
 msgid "Automatic insertion of double quotes."
 msgstr "Автоматичне додавання подвійних лапок."
 
 #. i18n: ectx: label, entry (DoubleQuotes), group (Editor Ext)
-#: kile.kcfg:222
+#: kile.kcfg:230
 #, kde-format
 msgid "Language dependent type of double quotes."
 msgstr "Тип подвійних лапок, що залежить від мови."
 
 #. i18n: ectx: label, entry (InsertSpecialCharacters), group (Editor Ext)
-#: kile.kcfg:226
+#: kile.kcfg:234
 #, kde-format
 msgid "Automatic insertion of special characters."
 msgstr "Автоматичне додавання спеціальних символів."
 
 #. i18n: ectx: label, entry (igCenter), group (IncludeGraphics)
-#: kile.kcfg:232
+#: kile.kcfg:240
 #, kde-format
 msgid "Center the graphics."
 msgstr "Вирівнювати зображення посередині."
 
 #. i18n: ectx: label, entry (igBoundingBox), group (IncludeGraphics)
-#: kile.kcfg:236
+#: kile.kcfg:244
 #, kde-format
 msgid "Insert the bounding box as an option for the includegraphics command."
 msgstr "Вставляти обмежувальну рамку як параметр команди includegraphics."
 
 #. i18n: ectx: label, entry (igGraphicspath), group (IncludeGraphics)
-#: kile.kcfg:240
+#: kile.kcfg:248
 #, kde-format
 msgid "Filename is relative to a path given in graphicspath command."
 msgstr "Назва файла є відносною до шляху заданого командою graphicspath."
 
 #. i18n: ectx: label, entry (igFigure), group (IncludeGraphics)
-#: kile.kcfg:244
+#: kile.kcfg:252
 #, kde-format
 msgid "Embed the graphics in a figure environment."
 msgstr "Вбудовувати зображення у середовище figure."
 
 #. i18n: ectx: label, entry (igTop), group (IncludeGraphics)
-#: kile.kcfg:248
+#: kile.kcfg:256
 #, kde-format
 msgid "Set preferred figure position to top of page."
 msgstr "Вказати бажаною верхню позицію рисунка на сторінці."
 
 #. i18n: ectx: label, entry (igBottom), group (IncludeGraphics)
-#: kile.kcfg:252
+#: kile.kcfg:260
 #, kde-format
 msgid "Set preferred figure position to bottom of page."
 msgstr "Вказати бажаною нижню позицію рисунка на сторінці."
 
 #. i18n: ectx: label, entry (igHere), group (IncludeGraphics)
-#: kile.kcfg:256
+#: kile.kcfg:264
 #, kde-format
 msgid "Set preferred figure position to \"exactly here\" on page."
 msgstr "Вказати бажаною позицію рисунка на сторінці «саме тут»."
 
 #. i18n: ectx: label, entry (igPage), group (IncludeGraphics)
-#: kile.kcfg:260
+#: kile.kcfg:268
 #, kde-format
 msgid "Set preferred figure position to be on separate page."
 msgstr "Вказати бажаним розташування рисунка на окремій сторінці."
 
 #. i18n: ectx: label, entry (igForce), group (IncludeGraphics)
-#: kile.kcfg:264
+#: kile.kcfg:272
 #, kde-format
 msgid "Force figure position."
 msgstr "Примусове розташування рисунка."
 
 #. i18n: ectx: label, entry (igWrapFigure), group (IncludeGraphics)
-#: kile.kcfg:268
+#: kile.kcfg:276
 #, kde-format
 msgid "Enable the wrapfigure environment."
 msgstr "Увімкнути середовище wrapfigure."
 
 #. i18n: ectx: label, entry (igWrapRight), group (IncludeGraphics)
-#: kile.kcfg:272
+#: kile.kcfg:280
 #, kde-format
 msgid "Set preferred wrapfigure position to the right of text."
 msgstr "Встановити бажаним розташуванням wrapfigure праву частину тексту."
 
 #. i18n: ectx: label, entry (igWrapLeft), group (IncludeGraphics)
-#: kile.kcfg:276
+#: kile.kcfg:284
 #, kde-format
 msgid "Set preferred wrapfigure position to the left of text."
 msgstr "Встановити бажаним розташуванням wrapfigure ліву частину тексту."
 
 #. i18n: ectx: label, entry (igWrapInside), group (IncludeGraphics)
-#: kile.kcfg:280
+#: kile.kcfg:288
 #, kde-format
 msgid "Set preferred wrapfigure position to the inside of the page."
 msgstr "Встановити бажаним розташуванням wrapfigure внутрішній бік сторінки."
 
 #. i18n: ectx: label, entry (igWrapOutside), group (IncludeGraphics)
-#: kile.kcfg:284
+#: kile.kcfg:292
 #, kde-format
 msgid "Set preferred wrapfigure position to the outside of the page."
 msgstr "Встановити бажаним розташуванням wrapfigure зовнішній бік сторінки."
 
 #. i18n: ectx: label, entry (igWrapFloat), group (IncludeGraphics)
-#: kile.kcfg:288
+#: kile.kcfg:296
 #, kde-format
 msgid "Allow wrapped figures to float."
 msgstr "Дозволити пересування вбудованих рисунків."
 
 #. i18n: ectx: label, entry (imagemagick), group (IncludeGraphics)
-#: kile.kcfg:292
+#: kile.kcfg:300
 #, kde-format
 msgid "Whether ImageMagick is installed."
 msgstr "Чи встановлено ImageMagick."
 
 #. i18n: ectx: label, entry (boundingbox), group (IncludeGraphics)
-#: kile.kcfg:296
+#: kile.kcfg:304
 #, kde-format
 msgid "Try to determine the bounding box from the picture."
 msgstr ""
 "Намагатися визначити параметри обмежувальної рамки з самого зображення."
 
 #. i18n: ectx: label, entry (resolution), group (IncludeGraphics)
-#: kile.kcfg:300
+#: kile.kcfg:308
 #, kde-format
 msgid "The default image resolution."
 msgstr "Типова роздільна здатність зображень."
 
 #. i18n: ectx: label, entry (kilerefs), group (Help)
-#: kile.kcfg:306
+#: kile.kcfg:314
 #, kde-format
 msgid "Use the Kile LaTeX reference for the contextual help."
 msgstr "Використовувати для контекстної довідки довідник з LaTeX Kile."
 
 #. i18n: ectx: label, entry (latex2erefs), group (Help)
-#: kile.kcfg:310
+#: kile.kcfg:318
 #, kde-format
 msgid "Use the system's TexLive LaTeX2e reference for the contextual help."
 msgstr ""
@@ -7001,55 +7013,55 @@ msgstr ""
 "TeXLive."
 
 #. i18n: ectx: label, entry (Restore), group (Files)
-#: kile.kcfg:316
+#: kile.kcfg:324
 #, kde-format
 msgid "Reopen files and projects on startup."
 msgstr "Відкривати файли і проєкти під час запуску програми."
 
 #. i18n: ectx: label, entry (CleanUpAfterClose), group (Files)
-#: kile.kcfg:320
+#: kile.kcfg:328
 #, kde-format
 msgid "Automatically clean-up files after close."
 msgstr "Автоматично вилучати файли після закриття."
 
 #. i18n: ectx: label, entry (CleanUpFileExtensions), group (Files)
-#: kile.kcfg:324
+#: kile.kcfg:332
 #, kde-format
 msgid "The file extensions to clean on exit."
 msgstr "Суфікси назв файлів, які слід вилучити під час виходу."
 
 #. i18n: ectx: label, entry (showLaTeXFilesOnly), group (Files)
-#: kile.kcfg:336
+#: kile.kcfg:344
 #, kde-format
 msgid "Only show LaTeX files in the file browser widget"
 msgstr "Показувати у віджеті навігації лише файли LaTeX"
 
 #. i18n: ectx: label, entry (Author), group (User)
-#: kile.kcfg:346
+#: kile.kcfg:354
 #, kde-format
 msgid "The Author template variable."
 msgstr "Змінна шаблону — «автор»."
 
 #. i18n: ectx: label, entry (DocumentClassOptions), group (User)
-#: kile.kcfg:350
+#: kile.kcfg:358
 #, kde-format
 msgid "The Documentclass template variable."
 msgstr "Змінна шаблону — «клас документа»."
 
 #. i18n: ectx: label, entry (TemplateEncoding), group (User)
-#: kile.kcfg:354
+#: kile.kcfg:362
 #, kde-format
 msgid "The Input encoding template variable."
 msgstr "Змінна вхідного кодування."
 
 #. i18n: ectx: label, entry (DefaultProjectLocation), group (User)
-#: kile.kcfg:358
+#: kile.kcfg:366
 #, kde-format
 msgid "The default location where the projects must be created."
 msgstr "Типове місце, де мають створюватися проєкти."
 
 #. i18n: ectx: label, entry (SyncConsoleDirWithTabs), group (User)
-#: kile.kcfg:364
+#: kile.kcfg:372
 #, kde-format
 msgid ""
 "Whether the current directory shown in the console is kept synchronized with "
@@ -7059,7 +7071,7 @@ msgstr ""
 "відкритих вкладок."
 
 #. i18n: ectx: label, entry (WatchFileForDocumentViewer), group (User)
-#: kile.kcfg:368
+#: kile.kcfg:376
 #, kde-format
 msgid "Whether the watch-file mode is enabled for the document viewer"
 msgstr ""
@@ -7067,43 +7079,43 @@ msgstr ""
 "документів"
 
 #. i18n: ectx: label, entry (ShowFullPathInWindowTitle), group (User)
-#: kile.kcfg:372
+#: kile.kcfg:380
 #, kde-format
 msgid "Whether to show the full path of file names in the window title."
 msgstr "Визначає, чи слід показувати у заголовку вікна шлях до файла повністю."
 
 #. i18n: ectx: label, entry (dvipng), group (QuickPreview)
-#: kile.kcfg:440
+#: kile.kcfg:448
 #, kde-format
 msgid "Whether Dvipng is installed."
 msgstr "Чи встановлено ImageMagick."
 
 #. i18n: ectx: label, entry (convert), group (QuickPreview)
-#: kile.kcfg:444
+#: kile.kcfg:452
 #, kde-format
 msgid "Whether Convert is installed."
 msgstr "Чи встановлено Convert."
 
 #. i18n: ectx: label, entry (envPreviewInWidget), group (QuickPreview)
-#: kile.kcfg:452
+#: kile.kcfg:460
 #, kde-format
 msgid "Show preview of environments in bottom bar."
 msgstr "Показувати попередній перегляд середовищ на нижній панелі."
 
 #. i18n: ectx: label, entry (selPreviewInWidget), group (QuickPreview)
-#: kile.kcfg:456
+#: kile.kcfg:464
 #, kde-format
 msgid "Show preview of selected text in bottom bar."
 msgstr "Показувати попередній перегляд позначеного тексту на нижній панелі."
 
 #. i18n: ectx: label, entry (mathgroupPreviewInWidget), group (QuickPreview)
-#: kile.kcfg:460
+#: kile.kcfg:468
 #, kde-format
 msgid "Show preview of mathgroups in bottom bar."
 msgstr "Показувати попередній перегляд математичних груп на нижній панелі."
 
 #. i18n: ectx: label, entry (envPreviewTool), group (QuickPreview)
-#: kile.kcfg:464
+#: kile.kcfg:472
 #, kde-format
 msgid "Conversion tool for preview of environments in bottom bar."
 msgstr ""
@@ -7111,7 +7123,7 @@ msgstr ""
 "панелі."
 
 #. i18n: ectx: label, entry (selPreviewTool), group (QuickPreview)
-#: kile.kcfg:468
+#: kile.kcfg:476
 #, kde-format
 msgid "Conversion tool for preview of selected text in bottom bar."
 msgstr ""
@@ -7119,7 +7131,7 @@ msgstr ""
 "нижній панелі."
 
 #. i18n: ectx: label, entry (mathgroupPreviewTool), group (QuickPreview)
-#: kile.kcfg:472
+#: kile.kcfg:480
 #, kde-format
 msgid "Conversion tool for preview of mathgroups in bottom bar."
 msgstr ""
@@ -7127,31 +7139,31 @@ msgstr ""
 "нижній панелі."
 
 #. i18n: ectx: label, entry (previewPaneBackgroundColor), group (QuickPreview)
-#: kile.kcfg:476
+#: kile.kcfg:484
 #, kde-format
 msgid "The background color of the quick preview pane."
 msgstr "Колір тла панелі швидкого попереднього перегляду."
 
 #. i18n: ectx: label, entry (ScriptingEnabled), group (Scripting)
-#: kile.kcfg:556
+#: kile.kcfg:564
 #, kde-format
 msgid "Enable the scripting support."
 msgstr "Дозволити підтримку написання скриптів."
 
 #. i18n: ectx: label, entry (TimeLimitEnabled), group (Scripting)
-#: kile.kcfg:560
+#: kile.kcfg:568
 #, kde-format
 msgid "Set a time limit for the execution of scripts."
 msgstr "Встановити граничний час на виконання скриптів."
 
 #. i18n: ectx: label, entry (TimeLimit), group (Scripting)
-#: kile.kcfg:564
+#: kile.kcfg:572
 #, kde-format
 msgid "Time limit for the execution of scripts."
 msgstr "Граничний час на виконання скриптів."
 
 #. i18n: ectx: label, entry (ScriptNameColumnWidth), group (Scripting)
-#: kile.kcfg:568
+#: kile.kcfg:576
 #, kde-format
 msgid ""
 "Width of the column containing the script name in the scripts management "
@@ -7159,13 +7171,13 @@ msgid ""
 msgstr "Ширина стовпчика з назвою скрипту у віджеті керування скриптами."
 
 #. i18n: ectx: label, entry (pdfWizardLastTask), group (PdfWizard)
-#: kile.kcfg:574
+#: kile.kcfg:582
 #, kde-format
 msgid "Last task used by the PdfWizard."
 msgstr "Останнє завдання, використане майстром створення PDF."
 
 #. i18n: ectx: label, entry (numSymbolsMFUS), group (MostUsedSymbols)
-#: kile.kcfg:580
+#: kile.kcfg:588
 #, kde-format
 msgid "Number of symbols to store in the Most Frequently Used Symbols view."
 msgstr ""
@@ -7173,32 +7185,32 @@ msgstr ""
 "використовуваних символів."
 
 #. i18n: ectx: label, entry (displayMFUS), group (MostUsedSymbols)
-#: kile.kcfg:584
+#: kile.kcfg:592
 #, kde-format
 msgid "Display the Most Frequently Used Symbols view."
 msgstr "Відображати перегляд найчастіше використовуваних символів."
 
 #. i18n: ectx: label, entry (clearMFUS), group (MostUsedSymbols)
-#: kile.kcfg:588
+#: kile.kcfg:596
 #, kde-format
 msgid "Clear the list of the most frequently used symbols whilst closing Kile."
 msgstr ""
 "Очищувати список найчастіше використовуваних символів під час виходу з Kile."
 
 #. i18n: ectx: label, entry (symbolViewUTF8), group (MostUsedSymbols)
-#: kile.kcfg:592
+#: kile.kcfg:600
 #, kde-format
 msgid "Should UTF-8 characters instead of commands be inserted"
 msgstr "Визначає, чи слід додавати символи UTF-8 замість команд"
 
 #. i18n: ectx: label, entry (userMenuFile), group (UserMenu)
-#: kile.kcfg:598
+#: kile.kcfg:606
 #, kde-format
 msgid "XML file for the user menu"
 msgstr "Файл XML меню користувача"
 
 #. i18n: ectx: label, entry (userMenuLocation), group (UserMenu)
-#: kile.kcfg:602
+#: kile.kcfg:610
 #, kde-format
 msgid ""
 "Use the main menubar (value 0) or the LaTeX menu (value 1) for the location "
@@ -7208,25 +7220,25 @@ msgstr ""
 "розташовування меню користувача"
 
 #. i18n: ectx: label, entry (livePreviewEnabled), group (LivePreview)
-#: kile.kcfg:608
+#: kile.kcfg:616
 #, kde-format
 msgid "Activate live preview functionality."
 msgstr "Задіяти можливості інтерактивного перегляду."
 
 #. i18n: ectx: label, entry (synchronizeCursorWithView), group (LivePreview)
-#: kile.kcfg:612
+#: kile.kcfg:620
 #, kde-format
 msgid "Synchronize the cursor position with the view."
 msgstr "Синхронізувати розташування курсора з вікном перегляду."
 
 #. i18n: ectx: label, entry (previewEnabledForFreshlyOpenedDocuments), group (LivePreview)
-#: kile.kcfg:616
+#: kile.kcfg:624
 #, kde-format
 msgid "Enable preview for freshly opened documents."
 msgstr "Увімкнути попередній перегляд для щойно відкритих документів."
 
 #. i18n: ectx: label, entry (livePreviewCompilationDelay), group (LivePreview)
-#: kile.kcfg:620
+#: kile.kcfg:628
 #, kde-format
 msgid ""
 "Number of milliseconds after which the compilation is started when a change "
@@ -7235,13 +7247,13 @@ msgstr ""
 "Кількість мілісекунд між моментом зміни документа і початком компіляції."
 
 #. i18n: ectx: label, entry (livePreviewCompileOnlyAfterSaving), group (LivePreview)
-#: kile.kcfg:624
+#: kile.kcfg:632
 #, kde-format
 msgid "Only compile documents after saving."
 msgstr "Компілювати документи лише після збереження."
 
 #. i18n: ectx: label, entry (livePreviewDefaultTool), group (LivePreview)
-#: kile.kcfg:628
+#: kile.kcfg:636
 #, kde-format
 msgid "default livepreview tool."
 msgstr "типовий засіб інтерактивного перегляду."
@@ -11915,6 +11927,63 @@ msgstr "Вико&ристовувати довідку з LaTeX Kile"
 msgid "Con&figure..."
 msgstr "Нала&штувати..."
 
+#: widgets/latexconfigwidget.cpp:31
+#, kde-format
+msgid "Shift"
+msgstr ""
+
+#: widgets/latexconfigwidget.cpp:32 widgets/latexconfigwidget.cpp:43
+#, kde-format
+msgid "Ctrl"
+msgstr ""
+
+#: widgets/latexconfigwidget.cpp:33
+#, fuzzy, kde-format
+#| msgid "Alignat"
+msgid "Alt"
+msgstr "Вирівняти за"
+
+#: widgets/latexconfigwidget.cpp:34
+#, kde-format
+msgid "Meta"
+msgstr ""
+
+#: widgets/latexconfigwidget.cpp:35
+#, kde-format
+msgid "Ctrl + Shift"
+msgstr ""
+
+#: widgets/latexconfigwidget.cpp:36
+#, kde-format
+msgid "Alt + Ctrl"
+msgstr ""
+
+#: widgets/latexconfigwidget.cpp:37
+#, kde-format
+msgid "Meta + Ctrl"
+msgstr ""
+
+#: widgets/latexconfigwidget.cpp:42
+#, fuzzy, kde-format
+#| msgid "Command"
+msgid "Cmd"
+msgstr "Команда"
+
+#: widgets/latexconfigwidget.cpp:44
+#, kde-format
+msgid "Cmd + Shift"
+msgstr ""
+
+#: widgets/latexconfigwidget.cpp:45
+#, kde-format
+msgid "Alt + Cmd"
+msgstr ""
+
+#: widgets/latexconfigwidget.cpp:46
+#, kde-format
+msgid "Ctrl + Cmd"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
 #, kde-format
@@ -12001,6 +12070,24 @@ msgstr "BIBINP&UTS:"
 #, kde-format
 msgid "B&STINPUTS:"
 msgstr "B&STINPUTS:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, m_bgLeftClickModifiers)
+#: widgets/latexconfigwidget.ui:258
+#, kde-format
+msgid "Modifiers for Left Click Actions"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: widgets/latexconfigwidget.ui:267
+#, kde-format
+msgid "Modifier for forward search in viewer:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: widgets/latexconfigwidget.ui:280
+#, kde-format
+msgid "Modifier for selecting from cursor:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckRootDoc)
 #: widgets/latextoolconfigwidget.ui:35

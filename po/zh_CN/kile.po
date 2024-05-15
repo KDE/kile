@@ -11610,10 +11610,9 @@ msgid "Ctrl"
 msgstr ""
 
 #: widgets/latexconfigwidget.cpp:33
-#, fuzzy, kde-format
-#| msgid "Alignat"
+#, kde-format
 msgid "Alt"
-msgstr "参数对齐公式"
+msgstr ""
 
 #: widgets/latexconfigwidget.cpp:34
 #, kde-format
@@ -11636,10 +11635,9 @@ msgid "Meta + Ctrl"
 msgstr ""
 
 #: widgets/latexconfigwidget.cpp:42
-#, fuzzy, kde-format
-#| msgid "Command"
+#, kde-format
 msgid "Cmd"
-msgstr "命令"
+msgstr ""
 
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format

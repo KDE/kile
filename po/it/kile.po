@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-13 00:38+0000\n"
-"PO-Revision-Date: 2024-05-07 18:01+0200\n"
+"PO-Revision-Date: 2024-05-14 16:12+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -6872,13 +6872,13 @@ msgstr "Usa questo numero di spazi per i rientri automatici degli ambienti"
 #: kile.kcfg:214
 #, kde-format
 msgid "Click in editor to select from cursor"
-msgstr ""
+msgstr "Fai clic nell'editor per selezionare dal cursore"
 
 #. i18n: ectx: label, entry (envEventSearchModifier), group (Editor Ext)
 #: kile.kcfg:218
 #, kde-format
 msgid "Click in editor to search in viewer"
-msgstr ""
+msgstr "Fai clic nell'editor per cercare nel visore"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
 #: kile.kcfg:226
@@ -11959,60 +11959,57 @@ msgstr "Con&figura..."
 #: widgets/latexconfigwidget.cpp:31
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Maiusc"
 
 #: widgets/latexconfigwidget.cpp:32 widgets/latexconfigwidget.cpp:43
 #, kde-format
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: widgets/latexconfigwidget.cpp:33
-#, fuzzy, kde-format
-#| msgid "Alt+Q"
+#, kde-format
 msgid "Alt"
-msgstr "Alt+V"
+msgstr "Alt"
 
 #: widgets/latexconfigwidget.cpp:34
-#, fuzzy, kde-format
-#| msgid "MetaPost"
+#, kde-format
 msgid "Meta"
-msgstr "Metapost"
+msgstr "Meta"
 
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
 msgid "Ctrl + Shift"
-msgstr ""
+msgstr "Ctrl + Maiusc"
 
 #: widgets/latexconfigwidget.cpp:36
 #, kde-format
 msgid "Alt + Ctrl"
-msgstr ""
+msgstr "Alt + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:37
 #, kde-format
 msgid "Meta + Ctrl"
-msgstr ""
+msgstr "Meta + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:42
-#, fuzzy, kde-format
-#| msgid "Command"
+#, kde-format
 msgid "Cmd"
-msgstr "Comando"
+msgstr "Cmd"
 
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format
 msgid "Cmd + Shift"
-msgstr ""
+msgstr "Cmd + Maiusc"
 
 #: widgets/latexconfigwidget.cpp:45
 #, kde-format
 msgid "Alt + Cmd"
-msgstr ""
+msgstr "Alt + Cmd"
 
 #: widgets/latexconfigwidget.cpp:46
 #, kde-format
 msgid "Ctrl + Cmd"
-msgstr ""
+msgstr "Ctrl + Cmd"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
@@ -12107,19 +12104,19 @@ msgstr "B&STINPUTS:"
 #: widgets/latexconfigwidget.ui:258
 #, kde-format
 msgid "Modifiers for Left Click Actions"
-msgstr ""
+msgstr "Modificatori per le azioni del tasto sinistro"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/latexconfigwidget.ui:267
 #, kde-format
 msgid "Modifier for forward search in viewer:"
-msgstr ""
+msgstr "Modificatore per la ricerca in avanti nel visore:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: widgets/latexconfigwidget.ui:280
 #, kde-format
 msgid "Modifier for selecting from cursor:"
-msgstr ""
+msgstr "Modificatore per la selezione dal cursore:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckRootDoc)
 #: widgets/latextoolconfigwidget.ui:35

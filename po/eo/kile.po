@@ -1,15 +1,15 @@
 # Translation of kile into esperanto.
 # Copyright (C) 2009 Free Software Foundation, Inc.
 # Axel Rousseau <axel@esperanto-jeunes.org>, 2009.
-# Oliver Kellogg <okellogg@users.sourceforge.net>, 2023.
+# Oliver Kellogg <olivermkellogg@gmail.com>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-13 00:38+0000\n"
-"PO-Revision-Date: 2024-05-02 23:45+0100\n"
-"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
+"PO-Revision-Date: 2024-05-15 23:33+0100\n"
+"Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr "Axel Rousseau,Oliver Kellogg"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "axel@esperanto-jeunes.org,okellogg@users.sourceforge.net"
+msgstr "axel@esperanto-jeunes.org,olivermkellogg@gmail.com"
 
 #: abbreviationmanager.cpp:104
 #, kde-format
@@ -227,7 +227,7 @@ msgstr "Malsukcesis, sed ne kritika"
 #: dialogs/configcheckerdialog.cpp:105
 #, kde-format
 msgid "System Check"
-msgstr "Sistema kontrolo"
+msgstr "Sistema Kontrolo"
 
 #: dialogs/configcheckerdialog.cpp:113
 #, kde-format
@@ -247,7 +247,7 @@ msgstr ""
 #: dialogs/configcheckerdialog.cpp:124
 #, kde-format
 msgid "System Check & Configuration Assistant"
-msgstr "Asistanto pri Sistema Kontrolo kaj Agordo"
+msgstr "Asistanto pri Sistema Kontrolo & Agordo"
 
 #: dialogs/configcheckerdialog.cpp:127
 #, kde-format
@@ -2568,8 +2568,8 @@ msgid ""
 "'Select pages' and 'Free Parameter' need some specific parameter, which you "
 "can enter here"
 msgstr ""
-"'Elektu paĝojn' kaj 'Senpaga Parametro' bezonas iun specifan parametron, "
-"kiun vi povas enigi ĉi tie"
+"'Elekti paĝojn' kaj 'Libera Parametro' bezonas iun specifan parametron, kiun "
+"vi povas enigi ĉi tie"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbStamp)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:281
@@ -3433,7 +3433,7 @@ msgstr "Kaŭzu la piedlinion esti kalkulita kiel limo"
 #: dialogs/quickdocumentdialog.cpp:679
 #, kde-format
 msgid "Cause the margin-note to be counted to the text body"
-msgstr "Kaŭzu la marĝenon-noton esti kalkulita al la tekstokorpo"
+msgstr "Kaŭzu la marĝen-noton esti kalkulita al la tekstokorpo"
 
 #: dialogs/quickdocumentdialog.cpp:680
 #, kde-format
@@ -3538,7 +3538,7 @@ msgstr "Neniu interspaco inter alineoj, indentu la unuan linion per 1 em"
 #: dialogs/quickdocumentdialog.cpp:700
 #, kde-format
 msgid "One-line captions are centered, multi-line left-justified"
-msgstr "Unuliniaj subtitoloj estas centritaj, plurliniaj maldekstre pravigitaj"
+msgstr "Unuliniaj subtitoloj estas centritaj, plurliniaj, maldekstre ĝisrandaj"
 
 #: dialogs/quickdocumentdialog.cpp:701
 #, kde-format
@@ -3588,8 +3588,7 @@ msgstr "Nombri la bibliografion en la TOC"
 #: dialogs/quickdocumentdialog.cpp:710
 #, kde-format
 msgid "All numbers and titles are set in a left-justified column"
-msgstr ""
-"Ĉiuj numeroj kaj titoloj estas fiksitaj en maldekstre pravigita kolumno"
+msgstr "Ĉiuj numeroj kaj titoloj estas fiksitaj en maldekstre ĝisranda kolumno"
 
 #: dialogs/quickdocumentdialog.cpp:711
 #, kde-format
@@ -3600,7 +3599,7 @@ msgstr "Malsamaj sekcaj unuoj havas malsamajn indentaĵojn"
 #, kde-format
 msgid "All numbers and captions are set in a left-justified column"
 msgstr ""
-"Ĉiuj numeroj kaj bildotekstoj estas fiksitaj en maldekstre pravigita kolumno"
+"Ĉiuj numeroj kaj bildotekstoj estas fiksitaj en maldekstre ĝisranda kolumno"
 
 #: dialogs/quickdocumentdialog.cpp:713
 #, kde-format
@@ -3784,7 +3783,7 @@ msgstr "Malŝaltas la difinon de defaŭltaj blokoj kiel teoremo"
 #: dialogs/quickdocumentdialog.cpp:768
 #, kde-format
 msgid "Does not load amsthm and amsmath"
-msgstr "Ne ŝarĝas amsthm kaj amsmath"
+msgstr "Ne ŝargas amsthm kaj amsmath"
 
 #: dialogs/quickdocumentdialog.cpp:769
 #, kde-format
@@ -3992,12 +3991,12 @@ msgstr "Ebligas plurkolumnajn mediojn"
 #: dialogs/quickdocumentdialog.cpp:1059
 #, kde-format
 msgid "Load all pstricks packages"
-msgstr "Ŝarĝu ĉiujn pstricks-pakaĵojn"
+msgstr "Ŝargi ĉiujn pstricks-pakaĵojn"
 
 #: dialogs/quickdocumentdialog.cpp:1060
 #, kde-format
 msgid "Rotates text"
-msgstr "Turnas tekston"
+msgstr "Rotacias tekston"
 
 #: dialogs/quickdocumentdialog.cpp:1061
 #, kde-format
@@ -4032,12 +4031,12 @@ msgstr "Subteno por inkluzivi grafikojn"
 #: dialogs/quickdocumentdialog.cpp:1165
 #, kde-format
 msgid "Specialize on graphic inclusion for dvips"
-msgstr "Specialiĝu pri grafika inkludo por dvips"
+msgstr "Specialiĝi pri grafika inkludo por dvips"
 
 #: dialogs/quickdocumentdialog.cpp:1166
 #, kde-format
 msgid "Specialize on graphic inclusion for pdftex"
-msgstr "Specialiĝu pri grafika inkludo por pdftex"
+msgstr "Specialiĝi pri grafika inkludo por pdftex"
 
 #: dialogs/quickdocumentdialog.cpp:1167
 #, kde-format
@@ -5211,13 +5210,13 @@ msgstr "Instali"
 #: dialogs/usermenu/usermenudialog_base.ui:247
 #, kde-format
 msgid "Load an xml file, which describes the user-defined menu."
-msgstr "Ŝarĝu xml-dosieron, kiu priskribas la uzant-difinitan menuon."
+msgstr "Ŝargi xml-dosieron, kiu priskribas la uzant-difinitan menuon."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbLoad)
 #: dialogs/usermenu/usermenudialog_base.ui:250
 #, kde-format
 msgid "Load"
-msgstr "Ŝarĝo"
+msgstr "Ŝargi"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbSave)
 #: dialogs/usermenu/usermenudialog_base.ui:273
@@ -7857,7 +7856,7 @@ msgid ""
 msgstr ""
 "Ĉiuj opcioj donitaj en la komando \\documentclass, kiuj estas nekonataj de "
 "la elektita dokumentklaso\n"
-"estas transdonitaj al la pakaĵoj ŝarĝitaj kun \\usepackage."
+"estas transdonitaj al la pakaĵoj ŝargitaj kun \\usepackage."
 
 #: kilestdactions.cpp:40
 #, kde-format
@@ -7996,7 +7995,7 @@ msgid ""
 "The text is justified at both margins.\n"
 "Leaving a blank line between text produces a new paragraph."
 msgstr ""
-"La teksto estas pravigita ĉe ambaŭ marĝenoj.\n"
+"La teksto estas ĝisrandigita ĉe ambaŭ marĝenoj.\n"
 "Lasi malplenan linion inter teksto produktas novan alineon."
 
 #: kilestdactions.cpp:51
@@ -8015,7 +8014,7 @@ msgid ""
 "The text is justified at both margins and there is paragraph indentation.\n"
 "Leaving a blank line between text produces a new paragraph."
 msgstr ""
-"La teksto estas pravigita ĉe ambaŭ marĝenoj kaj estas alinea deŝovo.\n"
+"La teksto estas ĝisrandigita ĉe ambaŭ marĝenoj kaj estas alinea deŝovo.\n"
 "Lasi malplenan linion inter teksto produktas novan alineon."
 
 #: kilestdactions.cpp:52
@@ -9418,7 +9417,7 @@ msgstr "Ŝargi Biblatex-pakaĵon - \\usepackage{biblatex}"
 #: kilestdactions.cpp:227
 #, kde-format
 msgid "Load Biblatex Package"
-msgstr "Ŝarĝu Biblatex-Pakaĵon"
+msgstr "Ŝargi Biblatex-Pakaĵon"
 
 #: kilestdactions.cpp:227
 #, kde-format
@@ -11861,59 +11860,57 @@ msgstr "&Agordi..."
 #: widgets/latexconfigwidget.cpp:31
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: widgets/latexconfigwidget.cpp:32 widgets/latexconfigwidget.cpp:43
 #, kde-format
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: widgets/latexconfigwidget.cpp:33
-#, fuzzy, kde-format
-#| msgid "Alignat"
+#, kde-format
 msgid "Alt"
-msgstr "Alignat"
+msgstr "Alt"
 
 #: widgets/latexconfigwidget.cpp:34
 #, kde-format
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
 msgid "Ctrl + Shift"
-msgstr ""
+msgstr "Ctrl + Shift"
 
 #: widgets/latexconfigwidget.cpp:36
 #, kde-format
 msgid "Alt + Ctrl"
-msgstr ""
+msgstr "Alt + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:37
 #, kde-format
 msgid "Meta + Ctrl"
-msgstr ""
+msgstr "Meta + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:42
-#, fuzzy, kde-format
-#| msgid "Command"
+#, kde-format
 msgid "Cmd"
-msgstr "Komando"
+msgstr "Cmd"
 
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format
 msgid "Cmd + Shift"
-msgstr ""
+msgstr "Cmd + Shift"
 
 #: widgets/latexconfigwidget.cpp:45
 #, kde-format
 msgid "Alt + Cmd"
-msgstr ""
+msgstr "Alt + Cmd"
 
 #: widgets/latexconfigwidget.cpp:46
 #, kde-format
 msgid "Ctrl + Cmd"
-msgstr ""
+msgstr "Ctrl + Cmd"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37

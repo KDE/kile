@@ -260,7 +260,7 @@
 >La plupart de ces éléments sont probablement inclus dans votre distribution &Linux;. Veuillez vous référer à la documentation de votre distribution, ou vous référer au &CD; ou DVD d'installation pour ajouter ces paquets à votre ordinateur.</para>
 
 		<para
->&kile; est peut être déjà disponible sous forme de paquet précompilé pour votre distribution &Linux;. Vous pouvez vérifier avec le gestionnaire de paquet de votre distribution.</para>
+>&kile; est peut être déjà disponible sous forme de paquet pré-compilé pour votre distribution &Linux;. Vous pouvez vérifier avec le gestionnaire de paquet de votre distribution.</para>
 
 	</sect1>
 
@@ -354,7 +354,7 @@
 >ch</emphasis
 >. Si vous ne connaissez pas à quoi ressemble <emphasis
 >ch</emphasis
->, c'est plus ou moins le son que fait un chat qui siffle : le symbole IPA est /ç/. Certaines personnes disent que ça se prononce <emphasis
+>, c'est plus ou moins le son que fait un chat qui siffle : le symbole « IPA » est /ç/. Certaines personnes disent que ça se prononce <emphasis
 >ach</emphasis
 > (symbole IPA /x/), mais d'après certains Grecs, la première version est en effet correcte. Gardez à l'esprit que beaucoup de personnes prononcent &tex; à tort /teks/ ou /tek/.</para>
 			<para
@@ -376,9 +376,9 @@
 >&latex; 101</title>
 
 		<para
->Le système de composition typographique &latex; est similaire à d'autres langages balisés comme &XML;, qui est utilisé dans beaucoup de types de documents (y compris celui que vous lisez actuellement), ou &HTML;, utilisé pour les pages web. L'idée générale derrière les langages balisés est d'avoir des mot clés spéciaux appelés <emphasis
+>Le système de composition typographique &latex; est similaire à d'autres langages balisés comme &XML;, qui est utilisé dans beaucoup de types de documents (y compris celui que vous lisez actuellement), ou &HTML;, utilisé pour les pages Internet. L'idée générale derrière les langages balisés est d'avoir des mot clés spéciaux appelés <emphasis
 >balises</emphasis
->, qui indiquent au programme (un traitement de texte, un navigateur web ou le compilateur &latex;) comment le texte encadré par ces balises doit être interprété. &kile; vous offre un grand nombre de balises dans le menu <guimenu
+>, qui indiquent au programme (un traitement de texte, un navigateur Internet ou le compilateur &latex;) comment le texte encadré par ces balises doit être interprété. &kile; vous offre un grand nombre de balises dans le menu <guimenu
 >LaTeX</guimenu
 > dans la barre de menus.</para>
 
@@ -522,7 +522,7 @@
 ></listitem>
 				<listitem
 ><para
->Scrartcl, Scrbook, Scrreprt, Scrlttr2 : les classes de documents KOMA-Script, particulièrement adaptées pour la typographie allemande. Utilisez-les si vous écrivez des textes en allemand.</para
+>Types scrartcl, scrbook, scrreprt, scrlttr2 : les classes de documents KOMA-Script, particulièrement adaptées pour la typographie allemande. Utilisez-les si vous écrivez des textes en Allemand.</para
 ></listitem>
 				<listitem
 ><para
@@ -582,7 +582,7 @@
 >Aller à l'élément de structure</title>
 
 			<para
->Tous les documents sont normalement structurés en une hiérarchie d'un certain type. &latex; vous permet de couper les documents avec la hiérarchie suivante (part étant la structure de plus haut niveau dans la hiérarchie, et subparagraph étant celle de plus bas niveau) :</para>
+>Tous les documents sont normalement structurés en une hiérarchie d'un certain type. &latex; vous permet de couper les documents avec la hiérarchie suivante (« part » étant la structure de plus haut niveau dans la hiérarchie et « subparagraph » étant celle de plus bas niveau) :</para>
 
 			<itemizedlist>
 				<listitem
@@ -628,7 +628,7 @@
 >Recherche inverse</title>
 
 			<para
->Lorsque vous créez votre propre fichier &latex;, la recherche inverse peut être très utile. Une fois que vous avez créé un fichier &DVI; (DeVice Independant File, ou fichier indépendant du périphérique), ou un fichier PDF, lorsque vous cliquez avec le bouton gauche de la souris tout en maintenant la touche &Maj; dans l'afficheur, &kile; ira à la ligne correspondante dans le code source &latex;.</para>
+>Lorsque vous créez votre propre fichier &latex;, la recherche inverse peut être très utile. Une fois que vous avez créé un fichier &DVI; (DeVice Independent File, ou fichier indépendant du périphérique), ou un fichier PDF, lorsque vous cliquez avec le bouton gauche de la souris tout en maintenant la touche &Maj; dans l'afficheur, &kile; ira à la ligne correspondante dans le code source &latex;.</para>
 
 			<para
 >Un &DVI; est un type de fichier contenant une description du document formaté, ainsi que d'autres informations, incluant les polices de caractères, et est souvent le format de sortie de &tex; ou &latex;. Il existe beaucoup d'utilitaires pour afficher ou imprimer les fichiers &DVI; sur divers systèmes et périphériques.</para>
@@ -1325,7 +1325,7 @@
 >Compilation</guilabel
 ></menuchoice
 > et choisissez toujours la configuration <guilabel
->PDFLatTeX+ViewPDF</guilabel
+>PDFLaTeX + ViewPDF</guilabel
 >.</para>
 
 		<para
@@ -1345,7 +1345,7 @@
 
 		<para
 >La recherche inverse est une caractéristique très utile lorsque vous écrivez un document &latex; vous-même. Si tout est configuré correctement, vous pouvez cliquer dans la fenêtre de &okular; avec le &BGS; tout en maintenant enfoncée la touche &Maj;. Après cela, &kile; chargera le fichier source &latex; et ira au paragraphe approprié. Pour utiliser la recherche inverse, vous devez compiler votre fichier &latex; avec la configuration <guilabel
->PDFLatTeX + ViewPDF</guilabel
+>Moderne</guilabel
 >.</para>
 
 		<para
@@ -1429,11 +1429,11 @@
 ></listitem>
 		<listitem
 ><para
->Beamer</para
+>Type » beamer »</para
 ></listitem>
 		<listitem
 ><para
->Book</para
+>Type « book »</para
 ></listitem>
 		<listitem
 ><para
@@ -1449,23 +1449,23 @@
 ></listitem>
 		<listitem
 ><para
->Report</para
+>Signaler</para
 ></listitem>
 		<listitem
 ><para
->Scrartcl (du paquet KOMA-Script)</para
+>scrartcl (du paquet KOMA-Script)</para
 ></listitem>
 		<listitem
 ><para
->Scrbook (du paquet KOMA-Script)</para
+>scrbook (du paquet KOMA-Script)</para
 ></listitem>
 		<listitem
 ><para
->Scrlttr2 (du paquet KOMA-Script)</para
+>scrlttr2 (du paquet KOMA-Script)</para
 ></listitem>
 		<listitem
 ><para
->Scrreprt (du paquet KOMA-Script)</para
+>scrreprt (du paquet KOMA-Script)</para
 ></listitem>
 		<listitem
 ><para
@@ -1479,8 +1479,8 @@
 
 	<para
 >Si vous choisissez <guilabel
->Empty File</guilabel
-> (fichier vide), vous pouvez soit commencer à écrire votre document en partant de rien, soit utiliser l'assistant pour démarrer rapidement un nouveau document (voir <xref linkend="intro_docwizard" role="select: title pageabbrv"/>).</para>
+>Document vide</guilabel
+>, vous pouvez soit commencer à écrire votre document en partant de rien, soit utiliser l'assistant pour démarrer rapidement un nouveau document (voir <xref linkend="intro_docwizard" role="select: title pageabbrv"/>).</para>
 
 
 	<sect1 id="startnew_templates">
@@ -3048,7 +3048,7 @@
 
     <para
 >Les spécifications du format des fichiers de complètement se trouvent dans les <ulink url="https://commits.kde.org/kile?path=README.cwl"
->spécifications du format de fichier CWL</ulink
+>spécifications du format de fichier « CWL »</ulink
 >. </para>
 
 		<para
@@ -3459,7 +3459,7 @@
 				<listitem
 ><para
 ><guilabel
->Mode displaymath :</guilabel
+>Mode « Displaymath » :</guilabel
 > pour les environnements comme les matrices ou les tableaux, vous pouvez choisir avec quel environnement mathématique votre texte mathématique sera affiché. </para
 ></listitem>
 				<listitem
@@ -3500,7 +3500,7 @@
 
 		<screenshot>
 			<screeninfo
->Boîte de dialogue PSTools</screeninfo>
+>Boîte de dialogue de PSTools</screeninfo>
 			<mediaobject>
 			<imageobject>
 			<imagedata fileref="dialog-pstools.png" format="PNG"/>
@@ -3858,8 +3858,8 @@
 ><para
 ><command
 >pdftk</command
->, qui est un excellent outil en ligne de commande pour la manipulation de documents PDF au quotidien (voir <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit"
->The PDF Toolkit</ulink
+>, qui est un excellent outil en ligne de commandes pour la manipulation de documents « PDF » au quotidien (voir <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit"
+>La boîte à outils « PDF »</ulink
 >).</para
 ></listitem>
 		</itemizedlist>
@@ -4437,7 +4437,7 @@
 > (version 1.7 et supérieures). La procédure consiste à créer un fichier &latex; avec <userinput
 >\input{definitions}</userinput
 > qui rend les commandes listées en dessous disponibles, et laisser <userinput
->gesymb monsymbole.tex user</userinput
+>gesymb mon-symbole.tex user</userinput
 > (qui appelle &latex; et &dvipng;) créer les icônes. Après les avoir copiés dans <userinput
 >$HOME/.kde/share/apps/kile/mathsymbols/user/</userinput
 > et avoir redémarré kile, vous pouvez utiliser vos propres symboles. </para>
@@ -4450,7 +4450,7 @@
 ><userinput
 >\command[\optarg]{\symbole}</userinput
 > : inclut le symbole <userinput
->\symbole</userinput
+>\symbol</userinput
 > dans la liste des symboles, l'argument optionnel <userinput
 >\optarg</userinput
 > spécifie la commande que kile doit insérer. S'il n'est pas donné, la commande dans l'argument obligatoire est utilisée. </para>
@@ -5053,8 +5053,8 @@
 >, peut compiler correctement des fichiers PNG et JPG en &DVI; ou PDF, mais ne peut pas gérer les fichiers EPS. Inversement, la compilation avec &latex; pour produire un &DVI;, puis le convertir en PS et éventuellement en PDF prend en charge les EPS, mais ne reconnaît pas les PNG et JPG.</para>
 
 		<para
->Beaucoup d'utilisateurs souhaitent créer des documents PDF, mais veulent également utiliser l'excellent paquet <application
->Pstricks</application
+>Beaucoup d'utilisateurs souhaitent créer des documents « PDF », mais veulent également utiliser l'excellente application <application
+>PStricks</application
 > pour créer des graphiques &PostScript;, ou veulent utiliser la sortie &PostScript; de logiciels mathématiques ou scientifiques comme <application
 >Mathematica</application
 >, <application
@@ -5139,9 +5139,9 @@
 
 			<listitem
 ><para
->Vous pouvez convertir d'autres manières, et utiliser &latex; et les conversions PS-PDF. Ce n'est pas toujours une bonne idée, puisque l'encapsulation EPS de JPG ou de PNG ne gère pas les gros fichiers, qui en revanche mènent à des documents inutilement gros. Ceci dépend cependant <emphasis
+>Vous pouvez convertir d'autres manières, et utiliser &latex; et les conversions « PS / PDF ». Ce n'est pas toujours une bonne idée, puisque l'encapsulation « EPS » de JPG ou de PNG ne gère pas les gros fichiers, qui en revanche mènent à des documents inutilement gros. Ceci dépend cependant <emphasis
 >grandement</emphasis
-> de l'utilitaire graphique que vous avez utilisé, puisque l'EPS peut encapsuler d'autres graphiques, mais toutes les applications ne gèrent pas ça parfaitement. Certaines tenteront de construire votre image JPG avec des vecteurs et des scripts divers, ce qui résultera en un fichier gigantesque. La conversion de tous les formats graphiques en EPS peut être réalisée par <ulink url="http://www.imagemagick.org/"
+> de l'utilitaire graphique que vous avez utilisé, puisque le format « EPS » peut encapsuler d'autres graphiques, mais toutes les applications ne gèrent pas ça parfaitement. Certaines tenteront de construire votre image JPG avec des vecteurs et des scripts divers, ce qui résultera en un fichier gigantesque. La conversion de tous les formats graphiques en EPS peut être réalisée par <ulink url="http://www.imagemagick.org/"
 >&imagemagick;</ulink
 >. Un autre programme simple qui fait cela correctement est <ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/"
 ><application
@@ -5175,7 +5175,7 @@
 ><para
 >PNG (ou l'ancien &GIF;) est un format de fichier <emphasis
 >sans pertes</emphasis
->, avec une bonne compression et une bonne qualité. Il est très bon pour les diagrammes, les dessins numérisés. Il est parfois contreproductif lorsqu'utilisé pour des photos.</para
+>, avec une bonne compression et une bonne qualité. Il est très bon pour les diagrammes, les dessins numérisés. Il est parfois contre-productif lorsqu'il est utilisé pour des photos.</para
 ></listitem>
 			<listitem
 ><para
@@ -5394,7 +5394,7 @@
 > comme précédemment. Cette fois nous cherchons :</para>
 
 <programlisting
->% pdfTeX is running in pdf mode
+>% pdftex est lancé en mode « PDF »
    \ExecuteOptions{pdftex}%
 </programlisting>
 
@@ -5402,7 +5402,7 @@
 >et ajoutons simplement quelques lignes : </para>
 
 <programlisting
->% pdfTeX is running in pdf mode
+>% pdfTeX est lancé en mode « PDF »
    \ExecuteOptions{pdftex}%
    \AtEndOfPackage{%
       \g@addto@macro\Gin@extensions{.eps.gz,.eps.zip}%
@@ -6311,7 +6311,7 @@
 >/web2c/texmf.cnf</filename
 >, et assurez-vous que la ligne mentionnant <envar
 >TTFONTS</envar
-> est décommentée et pointe vers le dossier dans lequel vous avez enregistré <filename
+> est non commentée et pointe vers le dossier dans lequel vous avez enregistré <filename
 >cyberbit.ttf</filename
 >.</para
 ></listitem>
@@ -6418,7 +6418,7 @@
 >Scim<application
 ></application
 ></ulink
->. Référez-vous à la documentation de votre distribution pour apprendre à installer ces programmes. La configuration de tels programmes peut être compliquée également, dans le cas de <application
+>. Référez-vous à la documentation de votre distribution pour apprendre à installer ces programmes. La configuration de tels programmes peut être compliquée également, dans le cas de l'application <application
 >Skim</application
 >, vous devrez définir une variable d'environnement <userinput
 ><envar

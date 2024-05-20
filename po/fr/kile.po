@@ -145,9 +145,11 @@ msgstr ""
 "Cet outil indispensable ne fonctionne pas. Veuillez vérifier votre "
 "installation."
 
-# Je ne comprends pas la significatin de ce message, je me suis donc contenté de recopier la version anglaise
+# Je ne comprends pas la significatin de ce message, je me suis donc contenté
+# de recopier la version anglaise
 #
-# D'après ce que J'ai pu trouver avec google, ce serait le basculement en mode mathématique par exemple
+# D'après ce que J'ai pu trouver avec google, ce serait le basculement en mode
+# mathématique par exemple
 #: configtester.cpp:487
 #, kde-format
 msgid "Source Specials Switch"

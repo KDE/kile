@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extragear-office/kile.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 00:38+0000\n"
+"POT-Creation-Date: 2024-05-21 00:39+0000\n"
 "PO-Revision-Date: 2008-07-08 09:26-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -1296,48 +1296,48 @@ msgstr "Tagairtí"
 msgid "Includes"
 msgstr "Curtha San Áireamh"
 
-#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1076
+#: dialogs/latexcommanddialog.cpp:623 kile.cpp:1076
 #, kde-format
 msgid "LaTeX Environments"
 msgstr "Timpeallachtaí LaTeX"
 
-#: dialogs/latexcommanddialog.cpp:628 dialogs/latexcommanddialog.cpp:700
+#: dialogs/latexcommanddialog.cpp:627 dialogs/latexcommanddialog.cpp:699
 #: kile.cpp:1075
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "Orduithe LaTeX"
 
-#: dialogs/latexcommanddialog.cpp:667
+#: dialogs/latexcommanddialog.cpp:666
 #, kde-format
 msgid "Do you want to delete this environment?"
 msgstr "An bhfuil fonn ort an timpeallacht seo a scriosadh?"
 
-#: dialogs/latexcommanddialog.cpp:671
+#: dialogs/latexcommanddialog.cpp:670
 #, kde-format
 msgid "Do you want to delete this command?"
 msgstr "An bhfuil fonn ort an t-ordú seo a scriosadh?"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbDelete)
-#: dialogs/latexcommanddialog.cpp:676 dialogs/quickdocumentdialog.cpp:1904
+#: dialogs/latexcommanddialog.cpp:675 dialogs/quickdocumentdialog.cpp:1904
 #: dialogs/quickdocumentdialog.cpp:2077
 #: dialogs/usermenu/usermenudialog_base.ui:113
 #, kde-format
 msgid "Delete"
 msgstr "Scrios"
 
-#: dialogs/latexcommanddialog.cpp:695
+#: dialogs/latexcommanddialog.cpp:694
 #, kde-format
 msgid "LaTeX Environment"
 msgstr "Timpeallacht LaTeX"
 
-#: dialogs/latexcommanddialog.cpp:763
+#: dialogs/latexcommanddialog.cpp:762
 #, kde-format
 msgid ""
 "All your 'environment' settings will be overwritten with the default "
 "settings, are you sure you want to continue?"
 msgstr ""
 
-#: dialogs/latexcommanddialog.cpp:764
+#: dialogs/latexcommanddialog.cpp:763
 #, kde-format
 msgid ""
 "All your 'command' settings will be overwritten with the default settings, "
@@ -4231,7 +4231,7 @@ msgstr "Achoimre"
 msgid "For information about the accuracy see the Help."
 msgstr ""
 
-#: dialogs/statisticsdialog.cpp:95 dialogs/statisticsdialog.cpp:199
+#: dialogs/statisticsdialog.cpp:95 dialogs/statisticsdialog.cpp:198
 #, kde-format
 msgid "Statistics for %1"
 msgstr "Staitisticí do %1"
@@ -4241,27 +4241,27 @@ msgstr "Staitisticí do %1"
 msgid "Statistics for the Project %1"
 msgstr "Staitisticí do Thionscadal %1"
 
-#: dialogs/statisticsdialog.cpp:141
+#: dialogs/statisticsdialog.cpp:140
 #, kde-format
 msgid "To get statistics for all project files, you have to open them all."
 msgstr ""
 
-#: dialogs/statisticsdialog.cpp:163
+#: dialogs/statisticsdialog.cpp:162
 #, kde-format
 msgid "WARNING: These are the statistics for the selected text only."
 msgstr ""
 
-#: dialogs/statisticsdialog.cpp:191
+#: dialogs/statisticsdialog.cpp:190
 #, kde-format
 msgid "Statistics for project %1, file %2"
 msgstr "Staitisticí do %1, comhad %2"
 
-#: dialogs/statisticsdialog.cpp:195
+#: dialogs/statisticsdialog.cpp:194
 #, kde-format
 msgid "Statistics for project %1"
 msgstr "Staitisticí do %1"
 
-#: dialogs/statisticsdialog.cpp:202
+#: dialogs/statisticsdialog.cpp:201
 #, kde-format
 msgid "Statistics for Untitled"
 msgstr "Staitisticí do thionscadal Gan Teideal"
@@ -4761,7 +4761,7 @@ msgid ""
 "dvi *.epub);;All Files (*)"
 msgstr ""
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2146
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2127
 #, kde-format
 msgid "Select File"
 msgstr "Roghnaigh Comhad"
@@ -5946,8 +5946,8 @@ msgstr "Oscail Gach Comhad &Tionscadail"
 msgid "Find in &Project..."
 msgstr "Aimsigh &i dTionscadail..."
 
-#: kile.cpp:909 kile.cpp:1007 kile.cpp:2132 kiledocmanager.cpp:1995
-#: kiledocmanager.cpp:2005
+#: kile.cpp:909 kile.cpp:1007 kile.cpp:2124 kiledocmanager.cpp:1976
+#: kiledocmanager.cpp:1986
 #, kde-format
 msgid "Clean"
 msgstr "Glan"
@@ -6111,7 +6111,7 @@ msgstr "Socruithe BibTeX"
 msgid "Settings for Biblatex"
 msgstr "Socruithe BibLaTeX"
 
-#: kile.cpp:1023 kile.cpp:2238
+#: kile.cpp:1023 kile.cpp:2229
 #, kde-format
 msgid "Quick Start"
 msgstr "Tosach Tapa"
@@ -6121,7 +6121,7 @@ msgstr "Tosach Tapa"
 msgid "Array"
 msgstr "Eagar"
 
-#: kile.cpp:1027 kile.cpp:2290 kilestdactions.cpp:79
+#: kile.cpp:1027 kile.cpp:2281 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "Táib"
@@ -6181,27 +6181,27 @@ msgstr "BibTeX"
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1255 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1254 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Compile"
 msgstr "Tiomsaigh"
 
-#: kile.cpp:1256 widgets/toolconfigwidget.cpp:78
+#: kile.cpp:1255 widgets/toolconfigwidget.cpp:78
 #, kde-format
 msgid "View"
 msgstr "Amharc"
 
-#: kile.cpp:1257 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1256 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "Convert"
 msgstr "Tiontaigh"
 
-#: kile.cpp:1258 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1257 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Quick"
 msgstr "Tapa"
 
-#: kile.cpp:1437
+#: kile.cpp:1436
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6209,108 +6209,108 @@ msgid ""
 "Please check and repair your installation of Kile."
 msgstr ""
 
-#: kile.cpp:1439
+#: kile.cpp:1438
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr ""
 
-#: kile.cpp:1508
+#: kile.cpp:1503
 #, kde-format
 msgid "Project: %1"
 msgstr "Tionscadal: %1"
 
-#: kile.cpp:1511
+#: kile.cpp:1506
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "Tionscadal: %1 (Máistircháipéis: %2)"
 
-#: kile.cpp:1516
+#: kile.cpp:1511
 #, kde-format
 msgid "Normal mode"
 msgstr "Gnáthmhód"
 
-#: kile.cpp:1519
+#: kile.cpp:1514
 #, kde-format
 msgid "Master document: %1"
 msgstr "Máistircháipéis: %1"
 
-#: kile.cpp:1524 kile.cpp:2647
+#: kile.cpp:1519 kile.cpp:2638
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr ""
 
-#: kile.cpp:1528 kile.cpp:2637
+#: kile.cpp:1523 kile.cpp:2628
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "Gnáthmhód (máistircháipéis reatha: %1)"
 
-#: kile.cpp:1745
+#: kile.cpp:1740
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr ""
 
-#: kile.cpp:2125
+#: kile.cpp:2117
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "Níl cáipéis reatha ann, nó níl sé sábháilte."
 
-#: kile.cpp:2209
+#: kile.cpp:2200
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "Ní mór duit pacáiste %1 a chur san áireamh."
 
-#: kile.cpp:2209 kile.cpp:2212
+#: kile.cpp:2200 kile.cpp:2203
 #, kde-format
 msgid "Insert text"
 msgstr "Ionsáigh téacs"
 
-#: kile.cpp:2212
+#: kile.cpp:2203
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr ""
 
-#: kile.cpp:2433
+#: kile.cpp:2424
 #, kde-format
 msgid "No Name"
 msgstr ""
 
-#: kile.cpp:2469
+#: kile.cpp:2460
 #, kde-format
 msgid "no name"
 msgstr "gan ainm"
 
-#: kile.cpp:2665
+#: kile.cpp:2656
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr ""
 
-#: kile.cpp:3007
+#: kile.cpp:2998
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr ""
 
-#: kile.cpp:3008
+#: kile.cpp:2999
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr ""
 
-#: kile.cpp:3015
+#: kile.cpp:3006
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "Struchtúr á athnuachan..."
 
-#: kile.cpp:3033
+#: kile.cpp:3024
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 
-#: kile.cpp:3036
+#: kile.cpp:3027
 #, kde-format
 msgid "Hide menu bar"
 msgstr ""
@@ -7033,7 +7033,7 @@ msgid ""
 "report."
 msgstr ""
 
-#: kiledocmanager.cpp:539
+#: kiledocmanager.cpp:520
 #, kde-format
 msgid ""
 "The URL \"%1\" couldn't be opened.\n"
@@ -7041,116 +7041,116 @@ msgid ""
 "%2"
 msgstr ""
 
-#: kiledocmanager.cpp:540 kiledocmanager.cpp:543
+#: kiledocmanager.cpp:521 kiledocmanager.cpp:524
 #, kde-format
 msgid "Cannot open URL"
 msgstr ""
 
-#: kiledocmanager.cpp:543
+#: kiledocmanager.cpp:524
 #, fuzzy, kde-format
 #| msgid "The template could not be removed."
 msgid "The URL \"%1\" couldn't be opened."
 msgstr "Níorbh fhéidir an teimpléad a bhaint."
 
-#: kiledocmanager.cpp:682
+#: kiledocmanager.cpp:663
 #, kde-format
 msgid "Could not find template: %1"
 msgstr "Ní féidir an teimpléad a aimsiú: %1"
 
-#: kiledocmanager.cpp:682
+#: kiledocmanager.cpp:663
 #, kde-format
 msgid "File Not Found"
 msgstr "Comhad Gan Aimsiú"
 
-#: kiledocmanager.cpp:742
+#: kiledocmanager.cpp:723
 #, kde-format
 msgid "Please save the file first."
 msgstr "Sábháil an comhad ar dtús, le do thoil."
 
-#: kiledocmanager.cpp:747
+#: kiledocmanager.cpp:728
 #, kde-format
 msgid "Open/create a document first."
 msgstr "Oscail/cruthaigh cáipéis ar dtús."
 
-#: kiledocmanager.cpp:755
+#: kiledocmanager.cpp:736
 #, kde-format
 msgid "A template for this type of document cannot be created."
 msgstr ""
 
-#: kiledocmanager.cpp:759
+#: kiledocmanager.cpp:740
 #, kde-format
 msgid "Create Template From Document"
 msgstr "Cruthaigh Teimpléad Ó Cháipéis"
 
-#: kiledocmanager.cpp:765
+#: kiledocmanager.cpp:746
 #, kde-format
 msgid "Remove Template"
 msgstr "Bain Teimpléad"
 
-#: kiledocmanager.cpp:830
+#: kiledocmanager.cpp:811
 #, kde-format
 msgid "Open Files"
 msgstr "Oscail Comhaid"
 
-#: kiledocmanager.cpp:912
+#: kiledocmanager.cpp:893
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
 "disk space left?"
 msgstr ""
 
-#: kiledocmanager.cpp:913
+#: kiledocmanager.cpp:894
 #, kde-format
 msgid "Saving"
 msgstr "Á Shábháil"
 
-#: kiledocmanager.cpp:946
+#: kiledocmanager.cpp:927
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "Any files (*)"
 msgstr "Gach Comhad"
 
-#: kiledocmanager.cpp:948
+#: kiledocmanager.cpp:929
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Save Compiled Document As..."
 msgstr "Cruthaigh Teimpléad Ó Cháipéis..."
 
-#: kiledocmanager.cpp:973
+#: kiledocmanager.cpp:954
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
 "as it is a directory."
 msgstr ""
 
-#: kiledocmanager.cpp:974
+#: kiledocmanager.cpp:955
 #, kde-format
 msgid "Cannot open directory"
 msgstr ""
 
-#: kiledocmanager.cpp:1092
+#: kiledocmanager.cpp:1073
 #, kde-format
 msgid "Save File"
 msgstr "Sábháil Comhad"
 
-#: kiledocmanager.cpp:1128
+#: kiledocmanager.cpp:1109
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr ""
 "Tá comhad darb ainm \"%1\" ann cheana. An bhfuil fonn ort é a fhorscríobh?"
 
-#: kiledocmanager.cpp:1129
+#: kiledocmanager.cpp:1110
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Forscríobh an Comhad?"
 
-#: kiledocmanager.cpp:1304
+#: kiledocmanager.cpp:1285
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "Athnuaigh Crann an Tionscadail"
 
-#: kiledocmanager.cpp:1312
+#: kiledocmanager.cpp:1293
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7158,46 +7158,46 @@ msgid ""
 "then choose Refresh Project Tree again."
 msgstr ""
 
-#: kiledocmanager.cpp:1312
+#: kiledocmanager.cpp:1293
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "Níorbh fhéidir crann an tionscadail a athnuachan"
 
-#: kiledocmanager.cpp:1397 kiledocmanager.cpp:2167 kiledocmanager.cpp:2241
-#: kiledocmanager.cpp:2278
+#: kiledocmanager.cpp:1378 kiledocmanager.cpp:2148 kiledocmanager.cpp:2222
+#: kiledocmanager.cpp:2259
 #, kde-format
 msgid "Select Project"
 msgstr "Roghnaigh Tionscadal"
 
-#: kiledocmanager.cpp:1422 kiledocmanager.cpp:1437 kiledocmanager.cpp:1444
+#: kiledocmanager.cpp:1403 kiledocmanager.cpp:1418 kiledocmanager.cpp:1425
 #, kde-format
 msgid "Add to Project"
 msgstr "Cuir leis an Tionscadal"
 
-#: kiledocmanager.cpp:1436
+#: kiledocmanager.cpp:1417
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr ""
 
-#: kiledocmanager.cpp:1443
+#: kiledocmanager.cpp:1424
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr ""
 
-#: kiledocmanager.cpp:1462
+#: kiledocmanager.cpp:1443
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
 "project.  As such, it cannot be removed from the project."
 msgstr ""
 
-#: kiledocmanager.cpp:1462
+#: kiledocmanager.cpp:1443
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "Níorbh fhéidir comhad a bhaint ón tionscadal"
 
-#: kiledocmanager.cpp:1530
+#: kiledocmanager.cpp:1511
 #, fuzzy, kde-format
 #| msgid "The project folder is not writable, check your permissions."
 msgid ""
@@ -7206,12 +7206,12 @@ msgid ""
 msgstr ""
 "Ní féidir scríobh i bhfillteán an tionscadail; féach an bhfuil cead agat."
 
-#: kiledocmanager.cpp:1532
+#: kiledocmanager.cpp:1513
 #, kde-format
 msgid "Project Already Open"
 msgstr "Tionscadal Oscailte Cheana"
 
-#: kiledocmanager.cpp:1543
+#: kiledocmanager.cpp:1524
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7219,39 +7219,39 @@ msgid ""
 "list?</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1546
+#: kiledocmanager.cpp:1527
 #, fuzzy, kde-format
 #| msgid "Could Not Close Project"
 msgid "Could Not Open Project"
 msgstr "Ní féidir an tionscadal a dhúnadh"
 
-#: kiledocmanager.cpp:1564
+#: kiledocmanager.cpp:1545
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
 "file.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1566
+#: kiledocmanager.cpp:1547
 #, fuzzy, kde-format
 #| msgid "Open Project"
 msgid "Impossible to Open Project File"
 msgstr "Oscail Tionscadal"
 
-#: kiledocmanager.cpp:1576
+#: kiledocmanager.cpp:1557
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
 "version of Kile.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1578
+#: kiledocmanager.cpp:1559
 #, fuzzy, kde-format
 #| msgid "Open Project"
 msgid "Impossible to Open Project"
 msgstr "Oscail Tionscadal"
 
-#: kiledocmanager.cpp:1588
+#: kiledocmanager.cpp:1569
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7259,35 +7259,35 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1591
+#: kiledocmanager.cpp:1572
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr ""
 
-#: kiledocmanager.cpp:1598
+#: kiledocmanager.cpp:1579
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
 "this project from the recent projects list?</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1600
+#: kiledocmanager.cpp:1581
 #, fuzzy, kde-format
 #| msgid "Could Not Load Project File"
 msgid "Could Not Update Project File"
 msgstr "Ní féidir an comhad tionscadail a luchtú"
 
-#: kiledocmanager.cpp:1702
+#: kiledocmanager.cpp:1683
 #, kde-format
 msgid "Open Project"
 msgstr "Oscail Tionscadal"
 
-#: kiledocmanager.cpp:1721
+#: kiledocmanager.cpp:1702
 #, kde-format
 msgid "Save Project"
 msgstr "Sábháil Tionscadal"
 
-#: kiledocmanager.cpp:1773
+#: kiledocmanager.cpp:1754
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7295,44 +7295,44 @@ msgid ""
 "Save Project again."
 msgstr ""
 
-#: kiledocmanager.cpp:1773
+#: kiledocmanager.cpp:1754
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr ""
 
-#: kiledocmanager.cpp:1794
+#: kiledocmanager.cpp:1775
 #, kde-format
 msgid "Add Files to Project"
 msgstr "Cuir Comhaid leis an Tionscadal"
 
-#: kiledocmanager.cpp:1807
+#: kiledocmanager.cpp:1788
 #, kde-format
 msgid "Add Files"
 msgstr "Cuir Comhaid Leis"
 
-#: kiledocmanager.cpp:1810
+#: kiledocmanager.cpp:1791
 #, kde-format
 msgid "Add"
 msgstr "Cuir Leis"
 
-#: kiledocmanager.cpp:1825
+#: kiledocmanager.cpp:1806
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
 "to, then choose Add Files again."
 msgstr ""
 
-#: kiledocmanager.cpp:1825 kiledocmanager.cpp:1860
+#: kiledocmanager.cpp:1806 kiledocmanager.cpp:1841
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr ""
 
-#: kiledocmanager.cpp:1851
+#: kiledocmanager.cpp:1832
 #, kde-format
 msgid "Project Options For"
 msgstr "Roghanna Tionscadail Do"
 
-#: kiledocmanager.cpp:1860
+#: kiledocmanager.cpp:1841
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7340,12 +7340,12 @@ msgid ""
 "Project Options again."
 msgstr ""
 
-#: kiledocmanager.cpp:1886
+#: kiledocmanager.cpp:1867
 #, kde-format
 msgid "Close Project"
 msgstr "Dún Tionscadal"
 
-#: kiledocmanager.cpp:1939
+#: kiledocmanager.cpp:1920
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7353,77 +7353,77 @@ msgid ""
 "Close Project again."
 msgstr ""
 
-#: kiledocmanager.cpp:1939
+#: kiledocmanager.cpp:1920
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "Ní féidir an tionscadal a dhúnadh"
 
-#: kiledocmanager.cpp:1994
+#: kiledocmanager.cpp:1975
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr ""
 
-#: kiledocmanager.cpp:2004
+#: kiledocmanager.cpp:1985
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "%1 á ghlanadh: %2"
 
-#: kiledocmanager.cpp:2078
+#: kiledocmanager.cpp:2059
 #, kde-format
 msgid "Switch Project"
 msgstr "Athraigh Tionscadal"
 
-#: kiledocmanager.cpp:2136
+#: kiledocmanager.cpp:2117
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "Roghnaigh Comhaid le Baint"
 
-#: kiledocmanager.cpp:2149 kiledocmanager.cpp:2152
+#: kiledocmanager.cpp:2130 kiledocmanager.cpp:2133
 #, kde-format
 msgid "Show Project Files"
 msgstr "Taispeáin Comhaid an Tionscadail"
 
-#: kiledocmanager.cpp:2149 kiledocmanager.cpp:2197
+#: kiledocmanager.cpp:2130 kiledocmanager.cpp:2178
 #, kde-format
 msgid "project configuration file"
 msgstr "comhad cumraíochta an tionscadail"
 
-#: kiledocmanager.cpp:2152 kiledocmanager.cpp:2200
+#: kiledocmanager.cpp:2133 kiledocmanager.cpp:2181
 #, kde-format
 msgid "graphics file"
 msgstr "comhad grafaice"
 
-#: kiledocmanager.cpp:2197 kiledocmanager.cpp:2200
+#: kiledocmanager.cpp:2178 kiledocmanager.cpp:2181
 #, kde-format
 msgid "Open All Project Files"
 msgstr "Oscail Gach Comhad Tionscadail"
 
-#: kiledocmanager.cpp:2234
+#: kiledocmanager.cpp:2215
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "gan oscailt: %1 (%2)"
 
-#: kiledocmanager.cpp:2259 kiledocmanager.cpp:2296
+#: kiledocmanager.cpp:2240 kiledocmanager.cpp:2277
 #, kde-format
 msgid "Project Files"
 msgstr "Comhaid an Tionscadail"
 
-#: kiledocmanager.cpp:2267 kiledocmanager.cpp:2306
+#: kiledocmanager.cpp:2248 kiledocmanager.cpp:2287
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr ""
 
-#: kiledocmanager.cpp:2267 kiledocmanager.cpp:2306
+#: kiledocmanager.cpp:2248 kiledocmanager.cpp:2287
 #, kde-format
 msgid "Project Error"
 msgstr "Earráid Tionscadail"
 
-#: kiledocmanager.cpp:2373
+#: kiledocmanager.cpp:2354
 #, kde-format
 msgid "Opening Project..."
 msgstr "Tionscadal á Oscailt..."
 
-#: kiledocmanager.cpp:2376
+#: kiledocmanager.cpp:2357
 #, kde-format
 msgid "Scanning project files..."
 msgstr "Comhaid tionscadail á scanadh..."
@@ -11659,12 +11659,12 @@ msgstr " ms"
 msgid "Set default live preview tool"
 msgstr "Réamhamharc Beo"
 
-#: widgets/logwidget.cpp:371
+#: widgets/logwidget.cpp:369
 #, kde-format
 msgid "Hide &Bad Boxes"
 msgstr "Folaigh Droch&bhoscaí"
 
-#: widgets/logwidget.cpp:377
+#: widgets/logwidget.cpp:375
 #, kde-format
 msgid "Hide (La)TeX &Warnings"
 msgstr "Folaigh &Rabhaidh (La)TeX"

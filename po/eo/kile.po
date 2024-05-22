@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-21 00:39+0000\n"
-"PO-Revision-Date: 2024-05-15 23:33+0100\n"
+"PO-Revision-Date: 2024-05-21 23:26+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -576,7 +576,7 @@ msgstr "Dosiero"
 #: dialogs/findfilesdialog.cpp:171
 #, kde-format
 msgid "Directory Options"
-msgstr "Adresaj Opcioj"
+msgstr "Adresaj Elektebloj"
 
 #: dialogs/findfilesdialog.cpp:177
 #, kde-format
@@ -866,7 +866,7 @@ msgstr "Ĉiuj dosieroj (*)"
 #, kde-format
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr ""
-"Vi devas inkluzivi la wrapfig-pakaĵon por uzi la tekstajn envolvajn opciojn"
+"Vi devas inkluzivi la wrapfig-pakaĵon por uzi la elekteblojn por tekstvolvado"
 
 #: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3241
 #, kde-format
@@ -919,7 +919,7 @@ msgstr "Uzi \\graphicspath komandon de LaTeX"
 #: dialogs/includegraphicsdialog_base.ui:97
 #, kde-format
 msgid "Image options"
-msgstr "Bildaj opcioj"
+msgstr "Bildaj elektebloj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_21)
@@ -1442,7 +1442,7 @@ msgstr "Tabo"
 #: dialogs/quickdocumentdialog.cpp:220
 #, kde-format
 msgid "Option"
-msgstr "Opcio"
+msgstr "Elekteblo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbParameter)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
@@ -2206,12 +2206,12 @@ msgstr "Parametro:"
 #: dialogs/pdf-wizard/pdfdialog.cpp:791
 #, kde-format
 msgid "All options for 'pdftk'"
-msgstr "Ĉiuj opcioj por 'pdftk'"
+msgstr "Ĉiuj elektebloj por 'pdftk'"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:796
 #, kde-format
 msgid "All options for 'pdfpages'"
-msgstr "Ĉiuj opcioj por 'pdfpages'"
+msgstr "Ĉiuj elektebloj por 'pdfpages'"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:818
 #, kde-format
@@ -3049,7 +3049,7 @@ msgid ""
 "this option and select a template from the list that will appear below."
 msgstr ""
 "Se vi volas, ke Kile kreu novan dosieron kaj aldonu ĝin al la projekto, tiam "
-"kontrolu ĉi tiun opcion kaj elektu ŝablonon el la listo, kiu aperos sube."
+"kontrolu ĉi tiun elekteblon kaj elektu ŝablonon el la listo, kiu aperos sube."
 
 #: dialogs/projectdialogs.cpp:336
 #, kde-format
@@ -3136,7 +3136,7 @@ msgstr "La dosiero \"%1\" jam ekzistas. Ĉu vi vere volas anstataŭigi ĝin?"
 #: dialogs/projectdialogs.cpp:422 widgets/generalconfigwidget.ui:32
 #, kde-format
 msgid "Project Options"
-msgstr "Projektaj Opcioj"
+msgstr "Projektaj Elektebloj"
 
 #: dialogs/projectdialogs.cpp:423
 #, kde-format
@@ -3258,12 +3258,12 @@ msgstr "Redakt&i..."
 #: dialogs/quickdocumentdialog.cpp:251
 #, kde-format
 msgid "Edit the current class option"
-msgstr "Redaktu la nunan klasopcion"
+msgstr "Redakti la nunan klasopcion"
 
 #: dialogs/quickdocumentdialog.cpp:257
 #, kde-format
 msgid "Remove the current class option"
-msgstr "Forigu la nunan klasopcion"
+msgstr "Forigi la nunan klasopcion"
 
 #: dialogs/quickdocumentdialog.cpp:272
 #, kde-format
@@ -3293,7 +3293,7 @@ msgstr "Aldoni novan pakaĵon"
 #: dialogs/quickdocumentdialog.cpp:302
 #, kde-format
 msgid "Add Op&tion..."
-msgstr "Aldoni Op&opcion..."
+msgstr "Aldoni Elek&teblon..."
 
 #: dialogs/quickdocumentdialog.cpp:304
 #, kde-format
@@ -4068,17 +4068,17 @@ msgstr "Bonvolu enigi la novan dokumenton &klason:"
 #: dialogs/quickdocumentdialog.cpp:1662
 #, kde-format
 msgid "&Set all options from this standard class (optional):"
-msgstr "&Agordu ĉiujn opciojn de ĉi tiu norma klaso (laŭvola):"
+msgstr "&Agordi ĉiujn opciojn de ĉi tiu norma klaso (laŭvola):"
 
 #: dialogs/quickdocumentdialog.cpp:1664
 #, kde-format
 msgid "Use standard &fontsizes"
-msgstr "Uzu normajn &tipargrandojn"
+msgstr "Uzi normajn &tipargrandojn"
 
 #: dialogs/quickdocumentdialog.cpp:1665
 #, kde-format
 msgid "Use standard &papersizes"
-msgstr "Uzu normajn &paperajn grandecojn"
+msgstr "Uzi normajn &paperajn grandecojn"
 
 #: dialogs/quickdocumentdialog.cpp:1715
 #, kde-format
@@ -4093,7 +4093,7 @@ msgstr "Forigi Dokumentan Klason"
 #: dialogs/quickdocumentdialog.cpp:1766
 #, kde-format
 msgid "Add Fontsize"
-msgstr "Aldonu tipargrandecon"
+msgstr "Aldoni Tipargrandecon"
 
 #: dialogs/quickdocumentdialog.cpp:1768
 #, kde-format
@@ -4133,7 +4133,7 @@ msgstr "Forigi Papersize"
 #: dialogs/quickdocumentdialog.cpp:1842 dialogs/quickdocumentdialog.cpp:1954
 #, kde-format
 msgid "Add Option"
-msgstr "Aldoni Opcion"
+msgstr "Aldoni Elekteblon"
 
 #: dialogs/quickdocumentdialog.cpp:1844 dialogs/quickdocumentdialog.cpp:1879
 #, kde-format
@@ -4150,12 +4150,12 @@ msgstr "&Priskribo:"
 #: dialogs/quickdocumentdialog.cpp:1848 dialogs/quickdocumentdialog.cpp:1965
 #, kde-format
 msgid "&Select this option"
-msgstr "&Elektu ĉi tiun opcion"
+msgstr "&Selekti ĉi tiun opcion"
 
 #: dialogs/quickdocumentdialog.cpp:1877 dialogs/quickdocumentdialog.cpp:1999
 #, kde-format
 msgid "Edit Option"
-msgstr "Redakti Opciojn"
+msgstr "Redakti Elekteblojn"
 
 #: dialogs/quickdocumentdialog.cpp:1904
 #, kde-format
@@ -4180,7 +4180,7 @@ msgstr "Elekti tiun pakaĵon"
 #: dialogs/quickdocumentdialog.cpp:1956
 #, kde-format
 msgid "&Option:"
-msgstr "&Opcio:"
+msgstr "Elektebl&o:"
 
 #: dialogs/quickdocumentdialog.cpp:1956 dialogs/quickdocumentdialog.cpp:2000
 #: dialogs/quickdocumentdialog.cpp:2276
@@ -4206,7 +4206,7 @@ msgstr "&Valoro:"
 #: dialogs/quickdocumentdialog.cpp:2000
 #, kde-format
 msgid "Op&tion:"
-msgstr "Opcio:"
+msgstr "Elek&teblo:"
 
 #: dialogs/quickdocumentdialog.cpp:2005
 #, kde-format
@@ -4251,7 +4251,7 @@ msgstr "Ĉi tiu nomo ne estas permesita por dokumentklaso."
 #: dialogs/quickdocumentdialog.cpp:2328
 #, kde-format
 msgid "This document class option already exists."
-msgstr "Ĉi tiu dokumentklasa opcio jam ekzistas."
+msgstr "Ĉi tiu dokumentklasa elekteblo jam ekzistas."
 
 #: dialogs/quickdocumentdialog.cpp:2334
 #, kde-format
@@ -4266,7 +4266,7 @@ msgstr "Ne eblis identigi la pakaĵnomon."
 #: dialogs/quickdocumentdialog.cpp:2346
 #, kde-format
 msgid "This package option already exists."
-msgstr "Ĉi tiu paka opcio jam ekzistas."
+msgstr "Ĉi tiu paka elekteblo jam ekzistas."
 
 #: dialogs/scriptshortcutdialog.cpp:25
 #, kde-format
@@ -6092,12 +6092,12 @@ msgstr "&Arĥivo"
 #: kile.cpp:897 widgets/projectview.cpp:871
 #, kde-format
 msgid "Project &Options"
-msgstr "Projekt&opcioj"
+msgstr "Pr&ojektelektebloj"
 
 #: kile.cpp:898
 #, kde-format
 msgid "&Close Project"
-msgstr "&Fermu Projekton"
+msgstr "&Fermi Projekton"
 
 #: kile.cpp:901
 #, kde-format
@@ -7544,7 +7544,7 @@ msgstr "Ne Povis Determini Aktivan Projekton"
 #: kiledocmanager.cpp:1832
 #, kde-format
 msgid "Project Options For"
-msgstr "Projektaj Opcioj Por"
+msgstr "Projektaj Elektebloj Por"
 
 #: kiledocmanager.cpp:1841
 #, kde-format
@@ -12474,7 +12474,7 @@ msgstr ""
 #: widgets/processtoolconfigwidget.ui:83
 #, kde-format
 msgid "Options:"
-msgstr "Opcioj:"
+msgstr "Elektebloj:"
 
 #: widgets/projectview.cpp:246
 #, kde-format

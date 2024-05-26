@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-21 00:39+0000\n"
-"PO-Revision-Date: 2024-05-21 23:26+0100\n"
+"PO-Revision-Date: 2024-05-25 06:34+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -6812,13 +6812,13 @@ msgstr "Uzu ĉi tiun nombron da spacoj por aŭtomate indentigi mediojn"
 #: kile.kcfg:214
 #, kde-format
 msgid "Click in editor to select from cursor"
-msgstr ""
+msgstr "Klaku en redaktilo por elekti per kursoro"
 
 #. i18n: ectx: label, entry (envEventSearchModifier), group (Editor Ext)
 #: kile.kcfg:218
 #, kde-format
 msgid "Click in editor to search in viewer"
-msgstr ""
+msgstr "Klaku en redaktilo por serĉi en vidilo"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
 #: kile.kcfg:226
@@ -12003,19 +12003,19 @@ msgstr "B&STINPUTS:"
 #: widgets/latexconfigwidget.ui:258
 #, kde-format
 msgid "Modifiers for Left Click Actions"
-msgstr ""
+msgstr "Modifiloj por Maldekstraj Klak-Agoj"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/latexconfigwidget.ui:267
 #, kde-format
 msgid "Modifier for forward search in viewer:"
-msgstr ""
+msgstr "Modifilo por antaŭen-serĉo en vidilo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: widgets/latexconfigwidget.ui:280
 #, kde-format
 msgid "Modifier for selecting from cursor:"
-msgstr ""
+msgstr "Modifilo por elekti de kursoro:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckRootDoc)
 #: widgets/latextoolconfigwidget.ui:35

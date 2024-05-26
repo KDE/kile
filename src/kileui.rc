@@ -422,7 +422,7 @@
         <Separator/>
         <Action name="tag_env_cases"/>
     </Menu>
-    <Menu name="menu_mathamsenv"><text>breqn Math Environments</text>
+    <Menu name="menu_mathbreqnenv"><text>breqn Math Environments</text>
         <Action name="tag_env_dmath"/>
         <Action name="tag_env_dmath*"/>
         <Separator/>

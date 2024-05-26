@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="50">
+<kpartgui name="kile" version="51">
 <Menu name="ktexteditor_popup" noMerge="1">
     <DefineGroup name="popup_operations" />
     <Action name="popup_pasteaslatex"/>
@@ -42,6 +42,8 @@
         <Action name="file_export_cp1252"/>
     </Menu>
     <Action name="Statistics"/>
+    <Separator/>
+    <Action name="open_containing_folder"/>
     <Separator/>
     <Action name="file_close"/>
     <Action name="file_close_all"/>

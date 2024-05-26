@@ -336,6 +336,7 @@ private Q_SLOTS:
     void sideOrBottomBarChanged(bool visible);
 
     void showDocInfo(KTextEditor::View *view = Q_NULLPTR);
+    void openContainingFolder(KTextEditor::View *view = Q_NULLPTR);
     void convertToASCII(KTextEditor::Document *doc = Q_NULLPTR);
     void convertToEnc(KTextEditor::Document *doc = Q_NULLPTR);
 

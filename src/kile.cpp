@@ -39,6 +39,7 @@
 #include <KHelpMenu>
 #include <KIconLoader>
 #include <KIO/DesktopExecParser>
+#include <KIO/OpenFileManagerWindowJob>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRecentFilesAction>
@@ -853,6 +854,7 @@ void Kile::setupActions()
     createAction(i18n("Close All"), "file_close_all", docManager(), &KileDocument::Manager::fileCloseAll);
     createAction(i18n("Close All Ot&hers"), "file_close_all_others", docManager(), [this]() { docManager()->fileCloseAllOthers(); });
     createAction(i18n("S&tatistics"), "Statistics", this, [this]() { showDocInfo(); });
+    createAction(i18nc("@action:inmenu", "&Open Containing Folder"), "open_containing_folder", "document-open-folder", this, [this]() { openContainingFolder(); });
     createAction(i18n("&ASCII"), "file_export_ascii", this, [this]() { convertToASCII(); });
     createAction(i18n("Latin-&1 (iso 8859-1)"), "file_export_latin1", this, [this]() { convertToEnc(); });
     createAction(i18n("Latin-&2 (iso 8859-2)"), "file_export_latin2", this, [this]() { convertToEnc(); });
@@ -1672,6 +1674,29 @@ void Kile::showDocInfo(KTextEditor::View *view)
     }
 }
 
+void Kile::openContainingFolder(KTextEditor::View *view)
+{
+    if(!view) {
+        view = viewManager()->currentTextView();
+    }
+
+    if(!view) {
+        return;
+    }
+
+    const KTextEditor::Document *currentDocument = view->document();
+    if(!currentDocument) {
+        return;
+    }
+
+    const QUrl currentDocumentUrl = currentDocument->url();
+    if(!currentDocumentUrl.isValid()) {
+        return;
+    }
+
+    KIO::highlightInFileManager({currentDocumentUrl});
+}
+
 void Kile::convertToASCII(KTextEditor::Document *doc)
 {
     if(!doc) {
@@ -1909,7 +1934,7 @@ void Kile::initMenu()
 
     actionlist
     // file
-            << "file_save_copy_as" << "file_save_all" << "template_create" << "Statistics"
+            << "file_save_copy_as" << "file_save_all" << "template_create" << "Statistics" << "open_containing_folder"
             << "file_close" << "file_close_all" << "file_close_all_others"
             // edit
             << "RefreshStructure"

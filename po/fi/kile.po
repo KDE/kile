@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-21 00:39+0000\n"
+"POT-Creation-Date: 2024-05-27 00:38+0000\n"
 "PO-Revision-Date: 2023-11-22 18:48+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -370,7 +370,7 @@ msgstr "Kile"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLatexConfig)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetEnvironmentConfig)
-#: dialogs/configurationdialog.cpp:69 kile.cpp:695 kile.cpp:1074
+#: dialogs/configurationdialog.cpp:69 kile.cpp:696 kile.cpp:1076
 #: kileinfo.cpp:355 widgets/environmentconfigwidget.ui:20
 #: widgets/latexconfigwidget.ui:14
 #, kde-format
@@ -378,7 +378,7 @@ msgid "LaTeX"
 msgstr "LaTeX"
 
 #. i18n: ectx: ToolBar (toolsToolBar)
-#: dialogs/configurationdialog.cpp:70 kileui.rc:552
+#: dialogs/configurationdialog.cpp:70 kileui.rc:554
 #, kde-format
 msgid "Tools"
 msgstr "Työkalut"
@@ -420,7 +420,7 @@ msgid "Scripting"
 msgstr "Skriptaus"
 
 #. i18n: ectx: Menu (menu_usermenu)
-#: dialogs/configurationdialog.cpp:229 kileui.rc:496 usermenu/usermenu.cpp:68
+#: dialogs/configurationdialog.cpp:229 kileui.rc:498 usermenu/usermenu.cpp:68
 #, kde-format
 msgid "User Menu"
 msgstr "Käyttäjän valikko"
@@ -436,12 +436,12 @@ msgid "Code Completion"
 msgstr "Koodin täydennys"
 
 #. i18n: ectx: Menu (quickpreview)
-#: dialogs/configurationdialog.cpp:251 kileui.rc:148
+#: dialogs/configurationdialog.cpp:251 kileui.rc:150
 #, kde-format
 msgid "Quick Preview"
 msgstr "Pikaesikatselu"
 
-#: dialogs/configurationdialog.cpp:251 kile.cpp:751
+#: dialogs/configurationdialog.cpp:251 kile.cpp:752
 #, kde-format
 msgid "Preview"
 msgstr "Esikatselu"
@@ -454,7 +454,7 @@ msgid "Help"
 msgstr "Ohje"
 
 #. i18n: ectx: Menu (menu_livepreview)
-#: dialogs/configurationdialog.cpp:267 kileui.rc:145
+#: dialogs/configurationdialog.cpp:267 kileui.rc:147
 #, kde-format
 msgid "Live Preview"
 msgstr "Päivittyvä esikatselu"
@@ -551,7 +551,7 @@ msgstr "Komento[]"
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
-#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:996
+#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:998
 #, kde-format
 msgid "Environment"
 msgstr "Ympäristö"
@@ -1302,7 +1302,7 @@ msgstr "AMS-matematiikka"
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1029 kilestdactions.cpp:452 kileui.rc:581
+#: kile.cpp:1031 kilestdactions.cpp:452 kileui.rc:583
 #, kde-format
 msgid "Math"
 msgstr "Matematiikka"
@@ -1312,7 +1312,7 @@ msgstr "Matematiikka"
 msgid "Lists"
 msgstr "Luetelmat"
 
-#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1025 kilestdactions.cpp:80
+#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1027 kilestdactions.cpp:80
 #, kde-format
 msgid "Tabular"
 msgstr "Taulukko"
@@ -1347,13 +1347,13 @@ msgstr "Sitaatit"
 msgid "Includes"
 msgstr "Sisällytykset"
 
-#: dialogs/latexcommanddialog.cpp:623 kile.cpp:1076
+#: dialogs/latexcommanddialog.cpp:623 kile.cpp:1078
 #, kde-format
 msgid "LaTeX Environments"
 msgstr "LaTeX-ympäristöt"
 
 #: dialogs/latexcommanddialog.cpp:627 dialogs/latexcommanddialog.cpp:699
-#: kile.cpp:1075
+#: kile.cpp:1077
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "LaTeX-komennot"
@@ -2304,7 +2304,7 @@ msgstr ""
 "poistaminen ei ole mahdollista.</p>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:910 dialogs/pdf-wizard/pdfdialog.cpp:1698
-#: dialogs/pdf-wizard/pdfdialog.cpp:1768 kile.cpp:1031
+#: dialogs/pdf-wizard/pdfdialog.cpp:1768 kile.cpp:1033
 #, kde-format
 msgid "PDF Tools"
 msgstr "PDF-työkalut"
@@ -2886,7 +2886,7 @@ msgstr "Tuntematon tiedostomuoto: vain ”.ps” kelpaa tulostiedostoksi."
 msgid "Copies:"
 msgstr "Kopioita:"
 
-#: dialogs/postscriptdialog.cpp:517 kile.cpp:1030
+#: dialogs/postscriptdialog.cpp:517 kile.cpp:1032
 #, kde-format
 msgid "Postscript Tools"
 msgstr "Postscript-työkalut"
@@ -4694,7 +4694,7 @@ msgstr "Taulukkoon liitettävää sisältöä ei ole, koska leikepöytä on tyhj
 msgid "Empty Clipboard"
 msgstr "Tyhjä leikepöytä"
 
-#: dialogs/texdocumentationdialog.cpp:58 kile.cpp:1078
+#: dialogs/texdocumentationdialog.cpp:58 kile.cpp:1080
 #, kde-format
 msgid "Documentation Browser"
 msgstr "Ohjeselain"
@@ -4803,7 +4803,7 @@ msgid "Configure User Help"
 msgstr "Käyttäjän ohjeiden asetukset"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbUserHelp)
-#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1090
+#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1092
 #: widgets/helpconfigwidget.ui:86
 #, kde-format
 msgid "User Help"
@@ -5797,7 +5797,7 @@ msgstr "Lokitiedostoa ei saatu avatuksi: ajoitko LaTeXin?"
 msgid "No LaTeX warnings/errors detected."
 msgstr "LaTeX-varoituksia tai -virheitä ei havaittu."
 
-#: kile.cpp:392
+#: kile.cpp:393
 #, kde-format
 msgid ""
 "You have defined some tools in the User menu. From now on these tools will "
@@ -5811,12 +5811,12 @@ msgstr ""
 ">Kilen asetukset). Tästä on joitakin etuja: voit esim. halutessasi käyttää "
 "työkalujasi Pikakoosta-komennossa."
 
-#: kile.cpp:392
+#: kile.cpp:393
 #, kde-format
 msgid "User Tools Detected"
 msgstr "Havaittu käyttäjän työkaluja"
 
-#: kile.cpp:401
+#: kile.cpp:402
 #, kde-format
 msgid ""
 "<p>The tool settings need to be reset for this version of Kile to function "
@@ -5826,93 +5826,93 @@ msgstr ""
 "<p>Työkaluasetukset täytyy alustaa, jotta Kilen tämä versio toimisi oikein."
 "<br/>Tämä korvaa tekemäsi muutokset.</p><p>Haluatko nyt alustaa työkalut?</p>"
 
-#: kile.cpp:404
+#: kile.cpp:405
 #, kde-format
 msgid "Tools need to be reset"
 msgstr "Työkalut täytyy alustaa"
 
-#: kile.cpp:480
+#: kile.cpp:481
 #, kde-format
 msgid "Open File"
 msgstr "Avaa tiedosto"
 
-#: kile.cpp:500
+#: kile.cpp:501
 #, kde-format
 msgid "Files and Projects"
 msgstr "Tiedostot ja projektit"
 
-#: kile.cpp:565 widgets/structurewidget.cpp:142
+#: kile.cpp:566 widgets/structurewidget.cpp:142
 #, kde-format
 msgid "Structure"
 msgstr "Rakenne"
 
-#: kile.cpp:588
+#: kile.cpp:589
 #, kde-format
 msgid "Scripts"
 msgstr "Skriptit"
 
-#: kile.cpp:627
+#: kile.cpp:628
 #, kde-format
 msgid "Symbols"
 msgstr "Symbolit"
 
-#: kile.cpp:630
+#: kile.cpp:631
 #, kde-format
 msgid "Most Frequently Used"
 msgstr "Käytetyimmät"
 
-#: kile.cpp:636
+#: kile.cpp:637
 #, kde-format
 msgid "Relation"
 msgstr "Suhteet"
 
-#: kile.cpp:641
+#: kile.cpp:642
 #, kde-format
 msgid "Operators"
 msgstr "Operaattorit"
 
-#: kile.cpp:646
+#: kile.cpp:647
 #, kde-format
 msgid "Arrows"
 msgstr "Nuolet"
 
-#: kile.cpp:651
+#: kile.cpp:652
 #, kde-format
 msgid "Miscellaneous Math"
 msgstr "Sekalainen matematiikka"
 
-#: kile.cpp:656
+#: kile.cpp:657
 #, kde-format
 msgid "Miscellaneous Text"
 msgstr "Sekalainen teksti"
 
-#: kile.cpp:661
+#: kile.cpp:662
 #, kde-format
 msgid "Delimiters"
 msgstr "Erottimet"
 
-#: kile.cpp:666
+#: kile.cpp:667
 #, kde-format
 msgid "Greek"
 msgstr "Kreikka"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: kile.cpp:671 widgets/latexconfigwidget.ui:133
+#: kile.cpp:672 widgets/latexconfigwidget.ui:133
 #, kde-format
 msgid "Special Characters"
 msgstr "Erikoismerkit"
 
-#: kile.cpp:676
+#: kile.cpp:677
 #, kde-format
 msgid "Cyrillic Characters"
 msgstr "Kyrilliset kirjaimet"
 
-#: kile.cpp:681
+#: kile.cpp:682
 #, kde-format
 msgid "User Defined"
 msgstr "Käyttäjän määrittämä"
 
-#: kile.cpp:686
+#: kile.cpp:687
 #, kde-format
 msgid ""
 "<p>Move the mouse over the icons to see the corresponding LaTeX commands.<br/"
@@ -5925,464 +5925,470 @@ msgstr ""
 "painallus lisää komennon matematiikkatilassa, Ctrl-näppäimen painallus "
 "aaltosulkeissa.</p>"
 
-#: kile.cpp:706 widgets/codecompletionconfigwidget.cpp:55
+#: kile.cpp:707 widgets/codecompletionconfigwidget.cpp:55
 #, kde-format
 msgid "Abbreviation"
 msgstr "Lyhenne"
 
-#: kile.cpp:737
+#: kile.cpp:738
 #, kde-format
 msgid "Log and Messages"
 msgstr "Loki ja viestit"
 
-#: kile.cpp:743
+#: kile.cpp:744
 #, kde-format
 msgid "Output"
 msgstr "Tulos"
 
-#: kile.cpp:746
+#: kile.cpp:747
 #, kde-format
 msgid "Konsole"
 msgstr "Konsole"
 
-#: kile.cpp:848
+#: kile.cpp:849
 #, kde-format
 msgid "Save All"
 msgstr "Tallenna kaikki"
 
-#: kile.cpp:850
+#: kile.cpp:851
 #, kde-format
 msgid "Create Template From Document..."
 msgstr "Luo tiedostosta aihio…"
 
-#: kile.cpp:851
+#: kile.cpp:852
 #, kde-format
 msgid "&Remove Template..."
 msgstr "&Poista aihio…"
 
-#: kile.cpp:853 kile.cpp:983
+#: kile.cpp:854 kile.cpp:985
 #, kde-format
 msgid "Close All"
 msgstr "Sulje kaikki"
 
-#: kile.cpp:854
+#: kile.cpp:855
 #, kde-format
 msgid "Close All Ot&hers"
 msgstr "Sulje kaikki &muut"
 
-#: kile.cpp:855
+#: kile.cpp:856
 #, kde-format
 msgid "S&tatistics"
 msgstr "&Tilastot"
 
-#: kile.cpp:856
+#: kile.cpp:857
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Open Containing Folder"
+msgstr ""
+
+#: kile.cpp:858
 #, kde-format
 msgid "&ASCII"
 msgstr "&ASCII"
 
-#: kile.cpp:857
+#: kile.cpp:859
 #, kde-format
 msgid "Latin-&1 (iso 8859-1)"
 msgstr "Latin-&1 (ISO 8859-1)"
 
-#: kile.cpp:858
+#: kile.cpp:860
 #, kde-format
 msgid "Latin-&2 (iso 8859-2)"
 msgstr "Latin-&2 (ISO 8859-2)"
 
-#: kile.cpp:859
+#: kile.cpp:861
 #, kde-format
 msgid "Latin-&3 (iso 8859-3)"
 msgstr "Latin-&3 (ISO 8859-3)"
 
-#: kile.cpp:860
+#: kile.cpp:862
 #, kde-format
 msgid "Latin-&4 (iso 8859-4)"
 msgstr "Latin-&4 (ISO 8859-4)"
 
-#: kile.cpp:861
+#: kile.cpp:863
 #, kde-format
 msgid "Latin-&5 (iso 8859-5)"
 msgstr "Latin-&5 (ISO 8859-5)"
 
-#: kile.cpp:862
+#: kile.cpp:864
 #, kde-format
 msgid "Latin-&9 (iso 8859-9)"
 msgstr "Latin-&9 (ISO 8859-9)"
 
-#: kile.cpp:863
+#: kile.cpp:865
 #, kde-format
 msgid "&Central European (cp-1250)"
 msgstr "&Keskieurooppalainen (CP-1250)"
 
-#: kile.cpp:864
+#: kile.cpp:866
 #, kde-format
 msgid "&Western European (cp-1252)"
 msgstr "&Länsieurooppalainen (CP-1252)"
 
 # Tarkistettu, että tab = välilehti
-#: kile.cpp:867
+#: kile.cpp:869
 #, kde-format
 msgid "Move Tab Left"
 msgstr "Siirrä välilehteä vasemmalle"
 
 # Tarkistettu, että tab = välilehti
-#: kile.cpp:868
+#: kile.cpp:870
 #, kde-format
 msgid "Move Tab Right"
 msgstr "Siirrä välilehteä oikealle"
 
-#: kile.cpp:870
+#: kile.cpp:872
 #, kde-format
 msgid "Next section"
 msgstr "Seuraava osio"
 
-#: kile.cpp:872
+#: kile.cpp:874
 #, kde-format
 msgid "Prev section"
 msgstr "Edellinen osio"
 
-#: kile.cpp:874
+#: kile.cpp:876
 #, kde-format
 msgid "Next paragraph"
 msgstr "Seuraava kappale"
 
-#: kile.cpp:876
+#: kile.cpp:878
 #, kde-format
 msgid "Prev paragraph"
 msgstr "Edellinen kappale"
 
-#: kile.cpp:879
+#: kile.cpp:881
 #, kde-format
 msgid "Find &in Files..."
 msgstr "Etsi &tiedostoista…"
 
-#: kile.cpp:881
+#: kile.cpp:883
 #, kde-format
 msgid "Refresh Str&ucture"
 msgstr "Päi&vitä rakenne"
 
-#: kile.cpp:884
+#: kile.cpp:886
 #, kde-format
 msgid "&New Project..."
 msgstr "&Uusi projekti…"
 
-#: kile.cpp:885
+#: kile.cpp:887
 #, kde-format
 msgid "&Open Project..."
 msgstr "&Avaa projekti…"
 
-#: kile.cpp:887
+#: kile.cpp:889
 #, kde-format
 msgid "Open &Recent Project"
 msgstr "Avaa &viimeaikainen projekti"
 
-#: kile.cpp:894
+#: kile.cpp:896
 #, kde-format
 msgid "A&dd Files to Project..."
 msgstr "&Lisää tiedostoja projektiin…"
 
-#: kile.cpp:895 widgets/projectview.cpp:870
+#: kile.cpp:897 widgets/projectview.cpp:870
 #, kde-format
 msgid "Refresh Project &Tree"
 msgstr "Päivitä p&rojektipuu"
 
-#: kile.cpp:896 widgets/projectview.cpp:872
+#: kile.cpp:898 widgets/projectview.cpp:872
 #, kde-format
 msgid "&Archive"
 msgstr "&Arkisto"
 
-#: kile.cpp:897 widgets/projectview.cpp:871
+#: kile.cpp:899 widgets/projectview.cpp:871
 #, kde-format
 msgid "Project &Options"
 msgstr "Projektin &asetukset"
 
-#: kile.cpp:898
+#: kile.cpp:900
 #, kde-format
 msgid "&Close Project"
 msgstr "&Sulje projekti"
 
-#: kile.cpp:901
+#: kile.cpp:903
 #, kde-format
 msgid "&Show Projects..."
 msgstr "&Näytä projektit…"
 
-#: kile.cpp:902
+#: kile.cpp:904
 #, kde-format
 msgid "Re&move Files From Project..."
 msgstr "&Poista tiedostoja projektista…"
 
-#: kile.cpp:903
+#: kile.cpp:905
 #, kde-format
 msgid "Show Project &Files..."
 msgstr "Näytä projektin &tiedostot…"
 
-#: kile.cpp:905 widgets/projectview.cpp:868
+#: kile.cpp:907 widgets/projectview.cpp:868
 #, kde-format
 msgid "Open All &Project Files"
 msgstr "Avaa &kaikki projektitiedostot"
 
-#: kile.cpp:906
+#: kile.cpp:908
 #, kde-format
 msgid "Find in &Project..."
 msgstr "&Etsi projektista…"
 
-#: kile.cpp:909 kile.cpp:1007 kile.cpp:2124 kiledocmanager.cpp:1976
+#: kile.cpp:911 kile.cpp:1009 kile.cpp:2150 kiledocmanager.cpp:1976
 #: kiledocmanager.cpp:1986
 #, kde-format
 msgid "Clean"
 msgstr "Siivoa"
 
-#: kile.cpp:914
+#: kile.cpp:916
 #, kde-format
 msgid "Next Document"
 msgstr "Seuraava tiedosto"
 
-#: kile.cpp:920
+#: kile.cpp:922
 #, kde-format
 msgid "Previous Document"
 msgstr "Edellinen tiedosto"
 
-#: kile.cpp:923
+#: kile.cpp:925
 #, kde-format
 msgid "Focus Log/Messages View"
 msgstr "Kohdista loki- ja viestinäkymään"
 
-#: kile.cpp:924
+#: kile.cpp:926
 #, kde-format
 msgid "Focus Output View"
 msgstr "Kohdista tulosnäkymään"
 
-#: kile.cpp:925
+#: kile.cpp:927
 #, kde-format
 msgid "Focus Konsole View"
 msgstr "Kohdista päätenäkymään"
 
-#: kile.cpp:926
+#: kile.cpp:928
 #, kde-format
 msgid "Focus Editor View"
 msgstr "Kohdista muokkausnäkymään"
 
-#: kile.cpp:928
+#: kile.cpp:930
 #, kde-format
 msgctxt "@action: Starts the completion of the current LaTeX command"
 msgid "Complete (La)TeX Command"
 msgstr "Täydennä (La)TeX-komento"
 
-#: kile.cpp:930
+#: kile.cpp:932
 #, kde-format
 msgctxt "@action: Starts the input (and completion) of a LaTeX environment"
 msgid "Complete LaTeX Environment"
 msgstr "Täydennä LaTeX-ympäristö"
 
-#: kile.cpp:932
+#: kile.cpp:934
 #, kde-format
 msgctxt "@action: Starts the completion of the current abbreviation"
 msgid "Complete Abbreviation"
 msgstr "Täydennä lyhenne"
 
-#: kile.cpp:935
+#: kile.cpp:937
 #, kde-format
 msgid "Next Bullet"
 msgstr "Seuraava luetelmakohta"
 
-#: kile.cpp:937
+#: kile.cpp:939
 #, kde-format
 msgid "Prev Bullet"
 msgstr "Edellinen luetelmakohta"
 
-#: kile.cpp:941 kile.cpp:958
+#: kile.cpp:943 kile.cpp:960
 #, kde-format
 msgid "Environment (inside)"
 msgstr "Ympäristö (sisä)"
 
-#: kile.cpp:943 kile.cpp:960
+#: kile.cpp:945 kile.cpp:962
 #, kde-format
 msgid "Environment (outside)"
 msgstr "Ympäristö (ulko)"
 
-#: kile.cpp:945 kile.cpp:962
+#: kile.cpp:947 kile.cpp:964
 #, kde-format
 msgid "TeX Group (inside)"
 msgstr "TeX-ryhmä (sisä)"
 
-#: kile.cpp:947 kile.cpp:964
+#: kile.cpp:949 kile.cpp:966
 #, kde-format
 msgid "TeX Group (outside)"
 msgstr "TeX-ryhmä (ulko)"
 
-#: kile.cpp:949 kile.cpp:966
+#: kile.cpp:951 kile.cpp:968
 #, kde-format
 msgid "Math Group"
 msgstr "Matematiikkaryhmä"
 
-#: kile.cpp:951 kile.cpp:968
+#: kile.cpp:953 kile.cpp:970
 #, kde-format
 msgid "Paragraph"
 msgstr "Kappale"
 
-#: kile.cpp:953
+#: kile.cpp:955
 #, kde-format
 msgid "Line"
 msgstr "Rivi"
 
-#: kile.cpp:955 kile.cpp:972
+#: kile.cpp:957 kile.cpp:974
 #, kde-format
 msgid "TeX Word"
 msgstr "TeX-sana"
 
-#: kile.cpp:970
+#: kile.cpp:972
 #, kde-format
 msgid "To End of Line"
 msgstr "Rivin loppuun"
 
-#: kile.cpp:975 kile.cpp:986
+#: kile.cpp:977 kile.cpp:988
 #, kde-format
 msgid "Go to Begin"
 msgstr "Siirry alkuun"
 
-#: kile.cpp:977 kile.cpp:988
+#: kile.cpp:979 kile.cpp:990
 #, kde-format
 msgid "Go to End"
 msgstr "Siirry loppuun"
 
-#: kile.cpp:979 kile.cpp:990
+#: kile.cpp:981 kile.cpp:992
 #, kde-format
 msgid "Match"
 msgstr "Etsi vastine"
 
-#: kile.cpp:981 kile.cpp:992
+#: kile.cpp:983 kile.cpp:994
 #, kde-format
 msgid "Close"
 msgstr "Sulje"
 
-#: kile.cpp:995
+#: kile.cpp:997
 #, kde-format
 msgid "Selection"
 msgstr "Valinta"
 
-#: kile.cpp:997
+#: kile.cpp:999
 #, kde-format
 msgid "Subdocument"
 msgstr "Aliasiakirja"
 
-#: kile.cpp:998
+#: kile.cpp:1000
 #, kde-format
 msgid "Mathgroup"
 msgstr "Matematiikkaryhmä"
 
-#: kile.cpp:1003
+#: kile.cpp:1005
 #, kde-format
 msgid "&Bibliography"
 msgstr "&Lähdeluettelo"
 
 #. i18n: ectx: Menu (settings)
-#: kile.cpp:1009 kileui.rc:515
+#: kile.cpp:1011 kileui.rc:517
 #, kde-format
 msgid "&Settings"
 msgstr "&Asetukset"
 
-#: kile.cpp:1012
+#: kile.cpp:1014
 #, kde-format
 msgid "Settings for BibTeX"
 msgstr "BibTeXin asetukset"
 
-#: kile.cpp:1016
+#: kile.cpp:1018
 #, kde-format
 msgid "Settings for Biblatex"
 msgstr "Biblatexin asetukset"
 
-#: kile.cpp:1023 kile.cpp:2229
+#: kile.cpp:1025 kile.cpp:2255
 #, kde-format
 msgid "Quick Start"
 msgstr "Pikakäynnistys"
 
-#: kile.cpp:1026 kilestdactions.cpp:385
+#: kile.cpp:1028 kilestdactions.cpp:385
 #, kde-format
 msgid "Array"
 msgstr "Matriisi"
 
-#: kile.cpp:1027 kile.cpp:2281 kilestdactions.cpp:79
+#: kile.cpp:1029 kile.cpp:2307 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "Sarkaus"
 
-#: kile.cpp:1028
+#: kile.cpp:1030
 #, kde-format
 msgid "Floats"
 msgstr "Kelluvat elementit"
 
-#: kile.cpp:1033
+#: kile.cpp:1035
 #, kde-format
 msgid "Define Current Document as '&Master Document'"
 msgstr "Määritä nykyinen asiakirja ”&pääasiakirjaksi”"
 
-#: kile.cpp:1038
+#: kile.cpp:1040
 #, kde-format
 msgid "Show Document Viewer"
 msgstr "Näytä asiakirjakatselin"
 
-#: kile.cpp:1045
+#: kile.cpp:1047
 #, kde-format
 msgid "Show S&ide Bar"
 msgstr "Näytä &sivupalkki"
 
-#: kile.cpp:1051
+#: kile.cpp:1053
 #, kde-format
 msgid "Show Mess&ages Bar"
 msgstr "Näytä &viestipalkki"
 
-#: kile.cpp:1063
+#: kile.cpp:1065
 #, kde-format
 msgid "Watch File Mode"
 msgstr "Tiedostontarkkailutila"
 
-#: kile.cpp:1077
+#: kile.cpp:1079
 #, kde-format
 msgid "Context Help"
 msgstr "Kontekstiohje"
 
-#: kile.cpp:1080
+#: kile.cpp:1082
 #, kde-format
 msgid "&About Editor Component"
 msgstr "Tietoa m&uokkainosasta"
 
-#: kile.cpp:1088
+#: kile.cpp:1090
 #, kde-format
 msgid "&System Check..."
 msgstr "&Järjestelmän tarkistus…"
 
-#: kile.cpp:1106 kileinfo.cpp:357
+#: kile.cpp:1108 kileinfo.cpp:357
 #, kde-format
 msgid "BibTeX"
 msgstr "BibTeX"
 
-#: kile.cpp:1109
+#: kile.cpp:1111
 #, kde-format
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1254 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1256 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Compile"
 msgstr "Käännä"
 
-#: kile.cpp:1255 widgets/toolconfigwidget.cpp:78
+#: kile.cpp:1257 widgets/toolconfigwidget.cpp:78
 #, kde-format
 msgid "View"
 msgstr "Näkymä"
 
-#: kile.cpp:1256 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1258 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "Convert"
 msgstr "Muunna"
 
-#: kile.cpp:1257 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1259 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Quick"
 msgstr "Pika"
 
-#: kile.cpp:1436
+#: kile.cpp:1438
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6393,78 +6399,78 @@ msgstr ""
 "\n"
 "Tarkista ja korjaa Kile-asennuksesi."
 
-#: kile.cpp:1438
+#: kile.cpp:1440
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr "Arkistotyökalua ei voitu luoda"
 
-#: kile.cpp:1503
+#: kile.cpp:1505
 #, kde-format
 msgid "Project: %1"
 msgstr "Projekti: %1"
 
-#: kile.cpp:1506
+#: kile.cpp:1508
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "Projekti: %1 (pääasiakirja: %2)"
 
-#: kile.cpp:1511
+#: kile.cpp:1513
 #, kde-format
 msgid "Normal mode"
 msgstr "Perustila"
 
-#: kile.cpp:1514
+#: kile.cpp:1516
 #, kde-format
 msgid "Master document: %1"
 msgstr "Pääasiakirja: %1"
 
-#: kile.cpp:1519 kile.cpp:2638
+#: kile.cpp:1521 kile.cpp:2664
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "Määritä nykyinen asiakirja ”pääasiakirjaksi”"
 
-#: kile.cpp:1523 kile.cpp:2628
+#: kile.cpp:1525 kile.cpp:2654
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "Perustila (nykyinen pääasiakirja: %1)"
 
-#: kile.cpp:1740
+#: kile.cpp:1765
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr "%1 [vain luku]"
 
-#: kile.cpp:2117
+#: kile.cpp:2143
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "Aktiivista tiedostoa ei ole tai sitä ei ole tallennettu."
 
-#: kile.cpp:2200
+#: kile.cpp:2226
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "Paketti %1 on otettava käyttöön."
 
-#: kile.cpp:2200 kile.cpp:2203
+#: kile.cpp:2226 kile.cpp:2229
 #, kde-format
 msgid "Insert text"
 msgstr "Lisää tekstiä"
 
-#: kile.cpp:2203
+#: kile.cpp:2229
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "Paketit %1 on otettava käyttöön."
 
-#: kile.cpp:2424
+#: kile.cpp:2450
 #, kde-format
 msgid "No Name"
 msgstr "Ei nimeä"
 
-#: kile.cpp:2460
+#: kile.cpp:2486
 #, kde-format
 msgid "no name"
 msgstr "ei nimeä"
 
-#: kile.cpp:2656
+#: kile.cpp:2682
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
@@ -6473,31 +6479,31 @@ msgstr ""
 "Ennen kuin nykyisen asiakirjan voi määrittää pääasiakirjaksi, se on "
 "tallennettava."
 
-#: kile.cpp:2998
+#: kile.cpp:3024
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "LOHKO"
 
-#: kile.cpp:2999
+#: kile.cpp:3025
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "RIVI"
 
-#: kile.cpp:3006
+#: kile.cpp:3032
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "Päivitetään rakennetta…"
 
-#: kile.cpp:3024
+#: kile.cpp:3050
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 "Tämä piilottaa valikkorivin täysin. Uudelleen sen saa näkyviin painamalla %1."
 
-#: kile.cpp:3027
+#: kile.cpp:3053
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Piilota valikkorivi"
@@ -10528,335 +10534,335 @@ msgid "Con&vert To"
 msgstr "Muu&nna muotoon"
 
 #. i18n: ectx: Menu (edit)
-#: kileui.rc:53 widgets/abbreviationview.cpp:120
+#: kileui.rc:55 widgets/abbreviationview.cpp:120
 #, kde-format
 msgid "&Edit"
 msgstr "&Muokkaa"
 
 #. i18n: ectx: Menu (complete)
-#: kileui.rc:61
+#: kileui.rc:63
 #, kde-format
 msgid "Co&mplete"
 msgstr "T&äydennä"
 
 #. i18n: ectx: Menu (bullet)
-#: kileui.rc:66
+#: kileui.rc:68
 #, kde-format
 msgid "&Bullets"
 msgstr "L&uetelmamerkit"
 
 #. i18n: ectx: Menu (select)
-#: kileui.rc:70 widgets/structurewidget.cpp:780
+#: kileui.rc:72 widgets/structurewidget.cpp:780
 #, kde-format
 msgid "&Select"
 msgstr "&Valitse"
 
 #. i18n: ectx: Menu (delete)
-#: kileui.rc:83
+#: kileui.rc:85
 #, kde-format
 msgid "D&elete"
 msgstr "P&oista"
 
 #. i18n: ectx: Menu (environment)
-#: kileui.rc:96
+#: kileui.rc:98
 #, kde-format
 msgid "Environmen&t"
 msgstr "Ympärist&ö"
 
 #. i18n: ectx: Menu (texgroup)
-#: kileui.rc:104
+#: kileui.rc:106
 #, kde-format
 msgid "Te&X Group"
 msgstr "Te&X-ryhmä"
 
 #. i18n: ectx: Menu (selection)
-#: kileui.rc:116
+#: kileui.rc:118
 #, kde-format
 msgid "&Selection"
 msgstr "&Valinta"
 
 #. i18n: ectx: Menu (view)
 #. i18n: ectx: Menu (menu_viewer)
-#: kileui.rc:119 kileui.rc:160
+#: kileui.rc:121 kileui.rc:162
 #, kde-format
 msgid "&View"
 msgstr "&Näkymä"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1159 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:127 kileviewmanager.cpp:1159 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
 msgstr "Asiakirjakatselin"
 
 #. i18n: ectx: Menu (go)
-#: kileui.rc:129
+#: kileui.rc:131
 #, kde-format
 msgid "&Go"
 msgstr "&Siirry"
 
 #. i18n: ectx: Menu (menu_build)
-#: kileui.rc:143
+#: kileui.rc:145
 #, kde-format
 msgid "B&uild"
 msgstr "K&oosta"
 
 #. i18n: ectx: Menu (menu_compile)
-#: kileui.rc:156
+#: kileui.rc:158
 #, kde-format
 msgid "&Compile"
 msgstr "K&äännä"
 
 #. i18n: ectx: Menu (menu_convert)
-#: kileui.rc:158
+#: kileui.rc:160
 #, kde-format
 msgid "C&onvert"
 msgstr "&Muunna"
 
 #. i18n: ectx: Menu (menu_other)
-#: kileui.rc:162
+#: kileui.rc:164
 #, kde-format
 msgid "O&ther"
 msgstr "M&uu"
 
 #. i18n: ectx: Menu (menu_project)
-#: kileui.rc:180
+#: kileui.rc:182
 #, kde-format
 msgid "Pro&ject"
 msgstr "Pro&jekti"
 
 #. i18n: ectx: Menu (menu_latex)
-#: kileui.rc:202
+#: kileui.rc:204
 #, kde-format
 msgid "LaTe&X"
 msgstr "LaTe&X"
 
 #. i18n: ectx: Menu (menu_preamble)
-#: kileui.rc:203
+#: kileui.rc:205
 #, kde-format
 msgid "&Preamble"
 msgstr "&Johdanto"
 
 #. i18n: ectx: Menu (menu_lists)
-#: kileui.rc:217
+#: kileui.rc:219
 #, kde-format
 msgid "Tables and Lists"
 msgstr "Taulukot ja luettelot"
 
 #. i18n: ectx: Menu (menu_sectioning)
-#: kileui.rc:228
+#: kileui.rc:230
 #, kde-format
 msgid "&Sectioning"
 msgstr "&Jäsennys"
 
 #. i18n: ectx: Menu (references)
-#: kileui.rc:239
+#: kileui.rc:241
 #, kde-format
 msgid "&References"
 msgstr "&Viitteet"
 
 #. i18n: ectx: Menu (menu_environment)
-#: kileui.rc:251
+#: kileui.rc:253
 #, kde-format
 msgid "&Environment"
 msgstr "&Ympäristö"
 
 #. i18n: ectx: Menu (menu_listenv)
-#: kileui.rc:262
+#: kileui.rc:264
 #, kde-format
 msgid "&List Environment"
 msgstr "&Luetelmaympäristö"
 
 #. i18n: ectx: Menu (menu_tabularenv)
-#: kileui.rc:269
+#: kileui.rc:271
 #, kde-format
 msgid "&Tabular Environment"
 msgstr "Ta&ulukkoympäristö"
 
 #. i18n: ectx: Menu (menu_floatenv)
-#: kileui.rc:280
+#: kileui.rc:282
 #, kde-format
 msgid "&Floating Environment"
 msgstr "&Kelluva ympäristö"
 
 #. i18n: ectx: Menu (menu_code)
-#: kileui.rc:284
+#: kileui.rc:286
 #, kde-format
 msgid "&Code Environment"
 msgstr "K&oodiympäristö"
 
 #. i18n: ectx: Menu (menu_math)
-#: kileui.rc:292
+#: kileui.rc:294
 #, kde-format
 msgid "&Math Commands"
 msgstr "&Matematiikkakomennot"
 
 #. i18n: ectx: Menu (menu_mathbraces)
-#: kileui.rc:303
+#: kileui.rc:305
 #, kde-format
 msgid "Braces"
 msgstr "Sulkeet"
 
 #. i18n: ectx: Menu (menu_mathtext)
-#: kileui.rc:321
+#: kileui.rc:323
 #, kde-format
 msgid "AMS Text and Boxes"
 msgstr "AMS-teksti ja -laatikot"
 
 #. i18n: ectx: Menu (menu_mathfrac)
-#: kileui.rc:327
+#: kileui.rc:329
 #, kde-format
 msgid "AMS Fraction"
 msgstr "AMS-murtoluku"
 
 #. i18n: ectx: Menu (menu_mathbinom)
-#: kileui.rc:332
+#: kileui.rc:334
 #, kde-format
 msgid "AMS Binomial Expression"
 msgstr "AMS-binomilauseke"
 
 #. i18n: ectx: Menu (menu_mathcommands)
-#: kileui.rc:337
+#: kileui.rc:339
 #, kde-format
 msgid "AMS Arrows"
 msgstr "AMS-nuolet"
 
 #. i18n: ectx: Menu (menu_mathfontstyles)
-#: kileui.rc:342
+#: kileui.rc:344
 #, kde-format
 msgid "Math &Font Styles"
 msgstr "&Matematiikkafonttityylit"
 
 #. i18n: ectx: Menu (menu_mathaccents)
-#: kileui.rc:352
+#: kileui.rc:354
 #, kde-format
 msgid "Math &Accents"
 msgstr "M&atemaattiset aksentit"
 
 #. i18n: ectx: Menu (menu_mathspaces)
-#: kileui.rc:364
+#: kileui.rc:366
 #, kde-format
 msgid "Math &Spaces"
 msgstr "Matematiikan &välistys"
 
 #. i18n: ectx: Menu (menu_mathenv)
-#: kileui.rc:375
+#: kileui.rc:377
 #, kde-format
 msgid "Standard Math &Environments"
 msgstr "Tavalliset &matematiikkaympäristöt"
 
 #. i18n: ectx: Menu (menu_mathamsenv)
-#: kileui.rc:384
+#: kileui.rc:386
 #, kde-format
 msgid "&AMS Math Environments"
 msgstr "&AMS-matematiikkaympäristöt"
 
 #. i18n: ectx: Menu (menu_amsenv_align)
-#: kileui.rc:385
+#: kileui.rc:387
 #, kde-format
 msgid "&Align Environments"
 msgstr "&Tasausympäristöt"
 
 #. i18n: ectx: Menu (menu_amsenv_center)
-#: kileui.rc:398
+#: kileui.rc:400
 #, kde-format
 msgid "&Center Environments"
 msgstr "&Keskitysympäristöt"
 
 #. i18n: ectx: Menu (menu_amsenv_multiline)
-#: kileui.rc:404
+#: kileui.rc:406
 #, kde-format
 msgid "Multi &Line Environments"
 msgstr "&Useampiriviset ympäristöt"
 
 #. i18n: ectx: Menu (menu_amsenv_matrix)
-#: kileui.rc:410
+#: kileui.rc:412
 #, kde-format
 msgid "&Matrix Environments"
 msgstr "&Matriisiympäristöt"
 
-#. i18n: ectx: Menu (menu_mathamsenv)
-#: kileui.rc:423
+#. i18n: ectx: Menu (menu_mathbreqnenv)
+#: kileui.rc:425
 #, fuzzy, kde-format
 #| msgid "Math Environments"
 msgid "breqn Math Environments"
 msgstr "Matematiikkaympäristöt"
 
 #. i18n: ectx: Menu (menu_fontstyles)
-#: kileui.rc:436
+#: kileui.rc:438
 #, kde-format
 msgid "&Font Styles"
 msgstr "Fonttit&yylit"
 
 #. i18n: ectx: Menu (menu_fontfamily)
-#: kileui.rc:446
+#: kileui.rc:448
 #, kde-format
 msgid "Font Family"
 msgstr "Fonttiperhe"
 
 #. i18n: ectx: Menu (menu_fontseries)
-#: kileui.rc:451
+#: kileui.rc:453
 #, kde-format
 msgid "Font Series"
 msgstr "Fonttisarja"
 
 #. i18n: ectx: Menu (menu_fontshape)
-#: kileui.rc:455
+#: kileui.rc:457
 #, kde-format
 msgid "Font Shape"
 msgstr "Fontin muoto"
 
 #. i18n: ectx: Menu (menu_spacing)
-#: kileui.rc:462
+#: kileui.rc:464
 #, kde-format
 msgid "Spa&cing"
 msgstr "Välistys"
 
 #. i18n: ectx: Menu (menu_breaks)
-#: kileui.rc:463
+#: kileui.rc:465
 #, kde-format
 msgid "Page- and Linebreaks"
 msgstr "Sivun- ja rivinkatkaisu"
 
 #. i18n: ectx: Menu (menu_skips)
-#: kileui.rc:470
+#: kileui.rc:472
 #, kde-format
 msgid "Space"
 msgstr "Tyhjä tila"
 
 #. i18n: ectx: Menu (menu_rubberlength)
-#: kileui.rc:481
+#: kileui.rc:483
 #, kde-format
 msgid "Rubber Lengths"
 msgstr "Venyvät tilat"
 
 #. i18n: ectx: Menu (wizard)
-#: kileui.rc:499
+#: kileui.rc:501
 #, kde-format
 msgid "&Wizard"
 msgstr "&Opastettu toiminto"
 
 #. i18n: ectx: Menu (help)
-#: kileui.rc:528
+#: kileui.rc:530
 #, kde-format
 msgid "&Help"
 msgstr "&Ohje"
 
 #. i18n: ectx: Menu (help_tex)
-#: kileui.rc:531
+#: kileui.rc:533
 #, kde-format
 msgid "LaTeX Documentation"
 msgstr "LaTeX-opastus"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: kileui.rc:546
+#: kileui.rc:548
 #, kde-format
 msgid "Main"
 msgstr "Päätyökalurivi"
 
 #. i18n: ectx: ToolBar (editToolBar)
-#: kileui.rc:562
+#: kileui.rc:564
 #, kde-format
 msgid "Edit"
 msgstr "Muokkaa"

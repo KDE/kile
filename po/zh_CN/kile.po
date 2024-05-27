@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-21 00:39+0000\n"
+"POT-Creation-Date: 2024-05-27 00:38+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -347,7 +347,7 @@ msgstr "Kile"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLatexConfig)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetEnvironmentConfig)
-#: dialogs/configurationdialog.cpp:69 kile.cpp:695 kile.cpp:1074
+#: dialogs/configurationdialog.cpp:69 kile.cpp:696 kile.cpp:1076
 #: kileinfo.cpp:355 widgets/environmentconfigwidget.ui:20
 #: widgets/latexconfigwidget.ui:14
 #, kde-format
@@ -355,7 +355,7 @@ msgid "LaTeX"
 msgstr "LaTeX"
 
 #. i18n: ectx: ToolBar (toolsToolBar)
-#: dialogs/configurationdialog.cpp:70 kileui.rc:552
+#: dialogs/configurationdialog.cpp:70 kileui.rc:554
 #, kde-format
 msgid "Tools"
 msgstr "工具"
@@ -397,7 +397,7 @@ msgid "Scripting"
 msgstr "脚本"
 
 #. i18n: ectx: Menu (menu_usermenu)
-#: dialogs/configurationdialog.cpp:229 kileui.rc:496 usermenu/usermenu.cpp:68
+#: dialogs/configurationdialog.cpp:229 kileui.rc:498 usermenu/usermenu.cpp:68
 #, kde-format
 msgid "User Menu"
 msgstr "用户菜单"
@@ -413,12 +413,12 @@ msgid "Code Completion"
 msgstr "代码补全"
 
 #. i18n: ectx: Menu (quickpreview)
-#: dialogs/configurationdialog.cpp:251 kileui.rc:148
+#: dialogs/configurationdialog.cpp:251 kileui.rc:150
 #, kde-format
 msgid "Quick Preview"
 msgstr "快速预览"
 
-#: dialogs/configurationdialog.cpp:251 kile.cpp:751
+#: dialogs/configurationdialog.cpp:251 kile.cpp:752
 #, kde-format
 msgid "Preview"
 msgstr "预览"
@@ -431,7 +431,7 @@ msgid "Help"
 msgstr "帮助"
 
 #. i18n: ectx: Menu (menu_livepreview)
-#: dialogs/configurationdialog.cpp:267 kileui.rc:145
+#: dialogs/configurationdialog.cpp:267 kileui.rc:147
 #, kde-format
 msgid "Live Preview"
 msgstr "实时预览"
@@ -528,7 +528,7 @@ msgstr "命令[]"
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
-#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:996
+#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:998
 #, kde-format
 msgid "Environment"
 msgstr "环境"
@@ -1273,7 +1273,7 @@ msgstr "AMS-数学"
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1029 kilestdactions.cpp:452 kileui.rc:581
+#: kile.cpp:1031 kilestdactions.cpp:452 kileui.rc:583
 #, kde-format
 msgid "Math"
 msgstr "数学"
@@ -1283,7 +1283,7 @@ msgstr "数学"
 msgid "Lists"
 msgstr "列表"
 
-#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1025 kilestdactions.cpp:80
+#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1027 kilestdactions.cpp:80
 #, kde-format
 msgid "Tabular"
 msgstr "表格"
@@ -1318,13 +1318,13 @@ msgstr "引用"
 msgid "Includes"
 msgstr "包含"
 
-#: dialogs/latexcommanddialog.cpp:623 kile.cpp:1076
+#: dialogs/latexcommanddialog.cpp:623 kile.cpp:1078
 #, kde-format
 msgid "LaTeX Environments"
 msgstr "LaTeX 环境"
 
 #: dialogs/latexcommanddialog.cpp:627 dialogs/latexcommanddialog.cpp:699
-#: kile.cpp:1075
+#: kile.cpp:1077
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "LaTeX 命令"
@@ -2237,7 +2237,7 @@ msgstr ""
 "进行设定、修改或删除。</p>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:910 dialogs/pdf-wizard/pdfdialog.cpp:1698
-#: dialogs/pdf-wizard/pdfdialog.cpp:1768 kile.cpp:1031
+#: dialogs/pdf-wizard/pdfdialog.cpp:1768 kile.cpp:1033
 #, kde-format
 msgid "PDF Tools"
 msgstr "PDF 工具"
@@ -2810,7 +2810,7 @@ msgstr "未知文件格式：输出文件只接受“.ps”文件。"
 msgid "Copies:"
 msgstr "拷贝："
 
-#: dialogs/postscriptdialog.cpp:517 kile.cpp:1030
+#: dialogs/postscriptdialog.cpp:517 kile.cpp:1032
 #, kde-format
 msgid "Postscript Tools"
 msgstr "Postscript 工具"
@@ -4592,7 +4592,7 @@ msgstr "剪贴板为空，故未向表格中插入内容。"
 msgid "Empty Clipboard"
 msgstr "剪贴板为空"
 
-#: dialogs/texdocumentationdialog.cpp:58 kile.cpp:1078
+#: dialogs/texdocumentationdialog.cpp:58 kile.cpp:1080
 #, kde-format
 msgid "Documentation Browser"
 msgstr "文档浏览器"
@@ -4696,7 +4696,7 @@ msgid "Configure User Help"
 msgstr "配置用户帮助"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbUserHelp)
-#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1090
+#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1092
 #: widgets/helpconfigwidget.ui:86
 #, kde-format
 msgid "User Help"
@@ -5670,7 +5670,7 @@ msgstr "无法打开日志文件；您是否运行了 LaTeX？"
 msgid "No LaTeX warnings/errors detected."
 msgstr "未检测到 LaTeX 警告或错误。"
 
-#: kile.cpp:392
+#: kile.cpp:393
 #, kde-format
 msgid ""
 "You have defined some tools in the User menu. From now on these tools will "
@@ -5683,12 +5683,12 @@ msgstr ""
 "可以在配置对话框中配置它们(在设置菜单中选择配置 Kile)。这样的好处是只要您愿"
 "意，您自己的工具也可以用于快速构建。"
 
-#: kile.cpp:392
+#: kile.cpp:393
 #, kde-format
 msgid "User Tools Detected"
 msgstr "检测到用户工具"
 
-#: kile.cpp:401
+#: kile.cpp:402
 #, kde-format
 msgid ""
 "<p>The tool settings need to be reset for this version of Kile to function "
@@ -5698,93 +5698,93 @@ msgstr ""
 "<p>您必须重置工具相关的设置才能正常运行此版本的 Kile。<br/>此操作将覆盖您所做"
 "的全部修改。</p><p>现在就重置工具相关的设置吗？</p>"
 
-#: kile.cpp:404
+#: kile.cpp:405
 #, kde-format
 msgid "Tools need to be reset"
 msgstr "需要重置工具相关的设置"
 
-#: kile.cpp:480
+#: kile.cpp:481
 #, kde-format
 msgid "Open File"
 msgstr "打开文件"
 
-#: kile.cpp:500
+#: kile.cpp:501
 #, kde-format
 msgid "Files and Projects"
 msgstr "文件和工程"
 
-#: kile.cpp:565 widgets/structurewidget.cpp:142
+#: kile.cpp:566 widgets/structurewidget.cpp:142
 #, kde-format
 msgid "Structure"
 msgstr "结构图"
 
-#: kile.cpp:588
+#: kile.cpp:589
 #, kde-format
 msgid "Scripts"
 msgstr "脚本"
 
-#: kile.cpp:627
+#: kile.cpp:628
 #, kde-format
 msgid "Symbols"
 msgstr "符号"
 
-#: kile.cpp:630
+#: kile.cpp:631
 #, kde-format
 msgid "Most Frequently Used"
 msgstr "最常用的"
 
-#: kile.cpp:636
+#: kile.cpp:637
 #, kde-format
 msgid "Relation"
 msgstr "关系符号"
 
-#: kile.cpp:641
+#: kile.cpp:642
 #, kde-format
 msgid "Operators"
 msgstr "运算符号"
 
-#: kile.cpp:646
+#: kile.cpp:647
 #, kde-format
 msgid "Arrows"
 msgstr "箭头符号"
 
-#: kile.cpp:651
+#: kile.cpp:652
 #, kde-format
 msgid "Miscellaneous Math"
 msgstr "杂类符号"
 
-#: kile.cpp:656
+#: kile.cpp:657
 #, kde-format
 msgid "Miscellaneous Text"
 msgstr "杂类文字"
 
-#: kile.cpp:661
+#: kile.cpp:662
 #, kde-format
 msgid "Delimiters"
 msgstr "定界符号"
 
-#: kile.cpp:666
+#: kile.cpp:667
 #, kde-format
 msgid "Greek"
 msgstr "希腊字符"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: kile.cpp:671 widgets/latexconfigwidget.ui:133
+#: kile.cpp:672 widgets/latexconfigwidget.ui:133
 #, kde-format
 msgid "Special Characters"
 msgstr "特殊字符"
 
-#: kile.cpp:676
+#: kile.cpp:677
 #, kde-format
 msgid "Cyrillic Characters"
 msgstr "西里尔字符"
 
-#: kile.cpp:681
+#: kile.cpp:682
 #, kde-format
 msgid "User Defined"
 msgstr "用户定义"
 
-#: kile.cpp:686
+#: kile.cpp:687
 #, kde-format
 msgid ""
 "<p>Move the mouse over the icons to see the corresponding LaTeX commands.<br/"
@@ -5796,462 +5796,468 @@ msgstr ""
 "入该命令，此外按下“Shift”键可以在数学模式中插入它，\t\t\t按下“Ctrl”键可以在大"
 "括号中插入。"
 
-#: kile.cpp:706 widgets/codecompletionconfigwidget.cpp:55
+#: kile.cpp:707 widgets/codecompletionconfigwidget.cpp:55
 #, kde-format
 msgid "Abbreviation"
 msgstr "缩写"
 
-#: kile.cpp:737
+#: kile.cpp:738
 #, kde-format
 msgid "Log and Messages"
 msgstr "日志和消息"
 
-#: kile.cpp:743
+#: kile.cpp:744
 #, kde-format
 msgid "Output"
 msgstr "输出"
 
-#: kile.cpp:746
+#: kile.cpp:747
 #, kde-format
 msgid "Konsole"
 msgstr "Konsole "
 
-#: kile.cpp:848
+#: kile.cpp:849
 #, kde-format
 msgid "Save All"
 msgstr "全部保存"
 
-#: kile.cpp:850
+#: kile.cpp:851
 #, kde-format
 msgid "Create Template From Document..."
 msgstr "从文档创建模板..."
 
-#: kile.cpp:851
+#: kile.cpp:852
 #, kde-format
 msgid "&Remove Template..."
 msgstr "删除模板(&R)..."
 
-#: kile.cpp:853 kile.cpp:983
+#: kile.cpp:854 kile.cpp:985
 #, kde-format
 msgid "Close All"
 msgstr "关闭全部"
 
-#: kile.cpp:854
+#: kile.cpp:855
 #, kde-format
 msgid "Close All Ot&hers"
 msgstr "关闭全部其他文档(&H)"
 
-#: kile.cpp:855
+#: kile.cpp:856
 #, kde-format
 msgid "S&tatistics"
 msgstr "统计信息(&T)"
 
-#: kile.cpp:856
+#: kile.cpp:857
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Open Containing Folder"
+msgstr ""
+
+#: kile.cpp:858
 #, kde-format
 msgid "&ASCII"
 msgstr "&ASCII"
 
-#: kile.cpp:857
+#: kile.cpp:859
 #, kde-format
 msgid "Latin-&1 (iso 8859-1)"
 msgstr "Latin-&1 (iso 8859-1)"
 
-#: kile.cpp:858
+#: kile.cpp:860
 #, kde-format
 msgid "Latin-&2 (iso 8859-2)"
 msgstr "Latin-&2 (iso 8859-2)"
 
-#: kile.cpp:859
+#: kile.cpp:861
 #, kde-format
 msgid "Latin-&3 (iso 8859-3)"
 msgstr "Latin-&3 (iso 8859-3)"
 
-#: kile.cpp:860
+#: kile.cpp:862
 #, kde-format
 msgid "Latin-&4 (iso 8859-4)"
 msgstr "Latin-&4 (iso 8859-4)"
 
-#: kile.cpp:861
+#: kile.cpp:863
 #, kde-format
 msgid "Latin-&5 (iso 8859-5)"
 msgstr "Latin-&5 (iso 8859-5)"
 
-#: kile.cpp:862
+#: kile.cpp:864
 #, kde-format
 msgid "Latin-&9 (iso 8859-9)"
 msgstr "Latin-&9 (iso 8859-9)"
 
-#: kile.cpp:863
+#: kile.cpp:865
 #, kde-format
 msgid "&Central European (cp-1250)"
 msgstr "中欧 (cp-1250) (&C)"
 
-#: kile.cpp:864
+#: kile.cpp:866
 #, kde-format
 msgid "&Western European (cp-1252)"
 msgstr "西欧 (cp-1252) (&W)"
 
-#: kile.cpp:867
+#: kile.cpp:869
 #, kde-format
 msgid "Move Tab Left"
 msgstr "左移标签页"
 
-#: kile.cpp:868
+#: kile.cpp:870
 #, kde-format
 msgid "Move Tab Right"
 msgstr "右移标签页"
 
-#: kile.cpp:870
+#: kile.cpp:872
 #, kde-format
 msgid "Next section"
 msgstr "下一个选中范围"
 
-#: kile.cpp:872
+#: kile.cpp:874
 #, kde-format
 msgid "Prev section"
 msgstr "上一个选中范围"
 
-#: kile.cpp:874
+#: kile.cpp:876
 #, kde-format
 msgid "Next paragraph"
 msgstr "下一个段落"
 
-#: kile.cpp:876
+#: kile.cpp:878
 #, kde-format
 msgid "Prev paragraph"
 msgstr "上一个段落"
 
-#: kile.cpp:879
+#: kile.cpp:881
 #, kde-format
 msgid "Find &in Files..."
 msgstr "在文件中查找(&I)..."
 
-#: kile.cpp:881
+#: kile.cpp:883
 #, kde-format
 msgid "Refresh Str&ucture"
 msgstr "更新结构(&U)"
 
-#: kile.cpp:884
+#: kile.cpp:886
 #, kde-format
 msgid "&New Project..."
 msgstr "新建工程(&N)..."
 
-#: kile.cpp:885
+#: kile.cpp:887
 #, kde-format
 msgid "&Open Project..."
 msgstr "打开工程(&O)..."
 
-#: kile.cpp:887
+#: kile.cpp:889
 #, kde-format
 msgid "Open &Recent Project"
 msgstr "打开最近的工程(&R)"
 
-#: kile.cpp:894
+#: kile.cpp:896
 #, kde-format
 msgid "A&dd Files to Project..."
 msgstr "添加文件到工程(&D)..."
 
-#: kile.cpp:895 widgets/projectview.cpp:870
+#: kile.cpp:897 widgets/projectview.cpp:870
 #, kde-format
 msgid "Refresh Project &Tree"
 msgstr "刷新工程树(&T)"
 
-#: kile.cpp:896 widgets/projectview.cpp:872
+#: kile.cpp:898 widgets/projectview.cpp:872
 #, kde-format
 msgid "&Archive"
 msgstr "存档(&A)"
 
-#: kile.cpp:897 widgets/projectview.cpp:871
+#: kile.cpp:899 widgets/projectview.cpp:871
 #, kde-format
 msgid "Project &Options"
 msgstr "工程选项(&O)"
 
-#: kile.cpp:898
+#: kile.cpp:900
 #, kde-format
 msgid "&Close Project"
 msgstr "关闭工程(&C)"
 
-#: kile.cpp:901
+#: kile.cpp:903
 #, kde-format
 msgid "&Show Projects..."
 msgstr "显示工程(&S)..."
 
-#: kile.cpp:902
+#: kile.cpp:904
 #, kde-format
 msgid "Re&move Files From Project..."
 msgstr "从工程删除文件(&M)..."
 
-#: kile.cpp:903
+#: kile.cpp:905
 #, kde-format
 msgid "Show Project &Files..."
 msgstr "显示工程文件(&F)..."
 
-#: kile.cpp:905 widgets/projectview.cpp:868
+#: kile.cpp:907 widgets/projectview.cpp:868
 #, kde-format
 msgid "Open All &Project Files"
 msgstr "打开所有工程文件(&P)"
 
-#: kile.cpp:906
+#: kile.cpp:908
 #, kde-format
 msgid "Find in &Project..."
 msgstr "在工程中查找(&P)..."
 
-#: kile.cpp:909 kile.cpp:1007 kile.cpp:2124 kiledocmanager.cpp:1976
+#: kile.cpp:911 kile.cpp:1009 kile.cpp:2150 kiledocmanager.cpp:1976
 #: kiledocmanager.cpp:1986
 #, kde-format
 msgid "Clean"
 msgstr "清理"
 
-#: kile.cpp:914
+#: kile.cpp:916
 #, kde-format
 msgid "Next Document"
 msgstr "下一文档"
 
-#: kile.cpp:920
+#: kile.cpp:922
 #, kde-format
 msgid "Previous Document"
 msgstr "前一文档"
 
-#: kile.cpp:923
+#: kile.cpp:925
 #, kde-format
 msgid "Focus Log/Messages View"
 msgstr "聚焦日志/消息视图"
 
-#: kile.cpp:924
+#: kile.cpp:926
 #, kde-format
 msgid "Focus Output View"
 msgstr "聚焦输出视图"
 
-#: kile.cpp:925
+#: kile.cpp:927
 #, kde-format
 msgid "Focus Konsole View"
 msgstr "聚焦 Konsole 视图"
 
-#: kile.cpp:926
+#: kile.cpp:928
 #, kde-format
 msgid "Focus Editor View"
 msgstr "聚焦编辑器视图"
 
-#: kile.cpp:928
+#: kile.cpp:930
 #, kde-format
 msgctxt "@action: Starts the completion of the current LaTeX command"
 msgid "Complete (La)TeX Command"
 msgstr "完成 (La)TeX 命令"
 
-#: kile.cpp:930
+#: kile.cpp:932
 #, kde-format
 msgctxt "@action: Starts the input (and completion) of a LaTeX environment"
 msgid "Complete LaTeX Environment"
 msgstr "完成 LaTex 环境"
 
-#: kile.cpp:932
+#: kile.cpp:934
 #, kde-format
 msgctxt "@action: Starts the completion of the current abbreviation"
 msgid "Complete Abbreviation"
 msgstr "完成缩写"
 
-#: kile.cpp:935
+#: kile.cpp:937
 #, kde-format
 msgid "Next Bullet"
 msgstr "下一节"
 
-#: kile.cpp:937
+#: kile.cpp:939
 #, kde-format
 msgid "Prev Bullet"
 msgstr "上一节"
 
-#: kile.cpp:941 kile.cpp:958
+#: kile.cpp:943 kile.cpp:960
 #, kde-format
 msgid "Environment (inside)"
 msgstr "环境(内部)"
 
-#: kile.cpp:943 kile.cpp:960
+#: kile.cpp:945 kile.cpp:962
 #, kde-format
 msgid "Environment (outside)"
 msgstr "环境(外部)"
 
-#: kile.cpp:945 kile.cpp:962
+#: kile.cpp:947 kile.cpp:964
 #, kde-format
 msgid "TeX Group (inside)"
 msgstr "TeX 组(内部)"
 
-#: kile.cpp:947 kile.cpp:964
+#: kile.cpp:949 kile.cpp:966
 #, kde-format
 msgid "TeX Group (outside)"
 msgstr "TeX 组(外部)"
 
-#: kile.cpp:949 kile.cpp:966
+#: kile.cpp:951 kile.cpp:968
 #, kde-format
 msgid "Math Group"
 msgstr "数学组"
 
-#: kile.cpp:951 kile.cpp:968
+#: kile.cpp:953 kile.cpp:970
 #, kde-format
 msgid "Paragraph"
 msgstr "段落"
 
-#: kile.cpp:953
+#: kile.cpp:955
 #, kde-format
 msgid "Line"
 msgstr "行"
 
-#: kile.cpp:955 kile.cpp:972
+#: kile.cpp:957 kile.cpp:974
 #, kde-format
 msgid "TeX Word"
 msgstr "TeX 单词"
 
-#: kile.cpp:970
+#: kile.cpp:972
 #, kde-format
 msgid "To End of Line"
 msgstr "转到行尾"
 
-#: kile.cpp:975 kile.cpp:986
+#: kile.cpp:977 kile.cpp:988
 #, kde-format
 msgid "Go to Begin"
 msgstr "跳转到开始"
 
-#: kile.cpp:977 kile.cpp:988
+#: kile.cpp:979 kile.cpp:990
 #, kde-format
 msgid "Go to End"
 msgstr "跳转到末尾"
 
-#: kile.cpp:979 kile.cpp:990
+#: kile.cpp:981 kile.cpp:992
 #, kde-format
 msgid "Match"
 msgstr "匹配"
 
-#: kile.cpp:981 kile.cpp:992
+#: kile.cpp:983 kile.cpp:994
 #, kde-format
 msgid "Close"
 msgstr "关闭"
 
-#: kile.cpp:995
+#: kile.cpp:997
 #, kde-format
 msgid "Selection"
 msgstr "选择"
 
-#: kile.cpp:997
+#: kile.cpp:999
 #, kde-format
 msgid "Subdocument"
 msgstr "子文档"
 
-#: kile.cpp:998
+#: kile.cpp:1000
 #, kde-format
 msgid "Mathgroup"
 msgstr "数学组"
 
-#: kile.cpp:1003
+#: kile.cpp:1005
 #, kde-format
 msgid "&Bibliography"
 msgstr "参考文献(&B)"
 
 #. i18n: ectx: Menu (settings)
-#: kile.cpp:1009 kileui.rc:515
+#: kile.cpp:1011 kileui.rc:517
 #, kde-format
 msgid "&Settings"
 msgstr "设置(&S)"
 
-#: kile.cpp:1012
+#: kile.cpp:1014
 #, kde-format
 msgid "Settings for BibTeX"
 msgstr "BibTeX 设置"
 
-#: kile.cpp:1016
+#: kile.cpp:1018
 #, kde-format
 msgid "Settings for Biblatex"
 msgstr "Biblatex 设置"
 
-#: kile.cpp:1023 kile.cpp:2229
+#: kile.cpp:1025 kile.cpp:2255
 #, kde-format
 msgid "Quick Start"
 msgstr "快速开始"
 
-#: kile.cpp:1026 kilestdactions.cpp:385
+#: kile.cpp:1028 kilestdactions.cpp:385
 #, kde-format
 msgid "Array"
 msgstr "排列"
 
-#: kile.cpp:1027 kile.cpp:2281 kilestdactions.cpp:79
+#: kile.cpp:1029 kile.cpp:2307 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "制表位"
 
-#: kile.cpp:1028
+#: kile.cpp:1030
 #, kde-format
 msgid "Floats"
 msgstr "浮动环境"
 
-#: kile.cpp:1033
+#: kile.cpp:1035
 #, kde-format
 msgid "Define Current Document as '&Master Document'"
 msgstr "将当前文档设为“主文档”(&M)"
 
-#: kile.cpp:1038
+#: kile.cpp:1040
 #, kde-format
 msgid "Show Document Viewer"
 msgstr "显示文档查看器"
 
-#: kile.cpp:1045
+#: kile.cpp:1047
 #, kde-format
 msgid "Show S&ide Bar"
 msgstr "显示侧边栏(&I)"
 
-#: kile.cpp:1051
+#: kile.cpp:1053
 #, kde-format
 msgid "Show Mess&ages Bar"
 msgstr "显示消息栏(&A)"
 
-#: kile.cpp:1063
+#: kile.cpp:1065
 #, kde-format
 msgid "Watch File Mode"
 msgstr "监视文件模式"
 
-#: kile.cpp:1077
+#: kile.cpp:1079
 #, kde-format
 msgid "Context Help"
 msgstr "上下文帮助"
 
-#: kile.cpp:1080
+#: kile.cpp:1082
 #, kde-format
 msgid "&About Editor Component"
 msgstr "关于编辑器组件(&A)"
 
-#: kile.cpp:1088
+#: kile.cpp:1090
 #, kde-format
 msgid "&System Check..."
 msgstr "系统检查(&S)..."
 
-#: kile.cpp:1106 kileinfo.cpp:357
+#: kile.cpp:1108 kileinfo.cpp:357
 #, kde-format
 msgid "BibTeX"
 msgstr "BibTeX"
 
-#: kile.cpp:1109
+#: kile.cpp:1111
 #, kde-format
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1254 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1256 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Compile"
 msgstr "编译"
 
-#: kile.cpp:1255 widgets/toolconfigwidget.cpp:78
+#: kile.cpp:1257 widgets/toolconfigwidget.cpp:78
 #, kde-format
 msgid "View"
 msgstr "查看"
 
-#: kile.cpp:1256 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1258 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "Convert"
 msgstr "转换"
 
-#: kile.cpp:1257 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1259 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Quick"
 msgstr "快速编译"
 
-#: kile.cpp:1436
+#: kile.cpp:1438
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6262,108 +6268,108 @@ msgstr ""
 "\n"
 "请检查并修复 Kile。"
 
-#: kile.cpp:1438
+#: kile.cpp:1440
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr "无法创建归档工具"
 
-#: kile.cpp:1503
+#: kile.cpp:1505
 #, kde-format
 msgid "Project: %1"
 msgstr "工程：%1"
 
-#: kile.cpp:1506
+#: kile.cpp:1508
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "工程：%1(主文档：%2)"
 
-#: kile.cpp:1511
+#: kile.cpp:1513
 #, kde-format
 msgid "Normal mode"
 msgstr "普通模式"
 
-#: kile.cpp:1514
+#: kile.cpp:1516
 #, kde-format
 msgid "Master document: %1"
 msgstr "主文档 ：%1"
 
-#: kile.cpp:1519 kile.cpp:2638
+#: kile.cpp:1521 kile.cpp:2664
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "将当前文档设为“主文档”"
 
-#: kile.cpp:1523 kile.cpp:2628
+#: kile.cpp:1525 kile.cpp:2654
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "正常模式 (当前主文档 ： %1)"
 
-#: kile.cpp:1740
+#: kile.cpp:1765
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr "%1[Read-Only]"
 
-#: kile.cpp:2117
+#: kile.cpp:2143
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "没有活动文档或它还未保存。"
 
-#: kile.cpp:2200
+#: kile.cpp:2226
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "必须包含宏包 %1。"
 
-#: kile.cpp:2200 kile.cpp:2203
+#: kile.cpp:2226 kile.cpp:2229
 #, kde-format
 msgid "Insert text"
 msgstr "插入文本"
 
-#: kile.cpp:2203
+#: kile.cpp:2229
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "必须包含宏包 %1。"
 
-#: kile.cpp:2424
+#: kile.cpp:2450
 #, kde-format
 msgid "No Name"
 msgstr "无名称"
 
-#: kile.cpp:2460
+#: kile.cpp:2486
 #, kde-format
 msgid "no name"
 msgstr "无名称"
 
-#: kile.cpp:2656
+#: kile.cpp:2682
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr "要将当前文档设为主文档，您必须先保存它。"
 
-#: kile.cpp:2998
+#: kile.cpp:3024
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "区块"
 
-#: kile.cpp:2999
+#: kile.cpp:3025
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "行"
 
-#: kile.cpp:3006
+#: kile.cpp:3032
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "刷新结构..."
 
-#: kile.cpp:3024
+#: kile.cpp:3050
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 
-#: kile.cpp:3027
+#: kile.cpp:3053
 #, kde-format
 msgid "Hide menu bar"
 msgstr ""
@@ -10289,334 +10295,334 @@ msgid "Con&vert To"
 msgstr "转换到(&V)"
 
 #. i18n: ectx: Menu (edit)
-#: kileui.rc:53 widgets/abbreviationview.cpp:120
+#: kileui.rc:55 widgets/abbreviationview.cpp:120
 #, kde-format
 msgid "&Edit"
 msgstr "编辑(&E)"
 
 #. i18n: ectx: Menu (complete)
-#: kileui.rc:61
+#: kileui.rc:63
 #, kde-format
 msgid "Co&mplete"
 msgstr "补全(&M)"
 
 #. i18n: ectx: Menu (bullet)
-#: kileui.rc:66
+#: kileui.rc:68
 #, kde-format
 msgid "&Bullets"
 msgstr "项目符号(&B)"
 
 #. i18n: ectx: Menu (select)
-#: kileui.rc:70 widgets/structurewidget.cpp:780
+#: kileui.rc:72 widgets/structurewidget.cpp:780
 #, kde-format
 msgid "&Select"
 msgstr "选择(&S)"
 
 #. i18n: ectx: Menu (delete)
-#: kileui.rc:83
+#: kileui.rc:85
 #, kde-format
 msgid "D&elete"
 msgstr "删除(&E)"
 
 #. i18n: ectx: Menu (environment)
-#: kileui.rc:96
+#: kileui.rc:98
 #, kde-format
 msgid "Environmen&t"
 msgstr "环境(&T)"
 
 #. i18n: ectx: Menu (texgroup)
-#: kileui.rc:104
+#: kileui.rc:106
 #, kde-format
 msgid "Te&X Group"
 msgstr "TeX 组(&X)"
 
 #. i18n: ectx: Menu (selection)
-#: kileui.rc:116
+#: kileui.rc:118
 #, kde-format
 msgid "&Selection"
 msgstr ""
 
 #. i18n: ectx: Menu (view)
 #. i18n: ectx: Menu (menu_viewer)
-#: kileui.rc:119 kileui.rc:160
+#: kileui.rc:121 kileui.rc:162
 #, kde-format
 msgid "&View"
 msgstr "视图(&V)"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1159 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:127 kileviewmanager.cpp:1159 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
 msgstr "文档查看器"
 
 #. i18n: ectx: Menu (go)
-#: kileui.rc:129
+#: kileui.rc:131
 #, kde-format
 msgid "&Go"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_build)
-#: kileui.rc:143
+#: kileui.rc:145
 #, kde-format
 msgid "B&uild"
 msgstr "构建(&U)"
 
 #. i18n: ectx: Menu (menu_compile)
-#: kileui.rc:156
+#: kileui.rc:158
 #, kde-format
 msgid "&Compile"
 msgstr "编译(&C)"
 
 #. i18n: ectx: Menu (menu_convert)
-#: kileui.rc:158
+#: kileui.rc:160
 #, kde-format
 msgid "C&onvert"
 msgstr "转换(&O)"
 
 #. i18n: ectx: Menu (menu_other)
-#: kileui.rc:162
+#: kileui.rc:164
 #, kde-format
 msgid "O&ther"
 msgstr "其他(&T)"
 
 #. i18n: ectx: Menu (menu_project)
-#: kileui.rc:180
+#: kileui.rc:182
 #, kde-format
 msgid "Pro&ject"
 msgstr "工程(&J)"
 
 #. i18n: ectx: Menu (menu_latex)
-#: kileui.rc:202
+#: kileui.rc:204
 #, kde-format
 msgid "LaTe&X"
 msgstr "LaTe&X"
 
 #. i18n: ectx: Menu (menu_preamble)
-#: kileui.rc:203
+#: kileui.rc:205
 #, kde-format
 msgid "&Preamble"
 msgstr "导言(&P)"
 
 #. i18n: ectx: Menu (menu_lists)
-#: kileui.rc:217
+#: kileui.rc:219
 #, kde-format
 msgid "Tables and Lists"
 msgstr "表格和列表"
 
 #. i18n: ectx: Menu (menu_sectioning)
-#: kileui.rc:228
+#: kileui.rc:230
 #, kde-format
 msgid "&Sectioning"
 msgstr "分节(&S)"
 
 #. i18n: ectx: Menu (references)
-#: kileui.rc:239
+#: kileui.rc:241
 #, kde-format
 msgid "&References"
 msgstr "引用(&R)"
 
 #. i18n: ectx: Menu (menu_environment)
-#: kileui.rc:251
+#: kileui.rc:253
 #, kde-format
 msgid "&Environment"
 msgstr "环境(&E)"
 
 #. i18n: ectx: Menu (menu_listenv)
-#: kileui.rc:262
+#: kileui.rc:264
 #, kde-format
 msgid "&List Environment"
 msgstr "列表环境(&L)"
 
 #. i18n: ectx: Menu (menu_tabularenv)
-#: kileui.rc:269
+#: kileui.rc:271
 #, kde-format
 msgid "&Tabular Environment"
 msgstr "表格环境(&T)"
 
 #. i18n: ectx: Menu (menu_floatenv)
-#: kileui.rc:280
+#: kileui.rc:282
 #, kde-format
 msgid "&Floating Environment"
 msgstr "浮动环境(&F)"
 
 #. i18n: ectx: Menu (menu_code)
-#: kileui.rc:284
+#: kileui.rc:286
 #, kde-format
 msgid "&Code Environment"
 msgstr "代码环境(&C)"
 
 #. i18n: ectx: Menu (menu_math)
-#: kileui.rc:292
+#: kileui.rc:294
 #, kde-format
 msgid "&Math Commands"
 msgstr "数学命令(&M)"
 
 #. i18n: ectx: Menu (menu_mathbraces)
-#: kileui.rc:303
+#: kileui.rc:305
 #, kde-format
 msgid "Braces"
 msgstr "大括号"
 
 #. i18n: ectx: Menu (menu_mathtext)
-#: kileui.rc:321
+#: kileui.rc:323
 #, kde-format
 msgid "AMS Text and Boxes"
 msgstr "AMS 文字和盒子"
 
 #. i18n: ectx: Menu (menu_mathfrac)
-#: kileui.rc:327
+#: kileui.rc:329
 #, kde-format
 msgid "AMS Fraction"
 msgstr "AMS 节"
 
 #. i18n: ectx: Menu (menu_mathbinom)
-#: kileui.rc:332
+#: kileui.rc:334
 #, kde-format
 msgid "AMS Binomial Expression"
 msgstr "AMS 二元表达式"
 
 #. i18n: ectx: Menu (menu_mathcommands)
-#: kileui.rc:337
+#: kileui.rc:339
 #, kde-format
 msgid "AMS Arrows"
 msgstr "AMS 箭头"
 
 #. i18n: ectx: Menu (menu_mathfontstyles)
-#: kileui.rc:342
+#: kileui.rc:344
 #, kde-format
 msgid "Math &Font Styles"
 msgstr "数学字体样式(&F)"
 
 #. i18n: ectx: Menu (menu_mathaccents)
-#: kileui.rc:352
+#: kileui.rc:354
 #, kde-format
 msgid "Math &Accents"
 msgstr "数学重音(&A)"
 
 #. i18n: ectx: Menu (menu_mathspaces)
-#: kileui.rc:364
+#: kileui.rc:366
 #, kde-format
 msgid "Math &Spaces"
 msgstr "数学空格(&S)"
 
 #. i18n: ectx: Menu (menu_mathenv)
-#: kileui.rc:375
+#: kileui.rc:377
 #, kde-format
 msgid "Standard Math &Environments"
 msgstr "标准数学环境(&E)"
 
 #. i18n: ectx: Menu (menu_mathamsenv)
-#: kileui.rc:384
+#: kileui.rc:386
 #, kde-format
 msgid "&AMS Math Environments"
 msgstr "AMS 数学环境(&A)"
 
 #. i18n: ectx: Menu (menu_amsenv_align)
-#: kileui.rc:385
+#: kileui.rc:387
 #, kde-format
 msgid "&Align Environments"
 msgstr "对齐环境(&F)"
 
 #. i18n: ectx: Menu (menu_amsenv_center)
-#: kileui.rc:398
+#: kileui.rc:400
 #, kde-format
 msgid "&Center Environments"
 msgstr "居中环境(&C)"
 
 #. i18n: ectx: Menu (menu_amsenv_multiline)
-#: kileui.rc:404
+#: kileui.rc:406
 #, kde-format
 msgid "Multi &Line Environments"
 msgstr "多行环境(&L)"
 
 #. i18n: ectx: Menu (menu_amsenv_matrix)
-#: kileui.rc:410
+#: kileui.rc:412
 #, kde-format
 msgid "&Matrix Environments"
 msgstr "矩阵环境(&M)"
 
-#. i18n: ectx: Menu (menu_mathamsenv)
-#: kileui.rc:423
+#. i18n: ectx: Menu (menu_mathbreqnenv)
+#: kileui.rc:425
 #, kde-format
 msgid "breqn Math Environments"
 msgstr ""
 
 #. i18n: ectx: Menu (menu_fontstyles)
-#: kileui.rc:436
+#: kileui.rc:438
 #, kde-format
 msgid "&Font Styles"
 msgstr "字体样式(&F)"
 
 #. i18n: ectx: Menu (menu_fontfamily)
-#: kileui.rc:446
+#: kileui.rc:448
 #, kde-format
 msgid "Font Family"
 msgstr "字体族"
 
 #. i18n: ectx: Menu (menu_fontseries)
-#: kileui.rc:451
+#: kileui.rc:453
 #, kde-format
 msgid "Font Series"
 msgstr "字体系列"
 
 #. i18n: ectx: Menu (menu_fontshape)
-#: kileui.rc:455
+#: kileui.rc:457
 #, kde-format
 msgid "Font Shape"
 msgstr "字体形状"
 
 #. i18n: ectx: Menu (menu_spacing)
-#: kileui.rc:462
+#: kileui.rc:464
 #, kde-format
 msgid "Spa&cing"
 msgstr "间距(&C)"
 
 #. i18n: ectx: Menu (menu_breaks)
-#: kileui.rc:463
+#: kileui.rc:465
 #, kde-format
 msgid "Page- and Linebreaks"
 msgstr "断行和分页"
 
 #. i18n: ectx: Menu (menu_skips)
-#: kileui.rc:470
+#: kileui.rc:472
 #, kde-format
 msgid "Space"
 msgstr "间距"
 
 #. i18n: ectx: Menu (menu_rubberlength)
-#: kileui.rc:481
+#: kileui.rc:483
 #, kde-format
 msgid "Rubber Lengths"
 msgstr "橡皮长度"
 
 #. i18n: ectx: Menu (wizard)
-#: kileui.rc:499
+#: kileui.rc:501
 #, kde-format
 msgid "&Wizard"
 msgstr "向导(&W)"
 
 #. i18n: ectx: Menu (help)
-#: kileui.rc:528
+#: kileui.rc:530
 #, kde-format
 msgid "&Help"
 msgstr "帮助(&H)"
 
 #. i18n: ectx: Menu (help_tex)
-#: kileui.rc:531
+#: kileui.rc:533
 #, kde-format
 msgid "LaTeX Documentation"
 msgstr "LaTeX 文档"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: kileui.rc:546
+#: kileui.rc:548
 #, kde-format
 msgid "Main"
 msgstr "主体"
 
 #. i18n: ectx: ToolBar (editToolBar)
-#: kileui.rc:562
+#: kileui.rc:564
 #, kde-format
 msgid "Edit"
 msgstr "编辑"

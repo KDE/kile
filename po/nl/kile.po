@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-27 00:38+0000\n"
-"PO-Revision-Date: 2024-05-13 10:48+0200\n"
+"PO-Revision-Date: 2024-05-27 10:25+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -6064,7 +6064,7 @@ msgstr "S&tatistieken"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "Map &openen waarin het zich bevindt"
 
 #: kile.cpp:858
 #, kde-format

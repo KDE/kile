@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-27 00:38+0000\n"
-"PO-Revision-Date: 2024-05-13 17:32+0300\n"
+"PO-Revision-Date: 2024-05-27 06:30+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -6026,7 +6026,7 @@ msgstr "С&татистика"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "Ві&дкрити теку, яка містить дані"
 
 #: kile.cpp:858
 #, kde-format

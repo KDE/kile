@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-27 00:38+0000\n"
-"PO-Revision-Date: 2024-02-26 11:16+0100\n"
+"PO-Revision-Date: 2024-05-29 11:28+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1755,7 +1755,7 @@ msgstr "Přejete si skutečně přepsat vybranou šablonu \"%1\"?"
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
 #, kde-format
 msgid "Replace template"
-msgstr ""
+msgstr "Nahradit šablonu"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -5021,7 +5021,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:282
 #, kde-format
 msgid "Discard tree"
-msgstr ""
+msgstr "Zahodit strom"
 
 #: dialogs/usermenu/usermenudialog.cpp:289
 #: dialogs/usermenu/usermenudialog.cpp:390 usermenu/usermenu.cpp:331
@@ -5951,7 +5951,7 @@ msgstr "S&tatistika"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "&Otevřít odpovídající složku"
 
 #: kile.cpp:858
 #, kde-format
@@ -9527,7 +9527,7 @@ msgstr "Matematika"
 #: kilestdactions.cpp:374
 #, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr ""
+msgstr "Matematický režim - \\(...\\)"
 
 #: kilestdactions.cpp:375
 #, kde-format
@@ -9929,7 +9929,7 @@ msgstr "Text mezi rovnicemi"
 #: kilestdactions.cpp:452
 #, kde-format
 msgid "Math - \\begin{math}"
-msgstr ""
+msgstr "Math - \\begin{math}"
 
 #: kilestdactions.cpp:454
 #, kde-format
@@ -10164,62 +10164,62 @@ msgstr "Bmatrix"
 #: kilestdactions.cpp:490
 #, kde-format
 msgid "dmath - \\begin{dmath}"
-msgstr ""
+msgstr "dmath - \\begin{dmath}"
 
 #: kilestdactions.cpp:490
 #, kde-format
 msgid "dmath"
-msgstr ""
+msgstr "dmath"
 
 #: kilestdactions.cpp:491
 #, kde-format
 msgid "dmath* - \\begin{dmath*}"
-msgstr ""
+msgstr "dmath* - \\begin{dmath*}"
 
 #: kilestdactions.cpp:491
 #, kde-format
 msgid "dmath*"
-msgstr ""
+msgstr "dmath*"
 
 #: kilestdactions.cpp:493
 #, kde-format
 msgid "dseries - \\begin{dseries}"
-msgstr ""
+msgstr "dseries - \\begin{dseries}"
 
 #: kilestdactions.cpp:493
 #, kde-format
 msgid "dseries"
-msgstr ""
+msgstr "dseries"
 
 #: kilestdactions.cpp:494
 #, kde-format
 msgid "dseries* - \\begin{dseries*}"
-msgstr ""
+msgstr "dseries* - \\begin{dseries*}"
 
 #: kilestdactions.cpp:494
 #, kde-format
 msgid "dseries*"
-msgstr ""
+msgstr "dseries*"
 
 #: kilestdactions.cpp:496
 #, kde-format
 msgid "dgroup - \\begin{dgroup}"
-msgstr ""
+msgstr "dgroup - \\begin{dgroup}"
 
 #: kilestdactions.cpp:496
 #, kde-format
 msgid "dgroup"
-msgstr ""
+msgstr "dgroup"
 
 #: kilestdactions.cpp:497
 #, kde-format
 msgid "dgroup* - \\begin{dgroup*}"
-msgstr ""
+msgstr "dgroup* - \\begin{dgroup*}"
 
 #: kilestdactions.cpp:497
 #, kde-format
 msgid "dgroup*"
-msgstr ""
+msgstr "dgroup*"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330
@@ -10719,7 +10719,7 @@ msgstr "&Maticová"
 #: kileui.rc:425
 #, kde-format
 msgid "breqn Math Environments"
-msgstr ""
+msgstr "breqn Math Environments"
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:438
@@ -11808,37 +11808,37 @@ msgstr "Meta"
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
 msgid "Ctrl + Shift"
-msgstr ""
+msgstr "Ctrl + Shift"
 
 #: widgets/latexconfigwidget.cpp:36
 #, kde-format
 msgid "Alt + Ctrl"
-msgstr ""
+msgstr "Alt + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:37
 #, kde-format
 msgid "Meta + Ctrl"
-msgstr ""
+msgstr "Meta + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:42
 #, kde-format
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format
 msgid "Cmd + Shift"
-msgstr ""
+msgstr "Cmd + Shift"
 
 #: widgets/latexconfigwidget.cpp:45
 #, kde-format
 msgid "Alt + Cmd"
-msgstr ""
+msgstr "Alt + Cmd"
 
 #: widgets/latexconfigwidget.cpp:46
 #, kde-format
 msgid "Ctrl + Cmd"
-msgstr ""
+msgstr "Ctrl + Cmd"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
@@ -12053,7 +12053,7 @@ msgstr "Vybrat nástroj"
 #: widgets/maintoolconfigwidget.ui:94
 #, kde-format
 msgid "Show hidden tools"
-msgstr ""
+msgstr "Zobrazit skryté nástroje"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)

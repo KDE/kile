@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-27 00:38+0000\n"
-"PO-Revision-Date: 2024-05-25 06:34+0200\n"
+"PO-Revision-Date: 2024-05-29 22:04+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -5957,7 +5957,7 @@ msgstr "Krei Ŝablonon el Dokumento..."
 #: kile.cpp:852
 #, kde-format
 msgid "&Remove Template..."
-msgstr "&Forigi Ŝablonon..."
+msgstr "Fo&rigi Ŝablonon..."
 
 #: kile.cpp:854 kile.cpp:985
 #, kde-format
@@ -5967,18 +5967,18 @@ msgstr "Fermi ĉiujn"
 #: kile.cpp:855
 #, kde-format
 msgid "Close All Ot&hers"
-msgstr "Fermu Ĉiujn Aliajn"
+msgstr "Fermi Ĉ&iujn Aliajn"
 
 #: kile.cpp:856
 #, kde-format
 msgid "S&tatistics"
-msgstr "S&statistiko"
+msgstr "S&tatistiko"
 
 #: kile.cpp:857
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "Malfermi Enhavantan D&osierujon"
 
 #: kile.cpp:858
 #, kde-format

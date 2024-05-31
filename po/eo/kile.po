@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-27 00:38+0000\n"
-"PO-Revision-Date: 2024-05-29 22:04+0200\n"
+"PO-Revision-Date: 2024-05-30 07:49+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -3190,7 +3190,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:105
 #, kde-format
 msgid "Cla&ss Options"
-msgstr "Klasaj Opcioj"
+msgstr "Kla&saj Elektebloj"
 
 #: dialogs/quickdocumentdialog.cpp:106
 #, kde-format
@@ -3227,7 +3227,7 @@ msgstr "&Tipogrando:"
 #: dialogs/quickdocumentdialog.cpp:190 dialogs/quickdocumentdialog.cpp:594
 #, kde-format
 msgid "Paper si&ze:"
-msgstr "Papera grandeco:"
+msgstr "Papera grande&co:"
 
 #: dialogs/quickdocumentdialog.cpp:213
 #, kde-format
@@ -3333,7 +3333,7 @@ msgstr "&Titolo:"
 #: dialogs/quickdocumentdialog.cpp:355
 #, kde-format
 msgid "Dat&e:"
-msgstr "Dato..."
+msgstr "Dat&o:"
 
 #: dialogs/quickdocumentdialog.cpp:592
 #, kde-format
@@ -4175,7 +4175,7 @@ msgstr "&Pakaĵo:"
 #: dialogs/quickdocumentdialog.cpp:1934
 #, kde-format
 msgid "&Select this package"
-msgstr "Elekti tiun pakaĵon"
+msgstr "&Selekti tiun pakaĵon"
 
 #: dialogs/quickdocumentdialog.cpp:1956
 #, kde-format
@@ -5637,42 +5637,42 @@ msgstr "Konservado malsukcesis kaj ĉesado nuliĝis."
 #: editorextension.cpp:60
 #, kde-format
 msgid "English quotes:   ``   &apos;&apos;"
-msgstr "Anglaj citaĵoj: `` ''"
+msgstr "Anglaj citiloj:   ``   &apos;&apos;"
 
 #: editorextension.cpp:61
 #, kde-format
 msgid "French quotes:   &quot;&lt;   &quot;&gt;"
-msgstr "Francaj citaĵoj:  &quot;&lt;   &quot;&gt;"
+msgstr "Francaj citiloj:   &quot;&lt;   &quot;&gt;"
 
 #: editorextension.cpp:62
 #, kde-format
 msgid "German quotes:   &quot;`   &quot;&apos;"
-msgstr "Germanaj citaĵoj:  &quot;`   &quot;&apos;"
+msgstr "Germanaj citiloj:   &quot;`   &quot;&apos;"
 
 #: editorextension.cpp:63
 #, kde-format
 msgid "French quotes (long):   \\flqq   \\frqq"
-msgstr "Francaj citaĵoj (longaj): \\flqq \\frqq"
+msgstr "Francaj citiloj (longaj): \\flqq \\frqq"
 
 #: editorextension.cpp:64
 #, kde-format
 msgid "German quotes (long):   \\glqq   \\grqq"
-msgstr "Germanaj citaĵoj (longaj): \\glqq \\grqq"
+msgstr "Germanaj citiloj (longaj): \\glqq \\grqq"
 
 #: editorextension.cpp:65
 #, kde-format
 msgid "Icelandic quotes (v1):   \\ilqq   \\irqq"
-msgstr "Islandaj citaĵoj (v1): \\ilqq \\irqq"
+msgstr "Islandaj citiloj (v1): \\ilqq \\irqq"
 
 #: editorextension.cpp:66
 #, kde-format
 msgid "Icelandic quotes (v2):   \\iflqq   \\ifrqq"
-msgstr "Islandaj citaĵoj (v2): \\iflqq \\ifrqq"
+msgstr "Islandaj citiloj (v2): \\iflqq \\ifrqq"
 
 #: editorextension.cpp:67
 #, kde-format
 msgid "Czech quotes:   \\uv{}"
-msgstr "Ĉeĥaj citaĵoj: \\uv{}"
+msgstr "Ĉeĥaj citiloj: \\uv{}"
 
 #: editorextension.cpp:68
 #, kde-format
@@ -6063,7 +6063,7 @@ msgstr "Trovu &en Dosieroj..."
 #: kile.cpp:883
 #, kde-format
 msgid "Refresh Str&ucture"
-msgstr "Refreŝigi Strukturon"
+msgstr "Refreŝigi Str&ukturon"
 
 #: kile.cpp:886
 #, kde-format
@@ -6083,7 +6083,7 @@ msgstr "Malfermi Lasttempan P&rojekton"
 #: kile.cpp:896
 #, kde-format
 msgid "A&dd Files to Project..."
-msgstr "Aldonu dosierojn al Projekto..."
+msgstr "Al&doni Dosierojn al Projekto..."
 
 #: kile.cpp:897 widgets/projectview.cpp:870
 #, kde-format
@@ -6113,17 +6113,17 @@ msgstr "&Montri Projektojn..."
 #: kile.cpp:904
 #, kde-format
 msgid "Re&move Files From Project..."
-msgstr "Forigi dosierojn de la projekto..."
+msgstr "Forigi Dosieroj&n de la Projekto..."
 
 #: kile.cpp:905
 #, kde-format
 msgid "Show Project &Files..."
-msgstr "Montri Projektojn &Dosieroj..."
+msgstr "Montri Projektajn &Dosierojn..."
 
 #: kile.cpp:907 widgets/projectview.cpp:868
 #, kde-format
 msgid "Open All &Project Files"
-msgstr "Malfermu Ĉiujn &Projektajn dosierojn"
+msgstr "Malfermu Ĉiujn &Projektajn Dosierojn"
 
 #: kile.cpp:908
 #, kde-format
@@ -6277,7 +6277,7 @@ msgstr "Matematikgrupo"
 #: kile.cpp:1005
 #, kde-format
 msgid "&Bibliography"
-msgstr "Bibliografio"
+msgstr "&Bibliografio"
 
 #. i18n: ectx: Menu (settings)
 #: kile.cpp:1011 kileui.rc:517
@@ -7521,7 +7521,7 @@ msgstr "Povus Determini Aktivan Projekton"
 #: kiledocmanager.cpp:1775
 #, kde-format
 msgid "Add Files to Project"
-msgstr "Aldonu dosierojn al Projekto"
+msgstr "Aldoni dosierojn al Projekto"
 
 #: kiledocmanager.cpp:1788
 #, kde-format
@@ -10546,13 +10546,13 @@ msgstr "&Redakti"
 #: kileui.rc:63
 #, kde-format
 msgid "Co&mplete"
-msgstr "Komplete"
+msgstr "Ko&mplete"
 
 #. i18n: ectx: Menu (bullet)
 #: kileui.rc:68
 #, kde-format
 msgid "&Bullets"
-msgstr "&Kgloj"
+msgstr "&Kugloj"
 
 #. i18n: ectx: Menu (select)
 #: kileui.rc:72 widgets/structurewidget.cpp:780
@@ -11825,7 +11825,7 @@ msgstr "Limskat&olo:"
 #: widgets/graphicsconfigwidget.ui:80
 #, kde-format
 msgid "Tr&y to determine from the picture"
-msgstr "Provu determini el la bildo"
+msgstr "Provi determ&ini el la bildo"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlBBoxHelp)
 #: widgets/graphicsconfigwidget.ui:93
@@ -11934,7 +11934,7 @@ msgstr "Agordi LaTeX-mediojn kaj komandojn"
 #: widgets/latexconfigwidget.ui:71
 #, kde-format
 msgid "Double Quotes"
-msgstr "Duoblaj Citaĵoj"
+msgstr "Duoblaj Citiloj"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InsertDoubleQuotes)
 #: widgets/latexconfigwidget.ui:80
@@ -12090,13 +12090,13 @@ msgstr "Kompilkonduto"
 #: widgets/livepreviewconfigwidget.ui:54
 #, kde-format
 msgid "Compile doc&uments after saving"
-msgstr "Kompilu dokumentojn post konservado"
+msgstr "Kompili dok&umentojn post konservado"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_compileDocumentOnChangesRadioButton)
 #: widgets/livepreviewconfigwidget.ui:63
 #, kde-format
 msgid "Compile documents whenever &there are changes after"
-msgstr "Kompilu dokumentojn kiam ajn &estas ŝanĝoj poste"
+msgstr "Kompili dokumentojn kiam ajn es&tas ŝanĝoj poste"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_livePreviewCompilationDelay)
 #: widgets/livepreviewconfigwidget.ui:70
@@ -12113,12 +12113,12 @@ msgstr "Agordi defaŭltan vivan antaŭrigardilon"
 #: widgets/logwidget.cpp:369
 #, kde-format
 msgid "Hide &Bad Boxes"
-msgstr "Kaŝi &Malbonajn Kestojn"
+msgstr "Kaŝi Mal&bonajn Kestojn"
 
 #: widgets/logwidget.cpp:375
 #, kde-format
 msgid "Hide (La)TeX &Warnings"
-msgstr "Kaŝi (Lateksaj Avertoj"
+msgstr "Kaŝi (La)TeX-A&vertojn"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/maintoolconfigwidget.ui:60
@@ -12179,7 +12179,7 @@ msgstr "Cel&celo etendo:"
 #: widgets/maintoolconfigwidget.ui:457
 #, kde-format
 msgid "Target &file:"
-msgstr "Celdosiero:"
+msgstr "Cel&dosiero:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: widgets/maintoolconfigwidget.ui:483
@@ -12545,7 +12545,7 @@ msgstr "&Forigi De Projekto"
 #: widgets/projectview.cpp:866
 #, kde-format
 msgid "A&dd Files..."
-msgstr "Aldoni dosierojn..."
+msgstr "Al&doni Dosierojn..."
 
 #: widgets/projectview.cpp:882 widgets/projectview.cpp:885
 #, kde-format
@@ -12801,19 +12801,19 @@ msgstr "Malfermu TODO/FIXME"
 #: widgets/structureviewconfigwidget.ui:193
 #, kde-format
 msgid "Show figure and table en&vironments"
-msgstr "Montru figurojn kaj tabelajn mediojn"
+msgstr "Montri &figurajn kaj tabelajn mediojn"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowGraphics)
 #: widgets/structureviewconfigwidget.ui:200
 #, kde-format
 msgid "Show graphic files"
-msgstr "Montru grafikajn dosierojn"
+msgstr "Montri grafikajn dosierojn"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowInputFiles)
 #: widgets/structureviewconfigwidget.ui:207
 #, kde-format
 msgid "Show input files"
-msgstr "Montru enigajn dosierojn"
+msgstr "Montri enigajn dosierojn"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowSectioningLabels)
 #: widgets/structureviewconfigwidget.ui:217

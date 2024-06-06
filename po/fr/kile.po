@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-27 00:38+0000\n"
-"PO-Revision-Date: 2024-05-07 10:23+0200\n"
+"PO-Revision-Date: 2024-06-04 09:58+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -35,9 +35,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.5\n"
-"X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
+"X-Environment: kde\n"
+"X-Generator: Lokalize 23.08.5\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -4830,9 +4830,9 @@ msgid ""
 "installed.</p>"
 msgstr ""
 "<p>Une liste de la documentation fournie par la distribution TeX installée.</"
-"p> <p>Ouvrez une visionneuse pour afficher le fichier correspondant en "
-"double cliquant sur un élément ou en appuyant sur la barre d'espace.</p> "
-"<p>Les éléments grisés ne sont pas installés.</p>"
+"p><p>Ouvrez un afficheur pour l'affichage du fichier correspondant par un "
+"double clic sur un élément ou en appuyant sur la barre d'espace.</p><p>Les "
+"éléments grisés ne sont pas installés.</p>"
 
 #: dialogs/texdocumentationdialog.cpp:87
 #, kde-format
@@ -6109,7 +6109,7 @@ msgstr "S&tatistiques"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "&Ouvrir le dossier contenant"
 
 #: kile.cpp:858
 #, kde-format
@@ -6712,7 +6712,7 @@ msgstr ""
 #: kile.kcfg:85
 #, kde-format
 msgid "Show TODO and FIXME comments"
-msgstr "Afficher les commentaires A_FAIRE (TODO) et A_CORRIGER (FIXME)"
+msgstr "Afficher les commentaires « A-FAIRE » (TODO) et « A-CORRIGER » (FIXME)"
 
 #. i18n: ectx: label, entry (SvOpenLabels), group (Structure)
 #: kile.kcfg:89
@@ -6972,13 +6972,13 @@ msgstr ""
 #: kile.kcfg:214
 #, kde-format
 msgid "Click in editor to select from cursor"
-msgstr ""
+msgstr "Cliquez dans l'éditeur pour sélectionner à partir du curseur"
 
 #. i18n: ectx: label, entry (envEventSearchModifier), group (Editor Ext)
 #: kile.kcfg:218
 #, kde-format
 msgid "Click in editor to search in viewer"
-msgstr ""
+msgstr "Veuillez cliquer dans l'éditeur pour rechercher dans la visionneuse"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
 #: kile.kcfg:226
@@ -12110,59 +12110,57 @@ msgstr "Con&figurer..."
 #: widgets/latexconfigwidget.cpp:31
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Maj"
 
 #: widgets/latexconfigwidget.cpp:32 widgets/latexconfigwidget.cpp:43
 #, kde-format
 msgid "Ctrl"
-msgstr ""
+msgstr "CTRL"
 
 #: widgets/latexconfigwidget.cpp:33
-#, fuzzy, kde-format
-#| msgid "Alignat"
+#, kde-format
 msgid "Alt"
-msgstr "Alignat"
+msgstr "ALT"
 
 #: widgets/latexconfigwidget.cpp:34
 #, kde-format
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
 msgid "Ctrl + Shift"
-msgstr ""
+msgstr "CTRL + Maj"
 
 #: widgets/latexconfigwidget.cpp:36
 #, kde-format
 msgid "Alt + Ctrl"
-msgstr ""
+msgstr "ALT + CTRL"
 
 #: widgets/latexconfigwidget.cpp:37
 #, kde-format
 msgid "Meta + Ctrl"
-msgstr ""
+msgstr "Méta + CTRL"
 
 #: widgets/latexconfigwidget.cpp:42
-#, fuzzy, kde-format
-#| msgid "Command"
+#, kde-format
 msgid "Cmd"
-msgstr "Commande"
+msgstr "Cmd"
 
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format
 msgid "Cmd + Shift"
-msgstr ""
+msgstr "Cmd + Maj"
 
 #: widgets/latexconfigwidget.cpp:45
 #, kde-format
 msgid "Alt + Cmd"
-msgstr ""
+msgstr "Alt + Cmd"
 
 #: widgets/latexconfigwidget.cpp:46
 #, kde-format
 msgid "Ctrl + Cmd"
-msgstr ""
+msgstr "CTRL + Cmd"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
@@ -12256,19 +12254,19 @@ msgstr "B&STINPUTS :"
 #: widgets/latexconfigwidget.ui:258
 #, kde-format
 msgid "Modifiers for Left Click Actions"
-msgstr ""
+msgstr "Modificateurs pour les actions sur clic gauche"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/latexconfigwidget.ui:267
 #, kde-format
 msgid "Modifier for forward search in viewer:"
-msgstr ""
+msgstr "Modificateur pour la recherche en avant dans l'afficheur :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: widgets/latexconfigwidget.ui:280
 #, kde-format
 msgid "Modifier for selecting from cursor:"
-msgstr ""
+msgstr "Modificateur pour la sélection à partir du curseur :"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckRootDoc)
 #: widgets/latextoolconfigwidget.ui:35

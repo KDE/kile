@@ -11129,7 +11129,7 @@ msgstr "版本错误"
 #: scriptmanager.cpp:108
 #, kde-format
 msgid "Cannot start the script: no view available"
-msgstr "无法启动脚本：无可用的视图"
+msgstr "无法启动脚本：没有可用的视图"
 
 #: scriptmanager.cpp:108
 #, kde-format

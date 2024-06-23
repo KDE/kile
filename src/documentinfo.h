@@ -485,7 +485,7 @@ public:
               KileParser::Manager *parserManager,
               KileTool::Manager *toolManager);
 
-    virtual ~LaTeXInfo();
+    virtual ~LaTeXInfo() override;
 
     virtual Type getType() override;
 
@@ -537,7 +537,7 @@ public:
              KileAbbreviation::Manager *abbreviationManager,
              KileParser::Manager *parserManager,
              LatexCommands* commands);
-    virtual ~BibInfo();
+    virtual ~BibInfo() override;
 
     virtual bool isLaTeXRoot() override;
 
@@ -560,7 +560,7 @@ public:
                KileAbbreviation::Manager *abbreviationManager,
                KileParser::Manager *parserManager);
 
-    virtual ~ScriptInfo();
+    virtual ~ScriptInfo() override;
 
     virtual bool isLaTeXRoot() override;
 

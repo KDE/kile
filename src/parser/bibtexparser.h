@@ -32,7 +32,7 @@ public:
 class BibTeXParserOutput : public ParserOutput {
 public:
     BibTeXParserOutput();
-    virtual ~BibTeXParserOutput();
+    virtual ~BibTeXParserOutput() override;
 
     QStringList bibItems;
 };
@@ -44,7 +44,7 @@ class BibTeXParser : public Parser
 
 public:
     BibTeXParser(ParserThread *parserThread, BibTeXParserInput *input, QObject *parent = Q_NULLPTR);
-    virtual ~BibTeXParser();
+    virtual ~BibTeXParser() override;
 
     ParserOutput* parse() override;
 

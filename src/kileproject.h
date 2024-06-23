@@ -206,7 +206,7 @@ public:
     KileProject(const QString& name, const QUrl &url, KileDocument::Extensions *extensions);
     KileProject(const QUrl &url, KileDocument::Extensions *extensions);
 
-    ~KileProject();
+    ~KileProject() override;
 
     void setName(const QString & name) {
         m_name = name;

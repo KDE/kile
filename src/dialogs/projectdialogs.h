@@ -98,7 +98,7 @@ class KileNewProjectDialog : public KileProjectDialogBase
 
 public:
     KileNewProjectDialog(KileTemplate::Manager *templateManager, KileDocument::Extensions *extensions, QWidget* parent = Q_NULLPTR, const char* name = Q_NULLPTR);
-    ~KileNewProjectDialog();
+    ~KileNewProjectDialog() override;
 
     KileProject *project() Q_DECL_OVERRIDE;
 
@@ -138,7 +138,7 @@ class KileProjectOptionsDialog : public KileProjectDialogBase
 
 public:
     KileProjectOptionsDialog(KileProject *project, KileDocument::Extensions *extensions, QWidget *parent = Q_NULLPTR, const char * name = Q_NULLPTR);
-    ~KileProjectOptionsDialog();
+    ~KileProjectOptionsDialog() override;
 
 private Q_SLOTS:
     void toggleMakeIndex(bool);

@@ -82,7 +82,7 @@ class ProcessLauncher : public Launcher
 
 public:
     ProcessLauncher();
-    ~ProcessLauncher();
+    ~ProcessLauncher() override;
 
 public:
     virtual void setWorkingDirectory(const QString &wd) override;

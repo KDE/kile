@@ -83,7 +83,7 @@ class OkularVersionTest : public ConfigTest
     Q_OBJECT
 public:
     OkularVersionTest(const QString& testGroup, bool isCritical);
-    ~OkularVersionTest();
+    ~OkularVersionTest() override;
 
     virtual void call() override;
 
@@ -98,7 +98,7 @@ class FindProgramTest : public ConfigTest
     Q_OBJECT
 public:
     FindProgramTest(const QString& testGroup, const QString& programName, bool isCritical);
-    ~FindProgramTest();
+    ~FindProgramTest() override;
 
     virtual void call() override;
 
@@ -114,7 +114,7 @@ class TestToolInKileTest : public ConfigTest
     Q_OBJECT
 public:
     TestToolInKileTest(const QString& testGroup, KileInfo *kileInfo, const QString& toolName, const QString& filePath, bool isCritical);
-    ~TestToolInKileTest();
+    ~TestToolInKileTest() override;
 
     virtual void call() override;
 
@@ -140,7 +140,7 @@ public:
                 const QString& arg1,
                 const QString& arg2 = QString(),
                 bool isCritical = false);
-    ~ProgramTest();
+    ~ProgramTest() override;
 
     virtual void call() override;
 
@@ -166,7 +166,7 @@ class LaTeXSrcSpecialsSupportTest : public ProgramTest
 public:
     LaTeXSrcSpecialsSupportTest(const QString& testGroup, const QString& workingDir,
                                 const QString& fileBaseName);
-    ~LaTeXSrcSpecialsSupportTest();
+    ~LaTeXSrcSpecialsSupportTest() override;
 
 protected:
     QString m_fileBaseName;
@@ -182,7 +182,7 @@ class SyncTeXSupportTest : public ProgramTest
 public:
     SyncTeXSupportTest(const QString& testGroup, const QString& toolName, const QString& workingDir,
                        const QString& fileBaseName);
-    ~SyncTeXSupportTest();
+    ~SyncTeXSupportTest() override;
 
 protected:
     QString m_fileBaseName;

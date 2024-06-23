@@ -104,7 +104,7 @@ class Kile : public KParts::MainWindow, public KileInfo
 
 public:
     explicit Kile(bool allowRestore = true, QWidget *parent = Q_NULLPTR);
-    ~Kile();
+    ~Kile() override;
 
     int lineNumber() override;
     KileWidget::StatusBar * statusBar();

@@ -42,7 +42,7 @@ public:
 class LaTeXOutputParserOutput : public ParserOutput {
 public:
     LaTeXOutputParserOutput();
-    virtual ~LaTeXOutputParserOutput();
+    virtual ~LaTeXOutputParserOutput() override;
 
     QString problem;
     QString logFile;
@@ -82,7 +82,7 @@ class LaTeXOutputParser : public Parser
 
 public:
     LaTeXOutputParser(ParserThread *parserThread, LaTeXOutputParserInput *input, QObject *parent = Q_NULLPTR);
-    virtual ~LaTeXOutputParser();
+    virtual ~LaTeXOutputParser() override;
 
     ParserOutput* parse() override;
 

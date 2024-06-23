@@ -47,7 +47,7 @@ public:
 class LaTeXParserOutput : public ParserOutput {
 public:
     LaTeXParserOutput();
-    virtual ~LaTeXParserOutput();
+    virtual ~LaTeXParserOutput() override;
 
     QStringList labels;
     QStringList bibItems;
@@ -68,7 +68,7 @@ class LaTeXParser : public Parser
 public:
     LaTeXParser(ParserThread *parserThread, LaTeXParserInput *input,
                 QObject *parent = Q_NULLPTR);
-    virtual ~LaTeXParser();
+    virtual ~LaTeXParser() override;
 
     ParserOutput* parse() override;
 

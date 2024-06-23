@@ -91,7 +91,7 @@ class DocumentParserThread : public ParserThread
 
 public:
     explicit DocumentParserThread(KileInfo *info, QObject *parent = Q_NULLPTR);
-    virtual ~DocumentParserThread();
+    virtual ~DocumentParserThread() override;
 
 public Q_SLOTS:
     void addDocument(KileDocument::TextInfo *textInfo);
@@ -110,7 +110,7 @@ class OutputParserThread: public ParserThread
 
 public:
     explicit OutputParserThread(KileInfo *info, QObject *parent = Q_NULLPTR);
-    virtual ~OutputParserThread();
+    virtual ~OutputParserThread() override;
 
 public Q_SLOTS:
     void addLaTeXLogFile(const QString& logFile, const QString& sourceFile,

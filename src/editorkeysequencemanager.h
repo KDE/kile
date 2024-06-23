@@ -55,7 +55,7 @@ public:
 class ExecuteScriptAction : public Action {
 public:
     ExecuteScriptAction(KileScript::Script *script, KileScript::Manager *scriptManager);
-    virtual ~ExecuteScriptAction();
+    virtual ~ExecuteScriptAction() override;
 
     virtual void execute() override;
     virtual QString getDescription() const override;

@@ -910,7 +910,7 @@ void moveConfigGroupKeysAsStrings(KConfig *src, KConfig *dst, const QString& gro
 
     for(const QString& key : keysToMove) {
         if(srcGroup.hasKey(key)) {
-            QString value = srcGroup.readEntry(key, QStringLiteral(""));
+            QString value = srcGroup.readEntry(key, QString());
             dstGroup.writeEntry(key, value);
             srcGroup.deleteEntry(key);
         }

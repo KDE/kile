@@ -86,11 +86,11 @@ public Q_SLOTS:
     void fileSelected(const KFileItem& file);
 
     void fileOpen();
-    inline TextInfo* fileOpen(const QString& localFile, const QString& encoding = QString(), int index = -1)
+    inline KileDocument::TextInfo* fileOpen(const QString& localFile, const QString& encoding = QString(), int index = -1)
     {
         return fileOpen(QUrl::fromLocalFile(localFile), encoding, index);
     }
-    TextInfo* fileOpen(const QUrl &url, const QString& encoding = QString(), int index = -1);
+    KileDocument::TextInfo* fileOpen(const QUrl &url, const QString& encoding = QString(), int index = -1);
 
     bool fileSave(KTextEditor::View* = Q_NULLPTR);
     bool fileSaveAs(KTextEditor::View* = Q_NULLPTR);

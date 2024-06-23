@@ -124,7 +124,7 @@ public Q_SLOTS:
     void remove(const QUrl &url);
     void remove(const KileProject *project);
     void removeItem(const KileProjectItem *, bool);
-    ProjectViewItem* add(KileProjectItem *item, ProjectViewItem *projvi = Q_NULLPTR);
+    KileWidget::ProjectViewItem* add(KileProjectItem *item, KileWidget::ProjectViewItem *projvi = Q_NULLPTR);
 
 Q_SIGNALS:
     void fileSelected(const KileProjectItem *);

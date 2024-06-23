@@ -552,11 +552,11 @@ QList<ToolConfigPair> toolsWithConfigurationsBasedOnClass(KConfig *config, const
         if(config->hasGroup(group) // 'group' might have been deleted
            && re.exactMatch(group)) {
             const QString toolName = re.cap(1);
-            const QString configName = re.cap(2);
+            const QString groupConfigName = re.cap(2);
 
             if(!toolName.isEmpty()
                && (config->group(group).readEntry("class", "") == className)) {
-                toReturn.push_back(ToolConfigPair(toolName, configName));
+                toReturn.push_back(ToolConfigPair(toolName, groupConfigName));
             }
         }
     }

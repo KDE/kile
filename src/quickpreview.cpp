@@ -232,10 +232,10 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 
     KileTool::Base *dvips = Q_NULLPTR;
     if(!previewlist[1].isEmpty()) {
-        QString dvipstool = previewlist[pvDvips] + " (" + previewlist[pvDvipsCfg] + ')';
         KILE_DEBUG_MAIN << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << Qt::endl;
         dvips = m_ki->toolManager()->createTool(previewlist[pvDvips], previewlist[pvDvipsCfg]);
         if(!dvips) {
+            QString dvipstool = previewlist[pvDvips] + " (" + previewlist[pvDvipsCfg] + ')';
             showError(i18n("Could not run '%1' for QuickPreview.",dvipstool));
             return false;
         }

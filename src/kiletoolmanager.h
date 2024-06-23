@@ -156,7 +156,7 @@ private:
     void initTool(Base*);
 
 private Q_SLOTS:
-    int runImmediately(Base *tool, bool insertAtTop = false, bool block = false, Base *parent = Q_NULLPTR);
+    int runImmediately(KileTool::Base *tool, bool insertAtTop = false, bool block = false, KileTool::Base *parent = Q_NULLPTR);
     int runNextInQueue();
     void enableClear();
 
@@ -167,7 +167,7 @@ private Q_SLOTS:
     void stopActionDestroyed();
 
     // must be used when a child tool is launched from within another tool!
-    int runChildNext(Base *parent, Base *tool, bool block = false);
+    int runChildNext(KileTool::Base *parent, KileTool::Base *tool, bool block = false);
 
     void toolScheduledAfterParsingDestroyed(KileTool::Base *tool);
     void handleDocumentParsingComplete();

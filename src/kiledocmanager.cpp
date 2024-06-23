@@ -592,9 +592,9 @@ KTextEditor::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *i
     }
     else {
         KILE_DEBUG_MAIN << "\tloadItem: no document generated";
-        TextInfo *docinfo = item->getInfo();
 
         if(!docFor(item->url())) {
+            TextInfo *docinfo = item->getInfo();
             docinfo->detach();
             KILE_DEBUG_MAIN << "\t\t\tdetached";
         }
@@ -1153,11 +1153,9 @@ bool Manager::fileCloseAllOthers(KTextEditor::View *currentView)
 
 bool Manager::fileCloseAll()
 {
-    KTextEditor::View * view = m_ki->viewManager()->currentTextView();
-
     //assumes one view per doc here
     while(m_ki->viewManager()->textViewCount() > 0) {
-        view = m_ki->viewManager()->textView(0);
+        KTextEditor::View *view = m_ki->viewManager()->textView(0);
         if (!fileClose(view->document())) {
             return false;
         }
@@ -1313,8 +1311,6 @@ void Manager::projectNew()
         if(dlg->createNewFile()) {
             m_currentlyOpeningFile = true; // don't let live preview interfere
 
-            QString filename = dlg->file();
-
             //create the new document and fill it with the template
             KTextEditor::View *view = loadTemplate(dlg->getSelection());
 
@@ -1322,6 +1318,7 @@ void Manager::projectNew()
                 //derive the URL from the base url of the project
                 QUrl url = project->baseURL();
                 url = url.adjusted(QUrl::StripTrailingSlash);
+                QString filename = dlg->file();
                 url.setPath(url.path() + '/' + filename);
 
                 newTextInfo = textInfoFor(view->document());

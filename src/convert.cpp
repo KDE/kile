@@ -122,9 +122,9 @@ bool ConvertMap::load()
 
     if(qf.open(QIODevice::ReadOnly)) {
         QTextStream stream(&qf);
-        auto encoding = QStringConverter::encodingForName(isoName().toLatin1().constData());
-        if(encoding) {
-            stream.setEncoding(*encoding);
+        auto newEncoding = QStringConverter::encodingForName(isoName().toLatin1().constData());
+        if(newEncoding) {
+            stream.setEncoding(*newEncoding);
         }
 
         while(!stream.atEnd()) {

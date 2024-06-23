@@ -85,14 +85,14 @@ void UserMenuItem::setModelData(bool executable)
 //  - if a (useless) submenu with no children is given, the menutitle 'title' is changed to 'title >'
 QString UserMenuItem::updateMenutitle()
 {
-    QString menutitle = m_data.menutitle;
-    if ( menutitle.isEmpty() ) {
-        menutitle = EMPTY_MENUENTRY;
+    QString newMenutitle = m_data.menutitle;
+    if ( newMenutitle.isEmpty() ) {
+        newMenutitle = EMPTY_MENUENTRY;
     }
     else if ( m_data.menutype==UserMenuData::Submenu && childCount()==0 ) {
-        menutitle += EMPTY_SUBMENU;
+        newMenutitle += EMPTY_SUBMENU;
     }
-    return menutitle;
+    return newMenutitle;
 }
 
 

@@ -67,7 +67,7 @@ class LaTeXParser : public Parser
 
 public:
     LaTeXParser(ParserThread *parserThread, LaTeXParserInput *input,
-                QObject *parent = Q_NULLPTR);
+                QObject *parent = nullptr);
     virtual ~LaTeXParser() override;
 
     ParserOutput* parse() override;

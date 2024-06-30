@@ -46,7 +46,7 @@ class StructureViewItem : public QTreeWidgetItem
 public:
     StructureViewItem(QTreeWidgetItem *parent, const QString &title, const QUrl &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
     StructureViewItem(QTreeWidget *parent, const QString &label);
-    explicit StructureViewItem(const QString &label, QTreeWidgetItem *parent = Q_NULLPTR);
+    explicit StructureViewItem(const QString &label, QTreeWidgetItem *parent = nullptr);
 
     /** @returns the title of this element (for a label it return the label), without the (line ...) part **/
     const QString& title() const {
@@ -193,7 +193,7 @@ class StructureWidget : public QStackedWidget
     Q_OBJECT
 
 public:
-    StructureWidget(KileInfo*, QWidget *parent, const char *name = Q_NULLPTR);
+    StructureWidget(KileInfo*, QWidget *parent, const char *name = nullptr);
     ~StructureWidget();
 
     int level();

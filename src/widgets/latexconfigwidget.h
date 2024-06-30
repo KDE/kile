@@ -26,7 +26,7 @@ class KileWidgetLatexConfig : public QWidget, public Ui::KileWidgetLatexConfig {
     Q_OBJECT
 
 public:
-    explicit KileWidgetLatexConfig(KConfig* config, KileInfo* ki, QWidget* parent = Q_NULLPTR);
+    explicit KileWidgetLatexConfig(KConfig* config, KileInfo* ki, QWidget* parent = nullptr);
     ~KileWidgetLatexConfig();
 
     void readConfig();

@@ -52,7 +52,7 @@ LaTeXOutputParserOutput::~LaTeXOutputParserOutput()
 LaTeXOutputParser::LaTeXOutputParser(ParserThread *parserThread, LaTeXOutputParserInput *input, QObject *parent)
     : Parser(parserThread, parent),
       m_extensions(input->extensions),
-      m_infoList(Q_NULLPTR),
+      m_infoList(nullptr),
       m_logFile(input->url.toLocalFile()),
       texfilename(input->texfilename),
       selrow(input->selrow),
@@ -671,7 +671,7 @@ ParserOutput* LaTeXOutputParser::parse()
             qCDebug(LOG_KILE_PARSER) << "stopping...";
             delete(parserOutput);
             f.close();
-            return Q_NULLPTR;
+            return nullptr;
         }
         QString s = t.readLine();
         sCookie = parseLine(s.trimmed(), sCookie);

@@ -52,8 +52,8 @@ namespace KileDialog
 TexDocDialog::TexDocDialog(QWidget *parent)
     : QDialog(parent)
     , m_buttonBox(new QDialogButtonBox(QDialogButtonBox::RestoreDefaults|QDialogButtonBox::Close))
-    , m_tempfile(Q_NULLPTR)
-    , m_proc(Q_NULLPTR)
+    , m_tempfile(nullptr)
+    , m_proc(nullptr)
 {
     setWindowTitle(i18n("Documentation Browser"));
     setModal(true);
@@ -179,7 +179,7 @@ void TexDocDialog::showToc(const QString &caption, const QStringList &doclist, b
 {
     QString section;
     QStringList keylist;
-    QTreeWidgetItem *itemsection = Q_NULLPTR;
+    QTreeWidgetItem *itemsection = nullptr;
 
     setUpdatesEnabled(false);
     m_texdocs->setHeaderLabel(caption);

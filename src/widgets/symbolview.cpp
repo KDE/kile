@@ -246,7 +246,7 @@ QString SymbolView::getToolTip(const QString &key)
 void SymbolView::mousePressEvent(QMouseEvent *event)
 {
     Command cmd;
-    QListWidgetItem *item = Q_NULLPTR;
+    QListWidgetItem *item = nullptr;
     bool math = false, bracket = false;
 
     if(event->button() == Qt::LeftButton && (item = itemAt(event->pos()))) {
@@ -412,7 +412,7 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
         return;
     }
 
-    QListWidgetItem *tmpItem = Q_NULLPTR;
+    QListWidgetItem *tmpItem = nullptr;
     bool found = false;
     const QRegularExpression reCnt("^\\d+");
 
@@ -429,7 +429,7 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
     if(!found
             && static_cast<unsigned int>(this->count() + 1) > KileConfig::numSymbolsMFUS()) {   // we check before adding the symbol
         int refCnt, minRefCnt = 10000;
-        QListWidgetItem *unpopularItem = Q_NULLPTR;
+        QListWidgetItem *unpopularItem = nullptr;
 
         KILE_DEBUG_MAIN << "Removing most unpopular item";
 

@@ -39,7 +39,7 @@ namespace KileWidget
 {
 Konsole::Konsole(KileInfo * info, QWidget *parent) :
     QFrame(parent),
-    m_part(Q_NULLPTR),
+    m_part(nullptr),
     m_ki(info)
 {
     setLayout(new QVBoxLayout(this));
@@ -74,7 +74,7 @@ void Konsole::spawn()
     if(!qobject_cast<TerminalInterface*>(m_part)) {
         KILE_DEBUG_MAIN << "Did not find the TerminalInterface";
         delete m_part;
-        m_part = Q_NULLPTR;
+        m_part = nullptr;
         return;
     }
 
@@ -94,7 +94,7 @@ void Konsole::sync()
     }
 
     KTextEditor::Document *doc = m_ki->activeTextDocument();
-    KTextEditor::View *view = Q_NULLPTR;
+    KTextEditor::View *view = nullptr;
 
     if(doc) {
         view = doc->views().first();
@@ -150,7 +150,7 @@ void Konsole::slotDestroyed ()
 {
     // there is no need to remove the widget from the layout as this is done
     // automatically when the widget is destroyed
-    m_part = Q_NULLPTR;
+    m_part = nullptr;
     spawn();
 }
 }

@@ -251,7 +251,7 @@ bool UserMenuTree::readXml(const QString &filename)
     while ( !e.isNull()) {
         QString tag = e.tagName();
 
-        UserMenuItem *item = Q_NULLPTR;
+        UserMenuItem *item = nullptr;
         if ( tag == "submenu" ) {
             item = readXmlSubmenu(e);
         }
@@ -295,7 +295,7 @@ UserMenuItem *UserMenuTree::readXmlSubmenu(const QDomElement &element)
     if ( element.hasChildNodes() ) {
         QDomElement e = element.firstChildElement();
         while ( !e.isNull()) {
-            UserMenuItem *item = Q_NULLPTR;
+            UserMenuItem *item = nullptr;
 
             QString title;
             QString tag = e.tagName();
@@ -723,7 +723,7 @@ bool UserMenuTree::insertSeparator(QTreeWidgetItem *current, bool below)
 
 void UserMenuTree::insertMenuItemAbove(QTreeWidgetItem *current, UserMenuData::MenuType type, const QString &menulabel)
 {
-    QTreeWidgetItem *parent = ( current ) ? current->parent() : Q_NULLPTR;
+    QTreeWidgetItem *parent = ( current ) ? current->parent() : nullptr;
     int index = itemIndex(parent,current);
 
     UserMenuItem *item = new UserMenuItem(type,menulabel);
@@ -736,7 +736,7 @@ void UserMenuTree::insertMenuItemAbove(QTreeWidgetItem *current, UserMenuData::M
 void UserMenuTree::insertMenuItemBelow(QTreeWidgetItem *current, UserMenuData::MenuType type, const QString &menulabel)
 {
     UserMenuItem *item;
-    QTreeWidgetItem *parent = ( current ) ? current->parent() : Q_NULLPTR;
+    QTreeWidgetItem *parent = ( current ) ? current->parent() : nullptr;
 
     if(!parent) {
         item = new UserMenuItem(this,current,type,menulabel);
@@ -780,7 +780,7 @@ void UserMenuTree::itemDelete(QTreeWidgetItem *current)
             selectitem = topLevelItem(index-1);
         }
         else {
-            selectitem = Q_NULLPTR;
+            selectitem = nullptr;
         }
 
         item = takeTopLevelItem(index);

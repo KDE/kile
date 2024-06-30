@@ -51,34 +51,34 @@
 
 KileInfo::KileInfo(KParts::MainWindow *parent)
     : m_mainWindow(parent),
-      m_configurationManager(Q_NULLPTR),
-      m_docManager(Q_NULLPTR),
-      m_viewManager(Q_NULLPTR),
-      m_manager(Q_NULLPTR),
-      m_templateManager(Q_NULLPTR),
-      m_jScriptManager(Q_NULLPTR),
-      m_editorKeySequenceManager(Q_NULLPTR),
-      m_toolFactory(Q_NULLPTR),
-      m_texKonsole(Q_NULLPTR),
-      m_outputWidget(Q_NULLPTR),
-      m_scriptsManagementWidget(Q_NULLPTR),
-      m_bottomBar(Q_NULLPTR),
-      m_previewWidget(Q_NULLPTR),
-      m_previewScrollArea(Q_NULLPTR),
-      m_codeCompletionManager(Q_NULLPTR),
-      m_abbreviationManager(Q_NULLPTR),
-      m_parserManager(Q_NULLPTR),
-      m_errorHandler(Q_NULLPTR),
-      m_editorCommands(Q_NULLPTR),
-      m_help(Q_NULLPTR),
-      m_edit(Q_NULLPTR),
-      m_latexCommands(Q_NULLPTR),
-      m_extensions(Q_NULLPTR),
-      m_quickPreview(Q_NULLPTR),
-      m_userMenu(Q_NULLPTR),
-      m_livePreviewManager(Q_NULLPTR),
-      m_kwStructure(Q_NULLPTR),
-      m_fileBrowserWidget(Q_NULLPTR)
+      m_configurationManager(nullptr),
+      m_docManager(nullptr),
+      m_viewManager(nullptr),
+      m_manager(nullptr),
+      m_templateManager(nullptr),
+      m_jScriptManager(nullptr),
+      m_editorKeySequenceManager(nullptr),
+      m_toolFactory(nullptr),
+      m_texKonsole(nullptr),
+      m_outputWidget(nullptr),
+      m_scriptsManagementWidget(nullptr),
+      m_bottomBar(nullptr),
+      m_previewWidget(nullptr),
+      m_previewScrollArea(nullptr),
+      m_codeCompletionManager(nullptr),
+      m_abbreviationManager(nullptr),
+      m_parserManager(nullptr),
+      m_errorHandler(nullptr),
+      m_editorCommands(nullptr),
+      m_help(nullptr),
+      m_edit(nullptr),
+      m_latexCommands(nullptr),
+      m_extensions(nullptr),
+      m_quickPreview(nullptr),
+      m_userMenu(nullptr),
+      m_livePreviewManager(nullptr),
+      m_kwStructure(nullptr),
+      m_fileBrowserWidget(nullptr)
 {
     m_configurationManager = new KileConfiguration::Manager(this, parent, "KileConfiguration::Manager");
     m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
@@ -99,7 +99,7 @@ KTextEditor::Document * KileInfo::activeTextDocument() const
 {
     KTextEditor::View *view = viewManager()->currentTextView();
     if (view) return view->document();
-    else return Q_NULLPTR;
+    else return nullptr;
 }
 
 QString KileInfo::getName(KTextEditor::Document *doc, bool shrt) const
@@ -126,13 +126,13 @@ QString KileInfo::getName(KTextEditor::Document *doc, bool shrt) const
 
 LaTeXOutputHandler* KileInfo::findCurrentLaTeXOutputHandler() const
 {
-    LaTeXOutputHandler *h = Q_NULLPTR;
+    LaTeXOutputHandler *h = nullptr;
 
     getCompileName(false, &h);
     return h;
 }
 
-QString KileInfo::getCompileName(bool shrt /* = false */, LaTeXOutputHandler** h /* = Q_NULLPTR */) const
+QString KileInfo::getCompileName(bool shrt /* = false */, LaTeXOutputHandler** h /* = nullptr */) const
 {
     KileProject *project = docManager()->activeProject();
 

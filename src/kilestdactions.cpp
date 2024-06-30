@@ -251,7 +251,7 @@ void setupBibTags(const QObject *receiver, KActionCollection *actionCollection, 
 
     KConfig *bibCfg = new KConfig(filename, KConfig::SimpleConfig);
 
-    if(bibCfg == Q_NULLPTR )
+    if(bibCfg == nullptr )
         return;
 
     const QStringList groupList = bibCfg->groupList();

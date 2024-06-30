@@ -38,7 +38,7 @@ public:
     /**
      * Constructs a new manager object.
      **/
-    explicit Manager(KileInfo* kileInfo, QObject *parent = Q_NULLPTR);
+    explicit Manager(KileInfo* kileInfo, QObject *parent = nullptr);
     virtual ~Manager();
 
     // the boolean value is 'true' iff the abbreviation is global

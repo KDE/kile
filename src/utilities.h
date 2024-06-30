@@ -29,7 +29,7 @@ public:
                      bool tempFiles = false,
                      const QString& suggestedFileName = QString(),
                      const QByteArray& asn = "",
-                     QObject *parent = Q_NULLPTR);
+                     QObject *parent = nullptr);
     ~ServiceRunAction();
 
 protected Q_SLOTS:

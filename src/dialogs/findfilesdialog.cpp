@@ -81,7 +81,7 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
     : QDialog(parent)
     , m_ki(ki)
     , m_mode(mode)
-    , m_proc(Q_NULLPTR)
+    , m_proc(nullptr)
     , m_grepJobs(0)
 {
     setObjectName(name);
@@ -567,7 +567,7 @@ void FindFilesDialog::finish()
         m_proc->kill();
         m_proc->disconnect();
         m_proc->deleteLater();
-        m_proc = Q_NULLPTR;
+        m_proc = nullptr;
     }
     m_buf += '\n';
     // we process all the remaining output

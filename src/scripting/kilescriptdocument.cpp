@@ -22,10 +22,10 @@ namespace KileScript {
 KileScriptDocument::KileScriptDocument(QObject *parent, KileInfo* kileInfo, KileDocument::EditorExtension *editor, const QMap<QString,QAction *> *scriptActions)
     : QObject(parent)
     , m_kileInfo(kileInfo)
-    , m_view(Q_NULLPTR)
-    , m_document(Q_NULLPTR)
+    , m_view(nullptr)
+    , m_document(nullptr)
     , m_editor(editor)
-    , m_editingTransaction(Q_NULLPTR)
+    , m_editingTransaction(nullptr)
     , m_scriptActions(scriptActions)
 {
 }
@@ -706,7 +706,7 @@ void KileScriptDocument::editEnd()
 
     m_editingTransaction->finish();
     delete m_editingTransaction;
-    m_editingTransaction = Q_NULLPTR;
+    m_editingTransaction = nullptr;
 }
 
 ////////////////////////////////// Kile specific actions //////////////////////////////////////

@@ -107,7 +107,7 @@ QString Manager::getKeySequence(const Action* a)
 Action* Manager::getAction(const QString& seq)
 {
     QMap<QString, Action*>::iterator i = m_actionMap.find(seq);
-    return (i == m_actionMap.end()) ? Q_NULLPTR : (*i);
+    return (i == m_actionMap.end()) ? nullptr : (*i);
 }
 
 void Manager::setEditorKeySequence(const QString& /* seq */, Action* /* action */)

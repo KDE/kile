@@ -62,8 +62,8 @@ PdfDialog::PdfDialog(QWidget *parent,
     , m_manager(manager)
     , m_errorHandler(errorHandler)
     , m_output(output)
-    , m_tempdir(Q_NULLPTR)
-    , m_proc(Q_NULLPTR)
+    , m_tempdir(nullptr)
+    , m_proc(nullptr)
     , m_rearrangeButton(new QPushButton)
     , m_buttonBox(new QDialogButtonBox(QDialogButtonBox::Help|QDialogButtonBox::Close))
 {

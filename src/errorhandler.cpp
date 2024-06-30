@@ -40,7 +40,7 @@
 #include "widgets/sidebar.h"
 
 KileErrorHandler::KileErrorHandler(QObject *parent, KileInfo *info, KActionCollection *ac)
-    : QObject(parent), m_ki(info), m_errorHanderToolBar(Q_NULLPTR), m_currentLaTeXOutputHandler(Q_NULLPTR)
+    : QObject(parent), m_ki(info), m_errorHanderToolBar(nullptr), m_currentLaTeXOutputHandler(nullptr)
 {
     setObjectName("ErrorHandler");
 
@@ -277,7 +277,7 @@ void KileErrorHandler::handleSpawnedChildTool(KileTool::Base *parent, KileTool::
 
 void KileErrorHandler::updateCurrentLaTeXOutputHandler()
 {
-    LaTeXOutputHandler *h = Q_NULLPTR;
+    LaTeXOutputHandler *h = nullptr;
     m_ki->getCompileName(false, &h);
     if(h == m_currentLaTeXOutputHandler) {
         return;

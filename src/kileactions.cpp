@@ -329,7 +329,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
         gbox->addWidget(m_checkbox, 2, 0, 1, 3);
     }
 
-    m_edLabel = Q_NULLPTR;
+    m_edLabel = nullptr;
     m_useLabel = (options & KileAction::ShowLabel);
     if(m_useLabel) {
         // Label
@@ -471,7 +471,7 @@ void VariantSelection::slotTriggered()
 
 ToolbarSelectAction::ToolbarSelectAction(const QString& text, QObject* parent,
         bool changeMainActionOnTriggering /*= true */)
-    : QWidgetAction(parent), m_currentItem(-1), m_mainText(text), m_savedCurrentAction(Q_NULLPTR)
+    : QWidgetAction(parent), m_currentItem(-1), m_mainText(text), m_savedCurrentAction(nullptr)
 {
     setText(text);
     if(changeMainActionOnTriggering) {
@@ -506,7 +506,7 @@ QAction* ToolbarSelectAction::action(int i)
 {
     QList<QAction*> actionList = menu()->actions();
     if(i < 0 || i >= actionList.size()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     return actionList.at(i);
 }
@@ -624,6 +624,6 @@ void ToolbarSelectAction::restoreCurrentAction()
         return;
     }
     setCurrentAction(m_savedCurrentAction);
-    m_savedCurrentAction = Q_NULLPTR;
+    m_savedCurrentAction = nullptr;
 }
 

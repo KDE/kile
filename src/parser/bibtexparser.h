@@ -43,7 +43,7 @@ class BibTeXParser : public Parser
     Q_OBJECT
 
 public:
-    BibTeXParser(ParserThread *parserThread, BibTeXParserInput *input, QObject *parent = Q_NULLPTR);
+    BibTeXParser(ParserThread *parserThread, BibTeXParserInput *input, QObject *parent = nullptr);
     virtual ~BibTeXParser() override;
 
     ParserOutput* parse() override;

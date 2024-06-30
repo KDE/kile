@@ -84,7 +84,7 @@ QString KileUtilities::lastModifiedFile(const QStringList& files, const QString&
     }
 
     QDateTime lastModifiedTime;
-    const QString* lastModifiedFile = Q_NULLPTR;
+    const QString* lastModifiedFile = nullptr;
 
     for(const QString& file : std::as_const(absoluteFileNames)) {
         QFileInfo fileInfo(file);

@@ -32,7 +32,7 @@ class KileListSelector : public QDialog
 
 public:
     KileListSelector(const QStringList &list, const QString &caption, const QString &select, bool sort = true,
-                     QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
+                     QWidget *parent = nullptr, const char *name = nullptr);
 
     bool hasSelection() const;
     void setSelectionMode(QAbstractItemView::SelectionMode mode);
@@ -55,7 +55,7 @@ class ManageCompletionFilesDialog : public QDialog
 public:
     ManageCompletionFilesDialog(const QString &caption,
                                 const QString &localCompletionDir, const QString &globalCompletionDir,
-                                QWidget* parent = Q_NULLPTR, const char *name = Q_NULLPTR);
+                                QWidget* parent = nullptr, const char *name = nullptr);
     ~ManageCompletionFilesDialog();
 
     const QSet<QString> selected() const;

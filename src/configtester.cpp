@@ -111,7 +111,7 @@ void ConfigTest::setName(const QString& name)
 Tester::Tester(KileInfo *kileInfo, QObject *parent)
     : QObject(parent),
       m_ki(kileInfo),
-      m_tempDir(Q_NULLPTR),
+      m_tempDir(nullptr),
       m_testsDone(0)
 {
     m_tempDir = new QTemporaryDir();
@@ -395,7 +395,7 @@ ProgramTest::ProgramTest(const QString& testGroup, const QString& programName, c
                          const QString& arg2,
                          bool isCritical)
     : ConfigTest(testGroup, i18n("Simple Test"), isCritical),
-      m_testProcess(Q_NULLPTR),
+      m_testProcess(nullptr),
       m_programName(programName),
       m_workingDir(workingDir),
       m_arg0(arg0),
@@ -435,7 +435,7 @@ void ProgramTest::call()
 void ProgramTest::handleTestProcessFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
     m_testProcess->deleteLater();
-    m_testProcess = Q_NULLPTR;
+    m_testProcess = nullptr;
 
     if(exitStatus == QProcess::NormalExit && exitCode == 0) {
         processFinishedSuccessfully();
@@ -455,7 +455,7 @@ void ProgramTest::handleTestProcessError(QProcess::ProcessError error)
     Q_UNUSED(error);
 
     m_testProcess->deleteLater();
-    m_testProcess = Q_NULLPTR;
+    m_testProcess = nullptr;
     reportFailure();
 }
 

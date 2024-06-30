@@ -28,9 +28,9 @@ class ProgressDialog : public QProgressDialog
     Q_OBJECT
 
 public:
-    explicit ProgressDialog(QWidget *parent = Q_NULLPTR);
+    explicit ProgressDialog(QWidget *parent = nullptr);
     ~ProgressDialog();
-    virtual void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    virtual void closeEvent(QCloseEvent *event) override;
 
 public:
 

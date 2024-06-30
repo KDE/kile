@@ -438,7 +438,7 @@ void UserHelpAddDialog::onShowLocalFileSelection()
 
     QFileInfo fi(filename);
     if (!fi.exists()) {
-        KMessageBox::error(Q_NULLPTR, i18n("File '%1' does not exist.", filename));
+        KMessageBox::error(nullptr, i18n("File '%1' does not exist.", filename));
         return;
     }
     m_leHelpFile->setText(filename);

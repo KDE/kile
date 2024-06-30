@@ -98,11 +98,11 @@ Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, 
     m_config(config),
     m_output(output),
     m_stack(stack),
-    m_stopAction(Q_NULLPTR),
+    m_stopAction(nullptr),
     m_bClear(true),
     m_nLastResult(Success),
     m_nTimeout(to),
-    m_bibliographyBackendSelectAction(Q_NULLPTR)
+    m_bibliographyBackendSelectAction(nullptr)
 {
     connect(m_ki->parserManager(), &KileParser::Manager::documentParsingComplete, this, &Manager::handleDocumentParsingComplete);
 
@@ -188,7 +188,7 @@ void Manager::handleDocumentParsingComplete()
     m_toolsScheduledAfterParsingList.clear();
 }
 
-int Manager::runImmediately(Base *tool, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= Q_NULLPTR*/)
+int Manager::runImmediately(Base *tool, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= nullptr*/)
 {
     KILE_DEBUG_MAIN << "==KileTool::Manager::runImmediately(Base *)============" << Qt::endl;
     if(m_bClear && (m_queue.count() == 0)) {
@@ -276,13 +276,13 @@ Base* Manager::createTool(const QString& name, const QString &cfg, bool prepare)
 {
     if(!m_factory) {
         m_ki->errorHandler()->printMessage(Error, i18n("No factory installed, contact the author of Kile."));
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     Base* pTool = m_factory->create(name, cfg, prepare);
     if(!pTool) {
         m_ki->errorHandler()->printMessage(Error, i18n("Unknown tool %1.", name));
-        return Q_NULLPTR;
+        return nullptr;
     }
     initTool(pTool);
     return pTool;
@@ -338,7 +338,7 @@ void Manager::stopLivePreview()
 
 void Manager::stopActionDestroyed()
 {
-    m_stopAction = Q_NULLPTR;
+    m_stopAction = nullptr;
 }
 
 void Manager::done(KileTool::Base *tool, int result)

@@ -33,7 +33,7 @@ public:
     /**
      * Constructs a new Manager object.
      **/
-    explicit Manager(KileInfo *info, QObject *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
+    explicit Manager(KileInfo *info, QObject *parent = nullptr, const char *name = nullptr);
     virtual ~Manager();
 
 Q_SIGNALS:

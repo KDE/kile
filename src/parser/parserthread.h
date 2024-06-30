@@ -90,7 +90,7 @@ class DocumentParserThread : public ParserThread
     Q_OBJECT
 
 public:
-    explicit DocumentParserThread(KileInfo *info, QObject *parent = Q_NULLPTR);
+    explicit DocumentParserThread(KileInfo *info, QObject *parent = nullptr);
     virtual ~DocumentParserThread() override;
 
 public Q_SLOTS:
@@ -109,7 +109,7 @@ class OutputParserThread: public ParserThread
     Q_OBJECT
 
 public:
-    explicit OutputParserThread(KileInfo *info, QObject *parent = Q_NULLPTR);
+    explicit OutputParserThread(KileInfo *info, QObject *parent = nullptr);
     virtual ~OutputParserThread() override;
 
 public Q_SLOTS:

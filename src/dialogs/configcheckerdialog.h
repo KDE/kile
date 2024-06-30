@@ -40,7 +40,7 @@ class ConfigChecker : public KAssistantDialog
     Q_OBJECT
 
 public:
-    explicit ConfigChecker(KileInfo *kileInfo, QWidget* parent = Q_NULLPTR);
+    explicit ConfigChecker(KileInfo *kileInfo, QWidget* parent = nullptr);
     ~ConfigChecker();
 
 public Q_SLOTS:

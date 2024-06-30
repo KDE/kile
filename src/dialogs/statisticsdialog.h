@@ -33,7 +33,7 @@ class StatisticsDialog : public KPageDialog
 {
 public:
     StatisticsDialog(KileProject *project, KileDocument::TextInfo* docinfo,
-                     QWidget* parent = Q_NULLPTR, KTextEditor::View *view = Q_NULLPTR,
+                     QWidget* parent = nullptr, KTextEditor::View *view = nullptr,
                      const QString &caption = QString());
     ~StatisticsDialog();
 

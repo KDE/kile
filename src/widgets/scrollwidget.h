@@ -24,7 +24,7 @@ class ScrollWidget : public QScrollArea
     Q_OBJECT
 
 public:
-    explicit ScrollWidget(QWidget *parent = Q_NULLPTR);
+    explicit ScrollWidget(QWidget *parent = nullptr);
     virtual ~ScrollWidget();
 
     /**

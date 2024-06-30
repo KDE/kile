@@ -96,7 +96,7 @@ void Manager::handleOutputParsingComplete(const QUrl &url, KileParser::ParserOut
 
     LaTeXOutputParserOutput *latexOutput = dynamic_cast<LaTeXOutputParserOutput*>(output);
     if(!latexOutput) {
-        qCDebug(LOG_KILE_PARSER) << "Q_NULLPTR output given";
+        qCDebug(LOG_KILE_PARSER) << "nullptr output given";
         return;
     }
     if(toolList.isEmpty()) { // no tool was found, which means that all the tools for 'url'

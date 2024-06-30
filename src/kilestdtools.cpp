@@ -55,7 +55,7 @@ Factory::~Factory()
 Base* Factory::create(const QString& toolName, const QString& config, bool prepare /* = true */)
 {
     KILE_DEBUG_MAIN << toolName << config << prepare;
-    KileTool::Base *tool = Q_NULLPTR;
+    KileTool::Base *tool = nullptr;
     //perhaps we can find the tool in the config file
     if (m_config->hasGroup(groupFor(toolName, m_config))) {
         KConfigGroup configGroup = m_config->group(groupFor(toolName, m_config));
@@ -102,12 +102,12 @@ Base* Factory::create(const QString& toolName, const QString& config, bool prepa
         }
     }
     if(!tool) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     if(!m_manager->configure(tool, config)) {
         delete tool;
-        return Q_NULLPTR;
+        return nullptr;
     }
     tool->setToolConfig(config);
 
@@ -189,7 +189,7 @@ void Factory::installStandardLivePreviewTools()
 /////////////// LaTeX ////////////////
 
 LaTeX::LaTeX(const QString& tool, Manager *mngr, bool prepare)
-    : Compile(tool, mngr, prepare), m_latexOutputHandler(Q_NULLPTR)
+    : Compile(tool, mngr, prepare), m_latexOutputHandler(nullptr)
 {
 }
 
@@ -226,7 +226,7 @@ bool LaTeX::determineSource()
 
     //the basedir is determined from the current compile target
     //determined by getCompileName()
-    LaTeXOutputHandler *h = Q_NULLPTR;
+    LaTeXOutputHandler *h = nullptr;
     src = m_ki->getCompileName(false, &h);
 
     setSource(src);

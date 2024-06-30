@@ -35,7 +35,7 @@ namespace KileDialog {
 
 TabularTable::TabularTable(QWidget *parent)
     : QTableWidget(parent), m_ManualBorderPosition(QPoint(-1, -1)),
-      m_ManualBorderStart(QPoint(-1, -1)),m_LastItem(Q_NULLPTR) {
+      m_ManualBorderStart(QPoint(-1, -1)),m_LastItem(nullptr) {
     setItemDelegate(new TabularCellDelegate(this));
     setShowGrid(false);
     setAttribute(Qt::WA_Hover, true);

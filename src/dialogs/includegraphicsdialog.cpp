@@ -44,7 +44,7 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
     , m_width(0)
     , m_height(0)
     , m_ki(ki)
-    , m_proc(Q_NULLPTR)
+    , m_proc(nullptr)
 {
     setWindowTitle(i18n("Include Graphics"));
     setModal(true);

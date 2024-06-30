@@ -39,7 +39,7 @@ namespace KileScript {
 ////////////////////////////// Manager //////////////////////////////
 
 Manager::Manager(KileInfo *kileInfo, KConfig *config, KActionCollection *actionCollection, QObject *parent, const char *name)
-    : QObject(parent), m_jScriptDirWatch(Q_NULLPTR), m_kileInfo(kileInfo), m_config(config), m_actionCollection(actionCollection)
+    : QObject(parent), m_jScriptDirWatch(nullptr), m_kileInfo(kileInfo), m_config(config), m_actionCollection(actionCollection)
 {
     setObjectName(name);
 
@@ -131,7 +131,7 @@ void Manager::executeScript(unsigned int id)
 const Script* Manager::getScript(unsigned int id)
 {
     QMap<unsigned int, Script*>::iterator i = m_idScriptMap.find(id);
-    return ((i != m_idScriptMap.end()) ? (*i) : Q_NULLPTR);
+    return ((i != m_idScriptMap.end()) ? (*i) : nullptr);
 }
 
 void Manager::scanScriptDirectories()

@@ -71,7 +71,7 @@ void KJSCPUGuard::start(unsigned int ms, unsigned int i_ms)
 
 void KJSCPUGuard::stop()
 {
-  setitimer(ITIMER_VIRTUAL, &oldtv, Q_NULLPTR);
+  setitimer(ITIMER_VIRTUAL, &oldtv, nullptr);
   signal(SIGVTALRM, oldAlarmHandler);
 }
 
@@ -130,7 +130,7 @@ static void rangeFromScriptValue(const QJSValue &obj, KTextEditor::Range &range)
  */
 
 Script::Script(unsigned int id, const QString& file)
-    : m_id(id), m_file(file), m_action(Q_NULLPTR), m_sequencetype(KEY_SEQUENCE)
+    : m_id(id), m_file(file), m_action(nullptr), m_sequencetype(KEY_SEQUENCE)
 {
     m_name = QFileInfo(file).fileName();
 

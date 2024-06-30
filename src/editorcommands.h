@@ -31,8 +31,8 @@ public:
     virtual ~EditorCommands();
 
     virtual bool exec(KTextEditor::View *view, const QString &cmd, QString &msg,
-                      const KTextEditor::Range &range = KTextEditor::Range::invalid()) Q_DECL_OVERRIDE;
-    virtual bool help(KTextEditor::View *view, const QString &cmd, QString &msg) Q_DECL_OVERRIDE;
+                      const KTextEditor::Range &range = KTextEditor::Range::invalid()) override;
+    virtual bool help(KTextEditor::View *view, const QString &cmd, QString &msg) override;
 
 private:
     KileInfo *m_ki;

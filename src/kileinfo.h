@@ -111,13 +111,13 @@ public:
 
 public:
     enum {bibinputs = 0,bstinputs, texinputs};
-    QString getName(KTextEditor::Document *doc = Q_NULLPTR, bool shrt = false) const;
-    QString getShortName(KTextEditor::Document *doc = Q_NULLPTR) const {
+    QString getName(KTextEditor::Document *doc = nullptr, bool shrt = false) const;
+    QString getShortName(KTextEditor::Document *doc = nullptr) const {
         return getName(doc, true);
     }
     LaTeXOutputHandler* findCurrentLaTeXOutputHandler() const;
     QString getCompileNameForProject(KileProject *project, bool shrt = false) const;
-    QString getCompileName(bool shrt = false, LaTeXOutputHandler** h = Q_NULLPTR) const;
+    QString getCompileName(bool shrt = false, LaTeXOutputHandler** h = nullptr) const;
     QString getFullFromPrettyName(const OutputInfo& info, const QString& name) const;
     QList<QUrl> getParentsFor(KileDocument::Info *);
     bool getSinglemode() {
@@ -136,15 +136,15 @@ public:
     QString getSelection() const;
     void clearSelection() const;
 
-    virtual QStringList allLabels(KileDocument::TextInfo *info = Q_NULLPTR);
-    virtual QStringList allBibItems(KileDocument::TextInfo *info = Q_NULLPTR);
-    virtual QStringList allBibliographies(KileDocument::TextInfo *info = Q_NULLPTR);
-    virtual QStringList allDependencies(KileDocument::TextInfo *info = Q_NULLPTR);
-    virtual QStringList allNewCommands(KileDocument::TextInfo *info = Q_NULLPTR);
-    virtual QStringList allAsyFigures(KileDocument::TextInfo *info = Q_NULLPTR);
-    virtual QStringList allPackages(KileDocument::TextInfo *info = Q_NULLPTR);
+    virtual QStringList allLabels(KileDocument::TextInfo *info = nullptr);
+    virtual QStringList allBibItems(KileDocument::TextInfo *info = nullptr);
+    virtual QStringList allBibliographies(KileDocument::TextInfo *info = nullptr);
+    virtual QStringList allDependencies(KileDocument::TextInfo *info = nullptr);
+    virtual QStringList allNewCommands(KileDocument::TextInfo *info = nullptr);
+    virtual QStringList allAsyFigures(KileDocument::TextInfo *info = nullptr);
+    virtual QStringList allPackages(KileDocument::TextInfo *info = nullptr);
 
-    QString lastModifiedFile(KileDocument::TextInfo *info = Q_NULLPTR);
+    QString lastModifiedFile(KileDocument::TextInfo *info = nullptr);
 
     static QString documentTypeToString(KileDocument::Type type);
 
@@ -155,7 +155,7 @@ public:
     virtual void focusPreview() = 0;
 
 private:
-    QStringList retrieveList(QStringList (KileDocument::Info::*getit)() const, KileDocument::TextInfo *docinfo = Q_NULLPTR);
+    QStringList retrieveList(QStringList (KileDocument::Info::*getit)() const, KileDocument::TextInfo *docinfo = nullptr);
 
 public:
     bool similarOrEqualURL(const QUrl &validurl, const QUrl &testurl);

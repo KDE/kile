@@ -3462,7 +3462,7 @@ void EditorExtension::gotoSectioning(bool backwards, KTextEditor::View *view)
     if( view && view->document()->isModified() ) { // after saving, the document structure is the current one, so in this case we don't need to update it
         m_ki->viewManager()->updateStructure(true);
     }
-    if(m_ki->structureWidget()->findSectioning(Q_NULLPTR,view->document(), view->cursorPosition().line(), view->cursorPosition().column(), backwards, false, rowFound, colFound)) {
+    if(m_ki->structureWidget()->findSectioning(nullptr,view->document(), view->cursorPosition().line(), view->cursorPosition().column(), backwards, false, rowFound, colFound)) {
         view->setCursorPosition(KTextEditor::Cursor(rowFound, colFound));
     }
 }
@@ -3471,7 +3471,7 @@ void EditorExtension::gotoSectioning(bool backwards, KTextEditor::View *view)
 
 void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int id)
 {
-    KTextEditor::View *view = determineView(Q_NULLPTR);
+    KTextEditor::View *view = determineView(nullptr);
     if(!view) {
         return;
     }

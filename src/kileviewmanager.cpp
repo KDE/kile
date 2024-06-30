@@ -104,20 +104,20 @@ void DocumentViewerWindow::closeEvent(QCloseEvent *event)
 Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *parent, const char *name) :
     QObject(parent),
     m_ki(info),
-// 	m_projectview(Q_NULLPTR),
-    m_tabsAndEditorWidget(Q_NULLPTR),
-    m_tabBar(Q_NULLPTR),
-    m_documentListButton(Q_NULLPTR),
-    m_viewerPartWindow(Q_NULLPTR),
-    m_widgetStack(Q_NULLPTR),
-    m_pasteAsLaTeXAction(Q_NULLPTR),
-    m_convertToLaTeXAction(Q_NULLPTR),
-    m_quickPreviewAction(Q_NULLPTR),
-    m_showCursorPositionInViewerAction(Q_NULLPTR),
-    m_viewerControlToolBar(Q_NULLPTR),
-    m_cursorPositionChangedTimer(Q_NULLPTR),
-    m_clearLastShownSourceLocationTimer(Q_NULLPTR),
-    m_synchronizeViewWithCursorAction(Q_NULLPTR)
+// 	m_projectview(nullptr),
+    m_tabsAndEditorWidget(nullptr),
+    m_tabBar(nullptr),
+    m_documentListButton(nullptr),
+    m_viewerPartWindow(nullptr),
+    m_widgetStack(nullptr),
+    m_pasteAsLaTeXAction(nullptr),
+    m_convertToLaTeXAction(nullptr),
+    m_quickPreviewAction(nullptr),
+    m_showCursorPositionInViewerAction(nullptr),
+    m_viewerControlToolBar(nullptr),
+    m_cursorPositionChangedTimer(nullptr),
+    m_clearLastShownSourceLocationTimer(nullptr),
+    m_synchronizeViewWithCursorAction(nullptr)
 {
     setObjectName(name);
     createViewerPart(actionCollection);
@@ -150,7 +150,7 @@ Manager::~Manager()
 {
     KILE_DEBUG_MAIN;
 
-    // the parent of the widget might be Q_NULLPTR; see 'destroyDocumentViewerWindow()'
+    // the parent of the widget might be nullptr; see 'destroyDocumentViewerWindow()'
     if(m_viewerPart) {
         delete m_viewerPart->widget();
         delete m_viewerPart;
@@ -166,7 +166,7 @@ KTextEditor::View * Manager::textViewAtTab(int index) const
 
 void Manager::createViewerControlToolBar()
 {
-    m_viewerControlToolBar = new KToolBar(Q_NULLPTR, false, false);
+    m_viewerControlToolBar = new KToolBar(nullptr, false, false);
     m_viewerControlToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     m_viewerControlToolBar->setFloatable(false);
     m_viewerControlToolBar->setMovable(false);
@@ -178,15 +178,15 @@ void Manager::createViewerControlToolBar()
 void Manager::setClient(KXMLGUIClient *client)
 {
     m_client = client;
-    if(Q_NULLPTR == m_client->actionCollection()->action("popup_pasteaslatex")) {
+    if(nullptr == m_client->actionCollection()->action("popup_pasteaslatex")) {
         m_pasteAsLaTeXAction = new QAction(i18n("Paste as LaTe&X"), this);
         connect(m_pasteAsLaTeXAction, &QAction::triggered, this, &Manager::pasteAsLaTeX);
     }
-    if(Q_NULLPTR == m_client->actionCollection()->action("popup_converttolatex")) {
+    if(nullptr == m_client->actionCollection()->action("popup_converttolatex")) {
         m_convertToLaTeXAction = new QAction(i18n("Convert Selection to &LaTeX"), this);
         connect(m_convertToLaTeXAction, &QAction::triggered, this, &Manager::convertSelectionToLaTeX);
     }
-    if(Q_NULLPTR == m_client->actionCollection()->action("popup_quickpreview")) {
+    if(nullptr == m_client->actionCollection()->action("popup_quickpreview")) {
         m_quickPreviewAction = new QAction(this);
         connect(m_quickPreviewAction, &QAction::triggered, this, &Manager::quickPreviewPopup);
     }
@@ -370,7 +370,7 @@ void Manager::handleCursorPositionChanged(KTextEditor::View *view, const KTextEd
 KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int index)
 {
     KTextEditor::Document *doc = info->getDoc();
-    KTextEditor::View *view = info->createView(m_tabBar, Q_NULLPTR);
+    KTextEditor::View *view = info->createView(m_tabBar, nullptr);
     Q_ASSERT(view);
 
     if(!view) {
@@ -613,7 +613,7 @@ void Manager::removeView(KTextEditor::View *view)
         delete view;
     }
     else {
-        KILE_DEBUG_MAIN << "View should be removed but is Q_NULLPTR";
+        KILE_DEBUG_MAIN << "View should be removed but is nullptr";
     }
 }
 
@@ -632,7 +632,7 @@ KTextEditor::View * Manager::textView(KileDocument::TextInfo *info) const
 {
     KTextEditor::Document *doc = info->getDoc();
     if(!doc) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     for(int i = 0; i < m_tabBar->count(); ++i) {
         KTextEditor::View *view = textViewAtTab(i);
@@ -641,7 +641,7 @@ KTextEditor::View * Manager::textView(KileDocument::TextInfo *info) const
         }
     }
 
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 int Manager::textViewCount() const
@@ -671,7 +671,7 @@ KTextEditor::View * Manager::switchToTextView(const QUrl &url, bool requestFocus
 
 KTextEditor::View * Manager::switchToTextView(KTextEditor::Document *doc, bool requestFocus)
 {
-    KTextEditor::View *view = Q_NULLPTR;
+    KTextEditor::View *view = nullptr;
     if(doc) {
         if(doc->views().count() > 0) {
             view = doc->views().first();
@@ -700,7 +700,7 @@ void Manager::setTabIcon(QWidget *view, const QIcon& icon)
     m_tabBar->setTabIcon(tabIndexOf(qobject_cast<KTextEditor::View *>(view)), icon);
 }
 
-void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *docinfo /* = Q_NULLPTR */)
+void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *docinfo /* = nullptr */)
 {
     if(!docinfo) {
         docinfo = m_ki->docManager()->getInfo();
@@ -877,13 +877,13 @@ void Manager::convertSelectionToLaTeX()
 {
     KTextEditor::View *view = currentTextView();
 
-    if(view == Q_NULLPTR) {
+    if(view == nullptr) {
         return;
     }
 
     KTextEditor::Document *doc = view->document();
 
-    if(doc == Q_NULLPTR) {
+    if(doc == nullptr) {
         return;
     }
 
@@ -1105,7 +1105,7 @@ void Manager::removeEventFilter(KTextEditor::View *view, QObject *eventFilter)
 
 void Manager::createViewerPart(KActionCollection *actionCollection)
 {
-    m_viewerPart = Q_NULLPTR;
+    m_viewerPart = nullptr;
 
     const KPluginMetaData okularPart(QStringLiteral(OKULAR_LIBRARY_NAME));
     const QVariantList args {"ViewerWidget", "ConfigFileName=kile-livepreview-okularpartrc"};
@@ -1113,7 +1113,7 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
     auto result = KPluginFactory::instantiatePlugin<KParts::ReadOnlyPart>(okularPart, nullptr, args);
     if(!result) {
         KILE_DEBUG_MAIN << "Could not load the Okular library:" << result.errorString;
-        m_viewerPart = Q_NULLPTR;
+        m_viewerPart = nullptr;
         return;
     } else {
         m_viewerPart = result.plugin;
@@ -1121,7 +1121,7 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
         if(!viewerInterface) {
             // OkularPart doesn't provide the ViewerInterface
             delete m_viewerPart;
-            m_viewerPart = Q_NULLPTR;
+            m_viewerPart = nullptr;
             return;
         }
         viewerInterface->setWatchFileModeEnabled(false);
@@ -1181,7 +1181,7 @@ void Manager::destroyDocumentViewerWindow()
     disconnect(m_viewerPartWindow, &KileView::DocumentViewerWindow::visibilityChanged, this, &Manager::documentViewerWindowVisibilityChanged);
     m_viewerPartWindow->hide();
     delete m_viewerPartWindow;
-    m_viewerPartWindow = Q_NULLPTR;
+    m_viewerPartWindow = nullptr;
 }
 
 void Manager::handleActivatedSourceReference(const QString& absFileName, int line, int col)

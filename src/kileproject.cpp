@@ -53,10 +53,10 @@ KileProjectItem::KileProjectItem(KileProject *project, const QUrl &url, int type
     m_project(project),
     m_url(url),
     m_type(type),
-    m_docinfo(Q_NULLPTR),
-    m_parent(Q_NULLPTR),
-    m_child(Q_NULLPTR),
-    m_sibling(Q_NULLPTR),
+    m_docinfo(nullptr),
+    m_parent(nullptr),
+    m_child(nullptr),
+    m_sibling(nullptr),
     m_order(-1)
 {
     m_bOpen = m_archive = true;
@@ -207,7 +207,7 @@ void KileProjectItem::allChildren(QList<KileProjectItem*> *list) const
     KileProjectItem *firstChildItem = firstChild();
 
 // 	KILE_DEBUG_MAIN << "\tKileProjectItem::allChildren(" << list->count() << ")";
-    while(firstChildItem != Q_NULLPTR) {
+    while(firstChildItem != nullptr) {
         list->append(firstChildItem);
 // 		KILE_DEBUG_MAIN << "\t\tappending " << firstChildItem->url().fileName();
         firstChildItem->allChildren(list);
@@ -246,8 +246,8 @@ void KileProjectItem::slotChangeURL(KileDocument::Info*, const QUrl &url)
 
 // for creating an empty project
 KileProject::KileProject(const QString& name, const QUrl &url, KileDocument::Extensions *extensions)
-    : QObject(Q_NULLPTR), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false),
-      m_config(Q_NULLPTR), m_guiConfig(Q_NULLPTR), m_extmanager(extensions)
+    : QObject(nullptr), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false),
+      m_config(nullptr), m_guiConfig(nullptr), m_extmanager(extensions)
 {
     m_name = name;
     init(url);
@@ -263,8 +263,8 @@ KileProject::KileProject(const QString& name, const QUrl &url, KileDocument::Ext
 
 // for opening an existing project, 'load()' still has to be called separately!
 KileProject::KileProject(const QUrl &url, KileDocument::Extensions *extensions)
-    : QObject(Q_NULLPTR), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false),
-      m_config(Q_NULLPTR), m_guiConfig(Q_NULLPTR), m_extmanager(extensions)
+    : QObject(nullptr), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false),
+      m_config(nullptr), m_guiConfig(nullptr), m_extmanager(extensions)
 {
     init(url);
 }
@@ -656,7 +656,7 @@ void KileProject::removeConfigGroupsForItem(KileProjectItem *projectItem)
 static bool isAncestorOf(const KileProjectItem *toBeChecked, KileProjectItem *parent)
 {
     KileProjectItem *projectItem = parent;
-    while(projectItem != Q_NULLPTR) {
+    while(projectItem != nullptr) {
         if(projectItem == toBeChecked) {
             return true;
         }
@@ -720,7 +720,7 @@ void KileProject::buildProjectTree()
     //make a list of all the root items (items with parent == 0)
     m_rootItems.clear();
     for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
-        if((*it)->parent() == Q_NULLPTR) {
+        if((*it)->parent() == nullptr) {
             m_rootItems.append(*it);
         }
     }
@@ -736,7 +736,7 @@ KileProjectItem* KileProject::item(const QUrl &url)
         }
     }
 
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 KileProjectItem* KileProject::item(const KileDocument::Info *info)
@@ -749,7 +749,7 @@ KileProjectItem* KileProject::item(const KileDocument::Info *info)
         }
     }
 
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 void KileProject::add(KileProjectItem* projectItem)
@@ -830,7 +830,7 @@ KileProjectItem *KileProject::rootItem(KileProjectItem *projectItem) const
 {
     //find the root item (i.e. the eldest parent)
     KileProjectItem *root = projectItem;
-    while(root->parent() != Q_NULLPTR) {
+    while(root->parent() != nullptr) {
         root = root->parent();
     }
 
@@ -890,7 +890,7 @@ void KileProject::setMasterDocument(const QString & master) {
             m_masterDocument = master;
         else {
             m_masterDocument.clear();
-            KILE_DEBUG_MAIN << "setMasterDocument: masterDoc=Q_NULLPTR";
+            KILE_DEBUG_MAIN << "setMasterDocument: masterDoc=nullptr";
         }
 
     }

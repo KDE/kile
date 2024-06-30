@@ -53,7 +53,7 @@
 KileProjectDialogBase::KileProjectDialogBase(const QString &caption, KileDocument::Extensions *extensions, QWidget *parent, const char *name)
     : QDialog(parent)
     , m_extmanager(extensions)
-    , m_project(Q_NULLPTR)
+    , m_project(nullptr)
     , m_projectGroup(new QGroupBox(i18n("Project"), this))
     , m_extensionGroup(new QGroupBox(i18n("Extensions"), this))
 {

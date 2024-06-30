@@ -110,7 +110,7 @@ public:
     ProjectViewItem* parentFor(const KileProjectItem *projitem, ProjectViewItem *projvi);
 
 public Q_SLOTS:
-    void slotClicked(QTreeWidgetItem* item = Q_NULLPTR);
+    void slotClicked(QTreeWidgetItem* item = nullptr);
 
     void slotFile(int id);
     void slotProjectItem(int id);
@@ -124,7 +124,7 @@ public Q_SLOTS:
     void remove(const QUrl &url);
     void remove(const KileProject *project);
     void removeItem(const KileProjectItem *, bool);
-    KileWidget::ProjectViewItem* add(KileProjectItem *item, KileWidget::ProjectViewItem *projvi = Q_NULLPTR);
+    KileWidget::ProjectViewItem* add(KileProjectItem *item, KileWidget::ProjectViewItem *projvi = nullptr);
 
 Q_SIGNALS:
     void fileSelected(const KileProjectItem *);
@@ -154,7 +154,7 @@ private:
 
     KService::List m_offerList;
 
-    void makeTheConnection(ProjectViewItem *projectViewItem, KileDocument::TextInfo *textInfo = Q_NULLPTR);
+    void makeTheConnection(ProjectViewItem *projectViewItem, KileDocument::TextInfo *textInfo = nullptr);
     ProjectViewItem* folder(const KileProjectItem *item, ProjectViewItem *);
 
 };

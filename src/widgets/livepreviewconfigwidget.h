@@ -27,7 +27,7 @@ class KileWidgetLivePreviewConfig : public QWidget, public Ui::KileWidgetLivePre
     Q_OBJECT
 
 public:
-    explicit KileWidgetLivePreviewConfig(KConfig *config, QWidget *parent = Q_NULLPTR);
+    explicit KileWidgetLivePreviewConfig(KConfig *config, QWidget *parent = nullptr);
     ~KileWidgetLivePreviewConfig();
 
     void readConfig();

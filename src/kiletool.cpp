@@ -37,7 +37,7 @@ namespace KileTool
 {
 Base::Base(const QString &name, Manager *manager, bool prepare /* = true */) :
     QObject(manager), // ensure that they are deleted whenever the tool manager gets deleted
-    m_launcher(Q_NULLPTR),
+    m_launcher(nullptr),
     m_quickie(false),
     m_isPartOfLivePreview(false),
     m_manager(manager),
@@ -247,12 +247,12 @@ bool Base::checkSource()
 {
     //FIXME deal with tools that do not need a source or target (yes they exist)
     //Is there an active document? Only check if the source file is not explicitly set.
-    if((m_source.isEmpty()) && (m_manager->info()->activeTextDocument() == Q_NULLPTR)) {
+    if((m_source.isEmpty()) && (m_manager->info()->activeTextDocument() == nullptr)) {
         sendMessage(Error, msg(NeedActiveDoc).subs(name()).toString());
         return false;
     }
 
-    if(m_source.isEmpty() && m_manager->info()->activeTextDocument() != Q_NULLPTR) {
+    if(m_source.isEmpty() && m_manager->info()->activeTextDocument() != nullptr) {
         if(m_manager->info()->activeTextDocument()->url().isEmpty()
                 && (flags() & NoUntitledDoc)) {
             sendMessage(Error, msg(NoUntitledDoc).toString());
@@ -532,7 +532,7 @@ bool Base::installLauncher()
 
     QString type = readEntry("type");
     KILE_DEBUG_MAIN << "installing launcher of type " << type;
-    Launcher *lr = Q_NULLPTR;
+    Launcher *lr = nullptr;
 
     if ( type == "Process" ) {
         lr = new ProcessLauncher();
@@ -549,7 +549,7 @@ bool Base::installLauncher()
         return true;
     }
     else {
-        m_launcher = Q_NULLPTR;
+        m_launcher = nullptr;
         return false;
     }
 }
@@ -723,7 +723,7 @@ bool Convert::determineSource()
 }
 
 Sequence::Sequence(const QString &name, Manager *manager, bool prepare /*= true*/)
-    : Base(name, manager, prepare), m_latexOutputHandler(Q_NULLPTR)
+    : Base(name, manager, prepare), m_latexOutputHandler(nullptr)
 {
 }
 
@@ -752,7 +752,7 @@ bool Sequence::determineSource()
 
     // the basedir is determined from the current compile target,
     // determined by getCompileName()
-    LaTeXOutputHandler *h = Q_NULLPTR;
+    LaTeXOutputHandler *h = nullptr;
     src = m_ki->getCompileName(false, &h);
 
     setSource(src);

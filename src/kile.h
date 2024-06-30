@@ -103,7 +103,7 @@ class Kile : public KParts::MainWindow, public KileInfo
     Q_OBJECT
 
 public:
-    explicit Kile(bool allowRestore = true, QWidget *parent = Q_NULLPTR);
+    explicit Kile(bool allowRestore = true, QWidget *parent = nullptr);
     ~Kile() override;
 
     int lineNumber() override;
@@ -335,12 +335,12 @@ private Q_SLOTS:
 
     void sideOrBottomBarChanged(bool visible);
 
-    void showDocInfo(KTextEditor::View *view = Q_NULLPTR);
-    void openContainingFolder(KTextEditor::View *view = Q_NULLPTR);
-    void convertToASCII(KTextEditor::Document *doc = Q_NULLPTR);
-    void convertToEnc(KTextEditor::Document *doc = Q_NULLPTR);
+    void showDocInfo(KTextEditor::View *view = nullptr);
+    void openContainingFolder(KTextEditor::View *view = nullptr);
+    void convertToASCII(KTextEditor::Document *doc = nullptr);
+    void convertToEnc(KTextEditor::Document *doc = nullptr);
 
-    void cleanAll(KileDocument::TextInfo *docinfo = Q_NULLPTR);
+    void cleanAll(KileDocument::TextInfo *docinfo = nullptr);
     void cleanBib();
 
     void findInFiles();

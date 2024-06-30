@@ -152,7 +152,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
     : QDialog(parent)
     , m_templateManager(templateManager)
     , m_templateType(KileDocument::Undefined)
-    , m_showAllTypesCheckBox(Q_NULLPTR)
+    , m_showAllTypesCheckBox(nullptr)
 {
     setObjectName(name);
     setWindowTitle(caption);
@@ -203,7 +203,7 @@ void ManageTemplatesDialog::populateTemplateListView(KileDocument::Type type)
 {
     m_templateManager->scanForTemplates();
     KileTemplate::TemplateList templateList = m_templateManager->getTemplates(type);
-    QTreeWidgetItem* previousItem = Q_NULLPTR;
+    QTreeWidgetItem* previousItem = nullptr;
 
     m_templateList->clear();
     for (KileTemplate::TemplateListIterator i = templateList.begin(); i != templateList.end(); ++i)

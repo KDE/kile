@@ -55,7 +55,7 @@ namespace KileDialog {
  * @return String user entered if Ok was pressed, else a null string
  */
 QString getText(const QString &caption, const QString &label,
-                const QString &value = QString(), QWidget *parent = Q_NULLPTR,
+                const QString &value = QString(), QWidget *parent = nullptr,
                 QValidator *validator = 0,
                 const QString &mask = QString());
 }

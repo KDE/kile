@@ -118,48 +118,48 @@
 Kile::Kile(bool allowRestore, QWidget *parent)
     : KParts::MainWindow(),
       KileInfo(this),
-      m_toolsToolBar(Q_NULLPTR),       // we have to set all of these to null as the constructor
-      m_userHelpActionMenu(Q_NULLPTR), // might return early
-      m_bibTagSettings(Q_NULLPTR),
-      m_compilerActions(Q_NULLPTR),
-      m_viewActions(Q_NULLPTR),
-      m_convertActions(Q_NULLPTR),
-      m_quickActions(Q_NULLPTR),
-      m_bibTagActionMenu(Q_NULLPTR),
-      ModeAction(Q_NULLPTR),
-      WatchFileAction(Q_NULLPTR),
-      m_actionMessageView(Q_NULLPTR),
-      m_actionShowMenuBar(Q_NULLPTR),
-      m_actRecentFiles(Q_NULLPTR),
-      m_pFullScreen(Q_NULLPTR),
-      m_sideBar(Q_NULLPTR),
-      m_kileAbbrevView(Q_NULLPTR),
-      m_topWidgetStack(Q_NULLPTR),
-      m_horizontalSplitter(Q_NULLPTR),
-      m_verticalSplitter(Q_NULLPTR),
-      m_toolBox(Q_NULLPTR),
-      m_commandViewToolBox(Q_NULLPTR),
-      m_symbolViewMFUS(Q_NULLPTR),
-      m_symbolViewRelation(Q_NULLPTR),
-      m_symbolViewArrows(Q_NULLPTR),
-      m_symbolViewMiscMath(Q_NULLPTR),
-      m_symbolViewMiscText(Q_NULLPTR),
-      m_symbolViewOperators(Q_NULLPTR),
-      m_symbolViewUser(Q_NULLPTR),
-      m_symbolViewDelimiters(Q_NULLPTR),
-      m_symbolViewGreek(Q_NULLPTR),
-      m_symbolViewSpecial(Q_NULLPTR),
-      m_symbolViewCyrillic(Q_NULLPTR),
-      m_commandView(Q_NULLPTR),
-      m_latexOutputErrorToolBar(Q_NULLPTR),
-      m_buildMenuTopLevel(Q_NULLPTR),
-      m_buildMenuCompile(Q_NULLPTR),
-      m_buildMenuConvert(Q_NULLPTR),
-      m_buildMenuViewer(Q_NULLPTR),
-      m_buildMenuOther(Q_NULLPTR),
-      m_buildMenuQuickPreview(Q_NULLPTR),
-      m_actRecentProjects(Q_NULLPTR),
-      m_lyxserver(Q_NULLPTR)
+      m_toolsToolBar(nullptr),       // we have to set all of these to null as the constructor
+      m_userHelpActionMenu(nullptr), // might return early
+      m_bibTagSettings(nullptr),
+      m_compilerActions(nullptr),
+      m_viewActions(nullptr),
+      m_convertActions(nullptr),
+      m_quickActions(nullptr),
+      m_bibTagActionMenu(nullptr),
+      ModeAction(nullptr),
+      WatchFileAction(nullptr),
+      m_actionMessageView(nullptr),
+      m_actionShowMenuBar(nullptr),
+      m_actRecentFiles(nullptr),
+      m_pFullScreen(nullptr),
+      m_sideBar(nullptr),
+      m_kileAbbrevView(nullptr),
+      m_topWidgetStack(nullptr),
+      m_horizontalSplitter(nullptr),
+      m_verticalSplitter(nullptr),
+      m_toolBox(nullptr),
+      m_commandViewToolBox(nullptr),
+      m_symbolViewMFUS(nullptr),
+      m_symbolViewRelation(nullptr),
+      m_symbolViewArrows(nullptr),
+      m_symbolViewMiscMath(nullptr),
+      m_symbolViewMiscText(nullptr),
+      m_symbolViewOperators(nullptr),
+      m_symbolViewUser(nullptr),
+      m_symbolViewDelimiters(nullptr),
+      m_symbolViewGreek(nullptr),
+      m_symbolViewSpecial(nullptr),
+      m_symbolViewCyrillic(nullptr),
+      m_commandView(nullptr),
+      m_latexOutputErrorToolBar(nullptr),
+      m_buildMenuTopLevel(nullptr),
+      m_buildMenuCompile(nullptr),
+      m_buildMenuConvert(nullptr),
+      m_buildMenuViewer(nullptr),
+      m_buildMenuOther(nullptr),
+      m_buildMenuQuickPreview(nullptr),
+      m_actRecentProjects(nullptr),
+      m_lyxserver(nullptr)
 {
     setObjectName("Kile");
 
@@ -1148,19 +1148,19 @@ void Kile::setupTools()
     KILE_DEBUG_MAIN << "==Kile::setupTools()===================" << Qt::endl;
 
     if(!m_buildMenuCompile || !m_buildMenuConvert ||  !m_buildMenuTopLevel || !m_buildMenuQuickPreview || !m_buildMenuViewer || !m_buildMenuOther) {
-        KILE_DEBUG_MAIN << "BUG, menu pointers are Q_NULLPTR"
-                        << (m_buildMenuCompile == Q_NULLPTR)
-                        << (m_buildMenuConvert == Q_NULLPTR)
-                        << (m_buildMenuTopLevel == Q_NULLPTR)
-                        << (m_buildMenuQuickPreview == Q_NULLPTR)
-                        << (m_buildMenuViewer == Q_NULLPTR)
-                        << (m_buildMenuOther == Q_NULLPTR);
+        KILE_DEBUG_MAIN << "BUG, menu pointers are nullptr"
+                        << (m_buildMenuCompile == nullptr)
+                        << (m_buildMenuConvert == nullptr)
+                        << (m_buildMenuTopLevel == nullptr)
+                        << (m_buildMenuQuickPreview == nullptr)
+                        << (m_buildMenuViewer == nullptr)
+                        << (m_buildMenuOther == nullptr);
         return;
     }
 
     QStringList tools = KileTool::toolList(m_config.data());
     QList<QAction*> *pl;
-    ToolbarSelectAction *pSelectAction = Q_NULLPTR;
+    ToolbarSelectAction *pSelectAction = nullptr;
 
     m_compilerActions->saveCurrentAction();
     m_viewActions->saveCurrentAction();
@@ -1209,7 +1209,7 @@ void Kile::setupTools()
         }
         else {
             pl = &m_listOtherActions;
-            pSelectAction = Q_NULLPTR;
+            pSelectAction = nullptr;
         }
 
         KILE_DEBUG_MAIN << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << Qt::endl;
@@ -1275,7 +1275,7 @@ void Kile::saveLastSelectedAction() {
     const QStringList list =
         {QLatin1String("Compile"), QLatin1String("Convert"), QLatin1String("View"), QLatin1String("Quick")};
 
-    ToolbarSelectAction *pSelectAction = Q_NULLPTR ;
+    ToolbarSelectAction *pSelectAction = nullptr ;
 
     KConfigGroup grp = m_config->group("ToolSelectAction");
 
@@ -1304,7 +1304,7 @@ void Kile::restoreLastSelectedAction() {
     const QStringList list =
         {QLatin1String("Compile"), QLatin1String("Convert"), QLatin1String("View"), QLatin1String("Quick")};
 
-    ToolbarSelectAction *pSelectAction = Q_NULLPTR;
+    ToolbarSelectAction *pSelectAction = nullptr;
     int defaultAction = 0;
 
     KConfigGroup grp = m_config->group("ToolSelectAction");
@@ -1339,7 +1339,7 @@ void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
     QList<QAction*>::iterator it, testIt;
     for ( it= list.begin(); it != list.end(); ++it) {
         QAction *act = *it;
-        if ( act != Q_NULLPTR && !act->objectName().isEmpty() && !tools.contains(act->objectName().mid(5)) ) {
+        if ( act != nullptr && !act->objectName().isEmpty() && !tools.contains(act->objectName().mid(5)) ) {
             const QList<QObject*> widgetList = act->associatedObjects();
             for (QObject *widget : widgetList) {
                 if (qobject_cast<QWidget*>(widget) == toolBar("toolsToolBar")) {
@@ -1530,7 +1530,7 @@ void Kile::updateModeStatus()
     updateMenu();
 
     KTextEditor::View *view = viewManager()->currentTextView();
-    // Passing Q_NULLPTR is ok
+    // Passing nullptr is ok
     updateStatusBarCursorPosition(view, (view ? view->cursorPosition() : KTextEditor::Cursor()));
     updateStatusBarViewMode(view);
     updateStatusBarSelection(view);
@@ -1800,7 +1800,7 @@ void Kile::findInFiles()
 
 void Kile::findInProjects()
 {
-    static QPointer<KileDialog::FindFilesDialog> project_dlg = Q_NULLPTR;
+    static QPointer<KileDialog::FindFilesDialog> project_dlg = nullptr;
 
     if(!project_dlg) {
         KILE_DEBUG_MAIN << "grep guard: create findInProjects dlg" << Qt::endl;

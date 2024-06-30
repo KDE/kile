@@ -70,7 +70,7 @@ ParserOutput* BibTeXParser::parse()
         if(!m_parserThread->shouldContinueDocumentParsing()) {
             qCDebug(LOG_KILE_PARSER) << "stopping...";
             delete(parserOutput);
-            return Q_NULLPTR;
+            return nullptr;
         }
 // 		Q_EMIT(parsingUpdate(i));
         QString s = getTextLine(m_textLines, i);

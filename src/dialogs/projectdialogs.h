@@ -46,7 +46,7 @@ class KileProjectDialogBase : public QDialog
     Q_OBJECT
 
 public:
-    KileProjectDialogBase(const QString &caption, KileDocument::Extensions *extensions, QWidget *parent = Q_NULLPTR, const char * name = Q_NULLPTR);
+    KileProjectDialogBase(const QString &caption, KileDocument::Extensions *extensions, QWidget *parent = nullptr, const char * name = nullptr);
     virtual ~KileProjectDialogBase();
 
     void setProject(KileProject *project, bool override);
@@ -97,10 +97,10 @@ class KileNewProjectDialog : public KileProjectDialogBase
     Q_OBJECT
 
 public:
-    KileNewProjectDialog(KileTemplate::Manager *templateManager, KileDocument::Extensions *extensions, QWidget* parent = Q_NULLPTR, const char* name = Q_NULLPTR);
+    KileNewProjectDialog(KileTemplate::Manager *templateManager, KileDocument::Extensions *extensions, QWidget* parent = nullptr, const char* name = nullptr);
     ~KileNewProjectDialog() override;
 
-    KileProject *project() Q_DECL_OVERRIDE;
+    KileProject *project() override;
 
     QString cleanProjectFile();
     QString folder() const {
@@ -117,7 +117,7 @@ public:
 
 private Q_SLOTS:
     void clickedCreateNewFileCb();
-    void fillProjectDefaults() Q_DECL_OVERRIDE;
+    void fillProjectDefaults() override;
     void handleOKButtonClicked();
 
 private:
@@ -137,7 +137,7 @@ class KileProjectOptionsDialog : public KileProjectDialogBase
     Q_OBJECT
 
 public:
-    KileProjectOptionsDialog(KileProject *project, KileDocument::Extensions *extensions, QWidget *parent = Q_NULLPTR, const char * name = Q_NULLPTR);
+    KileProjectOptionsDialog(KileProject *project, KileDocument::Extensions *extensions, QWidget *parent = nullptr, const char * name = nullptr);
     ~KileProjectOptionsDialog() override;
 
 private Q_SLOTS:

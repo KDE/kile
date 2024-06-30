@@ -202,7 +202,7 @@ public:
 
     QStringList testGroups();
     QList<ConfigTest*> resultForGroup(const QString &);
-    int statusForGroup(const QString &testGroup, bool *isCritical = Q_NULLPTR);
+    int statusForGroup(const QString &testGroup, bool *isCritical = nullptr);
 
     bool isSyncTeXSupportedForPDFLaTeX();
     bool isViewerModeSupportedInOkular();
@@ -240,9 +240,9 @@ private:
     bool m_runningTestCritical;
 
     void setupTests();
-    void installConsecutivelyDependentTests(ConfigTest *t1, ConfigTest *t2 = Q_NULLPTR,
-                                            ConfigTest *t3 = Q_NULLPTR,
-                                            ConfigTest *t4 = Q_NULLPTR);
+    void installConsecutivelyDependentTests(ConfigTest *t1, ConfigTest *t2 = nullptr,
+                                            ConfigTest *t3 = nullptr,
+                                            ConfigTest *t4 = nullptr);
 };
 
 #endif

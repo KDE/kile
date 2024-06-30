@@ -57,8 +57,8 @@ public:
 
 private:
     void initEnvironments();
-    QAction * addAction(const QIcon &icon, const QString &text, const char *method, QObject *parent = Q_NULLPTR);
-    QAction * addAction(const QIcon &icon, const QString &text, QObject *receiver, const char *method, QObject *parent = Q_NULLPTR);
+    QAction * addAction(const QIcon &icon, const QString &text, const char *method, QObject *parent = nullptr);
+    QAction * addAction(const QIcon &icon, const QString &text, QObject *receiver, const char *method, QObject *parent = nullptr);
     void alignItems(int alignment);
     bool checkForColumnAlignment(int column);
     QIcon generateColorIcon(bool background) const;

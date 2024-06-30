@@ -81,7 +81,7 @@ class LaTeXOutputParser : public Parser
     Q_OBJECT
 
 public:
-    LaTeXOutputParser(ParserThread *parserThread, LaTeXOutputParserInput *input, QObject *parent = Q_NULLPTR);
+    LaTeXOutputParser(ParserThread *parserThread, LaTeXOutputParserInput *input, QObject *parent = nullptr);
     virtual ~LaTeXOutputParser() override;
 
     ParserOutput* parse() override;

@@ -69,7 +69,7 @@ class DocumentViewerWindow : public KMainWindow
     Q_OBJECT
 
 public:
-    explicit DocumentViewerWindow(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
+    explicit DocumentViewerWindow(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
     virtual ~DocumentViewerWindow();
 
 Q_SIGNALS:
@@ -87,7 +87,7 @@ class Manager
     Q_OBJECT
 
 public:
-    explicit Manager(KileInfo *ki, KActionCollection *actionCollection, QObject *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
+    explicit Manager(KileInfo *ki, KActionCollection *actionCollection, QObject *parent = nullptr, const char *name = nullptr);
 
     ~Manager();
 
@@ -159,7 +159,7 @@ public Q_SLOTS:
 
     void removeView(KTextEditor::View *view);
 
-    void updateStructure(bool parse = false, KileDocument::Info *docinfo = Q_NULLPTR);
+    void updateStructure(bool parse = false, KileDocument::Info *docinfo = nullptr);
 
     void gotoNextView();
     void gotoPrevView();
@@ -172,8 +172,8 @@ public Q_SLOTS:
     void pasteAsLaTeX();
     void quickPreviewPopup();
 
-    void moveTabLeft(QWidget *widget = Q_NULLPTR);
-    void moveTabRight(QWidget *widget = Q_NULLPTR);
+    void moveTabLeft(QWidget *widget = nullptr);
+    void moveTabRight(QWidget *widget = nullptr);
 
     void setDocumentViewerVisible(bool b);
 

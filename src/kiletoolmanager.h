@@ -156,7 +156,7 @@ private:
     void initTool(Base*);
 
 private Q_SLOTS:
-    int runImmediately(KileTool::Base *tool, bool insertAtTop = false, bool block = false, KileTool::Base *parent = Q_NULLPTR);
+    int runImmediately(KileTool::Base *tool, bool insertAtTop = false, bool block = false, KileTool::Base *parent = nullptr);
     int runNextInQueue();
     void enableClear();
 

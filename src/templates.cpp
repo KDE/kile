@@ -91,7 +91,7 @@ bool Manager::copyAppData(const QUrl &src, const QString& subdir, const QString&
         return copyJob->exec();
     }
     else {
-        KMessageBox::error(Q_NULLPTR, i18n("Could not find a folder to save %1 to.\nCheck whether you have a folder named \".kde\" with write permissions in your home folder.", fileName));
+        KMessageBox::error(nullptr, i18n("Could not find a folder to save %1 to.\nCheck whether you have a folder named \".kde\" with write permissions in your home folder.", fileName));
         return false;
     }
 }
@@ -222,7 +222,7 @@ bool TemplateItem::operator<(const QListWidgetItem &other) const
 ////////////////////// TemplateIconView //////////////////////
 
 TemplateIconView::TemplateIconView(QWidget *parent)
-    : QListWidget(parent), m_templateManager(Q_NULLPTR), m_proc(Q_NULLPTR) {
+    : QListWidget(parent), m_templateManager(nullptr), m_proc(nullptr) {
     setViewMode(QListView::IconMode);
     setMovement(QListView::Static);
     setResizeMode(QListView::Adjust);

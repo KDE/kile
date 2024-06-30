@@ -173,7 +173,7 @@ void UserHelp::slotUserHelpActivated(const QUrl &url)
         }
     }
 
-    KileTool::Base *tool = Q_NULLPTR;
+    KileTool::Base *tool = nullptr;
     if(!type.isEmpty() && type != "ViewHTML") {
         tool = m_manager->createTool(type, "Okular", false);
     }

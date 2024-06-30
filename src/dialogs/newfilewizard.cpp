@@ -117,7 +117,7 @@ TemplateItem* NewFileWizard::getSelection() const
 {
     QList<QListWidgetItem*> selectedItems = m_newDocumentWidget->templateIconView->selectedItems();
     if(selectedItems.isEmpty()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     return static_cast<TemplateItem*>(selectedItems.first());
 }

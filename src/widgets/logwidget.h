@@ -34,7 +34,7 @@ class LogWidgetItemDelegate : public QItemDelegate
     Q_OBJECT
 
 public:
-    explicit LogWidgetItemDelegate(QObject* parent = Q_NULLPTR);
+    explicit LogWidgetItemDelegate(QObject* parent = nullptr);
 
     virtual QSize sizeHint(const QStyleOptionViewItem& option,
                            const QModelIndex& index) const override;
@@ -60,7 +60,7 @@ public:
 
     enum PopupType { AllPopupActions = 0, NoHideActions = 1};
 
-    explicit LogWidget(PopupType popupType = AllPopupActions, QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
+    explicit LogWidget(PopupType popupType = AllPopupActions, QWidget *parent = nullptr, const char *name = nullptr);
     ~LogWidget();
 
     bool isShowingOutput() const;

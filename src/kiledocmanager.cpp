@@ -84,7 +84,7 @@ namespace KileDocument
 Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
     QObject(parent),
     m_ki(info),
-    m_progressDialog(Q_NULLPTR),
+    m_progressDialog(nullptr),
     m_currentlySavingAll(false),
     m_currentlyOpeningFile(false)
 {
@@ -112,7 +112,7 @@ void Manager::writeConfig()
 {
 }
 
-void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= Q_NULLPTR */ )
+void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= nullptr */ )
 {
     KILE_DEBUG_MAIN << "==void Manager::trashDoc(" << docinfo->url().toLocalFile() << ")=====";
 
@@ -178,7 +178,7 @@ KTextEditor::Document* Manager::docFor(const QUrl &url)
         }
     }
 
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 TextInfo* Manager::getInfo() const
@@ -188,14 +188,14 @@ TextInfo* Manager::getInfo() const
         return textInfoFor(doc);
     }
     else {
-        return Q_NULLPTR;
+        return nullptr;
     }
 }
 
 TextInfo* Manager::textInfoFor(const QUrl &url)
 {
     if(url.isEmpty()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     KILE_DEBUG_MAIN << "==KileInfo::textInfoFor(" << url << ")==========================";
@@ -222,13 +222,13 @@ TextInfo* Manager::textInfoFor(const QUrl &url)
     }
 
     KILE_DEBUG_MAIN << "\tCOULD NOT find info for " << url;
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 TextInfo* Manager::textInfoFor(KTextEditor::Document* doc) const
 {
     if(!doc) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     // TextInfo* objects that contain KTextEditor::Document* pointers must be open in the editor, i.e.
@@ -240,7 +240,7 @@ TextInfo* Manager::textInfoFor(KTextEditor::Document* doc) const
     }
 
     KILE_DEBUG_MAIN << "\tCOULD NOT find info for" << doc->url() << "by searching via a KTextEditor::Document*";
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 QUrl Manager::urlFor(TextInfo* textInfo)
@@ -267,7 +267,7 @@ KileProject* Manager::projectForMember(const QUrl &memberUrl)
             return project;
         }
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 KileProject* Manager::projectFor(const QUrl &projecturl)
@@ -279,7 +279,7 @@ KileProject* Manager::projectFor(const QUrl &projecturl)
         }
     }
 
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 KileProject* Manager::projectFor(const QString &name)
@@ -291,7 +291,7 @@ KileProject* Manager::projectFor(const QString &name)
         }
     }
 
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 KileProjectItem* Manager::itemFor(const QUrl &url, KileProject *project /*=0L*/) const
@@ -303,7 +303,7 @@ KileProjectItem* Manager::itemFor(const QUrl &url, KileProject *project /*=0L*/)
                 return item;
             }
         }
-        return Q_NULLPTR;
+        return nullptr;
     }
     else {
         return project->item(url);
@@ -319,7 +319,7 @@ KileProjectItem* Manager::itemFor(TextInfo *docinfo, KileProject *project /*=0*/
                 return item;
             }
         }
-        return Q_NULLPTR;
+        return nullptr;
     }
     else {
         return project->item(docinfo);
@@ -370,7 +370,7 @@ KileProject* Manager::activeProject()
         return projectForMember(doc->url());
     }
     else {
-        return Q_NULLPTR;
+        return nullptr;
     }
 }
 
@@ -389,12 +389,12 @@ KileProjectItem* Manager::activeProjectItem()
         }
     }
 
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const QUrl &url, const QUrl& baseDirectory)
 {
-    TextInfo *docinfo = Q_NULLPTR;
+    TextInfo *docinfo = nullptr;
 
     // check whether this URL belongs to an opened project and a TextInfo* object has already
     // been created for that URL
@@ -501,10 +501,10 @@ KTextEditor::Document* Manager::createDocument(const QUrl &url, TextInfo *docinf
 {
     KILE_DEBUG_MAIN << "==KTextEditor::Document* Manager::createDocument()===========";
 
-    KTextEditor::Document *doc = Q_NULLPTR;
+    KTextEditor::Document *doc = nullptr;
 
     if(!m_editor) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     doc = docFor(url);
@@ -512,7 +512,7 @@ KTextEditor::Document* Manager::createDocument(const QUrl &url, TextInfo *docinf
         qWarning() << url << " already has a document!";
         return doc;
     }
-    doc = m_editor->createDocument(Q_NULLPTR);
+    doc = m_editor->createDocument(nullptr);
     KILE_DEBUG_MAIN << "appending document " <<  doc;
 
     connect(doc, &KTextEditor::Document::canceled, [=] (const QString &errMsg) {
@@ -536,7 +536,7 @@ KTextEditor::Document* Manager::createDocument(const QUrl &url, TextInfo *docinf
             KILE_WARNING_MAIN << "couldn't open the url" << url;
             docinfo->detach();
             delete doc;
-            return Q_NULLPTR;
+            return nullptr;
         }
         // don't add scripts to the recent files
         if(r && docinfo->getType() != Script) {
@@ -577,7 +577,7 @@ KTextEditor::Document* Manager::createDocument(const QUrl &url, TextInfo *docinf
 // WARNING: 'item' must have been set up with a TextInfo* object already
 KTextEditor::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text, bool openProjectItemViews)
 {
-    KTextEditor::View *view = Q_NULLPTR;
+    KTextEditor::View *view = nullptr;
 
     KILE_DEBUG_MAIN << "==loadItem(" << item->url() << ")======";
 
@@ -621,7 +621,7 @@ KTextEditor::View* Manager::loadText(KileDocument::Type type, const QUrl &url, c
     KTextEditor::Document *doc = createDocument(url, docinfo, encoding, mode, highlight);
     if(!doc) {
         removeTextDocumentInfo(docinfo);
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     m_ki->structureWidget()->clean(docinfo);
@@ -637,7 +637,7 @@ KTextEditor::View* Manager::loadText(KileDocument::Type type, const QUrl &url, c
     KILE_DEBUG_MAIN << "just after createView()";
     KILE_DEBUG_MAIN << "\tdocinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url());
 
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 //FIXME: template stuff should be in own class
@@ -647,17 +647,17 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
     QString text;
 
     if(!sel) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     if (sel->name() != KileTemplate::Manager::defaultEmptyTemplateCaption()
             && sel->name() != KileTemplate::Manager::defaultEmptyLaTeXTemplateCaption()
             && sel->name() != KileTemplate::Manager::defaultEmptyBibTeXTemplateCaption()) {
         if(!m_editor) {
-            return Q_NULLPTR;
+            return nullptr;
         }
         //create a new document to open the template in
-        KTextEditor::Document *tempdoc = m_editor->createDocument(Q_NULLPTR);
+        KTextEditor::Document *tempdoc = m_editor->createDocument(nullptr);
 
         if (!tempdoc->openUrl(QUrl::fromLocalFile(sel->path()))) {
             KMessageBox::error(m_ki->mainWindow(), i18n("Could not find template: %1", sel->name()), i18n("File Not Found"));
@@ -690,7 +690,7 @@ KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocu
 KTextEditor::View* Manager::createNewJScript()
 {
     KTextEditor::View *view = createDocumentWithText(QString(), Script, "js", QUrl::fromLocalFile(m_ki->scriptManager()->getLocalScriptDirectory()));
-    Q_EMIT(updateStructure(false, Q_NULLPTR));
+    Q_EMIT(updateStructure(false, nullptr));
     Q_EMIT(updateModeStatus());
     return view;
 }
@@ -698,7 +698,7 @@ KTextEditor::View* Manager::createNewJScript()
 KTextEditor::View* Manager::createNewLaTeXDocument()
 {
     KTextEditor::View *view = createDocumentWithText(QString(), LaTeX);
-    Q_EMIT(updateStructure(false, Q_NULLPTR));
+    Q_EMIT(updateStructure(false, nullptr));
     Q_EMIT(updateModeStatus());
     return view;
 }
@@ -756,7 +756,7 @@ void Manager::fileNew(KileDocument::Type type)
             if(nfw->useWizard()) {
                 Q_EMIT(startWizard());
             }
-            Q_EMIT(updateStructure(false, Q_NULLPTR));
+            Q_EMIT(updateStructure(false, nullptr));
             Q_EMIT(updateModeStatus());
         }
     }
@@ -869,7 +869,7 @@ bool Manager::fileSaveAll(bool disUntitled)
         return true;
     }
     m_currentlySavingAll = true;
-    KTextEditor::View *view = Q_NULLPTR;
+    KTextEditor::View *view = nullptr;
     QFileInfo fi;
     bool oneSaveFailed = false;
 
@@ -901,7 +901,7 @@ bool Manager::fileSaveAll(bool disUntitled)
      This may look superfluos but actually it is not, in the case of multiple modified docs it ensures that the structure view keeps synchronized with the currentTextView
      And if we only have one masterdoc or none nothing goes wrong.
     */
-    Q_EMIT(updateStructure(false, Q_NULLPTR));
+    Q_EMIT(updateStructure(false, nullptr));
     m_currentlySavingAll = false;
     return !oneSaveFailed;
 }
@@ -955,7 +955,7 @@ TextInfo* Manager::fileOpen(const QUrl &url, const QString& encoding, int index)
                            i18n("Cannot open directory"));
         m_currentlyOpeningFile = false; // has to be before the 'switchToTextView' call as
         // it emits signals that are handled by the live preview manager
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     KILE_DEBUG_MAIN << "url is " << url.url();
@@ -973,7 +973,7 @@ TextInfo* Manager::fileOpen(const QUrl &url, const QString& encoding, int index)
     if(!view) {
         m_currentlyOpeningFile = false; // has to be before the 'switchToTextView' call as
         // it emits signals that are handled by the live preview manager
-        return Q_NULLPTR;
+        return nullptr;
     }
     QList<KileProjectItem*> itemList = itemsFor(realurl);
     TextInfo *textInfo = textInfoFor(realurl);
@@ -991,7 +991,7 @@ TextInfo* Manager::fileOpen(const QUrl &url, const QString& encoding, int index)
         item->loadDocumentAndViewSettings();
     }
 
-    Q_EMIT(updateStructure(false, Q_NULLPTR));
+    Q_EMIT(updateStructure(false, nullptr));
     Q_EMIT(updateModeStatus());
     // update undefined references in this file
     Q_EMIT(updateReferences(textInfoFor(realurl)));
@@ -1298,7 +1298,7 @@ void Manager::projectNew()
 
     if (dlg->exec())
     {
-        TextInfo *newTextInfo = Q_NULLPTR;
+        TextInfo *newTextInfo = nullptr;
 
         KileProject *project = dlg->project();
 
@@ -1369,20 +1369,20 @@ KileProject* Manager::selectProject(const QString& caption)
         list.append((*it)->name());
     }
 
-    KileProject *project = Q_NULLPTR;
+    KileProject *project = nullptr;
     QString name;
     if (list.count() > 1) {
         KileListSelector *dlg  = new KileListSelector(list, caption, i18n("Select Project"), true, m_ki->mainWindow());
         if (dlg->exec()) {
             if(!dlg->hasSelection()) {
-                return Q_NULLPTR;
+                return nullptr;
             }
             name = dlg->selectedItems().first();
         }
         delete dlg;
     }
     else if (list.count() == 0) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     else {
         name = m_projects.first()->name();
@@ -1605,7 +1605,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
     m_progressDialog->setValue(project_steps);
 
     // open the project files in the correct order
-    QVector<KileProjectItem*> givenPositionVector(list.count(), Q_NULLPTR);
+    QVector<KileProjectItem*> givenPositionVector(list.count(), nullptr);
     QList<KileProjectItem*> notCorrectlyOrderedList;
     for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
         KileProjectItem *item = *it;
@@ -1614,7 +1614,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
         if(order >= 0 && order >= list.count()) {
             order = -1;
         }
-        if(!item->isOpen() || order < 0 || givenPositionVector[order] != Q_NULLPTR) {
+        if(!item->isOpen() || order < 0 || givenPositionVector[order] != nullptr) {
             notCorrectlyOrderedList.push_back(item);
         }
         else {
@@ -1654,7 +1654,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
 
     kp->buildProjectTree();
 
-    Q_EMIT(updateStructure(false, Q_NULLPTR));
+    Q_EMIT(updateStructure(false, nullptr));
     Q_EMIT(updateModeStatus());
 
     // update undefined references in all project files
@@ -1701,12 +1701,12 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 
     if(project) {
         QList<KileProjectItem*> list = project->items();
-        KTextEditor::Document *doc = Q_NULLPTR;
-        KileProjectItem *item = Q_NULLPTR;
-        TextInfo *docinfo = Q_NULLPTR;
+        KTextEditor::Document *doc = nullptr;
+        KileProjectItem *item = nullptr;
+        TextInfo *docinfo = nullptr;
 
         // determine the order in which the project items are opened
-        QVector<KileProjectItem*> viewPositionVector(m_ki->viewManager()->getTabCount(), Q_NULLPTR);
+        QVector<KileProjectItem*> viewPositionVector(m_ki->viewManager()->getTabCount(), nullptr);
         for(QList<KileProjectItem*>::iterator i = list.begin(); i != list.end(); ++i) {
             docinfo = (*i)->getInfo();
             if(docinfo) {
@@ -1721,7 +1721,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
         }
         int position = 0;
         for(int i = 0; i < viewPositionVector.size(); ++i) {
-            if(viewPositionVector[i] != Q_NULLPTR) {
+            if(viewPositionVector[i] != nullptr) {
                 viewPositionVector[i]->setOrder(position);
                 ++position;
             }
@@ -1741,8 +1741,8 @@ void Manager::projectSave(KileProject *project /* = 0 */)
                 storeProjectItem(item, doc);
             }
 
-            doc = Q_NULLPTR;
-            docinfo = Q_NULLPTR;
+            doc = nullptr;
+            docinfo = nullptr;
         }
 
         project->save();
@@ -1877,12 +1877,12 @@ bool Manager::projectClose(const QUrl &url)
         QList<KileProjectItem*> list = project->items();
 
         bool close = true;
-        KTextEditor::Document *doc = Q_NULLPTR;
-        TextInfo *docinfo = Q_NULLPTR;
+        KTextEditor::Document *doc = nullptr;
+        TextInfo *docinfo = nullptr;
         for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
             KileProjectItem *item = *it;
 
-            doc = Q_NULLPTR;
+            doc = nullptr;
             docinfo = item->getInfo();
             if (docinfo) {
                 doc = docinfo->getDoc();
@@ -2060,11 +2060,11 @@ void Manager::projectShow()
 
     // get last opened document
     const QUrl lastdoc = project->lastDocument();
-    KileProjectItem *docitem = (!lastdoc.isEmpty()) ? itemFor(lastdoc, project) : Q_NULLPTR;
+    KileProjectItem *docitem = (!lastdoc.isEmpty()) ? itemFor(lastdoc, project) : nullptr;
 
     // if not, we search for the first opened tex file of this project
     // if no file is opened, we take the first tex file mentioned in the list
-    KileProjectItem *first_texitem = Q_NULLPTR;
+    KileProjectItem *first_texitem = nullptr;
     if(!docitem) {
         QList<KileProjectItem*> list = project->items();
         for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
@@ -2151,7 +2151,7 @@ void Manager::projectOpenAllFiles()
 void Manager::projectOpenAllFiles(const QUrl &url)
 {
     KileProject* project;
-    KTextEditor::Document* doc = Q_NULLPTR;
+    KTextEditor::Document* doc = nullptr;
 
     if(!url.isValid()) {
         return;
@@ -2218,7 +2218,7 @@ KileProjectItem* Manager::selectProjectFileItem(const QString &label)
     // select a project
     KileProject *project = selectProject(i18n("Select Project"));
     if(!project) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     // get a list of files
@@ -2233,7 +2233,7 @@ KileProjectItem* Manager::selectProjectFileItem(const QString &label)
     }
 
     // select one of these files
-    KileProjectItem *item = Q_NULLPTR;
+    KileProjectItem *item = nullptr;
     KileListSelector *dlg  = new KileListSelector(filelist, i18n("Project Files"), label, true, m_ki->mainWindow());
     if(dlg->exec()) {
         if(dlg->hasSelection()) {
@@ -2336,7 +2336,7 @@ void Manager::cleanupDocumentInfoForProjectItems(KileDocument::Info *info)
 {
     QList<KileProjectItem*> itemsList = itemsFor(info);
     for(QList<KileProjectItem*>::iterator it = itemsList.begin(); it != itemsList.end(); ++it) {
-        (*it)->setInfo(Q_NULLPTR);
+        (*it)->setInfo(nullptr);
     }
 }
 
@@ -2489,7 +2489,7 @@ void Manager::deleteDocumentAndViewSettingsGroups(const QUrl &url)
 
 QStringList Manager::loadTextURLContents(const QUrl &url, const QString& encoding)
 {
-    QTemporaryFile *temporaryFile = Q_NULLPTR;
+    QTemporaryFile *temporaryFile = nullptr;
     QString localFileName;
     if(url.isLocalFile()) {
         localFileName = url.path();

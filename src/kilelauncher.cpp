@@ -39,7 +39,7 @@
 namespace KileTool {
 
 Launcher::Launcher() :
-    m_tool(Q_NULLPTR)
+    m_tool(nullptr)
 {
 }
 
@@ -97,12 +97,12 @@ void ProcessLauncher::setOptions(const QString& opt)
 
 bool ProcessLauncher::launch()
 {
-    if(tool() == Q_NULLPTR) {
-        qWarning() << "tool() is Q_NULLPTR which is a BUG";
+    if(tool() == nullptr) {
+        qWarning() << "tool() is nullptr which is a BUG";
         return false;
     }
-    if(m_proc == Q_NULLPTR) {
-        qWarning() << "m_proc is Q_NULLPTR which is a BUG";
+    if(m_proc == nullptr) {
+        qWarning() << "m_proc is nullptr which is a BUG";
         return false;
     }
 

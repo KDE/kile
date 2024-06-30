@@ -36,7 +36,7 @@ class UserHelpDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit UserHelpDialog(QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
+    explicit UserHelpDialog(QWidget *parent = nullptr, const char *name = nullptr);
     ~UserHelpDialog() {}
 
     void setParameter(const QStringList &menuentries, const QList<QUrl> &helpfiles);
@@ -64,7 +64,7 @@ class UserHelpAddDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent = Q_NULLPTR);
+    explicit UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent = nullptr);
     ~UserHelpAddDialog() {}
 
 private:

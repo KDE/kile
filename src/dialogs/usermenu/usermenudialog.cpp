@@ -39,7 +39,7 @@ namespace KileMenu {
 #define CHOOSABLE_MENUTYPES   3
 
 UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu *userMenu, const QString &xmlfile, QWidget *parent)
-    : KileDialog::Wizard(config, parent, Q_NULLPTR, i18n("Edit User Menu"))
+    : KileDialog::Wizard(config, parent, nullptr, i18n("Edit User Menu"))
     , m_ki(ki)
     , m_userMenu(userMenu)
 {
@@ -831,13 +831,13 @@ void UserMenuDialog::setSubmenuEntry(UserMenuItem *item)
 {
     setMenuentryText(item, true);
     setMenuentryType(item, true, false);
-    setMenuentryFileChooser(Q_NULLPTR, false);
-    setMenuentryFileParameter(Q_NULLPTR, false);
-    setMenuentryTextEdit(Q_NULLPTR, false);
-    setMenuentryIcon(Q_NULLPTR, false);
-    setMenuentryShortcut(Q_NULLPTR, false);
+    setMenuentryFileChooser(nullptr, false);
+    setMenuentryFileParameter(nullptr, false);
+    setMenuentryTextEdit(nullptr, false);
+    setMenuentryIcon(nullptr, false);
+    setMenuentryShortcut(nullptr, false);
     setParameterGroupbox(false);
-    setMenuentryCheckboxes(Q_NULLPTR, false);
+    setMenuentryCheckboxes(nullptr, false);
 }
 
 ////////////////////////////// update data widgets//////////////////////////////
@@ -990,15 +990,15 @@ void UserMenuDialog::clearMenuEntryData()
 
 void UserMenuDialog::disableMenuEntryData()
 {
-    setMenuentryText(Q_NULLPTR, false);
-    setMenuentryType(Q_NULLPTR, false, false);
-    setMenuentryFileChooser(Q_NULLPTR, false);
-    setMenuentryFileParameter(Q_NULLPTR, false);
-    setMenuentryTextEdit(Q_NULLPTR, false);
-    setMenuentryIcon(Q_NULLPTR, false);
-    setMenuentryShortcut(Q_NULLPTR, false);
+    setMenuentryText(nullptr, false);
+    setMenuentryType(nullptr, false, false);
+    setMenuentryFileChooser(nullptr, false);
+    setMenuentryFileParameter(nullptr, false);
+    setMenuentryTextEdit(nullptr, false);
+    setMenuentryIcon(nullptr, false);
+    setMenuentryShortcut(nullptr, false);
     setParameterGroupbox(false);
-    setMenuentryCheckboxes(Q_NULLPTR, false);
+    setMenuentryCheckboxes(nullptr, false);
 }
 
 }

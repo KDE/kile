@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-24 00:38+0000\n"
-"PO-Revision-Date: 2024-04-28 11:39+0200\n"
+"PO-Revision-Date: 2024-07-06 11:55+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5997,7 +5998,7 @@ msgstr "S&tatystyki"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "&Otwórz katalog zawierający"
 
 #: kile.cpp:858
 #, kde-format
@@ -6842,13 +6843,13 @@ msgstr "Użyj tej liczby odstępów do samo-wcinania otoczeń"
 #: kile.kcfg:214
 #, kde-format
 msgid "Click in editor to select from cursor"
-msgstr ""
+msgstr "Naciśnij w edytorze, aby zaznaczyć od wskaźnika"
 
 #. i18n: ectx: label, entry (envEventSearchModifier), group (Editor Ext)
 #: kile.kcfg:218
 #, kde-format
 msgid "Click in editor to search in viewer"
-msgstr ""
+msgstr "Naciśnij w edytorze, aby poszukać w przeglądarce"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
 #: kile.kcfg:226
@@ -11888,59 +11889,57 @@ msgstr "&Ustawienia..."
 #: widgets/latexconfigwidget.cpp:31
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: widgets/latexconfigwidget.cpp:32 widgets/latexconfigwidget.cpp:43
 #, kde-format
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: widgets/latexconfigwidget.cpp:33
-#, fuzzy, kde-format
-#| msgid "Alignat"
+#, kde-format
 msgid "Alt"
-msgstr "Wyrównaj do"
+msgstr "Alt"
 
 #: widgets/latexconfigwidget.cpp:34
 #, kde-format
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
 msgid "Ctrl + Shift"
-msgstr ""
+msgstr "Ctrl + Shift"
 
 #: widgets/latexconfigwidget.cpp:36
 #, kde-format
 msgid "Alt + Ctrl"
-msgstr ""
+msgstr "Alt + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:37
 #, kde-format
 msgid "Meta + Ctrl"
-msgstr ""
+msgstr "Meta + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:42
-#, fuzzy, kde-format
-#| msgid "Command"
+#, kde-format
 msgid "Cmd"
-msgstr "Polecenie"
+msgstr "Cmd"
 
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format
 msgid "Cmd + Shift"
-msgstr ""
+msgstr "Cmd + Shift"
 
 #: widgets/latexconfigwidget.cpp:45
 #, kde-format
 msgid "Alt + Cmd"
-msgstr ""
+msgstr "Alt + Cmd"
 
 #: widgets/latexconfigwidget.cpp:46
 #, kde-format
 msgid "Ctrl + Cmd"
-msgstr ""
+msgstr "Ctrl + Cmd"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
@@ -12034,19 +12033,19 @@ msgstr "B&STINPUTS:"
 #: widgets/latexconfigwidget.ui:258
 #, kde-format
 msgid "Modifiers for Left Click Actions"
-msgstr ""
+msgstr "Klawisze przełączający przyciskanie lewym klawiszem myszy"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/latexconfigwidget.ui:267
 #, kde-format
 msgid "Modifier for forward search in viewer:"
-msgstr ""
+msgstr "Klawisz przełączający wyszukiwanie w przód w przeglądarce:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: widgets/latexconfigwidget.ui:280
 #, kde-format
 msgid "Modifier for selecting from cursor:"
-msgstr ""
+msgstr "Klawisz przełączający zaznaczanie od wskaźnika:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckRootDoc)
 #: widgets/latextoolconfigwidget.ui:35
@@ -12153,10 +12152,9 @@ msgstr "Wybór narzędzia"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
 #: widgets/maintoolconfigwidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Show input files"
+#, kde-format
 msgid "Show hidden tools"
-msgstr "Pokaż pliki wejściowe"
+msgstr "Pokaż ukryte narzędzia"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)

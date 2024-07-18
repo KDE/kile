@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-24 00:38+0000\n"
-"PO-Revision-Date: 2024-04-02 05:59+0200\n"
+"PO-Revision-Date: 2024-07-17 06:36+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -12370,7 +12370,7 @@ msgstr "E&tiketa bakarrik"
 #: widgets/structurewidget.cpp:817
 #, kde-format
 msgid "Copy Label to Clipboard"
-msgstr "Kopiatu etiketa arbelera"
+msgstr "Kopiatu etiketa arbelean"
 
 #: widgets/structurewidget.cpp:818
 #, kde-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-24 00:38+0000\n"
-"PO-Revision-Date: 2024-05-27 04:36+0200\n"
+"PO-Revision-Date: 2024-07-17 10:26+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -663,6 +663,14 @@ msgid ""
 "'center', Kile will search for '\\begin{center}', and in graphics mode with "
 "pattern '.*\\.png', Kile will search for all png files."
 msgstr ""
+"აირჩიეთ ერთი ძებნის რეჟიმი. პირველი რეჟიმებისთვის ძებნის ნიმუშის აგება "
+"ჩასწორებადი შაბლონიდან ხდება, სადაც '%s' მითითებული ნიმუშით ჩანაცვლდება."
+"<br><br>არსებობს დამატებითი წინასწარ აღწერილი რეჟიმები გარემოებისთვის, "
+"გრაფიკისთვის, ჭდეებისთვის, მიმართვებისთვის და შეყვანის ფაილებისთვის. თუ "
+"ნიმუში ცარიელია, Kile ამრეჟიმის ყველა ბრძანებას მოძებნის. თუ ნიმუში "
+"მითითებულია, ის პარამეტრის სახით იქნება ჩასმული. მაგალითად, გარემოს რეჟიმში, "
+"ნიმუშით 'center' Kile მოძებნის '\\begin{center}, და გრაფიკულ რეჟიმში ნიმუშით "
+"'.*\\.png' Kile ყველა png ფაილს მოძებნის."
 
 #: dialogs/findfilesdialog.cpp:292
 #, kde-format
@@ -2274,6 +2282,19 @@ msgid ""
 "content is encrypted, but the key is known. You should see it more as a "
 "polite but firm request to respect the author's wishes.</p>"
 msgstr ""
+"<center>PDF-Wizard</center><br>ეს ოსტატი 'pdftk'-ს და LaTeX-ის პაკეტ "
+"'pdfpages'-ს იყენებს, რომ <ul><li>გადაალაგოს არსებული PDF დოკუმენტის "
+"გვერდები</li><li>წაიკითხოს და განაახლოს PDF დოკუმენტის ინფორმაცია (მხოლოდ "
+"pdftk)</li><li>PDF დოკუმენტის წვდომების წაკითხვა, დაყენება ან შეცვლა (მხოლოდ "
+"pdftk). ამ დოკუმენტის პარამეტრების დასაყენებლად ან შესაცვლელად პაროლია "
+"საჭირო. დამატებითი PDF დაშიფვრა ხდება, რომ ფაილის შემცველობა პაროლით დამალოთ."
+"</li></ul><p> პაკეტი 'pdfpages', მხოლოდ, დაუშიფრავ დოკუმენტებზე იმუშავებს. "
+"'pdftk'-ს კი ორივე ტიპის დოკუმენტების დამუშავება შეუძლია, მაგრამ დაშიფრული "
+"ფაილებისთვის პაროლიდ სჭირდება. თუ 'pdftk' ან 'pdfpages' ხელმისაწვდომი არაა, "
+"შესაძლო გადაადგილებები შეზღუდულია.</p><p><i>გაფრთხილება:</i> დაშიფვრა და "
+"პაროლი PDF-ის უსაფრთხოებას არ ნიშნავს. შემცველობა დაშიფრულია, მაგრამ გასაღებ "
+"ცნობილია. ის უნდა აღიქვათ როგორც ზრდილობიანი, მაგრამ მყარი მოთხოვნა, "
+"საავტორო უფლებები დაიცვათ.</p>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:906
 #, kde-format
@@ -4993,6 +5014,28 @@ msgid ""
 "items are colored red. More information is available using the <i>What's "
 "this</i> feature of most widgets.</p>"
 msgstr ""
+"<p>შეგიძლიათ შექმნათ, შეცვალოთ და დააყენოთ მომხმარებლის მიერ აღწერილი "
+"მენიუები, რომლებიც Kile-ის მენიუების ნაწილად გამოჩნდება. ამ მენიუს "
+"შესაცვლელად ან შესაქმნელად გამოიყენეთ ექვსი ღილაკი მარცხენა მხარეს. უფრო "
+"მეტი შესაძლო ქმედება ხელმისაწვდომია ულვე არსებული მენიუს ჩანაწერების "
+"კონტექსტური მენიუდან.</p><p>სტანდარტული მენიუების მსგავსად, ხელმისაწვდომია "
+"სამი ტიპის მენიუს პუნქტი:<p><ul><li><i>სტანდარტული პუნქტები</i>, რომლებიც "
+"მინიჭებულია ქმედებაზე</li><li><i>ქვემენიუები</i>, რომლებიც მეტ მენიუს პუნქტს "
+"შეიცავს</li><li><i>გამყოფები</i>, რომ ყველა პუნქტის ვიზუალური სტრუქტურა "
+"მიიღოთ<li><ul><p>თითოეული სტანდარტული მენიუს პუნქტი მინიჭებულია ერთ-ერთზე "
+"სამი ქმედების ტიპიდან:<p><ul><li><i>ტექსტის ჩასმა</i>: ეს ქმედება თქვენს "
+"ტექსტს მიმდინარე კურსორის მდებარეობაზე ჩასვამს. ხელმისაწვდომია რამდენიმე "
+"მეტასიმბოლო: <tt>%M</tt>, <tt>%C</tt>, <tt>%B</tt>, <tt>%E</tt>, <tt>%R</"
+"tt>, <tt>%T</tt>, <tt>%S</tt>: იხილეთ <i>რა არის ეს</i> ან <i>ხელსაწყოს "
+"მინიშნება</i> ვიჯეტისთვის, რომ მეტი ინფორმაცია მიიღოთ.</li><li><i>ფაილის "
+"შემცველობა</i>: ჩასვამს მითითებული ფაილის სრულ შემცველობას (მეტასიმბოლოები "
+"ხელმისაწვდომია)</li><li><i>გარე პროგრამის გაშვება</i>: პროგრამის გამოტანილი "
+"მონაცემები ამჟამად გახსნილ დოკუმენტში ჩაისმება. ასევე ხელმისაწვდომია "
+"მეტასიმბოლო <tt>%M</tt>, რადგან მონიშნული ტექსტი დროებით ფაილში ჩაიწერება. "
+"გამოიყენეთ <tt>%M</tt> დროებითი ფაილი სახელისთვის.</li><ul><p> თუ  ქმედებას "
+"რამე მნიშვნელოვანი ინფორმაცია აკლია, მენიუს პუნქტები წითლად შეიღებება. მეტი "
+"ინფორმაცია ხელმისაწვდომია <i>რაა რის ეს<i> ღილაკით თითქმის ყველა "
+"ვიჯეტისთვის</p>"
 
 #: dialogs/usermenu/usermenudialog.cpp:239
 #, kde-format
@@ -8033,6 +8076,8 @@ msgid ""
 "The itemize environment produces a 'bulleted' list.\n"
 "Each item of an itemized list begins with an \\item command."
 msgstr ""
+"მარკირებული გარემო 'მარკირებულ სიას' ქმნის.\n"
+"ამ სიის თითოეული ელემენტი \\item ბრძანებით იწყება."
 
 #: kilestdactions.cpp:56
 #, kde-format
@@ -8050,6 +8095,8 @@ msgid ""
 "The enumerate environment produces a numbered list.\n"
 "Each item of an enumerated list begins with an \\item command."
 msgstr ""
+"ჩამონათვლის გარემო ჩამოთვლილ სიას ქმნის.\n"
+"ამ სიის თითოეული ელემენტი \\item ბრძანებით იწყება."
 
 #: kilestdactions.cpp:57
 #, kde-format
@@ -8063,6 +8110,9 @@ msgid ""
 "Each item of the list begins with an \\item[label] command.\n"
 "The 'label' is bold face and flushed right."
 msgstr ""
+"აღწერის გარემო ჭდეების მქონე სიების შესაქმნელად გამოიყენება.\n"
+"ამ სიის თითოეული ელემენტი \\item[label] ბრძანებით იწყება.\n"
+"'ჭდე' სქელია და მარჯვნივ სწორდება."
 
 #: kilestdactions.cpp:59
 #, kde-format
@@ -8089,6 +8139,22 @@ msgid ""
 "you wish.\n"
 "The \\caption command allows you to title your table."
 msgstr ""
+"\\begin{table}[მდებარეობა]\n"
+"ცხრილის სხეული\n"
+"\\caption{ცხრილის სათაური}\n"
+"\\end{table}\n"
+"ცხრილები ობიექტბია, რომლებიც ნორმალური ტექსტის ნაწილს არ შეადგენენ და "
+"ჩვეულებრივ შესაბამის ადგილზე დაცურავენ.\n"
+"არასავალდებულო არგუმენტი [მდებარეობა] განსაზღვრავს, სად ცდის LaTeX, ეს "
+"ცხრილი მოათავსოს\n"
+"h : აქ - მდებარეობაზე ტექსტში, სადაც ცხრილის გარემოა აღწერილი\n"
+"t : Top - ტექსტური გვერდის თავში\n"
+"b : Bottom - ტექსტის გვერდის ბოლოში\n"
+"p : Page of floats - ცალკე მცურავ გვერდზე, სადაც გვერდი არ შეიცავს ტექსტს, "
+"მხოლოდ, მცურავ ელემენტებს.\n"
+"ცხრილის სხეული იქმნება ტექსტით, LaTeX-ის ბრძანებებით და ა.შ, თქვენი სურვილის "
+"მიხედვით.\n"
+"ბრძანება \\caption საშუალებას გაძლევთ, თქვენი ცხრილის სათაური დააყენოთ."
 
 #: kilestdactions.cpp:64
 #, kde-format
@@ -8115,6 +8181,22 @@ msgid ""
 "you wish.\n"
 "The \\caption command allows you to title your figure."
 msgstr ""
+"\\begin{figure}[მდებარეობა]\n"
+"ფიგურის სხეული\n"
+"\\caption{ფიგურის სათაური}\n"
+"\\end{table}\n"
+"ფიგურები ობიექტბია, რომლებიც ნორმალური ტექსტის ნაწილს არ შეადგენენ და "
+"ჩვეულებრივ შესაბამის ადგილზე დაცურავენ.\n"
+"არასავალდებულო არგუმენტი [მდებარეობა] განსაზღვრავს, სად ცდის LaTeX, ეს "
+"ფიგურა მოათავსოს\n"
+"h : აქ - მდებარეობაზე ტექსტში, სადაც ფიგურის გარემოა აღწერილი\n"
+"t : Top - ტექსტური გვერდის თავში\n"
+"b : Bottom - ტექსტის გვერდის ბოლოში\n"
+"p : Page of floats - ცალკე მცურავ გვერდზე, სადაც გვერდი არ შეიცავს ტექსტს, "
+"მხოლოდ, მცურავ ელემენტებს.\n"
+"ცხრილის სხეული იქმნება ტექსტით, LaTeX-ის ბრძანებებით და ა.შ, თქვენი სურვილის "
+"მიხედვით.\n"
+"ბრძანება \\caption საშუალებას გაძლევთ, თქვენი ცხრილის სათაური დააყენოთ."
 
 #: kilestdactions.cpp:69
 #, kde-format
@@ -8135,6 +8217,11 @@ msgid ""
 "The titlepage environment creates a title page, i.e. a page with no printed "
 "page number or heading."
 msgstr ""
+"\\begin{titlepage}\n"
+"ტექსტი\n"
+"\\end{titlepage}\n"
+"სათაურის გვერდის გარემო ქმნის სათაურის გვერდს, ანუ გვერდს, რომელსაც გვერდის "
+"ნომერი ან მიმართულება არ გააჩნია."
 
 #: kilestdactions.cpp:72
 #, kde-format
@@ -8246,6 +8333,27 @@ msgid ""
 "\\a  In a tabbing environment, the commands \\=, \\' and \\` do not produce "
 "accents as normal. Instead, the commands \\a=, \\a' and \\a` are used."
 msgstr ""
+"გარემო tabbing საშუალება გაძლევთ, ტექსტი სვეტებზე გაასწოროთ.\n"
+"\\begin{tabbing}\n"
+"ტექსტი \\= მეტი ტექსტი \\= კიდევ უფრო მეტი ტექსტი \\= ბოლო ტექტი \\\\\n"
+"მეორე მწკრივი \\&gt;  \\&gt; მეტი \\\\\n"
+"\\end{tabbing}\n"
+"ბრძანებები :\n"
+"\\=  დააყენებს ტაბულაციის გაჩერებას მიმდინარე მდებარეობაზე.\n"
+"\\>  გადასვლა შემდეგ ტაბულაციის გაჩერებაზე.\n"
+"\\&lt;  საშუალებას გაძლევთ, დაწეროთ რამე ლოკალური საზღვრის მარცხნივ საზღვრის "
+"შეცვლის გარეშე. შესაძლებელია, მხოლოდ, ერთხელ გამოყენება, ხაზის დასაწყისში.\n"
+"\\+  გადაიტანს შემდეგის მარცხენა საზღვარს და ყველა შემდეგ ბრძანებას ერთი "
+"ტაბულაციის გაჩერებით მარჯვნივ\n"
+"\\-  გადაიტანს შემდეგის მარცხენა საზღვარს და ყველა შემდეგ ბრძანებას ერთი "
+"ტაბულაციის გაჩერებით მარცხნივ\n"
+"\\' გადაიტანს ყვეალფერს, რაც აკრიფეთ მიმდნარე სვეტში წინა სვეტის მარჯვნივ. "
+"შეჩერება მიმდინარე სვეტის ტაბულაციის გაჩერებაზე. \n"
+"\\`  საშუალებას გაძლევთ, დადოთ ტექსტის გაჩერება მარჯვნივ ნებისმიერ "
+"ტაბულაციის გაჩერებასთან, ნულოვანის ჩათვლით\n"
+"\\kill  დააყენებს ტაბულაციის გაჩერებებს ტექსტის შექმნის გარეშე.\n"
+"\\tabbing გარემოში, ბრძანებები \\=, \\' და \\` ნორმალურად აქცენტებს არ "
+"შექმნიან. ამისთვის გამოიყენება ბრძანებები \\a=, \\a' და \\a`."
 
 #: kilestdactions.cpp:80
 #, kde-format
@@ -8275,6 +8383,25 @@ msgid ""
 "The \\vline command draws a vertical line extending the full height and "
 "depth of its row."
 msgstr ""
+"\\begin{tabular}[pos]{cols}\n"
+"სვეტი 1 ჩანაწერი & სვეტი 2 ჩანაწერი ... & სვეტი n ჩანაწერი \\\\\n"
+"...\n"
+"\\end{tabular}\n"
+"pos : მიუთითებს ვერტიკალურ მდებარეობას. ნაგულისხმევია გასწორება გარემოს "
+"ცენტრზე.\n"
+"     t - სწორება ზედა მწკრივზე\n"
+"     b - სწორება ქვედა მწკრივზე\n"
+"cols : მიუთითებს სვეტის დაფორმატებას.\n"
+"     l - მარცხნივ სწორებული ჩანაწერების სვეტი.\n"
+"     r - მარჯვნივ სწორებული ჩანაწერების სვეტი.\n"
+"     c - დაცენტრებული ჩანაწერების სვეტი.\n"
+"     | - გარემოს ხაზი, სრული სიგანე და სიღრმე.\n"
+"     @{text} - ეს ჩასვამს ტექსტს თითოეულ მწკრივში.\n"
+"ბრძანება \\hline დახატავს ჰორიზონტალურ ხაზს ცხრილის სიგანით.\n"
+"ბრძანება \\cline{i-j} დახატავს ჰორიზონტალურ ხაზებს მითითებულ სვეტებზე, "
+"დაწყებული სვეტით i და დამთავრებული სვეტით j.\n"
+"ბრძანება \\vline დახატავ ვერტიკალურ ხაზს მიი წმკრივის სურლი სიმაღლით და "
+"სიღრმით."
 
 #: kilestdactions.cpp:81
 #, kde-format
@@ -8295,6 +8422,11 @@ msgid ""
 "r for flushright.\n"
 "text specifies what text is to make up the entry."
 msgstr ""
+"\\multicolumn{cols}{pos}{text}\n"
+"col, მიუთითებს სვეტების სასურველ რაოდენობას.\n"
+"pos მიუთითებს ჩანაწერის დაფორმატებას: c ცენტრზე სწორებით, l მარცხნივ "
+"სწორებისთვის, r მარჯვნივ სწორებისთვის.\n"
+"ტექსტი მითუთითებს ჩანაწერის შესაქმნელ ტექსტზე."
 
 #: kilestdactions.cpp:82
 #, kde-format
@@ -8459,6 +8591,9 @@ msgid ""
 "The \\include command is used in conjunction with the \\includeonly command "
 "for selective inclusion of files."
 msgstr ""
+"\\include{file}\n"
+"ბრძანება \\include გამოიყენება \\includeonly ბრძანებასთან ერთად, რომ, "
+"მხოლოდ, სასურველი ფაილების ჩასმა მოხდეს."
 
 #: kilestdactions.cpp:95 kilestdactions.cpp:96
 #, kde-format
@@ -8483,6 +8618,9 @@ msgid ""
 "exactly as if its contents had been inserted in the current file at that "
 "point."
 msgstr ""
+"\\input{file}\n"
+"ბრძანება \\input მიუთითებს, რომ მითითებული ფაილის წაკთხვა და დამუშავება უნდა "
+"მოხდეს ისე, თითქმის მისი შემცველობა ამ წერტილშია ჩასმული."
 
 #: kilestdactions.cpp:98 widgets/structurewidget.cpp:774
 #, kde-format
@@ -8520,6 +8658,9 @@ msgid ""
 "table of contents\n"
 "Only for 'report' and 'book' class document."
 msgstr ""
+"\\chapter{title}\n"
+"\\chapter*{title} : არ ჩასვამს რიცხვს და სარჩევში ჩანაწერს არ ჩაამატებს\n"
+"მხოლოდ, 'report' და 'book' კლასის დოკუმენტებისთვის."
 
 #: kilestdactions.cpp:102
 #, kde-format
@@ -8533,6 +8674,8 @@ msgid ""
 "\\section*{title} : do not include a number and do not make an entry in the "
 "table of contents"
 msgstr ""
+"\\section{სათაური}\n"
+"\\section*{სათაური} : არ დანომრავს და არ ჩასვამს სარჩევში"
 
 #: kilestdactions.cpp:103
 #, kde-format
@@ -8546,6 +8689,8 @@ msgid ""
 "\\subsection*{title} : do not include a number and do not make an entry in "
 "the table of contents"
 msgstr ""
+"\\subsection{სათაური}\n"
+"\\subsection*{სათაური} : არ დანომრავს და არ ჩასვამს სარჩევში"
 
 #: kilestdactions.cpp:104
 #, kde-format
@@ -8559,6 +8704,8 @@ msgid ""
 "\\subsubsection*{title} : do not include a number and do not make an entry "
 "in the table of contents"
 msgstr ""
+"\\subsubsection{სათაური}\n"
+"\\subsubsection*{სათაური} : არ დანომრავს და არ ჩასვამს სარჩევში"
 
 #: kilestdactions.cpp:105
 #, kde-format
@@ -8572,6 +8719,8 @@ msgid ""
 "\\paragraph*{title} : do not include a number and do not make an entry in "
 "the table of contents"
 msgstr ""
+"\\paragraph{სათაური}\n"
+"\\paragraph*{სათაური} : არ დანომრავს და არ ჩასვამს სარჩევში"
 
 #: kilestdactions.cpp:107
 #, kde-format
@@ -8585,6 +8734,8 @@ msgid ""
 "\\subparagraph*{title} : do not include a number and do not make an entry in "
 "the table of contents"
 msgstr ""
+"\\subparagraph{სათაური}\n"
+"\\subparagraph*{სათაური} : არ დანომრავს და არ ჩასვამს სარჩევში"
 
 #: kilestdactions.cpp:108
 #, kde-format
@@ -8674,6 +8825,9 @@ msgid ""
 "the ref entry in the bib file\n"
 "You can open the bib file with Kile to see all the available references"
 msgstr ""
+"ეს ბრძანება აგენერირებს ტექსტის ციტირებას მიმართვამდე, რომელიც bib ფაილის "
+"ref ჩანაწერზე მიუთითებს\n"
+"ხელმისაწვდომი მიმართვების სანახავად, შეგიძლიათ, bib ფაილი Kile-ით გახსნათ"
 
 #: kilestdactions.cpp:136
 #, kde-format
@@ -8704,6 +8858,11 @@ msgid ""
 "The abstract environment creates a title page, i.e. a page with no printed "
 "page number or heading."
 msgstr ""
+"\\begin{abstract}\n"
+"ტექსტი\n"
+"\\end{abstract}\n"
+"აბსტრაქტური გარემო შექმნის სათაურის გვერდს, ანუ გვერდს გვერდის ნომრისა და "
+"მიმართულების გარეშე."
 
 #: kilestdactions.cpp:148
 #, kde-format
@@ -8726,6 +8885,13 @@ msgid ""
 "parameter for the width. There must be rubber space between columns that can "
 "stretch to fill out the specified width."
 msgstr ""
+"\\begin{tabular*}{width}[pos]{cols}\n"
+"სვეტი 1 ჩანაწერი & სვეტი 2 ჩანწერი ... & სვეტი n ჩანწერი \\\\\n"
+"...\n"
+"\\end{tabular*}\n"
+"ეს ტაბულარული გარემოს გაფართოებული ვერსიაა დამატებითი პარამეტრით "
+"სიგანისთვის. სვეტებს შორის იქნება რეზინის სივრცე, რომელიც შეიძლება გაიწელოს, "
+"რომ მითითებულ სიგანემდე მივიდეს."
 
 #: kilestdactions.cpp:150
 #, kde-format
@@ -8846,6 +9012,15 @@ msgid ""
 "widest item label produces by the \\bibitem commands\n"
 "\\bibitem : Specify a bibliography item"
 msgstr ""
+"\\begin{thebibliography}{widest-label}\n"
+"\\bibitem[label]{cite_key}\n"
+"...\n"
+"\\end{thebibliography}\n"
+"\n"
+"widest-label : ტექსტი, რომელიც, როცა დაიბეჭდება, ისეთივე სიგანისაა, როგორიც "
+"ყველაზე დიდი სიგანის მქონე ელემენტის ჭდე, რომელსაც \\bibitem ბრძანებები "
+"ქმნიან\n"
+"\\bibitem : მიუთითეთ ბიბლიოგრაფის ჩანაწერი"
 
 #: kilestdactions.cpp:166
 #, kde-format
@@ -8932,6 +9107,8 @@ msgid ""
 "The \\hfill fill command produces a \"rubber length\" which can stretch or "
 "shrink horizontally. It will be filled with spaces."
 msgstr ""
+"ბრძანება \\hfill შექმნის \"რეზინის\" სტრიქონს, რომელსაც ჰორიზონტალურად "
+"გაწელვა ან შეკუმშვა შეუძლია და ჰორიზონტალური ხაზით გამოიხატება."
 
 #: kilestdactions.cpp:179
 #, kde-format
@@ -9031,6 +9208,10 @@ msgid ""
 "LaTeX to remove this space, include the optional * argument. Then the space "
 "is never removed."
 msgstr ""
+"ბრძანება \\hspace*, \\space-ის მსგავსად, ჰორიზონტალურ სივრცეს ამატებს. LaTeX "
+"შლის ჰორიზონტალურ სივრცეს, რომელიც ხაზის ბოლოშია. თუ არ გნებავთ, LaTeX-მა ეს "
+"გამოტოვება წაშალოს, მიუთითეთ არასავალდებულო * არგუმენტი. ამის შემდეგ ეს "
+"გამოტოვება აღარასდროს წაიშლება."
 
 #: kilestdactions.cpp:189
 #, kde-format
@@ -9049,6 +9230,10 @@ msgid ""
 "expressed in any terms that LaTeX understands, i.e., points, inches, etc. "
 "You can add negative as well as positive space with an \\vspace command."
 msgstr ""
+"ბრძანება \\vspace ვერტიკალურ სივრცეს ამატებს. სივრცის სიგრძე შეგიძლიათ, "
+"LaTeX-სთვის გასაგებ ნებისმიერი ერთეულით, ანუ, წერტილებით, დუიმებში და ა.შ. "
+"მიუთითოთ. \\vspace ბრძანებას სივრცე ორივე, დადებითი და უარყოფითი "
+"მნიშვნელობით შეგიძლიათ, მიუთითოთ."
 
 #: kilestdactions.cpp:191
 #, kde-format
@@ -9068,6 +9253,10 @@ msgid ""
 "LaTeX to remove this space, include the optional * argument. Then the space "
 "is never removed."
 msgstr ""
+"ბრძანება \\vspace* ბრძანების \\vspace მსგავსად, ვერტიკალურ სივრცეს ამატებს. "
+"LaTeX შლის ვერტიკალურ სივრცეს, რომელიც გვერდის ბოლოშია. თუ არ გნებავთ, რომ "
+"LaTeX-მა ეს სივრცე წაშალოს, მიუთითეთ არასავალდებულო არგუმენტი *. ამის შემდეგ "
+"სივრცე არასდროს წაიშლება."
 
 #: kilestdactions.cpp:194
 #, kde-format
@@ -9196,6 +9385,14 @@ msgid ""
 "unsrt : like plain, but entries are in order of citation.\n"
 "abbrv  : like plain, but more compact labels."
 msgstr ""
+"ბრძანების \\bibliographystyle არგუმენტი მიმართავს ფაილს file style.bst, "
+"რომელიც განსაზღვრავს, როგორ გამოიყურება ციტატები\n"
+"BibTeX-თან ერთად გავრცელებული სტანდარტული სტილებია are:\n"
+"alpha : დალაგებულია ანბანის მიხედვით. ჭდეები წარმოიქმნება ავტორის სახელისგან "
+"და გამოცემის წლისგან.\n"
+"plain  : დალაგებულია ანბანის მიხედვით. ჭდეები რიცხვითია.\n"
+"unsrt : plain-ის მსგავსი, მაგრამ ჩანაწერები ციტირების მიმდევრობითაა.\n"
+"abbrv  : plain-ის მსგავსი, მაგრამ უფრო კომპაქტური ჭდეები."
 
 #: kilestdactions.cpp:220 kilestdactions.cpp:228
 #, kde-format
@@ -9214,6 +9411,9 @@ msgid ""
 "which should contain your database in BibTeX format.\n"
 "Kile inserts automatically the base name of the TeX file"
 msgstr ""
+"ბრძანება \\bibliography მიმართავს bib ფაილს, (გაფართოების გარეშე)\n"
+"რომელიც უნდა შეიცავდეს თქვენს მონაცემთა ბაზას BibTeX-ის ფორმატში.\n"
+"Kile 'TeX' ფაილის საბაზისო სახელს ავტომატურად ჩასვამს"
 
 #: kilestdactions.cpp:227
 #, kde-format
@@ -9509,6 +9709,15 @@ msgid ""
 "     l -- for flush left \n"
 "     r -- for flush right\n"
 msgstr ""
+"\\begin{array}{col1col2...coln}\n"
+"სვეტი 1 ჩანაწერი & სვეტი 2 ჩანაწერი ... & სვეტი n ჩანაწერი \\\\ \n"
+"...\n"
+"\\end{array}\n"
+"თითოეული სვეტი, coln, მითითებულია 1 ასოთი, რომელიც მიუთითებს, ამ სვეტის "
+"რამდენი ჩანაწერი დაფორმატდება.\n"
+"     c -- დაცენტრებული \n"
+"     l -- მარცხენა მხარეს \n"
+"     r -- მარჯვენა მხარეს\n"
 
 #: kilestdactions.cpp:389
 #, kde-format

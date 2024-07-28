@@ -29,7 +29,7 @@ class Document;
 class ConvertMap
 {
 protected:
-    ConvertMap(const QString & encoding);
+    explicit ConvertMap(const QString & encoding);
 
 public:
     const QString & encoding() const {

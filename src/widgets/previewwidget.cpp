@@ -50,7 +50,7 @@ namespace KileWidget
 class ImageDisplayWidget : public QWidget
 {
 public:
-    ImageDisplayWidget(QWidget *parent);
+    explicit ImageDisplayWidget(QWidget *parent);
     virtual ~ImageDisplayWidget();
 
     void clear();

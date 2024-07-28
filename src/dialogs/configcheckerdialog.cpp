@@ -36,7 +36,7 @@ namespace KileDialog
 
 class ResultItemDelegate : public QItemDelegate {
 public:
-    ResultItemDelegate(QListWidget *parent) : QItemDelegate(parent) {}
+    explicit ResultItemDelegate(QListWidget *parent) : QItemDelegate(parent) {}
 
     virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {

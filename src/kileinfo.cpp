@@ -177,7 +177,7 @@ QString KileInfo::getCompileNameForProject(KileProject *project, bool shrt) cons
         }
     }
     else {
-        KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
+        const KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
         if (item) {
             QUrl url = item->url();
             if(shrt) {
@@ -257,7 +257,7 @@ QStringList KileInfo::retrieveList(QStringList (KileDocument::Info::*getit)() co
 
     KILE_DEBUG_MAIN << "Kile::retrieveList()";
     if (item) {
-        KileProject *project = item->project();
+        const KileProject *project = item->project();
         KileProjectItem *root = project->rootItem(item);
         if (root) {
             KILE_DEBUG_MAIN << "\tusing root item " << root->url().fileName();
@@ -389,7 +389,7 @@ bool KileInfo::isOpen(const QUrl &url)
 
 bool KileInfo::projectIsOpen(const QUrl &url)
 {
-    KileProject *project = docManager()->projectFor(url);
+    const KileProject *project = docManager()->projectFor(url);
 
     return project != 0 ;
 }

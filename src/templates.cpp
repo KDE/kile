@@ -139,7 +139,7 @@ void Manager::scanForTemplates() {
     QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "templates", QStandardPaths::LocateDirectory);
     QDir templates;
     KileTemplate::Info ti;
-    KileDocument::Extensions *extensions = m_kileInfo->extensions();
+    const KileDocument::Extensions *extensions = m_kileInfo->extensions();
 
     m_TemplateList.clear();
     for(QStringList::iterator i = dirs.begin(); i != dirs.end(); ++i) {

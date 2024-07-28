@@ -209,7 +209,7 @@ TextInfo* Manager::textInfoFor(const QUrl &url)
     // the URL might belong to a TextInfo* which currently doesn't have a KTextEditor::Document*
     // associated with it, i.e. a project item which isn't open in the editor
     for(KileProject* project : std::as_const(m_projects)) {
-        KileProjectItem *item = project->item(url);
+        const KileProjectItem *item = project->item(url);
 
         // all project items (across different projects) that share a URL have the same TextInfo*;
         // so, the first one we find is good enough
@@ -245,7 +245,7 @@ TextInfo* Manager::textInfoFor(KTextEditor::Document* doc) const
 
 QUrl Manager::urlFor(TextInfo* textInfo)
 {
-    KileProjectItem *item = itemFor(textInfo);
+    const KileProjectItem *item = itemFor(textInfo);
 
     QUrl url;
     if(item) {
@@ -751,7 +751,7 @@ void Manager::fileNew(KileDocument::Type type)
 {
     NewFileWizard *nfw = new NewFileWizard(m_ki->templateManager(), type, m_ki->mainWindow());
     if(nfw->exec()) {
-        KTextEditor::View *view = loadTemplate(nfw->getSelection());
+        const KTextEditor::View *view = loadTemplate(nfw->getSelection());
         if(view) {
             if(nfw->useWizard()) {
                 Q_EMIT(startWizard());
@@ -968,7 +968,7 @@ TextInfo* Manager::fileOpen(const QUrl &url, const QString& encoding, int index)
         return textInfoFor(realurl);
     }
 
-    KTextEditor::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), realurl, encoding, true, QString(), QString(), QString(), index);
+    const KTextEditor::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), realurl, encoding, true, QString(), QString(), QString(), index);
     if(!view) {
         m_currentlyOpeningFile = false; // has to be before the 'switchToTextView' call as
         // it emits signals that are handled by the live preview manager
@@ -1462,7 +1462,7 @@ void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
     Q_ASSERT(itemInfo);
 
     if(item->isOpen()) {
-        KTextEditor::View *view = loadItem(m_ki->extensions()->determineDocumentType(item->url()), item, QString(), openProjectItemViews);
+        const KTextEditor::View *view = loadItem(m_ki->extensions()->determineDocumentType(item->url()), item, QString(), openProjectItemViews);
         if (view) {
             item->loadDocumentAndViewSettings();
         }
@@ -1976,7 +1976,7 @@ void Manager::cleanUpTempFiles(const QUrl &url, bool silent)
 
 void Manager::openDroppedURLs(QDropEvent *e) {
     const QList<QUrl> urls = e->mimeData()->urls();
-    Extensions *extensions = m_ki->extensions();
+    const Extensions *extensions = m_ki->extensions();
 
     for(QUrl url : urls) {
         if(extensions->isProjectFile(url)) {
@@ -2017,7 +2017,7 @@ void Manager::handleParsingComplete(const QUrl &url, KileParser::ParserOutput* o
     }
     KileDocument::TextInfo *textInfo = textInfoFor(url);
     if(!textInfo) {
-        KileProjectItem* item = itemFor(url);
+        const KileProjectItem* item = itemFor(url);
         if(item) {
             textInfo = item->getInfo();
         }
@@ -2049,7 +2049,7 @@ void Manager::projectShow()
 
     // get last opened document
     const QUrl lastdoc = project->lastDocument();
-    KileProjectItem *docitem = (!lastdoc.isEmpty()) ? itemFor(lastdoc, project) : nullptr;
+    const KileProjectItem *docitem = (!lastdoc.isEmpty()) ? itemFor(lastdoc, project) : nullptr;
 
     // if not, we search for the first opened tex file of this project
     // if no file is opened, we take the first tex file mentioned in the list
@@ -2127,7 +2127,7 @@ void Manager::projectShowFiles()
 
 void Manager::projectOpenAllFiles()
 {
-    KileProject *project = selectProject(i18n("Select Project"));
+    const KileProject *project = selectProject(i18n("Select Project"));
     if(project) {
         projectOpenAllFiles(project->url());
     }

@@ -1275,7 +1275,7 @@ void Kile::saveLastSelectedAction() {
     const QStringList list =
         {QLatin1String("Compile"), QLatin1String("Convert"), QLatin1String("View"), QLatin1String("Quick")};
 
-    ToolbarSelectAction *pSelectAction = nullptr ;
+    const ToolbarSelectAction *pSelectAction = nullptr ;
 
     KConfigGroup grp = m_config->group("ToolSelectAction");
 

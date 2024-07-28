@@ -574,7 +574,7 @@ void ToolbarSelectAction::slotMainActionTriggered()
 
 void ToolbarSelectAction::slotMainButtonPressed()
 {
-    QAction *curAction = currentAction();
+    const QAction *curAction = currentAction();
     if (!curAction) {
         Q_EMIT(mainButtonWithNoActionPressed());
     }

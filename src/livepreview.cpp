@@ -82,7 +82,7 @@ public:
         if(tempCanonicalDir.isEmpty()) {
             return false;
         }
-        for(KileProjectItem *item : items) {
+        for(const KileProjectItem *item : items) {
             bool successful = true;
             const QString itemRelativeDir = QFileInfo(tempCanonicalDir + '/' + item->path()).path();
             const QString itemAbsolutePath = QDir(itemRelativeDir).absolutePath();
@@ -846,7 +846,7 @@ void LivePreviewManager::showPreviewCompileIfNecessary(KileDocument::LaTeXInfo *
 
     KileProject *project = nullptr;
     LivePreviewUserStatusHandler *userStatusHandler = nullptr;
-    PreviewInformation *previewInformation = findPreviewInformation(latexInfo, &project, &userStatusHandler);
+    const PreviewInformation *previewInformation = findPreviewInformation(latexInfo, &project, &userStatusHandler);
     if(!previewInformation) {
         KILE_DEBUG_MAIN << "not found";
         compilePreview(latexInfo, view);
@@ -1229,7 +1229,7 @@ void LivePreviewManager::handleProjectItemAdditionOrRemoval(KileProject *project
     // we can't use TextInfo pointers here as they might not be set in 'item' yet
     KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoFor(item->url()));
     if(latexInfo && m_latexInfoToPreviewInformationHash.contains(latexInfo)) {
-        PreviewInformation *previewInformation = m_latexInfoToPreviewInformationHash[latexInfo];
+        const PreviewInformation *previewInformation = m_latexInfoToPreviewInformationHash[latexInfo];
         if(previewInformation == m_shownPreviewInformation) {
             previewNeedsToBeRefreshed = true;
         }
@@ -1237,7 +1237,7 @@ void LivePreviewManager::handleProjectItemAdditionOrRemoval(KileProject *project
     }
 
     if(m_projectToPreviewInformationHash.contains(project)) {
-        PreviewInformation *previewInformation = m_projectToPreviewInformationHash[project];
+        const PreviewInformation *previewInformation = m_projectToPreviewInformationHash[project];
         if(previewInformation == m_shownPreviewInformation) {
             previewNeedsToBeRefreshed = true;
         }

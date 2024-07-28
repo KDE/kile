@@ -477,7 +477,7 @@ void Manager::installContextMenu(KTextEditor::View *view)
         popupMenu->addAction(m_quickPreviewAction);
 
         // insert actions from user-defined latex menu
-        KileMenu::UserMenu *usermenu = m_ki->userMenu();
+        const KileMenu::UserMenu *usermenu = m_ki->userMenu();
         if(usermenu) {
             KILE_DEBUG_MAIN << "Insert actions from user-defined latex menu";
             popupMenu->addSeparator();
@@ -630,7 +630,7 @@ KTextEditor::View * Manager::textView(int index) const
 
 KTextEditor::View * Manager::textView(KileDocument::TextInfo *info) const
 {
-    KTextEditor::Document *doc = info->getDoc();
+    const KTextEditor::Document *doc = info->getDoc();
     if(!doc) {
         return nullptr;
     }
@@ -1017,7 +1017,7 @@ void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
         return;
     }
     int index = tabIndexOf(qobject_cast<KTextEditor::View *>(w));
-    KileDocument::Extensions *extensions = m_ki->extensions();
+    const KileDocument::Extensions *extensions = m_ki->extensions();
     bool hasReplacedTab = false;
     for(QList<QUrl>::iterator i = urls.begin(); i != urls.end(); ++i) {
         QUrl url = *i;

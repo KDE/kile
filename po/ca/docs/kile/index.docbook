@@ -1778,7 +1778,7 @@
 ><guisubmenu
 >Pics</guisubmenu
 ></menuchoice
-> o les dreceres de teclat corresponents us permetran saltar al pic següent o anterior. Això també ressaltarà el pic de manera que serà eliminat de forma automàtica quan introduïu la primera lletra.</para>
+> o les dreceres de teclat corresponents us permetran saltar al pic següent o anterior. Això també ressaltarà el pic de manera que se suprimirà de forma automàtica quan introduïu la primera lletra.</para>
 
 		<screenshot>
 			<screeninfo
@@ -2060,10 +2060,10 @@
 	<sect1 id="editing_delete">
 
 		<title
->Eliminar</title>
+>Suprimir</title>
 
 		<para
->Per a eliminar algunes parts d'un document podeu seleccionar i després utilitzar la tecla <keycombo
+>Per a suprimir algunes parts d'un document podeu seleccionar i després utilitzar la tecla <keycombo
 ><keycap
 >Supr</keycap
 ></keycombo
@@ -2071,24 +2071,24 @@
 >&Ctrl;<keycap
 >K</keycap
 ></keycombo
-> que esborrarà la línia sencera. Però el &kile; ofereix una forma més ràpida amb les seves pròpies ordres per a eliminar. A <menuchoice
+> que suprimirà la línia sencera. Però el &kile; ofereix una forma més ràpida amb les seves pròpies ordres per a suprimir. A <menuchoice
 ><guimenu
 >Edita</guimenu
 ><guisubmenu
->Elimina</guisubmenu
+>Suprimeix</guisubmenu
 ></menuchoice
-> trobareu les ordres següents per a esborrar text.</para>
+> trobareu les ordres següents per a suprimir text.</para>
 
 		<screenshot>
 			<screeninfo
->Edita -> Elimina elements</screeninfo>
+>Edita -> Suprimeix elements</screeninfo>
 			<mediaobject>
 			<imageobject>
 			<imagedata fileref="delete.png" format="PNG"/>
 			</imageobject>
 			<textobject>
 				<phrase
->Edita -> Elimina elements</phrase>
+>Edita -> Suprimeix elements</phrase>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -2111,7 +2111,7 @@
 ></term>
 		<listitem
 ><para
->Elimina un entorn sense les etiquetes que l'envolten.</para
+>Suprimeix un entorn sense les etiquetes que l'envolten.</para
 ></listitem>
 		</varlistentry>
 
@@ -2132,7 +2132,7 @@
 ></term>
 		<listitem
 ><para
->Elimina un entorn incloent-hi les etiquetes que l'envolten.</para
+>Suprimeix un entorn incloent-hi les etiquetes que l'envolten.</para
 ></listitem>
 		</varlistentry>
 
@@ -2153,7 +2153,7 @@
 ></term>
 		<listitem
 ><para
->Elimina un grup de &tex; dins de les claus que l'envolten.</para
+>Suprimeix un grup de &tex; dins de les claus que l'envolten.</para
 ></listitem>
 		</varlistentry>
 
@@ -2174,7 +2174,7 @@
 ></term>
 		<listitem
 ><para
->Elimina un grup de &tex; incloent-hi les claus que l'envolten.</para
+>Suprimeix un grup de &tex; incloent-hi les claus que l'envolten.</para
 ></listitem>
 		</varlistentry>
 
@@ -2195,7 +2195,7 @@
 ></term>
 			<listitem
 ><para
->Elimina el grup matemàtic actual incloent-hi les ordres matemàtiques.</para
+>Suprimeix el grup matemàtic actual incloent-hi les ordres matemàtiques.</para
 ></listitem>
 		</varlistentry>
 
@@ -2216,7 +2216,7 @@
 ></term>
 		<listitem
 ><para
->Elimina un paràgraf sencer. Vegeu l'ordre <menuchoice
+>Suprimeix un paràgraf sencer. Vegeu l'ordre <menuchoice
 ><guisubmenu
 >Selecciona</guisubmenu
 ><guimenuitem
@@ -2244,7 +2244,7 @@
 ></term>
 			<listitem
 ><para
->Elimina el text des de la posició actual del cursor fins al final de la línia. </para
+>Suprimeix el text des de la posició actual del cursor fins al final de la línia. </para
 ></listitem>
 		</varlistentry>
 
@@ -2265,7 +2265,7 @@
 ></term>
 		<listitem
 ><para
->Elimina la paraula o ordre de &latex; sota la posició actual del cursor.</para
+>Suprimeix la paraula o ordre de &latex; sota la posició actual del cursor.</para
 ></listitem>
 		</varlistentry>
 
@@ -2743,7 +2743,7 @@
 		</screenshot>
 
 		<para
->Quan premeu la tecla &Retro;, s'eliminarà l'última lletra del vostre patró, i la llista de compleció podrà créixer. D'altra banda, si escriviu una altra lletra, s'ampliarà el patró i la llista de paraules visibles podria reduir-se.</para>
+>Quan premeu la tecla &Retro;, se suprimirà l'última lletra del patró, i la llista de compleció podrà créixer. D'altra banda, si escriviu una altra lletra, s'ampliarà el patró i la llista de paraules visibles podria reduir-se.</para>
 
 		<para
 >Si decidiu no seleccionar cap dels suggeriments, podeu deixar aquest diàleg amb &Esc;.</para>
@@ -4145,7 +4145,7 @@
 
 			<varlistentry>
 			<term
->Elimina pàgines</term>
+>Suprimeix pàgines</term>
 			<listitem
 ><para
 >Afegir una llista separada per comes de les pàgines o intervals de pàgines, que s'han d'eliminar del fitxer PDF escollit.</para
@@ -5583,7 +5583,7 @@
 >Trobareu algunes etiquetes, algunes entrades de secció, dos entorns de figures i tres imatges. Si feu clic sobre una de les entrades de secció, apareixerà un menú amb algunes ordres d'utilitat. Totes les ordres com <guibutton
 >Selecciona</guibutton
 >, <guibutton
->Elimina</guibutton
+>Suprimeix</guibutton
 > o <guibutton
 >Comentari</guibutton
 > treballaran amb totes les línies que pertanyin a aquesta secció.</para>
@@ -5924,10 +5924,10 @@
 
 		<para
 >Per a eliminar un fitxer d'un projecte, feu clic dret sobre seu i seleccioneu <guilabel
->Elimina fitxer</guilabel
+>Suprimeix fitxer</guilabel
 >. Això <emphasis
 >no</emphasis
-> eliminarà el fitxer (i tampoc el tancarà), sols l'eliminarà de la llista de fitxers continguts al fitxer <literal role="extension"
+> suprimirà el fitxer (i tampoc el tancarà), sols l'eliminarà de la llista de fitxers continguts al fitxer <literal role="extension"
 >.kilepr</literal
 >.</para>
 

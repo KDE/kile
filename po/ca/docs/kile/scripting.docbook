@@ -2133,7 +2133,7 @@ bool document.isSpace(<parameter
 ><para
 >Insereix un <emphasis
 >pic</emphasis
-> del &kile;. Recordeu que podeu saltar amb facilitat al pic següent o anterior. Això també ressaltarà aquest pic, eliminant-lo de forma automàtica en introduir la primera lletra. </para
+> del &kile;. Recordeu que podeu saltar amb facilitat al pic següent o anterior. Això també ressaltarà aquest pic, suprimint-lo de forma automàtica en introduir la primera lletra. </para
 ></listitem>
 </varlistentry
 ></variablelist>

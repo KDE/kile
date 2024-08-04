@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-24 00:38+0000\n"
-"PO-Revision-Date: 2024-07-18 17:50+0900\n"
+"PO-Revision-Date: 2024-08-03 13:50+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -10229,10 +10229,9 @@ msgstr "TeX 群組 (&X)"
 
 #. i18n: ectx: Menu (selection)
 #: kileui.rc:118
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "&Selection"
-msgstr "選擇"
+msgstr "選取區域(&S)"
 
 #. i18n: ectx: Menu (view)
 #. i18n: ectx: Menu (menu_viewer)
@@ -10245,15 +10244,13 @@ msgstr "檢視(&V)"
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
 #: kileui.rc:127 kileviewmanager.cpp:1159 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
-#, fuzzy, kde-format
-#| msgid "Document Type"
+#, kde-format
 msgid "Document Viewer"
-msgstr "文件類型"
+msgstr "文件檢視器"
 
 #. i18n: ectx: Menu (go)
 #: kileui.rc:131
-#, fuzzy, kde-format
-#| msgid "&Go to"
+#, kde-format
 msgid "&Go"
 msgstr "跳到(&G)"
 
@@ -10363,14 +10360,13 @@ msgstr "括號"
 #: kileui.rc:323
 #, kde-format
 msgid "AMS Text and Boxes"
-msgstr ""
+msgstr "AMS 文字與方塊"
 
 #. i18n: ectx: Menu (menu_mathfrac)
 #: kileui.rc:329
-#, fuzzy, kde-format
-#| msgid "&Section"
+#, kde-format
 msgid "AMS Fraction"
-msgstr "小節(&S)"
+msgstr "AMS 分數"
 
 #. i18n: ectx: Menu (menu_mathbinom)
 #: kileui.rc:334
@@ -10380,17 +10376,15 @@ msgstr ""
 
 #. i18n: ectx: Menu (menu_mathcommands)
 #: kileui.rc:339
-#, fuzzy, kde-format
-#| msgid "Arrows"
+#, kde-format
 msgid "AMS Arrows"
-msgstr "箭號"
+msgstr "AMS 箭頭"
 
 #. i18n: ectx: Menu (menu_mathfontstyles)
 #: kileui.rc:344
-#, fuzzy, kde-format
-#| msgid "&Font Styles"
+#, kde-format
 msgid "Math &Font Styles"
-msgstr "字型樣式(&F)"
+msgstr "數學字型樣式(&F)"
 
 #. i18n: ectx: Menu (menu_mathaccents)
 #: kileui.rc:354
@@ -10403,7 +10397,7 @@ msgstr "數學環境"
 #: kileui.rc:366
 #, kde-format
 msgid "Math &Spaces"
-msgstr ""
+msgstr "數學空格(&S)"
 
 #. i18n: ectx: Menu (menu_mathenv)
 #: kileui.rc:377
@@ -10414,45 +10408,39 @@ msgstr "數學環境"
 
 #. i18n: ectx: Menu (menu_mathamsenv)
 #: kileui.rc:386
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "&AMS Math Environments"
-msgstr "數學環境"
+msgstr "&AMS 數學環境"
 
 #. i18n: ectx: Menu (menu_amsenv_align)
 #: kileui.rc:387
-#, fuzzy, kde-format
-#| msgid "&Floating Environment"
+#, kde-format
 msgid "&Align Environments"
-msgstr "浮動環境(&F)"
+msgstr "對齊環境(&A)"
 
 #. i18n: ectx: Menu (menu_amsenv_center)
 #: kileui.rc:400
-#, fuzzy, kde-format
-#| msgid "&Code Environment"
+#, kde-format
 msgid "&Center Environments"
-msgstr "代碼環境(&C)"
+msgstr "置中環境(&C)"
 
 #. i18n: ectx: Menu (menu_amsenv_multiline)
 #: kileui.rc:406
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "Multi &Line Environments"
-msgstr "數學環境"
+msgstr "多行環境(&L)"
 
 #. i18n: ectx: Menu (menu_amsenv_matrix)
 #: kileui.rc:412
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "&Matrix Environments"
-msgstr "數學環境"
+msgstr "矩陣環境(&M)"
 
 #. i18n: ectx: Menu (menu_mathbreqnenv)
 #: kileui.rc:425
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "breqn Math Environments"
-msgstr "數學環境"
+msgstr "breqn 數學環境"
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:438
@@ -10537,17 +10525,17 @@ msgstr "編輯"
 #: kileviewmanager.cpp:125
 #, kde-format
 msgid "Show Cursor Position in Viewer"
-msgstr ""
+msgstr "在檢視器中顯示游標位置"
 
 #: kileviewmanager.cpp:129
 #, kde-format
 msgid "Synchronize Cursor Position with Viewer"
-msgstr ""
+msgstr "與檢視器同步游標位置"
 
 #: kileviewmanager.cpp:182
 #, kde-format
 msgid "Paste as LaTe&X"
-msgstr ""
+msgstr "作為 LaTeX 貼上(&X)"
 
 #: kileviewmanager.cpp:186
 #, kde-format
@@ -10555,10 +10543,9 @@ msgid "Convert Selection to &LaTeX"
 msgstr "轉換選取範圍到 LaTeX(&L)"
 
 #: kileviewmanager.cpp:257
-#, fuzzy, kde-format
-#| msgid "Create Template From Document..."
+#, kde-format
 msgid "Show sorted list of opened documents"
-msgstr "從文件建立樣本..."
+msgstr "顯示已排序的開啟文件列表"
 
 #: kileviewmanager.cpp:377
 #, kde-format
@@ -10586,44 +10573,40 @@ msgid "&QuickPreview Math"
 msgstr "快速預覽數學(&Q)"
 
 #: kileviewmanager.cpp:1132
-#, fuzzy, kde-format
-#| msgid "Create Template From Document..."
+#, kde-format
 msgid "Print Compiled Document..."
-msgstr "從文件建立樣本..."
+msgstr "列印編譯後的文件…"
 
 #: kileviewmanager.cpp:1138
-#, fuzzy, kde-format
-#| msgid "Create Template From Document..."
+#, kde-format
 msgid "Print Preview For Compiled Document..."
-msgstr "從文件建立樣本..."
+msgstr "為編譯後的文件預覽列印…"
 
 #: livepreview.cpp:187
 #, kde-format
 msgid "Live Preview for Current Document or Project"
-msgstr ""
+msgstr "目前文件或專案的即時預覽"
 
 #: livepreview.cpp:192
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Recompile Live Preview"
-msgstr "預覽"
+msgstr "重新編譯即時預覽"
 
 #: livepreview.cpp:197
-#, fuzzy, kde-format
-#| msgid "Create Template From Document..."
+#, kde-format
 msgid "Save Compiled Document..."
-msgstr "從文件建立樣本..."
+msgstr "儲存已編譯的文件…"
 
 #: livepreview.cpp:908
 #, kde-format
 msgid "Some documents could not be saved correctly"
-msgstr ""
+msgstr "某些文件無法正確儲存"
 
 #: livepreview.cpp:914
 #, kde-format
 msgid ""
 "The document must have been saved before the live preview can be started"
-msgstr ""
+msgstr "即時預覽開始前必須先儲存文件"
 
 #: livepreview.cpp:940
 #, kde-format
@@ -10634,21 +10617,19 @@ msgid ""
 msgstr ""
 
 #: livepreview.cpp:944
-#, fuzzy, kde-format
-#| msgid "Failed to create the template."
+#, kde-format
 msgid "Failed to create the subdirectory structure"
-msgstr "建立樣本失敗。"
+msgstr "建立子目錄結構失敗"
 
 #: livepreview.cpp:1404
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "LivePreview"
-msgstr "預覽"
+msgstr "即時預覽"
 
 #: main.cpp:61
 #, kde-format
 msgid "StandardInput.tex"
-msgstr ""
+msgstr "StandardInput.tex"
 
 #: main.cpp:102
 #, kde-format
@@ -10656,11 +10637,10 @@ msgid "KDE Integrated LaTeX Environment"
 msgstr "KDE 整合 LaTeX 環境"
 
 #: main.cpp:104
-#, fuzzy, kde-format
-#| msgid "by the Kile Team (2003 - 2011)"
+#, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
-msgstr "由 Kile 團隊 (2003 - 2011)"
+msgstr "由 Kile 團隊 (2003 - %1)"
 
 #: main.cpp:107
 #, kde-format
@@ -10678,10 +10658,9 @@ msgid "Holger Danielsson"
 msgstr "Holger Danielsson"
 
 #: main.cpp:108
-#, fuzzy, kde-format
-#| msgid "Former Developer"
+#, kde-format
 msgid "Developer"
-msgstr "前任開發者"
+msgstr "開發者"
 
 #: main.cpp:109
 #, kde-format
@@ -10756,7 +10735,7 @@ msgstr "Jan-Marek Glogowski"
 #: main.cpp:117
 #, kde-format
 msgid "Find-in-Files Dialog"
-msgstr ""
+msgstr "在檔案中尋找的對話框"
 
 #: main.cpp:118
 #, kde-format
@@ -10766,7 +10745,7 @@ msgstr "Jonathan Pechta"
 #: main.cpp:118 main.cpp:119
 #, kde-format
 msgid "Documentation"
-msgstr "文件"
+msgstr "說明文件"
 
 #: main.cpp:119
 #, kde-format
@@ -10781,12 +10760,12 @@ msgstr "跳至行數"
 #: main.cpp:138
 #, kde-format
 msgid "Start a new Kile mainwindow"
-msgstr ""
+msgstr "開啟新的 Kile 主視窗"
 
 #: main.cpp:140
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
-msgstr ""
+msgstr "要開啟的檔案 / 指定 '-' 來從標準輸入讀取"
 
 #: main.cpp:171
 #, kde-format
@@ -10796,12 +10775,14 @@ msgid ""
 "\n"
 "Please install the Okular library before running Kile."
 msgstr ""
+"Kile 無法開啟，因為找不到夠新版本的 Okular 函式庫。\n"
+"\n"
+"請在執行 Kile 前先安裝 Okular 函式庫。"
 
 #: main.cpp:173
-#, fuzzy, kde-format
-#| msgid "The template could not be removed."
+#, kde-format
 msgid "Okular library not found"
-msgstr "樣本無法移除。"
+msgstr "找不到 Okular 函式庫"
 
 #: parser/latexparser.cpp:221 parser/latexparser.cpp:249
 #, kde-format
@@ -10811,7 +10792,7 @@ msgstr "框架"
 #: parser/latexparser.cpp:271
 #, kde-format
 msgid "Untitled Block"
-msgstr ""
+msgstr "未命名區塊"
 
 #: quickpreview.cpp:42
 #, kde-format
@@ -11993,7 +11974,7 @@ msgstr "轉換："
 #: widgets/previewconfigwidget.cpp:127
 #, kde-format
 msgid "Show preview in bottom bar:"
-msgstr ""
+msgstr "在底部列中顯示預覽："
 
 #: widgets/previewconfigwidget.cpp:128
 #, kde-format
@@ -12023,7 +12004,7 @@ msgstr "子文件："
 #: widgets/previewconfigwidget.cpp:133
 #, kde-format
 msgid "Not available, opens always in a separate window."
-msgstr ""
+msgstr "無法使用，總是在新視窗中開啟。"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbCommand)
 #: widgets/processtoolconfigwidget.ui:37
@@ -12297,22 +12278,22 @@ msgstr "字元"
 #: widgets/statisticswidget.cpp:51
 #, kde-format
 msgid "Words and numbers:"
-msgstr ""
+msgstr "單詞與數字："
 
 #: widgets/statisticswidget.cpp:52
 #, kde-format
 msgid "LaTeX commands and environments:"
-msgstr ""
+msgstr "LaTeX 指令與環境："
 
 #: widgets/statisticswidget.cpp:53
 #, kde-format
 msgid "Punctuation, delimiter and whitespaces:"
-msgstr ""
+msgstr "標點符號、分隔符與空白字元："
 
 #: widgets/statisticswidget.cpp:54
 #, kde-format
 msgid "Total characters:"
-msgstr ""
+msgstr "總字元數："
 
 #: widgets/statisticswidget.cpp:83
 #, kde-format
@@ -12337,7 +12318,7 @@ msgstr "LaTeX 環境："
 #: widgets/statisticswidget.cpp:93
 #, kde-format
 msgid "Total strings:"
-msgstr ""
+msgstr "總字串數："
 
 #: widgets/statusbar.cpp:70
 #, kde-format
@@ -12396,19 +12377,19 @@ msgstr "顯示 bibitem"
 #: widgets/structureviewconfigwidget.ui:172
 #, kde-format
 msgid "Open bibitems item"
-msgstr ""
+msgstr "開啟 bibitems 項目"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowTodo)
 #: widgets/structureviewconfigwidget.ui:179
 #, kde-format
 msgid "Show TODO/FIXME"
-msgstr ""
+msgstr "顯示 TODO 或 FIXME"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenTodo)
 #: widgets/structureviewconfigwidget.ui:186
 #, kde-format
 msgid "Open TODO/FIXME"
-msgstr ""
+msgstr "開啟 TODO 或 FIXME"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowFloats)
 #: widgets/structureviewconfigwidget.ui:193
@@ -12708,7 +12689,7 @@ msgstr ""
 #: widgets/toolconfigwidget.cpp:161
 #, kde-format
 msgid "Use the \"Advanced\" tab to configure this tool."
-msgstr ""
+msgstr "使用「進階」分頁來設定此工具。"
 
 #: widgets/toolconfigwidget.cpp:172
 #, kde-format
@@ -12759,7 +12740,7 @@ msgstr ""
 #: widgets/toolconfigwidget.cpp:491
 #, kde-format
 msgid "Cannot Remove Configuration"
-msgstr ""
+msgstr "無法移除設定"
 
 #: widgets/usermenuconfigwidget.cpp:89
 #, kde-format

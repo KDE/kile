@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-24 00:38+0000\n"
+"POT-Creation-Date: 2024-08-05 00:39+0000\n"
 "PO-Revision-Date: 2012-01-17 18:10+0100\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -4816,7 +4816,7 @@ msgid ""
 "dvi *.epub);;All Files (*)"
 msgstr ""
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2124
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2109
 #, kde-format
 msgid "Select File"
 msgstr "Velg fil"
@@ -6004,8 +6004,8 @@ msgstr "Åpne alle &prosjektfiler"
 msgid "Find in &Project..."
 msgstr "Finn i &prosjekt …"
 
-#: kile.cpp:911 kile.cpp:1009 kile.cpp:2150 kiledocmanager.cpp:1973
-#: kiledocmanager.cpp:1983
+#: kile.cpp:911 kile.cpp:1009 kile.cpp:2150 kiledocmanager.cpp:1963
+#: kiledocmanager.cpp:1973
 #, kde-format
 msgid "Clean"
 msgstr "Rydd opp"
@@ -7150,7 +7150,7 @@ msgstr "Fjern mal"
 msgid "Open Files"
 msgstr "Åpne filer"
 
-#: kiledocmanager.cpp:893
+#: kiledocmanager.cpp:892
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
@@ -7158,55 +7158,55 @@ msgid ""
 msgstr ""
 "Kile støtte på et problem ved lagring av fila %1. Har du nok fri diskplass?"
 
-#: kiledocmanager.cpp:894
+#: kiledocmanager.cpp:893
 #, kde-format
 msgid "Saving"
 msgstr "Lagrer"
 
-#: kiledocmanager.cpp:927
+#: kiledocmanager.cpp:926
 #, kde-format
 msgid "Any files (*)"
 msgstr ""
 
-#: kiledocmanager.cpp:929
+#: kiledocmanager.cpp:928
 #, kde-format
 msgid "Save Compiled Document As..."
 msgstr ""
 
-#: kiledocmanager.cpp:954
+#: kiledocmanager.cpp:953
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
 "as it is a directory."
 msgstr ""
 
-#: kiledocmanager.cpp:955
+#: kiledocmanager.cpp:954
 #, kde-format
 msgid "Cannot open directory"
 msgstr ""
 
-#: kiledocmanager.cpp:1073
+#: kiledocmanager.cpp:1072
 #, kde-format
 msgid "Save File"
 msgstr "Lagre fil"
 
-#: kiledocmanager.cpp:1109
+#: kiledocmanager.cpp:1108
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "En fil med navnet «%1» finnes fra før. Vil du overskrive den?"
 
-#: kiledocmanager.cpp:1110
+#: kiledocmanager.cpp:1109
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Overskrive fil?"
 
-#: kiledocmanager.cpp:1283
+#: kiledocmanager.cpp:1279
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "Oppdater prosjekttre"
 
-#: kiledocmanager.cpp:1291
+#: kiledocmanager.cpp:1287
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7217,35 +7217,35 @@ msgstr ""
 "tilknyttet det prosjektet du vil bygge et tre for, og velg så »Oppdater "
 "prosjekttre» igjen."
 
-#: kiledocmanager.cpp:1291
+#: kiledocmanager.cpp:1287
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "Kan ikke oppdatere prosjekttreet"
 
-#: kiledocmanager.cpp:1375 kiledocmanager.cpp:2145 kiledocmanager.cpp:2219
-#: kiledocmanager.cpp:2256
+#: kiledocmanager.cpp:1371 kiledocmanager.cpp:2130 kiledocmanager.cpp:2200
+#: kiledocmanager.cpp:2235
 #, kde-format
 msgid "Select Project"
 msgstr "Velg prosjekt"
 
-#: kiledocmanager.cpp:1400 kiledocmanager.cpp:1415 kiledocmanager.cpp:1422
+#: kiledocmanager.cpp:1396 kiledocmanager.cpp:1411 kiledocmanager.cpp:1418
 #, kde-format
 msgid "Add to Project"
 msgstr "Legg til i prosjekt"
 
-#: kiledocmanager.cpp:1414
+#: kiledocmanager.cpp:1410
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "Fila %1 er allerede med i prosjektet %2"
 
-#: kiledocmanager.cpp:1421
+#: kiledocmanager.cpp:1417
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr ""
 "Fila %1 kan ikke legges til fordi den enten ikke finnes eller ikke er lesbar"
 
-#: kiledocmanager.cpp:1440
+#: kiledocmanager.cpp:1436
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
@@ -7254,24 +7254,24 @@ msgstr ""
 "Denne fila er prosjektfila, som inneholder all informasjon om prosjektet, "
 "derfor kan den ikke fjernes fra prosjektet."
 
-#: kiledocmanager.cpp:1440
+#: kiledocmanager.cpp:1436
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "Kan ikke fjerne fil fra prosjektet"
 
-#: kiledocmanager.cpp:1508
+#: kiledocmanager.cpp:1504
 #, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
 "project, close the project before you re-open it.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1510
+#: kiledocmanager.cpp:1506
 #, kde-format
 msgid "Project Already Open"
 msgstr "Prosjektet er allerede åpnet"
 
-#: kiledocmanager.cpp:1521
+#: kiledocmanager.cpp:1517
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7279,36 +7279,36 @@ msgid ""
 "list?</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1524
+#: kiledocmanager.cpp:1520
 #, kde-format
 msgid "Could Not Open Project"
 msgstr ""
 
-#: kiledocmanager.cpp:1542
+#: kiledocmanager.cpp:1538
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
 "file.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1544
+#: kiledocmanager.cpp:1540
 #, kde-format
 msgid "Impossible to Open Project File"
 msgstr ""
 
-#: kiledocmanager.cpp:1554
+#: kiledocmanager.cpp:1550
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
 "version of Kile.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1556
+#: kiledocmanager.cpp:1552
 #, kde-format
 msgid "Impossible to Open Project"
 msgstr ""
 
-#: kiledocmanager.cpp:1566
+#: kiledocmanager.cpp:1562
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7316,34 +7316,34 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1569
+#: kiledocmanager.cpp:1565
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr ""
 
-#: kiledocmanager.cpp:1576
+#: kiledocmanager.cpp:1572
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
 "this project from the recent projects list?</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1578
+#: kiledocmanager.cpp:1574
 #, kde-format
 msgid "Could Not Update Project File"
 msgstr ""
 
-#: kiledocmanager.cpp:1680
+#: kiledocmanager.cpp:1674
 #, kde-format
 msgid "Open Project"
 msgstr "Åpne prosjekt"
 
-#: kiledocmanager.cpp:1699
+#: kiledocmanager.cpp:1693
 #, kde-format
 msgid "Save Project"
 msgstr "Lagre prosjekt"
 
-#: kiledocmanager.cpp:1751
+#: kiledocmanager.cpp:1743
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7353,27 +7353,27 @@ msgstr ""
 "Dette dokumentet tilhører ikke noe prosjekt. Skru på et dokument som er "
 "tilknyttet det prosjektet du vil lagre, og velg så «Lagre prosjekt» igjen."
 
-#: kiledocmanager.cpp:1751
+#: kiledocmanager.cpp:1743
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "Kan ikke bestemme det aktive prosjektet"
 
-#: kiledocmanager.cpp:1772
+#: kiledocmanager.cpp:1764
 #, kde-format
 msgid "Add Files to Project"
 msgstr "Legg til filer i prosjektet"
 
-#: kiledocmanager.cpp:1785
+#: kiledocmanager.cpp:1777
 #, kde-format
 msgid "Add Files"
 msgstr "Legg til filer"
 
-#: kiledocmanager.cpp:1788
+#: kiledocmanager.cpp:1780
 #, kde-format
 msgid "Add"
 msgstr "Legg til"
 
-#: kiledocmanager.cpp:1803
+#: kiledocmanager.cpp:1795
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
@@ -7382,17 +7382,17 @@ msgstr ""
 "Ingen prosjekter er åpne. Åpne det prosjektet du vil legge filene til, og "
 "velg så «Legg til filer» igjen."
 
-#: kiledocmanager.cpp:1803 kiledocmanager.cpp:1838
+#: kiledocmanager.cpp:1795 kiledocmanager.cpp:1830
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "Kan ikke bestemme det aktive prosjektet"
 
-#: kiledocmanager.cpp:1829
+#: kiledocmanager.cpp:1821
 #, kde-format
 msgid "Project Options For"
 msgstr "Prosjektvalg for"
 
-#: kiledocmanager.cpp:1838
+#: kiledocmanager.cpp:1830
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7402,12 +7402,12 @@ msgstr ""
 "Dette dokumentet tilhører ikke noe prosjekt. Skru på et dokument som er "
 "tilknyttet det prosjektet du vil endre, og velg så «Prosjektvalg» igjen."
 
-#: kiledocmanager.cpp:1864
+#: kiledocmanager.cpp:1856
 #, kde-format
 msgid "Close Project"
 msgstr "Lukk prosjekt"
 
-#: kiledocmanager.cpp:1917
+#: kiledocmanager.cpp:1907
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7417,77 +7417,77 @@ msgstr ""
 "Dette dokumentet tilhører ikke noe prosjekt. Skru på et dokument som er "
 "tilknyttet det prosjektet du vil lukke, og velg så «Lukk prosjekt» igjen."
 
-#: kiledocmanager.cpp:1917
+#: kiledocmanager.cpp:1907
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "Klarte ikke lukke prosjekt"
 
-#: kiledocmanager.cpp:1972
+#: kiledocmanager.cpp:1962
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr "Ingenting å rydde opp for %1"
 
-#: kiledocmanager.cpp:1982
+#: kiledocmanager.cpp:1972
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "Rydder opp %1: %2"
 
-#: kiledocmanager.cpp:2056
+#: kiledocmanager.cpp:2045
 #, kde-format
 msgid "Switch Project"
 msgstr "Bytt prosjekt"
 
-#: kiledocmanager.cpp:2114
+#: kiledocmanager.cpp:2101
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "Velg filer som skal fjernes"
 
-#: kiledocmanager.cpp:2127 kiledocmanager.cpp:2130
+#: kiledocmanager.cpp:2112 kiledocmanager.cpp:2115
 #, kde-format
 msgid "Show Project Files"
 msgstr "Vis prosjektfiler"
 
-#: kiledocmanager.cpp:2127 kiledocmanager.cpp:2175
+#: kiledocmanager.cpp:2112 kiledocmanager.cpp:2158
 #, kde-format
 msgid "project configuration file"
 msgstr "prosjektoppsettsfil"
 
-#: kiledocmanager.cpp:2130 kiledocmanager.cpp:2178
+#: kiledocmanager.cpp:2115 kiledocmanager.cpp:2161
 #, kde-format
 msgid "graphics file"
 msgstr "bildefil"
 
-#: kiledocmanager.cpp:2175 kiledocmanager.cpp:2178
+#: kiledocmanager.cpp:2158 kiledocmanager.cpp:2161
 #, kde-format
 msgid "Open All Project Files"
 msgstr "Åpne alle prosjektfiler"
 
-#: kiledocmanager.cpp:2212
+#: kiledocmanager.cpp:2193
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "ikke åpnet: %1 (%2)"
 
-#: kiledocmanager.cpp:2237 kiledocmanager.cpp:2274
+#: kiledocmanager.cpp:2216 kiledocmanager.cpp:2251
 #, kde-format
 msgid "Project Files"
 msgstr "Prosjektfiler"
 
-#: kiledocmanager.cpp:2245 kiledocmanager.cpp:2284
+#: kiledocmanager.cpp:2224 kiledocmanager.cpp:2261
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "Kan ikke bestemme valgt fil."
 
-#: kiledocmanager.cpp:2245 kiledocmanager.cpp:2284
+#: kiledocmanager.cpp:2224 kiledocmanager.cpp:2261
 #, kde-format
 msgid "Project Error"
 msgstr "Prosjektfeil"
 
-#: kiledocmanager.cpp:2351
+#: kiledocmanager.cpp:2328
 #, kde-format
 msgid "Opening Project..."
 msgstr "Åpner prosjekt …"
 
-#: kiledocmanager.cpp:2354
+#: kiledocmanager.cpp:2331
 #, kde-format
 msgid "Scanning project files..."
 msgstr "Leser gjennom prosjektfiler …"

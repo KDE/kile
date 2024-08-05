@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-24 00:38+0000\n"
+"POT-Creation-Date: 2024-08-05 00:39+0000\n"
 "PO-Revision-Date: 2024-05-27 10:12+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -4944,7 +4944,7 @@ msgstr ""
 "Llocs web (HTML) (*.html *.htm);;Documents (PDF, PS, DVI, EPUB) (*.ps *.pdf "
 "*.dvi *.epub);;Tots els fitxers (*)"
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2124
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2109
 #, kde-format
 msgid "Select File"
 msgstr "Seleccioneu un fitxer"
@@ -6196,8 +6196,8 @@ msgstr "Obri tots els fitxers del &projecte"
 msgid "Find in &Project..."
 msgstr "Busca en el &projecte…"
 
-#: kile.cpp:911 kile.cpp:1009 kile.cpp:2150 kiledocmanager.cpp:1973
-#: kiledocmanager.cpp:1983
+#: kile.cpp:911 kile.cpp:1009 kile.cpp:2150 kiledocmanager.cpp:1963
+#: kiledocmanager.cpp:1973
 #, kde-format
 msgid "Clean"
 msgstr "Neteja"
@@ -7406,7 +7406,7 @@ msgstr "Elimina plantilla"
 msgid "Open Files"
 msgstr "Obri fitxers"
 
-#: kiledocmanager.cpp:893
+#: kiledocmanager.cpp:892
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
@@ -7415,22 +7415,22 @@ msgstr ""
 "Kile ha trobat problemes mentre guardava el fitxer %1. Teniu prou espai "
 "lliure al disc?"
 
-#: kiledocmanager.cpp:894
+#: kiledocmanager.cpp:893
 #, kde-format
 msgid "Saving"
 msgstr "S'està guardant"
 
-#: kiledocmanager.cpp:927
+#: kiledocmanager.cpp:926
 #, kde-format
 msgid "Any files (*)"
 msgstr "Qualsevol fitxer (*)"
 
-#: kiledocmanager.cpp:929
+#: kiledocmanager.cpp:928
 #, kde-format
 msgid "Save Compiled Document As..."
 msgstr "Guarda el document compilat com a…"
 
-#: kiledocmanager.cpp:954
+#: kiledocmanager.cpp:953
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
@@ -7439,33 +7439,33 @@ msgstr ""
 "No s'ha pogut obrir l'URL «%1»,\n"
 "ja que és un directori."
 
-#: kiledocmanager.cpp:955
+#: kiledocmanager.cpp:954
 #, kde-format
 msgid "Cannot open directory"
 msgstr "No s'ha pogut obrir el directori"
 
-#: kiledocmanager.cpp:1073
+#: kiledocmanager.cpp:1072
 #, kde-format
 msgid "Save File"
 msgstr "Guarda el fitxer"
 
-#: kiledocmanager.cpp:1109
+#: kiledocmanager.cpp:1108
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "Ja existix un fitxer anomenat «%1». Voleu sobreescriure'l?"
 
-#: kiledocmanager.cpp:1110
+#: kiledocmanager.cpp:1109
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Voleu sobreescriure el fitxer?"
 
-#: kiledocmanager.cpp:1283
+#: kiledocmanager.cpp:1279
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "Actualitza l'arbre del projecte"
 
-#: kiledocmanager.cpp:1291
+#: kiledocmanager.cpp:1287
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7476,34 +7476,34 @@ msgstr ""
 "document que estiga associat amb el projecte del qual voleu construir-ne "
 "l'arbre, i després seleccioneu de nou Actualitza en l'arbre del projecte."
 
-#: kiledocmanager.cpp:1291
+#: kiledocmanager.cpp:1287
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "No s'ha pogut actualitzar l'arbre del projecte"
 
-#: kiledocmanager.cpp:1375 kiledocmanager.cpp:2145 kiledocmanager.cpp:2219
-#: kiledocmanager.cpp:2256
+#: kiledocmanager.cpp:1371 kiledocmanager.cpp:2130 kiledocmanager.cpp:2200
+#: kiledocmanager.cpp:2235
 #, kde-format
 msgid "Select Project"
 msgstr "Seleccioneu el projecte"
 
-#: kiledocmanager.cpp:1400 kiledocmanager.cpp:1415 kiledocmanager.cpp:1422
+#: kiledocmanager.cpp:1396 kiledocmanager.cpp:1411 kiledocmanager.cpp:1418
 #, kde-format
 msgid "Add to Project"
 msgstr "Afig al projecte"
 
-#: kiledocmanager.cpp:1414
+#: kiledocmanager.cpp:1410
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "El fitxer %1 ja pertany al projecte %2"
 
-#: kiledocmanager.cpp:1421
+#: kiledocmanager.cpp:1417
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr "El fitxer %1 no es pot afegir perquè no existix o no es pot llegir"
 
-#: kiledocmanager.cpp:1440
+#: kiledocmanager.cpp:1436
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
@@ -7512,12 +7512,12 @@ msgstr ""
 "Este fitxer és el fitxer del projecte, el qual conté tota la informació "
 "quant al projecte. Com a tal, no es pot eliminar del projecte."
 
-#: kiledocmanager.cpp:1440
+#: kiledocmanager.cpp:1436
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "El fitxer no s'ha pogut eliminar del projecte"
 
-#: kiledocmanager.cpp:1508
+#: kiledocmanager.cpp:1504
 #, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
@@ -7526,12 +7526,12 @@ msgstr ""
 "<p>El projecte «%1» ja es troba obert.</p><p>Si el que voleu és tornar a "
 "carregar el projecte, tanqueu-lo abans de tornar-lo a obrir.</p>"
 
-#: kiledocmanager.cpp:1510
+#: kiledocmanager.cpp:1506
 #, kde-format
 msgid "Project Already Open"
 msgstr "El projecte ja es troba obert"
 
-#: kiledocmanager.cpp:1521
+#: kiledocmanager.cpp:1517
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7541,12 +7541,12 @@ msgstr ""
 "<p>El fitxer de projecte del projecte «%1» no existix o no es pot llegir.</"
 "p><p>Voleu eliminar este projecte de la llista de projectes recents?</p>"
 
-#: kiledocmanager.cpp:1524
+#: kiledocmanager.cpp:1520
 #, kde-format
 msgid "Could Not Open Project"
 msgstr "No s'ha pogut obrir el projecte"
 
-#: kiledocmanager.cpp:1542
+#: kiledocmanager.cpp:1538
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
@@ -7555,12 +7555,12 @@ msgstr ""
 "<p>No s'ha pogut obrir el fitxer «%1», ja que no pareix que siga un fitxer "
 "de projecte.</p>"
 
-#: kiledocmanager.cpp:1544
+#: kiledocmanager.cpp:1540
 #, kde-format
 msgid "Impossible to Open Project File"
 msgstr "Impossible obrir el fitxer del projecte"
 
-#: kiledocmanager.cpp:1554
+#: kiledocmanager.cpp:1550
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
@@ -7569,12 +7569,12 @@ msgstr ""
 "<p>No s'ha pogut obrir el projecte «%1», ja que es va crear <br/>amb una "
 "versió més nova de Kile.</p>"
 
-#: kiledocmanager.cpp:1556
+#: kiledocmanager.cpp:1552
 #, kde-format
 msgid "Impossible to Open Project"
 msgstr "Impossible obrir el projecte"
 
-#: kiledocmanager.cpp:1566
+#: kiledocmanager.cpp:1562
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7584,12 +7584,12 @@ msgstr ""
 "<p>El fitxer de projecte «%1» s'ha creat amb una versió més nova de Kile.<br/"
 "> Cal actualitzar-lo abans que es puga obrir</p><p>El voleu actualitzar?</p>"
 
-#: kiledocmanager.cpp:1569
+#: kiledocmanager.cpp:1565
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr "Cal actualitzar el fitxer del projecte"
 
-#: kiledocmanager.cpp:1576
+#: kiledocmanager.cpp:1572
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
@@ -7598,22 +7598,22 @@ msgstr ""
 "<p>El fitxer del projecte «%1» no es pot actualitzar.</p><p>Voleu eliminar "
 "este projecte de la llista de projectes recents?</p>"
 
-#: kiledocmanager.cpp:1578
+#: kiledocmanager.cpp:1574
 #, kde-format
 msgid "Could Not Update Project File"
 msgstr "No s'ha pogut actualitzar el fitxer de projecte"
 
-#: kiledocmanager.cpp:1680
+#: kiledocmanager.cpp:1674
 #, kde-format
 msgid "Open Project"
 msgstr "Obri un projecte"
 
-#: kiledocmanager.cpp:1699
+#: kiledocmanager.cpp:1693
 #, kde-format
 msgid "Save Project"
 msgstr "Guarda el projecte"
 
-#: kiledocmanager.cpp:1751
+#: kiledocmanager.cpp:1743
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7624,27 +7624,27 @@ msgstr ""
 "document que estiga associat amb el projecte que voleu guardar, i després "
 "seleccioneu de nou Guarda en el projecte."
 
-#: kiledocmanager.cpp:1751
+#: kiledocmanager.cpp:1743
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "S'ha pogut determinar el projecte actiu"
 
-#: kiledocmanager.cpp:1772
+#: kiledocmanager.cpp:1764
 #, kde-format
 msgid "Add Files to Project"
 msgstr "Afig fitxers al projecte"
 
-#: kiledocmanager.cpp:1785
+#: kiledocmanager.cpp:1777
 #, kde-format
 msgid "Add Files"
 msgstr "Afig fitxers"
 
-#: kiledocmanager.cpp:1788
+#: kiledocmanager.cpp:1780
 #, kde-format
 msgid "Add"
 msgstr "Afig"
 
-#: kiledocmanager.cpp:1803
+#: kiledocmanager.cpp:1795
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
@@ -7653,17 +7653,17 @@ msgstr ""
 "No hi ha cap projecte obert. Per favor, obriu el projecte al qual voleu "
 "afegir fitxers, i després seleccioneu Afig fitxers de nou."
 
-#: kiledocmanager.cpp:1803 kiledocmanager.cpp:1838
+#: kiledocmanager.cpp:1795 kiledocmanager.cpp:1830
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "No s'ha pogut determinar el projecte actiu"
 
-#: kiledocmanager.cpp:1829
+#: kiledocmanager.cpp:1821
 #, kde-format
 msgid "Project Options For"
 msgstr "Opcions de projecte per a"
 
-#: kiledocmanager.cpp:1838
+#: kiledocmanager.cpp:1830
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7674,12 +7674,12 @@ msgstr ""
 "document que estiga associat amb el projecte que voleu modificar, i després "
 "seleccioneu de nou Opcions en el projecte."
 
-#: kiledocmanager.cpp:1864
+#: kiledocmanager.cpp:1856
 #, kde-format
 msgid "Close Project"
 msgstr "Tanca el projecte"
 
-#: kiledocmanager.cpp:1917
+#: kiledocmanager.cpp:1907
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7690,77 +7690,77 @@ msgstr ""
 "document que estiga associat amb el projecte que voleu tancar, i després "
 "seleccioneu de nou Tanca en el projecte."
 
-#: kiledocmanager.cpp:1917
+#: kiledocmanager.cpp:1907
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "No s'ha pogut tancar el projecte"
 
-#: kiledocmanager.cpp:1972
+#: kiledocmanager.cpp:1962
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr "No hi ha res que s'haja de netejar per a %1"
 
-#: kiledocmanager.cpp:1982
+#: kiledocmanager.cpp:1972
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "S'està netejant %1: %2"
 
-#: kiledocmanager.cpp:2056
+#: kiledocmanager.cpp:2045
 #, kde-format
 msgid "Switch Project"
 msgstr "Canvia de projecte"
 
-#: kiledocmanager.cpp:2114
+#: kiledocmanager.cpp:2101
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "Seleccioneu els fitxers que s'han d'eliminar"
 
-#: kiledocmanager.cpp:2127 kiledocmanager.cpp:2130
+#: kiledocmanager.cpp:2112 kiledocmanager.cpp:2115
 #, kde-format
 msgid "Show Project Files"
 msgstr "Mostra els fitxers del projecte"
 
-#: kiledocmanager.cpp:2127 kiledocmanager.cpp:2175
+#: kiledocmanager.cpp:2112 kiledocmanager.cpp:2158
 #, kde-format
 msgid "project configuration file"
 msgstr "fitxer de configuració del projecte"
 
-#: kiledocmanager.cpp:2130 kiledocmanager.cpp:2178
+#: kiledocmanager.cpp:2115 kiledocmanager.cpp:2161
 #, kde-format
 msgid "graphics file"
 msgstr "fitxer de gràfics"
 
-#: kiledocmanager.cpp:2175 kiledocmanager.cpp:2178
+#: kiledocmanager.cpp:2158 kiledocmanager.cpp:2161
 #, kde-format
 msgid "Open All Project Files"
 msgstr "Obri tots els fitxers del projecte"
 
-#: kiledocmanager.cpp:2212
+#: kiledocmanager.cpp:2193
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "no obert: %1 (%2)"
 
-#: kiledocmanager.cpp:2237 kiledocmanager.cpp:2274
+#: kiledocmanager.cpp:2216 kiledocmanager.cpp:2251
 #, kde-format
 msgid "Project Files"
 msgstr "Fitxers del projecte"
 
-#: kiledocmanager.cpp:2245 kiledocmanager.cpp:2284
+#: kiledocmanager.cpp:2224 kiledocmanager.cpp:2261
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "No s'ha pogut determinar el fitxer seleccionat."
 
-#: kiledocmanager.cpp:2245 kiledocmanager.cpp:2284
+#: kiledocmanager.cpp:2224 kiledocmanager.cpp:2261
 #, kde-format
 msgid "Project Error"
 msgstr "S'ha produït un error de projecte"
 
-#: kiledocmanager.cpp:2351
+#: kiledocmanager.cpp:2328
 #, kde-format
 msgid "Opening Project..."
 msgstr "S'està obrint el projecte…"
 
-#: kiledocmanager.cpp:2354
+#: kiledocmanager.cpp:2331
 #, kde-format
 msgid "Scanning project files..."
 msgstr "S'estan explorant els fitxers del projecte…"

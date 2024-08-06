@@ -3,7 +3,7 @@
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
-# Josep M. Ferrer <txemaq@gmail.com>, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
+# SPDX-FileCopyrightText: 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Josep M. Ferrer <txemaq@gmail.com>
 # Manuel Tortosa Moreno <manutortosa@gmail.com>, 2009.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2022.
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2024-05-27 10:12+0200\n"
+"PO-Revision-Date: 2024-07-31 12:08+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1375,12 +1375,12 @@ msgstr "Ordres de LaTeX"
 #: dialogs/latexcommanddialog.cpp:666
 #, kde-format
 msgid "Do you want to delete this environment?"
-msgstr "Voleu eliminar este entorn?"
+msgstr "Voleu suprimir este entorn?"
 
 #: dialogs/latexcommanddialog.cpp:670
 #, kde-format
 msgid "Do you want to delete this command?"
-msgstr "Voleu eliminar este ordre?"
+msgstr "Voleu suprimir este ordre?"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbDelete)
 #: dialogs/latexcommanddialog.cpp:675 dialogs/quickdocumentdialog.cpp:1904
@@ -1388,7 +1388,7 @@ msgstr "Voleu eliminar este ordre?"
 #: dialogs/usermenu/usermenudialog_base.ui:113
 #, kde-format
 msgid "Delete"
-msgstr "Elimina"
+msgstr "Suprimix"
 
 #: dialogs/latexcommanddialog.cpp:694
 #, kde-format
@@ -1433,7 +1433,7 @@ msgstr ""
 "utilitzar potencialment. Podeu afegir els entorns propis, els quals seran "
 "reconeguts per a la compleció automàtica dels entorns; La «línia nova "
 "intel·ligent» i el «tabulador intel·ligent», per exemple. Cal tindre present "
-"que només podeu editar i eliminar els entorns definits per l'usuari."
+"que només podeu editar i suprimir els entorns definits per l'usuari."
 
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #. i18n: ectx: property (text), widget (QTreeWidget, commands)
@@ -1497,14 +1497,14 @@ msgstr "Afi&g…"
 #: dialogs/latexcommanddialog_base.ui:186
 #, kde-format
 msgid "Delete a user-defined environment."
-msgstr "Elimina un entorn definit per l'usuari."
+msgstr "Suprimix un entorn definit per l'usuari."
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteButton)
 #: dialogs/latexcommanddialog_base.ui:189 dialogs/quickdocumentdialog.cpp:255
 #: dialogs/quickdocumentdialog.cpp:312
 #, kde-format
 msgid "De&lete"
-msgstr "E&limina"
+msgstr "Sup&rimix"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, editButton)
 #: dialogs/latexcommanddialog_base.ui:196
@@ -4212,7 +4212,7 @@ msgstr "Edita l'opció"
 #: dialogs/quickdocumentdialog.cpp:1904
 #, kde-format
 msgid "Do you want to delete this class option?"
-msgstr "Voleu eliminar esta opció de classe?"
+msgstr "Voleu suprimir esta opció de classe?"
 
 #: dialogs/quickdocumentdialog.cpp:1928
 #, kde-format
@@ -4268,12 +4268,12 @@ msgstr "Edita el paquet"
 #: dialogs/quickdocumentdialog.cpp:2069
 #, kde-format
 msgid "Do you want to delete this package option?"
-msgstr "Voleu eliminar esta opció del paquet?"
+msgstr "Voleu suprimir esta opció del paquet?"
 
 #: dialogs/quickdocumentdialog.cpp:2073
 #, kde-format
 msgid "Do you want to delete this package?"
-msgstr "Voleu eliminar este paquet?"
+msgstr "Voleu suprimir este paquet?"
 
 #: dialogs/quickdocumentdialog.cpp:2094
 #, kde-format
@@ -5200,7 +5200,7 @@ msgstr "Inserix un separador nou davall de l'element seleccionat."
 #: dialogs/usermenu/usermenudialog_base.ui:110
 #, kde-format
 msgid "Delete the selected item."
-msgstr "Elimina l'element seleccionat."
+msgstr "Suprimix l'element seleccionat."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbDown)
 #: dialogs/usermenu/usermenudialog_base.ui:120
@@ -5522,12 +5522,12 @@ msgstr "Inserix un submenú a dins d'este submenú"
 #: dialogs/usermenu/usermenutree.cpp:191
 #, kde-format
 msgid "Delete this item"
-msgstr "Elimina este element"
+msgstr "Suprimix este element"
 
 #: dialogs/usermenu/usermenutree.cpp:193
 #, kde-format
 msgid "Delete the complete tree"
-msgstr "Elimina tot l'arbre"
+msgstr "Suprimix tot l'arbre"
 
 #: dialogs/usermenu/usermenutree.cpp:199
 #, kde-format
@@ -10699,7 +10699,7 @@ msgstr "&Selecciona"
 #: kileui.rc:85
 #, kde-format
 msgid "D&elete"
-msgstr "&Elimina"
+msgstr "Sup&rimix"
 
 #. i18n: ectx: Menu (environment)
 #: kileui.rc:98

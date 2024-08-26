@@ -9260,7 +9260,6 @@ msgstr ""
 
 #: kilestdactions.cpp:374
 #, fuzzy, kde-format
-#| msgid "Math Mode - $...$"
 msgid "Math Mode - \\(...\\)"
 msgstr "Mattemodus – $…$"
 
@@ -9663,7 +9662,6 @@ msgstr ""
 
 #: kilestdactions.cpp:452
 #, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
 msgid "Math - \\begin{math}"
 msgstr "Samla – \\begin{gather}"
 
@@ -9899,7 +9897,6 @@ msgstr ""
 
 #: kilestdactions.cpp:490
 #, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
 msgid "dmath - \\begin{dmath}"
 msgstr "Samla – \\begin{gather}"
 
@@ -9910,7 +9907,6 @@ msgstr ""
 
 #: kilestdactions.cpp:491
 #, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
 msgid "dmath* - \\begin{dmath*}"
 msgstr "Samla (ikkje nummerert) – \\begin{gather*}"
 
@@ -9921,7 +9917,6 @@ msgstr ""
 
 #: kilestdactions.cpp:493
 #, fuzzy, kde-format
-#| msgid "Cases - \\begin{cases}"
 msgid "dseries - \\begin{dseries}"
 msgstr "Delt forskrift – \\begin{cases}"
 
@@ -9933,7 +9928,6 @@ msgstr ""
 # skip-rule: e-infinitiv
 #: kilestdactions.cpp:494
 #, fuzzy, kde-format
-#| msgid "Verse - \\begin{verse}"
 msgid "dseries* - \\begin{dseries*}"
 msgstr "Strofe – \\begin{verse}"
 
@@ -9944,25 +9938,21 @@ msgstr ""
 
 #: kilestdactions.cpp:496
 #, fuzzy, kde-format
-#| msgid "Figure - \\begin{figure}"
 msgid "dgroup - \\begin{dgroup}"
 msgstr "Figur – \\begin{figure}"
 
 #: kilestdactions.cpp:496
 #, fuzzy, kde-format
-#| msgid "Mathgroup"
 msgid "dgroup"
 msgstr "Mattegruppe"
 
 #: kilestdactions.cpp:497
 #, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
 msgid "dgroup* - \\begin{dgroup*}"
 msgstr "Samla (ikkje nummerert) – \\begin{gather*}"
 
 #: kilestdactions.cpp:497
 #, fuzzy, kde-format
-#| msgid "Mathgroup"
 msgid "dgroup*"
 msgstr "Mattegruppe"
 
@@ -10456,7 +10446,6 @@ msgstr ""
 #. i18n: ectx: Menu (menu_mathbreqnenv)
 #: kileui.rc:425
 #, fuzzy, kde-format
-#| msgid "Math Environments"
 msgid "breqn Math Environments"
 msgstr "Matteomgjevnadar"
 
@@ -11547,7 +11536,6 @@ msgstr ""
 
 #: widgets/latexconfigwidget.cpp:42
 #, fuzzy, kde-format
-#| msgid "Command"
 msgid "Cmd"
 msgstr "Kommando"
 
@@ -11771,7 +11759,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
 #: widgets/maintoolconfigwidget.ui:94
 #, fuzzy, kde-format
-#| msgid "Show input files"
 msgid "Show hidden tools"
 msgstr "Vis innfiler"
 

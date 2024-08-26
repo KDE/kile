@@ -9420,7 +9420,6 @@ msgstr "Mattemodus"
 
 #: kilestdactions.cpp:374
 #, fuzzy, kde-format
-#| msgid "Math Mode - $...$"
 msgid "Math Mode - \\(...\\)"
 msgstr "Mattemodus – $…$"
 
@@ -9823,7 +9822,6 @@ msgstr "Intertekst"
 
 #: kilestdactions.cpp:452
 #, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
 msgid "Math - \\begin{math}"
 msgstr "Samle – \\begin{gather}"
 
@@ -10059,7 +10057,6 @@ msgstr "Bmatrise"
 
 #: kilestdactions.cpp:490
 #, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
 msgid "dmath - \\begin{dmath}"
 msgstr "Samle – \\begin{gather}"
 
@@ -10070,7 +10067,6 @@ msgstr ""
 
 #: kilestdactions.cpp:491
 #, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
 msgid "dmath* - \\begin{dmath*}"
 msgstr "Samle (ikke nummerert) – \\begin{gather*}"
 
@@ -10081,19 +10077,16 @@ msgstr ""
 
 #: kilestdactions.cpp:493
 #, fuzzy, kde-format
-#| msgid "Cases - \\begin{cases}"
 msgid "dseries - \\begin{dseries}"
 msgstr "Alternativer – \\begin{cases}"
 
 #: kilestdactions.cpp:493
 #, fuzzy, kde-format
-#| msgid "Bold - \\bfseries"
 msgid "dseries"
 msgstr "Halvfet– \\bfseries"
 
 #: kilestdactions.cpp:494
 #, fuzzy, kde-format
-#| msgid "Verse - \\begin{verse}"
 msgid "dseries* - \\begin{dseries*}"
 msgstr "Strofe – \\begin{verse}"
 
@@ -10104,25 +10097,21 @@ msgstr ""
 
 #: kilestdactions.cpp:496
 #, fuzzy, kde-format
-#| msgid "Figure - \\begin{figure}"
 msgid "dgroup - \\begin{dgroup}"
 msgstr "Figur – \\begin{figure}"
 
 #: kilestdactions.cpp:496
 #, fuzzy, kde-format
-#| msgid "Mathgroup"
 msgid "dgroup"
 msgstr "Mattegruppe"
 
 #: kilestdactions.cpp:497
 #, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
 msgid "dgroup* - \\begin{dgroup*}"
 msgstr "Samle (ikke nummerert) – \\begin{gather*}"
 
 #: kilestdactions.cpp:497
 #, fuzzy, kde-format
-#| msgid "Mathgroup"
 msgid "dgroup*"
 msgstr "Mattegruppe"
 
@@ -10621,7 +10610,6 @@ msgstr "&Matrisemiljøer"
 #. i18n: ectx: Menu (menu_mathbreqnenv)
 #: kileui.rc:425
 #, fuzzy, kde-format
-#| msgid "Math Environments"
 msgid "breqn Math Environments"
 msgstr "Mattemiljøer"
 
@@ -11698,7 +11686,6 @@ msgstr ""
 
 #: widgets/latexconfigwidget.cpp:33
 #, fuzzy, kde-format
-#| msgid "Alignat"
 msgid "Alt"
 msgstr "Alignat"
 
@@ -11724,7 +11711,6 @@ msgstr ""
 
 #: widgets/latexconfigwidget.cpp:42
 #, fuzzy, kde-format
-#| msgid "Command"
 msgid "Cmd"
 msgstr "Kommando"
 
@@ -11954,7 +11940,6 @@ msgstr "Velg et verktøy"
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
 #: widgets/maintoolconfigwidget.ui:94
 #, fuzzy, kde-format
-#| msgid "Show input files"
 msgid "Show hidden tools"
 msgstr "Vis innfiler"
 

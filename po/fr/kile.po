@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2024-06-04 09:58+0200\n"
+"PO-Revision-Date: 2024-08-31 21:09+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -98,7 +98,7 @@ msgstr "Version"
 #: configtester.cpp:325
 #, kde-format
 msgid "Embedding of Okular is supported"
-msgstr "L'intégration d'Okular est prise en charge"
+msgstr "L'intégration avec Okular est prise en charge."
 
 #: configtester.cpp:337
 #, kde-format
@@ -184,7 +184,7 @@ msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
 "enable inverse and forward search capabilities."
 msgstr ""
-"Géré, utilisez la configuration « Moderne » pour PDFLaTeX and XeLaTeX pour "
+"Géré, utilisez la configuration « Moderne » pour PDFLaTeX et XeLaTeX pour "
 "activer automatiquement les fonctionnalités de recherches dynamiques."
 
 #: configtester.cpp:553
@@ -695,7 +695,7 @@ msgid ""
 "'center', Kile will search for '\\begin{center}', and in graphics mode with "
 "pattern '.*\\.png', Kile will search for all png files."
 msgstr ""
-"Choisissez un mode de recherche. Pour les premiers modes, le motif de "
+"Sélectionnez un mode de recherche. Pour les premiers modes, le motif de "
 "recherche est construit à partir d'un modèle modifiable, où « %s » est "
 "remplacé par le motif donné. <br> <br>Il y a d'autres modes prédéfinis fixés "
 "pour les environnements, les graphiques, les labels, les références et les "
@@ -766,7 +766,7 @@ msgstr "<strong>Erreur : </strong><p>"
 #: dialogs/findfilesdialog.cpp:556 dialogs/findfilesdialog.cpp:690
 #, kde-format
 msgid "Grep Tool Error"
-msgstr "Erreur de l'outil Grep"
+msgstr "Erreur de l'outil « grep »"
 
 #: dialogs/findfilesdialog.cpp:690
 #, kde-format
@@ -884,7 +884,7 @@ msgstr "Fichiers PDF (*.pdf)"
 #: dialogs/includegraphicsdialog.cpp:422
 #, kde-format
 msgid "Postscript Files (*.eps *ps)"
-msgstr "Fichiers Postscript (*.eps *ps)"
+msgstr "Fichiers PostScript (*.eps *ps)"
 
 #: dialogs/includegraphicsdialog.cpp:425
 #, kde-format
@@ -2983,7 +2983,7 @@ msgid ""
 msgstr ""
 "La conversion des fichiers ps est effectuée par « pstops » et « psselect ».\n"
 "Assurez-vous d'appeler « dvips » avec l'option « -t a4 » et\n"
-"le paquet hyperref (si besoin) avec l'option w a4paper »."
+"le paquet hyperref (si besoin) avec l'option « a4paper »."
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, m_edInfile)
 #: dialogs/postscriptdialog_base.ui:68
@@ -3717,12 +3717,12 @@ msgstr "Pas de point après chaque numéro de section"
 #: dialogs/quickdocumentdialog.cpp:716
 #, kde-format
 msgid "Caption command acts like \\captionabove"
-msgstr "La commande caption place la légende en dessous"
+msgstr "La commande « caption » place la légende en dessous"
 
 #: dialogs/quickdocumentdialog.cpp:717
 #, kde-format
 msgid "Caption command acts like \\captionbelow"
-msgstr "La commande caption place la légende au-dessus"
+msgstr "La commande « caption » place la légende au-dessus"
 
 #: dialogs/quickdocumentdialog.cpp:718
 #, kde-format
@@ -3880,7 +3880,7 @@ msgstr "Désactive la définition des blocs par défaut comme les théorèmes"
 #: dialogs/quickdocumentdialog.cpp:768
 #, kde-format
 msgid "Does not load amsthm and amsmath"
-msgstr "Ne pas charger amsthm et amsmath"
+msgstr "Ne pas charger « amsthm » et « amsmath »"
 
 #: dialogs/quickdocumentdialog.cpp:769
 #, kde-format
@@ -4077,7 +4077,7 @@ msgstr ""
 #, kde-format
 msgid "Use Times font as roman font (both text and math mode)"
 msgstr ""
-"Utiliser Times comme police de type roman (pour les modes texte et "
+"Utiliser « Times » comme police de type roman (Pour les modes de texte et de "
 "mathématiques)"
 
 #: dialogs/quickdocumentdialog.cpp:1057
@@ -4093,7 +4093,7 @@ msgstr "Active les environnements multi-colonnes"
 #: dialogs/quickdocumentdialog.cpp:1059
 #, kde-format
 msgid "Load all pstricks packages"
-msgstr "Charger tous les paquets pstricks"
+msgstr "Charger tous les paquets « pstricks »"
 
 #: dialogs/quickdocumentdialog.cpp:1060
 #, kde-format
@@ -7210,7 +7210,7 @@ msgstr "Si le paquet « dvipng » est installé ou pas"
 #: kile.kcfg:452
 #, kde-format
 msgid "Whether Convert is installed."
-msgstr "Si Convert est installé ou pas"
+msgstr "Indique si le module « Convert » est installé ou pas"
 
 #. i18n: ectx: label, entry (envPreviewInWidget), group (QuickPreview)
 #: kile.kcfg:460
@@ -8014,7 +8014,7 @@ msgid ""
 msgstr ""
 "\\documentclass[options]{classe}\n"
 "classe : article, report (rapport), book (livre), letter (lettre)\n"
-"Options (les options doivent être séparées par des virgules, sans espace):\n"
+"Options (Les options doivent être séparées par des virgules, sans espace):\n"
 "Taille des caractères : 10pt, 11pt, 12pt\n"
 "Taille du papier : a4paper, a5paper, b5paper, letterpaper, legalpaper, "
 "executivepaper\n"
@@ -8029,7 +8029,7 @@ msgstr ""
 "onecolumn, twocolumn : choisit si le texte doit être affiché sur une "
 "(onecolumn) ou deux (twocolumn) colonnes. Par défaut, il est affiché sur une "
 "colonne.\n"
-"oneside, twoside : choisit si l'impression doit être recto verso ou pas.\n"
+"oneside, twoside : choisit si l'impression doit être recto-verso ou pas.\n"
 
 #: kilestdactions.cpp:36
 #, kde-format
@@ -9099,9 +9099,9 @@ msgstr ""
 "1n·\\\\\n"
 "...\n"
 "\\end{tabular*}\n"
-"Ceci est une version améliorée de l'environnement tableau, avec un paramètre "
-"supplémentaire pour la largeur. Elle inclue un espace élastique entre les "
-"colonnes pour atteindre la taille désirée."
+"Ceci est une version améliorée de l'environnement de tableau, avec un "
+"paramètre supplémentaire pour la largeur. Elle inclut un espace flexible "
+"entre les colonnes pour atteindre la taille désirée."
 
 #: kilestdactions.cpp:150
 #, kde-format
@@ -9120,7 +9120,7 @@ msgid ""
 "optional position argument and mandatory width argument. You may use other "
 "paragraph-making environments inside a minipage."
 msgstr ""
-"L'environnement mini-page est similaire à la commande \\parbox. Il requiert "
+"L'environnement minipage est similaire à la commande \\parbox. Il requiert "
 "les mêmes paramètres de position (optionnel) et de largeur (obligatoire). "
 "Dans une mini-page il est encore possible d'utiliser d'autres environnements "
 "de formatage de paragraphe"
@@ -9232,10 +9232,10 @@ msgid ""
 "widest item label produces by the \\bibitem commands\n"
 "\\bibitem : Specify a bibliography item"
 msgstr ""
-"\\begin{labibliographie}{label-le-plus-large}\n"
+"\\begin{la-bibliographie}{label-le-plus-large}\n"
 "\\bibitem[label]{clé-de-citation}\n"
 "...\n"
-"\\end{labibliographie}\n"
+"\\end{la-bibliographie}\n"
 "\n"
 "label-le-plus-large : texte dont la largeur d'impression équivaut "
 "approximativement à celui du label de l'élément le plus large \\bibitem : "
@@ -9492,7 +9492,7 @@ msgstr "\\emph{texte mis en emphase}"
 #: kilestdactions.cpp:195
 #, kde-format
 msgid "Strong - \\strong{}"
-msgstr "Strong - \\strong{}"
+msgstr "Fort - \\strong{}"
 
 #: kilestdactions.cpp:195
 #, kde-format
@@ -9646,7 +9646,7 @@ msgstr "Charger le paquet « biblatex » - \\usepackage{biblatex}"
 #: kilestdactions.cpp:227
 #, kde-format
 msgid "Load Biblatex Package"
-msgstr "Charger le paquet Biblatex"
+msgstr "Charger le paquet « biblatex »"
 
 #: kilestdactions.cpp:227
 #, kde-format
@@ -11580,7 +11580,7 @@ msgstr "Impossible de trouver « %1 »"
 #: scripting/script.cpp:239 scripting/script.cpp:242
 #, kde-format
 msgid "Cursor/Range plugin"
-msgstr "Module externe Cursor / Range"
+msgstr "Module externe « curseur / Intervalle »"
 
 #: scripting/script.cpp:292
 #, kde-format
@@ -12145,22 +12145,22 @@ msgstr "Méta + CTRL"
 #: widgets/latexconfigwidget.cpp:42
 #, kde-format
 msgid "Cmd"
-msgstr "Cmd"
+msgstr "Commande"
 
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format
 msgid "Cmd + Shift"
-msgstr "Cmd + Maj"
+msgstr "Commande + Maj"
 
 #: widgets/latexconfigwidget.cpp:45
 #, kde-format
 msgid "Alt + Cmd"
-msgstr "Alt + Cmd"
+msgstr "ALT + commande"
 
 #: widgets/latexconfigwidget.cpp:46
 #, kde-format
 msgid "Ctrl + Cmd"
-msgstr "CTRL + Cmd"
+msgstr "CTRL + commande"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
@@ -12679,11 +12679,11 @@ msgstr ""
 "weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Considérons le fichier "
-"<span style=\" font-style:italic;\">monMeilleurLivre.tex</span> avec "
+"<span style=\" font-style:italic;\">mon-Meilleur-Livre.tex</span> avec "
 "l'emplacement complet <span style=\" font-style:italic;\">/home/archimedes/"
-"latex/</span><span style=\" font-style:italic;\">monMeilleurLivre.tex</"
-"span>, compilé avec pdflatex dans <span style=\" font-style:italic;"
-"\">monMeilleurLivre.pdf</span>.</p>\n"
+"latex/</span><span style=\" font-style:italic;\">mon-Meilleur-Livre.tex</"
+"span>, compilé avec pdflatex dans <span style=\" font-style:italic;\">mon-"
+"Meilleur-Livre.pdf</span>.</p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></"
 "p>\n"
@@ -12693,13 +12693,13 @@ msgstr ""
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">%source</span>: nom du fichier avec le suffixe, mais sans "
-"l'emplacement &lt;-&gt; <span style=\" font-style:italic;\">monMeilleurLivre."
-"tex</span></p>\n"
+"l'emplacement &lt;-&gt; <span style=\" font-style:italic;\">mon-Meilleur-"
+"Livre.tex</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">%S:</span> nom du fichier sans le suffixe et sans "
-"l'emplacement &lt;-&gt; <span style=\" font-style:italic;"
-"\">monMeilleurLivre</span></p>\n"
+"l'emplacement &lt;-&gt; <span style=\" font-style:italic;\">mon-Meilleur-"
+"Livre</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">%dir_base</span>: emplacement du fichier source sans le nom du "
@@ -12714,14 +12714,14 @@ msgstr ""
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">%target:</span> nom du fichier cible sans l'emplacement &lt;-"
-"&gt; <span style=\" font-style:italic;\">monMeilleurLivre.pdf</span></p>\n"
+"&gt; <span style=\" font-style:italic;\">mon-Meilleur-Livre.pdf</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-"
 "weight:600; font-style:italic;\"></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">%res:</span> résolution de l'aperçu rapide réglé dans "
-"Configurer Kile-&gt;Outils-&gt;Aperçu</p>\n"
+"Configurer Kile / Outils / Aperçu</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">%AFL</span>: liste de tous les fichiers d'un projet marqués "
@@ -13451,7 +13451,7 @@ msgstr "Afficher le &menu utilisateur dans le menu LaTeX"
 #: widgets/usermenuconfigwidget.ui:177
 #, kde-format
 msgid "Show the &user menu in the menu bar"
-msgstr "Afficher le menu &utilisateur dans la barre de menu"
+msgstr "Afficher le menu &utilisateur dans la barre de menus"
 
 #~ msgid "*.pdf|PDF Files"
 #~ msgstr "*.pdf|Fichiers PDF"

@@ -11953,7 +11953,7 @@ msgstr "&Προκαθορισμένη τοποθεσία έργου:"
 #: widgets/generalconfigwidget.ui:64
 #, kde-format
 msgid "&Reopen files and projects on startup"
-msgstr "&Άνοιγμα ξανά των αρχείων και έργων κατά την εκκίνηση"
+msgstr "Άνοιγμα ξανά των αρ&χείων και έργων κατά την εκκίνηση"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: widgets/generalconfigwidget.ui:74

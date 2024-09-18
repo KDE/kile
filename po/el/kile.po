@@ -5181,10 +5181,9 @@ msgstr ""
 "Να αντικατασταθεί το αρχείο αυτό;"
 
 #: dialogs/usermenu/usermenudialog.cpp:399
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "Αντικατάσταση αρχείου;"
+msgstr "Αντικατάσταση αρχείου"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
 #, kde-format
@@ -9784,10 +9783,9 @@ msgid "Math Mode"
 msgstr "Λειτουργία μαθηματικών"
 
 #: kilestdactions.cpp:374
-#, fuzzy, kde-format
-#| msgid "Math Mode - $...$"
+#, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr "Λειτουργία μαθηματικών - $...$"
+msgstr "Λειτουργία μαθηματικών - \\(...\\)"
 
 #: kilestdactions.cpp:375
 #, kde-format

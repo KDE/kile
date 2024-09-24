@@ -1,0 +1,6728 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kile "<application
+>Kile</application
+>">
+  <!ENTITY latex "L<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY pdflatex "PDFL<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY tex "T<subscript
+>E</subscript
+>X">
+  <!ENTITY tetex "<application
+>teT<subscript
+>E</subscript
+>X</application
+>">
+  <!ENTITY texlive "<application
+>TeX Live</application
+>">
+  <!ENTITY bibtex "BibT<subscript
+>E</subscript
+>X">
+  <!ENTITY makeindex "makeindex">
+  <!ENTITY kbibtex "KBibT<subscript
+>E</subscript
+>X">
+  <!ENTITY kbib "KBib">
+  <!ENTITY asymptote "Asymptote">
+  <!ENTITY imagemagick "<application
+>ImageMagick</application
+>">
+  <!ENTITY dvipng "<application
+>dvipng</application
+>">
+  <!ENTITY makeidx "<application
+>makeidx</application
+>">
+  <!ENTITY cjk "<abbrev
+>CJK</abbrev
+>">
+  <!ENTITY ucs "<abbrev
+>ucs</abbrev
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Slovenian "INCLUDE">
+  <!ENTITY javascript "<application
+>JavaScript</application
+>">
+  <!ENTITY include-section-scripting SYSTEM "scripting.docbook">
+  <!ENTITY include-section-usermenu SYSTEM "usermenu.docbook">
+]>
+
+<book id="kile" lang="&language;">
+
+<bookinfo>
+<title
+>Priročnik za &kile;</title>
+
+<authorgroup>
+	<author
+><firstname
+>Jonathan</firstname
+><surname
+>Pechta</surname
+></author>
+	<author
+><firstname
+>Federico</firstname
+><surname
+>Zenith</surname
+> <affiliation
+><address
+><email
+>federico.zenith@member.fsf.org</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Holger</firstname
+><surname
+>Danielsson</surname
+> <affiliation
+><address
+><email
+>holger.danielsson@versanet.de</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Thomas</firstname
+><surname
+>Braun</surname
+></author>
+	<author
+><firstname
+>Michel</firstname
+><surname
+>Ludwig</surname
+> <affiliation
+><address
+><email
+>michel.ludwig@kdemail.net</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Felix</firstname
+><surname
+>Mauch</surname
+> <affiliation
+><address
+><email
+>felix_mauch@web.de</email
+></address
+></affiliation
+></author>
+	<othercredit role="translator"
+><firstname
+>Krištof</firstname
+><surname
+>Trček</surname
+><affiliation
+><address
+><email
+>kt91536@student.uni-lj.si</email
+></address
+></affiliation
+><contrib
+>Prevod</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>Jonathan Pechta</holder>
+</copyright>
+
+<copyright>
+<year
+>2003</year
+><year
+>2005</year
+><year
+>2006</year>
+<holder
+>Federico Zenith</holder>
+</copyright>
+
+<copyright>
+<year
+>2005</year
+><year
+>2006</year
+><year
+>2012</year>
+<holder
+>Holger Danielsson</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>Thomas Braun</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year
+><year
+>2011</year>
+<holder
+>Michel Ludwig</holder>
+</copyright>
+
+<copyright>
+<year
+>2011</year>
+<holder
+>Felix Mauch</holder>
+</copyright>
+
+<date
+>22.05.2011</date>
+<releaseinfo
+>2.1</releaseinfo>
+
+<legalnotice>
+&FDLNotice;
+</legalnotice>
+
+<abstract>
+<para
+>&kile; je urejevalnik virov &tex; in &latex; ter lupina. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdenonbeta</keyword>
+<keyword
+>Kile</keyword>
+<keyword
+>LaTeX</keyword>
+<keyword
+>TeX</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="preface">
+
+<title
+>Predgovor</title>
+
+	<sect1 id="preface_sect">
+
+		<title
+>Zahteve</title>
+
+		<para
+>Da lahko zaženete &kile;, morate imeti na vašem sistemu nameščene naslednje komponente:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><ulink url="http://www.kde.org/"
+>K Desktop okolje (&kde;)</ulink
+>: &kde; je priljubljeno odprtokodno namizno okolje.</para
+></listitem>
+			<listitem
+><para
+><ulink url="https://qt.io/"
+>&Qt;</ulink
+>: &Qt; je &GUI; za C++ in omrežna knjižnica, ki je potrebna, da se prevede &kile;.</para
+></listitem>
+			<listitem
+><para
+><ulink url="http://www.ctan.org/"
+>&latex;</ulink
+>: zelo kvaliteten program za sestavljanje dokumentov. Najbrž boste želeli paket &texlive; (ali &tetex; na starejših sistemih), če uporabljate sistem podoben &UNIX;-u.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Večina teh elementov je morda že vključenih v vašo distribucijo &Linux;-a; prosimo, da si ogledate dokumentacijo vaše distribucije ali vaš &CD; ali DVD za nameščanje, za dodajanje teh paketov na vaš računalnik.</para>
+
+		<para
+>&kile; je morda že na voljo tudi kot vnaprej preveden paket za vašo &Linux; distribucijo. Preverite pri upravljalniku paketov vaše distribucije.</para>
+
+	</sect1>
+
+	<sect1 id="preface_audience">
+
+		<title
+>Predvideno občinstvo</title>
+
+		<para
+>Ta priročnik je namenjen vsakemu posamezniku, ne glede na njene/njegove izkušnje z &latex;-om, &kde;-jem, &kile;-om ali &Linux;-om.</para>
+
+		<para
+>Napredni uporabniki verjetno ne bodo brali tega priročnika, vendar bodo upoštevani vsi predlogi glede dokumentacije. Če bi želeli prispevati k temu projektu ali dokumentaciji, se posvetujte z <ulink url="http://kile.sourceforge.net/"
+>&kile;-ovo spletno stranjo</ulink
+>.</para>
+
+		<para
+>Potrebujete odgovore glede &kile;-a? Ste se zataknili pri procesu prevajanja? Želite, da se uvede nova funkcija? Priporočen način za spraševanje tehničnih vprašanj ali da začnete razpravo je, da uporabite naš seznam e-poštnih naslovov: <email
+>kile-devel@lists.sourceforge.net</email
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="introduction">
+
+	<title
+>Uvod</title>
+
+	<sect1 id="intro_about">
+
+		<title
+>Osnovna dejstva</title>
+
+		<sect2>
+
+			<title
+>O programu &kile;</title>
+
+			<para
+>&kile; je integrirano &latex;-ovo okolje za &kde;-jevo namizje. &kile; ponuja zmožnost uporabe vseh funkcionalnosti &latex;-a z grafičnim vmesnikom, kar vam omogoča enostaven, takojšen in prilagodljiv dostop do vseh programov za dopolnjevanje &latex;-ove kode, prevajanje, naknadno obdelavo, razhroščevanje in orodij za ogled; prav tako dobite zelo priročne čarovnike, &latex;-ov priročnik in zmogljiv upravljalnik projektov.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&kile; in Urejevalna Komponenta &kate;</title>
+
+			<para
+>&kile; je zasnovan na urejevalni komponenti &kate;, &ie; veliko njegovih zmožnosti za urejanje izvirajo iz urejevalne komponente &kate;. &kile; razširi te zmožnosti z značilnostmi za urejanje &latex;-ovih dokumentov. Če želite izvedeti več o urejevalni komponenti &kate; in njenih zmožnostih, glejte <ulink url="http://kate-editor.org"
+>spletno stran &kate;-a</ulink
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Kaj je &latex;?</title>
+
+			<para
+>&latex; je sistem za procesiranje besedila, izpeljan iz &tex;-a, program, ki ga je prvotno razvil Donald Knuth leta 1977, da bi pomagal pri razporeditvi besedila na profesionalen način in pridobiti kakovost razporeditve, ki je na ravni profesionalnega stavkarja (typesetter). &latex; je ustvaril Leslie Lamport, da bi avtorjem ponudil samodejno stavkanje, posebno da bi olajšal drag in mukotrpen proces oblikovanja matematičnih formul in izrazov, ki so v &latex;-u med dvema znakoma za dolar <emphasis
+>z razlogom</emphasis
+>. Današnji programi za procesiranje besed omogočajo vsakemu uporabniku, da deluje kot stavkar, toda pogosto je potreben dokument, ki enostavno izgleda lepo, brez da bi bilo potrebno zapraviti ure in ure, da ga ustrezno oblikujemo. &latex; vam to delo olajša, da se vi lažje osredotočite na vsebino dokumenta namesto na njegov izgled. In verjemite, da <emphasis
+>bo</emphasis
+> izgledal lepo!</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Kako se to izgovarja? Zakaj taka nenavadna oblika besede?</title>
+
+			<para
+>Obstaja hecna tradicija paketov, ki so povezani s &tex;, da imajo kolikor se le da nenavadne izgovorjave in oblike. &tex; naj bi izviral iz Grškega <emphasis
+>τεχ</emphasis
+>, v latinici <emphasis
+>tech</emphasis
+>. Veliko je razlag zakaj, najbolj verjetna pa je, da je bil &tex; prvotno ustvarjen za tehnična poročila in res, njegova najpomembnejša lastnost je pravilno in enostavno oblikovanje matematičnih formul, kar je bile takrat ekstremno drag, zamuden in nadležen posel.</para>
+			<para
+>Izgovorjava naj bi bila sledeča: <emphasis
+>T</emphasis
+> kot bi lahko pričakovali, <emphasis
+>E</emphasis
+> kot v <emphasis
+>get</emphasis
+> in <emphasis
+>X</emphasis
+> kot v nemškem i<emphasis
+>ch</emphasis
+>. Če ne veste kako zveni <emphasis
+>ch</emphasis
+>, je bolj kot ne podoben zvoku pihajoče mačke; IPA simbol je /ç/. Večina ljudi poroča o drugačnem izgovarjanju, <emphasis
+>ach</emphasis
+> (IPA simbol /x/), toda po mnenju nekaterih Grkov je v resnici pravilen prvi način. Zavedati se morate, da  veliko ljudi napačno izgovarja &tex; kot /teks/ ali /tek/.</para>
+			<para
+>Nazadnje, L<superscript
+>A</superscript
+> na začetku v &latex; se izgovori kot <emphasis
+>lay</emphasis
+>: kar predstavlja, da čeprav je &tex; zahteven, lahko &latex; makrote uporablja tudi navaden <emphasis
+>lai</emphasis
+>k. Manj zanimiva razlaga je, da LA izvira iz priimka Leslie-ja Lamport-a, ustvarjalca &latex;-a. Zdaj veste!</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_latexbasics">
+
+		<title
+>&latex; 101</title>
+
+		<para
+>&latex;-ov sistem za stavkanje je podoben drugim jezikom z značkami, kot na primer &XML;, ki se ga uporablja v veliko različnih vrstah dokumentov (vključno s tem, ki ga trenutno berete), ali &HTML;, ki se ga uporablja za spletne strani. Splošna ideja jezikov z značkami je, da obstajajo posebne ključne besede, imenovane <emphasis
+>značke</emphasis
+>, po katerih lahko program (urejevalnik besedil, spletni brskalnik ali &latex;-ov prevajalnik) ve, kako naj interpretira besedilo med značkami. &kile; ponuja številne takšne oznake v <guimenu
+>LaTeX</guimenu
+>-a v vrstici menija.</para>
+
+		<para
+>Čeprav vam bomo poskusili čim bolje opisati, kaj je &latex;, ta dokument vseeno ni Dokončna Knjiga o &latex;-u. Če se želite podrobno naučiti &latex;, si morda izposodite za to specializirano knjigo iz bližnje knjižnice.</para>
+
+		<para
+>Kot pri vsakem drugem jeziku z značkami, je tudi pri &latex;-ovih dokumentih vsebovana <emphasis
+>preambula</emphasis
+>, ki definira globalne lastnosti, kot si velikost papirja, številčenje strani in dimenzije besedila na strani, poleg tega pa tudi <emphasis
+>telo</emphasis
+> dokumenta, ki vsebuje besedilo dokumenta. Preambula je sestavljena vsaj iz ukaza <userinput
+>\documentclass</userinput
+>. Je pred telesom dokumenta, ta pa se začne z ukazom <userinput
+>\begin{document}</userinput
+> in zaključi z ukazom <userinput
+>\end{document}</userinput
+>.</para>
+
+	</sect1>
+
+	<sect1 id="intro_mainfeat">
+
+		<title
+>Glavne Lastnosti &kile;-a</title>
+
+		<sect2 id="intro_docwizard">
+
+			<title
+>Čarovnik za Hiter Začetek (QuickStart Wizard)</title>
+
+			<para
+>Čarovnik za hiter začetek je vgrajen v &kile; in je uporabna lastnost, da hitro začnete ustvarjati dokumente v &kile;-u. Uporaba čarovnika iz vrstice menija vam ponuja nekaj možnosti za ustvarjanje vašega dokumenta. Prav tako lahko takoj navedete nekaj možnosti povezane z dokumentom.</para>
+
+			<para
+>Možnosti razreda:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>Razred Dokumenta</guilabel
+>: izberite vrsto dokumenta, ki ga želite ustvariti: članek, knjiga, pismo, poročilo, scrartcl, scrreprt scrbook, prosper, beamer ali druge poljubno definirane vrste.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Velikost črk</guilabel
+>: povejte &kile;-u, kakšno velikost črk (pt) želite uporabljati.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Velikost Papirja</guilabel
+>: izberite velikost ali slog strani.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Kodiranje znakov</guilabel
+>: Ponavadi je dobro uporabljati standardno kodiranje vašega sistema. Moderni sistemi vedno bolj prevzemajo UTF-8 za standardno kodiranje. Če lahko, uporabite utf8 ali utf8x (ki je pravilno črkovanje za dokumente &latex;). </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Druge možnosti</guilabel
+>: to vam omogoča, da nastavite nadaljnje možnosti, kot so tiskanje, osnutek in drugo.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Paketi</para>
+			<para
+>Tu je navedenih nekaj najpogostejših dodatnih paketov uporabljenih v &latex;-u. Označite polje, da ga vključite.</para>
+
+			<para
+>Lastnosti Dokumenta:</para>
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>Avtor</guilabel
+>: sem vnesite svoje ime.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Naslov</guilabel
+>: sem dodajte naslov dokumenta.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Datum</guilabel
+>: navedite datum.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="intro_templates">
+
+			<title
+>Vnaprej Določene Predloge</title>
+
+			<para
+>Vnaprej določene predloge v &kile;-u so:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>Empty document (prazen dokument): le redki začnejo od začetka!</para
+></listitem>
+				<listitem
+><para
+>Article (članek): nastavi format članka, za dokument, ki je dovolj kratek, da se ga ne razdeli na poglavja.</para
+></listitem>
+				<listitem
+><para
+>Report (poročilo): nastavi format poročila, za srednje velike dokumente, z npr. številčenjem strani na zunanjem robu strani.</para
+></listitem>
+				<listitem
+><para
+>Book (knjiga): nastavi format knjige, poln okus, tako močan, da se uporablja za pisanje številnih univerzitetnih učbenikov.</para
+></listitem>
+				<listitem
+><para
+>Letter (pismo): nastavi format pisma.</para
+></listitem>
+				<listitem
+><para
+>Beamer, HA-Prosper: ustvari lepe predstavitve v PDF-ju z vrhunskim videzom in vso zmogljivostjo &latex;-a.</para
+></listitem>
+				<listitem
+><para
+>Powerdot: Powerdot je naslednik paketoma <userinput
+>seminar</userinput
+> in <userinput
+>HA-Prosper</userinput
+>. Nima toliko možnosti kot Beamer, vendar je enostaven za uporabo in lahko ustvari res lepe predstavitve v PDF formatu.</para
+></listitem>
+				<listitem
+><para
+>Scrartcl, Scrbook, Scrreprt, Scrlttr2: razredi z dokumenti KOMA-Script, posebej prilagojeni nemški tipografiji. Uporabljajte jih, ko pišete nemška besedila.</para
+></listitem>
+				<listitem
+><para
+>Xelatex: predloga (template) za <userinput
+>Članke</userinput
+> za uporabo z <userinput
+>XeLaTeX</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Upoštevajte, da so vse te predloge prilagodljive uporabnikovim potrebam.</para>
+
+			<para
+>Novi uporabniki ne rabijo skrbeti: ta seznam je le kratek opis razpoložljivih funkcij. Njihove podrobnejše opise lahko najdete v <xref linkend="quickstart" role="select: title pageabbrv"/>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_highlight">
+
+			<title
+>Poudarjanje Sintakse</title>
+
+			<para
+>&kile; je podoben drugim programom za izvorno kodo ter urejanje in bo samodejno poudaril ukaze, možnosti in elemente, ki so uporabljeni (ali napačno rabljeni). S &kile;-om boste z lahkoto opazili problematična območja: npr. če se vam velik del besedila obarva zeleno, ste najbrž nekje pozabili zapreti območje za matematiko.</para>
+
+		</sect2>
+
+		<sect2 id="intro_autocoml">
+
+			<title
+>Samodopolnjevanje Območij</title>
+
+			<para
+>Samodopolnjevanje območij pomeni, da ko odprete novo območje v vpisom <userinput
+>\begin{environment}</userinput
+>, bo &kile; samodejno vstavil ujemajoč ukaz <userinput
+>\end{environment}</userinput
+> s prazno vrstico med ukazoma za vaše besedilo. To možnost lahko seveda onemogočite v <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+> <guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>Environments</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_jump">
+
+			<title
+>Skoči na Element Strukture</title>
+
+			<para
+>Vsi dokumenti so ponavadi strukturirani v neke vrste hierarhiji. &latex; vam omogoča, da dokument razdelite v skladu s sledečo hierarhijo (part je najvišje v hierarhiji in subparagraph je najnižje):</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>\part</para
+></listitem>
+				<listitem
+><para
+>\chapter</para
+></listitem>
+				<listitem
+><para
+>\section</para
+></listitem>
+				<listitem
+><para
+>\subsection</para
+></listitem>
+				<listitem
+><para
+>\subsubsection</para
+></listitem>
+				<listitem
+><para
+>\paragraph</para
+></listitem>
+				<listitem
+><para
+>\subparagraph</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Ko gledate dokument v pogledu <guilabel
+>Struktura</guilabel
+>, lahko skačete med elementi s klikom na element, ki ga želite videti.</para>
+
+		</sect2>
+
+		<sect2 id="intro_inverse">
+
+			<title
+>Obratno Iskanje</title>
+
+			<para
+>Obratno iskanje je lahko zelo uporabno, ko ustvarjate svoje datoteke &latex;. Ko ste enkrat že ustvarili &DVI; (DeVice Independent File) ali PDF datoteko, lahko z držanjem tipke &Shift; in levim klikom na razdelek v oknu s predogledom skočite na ustrezno vrstico &latex;-ove izvorne kode.</para>
+
+			<para
+>&DVI; je vrsta datoteke, ki vsebuje opis formatiranega dokumenta poleg drugih informacij kot npr. vrsta pisave, in je poleg PDF-ja običajen izhod programov &tex; in &latex;. Obstaja veliko raznih pripomočkov za ogled, pretvorbo in tiskanje datotek &DVI; na različnih sistemih in napravah.</para>
+
+		</sect2>
+
+		<sect2 id="intro_forward">
+
+			<title
+>Iskanje Naprej</title>
+
+			<para
+>Ko uporabljate obratno iskanje, je izbira elementov v &DVI; ali PDF datoteki povezana z urejevalnikom, zato, ko kliknete na &DVI; ali PDF datoteko, bo glavno okno skočilo na ustrezen razdelek &latex;-ove kode v urejevalniku. Iskanje naprej je pravo nasprotje tega. Iskanje naprej vam omogoča, da kliknete na določen razdelek besedila v &latex;-ovi kodi, in okno s predogledom se bo premaknilo na ujemajočo se lokacijo.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_toolbar">
+
+		<title
+>Orodna Vrstica</title>
+
+		<itemizedlist>
+			<listitem
+><para
+><guibutton
+>Nov</guibutton
+>: ustvari nov dokument.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Odpri</guibutton
+>: odpre nov dokument.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Zapri</guibutton
+>: zapre vaš dokument.</para
+></listitem>
+			<!-- following toolbar items are different in default master/2.1-->
+			<listitem
+><para
+><guibutton
+>Določi dokument kot glavni</guibutton
+>: to se uporablja, ko se dela z več datotekami. Če boste imeli glavni dokument, boste lažje delali z ostalimi <literal role="extension"
+>.tex</literal
+> datotekami, ki so vključene v vaš dokument. Če delate s projekti, lahko v <menuchoice
+><guimenu
+>Project</guimenu
+><guisubmenu
+>Project Options</guisubmenu
+></menuchoice
+> nastavite tudi glavni dokument le za projekt.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Quickbuild</guibutton
+>: prevede vašo &latex;-ovo izvorno kodo in samodejno prikaže rezultate, razen če pride do napak v dokumentu.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Način ogleda datoteke</guibutton
+>: ta način bo "opazoval" datoteko &DVI; za spremembe, in ne bo zagnal nove seje &okular;-ja po <guibutton
+>Quickbuild</guibutton
+>-u.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Oglej si log datoteko</guibutton
+>: odpre pogled na <literal role="extension"
+>.log</literal
+> datoteko, da najdete napako.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Prejšnje napake</guibutton
+>: skoči nazaj skozi <literal role="extension"
+>.log</literal
+> datoteko in označi napake v viru.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Naslednja napaka</guibutton
+>: skoči naprej skozi<literal role="extension"
+>.log</literal
+> datoteko in označi napake v viru.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Ustavi</guibutton
+>: ustavi trenutno orodje.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>LaTeX</guibutton
+>: zažene &latex; na aktivnem dokumentu.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewDVI</guibutton
+>: odpre pogled za &DVI; datoteke.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVItoPS</guibutton
+>: pretvori &DVI; v &PostScript; (PS).</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewPS</guibutton
+>: odpre pogled za &PostScript; (PS) datoteke.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PDFLaTeX</guibutton
+>: zažene &pdflatex; na aktivnem dokumentu.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewPDF</guibutton
+>: odpre pogled za PDF datoteke.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVItoPDF</guibutton
+>: pretvori &DVI; v PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PStoPDF</guibutton
+>: pretvori PS v PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewHTML</guibutton
+>: za ogled ustvarjenih &HTML; datotek.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ForwardDVI</guibutton
+>: skoči na stran &DVI; datoteke, ki se ujema s trenutno vrstico v urejevalniku.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ForwardPDF</guibutton
+>: skoči na stran PDF datoteke, ki se ujema s trenutno vrstico v urejevalniku.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Če pogledate na orodno vrstico <guilabel
+>Uredi</guilabel
+> boste opazili tri velike spustne menije. Ti meniji so bili zasnovani, da lahko hitro dodajate nekatere navadne funkcije v svoj dokument. Prvi je namenjen, da lahko hitro razdelite dokument na dele, poglavja, razdelke itd.; razpoložljivi ukazi za dodajanje segmentov v vašo izvorno kodo so:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>part</guilabel
+>: (del) najvišja stopnja razdeljevanja dokumenta.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>chapter</guilabel
+>: (poglavje) začne z novim poglavjem.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>section</guilabel
+>: (razdelek) ustvari nov razdelek.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>subsection</guilabel
+>: (podrazdelek) ustvari nov podrazdelek.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>subsubsection</guilabel
+>: (podpodrazdelek) ustvari nov podpodrazdelek.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>paragraph</guilabel
+>: (odstavek) ustvari nov odstavek.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>subparagraph</guilabel
+>: (pododstavek) ustvari nov pododstavek.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Spustni meni z imenom <guilabel
+>Ostalo</guilabel
+> je namenjena vstavljanju elementov v vaš dokument, kot npr. kazala, opombe, reference; razpoložljivi ukazi so:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>label</guilabel
+>: (oznaka) ukaz, ki ustvari oznako za poglavje ali kak drug element.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>index</guilabel
+>: (kazalo) ustvari vnos v kazalo.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>footnote</guilabel
+>: (opomba) ustvari opombo v vašem dokumentu.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>ref</guilabel
+>: uporablja se za sklicevanje na vnaprej določeno oznako, ki jo lahko izberete na spustnem seznamu.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>pageref</guilabel
+>: tako kot <guilabel
+>ref</guilabel
+>, le da se nanaša na stran namesto na element strukture.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>cite</guilabel
+>: ustvari referenco s podatki iz bibliografije.</para
+></listitem>
+<!-- The next feature is currently disabled (see 'kile.cpp'). -->
+<!--			<listitem
+><para
+><guilabel
+>cite from ViewBib</guilabel
+>: ask the ViewBib tool for all selected references and insert them.
+			Currently this is only available with <ulink url="http://user.digisurf.com.au/~thachly/kbib/"
+>&kbib;</ulink
+> as ViewBib tool.</para
+></listitem
+>-->
+		</itemizedlist>
+
+		<screenshot>
+			<screeninfo
+>Spustni meni <guilabel
+>Ostalo</guilabel
+></screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_choose.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Spustni meni <guilabel
+>Ostalo</guilabel
+></phrase>
+			</textobject>
+			<caption
+><para
+>Spustni meni <guilabel
+>Ostalo</guilabel
+></para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<screenshot>
+			<screeninfo
+>Izbira oznake za referenco</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Izbira oznake za referenco</phrase>
+			</textobject>
+			<caption
+><para
+>Izbira oznake za referenco</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Ko uporabljate <guilabel
+>cite</guilabel
+>, se vam odpre spustni seznam bibliotečnih elementov, če pa uporabljate &bibtex;, bo to delovalo le, če vaša datoteka pripada k projektu. Za urejanje datotek &bibtex; je priporočena uporaba specializiranih urejevalnikov. Avtor je imel dobre izkušnje z &kbibtex;-om. Seveda lahko prav tako sami napišete &bibtex; datoteko v &kile;-u.</para>
+
+		<para
+>Zadnji spustni meni, označen z <guilabel
+>tiny</guilabel
+> (majhen), se uporablja za nastavitev velikosti besedila. Nastavite lahko velikost glavnega besedila, opomb itd. Razpoložljivi ukazi so:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>tiny</guilabel
+>: najmanjše.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>scriptsize</guilabel
+>: zelo majhno.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>footnotesize</guilabel
+>: manjše.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>small</guilabel
+>: majhno.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>normalsize</guilabel
+>: normalno.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>large</guilabel
+>: veliko.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Large</guilabel
+>: večje.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>LARGE</guilabel
+>: še večje.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>huge</guilabel
+>: še vedno večje.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Huge</guilabel
+>: največje.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+</chapter>
+<chapter id="quickstart">
+
+	<title
+>Quickstart (Hitri začetek)</title>
+
+	<sect1 id="quick_begin">
+
+		<title
+>Pisanje &latex;-ovega dokumenta s programom &kile; za Začetnike</title>
+
+		<para
+>Kdor uporablja &kile;, ima dve možnosti, ko začenja nov dokument: lahko uporabi funkcijo <guimenu
+>Wizard</guimenu
+>, da začne z novim dokumentom, izbere vrsto dokumenta, ki bi ga rad ustvaril, in razne druge možnosti, kot npr. velikost pisave, velikost papirja; v nasprotnem primeru lahko ročno napiše kodo.</para>
+
+<programlisting
+>\documentclass[12pt]{article}
+\begin{document}
+        Here is a bunch of text coded in \LaTeX.
+\end{document}</programlisting>
+
+		<para
+>Vsak dokument v &latex;-u se začne z ukazom <userinput
+> \documentclass[neobvezni argument]{razred}</userinput
+>, kjer razred določa vrsto dokumenta.</para>
+
+		<para
+>Če vtipkate primer kode iz zgornjega okvirčka, boste dobili naslednji rezultat:</para>
+
+		<screenshot>
+			<screeninfo
+>Compiled text in &DVI; output</screeninfo>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="latex_example.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Prevedeno besedilo v izhodu &DVI;</phrase>
+				</textobject>
+				<caption
+><para
+>Prevedeno besedilo v izhodu &DVI;</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Oklepaji takoj za ukazom <userinput
+>\documentclass</userinput
+> vsebujejo možnosti za ukaz. Možnost <userinput
+>[12pt]</userinput
+> nastavi velikost pisave za vaš članek; če ne nastavite velikosti pisave na začetku, jo lahko nastavite kasneje v besedilu.</para>
+
+		<para
+>Ko ste enkrat vpisali primer kode iz zgornjega okvirčka, morate prevesti vašo &latex;-ovo izvorno kodo. Najlažji način, da prevedete &latex;, je da uporabite meni <guimenu
+>Build</guimenu
+> ali pa da uporabite gumb <guilabel
+>Quickbuild</guilabel
+>.</para>
+
+		<para
+><keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+> je bližnjica za prevajanje izvorne kode.</para>
+
+		<para
+>Izvorno kodo morate pred prevajanjem shraniti; &kile; vam to naredi samodejno.</para>
+
+		<para
+>Če se vaš dokument ni prevedel, preverite okvirček za beleženje napak. Ko uporabljate funkcijo <guilabel
+>Quickbuild</guilabel
+>, se bo pogled &okular; zagnal samodejno; če se ne, poglejte okvirček za beleženje napak.</para>
+
+	</sect1>
+
+	<sect1 id="quick_env">
+		<title
+>Območja</title>
+
+		<para
+>Območje je del besedila, ki se ga obdela na drugačen način kot preostanek dokumenta, npr. ustvarite lahko poročilo z velikostjo pisave 12, vendar želite spremeniti velikost pri nekaterih stavkih. Z ukazi <userinput
+>\begin{environment}</userinput
+>, <userinput
+>\huge</userinput
+> and <userinput
+>\end{environment}</userinput
+> boste spremenili besedilo v območju, da bo veliko.</para>
+
+		<para
+>Spremembe so učinkovite le od <userinput
+>\begin{environment}</userinput
+> do <userinput
+>\end{environment}</userinput
+>. Ni omejitev, koliko sprememb lahko naredite v enem območju.</para>
+
+		<para
+>Obstaja veliko funkcij, ki jih lahko uporabite v svojem dokumentu, da bo bolj berljiv in uporabniku prijazen. Lahko dodate lastnosti kot so krepka, ležeča, podčrtana pisava, določene oblike pisave, &etc;, in ti ukazi se bodo končali z ukazom <userinput
+>\end</userinput
+> ali pa s koncem vašega območja.</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><userinput
+>\begin{emph}</userinput
+>: ta ukaz naredi besedilo ležeče, in je veljaven do ukaza <userinput
+>\end{emph}</userinput
+> ali do drugega območja. Da naredite ležečo le eno besedo v povedi lahko uporabite naslednjo sintakso: to je <userinput
+>\emph{my}</userinput
+> poved.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\textbf{To besedilo v oklepajih bo napisano krepko}</userinput
+>: s tem ukazom naredite, da bo besedilo krepko.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\quote</userinput
+>: tako ustvarite citat v svojem dokumentu; začnite vaš citat z <userinput
+>\begin{quote}</userinput
+> in ga končajte z <userinput
+>\end{quote}</userinput
+>.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\center</userinput
+>: uporabi sredinsko poravnavo na besedilu.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\verse</userinput
+>: ustvari zamaknjeno besedilo za pesmi.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\itemize</userinput
+>: ustvari seznam po alinejah.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+	<sect1 id="quick_using">
+
+		<title
+>Uporaba &kile;</title>
+
+		<para
+>Zdaj ko smo vam predstavili nekaj osnov kako pisati &latex;-ovo kodo, vam bomo pokazali kako s &kile;-om ustvariti dokument korak za korakom.</para>
+
+		<procedure>
+			<step
+><para
+>Zaženite &kile;.</para
+></step>
+			<step
+><para
+>Izberite <menuchoice
+><guimenu
+>Wizard</guimenu
+><guimenuitem
+>Quick Start</guimenuitem
+></menuchoice
+>, nato izberite želeni format in nastavite svoje preference.</para
+></step>
+			<step
+><para
+>Ko je wizard vnesel besedilo, prilagodite svoje besedilo, da bo lažje berljivo, dodajte vsaj en citat, nekaj krepkega in ležečega besedila ter verz, da vidite razlike med ukazi.</para
+></step>
+			<step
+><para
+>Shranite datoteko in ji dajte ime <filename
+>intro.tex</filename
+>.</para
+></step>
+			<step
+><para
+>Zgradite svoj dokument z <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+> ali s klikom na gumb <guilabel
+>LaTeX</guilabel
+>.</para
+></step>
+			<step
+><para
+>Izberite <guibutton
+>ViewDVI</guibutton
+>.</para
+></step>
+			<step
+><para
+>Preverite vaše novo besedilo.</para
+></step>
+			<step
+><para
+>Ko ste končali z ogledovanjem dokumenta, kliknite na gumb <guibutton
+>Editor View</guibutton
+> ali pritisnite <keycombo
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>, da se vrnete v urejevalnik, če uporabljate vgrajen pregledovalnik, ali pa le zaprite okno pregledovalnika, če uporabljate ločeni pregledovalnik.</para
+></step>
+		</procedure>
+
+		<para
+>To je to! Pravkar ste ustvarili svoj prvi &latex;-ov dokument!</para>
+
+		<para
+>Ko enkrat ustvarite vaš &DVI;, boste lahko svoj dokument tudi natisnili ali pa ga spremenili v datoteko &PostScript; ali PDF. Eksperimentirajte in zabavajte se!</para>
+
+	</sect1>
+
+	<sect1 id="quick_dvi">
+
+		<title
+>&DVI; Datoteke</title>
+
+		<para
+>&DVI; je kratica za datoteko neodvisno od naprave (<emphasis
+>DeVice Independent</emphasis
+>). Te datoteke naredi &tex; ali &latex;, da jih prebrere nekakšen gonilnik v vašem računalniku. Obstaja veliko različnih vrst izhodov, na katere je možno poslati datoteko <literal role="extension"
+>.dvi</literal
+>, kot na primer tiskalnik, pretvornik datotek &PostScript; in PDF, ali zaslon vašega računalnika.</para>
+
+	 	<sect2 id="quick_viewdvi">
+
+			<title
+>Ogled datoteke &DVI;</title>
+
+			<para
+>Do sedaj ste že videli, kako si ogledate datoteko &DVI; na zaslonu z uporabo gumba <guibutton
+>ViewDVI</guibutton
+> iz orodne vrstice.</para>
+
+		</sect2>
+
+		<sect2 id="quick_printdvi">
+
+		<title
+>Tiskanje datoteke &DVI;</title>
+
+			<para
+>Da natisnete &DVI;, lahko uporabite isti postopek, kot ste ga prej uporabili za ustvarjanje vašega dokumenta (glej <xref linkend="quick_using" role="select: title pageabbrv"/>). Na koraku 7, potem ko ste kliknili <guibutton
+>ViewDVI</guibutton
+>, izberite <menuchoice
+><guimenu
+>Datoteka</guimenu
+><guimenuitem
+>Print</guimenuitem
+></menuchoice
+> v pregledovalniku, in če imate pravilno nastavljen vaš tiskalnik, boste lahko natisnili &DVI;.</para>
+
+		</sect2>
+
+		<sect2 id="quick_exportdvi">
+
+			<title
+>Pretvorba &DVI; datotek</title>
+
+			<para
+>Orodna vrstica vam daje možnost, da pretvorite &DVI; v druge formate. Ko ste ustvarili datoteko &DVI; iz vaše &latex;-ove izvorne kode, jo boste lahko izvozili v druge formate z uporabo gumbov v orodni vrstici.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="quick_forward">
+
+		<title
+>Iskanje Naprej med &kile;-om in &okular;-jem</title>
+
+		<para
+>Funkcije za iskanje naprej vam omogočajo, da iz vašega urejevalnika skočite neposredno na ustrezen položaj v datoteki &DVI; ali PDF. </para>
+		<para
+>&kile; ponuja konfiguracio s to možnostjo za vse &latex;-ove binarne datoteke. Pojdite na <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+> <guimenuitem
+>Tools</guimenuitem
+><guilabel
+>Build</guilabel
+></menuchoice
+> in povsod izberite konfiguracijo <guilabel
+>Modern</guilabel
+>.</para>
+
+		<para
+>Če želite izvesti iskanje naprej, postavite kazalec na vrstico izvorne kode in kliknite z <mousebutton
+>levim</mousebutton
+> gumbom miške, medtem ko pritiskate &Shift;, ali kliknite <guilabel
+>Posreduj DVI</guilabel
+>/<guilabel
+> Posreduj PDF</guilabel
+> za skok na povezan položaj v &DVI; ali okno pregledovalnika PDF.</para>
+	</sect1>
+
+	<sect1 id="quick_inverse">
+
+		<title
+>Iskanje nazaj med &kile;-om in &okular;-jem</title>
+
+		<para
+>Obratno iskanje je zelo uporabna funkcija, ko sami pišete &latex;-ov dokument. Če je vse nastavljeno pravilno, lahko kliknete na okno &okular;-ja z <mousebutton
+>left</mousebutton
+> gumbom miške, medtem ko držite &Shift;. Nato bo &kile; naložil &latex;-ovo izvorno kodo in skočil na pravilen odstavek. Da lahko uporabljate obratno iskanje, morate prevesti vašo &latex;-ovo datoteko s konfiguracijo <guilabel
+>Modern</guilabel
+>.</para>
+
+		<para
+>Obratno iskanje ne bo delovalo, razen če:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Je bila izvorna datoteka uspešno prevedena.</para
+></listitem>
+			<listitem
+><para
+>&okular; ve, kateri urejevalnik želite uporabljati.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>S to funkcijo &okular;ja bo levi klik na &DVI; ali PDF med pritiskanjem tipke &Shift; odprl ustrezen &latex;-ov dokument v &kile;-u in poskusil poiskati ustrezno vrstico kode. Ne pozabite povedati &okular;-ju, naj kot urejevalnik uporablja &kile;. To storite v meniju &okular;-ja <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guimenuitem
+>Nastavi Okular...</guimenuitem
+></menuchoice
+> (na strani <guimenuitem
+>Urejevalnik</guimenuitem
+>).</para>
+
+		<screenshot>
+			<screeninfo
+>Nastavljanje &okular;-ja</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_okular_settings.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Nastavljanje &okular;-ja</phrase>
+			</textobject>
+			<caption
+><para
+>Nastavljanje &okular;-ja</para
+></caption>
+			</mediaobject>
+		</screenshot>
+	</sect1>
+
+	<sect1 id="quick_errors">
+
+		<title
+>Razreševanje Napak</title>
+
+		<para
+>Če poskušate uporabljati quickbuild in se vam &DVI; pregledovalnik ne odpre, obstaja možnost, da imate napako. Če imate napako, bo to razvidno v okvirčku za beleženje napak/sporočil. Podan bo tudi povzetek napake.</para>
+
+		<para
+>V datoteki za beleženje bo pojasnjen izvor napake v vaši kodi. V urejevalniku lahko uporabite gumbe orodne vrstice <guibutton
+>Previous LaTeX Error</guibutton
+> and <guibutton
+>Next LaTeX Error</guibutton
+>, da skačete od napake do napake. V datoteki za beleženje je vedno zabeleženo, v kateri vrstici se je pojavila napaka. Da si ogledate to vrstico, kliknite na napako v okvirčku za beleženje napak in &kile; vam bo prikazal vrstico s to napako.</para>
+
+	</sect1>
+
+</chapter>
+<chapter id="startnew">
+
+	<title
+>Začenjanje z Novim Dokumentom</title>
+
+	<para
+>Ko kliknete na gumb iz orodne vrstice, da začnete nov dokument, se prikaže pogovorno okno, ki vas povpraša po vrsti predloge, ki bi jo želeli uporabiti pri pisanju vašega dokumenta. Privzete izbire so:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>Prazen dokument</para
+></listitem>
+		<listitem
+><para
+>Članek (Article)</para
+></listitem>
+		<listitem
+><para
+>Beamer</para
+></listitem>
+		<listitem
+><para
+>Knjiga (Book)</para
+></listitem>
+		<listitem
+><para
+>HA-Prosper</para
+></listitem>
+		<listitem
+><para
+>Powerdot</para
+></listitem>
+		<listitem
+><para
+>Pismo (Letter)</para
+></listitem>
+		<listitem
+><para
+>Poročilo (Report)</para
+></listitem>
+		<listitem
+><para
+>Scrartcl (iz paketa KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>Scrbook (iz paketa KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>Scrlttr2 (iz paketa KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>Scrreprt (iz paketa KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>PDF</para
+></listitem>
+		<listitem
+><para
+>XeLaTeX</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>Če ste izbrali <guilabel
+>Prazen dokument</guilabel
+>, lahko začnete pisati dokument od začetka, ali pa uporabite wizard, da hitreje začnete nov dokument (glej <xref linkend="intro_docwizard" role="select: title pageabbrv"/>).</para>
+
+
+	<sect1 id="startnew_templates">
+
+		<title
+>Predloge</title>
+
+		<para
+>Redni uporabniki &latex;-a ponavadi uporabljajo enake preambule za skoraj vsak njihov dokument. Predloge se da ustvariti, shraniti in naložiti v &kile;-u, in si tako olajšati začenjanje novih dokumentov.</para>
+
+
+		<sect2>
+			<title
+>Ustvari Novo Predlogo</title>
+
+			<para
+>Da ustvarite novo predlogo, morate najprej odpreti datoteko &tex; / &latex; ali pa sami ustvariti datoteko. &kile; lahko ustvari predlogo iz obstoječega dokumenta tako, da odprete želeni dokument in izberete <menuchoice
+><guimenu
+>Datoteka</guimenu
+><guimenuitem
+>Create Template from Document</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Konfiguriranje Samodejnih Zamenjav</title>
+
+			<para
+>Ko ustvarjate nov dokument s pomočjo predloge in <menuchoice
+><guimenu
+>Datoteka</guimenu
+><guimenuitem
+>Nov</guimenuitem
+></menuchoice
+>, bodo določene kombinacije znakov zamenjane s podatki, kot so vaše ime ali kodiranje znakov, ki ga uporabljate. Te spremenljivke se lahko nastavi v <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+> <guimenuitem
+>Nastavitve</guimenuitem
+><guilabel
+>Splošno</guilabel
+></menuchoice
+>.</para>
+
+			<para
+>Ko oblikujete svojo predlogo, je uporabno vedeti, katere kombinacije znakov se zamenjajo s katerimi spremenljivkami:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><userinput
+>$$AUTHOR$$</userinput
+>: Ta niz se bo zamenjal s spremenljivko avtor.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$DOCUMENTCLASSOPTIONS$$</userinput
+>: Ta niz se bo zamenjal s spremenljivko možnosti vrste dokumenta. To se ponavadi uporablja tako: <userinput
+>\documentclass[$$DOCUMENTCLASSOPTIONS$$]{article}</userinput
+>.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$INPUTENCODING$$</userinput
+>: Če je spremenljivka kodiranja vnosa nastavljena na recimo <userinput
+>latin1</userinput
+>, se bo ta niz zamenjal z <userinput
+>\input[latin1]{inputenc}</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="templ_wiz">
+
+			<title
+>Ustvari Predlogo s pomočjo Wizarda</title>
+
+			<para
+>Novo predlogo se najlažje ustvari tako, da začnete wizard in nato dodate ukaze v urejevalnik. Ko ste ustvarili vaš dokument tako kot želite:</para>
+
+			<procedure>
+				<step
+><para
+>Shranite datoteko;</para
+></step>
+				<step
+><para
+>Pojdite na <guimenu
+>Datoteka</guimenu
+>;</para
+></step>
+				<step
+><para
+>Izberite <guimenuitem
+>Create Template from Document</guimenuitem
+>;</para
+></step>
+				<step
+><para
+>Napravite zadnje popravke na predlogi;</para
+></step>
+				<step
+><para
+>Vnesite ime za vašo novo predlogo;</para
+></step>
+				<step
+><para
+>Kliknite <guibutton
+>OK</guibutton
+>, da dodate vašo predlogo v meni.</para
+></step>
+			</procedure>
+
+			<para
+>Ko boste naslednjič začenjali z novim dokumentom, boste lahko izbrali svojo prilagojeno predlogo namesto privzetih.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Ustvarjanje Predloge iz katerekoli Datoteke</title>
+
+			<para
+>Predlogo se da ustvariti iz katerekoli &latex;-ove datoteke. Če iščete enostaven način, da nastavite predlogo, poiščite tisto, ki vam je všeč, na Internetu in sledite istim korakom, ki so navedeni v <xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
+
+			<para
+>Na primer, morda bi želeli ustvariti vsebine poln plakat A0. Take plakate običajno vidimo na znanstvenih konferencah, in &latex; vam bo pomagal narediti privlačen in poglede vzbujajoč plakat. Ne pozabite, da boste potrebovali paket <filename
+>a0poster</filename
+>, ki običajno ni vključen v standardne &tex; distribucije. Prenesete ga <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/"
+>tukaj</ulink
+> in ga postavitev isto mapo kot vašo mapo &latex;.</para>
+		</sect2>
+
+		 <sect2 id="templ_rem">
+
+	 		<title
+>Odstranjevanje Predloge</title>
+
+			<para
+>Če želite odstraniti predlogo iz &kile;-a, storite naslednje:</para>
+
+			<procedure>
+				<step
+><para
+>Pojdite na <menuchoice
+><guimenu
+>Datoteka</guimenu
+><guimenuitem
+>Remove Template...</guimenuitem
+></menuchoice
+>;</para
+></step>
+				<step
+><para
+>Odprlo se bo pogovorno okno s seznamom vseh predlog: izberite predlogo;</para
+></step>
+				<step
+><para
+>Kliknite <guilabel
+>OK</guilabel
+> in predloga bo odstranjena.</para
+></step>
+			</procedure>
+
+			<para
+>Predlog označenih z zvezdico (*) ni mogoče odstraniti brez posebnega dovoljenja.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+<chapter id="editing">
+
+	<title
+>Urejanje &latex;-ovih Dokumentov</title>
+
+	<para
+>Notranji urejevalnik, ki ga uporablja &kile;, je &kate;. &kate; je urejevalnik besedil ustvarjen za programerje, ki vključuje zmožnost branja in označevanja veliko različnih vrst besedilnih datotek, med katerimi so tudi &latex; in &bibtex;; do veliko možnosti za nastavljanje &kate;-a lahko dostopate neposredno iz &kile;-ovega menija <guimenu
+>Orodja</guimenu
+>.</para>
+
+	 <para
+>Če se želite podrobneje spoznati s programom &kate; in njegovimi zmogljivostmi, glejte <ulink url="help:/kate"
+>&kate;-ov Priročnik</ulink
+>. Uporabniki &kile;-a lahko začnejo z branjem pri poglavju <quote
+>Delo z Urejevalnikom &kate;</quote
+>.</para>
+
+	 <sect1 id="editing_sect">
+
+		<title
+>&latex;-ova referenčni priročnik</title>
+
+		<para
+>&kile; vključuje zelo praktično referenco &latex;-ovih značk, ki je dostopna preko <menuchoice
+><guimenu
+>Pomoč</guimenu
+><guimenuitem
+>LaTeX Reference</guimenuitem
+></menuchoice
+>. Vsebuje temeljit opis skoraj vseh ukazov, ki jih boste morda uporabljali v &latex;-u, in njihovo sintakso.</para>
+
+	</sect1>
+
+	<sect1 id="editing_cursor">
+
+	 	<title
+>Premiki Kazalca Miške</title>
+
+		<para
+>Da izberete besedilo, imate naslednje možnosti:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Držite levi gumb miške in povlecite miško, da označite besedilo.</para
+></listitem>
+			<listitem
+><para
+>Kliknite enkrat na besedo, da premaknete kazalec v novo območje.</para
+></listitem>
+			<listitem
+><para
+>Kliknite dvakrat na besedo, da izberete celo besedo.</para
+></listitem>
+			<listitem
+><para
+>Kliknite dvakrat na besedo in pritisnite <keycombo
+>&Ctrl;</keycombo
+>, da izberete celo &tex; besedo. Če boste kliknili na ta način na <userinput
+>\par</userinput
+> v nizu <userinput
+>\par\bigskip</userinput
+>, boste izbrali le \par.</para
+></listitem>
+			<listitem
+><para
+>Kliknite trikrat, da izberete celo poved.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Če držite levi gumb miške in vlečete besedilo, ki ste ga izbrali, se bo to besedilo samodejno kopiralo v odložišče.</para>
+
+		<para
+>Z držanjem tipke &Shift; in uporabljanjem puščic na tipkovnici lahko izberete dele izvorne kode v oknu urejevalnika.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bracket">
+
+		<title
+>Oklepaji</title>
+
+		<para
+>Dokončanje oklepaja je vizualno orodje, ki ga urejevalnik uporablja za prikaz, kateri oklepaj se ujema s katerim. Če odprete katerokoli datoteko <literal role="extension"
+>.tex</literal
+> in izberete katerikoli oklepaj, ne glede na to, ali je to navadni oklepaj (), oglati oklepaj [] ali zaviti oklepaj {}, bo urejevalnik označil oklepaj in njegov par z rumeno (to barvo lahko poljubno nastavite). Na primer če postavite kazalec miške na zaviti oklepaj v nizu <userinput
+>\section{Introduction}</userinput
+>, boste videli <userinput
+>\section{Introduction}</userinput
+> v privzeti rumeni barvi, ki vam označuje lokacijo začetnega in končnega oklepaja.</para>
+
+	</sect1>
+
+	<sect1 id="editing_highlight">
+
+		<title
+>Poudarjanje</title>
+
+		<para
+>&kile; ima zmožnost iskanja in poudarjanja različnih vrst kode, npr. da se &latex;-ove ukaze lažje razloči od normalnega besedila, pa tudi matematične formule so označene z drugo barvo.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bullets">
+
+		<title
+>Naboji</title>
+
+		<para
+>Veliko čarovnikov (wizard) lahko vstavlja tako imenovane naboje (bullets). To so posebni zaznamki znotraj besedila. Z menijem <menuchoice
+><guimenu
+>Uredi</guimenu
+><guisubmenu
+>Bullets</guisubmenu
+></menuchoice
+> ali z ustrezno bližnjico na tipkovnici lahko skočite na naslednji ali zadnji naboj. To dejanje prav tako označi ta naboj, da bo izbrisan samodejno, ko vnesete prvo črko.</para>
+
+		<screenshot>
+			<screeninfo
+>Naboji</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="bullets.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Naboji</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>Desno</keycap
+></keycombo
+></shortcut
+> <guimenuitem
+>Naslednji Naboj</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Skoči na naslednji naboj v besedilu, če ta obstaja.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>Levo</keycap
+></keycombo
+></shortcut
+> <guimenuitem
+>Zadnji Naboj</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Skoči na prejšnji naboj, če ta obstaja.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_select">
+
+		<title
+>Izberi</title>
+
+		<para
+>Urejanje je seveda eden glavnih vidikov, ko uporabljate program kot je &kile;. Čeprav ima tudi &kate; dobre zmožnosti, doda &kile; nekaj pomembnih funkcij, ki so še posebej potrebne pri pisanju &latex;-ove kode. Pri &latex;-u je vedno potrebnih veliko območij in skupin, zato &kile; podpira zelo posebne ukaze, da jih lahko izberete. Pod <menuchoice
+><guimenu
+>Uredi</guimenu
+><guisubmenu
+>Izberi</guisubmenu
+></menuchoice
+> boste našli naslednje ukaze za izbiro besedila.</para>
+
+		<screenshot>
+			<screeninfo
+>Uredi->Izbirni elementi</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Uredi->Izbirni elementi</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Območje (notranjost)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Izberi območje brez njegovih oklepajočih značk. Če je poklican ta ukaz, medtem ko je območje že izbrano, bo &kile; razširil izbiro na naslednje območje, v katerem je trenutno vsebovano.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>Območje (zunaj)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Izberi območje vključno z njegovimi oklepajočimi značkami. Ta izbira je prav tako lahko razširjena s ponovnim klicem tega ukaza. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>TeX Skupina (notranjost)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Izberi &tex; skupino znotraj zavitih oklepajev.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>TeX Skupina (zunaj)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Izberi &tex; skupino vključno z zavitimi oklepaji.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Matematična skupina</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Izberi trenutno matematično skupino, vključno z matematičnimi ukazi.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>Odstavek</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Izberi celoten odstavek, &ie; skupino vrstic besedila, ki je na obeh straneh ločena z praznimi vrsticami. Odstavek ne pomeni le neprekinjenih vrstic besedila, kot npr. pri drugih urejevalnikih. Ta razširjen pomen označuje tudi tabele, &latex;-ove ukaze in vse druge vrstice izvorne kode. Edina pomembna lastnost odstavka pri &kile;-u je, da je ločen z dvema praznima vrsticama.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,L</keycap
+></shortcut
+> <guimenuitem
+>Vrstica</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Izberi vrstico besedila glede na trenuten položaj kazalca.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>TeX Beseda</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Izberi besedo na kateri se trenutno nahaja kazalec. Ta izbira ima tudi razširjen pomen, saj lahko s tem ukazom prav tako izberemo &latex;-ove ukaze, ki se začenjajo z poševnico nazaj in imajo lahko tudi zvezdico na koncu.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+		<sect2 id="editing_select_latex_commands">
+
+		<title
+>Izberi &latex;-ove ukaze</title>
+
+		<para
+>&kile; ima razširjeno funkcijo za izbiro &latex;.ovih ukazov. Če ste na primer vtipkali</para>
+
+		<programlisting
+>besedilo \bfseries\itshape več besedila</programlisting>
+
+		<para
+>in dvojno kliknili na eno od teh ukazov, bosta izbrana oba. Vendar pogosto želite izbrati eno od dveh ali več ukazov. To lahko storite z uporabo tipke <keycombo
+>&Ctrl;</keycombo
+>. Le pritisniti morate tipko <keycombo
+>&Ctrl;</keycombo
+> in dvojni klik bo izbral le zaželen ukaz.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="editing_delete">
+
+		<title
+>Izbriši</title>
+
+		<para
+>Da izbrišete nekatere dele dokumenta, jih lahko seveda najprej izberete in nato uporabite tipko <keycombo
+><keycap
+>Delete</keycap
+></keycombo
+>. Poleg tega &kate; ponuja ukaz <keycombo
+>&Ctrl;<keycap
+>K</keycap
+></keycombo
+>, ki izbriše celotno vrstico. &kile; pa ponuja še hitrejši način s svojimi ukazi za izbris. Pod <menuchoice
+><guimenu
+>Uredi</guimenu
+><guisubmenu
+>Izbriši</guisubmenu
+></menuchoice
+> boste našli naslednje ukaze za izbris besedila.</para>
+
+		<screenshot>
+			<screeninfo
+>Uredi->Elementi za izbris</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="delete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Uredi->Elementi za izbris</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Območje (notranjost)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Izbriše notranjost območja brez njegovih oklepajočih značk.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>Območje (zunaj)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Izbriše območje vključno z njegovimi oklepajočimi značkami.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>TeX Skupina (notranjost)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Izbriše &tex; skupino znotraj zavitih oklepajev.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>TeX Skupina (zunaj)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Izbriše &tex; skupino, vključno z zavitimi oklepaji.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Matematična Skupina</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Izbriše trenutno matematično skupino vključno z matematičnimi ukazi.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>Odstavek</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Izbriše celoten odstavek. Glej ukaz <menuchoice
+><guisubmenu
+>Izberi</guisubmenu
+><guimenuitem
+>Odstavek</guimenuitem
+></menuchoice
+>, kako je definiran v &kile;-u.</para
+></listitem>
+		</varlistentry>
+
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,I</keycap
+></shortcut
+> <guimenuitem
+>Do Konca Vrstice</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Izbriše besedilo od trenutnega položaja kazalca do konca vrstice. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>TeX Beseda</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Izbriše besedo ali &latex;-ov ukaz, na katerem se nahaja kazalec.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_environment">
+
+		<title
+>Območje</title>
+
+		<para
+>Omenjali smo že, da so območja osrednje bistvo &latex;-a. Zato &kile; ponuja še pet drugih ukazov, ki se nahajajo pod <menuchoice
+><guimenu
+>Uredi</guimenu
+><guisubmenu
+>Območje</guisubmenu
+></menuchoice
+>, da je delo z &latex;-om kar se da enostavno.</para>
+
+		<screenshot>
+			<screeninfo
+>Uredi->Elementi za območje</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="environment.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Uredi->Elementi za območje</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>Pojdi na Begin</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ta ukaz bo povzročil skok na začetek trenutnega območja, v katerem je vaš kazalec (\begin{}). Kazalec se bo postavil točno pred značko za začetek območja.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Pojdi na End</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ta ukaz povzroči skok na konec trenutnega območja (\end{}). Kazalec se bo postavil točno za značko za konec območja.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Najdi ujemajočo</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ko je kazalec postavljen pred ali na značko <userinput
+>\begin{environment}</userinput
+>, bo s tem ukazom premaknjen na nasproten konec območja in obratno.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>Zaključi</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Če uporabljate veliko vgnezdenih značk za območja, lahko izgubite pregled nad vsemi temi območji. Ta ukaz bo zaprl zadnjo odprto območje, tako da vgnezdena struktura območij ne bo pokvarjena.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,A</keycap
+></shortcut
+> <guimenuitem
+>Zaključi Vse</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Ta ukaz zapre vsa odprta območja, ne le zadnjega odprtega.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_texgroup">
+
+		<title
+>&tex; Skupina</title>
+
+		<para
+>&kile; prav tako ponuja nekaj posebnih ukazov za &latex;-ove skupine, ki so določene z zavitimi oklepaji <userinput
+>{...}</userinput
+>. V podmeniju <menuchoice
+><guimenu
+>Uredi</guimenu
+><guisubmenu
+>TeX Skupina</guisubmenu
+></menuchoice
+> boste našli nekaj pomembnih ukazov, ki ustrezajo tistim iz <menuchoice
+><guimenu
+>Uredi</guimenu
+><guisubmenu
+>Območje</guisubmenu
+></menuchoice
+>. </para>
+
+		<screenshot>
+			<screeninfo
+>Uredi->TeX Skupina</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="texgroup.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Uredi->TeX Skupina</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>Pojdi na Begin</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ta ukaz bo skočil na začetek trenutne skupine, glede na to, kje je vaš kazalec. Kazalec bo postavljen točno pred odpiralnim oklepajem.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Pojdi na End</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ta ukaz bo skočil na konec trenutne skupine. Kazalec bo postavljen točno za zavitim zaklepajem.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Najdi ujemajoče</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ko je kazalec postavljen pred ali za odpiralnim oklepajem &tex; skupine, se bo s tem ukazom premaknil na nasprotni konec skupine in obratno.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>Zaključi</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Vpisovanje veliko vgnezdenih oklepajev skupin je lahko naporno. S tem ukazom zaprete zadnjo odprto skupino, da vgnezdena struktura ni pokvarjena.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_dblquotes">
+
+		<title
+>Dvojni Narekovaji</title>
+
+		<para
+>V &latex;-u sta dva enojna narekovaja uporabljena kot dvojni narekovaj. Da jih vstavite učinkovito, vam &kile; omogoča, da pritisnete <keycap
+>"</keycap
+>, da vstavite dva odpiralna enojna narekovaja. Če v nadaljevanju želite zapreti citat, morate prav tako pritisniti <keycap
+>"</keycap
+>. &kile; je dovolj pameten, da tako situacijo prepozna in vstavi dva zapiralna narekovaja za &latex;.</para>
+
+		<para
+>Če pa želite natanko dvojni narekovaj, potem pritisnite <keycap
+>"</keycap
+> dvakrat.</para>
+
+		<para
+>Samodejno vstavljanje odpiralnih in zapiralnih dvojnih narekovajev lahko omogočite ali onemogočite v <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Dvojni Narekovaji</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-dblquotes.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dvojni Narekovaji</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Če poleg tega vključujete jezikovnospecifične možnosti, kot <userinput
+>ngerman</userinput
+> ali <userinput
+>french</userinput
+>, boste lahko uporabljali nemške ali francoske dvojne narekovaje. Na voljo je še veliko več jezikov. </para>
+
+	</sect1>
+
+	<sect1 id="editing_smartnewline">
+
+		<title
+>Pametna Nova Vrstica</title>
+
+		<para
+>Če pritisnete <keycombo
+>&Ctrl;<keycap
+>Enter</keycap
+></keycombo
+>, bo &kile; vstavil inteligentno novo vrstico. Če je vaš trenutni položaj znotraj seznamskega območja, kot recimo <userinput
+>enumerate</userinput
+> ali <userinput
+>itemize</userinput
+>, bo &kile; vstavil novo vrstico in bo pri tem še dodal ukaz <userinput
+>\item</userinput
+>.</para>
+
+		<para
+>Če ste znotraj tabelarnega območja, bo &kile; zaključil trenutno vrstico z <userinput
+>\\</userinput
+>, nato pa naredil novo vrstico.</para>
+
+    <para
+>Če ste v &latex;-ovem komentarju, bo &kile; začel naslednjo vrstico z <userinput
+>%</userinput
+>.</para>
+
+		<para
+>Še bolje, &kile; je dovolj pameten, da podpira vnaprej definirana &latex;-ova območja in območja, ki jih je definiral uporabnik. Te se lahko doda pod <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+	<sect1 id="editing_tabulator">
+
+		<title
+>Pametni Tabulator</title>
+
+		<para
+>Nekateri uporabniki si radi uredijo stolpce v tabelarnih območjih in poravnajo vse znake za in <keycap
+>&amp;</keycap
+> enega pod drugim. &kile; poskuša to podpirati. Če pritisnete <keycombo
+>&Alt;&Shift;<keycap
+>&amp;</keycap
+></keycombo
+>, bo &kile; poiskal naslednji zavihek v zgornji vrstici. Čeprav ta zavihek morda ne bo ustrezen, bo &kile; dodal nekaj presledkov, da poravna položaj stolpca s trenutnim zavihkom.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="completion">
+
+	<title
+>Dopolnjevanje Kode</title>
+
+	<para
+>Čeprav &kate; že ponuja dober način za dopolnjevanje, &kile; razširi dopolnjevanje kode, da podpira nekaj posebnih metod izključno za &latex;. Vgrajenih je pet različnih načinov. Tri od teh jih deluje na zahtevo, druga dva pa sta načina samodejnega dopolnjevanja. Vse načine se da skonfigurirati pod <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guimenuitem
+>Nastavi Kile...</guimenuitem
+></menuchoice
+>, da delujejo na precej drugačen način.</para>
+
+	<sect1 id="complete_autoenvironment">
+
+		<title
+>Samodejno Dopolnjevanje Območij</title>
+
+		<para
+>Ko začnete novo območje, se bo z vtipkanjem ukaza <userinput
+>\begin{environment}</userinput
+> samodejno dodal ukaz <userinput
+>\end{environment}</userinput
+> z vrstico vmes za vaše besedilo.</para>
+
+		<para
+>Samodopolnjevanje se da izključiti v &latex;-ovem razdelku <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+> <guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>O</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Dopolnjevanje Območja z Enačbo</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_autocomplete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dopolnjevanje Območja z Enačbo</phrase>
+			</textobject>
+			<caption
+><para
+>Dopolnjevanje Območja z Enačbo</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="complete_command">
+
+		<title
+>&latex;-ovi Ukazi</title>
+
+		<para
+>Ko vtipkate nekaj črk, lahko aktivirate ta način dopolnitve za &latex;-ove ukaze in normalne besede z <menuchoice
+><guimenu
+>Uredi</guimenu
+><guisubmenu
+>Dopolni</guisubmenu
+><guimenuitem
+>(La)TeX Ukaz</guimenuitem
+></menuchoice
+> ali z bližnjico <keycombo
+>&Ctrl;&Shift;<keycap
+>Space</keycap
+></keycombo
+>. &kile; najprej prebere črke od trenutnega položaja kazalca na levo in se ustavi pri prvem nečrkovnem znaku ali poševnico nazaj. Če se ta vzorec začenja s poševnico nazaj, bo &kile; vstopil v način dopolnjevanja za ukaze &tex; ali &latex;. Odvisno od izbranega načina se bo prikazal dopolnjevalni okvirček. Videli boste vse ukaze ali besede, katerih začetek se ujema s trenutnim vzorcem. S puščicami lahko greste skozi seznam in s tipko &Enter; izberete en element ali pa dvojno kliknete nanj.</para>
+
+		<screenshot>
+			<screeninfo
+>Dopolnjevanje Ukaza LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dopolnjevanje Ukaza LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Ko pritisnete tipko &Backspace; bo izbrisana zadnja črka vašega vzorca in seznam za dopolnjevanje se bo morda povečal. Po drugi strani, če vtipkate še kakšno črko, se bo vzorec povečal in seznam se bo morda skrajšal.</para>
+
+		<para
+>Če se odločite, da ne boste izbrali nobenega od predlogov, lahko zapustite to pogovorno okno z &Esc;.</para>
+
+		<para
+>Videli boste, da so vsi ukazi napisani s kratkim opisom njihovih parametrov. Ti opisi seveda izginejo, ko izberete ukaz. Po želji lahko dovolite &kile;-u, da vstavlja naboje (bullets) na ta mesta, da lahko enostavno skačete na te položaje z <menuchoice
+><guimenu
+>Uredi</guimenu
+><guisubmenu
+>Naboji</guisubmenu
+><guimenuitem
+>Naslednji Naboj</guimenuitem
+></menuchoice
+> in vstavite želen parameter.</para>
+
+		<screenshot>
+			<screeninfo
+>Dopolnjevanje Ukaza LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dopolnjevanje Ukaza LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Pojdite na <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Complete</guilabel
+></menuchoice
+>, da konfigurirate enega ali več teh seznamov. Izberete lahko različne sezname besed za ukaze &tex; in &latex; in način slovarja za normalne besede.</para>
+
+		<para
+>Če izberete možnost <guimenuitem
+>Prikaži Latex-ove ukaze</guimenuitem
+>, bodo vnosi za vse izbrane datoteke stisnjenih besednih seznamov (cwl - compressed word list) za &latex;-ovo dopolnjevanje ukazov prikazani v ločenem pogledu &kile;-ove stranske orodne vrstice. Videli boste, kateri ukazi so na voljo in katere parametre in možnosti morajo ali so lahko podane za kompletiranje. Prav tako lahko enostavno izberete en vnos z klikom miške in ta bo vstavljen v dokument brez parametrov in brez možnosti.</para>
+
+		<screenshot>
+			<screeninfo
+>LaTeX-ovi ukazi v stranski orodni vrstici</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="command-view.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>LaTeX-ovi ukazi v stranski orodni vrstici</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Ker je vsak izbran seznam besed prikazan v svojem ločenem pogledu, lahko pride do prevelikega števila pogledov, tako da je &kile;-ovo glavno okno morda celo večje, kot to dopušča majhen zaslon. Ker to izgleda precej grdo, ima &kile; določeno maksimalno število dovoljenih pogledov. Privzeto je to nastavljeno na 10, če pa je to število preveliko za vaš zaslon, ga zmanjšajte.</para>
+
+	</sect1>
+
+	<sect1 id="complete_environment">
+
+		<title
+>Območja</title>
+
+		<para
+><emphasis
+>Način ukazov</emphasis
+> ni kaj dosti uporaben za dopolnjevanje kode za območja. Vedno morate vtipkati nekaj črk niza <userinput
+>\begin</userinput
+>, kar pa bo tudi prineslo ogromen seznam značk za območja. Po drugi strani so območja uporabljena tako pogosto, da &kile; ponuja poseben način za dopolnjevanje kode območij. Brez začetne značke vtipkajte npr. <userinput
+>al</userinput
+>.</para>
+
+		<para
+>Ko pokličete način dopolnjevanja z <menuchoice
+><guimenu
+>Uredi</guimenu
+><guisubmenu
+>Dopolni</guisubmenu
+><guimenuitem
+>Območje</guimenuitem
+></menuchoice
+> ali bližnjico na tipkovnici <keycombo
+>&Alt;&Shift;<keycap
+>Space</keycap
+></keycombo
+>, bo začetna značka samodejno dodana in videli boste <userinput
+>\begin{al}</userinput
+>. Po tej spremembi bo seznam za dopolnjevanje veliko bolj urejen.</para>
+
+		<screenshot>
+			<screeninfo
+>Dopolnjevanje Ukaza LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dopolnjevanje Ukaza LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Sedaj izberite območje in videli boste, da se tudi samodejno zapre. Še več, če ga &kile; prepozna kot seznamsko območje, bo vstavil tudi prvo značko <userinput
+>\item</userinput
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Dopolnjevanje Ukaza LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dopolnjevanje Ukaza LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Pojdite pod <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Complete</guilabel
+></menuchoice
+>, da konfigurirate enega ali več teh seznamov. Ta način uporablja iste sezname besed kot način dopolnjevanja za ukaze &tex; in &latex;.</para>
+
+	</sect1>
+
+	<sect1 id="complete_abbreviation">
+
+		<title
+>Okrajšave</title>
+
+		<para
+>&kile; omogoča, da si uporabnik ustvari seznam okrajšav, ki so kasneje zamenjane z daljšimi nizi znakov. Glej <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Complete</guilabel
+></menuchoice
+> za konfiguracijo enega ali več teh seznamov. Za primer, ki je naveden tukaj, mora biti izbran seznam okrajšav v <filename
+>example.cwl</filename
+>. V tej datoteki boste našli npr. vnos <userinput
+>L=\LaTeX</userinput
+>.</para>
+
+		<para
+>Za primer vtipkajte le črko <userinput
+>L</userinput
+>. Zdaj prikličite način okrajšav za dopolnjevanje besed z <menuchoice
+><guimenu
+>Uredi</guimenu
+><guisubmenu
+>Dopolni</guisubmenu
+><guimenuitem
+>Okrajšava</guimenuitem
+></menuchoice
+> ali pa z bližnjico na tipkovnici <keycombo
+>&Ctrl;&Alt;<keycap
+>Space</keycap
+></keycombo
+> in črka <userinput
+>L</userinput
+> bo nadomeščena z nizom <userinput
+>\LaTeX</userinput
+>.</para>
+
+		<para
+>Dopolnjevanje okrajšav podpira tudi novo vrstico <userinput
+>%n</userinput
+> in <userinput
+>%C</userinput
+> za postavitev kazalca, če so ti znaki prisotni v razširitvenem besedilu. Torej, če imate vnos</para>
+
+		<programlisting
+>en1=\begin{enumerate}%n\item %C%n\end{enumerate}%n</programlisting>
+
+		<para
+>v datoteki z dopolnitvami in sprožite način dopolnjevanja okrajšav, se bo okrajšava razširila v spodnje besedilo, kjer <userinput
+>x</userinput
+> predstavlja končno pozicijo kazalca.</para>
+
+<programlisting
+>\begin{enumerate}
+        \item x
+\end{enumerate}</programlisting>
+
+		<sect2 id="complete_abbrev_view">
+
+			<title
+>Okrajšave</title>
+
+			<para
+>Če izberete <guimenuitem
+>Pokaži okrajšave</guimenuitem
+>, bodo v stranski orodni vrstici prikazane vse možne okrajšave. Tako boste imeli dober pregled nad vsemi možnimi okrajšavami.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_auto">
+
+		<title
+>Načini za Samodejno Dopolnjevanje</title>
+
+		<sect2 id="complete_autolatex">
+
+			<title
+>&latex;-ovi Ukazi</title>
+
+			<para
+>Omogočite lahko tudi način samodopolnjevanja za &latex;-ove ukaze. Ko je število vnešenih črk večje od nastavljenega praga (privzeta vrednost: 3), se bo samoprikazal okvirček s seznamom vseh ujemajočih &latex;-ovih ukazov. Lahko katerega izberete ali pa le prezrete priporočila in nadaljujete z vpisovanjem črk. Vsebina okvirčka za dopolnjevanje se bo spreminjala sproti, da se bo ujemala z besedo, ki je trenutno vpisana.</para>
+
+			<para
+>Pojdite na <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Complete</guilabel
+></menuchoice
+>, da omogočite ali pa onemogočite za način, lahko pa tudi spremenite prag.</para>
+
+		<screenshot>
+			<screeninfo
+>Dopolnjevanje Območja z Enačbo</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-complete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dopolnjevanje Območja z Enačbo</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		</sect2>
+
+		<sect2 id="complete_autotext">
+
+			<title
+>Besede iz Dokumenta</title>
+
+			<para
+>Veliki slovarji niso pretirano uporabni za način samodopolnjevanja, smo pa ugotovili, da je veliko različnih besed napisanih več kot enkrat v dokumentu. Zato &kile; ponuja dopolnjevanje vseh besed, ki so bile v dokumentu že napisane. To dopolnjevanje lahko prikličete ročno s pritiskom na <keycombo
+>&Ctrl;<keycap
+>Space</keycap
+></keycombo
+>. Upoštevajte, da je ta način drugačen od tistega, ki dopolnjuje &latex;-ove ukaze.</para>
+
+			<para
+>Če želite ta način izklopiti ali vklopiti, pojdite na <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+> <guimenuitem
+>Urejevalnik</guimenuitem
+><guimenuitem
+>Urejanje</guimenuitem
+><guilabel
+>Auto Completion</guilabel
+></menuchoice
+>. V tem pogovornem oknu lahko nastavite, ali naj bo način dopolnjevanja za besede iz dokumenta omogočen. Obstaja tudi dodaten način za samodopolnjevanje, pri katerem se okvirček za dopolnjevanje prikaže, ko število črk doseže določen prag.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_own_files">
+
+		<title
+>Kako Napisati Svojo Datoteko za Dopolnjevanje</title>
+
+    <para
+>Najnovejše specifikacije za format dopolnjevalne datoteke je dostopen v <ulink url="https://commits.kde.org/kile?path=README.cwl"
+>Specifikacija za format datoteke CWL</ulink
+>. </para>
+
+		<para
+>Dopolnitvene datoteke se da namestiti v domačo mapo uporabnika v podimeniku <filename
+>~/.kde/share/apps/kile/complete/&lt;mode&gt;/</filename
+>, kjer <parameter
+>&lt;mode&gt;</parameter
+> pomeni <constant
+>abbreviation</constant
+>, <constant
+>dictionary</constant
+> ali <constant
+>tex</constant
+>. </para>
+
+	</sect1>
+</chapter>
+
+<chapter id="wizard">
+
+	<title
+>Čarovniki in Pogovorna okna</title>
+
+	<sect1 id="wizard_quickstart">
+
+		<title
+>Čarovnik za Hiter Začetek (QuickStart Wizard)</title>
+
+		<para
+>Ta čarovnik (wizard) je že opisan v razdelku <xref linkend="intro_docwizard" role="select: title pageabbrv"/>.</para>
+
+	</sect1>
+
+	<sect1 id="wizard_graphics">
+
+		<title
+>Vključevanje Grafik</title>
+
+		<para
+>Pogovorno okno <guilabel
+>Vključi Grafiko</guilabel
+> olajša vstavljanje grafik kolikor se le da. Do njega dostopate preko menija z <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Image Insertion</guimenuitem
+></menuchoice
+>. Prosimo, oglejte si <xref linkend="build_graphics" role="select: title pageabbrv"/> in <xref linkend="build_epsgraphics" role="select: title pageabbrv"/>, da dobite pregled o osnovnih dejstvih o grafičnih formatih.</para>
+
+		<screenshot>
+			<screeninfo
+>Vstavljanje grafičnega elementa</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="includegraphics.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Vstavljanje grafičnega elementa</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<procedure>
+		<step
+><para
+>Izberite datoteko z grafiko. To je lahko JPEG, PNG, PDF, EPS ali celo zippana ali gzippana EPS datoteka. Če ste inštalirali <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+> in nastavili &kile; tako, da ga lahko uporablja (<menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+> <guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>Graphics</guilabel
+></menuchoice
+>), bosta višina in širina slike samodejno prikazani. Če &imagemagick; lahko določi resolucijo, je velikost grafike navedena še v centimetrih.</para
+></step>
+
+		<step
+><para
+>Odločite se, ali naj bo vaša slika poravnana na sredini strani.</para
+></step>
+
+		<step
+><para
+>Izberite, ali želite notacijo <userinput
+>\graphicspath</userinput
+> za vašo grafično datoteko.</para>
+
+		<para
+>Privzeto morajo biti datoteke z grafikami v isti mapi kot vaš master dokument. Kljub temu pa jih je možno prestaviti tudi v druge mape, da imate stvari bolj urejene. Brez ukaza <userinput
+>\graphicspath</userinput
+> bi &kile; vključil pot za grafično datoteko. Če pa uporabljate <userinput
+>\graphicspath</userinput
+> v vaši preambuli tako:</para>
+
+		<programlisting
+>\graphicspath{{/pot/do/moje/grafike}{druga/pot/do/grafik}}</programlisting>
+
+		<para
+>in obkljukate to možnost, bo &kile; uporabljal le ime grafične datoteke.</para>
+
+		<para
+>Drug primer: če nastavite ukaz <userinput
+>\graphicspath</userinput
+> tako:</para>
+
+		<programlisting
+>\graphicspath{{./}{camera/}{images/}}</programlisting>
+
+		<para
+>bo &latex; iskal v trenutni datoteki, nato v <filename
+>camera</filename
+> in nazadnje v <filename
+>images</filename
+>.</para
+></step>
+
+		<step
+><para
+>Če izberete višino ali širino, bo celotna grafika sorazmerno spremenila dimenzije. Če hkrati nastavite dve vrednosti za višino in širino, se zna zgoditi, da se širina in višina ne bosta spremenili za isti faktor in grafika se bo morda nekoliko popačila, kar ni nekaj, kar bi si želeli. Poglejte še informacije blizu vrha pogovornega okna, da izveste originalno velikost grafike.</para
+></step>
+
+		<step
+><para
+>Vnesite kot, za kolikor želite zarotirati grafiko v smeri urinega kazalca.</para
+></step>
+
+		<step
+><para
+>Informacije o mejnem okvirju (bounding-box) se nastavijo samodejno, ko izberete datoteko z grafiko. Te informacije so uporabne le, ko delate z tradicionalnim &latex;-om in z bitnimi (bitmapped) slikami. Glejte razpravo o <link linkend="build_epsgraphics"
+>EPS grafiki</link
+>. </para>
+
+		<para
+>Če &latex; potrebuje mejni okvir, vi pa nočete generirati datoteke bb, &kile; podpira tudi to možnost. Po drugi strani vam bo &pdflatex; dal opozorilo, če boste želeli vključiti grafiko png ali jpg na ta način. Ta potrditveni okvirček omogoči ali pa onemogoči možnost z mejnim okvirjem.</para
+></step>
+
+		<step
+><para
+>Povečajte sliko za želeni faktor, &eg; 0.5 da jo pomanjšate za pol ali 2 da jo dvakrat povečate. Ko uporabljate to možnost, vam ni treba nastavljati višine ali širine slike.</para
+></step>
+
+		<step
+><para
+>V zavihku <guilabel
+>Obreži Sliko</guilabel
+> lahko obrežete vašo sliko iz vseh štirih strani.</para
+></step>
+
+		<step>
+		  <para
+>Nazadnje morate še navesti, ali želite to sliko vdelati v okolje figure (figure environment). Ko želite, da besedilo objema sliko, uporabite raje objemajoče okolje (wrapfigure environment). </para>
+			<note>
+				<para
+>Ko izberete objemajoče območje (wrapfigure environment), morate v vaši preambuli vključiti paket wrapfig.</para>
+			</note>
+		  <para
+>V vsakem primeru lahko vstavite napis in oznako za vašo sliko. V splošnem je pametno dodati različne predpone za vsako vrsto oznake. Pogosto se uporablja predpona <userinput
+>fig:</userinput
+> za slike. </para>
+		</step>
+
+		<step
+><para
+>Če izberete figurno okolje (figure environment), lahko izberete, kam naj &latex; poskusi postaviti figuro. </para
+></step>
+		<step>
+		  <para
+>V objemajočem okolju lahko:</para>
+		  <substeps>
+		    <step
+><para
+>Izberite pravilo za postavitev slike in se odločite, ali naj figura lebdi ali ne. V dvostranskem dokumentu lahko določite, ali naj bo figura na notranjem ali zunanjem robu strani. </para
+></step>
+		    <step
+><para
+>Definirajte, koliko skrajšanih vrstic besedila naj bo postavljenih vzdolž figure. Če pustite to vrednost prazno, jo bo &latex; poskusil določiti sam kar se da dobro. </para
+></step>
+		    <step
+><para
+>Določite prekrivanje na izbrano stran. To je še posebej uporabno, če imate v dokumentu stolpce in želite, da se figura razteza čez več kot le en stolpec, ali želite skrajšano besedilo na obeh straneh figure. </para
+></step>
+		    <step
+><para
+>Izberite širino za figuro. Ta naj bo nekoliko večja od dejanske širine slike, da pustite nekaj praznega prostora med sliko in besedilom. </para
+></step>
+		  </substeps>
+		</step>
+		</procedure>
+
+	</sect1>
+
+	<sect1 id="wizard_array">
+
+		<title
+>Polja in tabularji</title>
+
+		<para
+>Ena najbolj dolgočasnih stvari, ki jih lahko nekdo počne v &latex;-u je pisanje matrik ali tabelarnih okolij. Pri tem je potrebno spremljati vse elemente, zagotoviti, da je okolje dobro oblikovano, in da so vse stvari na svojem mestu. Zamikanje vrstic lahko pomaga, vendar obstaja enostavnejši način: uporaba &kile;-ovih elementov menija <menuchoice
+><guimenu
+>Wizard</guimenu
+><guimenuitem
+>Array</guimenuitem
+></menuchoice
+> ali <menuchoice
+><guimenu
+>Wizard</guimenu
+><guimenuitem
+>Tabular</guimenuitem
+></menuchoice
+>. Tako boste imeli na voljo vnašanje v tabelo, ki jo lahko lažje in bolj pregledno izpolnite. To pogovorno okno prav tako ponuja nekaj možnosti za oblikovanje materiala tabele.</para>
+
+		<screenshot>
+			<screeninfo
+>Vstavljanje tabelarnega območja</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-tabular.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Vstavljanje tabelarnega območja</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Z uporabo orodne vrstice na vrhu pogovornega okna lahko nastavite <userinput
+>poravnavo</userinput
+> celice, definirate določene <userinput
+>sloge pisave</userinput
+>, <userinput
+>združite</userinput
+> in <userinput
+>razdelite</userinput
+> celice, izberete <userinput
+>meje</userinput
+> celic in navedete <userinput
+>barve</userinput
+> ozadja in pisave. Na skrajni desni je gumb <guilabel
+>Prilepi</guilabel
+>. S tem gumbom lahko vstavljate tabele iz odložišča v pogovorno okno, kar vam omogoča, da kopirate in prilepite tabele iz npr. programov za preglednice. </para>
+
+		<para
+>Spodaj lahko izberete, koliko vrstic in stolpcev želite, in prilagajate še nekaj dodatnih podrobnosti o vaši tabeli: </para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Z možnostjo <guilabel
+>Ime</guilabel
+> lahko izberete, katero območje naj se uporabi za vašo tabelo. </para
+></listitem>
+			<listitem
+><para
+>Z možnostjo <guilabel
+>Parameter</guilabel
+> lahko izberete navpično poravnavo celic. To je omogočeno le za območja, ki podpirajo to možnost. </para
+></listitem>
+			<listitem
+><para
+>Izberete lahko možnost <guilabel
+>use starred version</guilabel
+>, če ta obstaja za izbrano območje. Ko izberete to možnost, morate navesti še <guilabel
+>širino tabele</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+>Tabele včasih izgledajo lepše, če izberete možnost <guilabel
+>use booktabs package</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+>Seveda lahko tudi postavite celotno tabelo <guilabel
+>na Sredino</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Vstavljanje točk navajanja</guilabel
+> vam pomaga, ko želite napolniti svojo vsebino v urejevalniku. S to možnostjo obkljukano, bo &kile; vstavil točko za vsak element polja. </para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Možnost <menuchoice
+><guimenu
+>Wizard</guimenu
+><guimenuitem
+>Tabbing</guimenuitem
+></menuchoice
+> bo prikazala poenostavljeno pogovorno okno za hitrejše postavljanje tabelarnega območja. Omogoča, da enostavno navedete število vrstic, stolpcev in potreben razmik.</para>
+	</sect1>
+
+	<sect1 id="wizard_float">
+	  <title
+>Vstavljanje lebdečih elementov</title>
+
+	  <para
+>&kile; vam pomaga z vstavljanjem lebdečih elementov. S čarovnikom <menuchoice
+><guimenu
+>Wizard</guimenu
+><guimenuitem
+>Floats</guimenuitem
+></menuchoice
+> je zelo lahko ustvariti novo figuro ali tabelarno območje. </para>
+
+	  <screenshot>
+		<screeninfo
+>Vstavljanje lebdečega elementa</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-float.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Vstavljanje lebdečega elementa</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>Da vstavite novo lebdeče območje, sledite tem preprostim korakom: </para>
+
+	     <procedure>
+	       <step>
+		 <para
+>Izberite, ali želite vstaviti figuro ali tabelo. </para>
+	       </step>
+	       <step>
+		 <para
+>Izberite želena pravila za postavitev. </para>
+	       </step>
+	       <step>
+		 <para
+>Vnesite napis za vaš lebdeči element. </para>
+	      </step>
+	      <step>
+		<para
+>Vtipkajte oznako vašega lebdečega elementa. &kile; bo samodejno predlagal primerno predpono, &eg; "fig:" za figure in "tab:" za tabele. </para>
+	      </step>
+	     </procedure>
+	</sect1>
+
+	<sect1 id="wizard_math">
+	  <title
+>Vstavljanje Matematičnih okolij</title>
+
+	  <para
+>To, da se moramo sproti spominjati, kako delujejo različni matematični elementi, zna biti precej nadležno. Seveda lahko &kile; opravi to delo namesto vas: <menuchoice
+><guimenu
+>Wizard</guimenu
+><guimenuitem
+>Math</guimenuitem
+></menuchoice
+></para>
+
+	  <screenshot>
+		<screeninfo
+>Vstavljanje matematičnega elementa</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-math.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Vstavljanje matematičnega elementa</phrase>
+		</textobject>
+		</mediaobject>
+	  </screenshot>
+
+	  <para
+>Možnosti: </para>
+	  <itemizedlist>
+				<listitem
+><para
+><guilabel
+>Ime:</guilabel
+> Izberite vrsto matematičnega območja, ki ga želite ustvariti.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Brez številčenja:</guilabel
+> Ta možnost izklopi številčenje za oštevilčene elemente kot so enačbe ali poravnave.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Ukaz za presledek za ločevanje skupin:</guilabel
+> V okolju, ki podpira več skupin (kot npr. alignat), lahko definirate ločilo, ko imate več kot eno skupino. Tu lahko vnesete ukaz za ločevanje, ki obstaja v matematičnem načinu, &eg; \quad. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Standard tabulator:</guilabel
+> Izberite tabulator, ki naj bo uporabljen. &kile; bo samodejno izbral pravega za vas.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Displaymath mode:</guilabel
+> Za območja kot so matrike ali tabele lahko izberete, s katerim matematičnim območjem naj bo vaše matematično besedilo prikazano. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Use bullets:</guilabel
+> S to možnostjo obkljukano bo &kile; vstavil naboje na vsako mesto, kjer naj bi vnesli svoje matematično besedilo.</para
+></listitem>
+			</itemizedlist>
+	</sect1>
+
+	<sect1 id="wizard_postscript">
+
+		<title
+>&PostScript; Pripomočki</title>
+
+		<para
+>Datoteke PS niso tako popularne kot datoteke PDF, vendar so odlična osnova za prilagajanje in preureditve strani. Če potrebujete končni izdelek v PDF obliki, lahko preuredite strani z &PostScript;-om in ga nato pretvorite v PDF z <command
+>ps2pdf</command
+>.</para>
+
+		<para
+><emphasis
+>&PostScript; Wizard</emphasis
+> pod <menuchoice
+><guimenu
+>Wizard</guimenu
+><guimenuitem
+>Postscript Tools</guimenuitem
+></menuchoice
+> vam bo predlagal najbolj priljubljeno preureditev. Pretvorba se izvede s programoma <command
+>pstops</command
+> in <command
+>psselect</command
+>, ki jih v večini distribucijah lahko najdete v paketu <userinput
+>psutils</userinput
+>. Če eden od teh programov ni na voljo, potem pripadajoč element ne bo viden.</para>
+
+		<screenshot>
+			<screeninfo
+>Pogovorno Okno PSTools</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-pstools.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Pogovorno Okno PSTools</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Najprej izberite vašo vhodno datoteko. Če &kile; sam najde datoteko PS, ki se ujema z vašim master dokumentom, bo ta datoteka že izbrana kot vhodna datoteka, lahko pa tudi izberete kakšno drugo datoteko. Nato izberite izhodno datoteko in izberite eno od nalog. Nazadnje se še odločite, ali želite le napraviti pretvorbo, ali pa želite ob tem še odpreti pogled v &okular;-ju, da prikažete rezultat.</para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+>1 A5 stran + prazna stran --> A4</term>
+		<listitem
+><para
+>Združi eno A5 stran z eno prazno stranjo skupaj v eno A4 stran. Ko sta dve A5 strani združeni skupaj, sta zarotirani za 90 stopinj in bosta na strani A4 prikazani v ležečem načinu.</para>
+		<screenshot>
+			<screeninfo
+>A5 + prazna stran</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>A5 + prazna stran</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 A5 stran + duplikat --> A4</term>
+		<listitem
+><para
+>Združi eno stran A5 in duplikat skupaj na eno A4 stran.</para>
+		<screenshot>
+			<screeninfo
+>podvojene strani A5</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Podvoji A5 stran</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 A5 strani --> A4</term>
+		<listitem
+><para
+>Združi dve zaporedni strani skupaj na eni A4 strani.</para>
+		<screenshot>
+			<screeninfo
+>Kombiniraj dve A5 strani</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils3.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Kombiniraj dve A5 strani</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 A5L strani --> A4</term>
+		<listitem
+><para
+>Združi dve zaporedni A5 strani v ležečem načinu skupaj na eno A4 stran.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>4 A5 strani --> A4</term>
+		<listitem
+><para
+>Združi štiri zaporedne A5 strani skupaj na eno A4 stran. A5 strani so pomanjšane za faktor 0.7, da se lahko prilegajo na eno stran.</para>
+		<screenshot>
+			<screeninfo
+>4 A5 strani --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils5.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>4 A5 strani --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 A4 stran + prazna stran --> A4</term>
+		<listitem
+><para
+>Združi eno A4 stran s prazno stranjo skupaj na eno A4 stran. Ko sta dve A4 strani združeni skupaj na eno A4 stran, morata biti pomanjšani za faktor 0.7 in postavljeni v ležeči način.</para>
+		<screenshot>
+			<screeninfo
+>1 A4 stran + prazna stran --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils6.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>1 A4 stran + prazna stran --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 A4 stran + duplikat --> A4</term>
+		<listitem
+><para
+>Združi eno A4 stran in duplikat skupaj na eno A4 stran.</para>
+		<screenshot>
+			<screeninfo
+>1 A4 stran + duplikat --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils7.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>1 A4 stran + duplikat --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 A4 strani --> A4</term>
+		<listitem
+><para
+>Združi dve zaporedni A4 strani skupaj na eno A4 stran.</para>
+		<screenshot>
+			<screeninfo
+>Kombiniraj dve A4 strani</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils8.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Kombiniraj dve A4 strani</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 A4L strani --> A4</term>
+		<listitem
+><para
+>Združi dve zaporedni A4 strani v ležečem načinu skupaj na eno A4 stran.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>izberi sode strani</term>
+		<listitem
+><para
+>Izbere vse sode strani v dokumentu.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>izberi lihe strani</term>
+		<listitem
+><para
+>Izbere vse lihe strani v dokumentu.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>izberi sode strani (obratni vrstni red)</term>
+		<listitem
+><para
+>Izbere vse sode strani v dokumentu v obratnem vrstnem redu.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>izberi lihe strani (obratni vrstni red)</term>
+		<listitem
+><para
+>Izbere vse lihe strani v dokumentu v obratnem vrstnem redu.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>obrni vrstni red vseh strani</term>
+		<listitem
+><para
+>Obrne vrstni red vseh strani v dokumentu.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>kopiraj vse strani (razvrščeno)</term>
+		<listitem
+><para
+>Kopira vse strani v dokumentu. Izbrati morate število razvrščenih kopij.</para>
+		<screenshot>
+			<screeninfo
+>Kopiraj vse strani (razvrščeno)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils15.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Kopiraj vse strani (razvrščeno)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>kopiraj vse strani (nerazvrščeno)</term>
+		<listitem
+><para
+>Kopira vse strani dokumenta. Izbrati morate še število nerazvrščenih kopij.</para>
+		<screenshot>
+			<screeninfo
+>Kopiraj vse strani (nerazvrščeno)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils16.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Kopiraj vse strani (nerazvrščeno)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>pstops: izberite parameter</term>
+		<listitem
+><para
+>Obstaja veliko možnosti za &PostScript;-ova pripomočka <command
+>pstops</command
+> in <command
+>psselect</command
+>. Če potrebujete zelo posebnega, lahko prikličete <command
+>pstops</command
+> z možnostjo, ki jo izberete sami. Preberite priročnik za vse možne možnosti.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>psselect: izberite parameter</term>
+		<listitem
+><para
+>Prikličete lahko <command
+>psselect</command
+> z možnostjo, ki jo izberete sami. Preberite priročnik za vse možne možnosti.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="wizard_pdf">
+
+		<title
+>PDF Pripomočki</title>
+
+		<para
+>Veliko ljudi misli, da so PDFji zamrznjene datoteke, ki se jih ne da spreminjati. Vendar to ni res, saj obstaja veliko odličnih orodij</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>za prirejanje in preurejanje strani</para
+></listitem>
+		<listitem
+><para
+>za branje in posodabljanje informacij dokumenta</para
+></listitem>
+		<listitem
+><para
+>za branje, nastavljanje ali spreminjanje nekaterih dovoljenj</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>obstoječega PDF dokumenta.</para>
+
+		<para
+>&kile;-ov <emphasis
+>PDF wizard</emphasis
+> pod <menuchoice
+><guimenu
+>Wizard</guimenu
+><guimenuitem
+>PDF Tools</guimenuitem
+></menuchoice
+> uporablja dve različni metodi za prirejanje in preurejanje PDF dokumentov:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex;-ov paket <command
+>pdfpages</command
+>, ki je del vsake &latex;-ove distribucije. <command
+>pdfpages</command
+> ne deluje z zašifriranimi stranmi.</para
+></listitem>
+		<listitem
+><para
+><command
+>pdftk</command
+>, ki je odlično orodje ukazne vrstice za opravljanje vsakdanjih opravil s PDF dokumenti (glej <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit"
+>The PDF Toolkit</ulink
+>).</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Če kateri od teh pomočnikov, <command
+>pdfpages</command
+> ali <command
+>pdftk</command
+>, ni prisoten na vašem sistemu, pripadajoči elementi ne bodo vidni. V nadaljnem ne pozabite, da samo <command
+>pdftk</command
+> lahko dela z zašifriranimi datotekami.</para>
+
+		<sect2 id="pdf_rearrangements">
+
+			<title
+>Preureditve</title>
+
+			<para
+>Ko je poklican &kile;-ov PDF wizard, se zažene z registersko kartico <userinput
+>Rearrangements</userinput
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>Pogovorno okno PDF Orodja</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Pogovorno okno PDF Orodja</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Najprej izberite vašo vhodno datoteko. Če &kile; najde PDF datoteko, ki se ujema z vašim trenutnim master dokumentom, bo ta datoteka že navedena kot vaša vhodna datoteka, seveda pa lahko izberete tudi drugo datoteko. Nato izberite izhodno datoteko ali prepišite vašo obstoječo PDF datoteko in izberite eno od nalog. Nazadnje se morate odločiti, ali želite izvesti le pretvorbo, ali želite priklicati še pregledovalnik (&eg; &okular;), da prikažete rezultat pretvorbe.</para>
+
+			<para
+>Če je PDF datoteka zašifrirana, bo deloval le <command
+>pdftk</command
+> in pri tem morate podati še geslo tega dokumenta, da izvedete nalogo.</para>
+
+			<variablelist>
+
+			<varlistentry>
+			<term
+>1 stran + prazna stran --> A4</term>
+			<listitem
+><para
+>Združi eno stran skupaj s prazno stranjo na eni A4 strani. Ko sta dve A5 strani združeni skupaj, sta zarotirani za 90 stopinj in razporejeni na A4 strani v ležečem načinu.</para>
+			<screenshot>
+				<screeninfo
+>A5 + prazna stran</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A5 + prazna stran</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Ko sta dve A4 strani združeni skupaj, sta primerno povečani/pomanjšani, zarotirani za 90 stopinj in razporejeni na A4 strani v ležečem načinu.</para>
+			<screenshot>
+				<screeninfo
+>A4 + prazna stran --> A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils6.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A4 + prazna stran</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>1 stran + duplikat --> A4</term>
+			<listitem
+><para
+>Združi eno stran in duplikat skupaj na eni A4 strani.</para>
+			<screenshot>
+				<screeninfo
+>Podvoji stran</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Podvoji stran</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Če je stran, ki jo podvajate, velikosti A4, bo pomanjšana, da se bo prilegala na eno stran.</para>
+			<screenshot>
+				<screeninfo
+>Podvoji stran</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils7.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Podvoji stran</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>2 strani --> A4</term>
+			<listitem
+><para
+>Združi dve zaporedni strani skupaj na eno A4 stran. Ko sta dve A5 strani kombinirani skupaj, sta zarotirani za 90 stopinj in razporejeni na A4 strani v ležečem načinu.</para>
+			<screenshot>
+				<screeninfo
+>Kombiniraj dve A5 strani</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Kombiniraj dve A5 strani</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Ko sta dve A4 strani združeni skupaj, sta primerno povečani/pomanjšani, zarotirani za 90 stopinj in razporejeni na A4 strani v ležečem načinu.</para>
+			<screenshot>
+				<screeninfo
+>Kombiniraj dve A4 strani</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils8.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Kombiniraj dve A4 strani</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>2 strani (ležeče) --> A4</term>
+			<listitem
+><para
+>Združi dve zaporedni strani v ležečem načinu skupaj na eno A4 stran.</para>
+			<screenshot>
+				<screeninfo
+>Združi dve strani (v ležečem načinu)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Združi dve strani (v ležečem načinu)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 strani --> A4 </term>
+			<listitem
+><para
+>Združi štiri zaporedne strani skupaj na eno A4 stran. Strani morajo biti pomanjšane, da se lahko prilegajo strani.</para>
+			<screenshot>
+				<screeninfo
+>4 strani --> A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils5.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>4 strani --> A4</phrase>
+				</textobject>
+			</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 strani (ležeče) --> A4</term>
+			<listitem
+><para
+>Združi štiri zaporedne strani v ležečem načinu skupaj na eno A4 stran. Strani morajo biti pomanjšane, da se lahko prilegajo strani.</para>
+			<screenshot>
+				<screeninfo
+>Združi štiri strani  (v ležečem načinu)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Združi štiri strani  (v ležečem načinu)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>izberi sode strani</term>
+			<listitem
+><para
+>Izbere vse sode strani v dokumentu.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>izberi lihe strani</term>
+			<listitem
+><para
+>Izbere vse lihe strani v dokumentu.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>izberi sode strani (obratni vrstni red)</term>
+			<listitem
+><para
+>Izbere vse sode strani v dokumentu v obratnem vrstnem redu.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>izberi lihe strani (obratni vrstni red)</term>
+			<listitem
+><para
+>Izbere vse lihe strani v dokumentu v obratnem vrstnem redu.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>obrni vrstni red vseh strani</term>
+			<listitem
+><para
+>Obrne vrstni red vseh strani v dokumentu.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>dešifriraj datoteko</term>
+			<listitem
+><para
+>Če je PDF datoteka šifrirana, jo lahko dešifrirate.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>izberi strani</term>
+			<listitem
+><para
+>Dodajte z vejico ločen seznam strani ali obsegov strani, &eg; 1,4-7,9. Samo te strani se bodo prikazale v končni PDF datoteki.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>izbriši strani</term>
+			<listitem
+><para
+>Dodajte z vejico ločen seznam strani ali obsegov strani, ki naj bodo odstranjeni iz izbrane PDF datoteke.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>uporabite vodni žig za ozadje</term>
+			<listitem
+><para
+>Uporabi vodni žig PDF za ozadje enega vhodnega PDF-ja. Čarovnik uporabi samo prvo stran PDF-ja v ozadju in jo uporabi za vsako stran vhodnega PDF-ja. Ta stran je po potrebi prilagojena in obrnjena, da se prilega vhodni strani.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>uporabi barvo ozadja</term>
+			<listitem
+><para
+>Uporabi barvo za ozadje na vseh straneh trenutnega dokumenta. To je lahko izvedeno le enkrat, saj se druga barva postavi za prvo barvo in druga barva nebo vidna.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>uporabite žig v ospredju</term>
+			<listitem
+><para
+>Uporabi žig v ospredju na vrhu strani vhodnega dokumenta PDF. Čarovnik uporabi samo prvo stran PDF-ja z žigom in jo uporabi za vsako stran vhodnega PDF-ja. Ta stran je po potrebi prilagojena in obrnjena, da se prilega vhodni strani. To najbolje deluje, če ima stran PDF z žigom prosojno ozadje.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdftk: izberi parameter</term>
+			<listitem
+><para
+>Prikličete lahko <command
+>pdftk</command
+> z možnostjo vaše izbire. Preberite si priročnik za vse možne možnosti.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdfpages: izberite parameter</term>
+			<listitem
+><para
+>Prikličete lahko <command
+>pdfpages</command
+> z možnostjo po vaši izbiri. Preberite si priročnik za vse možne možnosti.</para
+></listitem>
+			</varlistentry>
+
+			</variablelist>
+
+		</sect2>
+
+		<sect2 id="pdf_properties">
+
+			<title
+>Lastnosti</title>
+
+			<para
+>Nastavljanje, spreminjanje in odstranjevanje lastnosti je izvedljivo le, če je nameščen <command
+>pdftk</command
+> in če je bil &kile; dodatno preveden s knjižnico <userinput
+>libpoppler</userinput
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>Pogovorno okno PDF Lastnosti</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Pogovorno okno PDF Lastnosti</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Tradicionalni metapodatki PDF-ja vključujejo naslov dokumenta, avtorja, temo, ključne besede, ustvarjalce, producenta in datume nastanka in sprememb.</para>
+
+		</sect2>
+
+		<sect2 id="pdf_permissions">
+
+			<title
+>Dovoljenja</title>
+
+			<para
+>Tudi nastavljanje, spreminjanje in odstranjevanje dovoljenj je mogoče le, če je nameščen <command
+>pdftk</command
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>Pogovorno okno PDF Dovoljenja</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Pogovorno okno PDF Dovoljenja</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Geslo je nujno potrebno za nastavljanje ali spreminjanje nastavitev teh dokumentov. Poleg tega je šifriranje PDF-ja namenjeno zaklepanju vsebine datoteke s tem geslom ali da se uveljavijo lažje omejitve, ki jih določi avtor. Tako lahko lahko avtor odobri ali omeji:</para>
+
+			<itemizedlist>
+			<listitem
+><para
+>tiskanje strani</para
+></listitem>
+			<listitem
+><para
+>spreminjanje strani</para
+></listitem>
+			<listitem
+><para
+>kopiranje besedila in grafik iz strani</para
+></listitem>
+			<listitem
+><para
+>spreminjanje ali dodajanje opomb</para
+></listitem>
+			<listitem
+><para
+>zapolnjevanje polj obrazcev s podatki.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Spreminjanje dovoljenj vedno prisili šifriranje povezano z 128-bitno varnostjo <userinput
+>Acrobat-a</userinput
+> 5 in 6, in prav tako zahteva geslo.</para>
+
+			<para
+>Vendar ne pozabite: šifriranje in geslo ne zagotavljata prave varnosti PDF-ja. Vsebina je šifrirana, vendar je ključ znan. Na to bi morali gledati bolj kot na vljudno, a trdno zahtevo po spoštovanju avtorjevih želja.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="statistics">
+		<title
+>Statistika Dokumenta</title>
+
+		<para
+>Pogovorno okno statistike pod <menuchoice
+><guimenu
+>Datoteka</guimenu
+><guimenuitem
+>Statistics</guimenuitem
+></menuchoice
+> vam ponuja statistični pregled za neko izbiro, dokument ali celoten projekt. Vključuje število besed, &latex;-ovih ukazov/območij in vključuje tudi število znakov za vsako vrsto.</para>
+
+		<para
+>Te pridobljene statistične podatke je mogoče kopirati v odložišče kot besedilo ali lepo formatirano &latex;-ovo tabelo. </para>
+		<para
+>Ko izberete besedilo in odprete pogovorno okno statistike, dobite statistiko za trenutno izbrano besedilo. Če isto pogovorno okno odprete, brez da bi izbrali kakršno koli besedilo, se bo prikazala statistika za vse odprte datoteke. Če želite statistiko za celoten projekt, lahko uporabite <menuchoice
+><guimenu
+>Project</guimenu
+><guisubmenu
+>Open All Project Files</guisubmenu
+></menuchoice
+> kot lahek in hiter način, da odprete vse izvorne datoteke vašega projekta.</para>
+
+		<para
+>Opozoriti vas moramo še glede natančnosti teh številk. Dodali smo nekaj logike za dobro oceno &eg; program šteje K\"uhler kot eno besedo in en ukaz s šestimi in dvema znakoma. So pa še druge kombinacije, v katerih so deli ukazov šteti kot besede in obratno. Prosimo upoštevajte, da je bil ta algoritem razvit in testiran za jezike podobne angleščini in nemščini. Zato ne jemljite teh števil za stoodstotno točne. Če pišete poročilo, ki mora obsegati neko določeno število besed ali znakov, raje najprej opravite nekaj testov, da preverite, ali &kile;-ova natančnost zadostuje vašim potrebam.</para>
+	</sect1>
+
+</chapter>
+
+
+<chapter id="latex">
+
+	<title
+>Posebne Značke v programu &latex;</title>
+
+	<sect1 id="latex_library">
+		<title
+>Uporaba &latex;-ove Knjižnice Značk</title>
+
+		<para
+>&latex; vsebuje tisoče značk za simbole in posebne znake. Najlažji način, da jih vstavite, je s pomočjo stranske orodne vrstice na levi strani okna urejevalnika.</para>
+
+		<screenshot>
+			<screeninfo
+>Stranska Orodna Vrstica</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_sidebarmenu.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Stranska Orodna Vrstica</phrase>
+			</textobject>
+			<caption
+><para
+>Stranska Orodna Vrstica</para
+></caption>
+			</mediaobject>
+		</screenshot>
+		<para
+>Na voljo so naslednje vrste:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Najpogosteje Uporabljeno</para
+></listitem>
+			<listitem
+><para
+>Relacije</para
+></listitem>
+			<listitem
+><para
+>Operatorji</para
+></listitem>
+			<listitem
+><para
+>Puščice</para
+></listitem>
+			<listitem
+><para
+>Matematika Razno</para
+></listitem>
+			<listitem
+><para
+>Besedilo Razno</para
+></listitem>
+			<listitem
+><para
+>Ločila</para
+></listitem>
+			<listitem
+><para
+>Grško</para
+></listitem>
+			<listitem
+><para
+>Posebni Znaki</para
+></listitem>
+			<listitem
+><para
+>Znaki Cirilice</para
+></listitem>
+			<listitem
+><para
+>Definirano od Uporabnika</para
+></listitem>
+		</itemizedlist>
+		<para
+>Opisi ikon prikazujejo &latex;-ov ukaz in dodatno potreben paket.</para>
+		<para
+>S pritiskom na <keycombo
+>&Shift;</keycombo
+> in klikom na simbol se bo ukaz vstavil med znaka $: <userinput
+>$\ukazsimbola$</userinput
+>. Podobno se bo s pritiskom na <keycombo
+>&Ctrl;</keycombo
+> ukaz vstavil med zavite oklepaje.</para>
+		<para
+>Če vstavite ukaz, ki zahteva paket, ki ni vključen v vašem &latex;-ovem dokumentu, se vam bo v okvirčku za beleženje napak prikazalo opozorilo.</para>
+		<para
+>Prvi seznam simbolov vključuje <guilabel
+>Najpogosteje Uporabljene</guilabel
+> simbole. Vstavljeni simboli bodo dodani na ta seznam za hitro in lahko ponovno dodajanje. Urejenost seznama se ne bo spremenila ob dodajanju novega simbola. Namesto tega bo povečan števec za simbol. Če število elementov na seznamu preseže 30 elementov, bo odstranjen simbol z najmanjšim števcem.</para>
+		<para
+>Seznam simbolov <guilabel
+>Uporabniško definirano</guilabel
+> vključuje vaše lastne simbole. Da ustvarite svoj simbol, potrebujete program gesymb in datoteko <filename
+>definitions.tex</filename
+> iz izvornega paketa kile-a. Dodatno potrebujete &latex;-ov prevajalnik (kako presenetljivo) in <ulink url="http://www.dvipng.sourceforge.net"
+>&dvipng;</ulink
+> (verzija 1.7 ali kasnejšo). Ustvariti morate &latex;-ovo datoteko z <userinput
+>\input{definitions}</userinput
+>, kar omogoči spodaj navedene ukaze, in omogočiti <userinput
+>uporabniku gesymb mysymbols.tex</userinput
+> (ki kliče &latex; in &dvipng;), da ustvarja ikone. Potem ko jih kopirate v <userinput
+>$HOME/.kde/share/apps/kile/mathsymbols/user/</userinput
+> in ponovno zaženete kile, lahko uporabljate svoje lastne simbole. </para>
+		<para
+>Naslednji ukazi so definirani v <filename
+>definitions.tex</filename
+>: <itemizedlist>
+			<listitem>
+				<para
+><userinput
+>\command[\optarg]{\symbol}</userinput
+>: Vključi simbol <userinput
+>\symbol</userinput
+> v seznam simbolov, neobvezni argument <userinput
+>\optarg</userinput
+> določa ukaz, ki naj bi ga kile vstavil. Če ni podan, bo uporabljen ukaz v obveznem argumentu. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\mathcommand[\optarg]{\symbol}</userinput
+>: Isto kot zgoraj, le da je ukaz v obveznem argumentu vstavljen v matematičnem načinu. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\pkgs[arg]{pkg}</userinput
+>: Deklarira, da ukaz, ki je podan v tej vrstici potrebuje &latex;-ov paket <userinput
+>pkg</userinput
+> z neobveznim argumentom <userinput
+>arg</userinput
+>. Ta ukaz mora biti pred ukazom <userinput
+>\command</userinput
+>in preglasi katere koli specifikacije paketov iz okolje neededpkgs. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\begin{neededpkgs}[pkgs-args]{pkgs} ... \end{neededpkgs}</userinput
+>: Ima isti učinek kot zgoraj,le da je za vse priložene ukaze. </para>
+			</listitem>
+		</itemizedlist>
+		</para>
+		<para
+>Primer za dopolnitev je podan tukaj: <programlisting
+>\documentclass[a4paper,10pt]{article}
+\usepackage{amssymb}
+\input{definitions}
+%
+\begin{document}
+\pagestyle{empty}
+%
+\begin{neededpkgs}{amssymb}
+\mathcommand{\surd}
+\pkgs{amsmath}\mathcommand[\ddddot{}]{\ddddot{a}}
+\mathcommand{\angle}
+\end{neededpkgs}
+\command{\"A}
+\mathcommand{\exists}
+\mathcommand[\stackrel{}{}]{\stackrel{abc}{=}}
+
+%\begin{neededpkgs}[russian,koi8-r,T2C,]{babel,inputenc,fontenc,mathtext}
+%
+%   \end{neededpkgs}
+% to bi moralo vkljčevati pakete
+% \usepackage{mathtext}
+% \usepackage[T2C]{fontenc}
+% \usepackage[russian]{babel}
+% \usepackage[koi8-r]{inputenc}
+%  le da se razloži format
+\end{document}</programlisting>
+		</para>
+	</sect1>
+
+	<sect1 id="latex_bib">
+
+		<title
+>Uporaba Bibitems</title>
+
+		<para
+><userinput
+>\bibitem</userinput
+> je ukaz, ki se ga uporablja za vnos reference v območju <userinput
+>thebibliography</userinput
+> v vašem dokumentu. Sintaksa za uporabo <userinput
+>\bibitem</userinput
+> je <userinput
+>\bibitem[label]{key}</userinput
+>.</para>
+
+		<para
+>Neobvezen <userinput
+>[label]</userinput
+> je zato, da lahko sami dodate vaš sistem označevanja za bibliografske vnose. Če ni nastavljena nobena oznaka, bodo vnosi postavljeni v številskem vrstnem redu: [1], [2], [3], &etc;</para>
+
+		<para
+>Argument <userinput
+>{key}</userinput
+> za naslavljanje in povezovanje ukazov <userinput
+>\bibitem</userinput
+> in <userinput
+>\cite</userinput
+> druga z drugo in z informacijami, ki jih vsebujeta. Ukaz <userinput
+>\cite</userinput
+> vsebuje oznako povezano z namenjeno <userinput
+>\bibitem</userinput
+>, ki se nahaja znotraj območja <userinput
+>thebibliography</userinput
+>, in vsebuje ustrezne podatke. Oba ustrezna <userinput
+>\bibitem</userinput
+> in <userinput
+>\cite</userinput
+> morata imeti isti <userinput
+>{key}</userinput
+>; najlažji način za organizacijo ključev je po priimkih avtorja. Drugi zaviti oklepaji v območju <userinput
+>thebibliography</userinput
+> označujejo najdaljšo bibliografsko oznako, ki jo pričakujete, da jo boste imeli. Tako vstavljanje <userinput
+>{<replaceable
+>foo</replaceable
+>}</userinput
+> pomeni, da imate lahko katero koli oznako krajšo ali enako kot izraz <userinput
+><replaceable
+>foo</replaceable
+></userinput
+>. Napaka pri korektni nastavitvi tega parametra se lahko prikaže kot ne preveč privlačen zamik vaše bibliografije.</para>
+
+		<para
+>Bibliografija je razdelek, ločen od vašega glavnega dokumenta. Primer kode za bibliografijo bi izgledal nekako tako:</para>
+
+<programlisting
+>\begin{thebibliography}{50}
+        \bibitem{Simpson} Homer J. Simpson. \textsl{Mmmmm...donuts}. Evergreen Terrace Printing Co.,
+                          Springfield, SomewhereUSA, 1998
+\end{thebibliography}</programlisting>
+
+		<para
+>Nato naj vaša glavna izvorna koda vsebuje lokacijo informacij, povezanih z <userinput
+>\bibitem</userinput
+> z uporabo <userinput
+>\cite</userinput
+>. Ta izvorna koda bi izgledala nekako tako:</para>
+
+		<programlisting
+>Moja teza o filozofiji Simpsonovih\copyright prihaja iz moje najljubše knjige \cite{Simpson}.</programlisting>
+
+		<para
+>Ker si je velikokrat težko zapomniti točen ključ citata, ko imate enkrat veliko sklicev, ponuja &kile; enostaven način za vstavljanje citatov. Z klikom na <menuchoice
+><guimenu
+>LaTeX </guimenu
+><guimenuitem
+>References</guimenuitem
+><guimenuitem
+>Cite</guimenuitem
+></menuchoice
+> se bo prikazal seznam z vsemi ključi citatov. Izberite pravilen sklic in citat bo vstavljen v vaš dokument. Da posodobite seznam ključev, lahko shranite datoteko, kliknete <menuchoice
+><guimenu
+>Edit</guimenu
+><guimenuitem
+>Refresh Structure</guimenuitem
+></menuchoice
+>, ali pa pritisnete <keycap
+>F12</keycap
+>. Z omogočenim dopolnjevanjem kode bo &kile; prikazal seznam vseh <userinput
+>bibitem</userinput
+> oznak takoj, ko odprete ukaz <userinput
+>\cite</userinput
+>.</para>
+
+		<para
+>Končni rezultat v bibliografiji vašega dokumenta bo izgledal tako:</para>
+
+		<para
+><computeroutput
+>[1] Homer J. Simpson. Mmmmm...donuts. Evergreen Terrace Printing Co., Springfield, SomewhereUSA, 1998.</computeroutput
+></para>
+
+		<para
+>&kile; lahko sodeluje tudi z urejevalniki &bibtex;-a, kot je &kbibtex; za lažji vnos citatov. Ko je &bibtex; datoteka dodana v projekt, vam bo &kile; pomagal dopolniti ukaze citatov, kot je opisano zgoraj.</para>
+
+	</sect1>
+
+</chapter>
+
+&include-section-usermenu;
+
+<chapter id="build">
+
+	<title
+>Orodja za Grajenje</title>
+
+	<sect1 id="build_sect">
+
+		<title
+>Prevajanje, pretvarjanje in ogledovanje</title>
+
+		<para
+>Da si ogledate rezultat vašega dela, morate najprej prevesti izvorno kodo. Vsa orodja za grajenje se nahajajo blizu skupaj v menijih <menuchoice
+><guimenu
+>Build</guimenu
+><guisubmenu
+>Compile</guisubmenu
+></menuchoice
+>, <menuchoice
+><guimenu
+>Build</guimenu
+><guisubmenu
+>Convert</guisubmenu
+></menuchoice
+> in <menuchoice
+><guimenu
+>Build</guimenu
+><guisubmenu
+>View</guisubmenu
+></menuchoice
+> menus.</para>
+
+		<para
+>Da prevedete vašo izvorno kodo za vaše pregledovalnike kot je &okular; ali za nadaljnjo pretvorbo, lahko uporabite bližnjico <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+>. Nato si lahko ogledate &DVI; datoteko z uporabo privzetega pregledovalnika z <keycombo
+>&Alt;<keycap
+>3</keycap
+></keycombo
+>, pretvorite &DVI; v PS datoteko z <keycombo
+>&Alt;<keycap
+>4</keycap
+></keycombo
+> in ogledate PS datoteko z <keycombo
+>&Alt;<keycap
+>5</keycap
+></keycombo
+>.</para>
+
+		<sect2>
+
+		<title
+>&bibtex;</title>
+
+			<para
+>Če uporabljate <ulink url="http://www.ecst.csuchico.edu/~jacobsd/bib/formats/bibtex.html"
+>&bibtex;</ulink
+> za vaše vnose bibliografije, morate ponavadi slediti posebni shemi za prevajanje. To pomeni, da kličete &latex;, nato &bibtex; in nato spet drugič &latex;. Na srečo je &kile; dovolj pameten, da samodejno zazna, če je potrebno uporabiti dodana orodja kot so &bibtex;, &makeidx; in &asymptote;. Ta logika je privzeto vključena in se jo da spremeniti v <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+><guisubmenu
+>Tools</guisubmenu
+><guilabel
+>Build</guilabel
+></menuchoice
+> v zavihku <guilabel
+>General</guilabel
+> v orodjih &latex; in &pdflatex;. </para>
+
+		</sect2>
+
+<!-- Already stated in last paragraph
+		<sect2>
+
+			<title
+>&makeidx;</title>
+
+			<para
+>If you are using the <ulink url="http://ipagwww.med.yale.edu/latex/makeindex.pdf"
+>&makeidx;</ulink>
+			package to make a final, alphabetical index for your document, you have also to follow a certain
+			compilation pattern or let &kile; do this for you in the same way as with &bibtex; files.</para>
+
+		</sect2>
+-->
+		<sect2>
+
+			<title
+>MetaPost in &asymptote;</title>
+
+			<para
+>Če želite prevesti svoj dokument z aplikacijo <application
+>MetaPost</application
+> ali <application
+>&asymptote;</application
+>, za risanje slik, lahko to storite z <menuchoice
+><guimenu
+>Build</guimenu
+><guisubmenu
+>Compile</guisubmenu
+><guimenuitem
+>Metapost</guimenuitem
+></menuchoice
+>, ali <menuchoice
+><guimenu
+>Build</guimenu
+><guisubmenu
+>Compile</guisubmenu
+><guimenuitem
+>&asymptote;</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&pdflatex;</title>
+
+			<para
+>Obstaja tudi drug način za prevajanje vašega dokumenta, če želite PDF: zaženete lahko &pdflatex;, ki bo prevedel izvorno kodo neposredno v PDF datoteko, z <keycombo
+>&Alt;<keycap
+>6</keycap
+></keycombo
+>: nato si lahko ogledate prevedeno datoteko s pritiskom na <keycombo
+>&Alt;<keycap
+>7</keycap
+></keycombo
+>.</para>
+
+			<para
+>Alternativno lahko pretvorite PS v PDF z <keycombo
+>&Alt;<keycap
+>8</keycap
+></keycombo
+> ali pa &DVI; neposredno v PDF z <keycombo
+>&Alt;<keycap
+>9</keycap
+></keycombo
+>.</para>
+
+			<para
+>Uporabljanje &pdflatex; namesto &latex; je lahko le stvar preprostosti ali navade, vendar se lahko v nekaterih primerih vedenje teh dveh programov razlikuje.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&latex; v Splet</title>
+
+			<para
+>Na koncu se zna zgoditi, da boste želeli svoje delo objaviti na spletu, ne le na papirju. V tem primeru lahko uporabite program <application
+>latex2html</application
+>, ki se ga da poklicati iz &kile;-ovega menija <menuchoice
+><guimenu
+>Build</guimenu
+><guisubmenu
+>Convert</guisubmenu
+><guimenuitem
+>LaTeX to Web</guimenuitem
+></menuchoice
+>. Rezultat se bo nahajal v podmapi delovne datoteke, vi pa ga boste lahko videli z izbiro elementa seznama <menuchoice
+><guimenu
+>Build</guimenu
+><guisubmenu
+>View</guisubmenu
+><guimenuitem
+>View &HTML;</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_cl">
+
+			<title
+>Posredovanje Parametrov Ukazne Vrstice</title>
+
+			<para
+>Če želite posredovati nekaj določenih parametrov ukazne vrstice orodjem za prevajanje, pretvarjanje in ogledovanje, lahko konfigurirate njihov klic v <menuchoice
+><guimenu
+>Nastavitve</guimenu
+> <guisubmenu
+>Konfiguriraj Kile...</guisubmenu
+><guisubmenu
+>Orodja</guisubmenu
+><guilabel
+>Izgradi</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_preview">
+		<title
+>Hitri predogled</title>
+
+		<para
+>Ko delate z &latex;-om, boste za ogled rezultata vedno morali počakati nekaj časa. &latex; mora prevesti izvorno kodo in priklicati je treba pregledovalnik. To je lahko neprijetno, če želite le spremeniti nekaj črk v enačbi. &kile; ponuja način <emphasis
+>Hitrega Predogleda</emphasis
+>, s katerim lahko prevedete le del dokumenta in s tem prihranite veliko časa. Podpira štiri različne načine, ki se jih da kombinirati s sedmimi konfiguracijami.</para>
+
+		<screenshot>
+			<screeninfo
+>Hitri Predogled</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Hitri Predogled</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Vse nastavitve se nastavi v <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+> <guimenuitem
+>Tools</guimenuitem
+><guilabel
+>Preview</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Nastavitve Hitrega predogleda</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Nastavitve Hitrega predogleda</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<sect2 id="build_qp_selection">
+
+			<title
+>Način izbire</title>
+
+			<para
+>Uporabnik mora izbrati del dokumenta. Vnos menija <menuchoice
+><guimenu
+>Build</guimenu
+><guisubmenu
+>QuickPreview</guisubmenu
+><guimenuitem
+>Selection</guimenuitem
+></menuchoice
+> ali bližnjica na tipkovnici <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>S</keycap
+> bo zagnala izbrane programe. &kile; vzame preambulo originalnega besedila, da so vsi paketi in uporabnikovi na novo definirani ukazi vključeni. Uporabnik lahko izbira enega od osmih vnaprej definiranih konfiguracij:</para>
+
+			<itemizedlist>
+			<listitem
+><para
+><application
+>LaTeX+&DVI; (vgrajeni pregledovalnik)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+&DVI; (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+PS (vgrajeni pregledovalnik)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+PS (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLaTeX+PDF (vgrajeni pregledovalnik)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLaTeX+PDF (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>XeLaTeX+PDF (vgrajeni pregledovalnik)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>XeLaTeX+PDF (&okular;)</application
+></para
+></listitem>
+			</itemizedlist>
+
+			<para
+>To bi moralo zadostovati za vse situacije, za katere je hitri predogled potreben.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_environment">
+
+			<title
+>Način Območja</title>
+
+			<para
+>Zelo pogosto želite predogled trenutnega območja, še posebno v matematičnih območjih, ki jih je včasih težko napisati. &kile; ponuja zelo hiter način za to. Označevanje kode ni potrebno, le izberite <menuchoice
+><guimenu
+>Build</guimenu
+><guisubmenu
+>QuickPreview</guisubmenu
+><guimenuitem
+>Environment</guimenuitem
+></menuchoice
+> ali uporabite bližnjico na tipkovnici <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>E</keycap
+> in trenutno območje bo prevedeno in prikazano.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_subdocument">
+
+			<title
+>Način Poddokumenta</title>
+
+			<para
+>Če imate velik projekt z veliko dokumenti, potem prevajanje celega dokumenta res ni najboljša ideja, če ste spremenili le enega od dokumentov. &kile; lahko prevede in prikaže predogled trenutnega poddokumenta. Vzame preambulo iz master dokumenta in prevede le trenuten del. Izberite <menuchoice
+><guimenu
+>Build</guimenu
+><guisubmenu
+>QuickPreview</guisubmenu
+><guimenuitem
+>Subdocument</guimenuitem
+></menuchoice
+> ali bližnjico na tipkovnici <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>D</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_mathgroup">
+
+			<title
+>Način Matematičnih Skupin</title>
+
+			<para
+>Način predogleda matematičnih skupin vam omogoča, da si predogledate matematično skupino, ki jo trenutno urejate. &kile; vzame preambulo iz master dokumenta in prevede le matematično skupino, na kateri se trenutno nahaja kazalec, ko izberete <menuchoice
+><guimenu
+>Build</guimenu
+><guisubmenu
+>QuickPreview</guisubmenu
+><guimenuitem
+>Mathgroup</guimenuitem
+></menuchoice
+> ali bližnjico <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>M</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="qp_bottombar">
+
+			<title
+>Hitri Predogled v Spodnji Vrstici</title>
+
+			<para
+>Namesto da se predogled kaže v novem dokumentu, se da &kile; nastaviti tudi tako, da uporablja spodnjo vrstico za predoglede prevodov. To funkcijo lahko aktivirate v nastavitvah hitrega predogleda.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_graphics">
+
+		<title
+>Formati Grafičnih Datotek</title>
+
+		<sect2 id="build_graphics_latex">
+
+		<title
+>&latex; in &pdflatex;</title>
+
+		<para
+>Ko je &pdflatex; uporabljen skupaj s paketi <userinput
+>graphics</userinput
+> ali <userinput
+>graphicx</userinput
+>, lahko pravilno prevede PNG in JPG datoteke v &DVI; ali PDF, ni pa zmožen tega z EPS datotekami. Nasprotno proces prevajanja &latex;-a v &DVI; in pretvarjanje v PS in nazadnje v PDF podpira EPS, ne podpira pa PNG in JPG.</para>
+
+		<para
+>Veliko uporabnikov želi ustvariti PDF dokumente, pa tudi uporabljati odličen paket <application
+>Pstricks</application
+> za ustvarjanje &PostScript; grafik, ali pa želijo uporabiti izhode &PostScript;-a za matematično in znanstveno programsko opremo kot so <application
+>Mathematica</application
+>, <application
+>Maple</application
+> ali <application
+>MuPAD</application
+>. Ti uporabniki &latex;-a morajo prevesti najprej v &PostScript;, tudi če želijo ustvariti PDF dokumente, saj ti programi proizvedejo &PostScript; kodo, ki se je ne da upravljati z &pdflatex;. Kakor koli to ni tako zahtevno kot se sliši, saj pri tem pomaga &kile;.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_conversion">
+
+		<title
+>Pretvorba Grafike</title>
+
+		<para
+>Če želite premagati to frustrirajočo zanko, ko želite vključiti oboje, &PostScript; kodo in datoteke PNG ali JPG, imate številne rešitve:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Če potrebujete datoteko v formatu PS, imate pa JPG ali PNG grafiko, lahko najprej uporabite tudi &pdflatex; z izhodom &DVI; in nato poženete <application
+>dvips</application
+>, da ustvarite datoteko PS. Tako lahko vidite, da je &pdflatex; zelo dobra izbira, če vaš vir ne vsebuje nobene &PostScript; kode.</para
+></listitem>
+
+			<listitem
+><para
+>EPS datoteke lahko pretvorite v PNG ali druge formate s pripomočki kot so <ulink url="http://www.gimp.org/"
+><application
+>Gimp</application
+></ulink
+> ali <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+> in uporabite &pdflatex;.</para
+></listitem>
+
+			<listitem
+><para
+><anchor id="build_graphics_epstopdf"
+></anchor
+>Priporočen način, da pretvorite grafiko EPS v PDF, je z <command
+>epstopdf</command
+>, ki je vključen v vsaki &tex; distribuciji, in nato uporabite &pdflatex;. Proizvede grafiko visoke kvalitete, rezultate pa lahko celo kontrolirate z naslednjimi možnostmi: <programlisting
+>-dAutoFilterColorImages=false
+        -dAutoFilterGrayImages=false
+        -sColorImageFilter=FlateEncode
+        -sGrayImageFilter=FlateEncode
+        -dPDFSETTINGS=/prepress
+        -dUseFlateCompression=true
+</programlisting>
+			</para>
+
+			<para
+>Še bolje: če vaš sistem dovoljuje <userinput
+>shell-escape</userinput
+>, je mogoče pretvorbo izvesti sproti. Le vključiti morate paket <application
+>epstopdf</application
+>, ki je vključen v vseh &tex; distribucijah, z ukazom <userinput
+>\usepackage{epstopdf}</userinput
+>. Ob predpostavki, da je vaša koda: <programlisting>
+        \includegraphics[width=5cm]{test.eps}
+</programlisting
+> Ko pokličete &pdflatex; z možnostjo <option
+>--shell-escape</option
+>, bo grafika <filename
+>test.eps</filename
+> samodejno pretvorjena v <filename
+>test.pdf</filename
+>.</para>
+
+			<para
+>Ta pretvorba se bo zgodila vsakič ko zaženete &pdflatex;. Če je vaš grafični ukaz podan implicitno: <programlisting>
+        \includegraphics[width=5cm]{test}
+</programlisting
+> <application
+>epstopdf</application
+> preveri, ali je <filename
+>test.pdf</filename
+> že dostopen, da se lahko pretvorbi izognemo.</para
+></listitem>
+
+			<listitem
+><para
+>Prevedete lahko tudi v drugo smer in uporabite &latex; in PS-PDF pretvorbo. To ni vedno dobra ideja, saj EPS-jeva enkapsulacija JPG ali PNG datoteke lahko privede do precej večjih datotek, kar potem privede do nepotrebno velikih dokumentov. Vendar pa je to <emphasis
+>močno</emphasis
+> odvisno od grafičnega pripomočka, ki ga uporabljate, saj EPS lahko enkapsulira druge grafike, vendar tega ne podpirajo vse aplikacije popolno. Nekatere bodo morda celo poskušale zgraditi JPG sliko z vektorji in različnimi skriptami, kar privede do ogromnih datotek. Pretvorbo vseh grafičnih formatov v EPS je mogoče narediti z <ulink url="http://www.imagemagick.org/"
+>&imagemagick;-om</ulink
+>. Še en enostaven program, ki opravi to nalogo pravilno, je <ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/"
+><application
+>jpg2ps</application
+></ulink
+>. </para
+></listitem>
+
+			<listitem
+><para
+>Uporabite lahko tudi samodejno pretvorbo. Vse grafične datoteke bodo pretvorjene v EPS sproti in bodo vstavljene v PS dokument. To je udoben način, vendar ga je potrebno pravilno nastaviti. To je opisano v razdelku <link linkend="build_epsgraphics"
+>EPS Grafike</link
+>.</para
+></listitem>
+
+		</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="build_graphics_type">
+
+		<title
+>Uporabite pravo Datoteko za pravo Grafiko</title>
+
+	 	<itemizedlist>
+			<listitem
+><para
+>EPS je neke vrste grafični vektorski skriptni jezik, ki opisuje vse črte in pike, iz katerih je sestavljena grafika; izgleda dobro, tudi če je povečana preko privzete velikosti, in najbolje ustreza diagramom in vektorskim grafikam, izvirno izdelanim v EPS, ki so videti zelo jasne in ostre, hkrati pa ohranjajo zelo majhno velikost v bajtih.</para
+></listitem>
+			<listitem
+><para
+>PNG (ali zastarel &GIF;) je <emphasis
+>neizguben</emphasis
+> format datoteke z dobro kompresijo in kvaliteto. Dober je za diagrame, skenirane risbe ali katero koli stvar, pri kateri želite ohraniti ostrino. Včasih je to pretirano za fotografije.</para
+></listitem>
+			<listitem
+><para
+>JPG je <emphasis
+>izguben</emphasis
+> format, ki kompresira datoteke bolje kot PNG v zameno za nekaj izgub pri podrobnostih slike. To je ponavadi nepomembno pri fotografijah, lahko pa povzroči slabšo kvaliteto pri diagramih in risbah, saj pri tem lahko izginejo nekatere tanke črte; v teh primerih uporabite raje EPS ali PNG.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Vendar ne pozabite: smeti noter, smeti ven! Nobena pretvorba ne bo polepšale slabe slike.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_epsgraphics">
+
+		<title
+>EPS Grafike</title>
+
+		<para
+>EPS grafične datoteke so tradicionalen način vstavljanja grafik v &latex;-ove dokumente. Ker so e-poštni seznami polni vprašanj v zvezi z EPS grafikami, bomo nekaj pomembnejših vidikov opisali tukaj in demonstrirali, kako jih &kile; podpira.</para>
+
+		<sect2 id="build_graphics_eps">
+
+		<title
+>&latex; in EPS Grafike</title>
+
+		<para
+>Če se odločite, da boste uporabljali tradicionalni &latex; za proizvajanje PS ali PDF datotek, boste najbrž naleteli na nekaj problemov z grafikami. Uporabiti morate EPS grafike (Encapsulated &PostScript;); in ne JPEG ali PNG datotek. Tukaj ne bi smelo biti problemov, saj obstaja veliko <link linkend="build_graphics_conversion"
+>pretvornikov</link
+> kot <command
+>convert</command
+> iz odličnega paketa <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>. Je pa seveda za to potrebno nekaj časa.</para>
+
+		<para
+>EPS datoteke so uporabljene v obeh, &latex;-u in &DVI;-PS pretvorniku:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex; skenira EPS datoteko za črto zunanje obrobe, ki pove &latex;-u, koliko prostora naj prihrani za grafiko.</para
+></listitem>
+
+		<listitem
+><para
+>Nato &DVI;-PS pretvornik prebere EPS datoteko in vstavi grafiko v PS datoteko.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>To ima nekaj implikacij:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex; nikoli ne prebere EPS datoteke, če so parametri za zunanjo obrobo določeni z ukazom vstavitve grafike.</para
+></listitem>
+
+		<listitem
+><para
+>Ker &latex; ne more brati datotek, ki niso zapisane z znaki ASCII, ne more prebrati informacij o zunanji obrobi iz stisnjene datoteke ali iz grafike, ki ni v formatu EPS.</para
+></listitem>
+
+		<listitem
+><para
+>EPS grafike niso vključene v &DVI; datoteko. Ker morajo biti EPS datoteke prisotne, ko se &DVI; datoteka pretvarja v PS, morajo EPS datoteke spremljati &DVI; datoteke vedno, ko so te premaknjene.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Zdaj lahko pokličete &latex; in &DVI;-PS pretvornik kot je <application
+>dvips</application
+>, da ustvarite vaš &PostScript; dokument. Če je vaš cilj ustvariti PDF dokument, zaženite <command
+>dvips</command
+> z možnostjo <option
+>-Ppdf</option
+> in nato pokličite <command
+>ps2pdf</command
+>. Našli boste, da veliko dokumentov opisuje to rešitev.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_epskile">
+
+		<title
+>&PostScript;-ov način programa &kile;</title>
+
+		<para
+>&kile; vam pomaga pridobiti informacije o zunanji obrobi. Če imate nameščen paket <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>, bo &kile; izvlekel te informacije iz EPS datoteke in jih vstavil kot možnost. To je narejeno samodejno, ko izberete grafično datoteko. Obstajata dve prednosti, če tako nadaljujete:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>Informacije so že skenirane v pogovornem oknu, zato &latex;-u kasneje ni treba narediti tega še enkrat.</para
+></listitem>
+		<listitem
+><para
+>Še pomembneje je, da sta višina in širina slike lahko izračunani, ko je ločljivost znana. Te informacije bodo prikazane blizu vrha pogovornega okna in lahko služijo kot namig, ko želite povečati grafiko.</para
+></listitem>
+		<listitem
+><para
+>&kile; lahko podpira tudi zazipane ali gzipane EPS datoteke, ki so veliko manjše kot nestisnjene EPS datoteke. Vendar je to lastnost mogoče uporabljati le s posebno nastavitvijo sistema in s spremembo v lokalni nastavitvi vaših grafik, kot je opisano v razdelku <link linkend="build_graphics_bitmap"
+>Bitne Grafike</link
+>.</para
+></listitem>
+		</itemizedlist>
+	<!-- FIXME I don't understand the following sentence, tbraun
+		<para
+> The <emphasis
+>&PostScript; Way of &kile;</emphasis
+> can be turned off or on in
+		<menuchoice
+><guimenu
+>Settings</guimenu
+><guisubmenu
+>Configure Kile...</guisubmenu>
+		<guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>General</guilabel
+></menuchoice
+>.</para>
+		-->
+	</sect2>
+
+	<sect2 id="build_graphics_bitmap">
+
+		<title
+>&PostScript; Način in Bitne Grafike</title>
+
+		<para
+>Če vaš sistem dopušča <userinput
+>shell-escape</userinput
+>, potem &kile; podpira tudi lažji način za vključitev bitnih grafik, če nastavite vaš &tex; sistem pravilno. Ni potrebe po pretvarjanju grafik JPEG ali PNG, to se izvede samodejno, ko je &DVI; datoteka pretvorjena v PS.</para>
+
+		<para
+>&latex; potrebuje nekaj informacij o priponah datotek. Paket <userinput
+>graphicx</userinput
+> poišče datoteko <filename
+>graphics.cfg</filename
+>, ki mora biti nekje na vaši iskalni poti za &latex;-ove dokumente. Poiščite vnose, kot so:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{}%
+</programlisting>
+
+		<para
+>in nadomestite te vrstice z:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   % changed or new graphic rules
+   \DeclareGraphicsRule{.eps.zip}{eps}{.eps.bb}{`unzip -p #1}%   zipped EPS
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{`gunzip -c #1}%   gzipped EPS
+   \DeclareGraphicsRule{.jpg}{eps}{}{`convert #1 eps:-}%         JPEG
+   \DeclareGraphicsRule{.gif}{eps}{.bb}{`convert #1 eps:-}%      GIF
+   \DeclareGraphicsRule{.png}{eps}{.bb}{`convert #1 eps:-}%      PNG
+   \DeclareGraphicsRule{.tif}{eps}{.bb}{`convert #1 eps:-}%      TIFF
+   \DeclareGraphicsRule{.pdf}{eps}{.bb}{`convert #1 eps:-}%      PDF-graphics
+</programlisting>
+
+		<para
+>To datoteko boste našli, npr. v Debianu na mestu <filename
+>/etc/texmf/latex/graphics.cfg</filename
+>. Najboljši način, da nadaljujete, je, da prekopirate to datoteko na vašo lokalno besedilno pot in nato spremenite to kopijo. Glejte priročnik vaše &tex; distribucije, če se želite naučiti, kako pridobiti seznam vaših &tex; map.</para>
+
+		<para
+>S to konfiguracijsko datoteko boste lahko vstavili bitno grafiko in zipane ali gzipane EPS datoteke v &latex;. Ukaz za pretvorbo je podan z <command
+>dvips</command
+>. Ko pogledate ukaz za pretvorbo, boste videli, da ni ustvarjena nobena dodatna datoteka. Rezultat procesa pretvorbe je takoj neposredno prenesen v PS datoteko. Edina stvar, ki jo mora &latex; še vedeti, je velikost grafike, in zato potrebujemo mejni okvir, ki nam ga zagotovi &kile;.</para>
+
+		<para
+>Nekateri pravijo, da na način ni varen; odločiti se morate, na kakšen način boste delali. V vsakem primeru ne potrebujete mejnega okvirja, saj bo &kile; izvlekel te informacije iz katere koli grafike.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_pdflatex">
+
+		<title
+>&pdflatex; in EPS Grafike</title>
+
+		<para
+>Kot smo že povedali, &pdflatex; ni zmožen procesiranja grafičnih datotek EPS, vendar pri tem pomagajo pretvorniki kot je <link linkend="build_graphics_epstopdf"
+>epstopdf</link
+>. Najboljši način je, da vključite paket <filename
+>epstopdf</filename
+>, ki mora slediti paketu <userinput
+>graphicx</userinput
+>.</para>
+
+<programlisting
+>\usepackage[pdftex]{graphicx}
+   \usepackage{epstopdf}
+</programlisting>
+
+		<para
+>Zdaj lahko že vključite grafiko EPS, če zaženete <command
+>pdflatex</command
+> z možnostjo <option
+>--shell-escape</option
+>, vendar lahko to še izboljšamo, saj lahko obdelamo tudi zazipane ali gzipane EPS datoteke. Spet moramo spremeniti konfiguracijsko datoteko za grafike <filename
+>graphics.cfg</filename
+> kot zgoraj. Tokrat iščemo za:</para>
+
+<programlisting
+>% pdfTeX is running in pdf mode
+   \ExecuteOptions{pdftex}%
+</programlisting>
+
+		<para
+>in enostavno dodamo nekaj vrstic:</para>
+
+<programlisting
+>% pdfTeX is running in pdf mode
+   \ExecuteOptions{pdftex}%
+   \AtEndOfPackage{%
+      \g@addto@macro\Gin@extensions{.eps.gz,.eps.zip}%
+      \@namedef{Gin@rule@.eps.gz}#1{{pdf}{.pdf}{`gunzip -c #1 | epstopdf -f 
+>\Gin@base.pdf}}%
+      \@namedef{Gin@rule@.eps.zip}#1{{pdf}{.pdf}{`unzip -p #1 | epstopdf -f 
+>\Gin@base.pdf}}%
+   }%
+</programlisting>
+
+		<para
+>S temi vrsticami lahko &pdflatex; obdeluje datoteke EPS, in od zdaj naprej ne bi smelo biti več napak v zvezi z grafikami.</para>
+
+	</sect2>
+
+	</sect1>
+
+	<sect1 id="build_master">
+
+		<title
+>Master Dokument</title>
+
+		<para
+>Če definirate vaš dokument kot master, vam to omogoča, da delate z ločenimi datotekami, kar vam naredi starševski dokument (ali Master dokument) in otrok dokument, ki skupaj predstavljajo celotno delo. Potem ko ste definirali vaš Master dokument, se bodo z ustreznimi ukazi v meniju <guimenu
+>Nastavitve</guimenu
+> vsi ukazi menija <guimenu
+>Orodja</guimenu
+> nanašali le na ta dokument, tudi ko delate na vaših otrok dokumentih. Master dokument lahko celo zaprete.</para>
+	</sect1>
+
+	<sect1 id="build_errorhandling">
+
+		<title
+>Obravnavanje Napak</title>
+
+		<para
+>Potem ko ste prevedli nekaj, gre &kile; čez sporočila o napakah, ki so bila ustvarjena. Če se pojavijo katera opozorila o napakah, bodo o njih na kratko poročano v oknu <guilabel
+>Beležnica in Sporočila</guilabel
+>. Sporočila si lahko podrobneje ogledate s klikom na <menuchoice
+><guimenu
+>Build</guimenu
+><guimenuitem
+>View Log File</guimenuitem
+></menuchoice
+> ali pa z bližnjico na tipkovnici  <keycombo
+>&Alt;<keycap
+>0</keycap
+></keycombo
+>. Ustvarjena beležnica je nato prikazana v pogledu <guilabel
+>Beležnica in Sporočila</guilabel
+>; napake in opozorila bodo poudarjena.</para>
+
+		<screenshot>
+			<screeninfo
+>Ogledovanje beležnice</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_compile_error.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Ogledovanje beležnice</phrase>
+			</textobject>
+			<caption
+><para
+>Ogledovanje beležnice</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Preprosto lahko skačete od enega sporočila v beležni datoteki do drugega z uporabo elementov menija <menuchoice
+><guimenu
+>Build</guimenu
+><guimenuitem
+>Next / Previous LaTeX Error / Warning</guimenuitem
+></menuchoice
+> ali z uporabo ustreznih gumbov orodne vrstice.</para>
+
+		<para
+>Za skok v vrstico v &latex;-ovi izvorni kodi, kjer je prišlo do napake, kliknite na napako ali opozorilo v pogledu <guilabel
+>Beležka in Sporočila</guilabel
+>. &kile; vas bo samodejno popeljal do prave vrstice.</para>
+
+	</sect1>
+
+	<sect1 id="build_watch">
+
+			<title
+>Način Ogledovanja Datoteke</title>
+
+			<para
+>Ko zaženete ukaz <guibutton
+>Quickbuild</guibutton
+>, bo poklican eden od pregledovalnikov takoj po prevajanju. Če ne uporabljate vgrajenega pregledovalnika, se bo vsakič odprlo novo okno.</para>
+
+			<para
+>Če prilagajate videz vašega dokumenta, boste najbrž zagnali <guibutton
+>Quickbuild</guibutton
+> kar precej pogosto, in boste zato imeli odprtih veliko oken pregledovalnika na vašem namizju; da se tej zmedi izognete, lahko aktivirate način <guibutton
+>Glej datoteko</guibutton
+>, ki bo preprečila <guibutton
+>QUickbuild-u</guibutton
+>, da zažene nov pogled.</para>
+
+			<para
+>Ta način je seveda neuporaben z vgrajenimi pregledovalniki, saj jih morate tako ali tako zapreti, če želite nazaj na urejanje svojega dokumenta.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="navigating">
+
+	<title
+>Navigiranje Izvorne kode &latex;-a</title>
+
+	<sect1 id="navigating_struct">
+
+		<title
+>Uporabljanje Pogleda Strukture</title>
+
+		<para
+>Pogled <guilabel
+>Strukture</guilabel
+> prikaže hierarhijo dokumenta, ki se ustvarja v &kile;-u in vam omogoča, da se hitro navigirate po njegovem prikazu segmentacije. Da se navigirate po svojem dokumentu morate le kliknite na oznako, poglavje, razdelek, podrazdelek, itd., in skočili boste na začetek ustreznega območja.</para>
+
+		<para
+>Če vključite ločeno datoteko &latex; v vašo izvorno kodo z uporabo značk <userinput
+>\input</userinput
+> ali <userinput
+>\include</userinput
+>, bo povezava nanje tudi v pogledu <guilabel
+>Strukture</guilabel
+>; z dvojnim klikom na njihovo ime bo &kile; odprl vključeno datoteko v urejevalniku.</para>
+
+		<para
+>Drevo hierarhije ima tudi ločeno vejo za oznake uporabljene v besedilu.</para>
+
+<!--		<screenshot>
+			<screeninfo
+>Using the Structure View</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_structview_label.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Using the Structure View</phrase>
+			</textobject>
+			<caption
+><para
+>Using the Structure View</para
+></caption>
+			</mediaobject>
+		</screenshot
+>-->
+
+		<sect2 id="navigating_contextmenu">
+
+			<title
+>Uporabljanje Kontekstnega Menija</title>
+
+			<para
+>Večina vnosov v pogledu strukture ima veliko vnosov v kontekstnem meniju, ki ga lahko odprete z desnim klikom. Poglejte torej pogled na strukturo na naslednji sliki.</para>
+
+			<screenshot>
+				<screeninfo
+>Uporabljanje Pogleda Strukture</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Uporabljanje Pogleda Strukture</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Našli boste nekaj oznak, nekaj vnosov v razdelke, dva območja figur in tri slike. Če z desno kliknete enega od vnosov razdelkov, se prikaže meni z nekaj uporabnimi ukazi. Vsi ukazi kot so <guibutton
+>Izberi</guibutton
+>, <guibutton
+>Izbriši</guibutton
+> ali <guibutton
+>Komentiraj</guibutton
+> bodo delovali z vsemi vrsticami, ki pripadajo temu razdelku.</para>
+
+			<screenshot>
+				<screeninfo
+>Kontekstni meni za vnose razdelkov</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Kontekstni meni za vnose razdelkov</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Klik na vnos figure ali tabele bo ponudil nekaj dejanj v zvezi s sklici, desni klik na vnos grafike pa bo ponudil nekaj programov za odpiranje grafike.</para>
+
+			<screenshot>
+				<screeninfo
+>Kontekstni meni za figure/tabele in grafične vnose</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Kontekstni meni za figure/tabele in grafične vnose</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			</sect2>
+
+		<sect2 id="navigating_update">
+
+			<title
+>Posodabljanje Pogleda Strukture</title>
+
+			<para
+>Da posodobite vaš pogled struktura lahko greste pod <menuchoice
+><guimenu
+>Uredi</guimenu
+><guimenuitem
+>Refresh Structure</guimenuitem
+></menuchoice
+>, pritisnete <keycombo
+><keycap
+>F12</keycap
+></keycombo
+> ali pa shranite svoj dokument, pri čemer bo &kile; posodobil njegov pogled <guilabel
+>Strukture</guilabel
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="navigating_bookmarks">
+
+		<title
+>Zaznamki</title>
+
+		<para
+>Zaznamki so vaša referenca na segment besedila ali vrstico znotraj &kile;-ovega območja. Če želite uporabiti zaznamek, izberite določeno vrstico dokumenta, v katero se želite vrniti, in nato pritisnite <keycombo
+>&Ctrl; <keycap
+>B</keycap
+></keycombo
+> in &kile; bo dodal zaznamek na to vrstico. Zaznamek pa lahko po drugi poti ustvarite tudi tako, da označite vrstico in izberete meni z oznako <menuchoice
+><guimenu
+>Bookmarks</guimenu
+><guimenuitem
+>Set Bookmark</guimenuitem
+></menuchoice
+>.</para>
+
+		<para
+>Če želite odstraniti vse zaznamke, izberite <menuchoice
+><guimenu
+>Bookmarks</guimenu
+> <guimenuitem
+>Clear All Bookmarks</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="projects">
+
+	<title
+>Projekti</title>
+
+	<sect1 id="projects_working">
+
+		<title
+>Delo s Projekti</title>
+
+		<para
+>V &kile;-u lahko ustvarite in delate s <emphasis
+>projekti</emphasis
+>. Projekt je skupina &latex;-ovih grafik, &bibtex;-ovih ali drugih datotek, ki vsebujejo vse informacije, ki jih potrebujete, da zgradite celoten dokument. Tipični projekt bi bil dokument, sestavljen iz več poglavij, ki so napisani v različnih <literal role="extension"
+>.tex</literal
+> datotekah; vse so lahko vključene v projekt, da je upravljanje z dokumentom lažje. Specifikacije projekta so shranjene v posebni datoteki s končnico <literal role="extension"
+>.kilepr</literal
+>.</para>
+
+		<para
+>Projekt doda naslednje funkcionalnosti:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Ni vam potrebno nastavljati master dokumenta, &kile; naredi to samodejno.</para
+></listitem>
+			<listitem
+><para
+>Projektne datoteke se da preprosto arhivirati skupaj tako, da greste pod <menuchoice
+><guimenu
+>Projekt</guimenu
+><guimenuitem
+>Archive</guimenuitem
+></menuchoice
+></para
+></listitem>
+			<listitem
+><para
+>Pogled <guilabel
+>Datoteke in Projekti</guilabel
+> prikaže, katere datoteke so vključene v projekt.</para
+></listitem>
+			<listitem
+><para
+>Potem ko odprete projekt, bo katera koli datoteka, ki je bila prej odprta, obnovljena z originalnim enkodiranjem in poudarki.</para
+></listitem>
+      <listitem
+><para
+>Dopolnjevanje kode deluje čez vse datoteke projekta.</para
+></listitem>
+      <listitem
+><para
+>Dopolnjevanje sklicev deluje čez vse datoteke projekta.</para
+></listitem>
+      <listitem
+><para
+>Dopolnjevanje citatov deluje čez vse datoteke projekta.</para
+></listitem>
+      <listitem
+><para
+>Išči v vseh datotekah projekta.</para
+></listitem>
+      <listitem
+><para
+>Navedi poljubna ukaza za quickbuild in &makeidx;.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Vse ukaze v zvezi z projekti lahko najdete v meniju <guilabel
+>Projekt</guilabel
+>. Od tam lahko odprete, zaprete in upravljate z vašimi projekti.</para>
+
+	</sect1>
+
+	<sect1 id="projects_creating">
+
+		<title
+>Ustvarjanje Projekta</title>
+
+		<para
+>Izberite <menuchoice
+><guimenu
+>Projekt</guimenu
+> <guimenuitem
+>New Project...</guimenuitem
+></menuchoice
+>, da ustvarite nov projekt.</para>
+		<screenshot>
+		  <screeninfo
+>Okno za ustvarjanje projekta</screeninfo>
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="project-creation.png" format="PNG"/>
+		    </imageobject>
+		    <textobject>
+		      <phrase
+>Okno za ustvarjanje projekta</phrase>
+		    </textobject>
+		  </mediaobject>
+		</screenshot>
+		<para
+>Povprašani boste po informacijah za ustvarjanje vašega projekta:</para>
+		<itemizedlist>
+		  <listitem>
+		    <para
+>Naslov vašega projekta (besedilno polje <guilabel
+>Naslov projekta</guilabel
+>). </para>
+		    <para
+>Naslov projekta se bo uporabil za naslov projektne datoteke tako, da se bodo vse velike črke spremenile v male, zadaj pa bo dodana končnica <filename role="extension"
+>.kilepr</filename
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Mapa, kjer bodo shranjene datoteke projekta (besedilno polje <guilabel
+>Projektna mapa</guilabel
+>). </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Če želite ustvariti novo glavno datoteko projekta, glejte element menija <guilabel
+>Ustvari novo datoteko in jo dodaj k projektu</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Ko boste izpolnili okvirček <guilabel
+>Ime datoteke</guilabel
+>, morate vključiti relativno pot od tam, kjer je shranjena <filename role="extension"
+>.kilepr</filename
+> datoteka (glej element <guilabel
+>Projektna mapa</guilabel
+>). </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Vrsto datoteke, ki jo ustvarjate, <guilabel
+>Prazna Datoteka</guilabel
+>, <guilabel
+>Članek</guilabel
+>, <guilabel
+>Knjiga</guilabel
+>, <guilabel
+>Pismo</guilabel
+>, <guilabel
+>Poročilo</guilabel
+>, &etc; lahko izberete iz seznama na dnu plošče <guilabel
+>Datoteka</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Razširitve za privzete datoteke v projektu se lahko izbere s ploščo <guilabel
+>Extensions</guilabel
+>. Vaša izbira bo uporabljena za določitev datotek, ki naj bi se odprle, ko izberete element seznama <menuchoice
+><guimenu
+>Project</guimenu
+><guimenuitem
+>Open All Project Files</guimenuitem
+></menuchoice
+> in &kile;-ove čarovnike. Imena razširitev naj bodo v besedilnem polju ločene s presledki. </para>
+		  </listitem>
+		</itemizedlist>
+	</sect1>
+
+	<sect1 id="projects_view">
+
+		<title
+>Pogled Datoteke in Projekti</title>
+
+		<para
+>Pogled <guilabel
+>Datoteke in Projekti</guilabel
+> je gumb na meniju stranske vrstice. S tem pogledom lahko vidite strukturo vašega projekta, njegovih datotek in ime datoteke <literal role="extension"
+>.kilepr</literal
+>, v kateri so shranjene informacije o projektu. Dodajanje, odstranjevanje ali spreminjanje možnosti v vašem projektu se da izvesti s pomočjo pogleda <guilabel
+>Datoteke in Projekti</guilabel
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Datoteke in Projekti</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Datoteke in Projekti</phrase>
+			</textobject>
+			<caption
+><para
+>Datoteke in Projekti</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="projects_adding">
+
+		<title
+>Dodajanje in Odstranjevanje Datotek</title>
+
+		<para
+>Če želite dodati datoteko vašemu projektu, odprite datoteko &tex;, desno kliknite na njeno ime v pogledu <guilabel
+>Datoteke in Projekti</guilabel
+> in izberite <guilabel
+>Dodaj k Projektu</guilabel
+>. Če imate odprtih več projektov, se bo prikazalo pogovorno okno, v katerem lahko navedete, kateremu projektu želite dodati to datoteko.</para>
+		<!-- duplicated see next para
+		<para
+>If you have multiple files to be added to a project, you can select the
+		project from the <guilabel
+>Files and Projects</guilabel
+> view and right-click then select
+		<guilabel
+>Add Files...</guilabel
+>; you will then be able to select your files in a dialog box.</para>
+		-->
+		<para
+>Prav tako lahko desno kliknete na ime projekta v pogledu <guilabel
+>Datoteke in Projekti</guilabel
+> in izberete <guilabel
+>Dodaj Datoteke... </guilabel
+>, da se prikaže pogovorno okno za izbor datoteke.</para>
+
+		<screenshot>
+			<screeninfo
+>Dodajanje datoteke k projektu</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview_add.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dodajanje datoteke k projektu</phrase>
+			</textobject>
+			<caption
+><para
+>Dodajanje datoteke k projektu</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Če želite iz projekte odstraniti datoteko, desno kliknite nanjo in izberite <guilabel
+>Odstrani Datoteko</guilabel
+>. To <emphasis
+>ne</emphasis
+> izbriše vaše datoteke (in je tudi ne zapre), temveč jo le odstrani iz seznama datotek, ki jih vsebuje razširitev <literal role="extension"
+>.kilepr</literal
+>.</para>
+
+		<sect2 id="projects_archive">
+
+			<title
+>Arhiviranje Projekta</title>
+
+			<para
+>&kile; vam omogoča, da preprosto varnostno kopirate svoj projekt tako, da shranite vse njegove datoteke v en sam arhiv (poznan kot <emphasis
+>tarball</emphasis
+>). Desno kliknite na ime projekta v pogledu <guilabel
+>Datoteke in Projekti</guilabel
+>, da arhivirate vaš projekt, ali pa izberite <menuchoice
+><guimenu
+>Project</guimenu
+><guimenuitem
+>Archive</guimenuitem
+></menuchoice
+>.</para>
+
+			<para
+>Privzeto se bodo vse datoteke v projektu dodale v arhiv. Če ne želite vključiti določene datoteke, desno kliknite nanjo v pogledu <guilabel
+>Datoteke in Projekti</guilabel
+> in odkljukajte možnost <guilabel
+>Vključi v Arhiv</guilabel
+>.</para>
+
+			<para
+>Operacija arhiviranja je trenutno realizirana z izvajanjem ukaza <command
+>tar</command
+> iz mape s projektom (kjer se nahaja datoteka <literal role="extension"
+>.kilepr</literal
+>).</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="projects_options">
+
+		<title
+>Možnosti Projekta</title>
+
+		<para
+>&kile; ima nekaj možnosti v povezavi z vašim projektom, ki jih je mogoče nastaviti. Desno kliknite na naslov vašega projekta in izberite <guilabel
+>Možnosti Projekta</guilabel
+>, da spremenite te možnosti, in lahko boste spreminjali:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Naslov vašega projekta.</para
+></listitem>
+			<listitem
+><para
+>Privzeto končnico datoteke.</para
+></listitem>
+ 			<listitem
+><para
+>Master dokument.</para
+></listitem>
+ 			<listitem
+><para
+>Ukaz za Quickbuild.</para
+></listitem>
+ 			<listitem
+><para
+>&makeidx; možnosti.</para
+></listitem>
+		</itemizedlist>
+
+
+<!-- FIXME not working in kile, tbraun 11/3/2007
+		<sect2 id="projects_ext">
+
+			<title
+>Extensions for Non-Source Files</title>
+
+			<para
+>Non-source files are files such as pictures, PDF or &PostScript; files, etc. that are
+			to be included in the project, but are not source files with the extension <literal role="extension"
+>.tex</literal
+>. You have
+			the option to use your own regular expressions to match non-source files.</para>
+		</sect2>
+-->
+
+	</sect1>
+
+	<sect1 id="projects_closing">
+
+		<title
+>Zapiranje Projekta</title>
+
+		<para
+>Če želite zapreti projekt, izberite pogled <guilabel
+>Datoteke in Projekti</guilabel
+> iz navpične orodne vrstice, desno kliknite na naslov projekta in nato izberite <guimenuitem
+>Zapri</guimenuitem
+>. S tem boste zaprli vaš projekt in vse datoteke povezane s projektom, ime tega projekta pa bo dodano v <guisubmenu
+>Odpri Nedavni Projekt...</guisubmenu
+> v meniju <guimenu
+>Projekt</guimenu
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="lang">
+
+	<title
+>Kodiranje Dokumenta</title>
+
+	<para
+>Urejevalnik za &kile; vam omogoča, da berete, pretvarjate in shranjujete besedilo v takem načinu kodiranja, ki ga vaš dokument potrebuje. S tem je na primer mogoče uporabljati znake z naglasom, ki so pogosto uporabljeni v italijanščini ali francoščini, neposredno v &latex;-ovih dokumentih. Kodiranje za vaš dokument lahko izberete na dva načina:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>Prvi način nastavljanja kodiranja dokumenta je z uporabo podmenija <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+><guimenuitem
+>Editor</guimenuitem
+></menuchoice
+>, kjer lahko nastavite privzet način kodiranja znakov za vse datoteke.</para>
+		<screenshot>
+			<screeninfo
+>Nastavi privzet način kodiranja znakov</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-encoding.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Nastavi privzet način kodiranja znakov</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		<listitem
+><para
+>Drugi način nastavljanja kodiranja znakov za dokument je, da izberete želeno kodiranje v čarovniku za ustvarjanje novega dokumenta.</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>Sam &latex; razume le ASCII kodiranje, ki predstavlja zelo omejen nabor znakov. Zato neposredna uporaba znakov z naglasom ni mogoča. Da jih kljub temu lahko uporabljate, morate uporabiti posebno sintakso: kot je na primer <userinput
+>\"e</userinput
+> za <computeroutput
+>ë</computeroutput
+>. Paket <application
+>inputenc</application
+> vam lahko pomaga pri tem. Vključi se ga v preambulo z značko <userinput
+>\usepackage[latin1]{inputenc}</userinput
+>, kjer neobvezni argument določa kodiranje, ki ga želite uporabljati (dandanes je to največkrat <userinput
+>utf8</userinput
+>). To pove &latex;-u naj prevede vsakega <userinput
+>ë</userinput
+>, ki ste ga napisali, v <userinput
+>\"e</userinput
+> preden prevede izvorno kodo. Prosimo, oglejte si dokumentacijo <application
+>inputenc</application
+> za več informacij. In še nazadnje: prepričajte se, da je vaša datoteka <emphasis
+>dejansko</emphasis
+> shranjena v istem načinu kodiranja, kot ste ga navedli za paket <application
+>inputenc</application
+>!</para>
+
+	<para
+>Ta množica različnih tabel za kodiranje znakov je povzročila številne težave: na primer, ne morete napisati tečaja turščine v francoščini, ne da bi izgubili posebne znake enega jezika. Obstaja splošno soglasje, da bodo prej ali slej vsi prešli na <ulink url="http://www.unicode.org"
+>Unicode</ulink
+>. Obstaja veliko implementacij Unicode-a in <abbrev
+>UTF-8</abbrev
+> je najuspešnejši na sistemih &Linux;; &Windows;&reg; se namesto tega zanaša na bolj okornega in manj fleksibilnega <abbrev
+>UCS-2</abbrev
+>. Večina distribucij je že začela nastavljati njihov privzet način kodiranja na <abbrev
+>UTF-8</abbrev
+>, zato boste najbrž rade volje uporabili argument <userinput
+>utf8</userinput
+> za paket <userinput
+>inputenc</userinput
+>.</para>
+
+	<sect1 id="ucs">
+
+		<title
+>&ucs; Paket</title>
+		<para
+>Če še nimate nameščenega paketa &ucs;, lahko nadaljujete tako:</para>
+		<itemizedlist>
+		<listitem
+><para
+>Pridobite paket &ucs; iz <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/unicode/"
+>CTAN</ulink
+>. </para
+></listitem>
+		<listitem>
+		<para
+>Da ga namestite, morate razpakirati nameščeno datoteko in jo postaviti v mapo, ki je navedena v vaši okoljski spremenljivki $<envar
+>TEXINPUTS</envar
+>. To se da storiti v &kile;-u.</para>
+		</listitem>
+		</itemizedlist>
+
+<programlisting
+>\usepackage{ucs}
+\usepackage[utf8]{inputenc}</programlisting>
+
+	</sect1>
+
+	<sect1 id="xelatex">
+
+		<title
+>XeLaTeX</title>
+
+		<para
+>Če uporabljate <userinput
+>XeLaTeX</userinput
+>, lahko enostavno namestite paket <userinput
+>xltxtra</userinput
+>. Ta bo dodatno prenesel vse potrebne pakete.</para>
+		<programlisting
+>\usepackage{xltxtra}</programlisting>
+
+	</sect1>
+
+	<sect1 id="cjk">
+
+		<title
+>&cjk; Podpora</title>
+
+		<para
+>Dodajanje podpore za ideografske jezike je precej težavno. Vendar, ko boste z njim končali, bo deloval precej dobro. Poleg nameščanja paketov je treba opraviti še nekaj dodatnega konfiguracijskega dela.</para>
+
+		<tip
+><para
+>Vaša distribucija &Linux;-a ima za vas morda že pripravljen paket &cjk; (Chinese, Japanese, Korean), zato vam bo morda prihranjeno nameščanje vsega na roke. Vseeno to preverite, preden greste naprej!</para
+></tip>
+
+		<para
+>Obstaja možnost uporabe paketa &ucs; za pisanje nekaj kratkih delčkov besedila v &cjk;, vendar je ta možnost resnično omejena, saj med drugim ne poskrbi niti za nove vrstice. Namesto tega bomo mi namestili celoten paket &cjk;-&latex; in ga usposobili za oba, &latex; in &pdflatex;. Navdih za večino tega materiala smo črpali iz <ulink url="http://www.ece.uci.edu/~chou/"
+>Pai H. Chou</ulink
+>-jeve <ulink url="http://www.ece.uci.edu/~chou/unicode-tex.html"
+>strani, kako vzpostaviti &pdflatex;</ulink
+>.</para>
+
+		<orderedlist>
+
+		<listitem
+><para
+>Namestite paket <ulink url="http://www.ctan.org/tex-archive/help/Catalogue/entries/cjk.html"
+>&cjk;</ulink
+>. Kopirajte njegove nerazpakirane datoteke v ustrezno podmapo $<envar
+>TEXMF</envar
+>, kot ste prej to naredili s paketom &ucs; (glej <xref linkend="ucs" role="select: title pageabbrv"/>). Datoteke bodo razpakirane v mapi <filename
+>CJK/X_Y.Z</filename
+>; ni nujno, da jih vzamete ven, vendar jih boste tako najbrž bolj urejeno in lažje vzdrževali.</para
+></listitem>
+
+		<listitem
+><para
+>Zdaj morate namestiti slog pisave, ki podpira vse &cjk; znake, ki jih boste potrebovali. Izberete lahko katero koli <literal role="extension"
+>*.ttf</literal
+> datoteko, ki poskrbi za to, vendar bomo v naši demonstraciji uporabili datoteko <ulink url="ftp://ftp.wu-wien.ac.at/pub/www/Netscape/communicator/extras/fonts/windows/Cyberbit.ZIP"
+>Cyberbit</ulink
+>. Razširite datoteko in jo preimenujte iz <filename
+>Cyberbit.ttf</filename
+> v <filename
+>cyberbit.ttf</filename
+>, saj lahko velike črke zmedejo sistem.</para>
+		<para
+>Premaknite <filename
+>cyberbit.ttf</filename
+> v mapo skupaj z <ulink url="http://delloye.free.fr/Unicode.sfd"
+><filename
+>Unicode.sfd</filename
+></ulink
+> in zgenerirajte datoteki <literal role="extension"
+>*.tfm</literal
+> in <literal role="extension"
+>*.enc</literal
+> z ukazom <userinput
+><command
+>$ ttf2tfm cyberbit.ttf -w cyberbit@Unicode@</command
+></userinput
+>. Iz nekega razloga včasih to ne proizvede stotine datotek, kot bi moralo. V tem primeru lahko prenesete obe datoteki <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-tfm.tgz"
+><literal role="extension"
+>*.tfm</literal
+></ulink
+> in <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-enc.tgz"
+><literal role="extension"
+>*.enc</literal
+></ulink
+>.</para>
+		<para
+>Premaknite datoteke <literal role="extension"
+>*.tfm</literal
+> v primerno mapo, npr. <filename
+>$<envar
+>TEXMF</envar
+>/fonts/tfm/bitstream/cyberbit/</filename
+>; datoteke <literal role="extension"
+>*.enc</literal
+> je možno namestiti v <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/enc/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Zdaj potrebujemo zemljevidno datoteko, da povežemo datoteke <literal role="extension"
+>*.enc</literal
+> z slogom pisave. Prenesite datoteko <ulink url="http://delloye.free.fr/cyberbit.map"
+><filename
+>cyberbit.map</filename
+></ulink
+> in jo namestite v <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Prenesite še eno datoteko, <ulink url="http://delloye.free.fr/c70cyberbit.fd"
+><filename
+>c70cyberbit.fd</filename
+></ulink
+>, in jo premaknite v primerno mapo. Izberete lahko na primer <filename
+>$<envar
+>TEXMF</envar
+>/tex/misc/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Zadnja datoteka, ki jo moramo ustvariti je &PostScript; slog pisave Tipa 1, ki je nujen za branje datotek &DVI;, ki so ustvarjene z &latex;-om. Poženite ukaz <userinput
+><command
+>$ ttf2pfb cyberbit.ttf -o cyberbit.pfb</command
+></userinput
+> in kopirajte rezultat <filename
+>cyberbit.pfb</filename
+> v mapo, kot je na primer <filename
+>$<envar
+>TEXMF</envar
+>/fonts/type1/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Zdaj pa premaknite datoteko <filename
+>cyberbit.ttf</filename
+> med sloge pisave, kjer jo &latex; lahko najde. Premaknete jo lahko v mapo z imenom <filename
+>$<envar
+>TEXMF</envar
+>/fonts/truetype/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Preverite konfiguracijsko datoteko, ki jo najdete na mestu <filename
+>$<envar
+>TEXMF</envar
+>/web2c/texmf.cnf</filename
+> in se prepričate, da ni zakomentirana vrstica <envar
+>TTFONTS</envar
+> in da kaže na mapo, kjer ste shranili <filename
+>cyberbit.ttf</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Da lahko &pdflatex; uporablja sloge pisave &cjk;, je nujno, da v konfiguracijsko datoteko dodate vrstico <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/pdftex.cfg</filename
+>. Dodajte <userinput
+>map +cyberbit.map</userinput
+> v datoteko, da dokončate konfiguracijo za &pdflatex;.</para
+></listitem>
+
+		<listitem
+><para
+>Da konfigurirate &latex; tako, da lahko proizvedete &DVI; datoteke z &cjk; znaki, morate dodati vrstico v datoteko <filename
+>ttfonts.map</filename
+>. Datoteka je morda v mapi imenovani <filename
+>$<envar
+>TEXMF</envar
+>/ttf2pk/</filename
+>, vendar jo boste najbrž morali poiskati. Dodajte ji vrstico <userinput
+>cyberbit@Unicode@ cyberbit.ttf</userinput
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Vse kar morate zdaj še storiti, je zagnati <userinput
+><command
+>texhash</command
+></userinput
+> in sistem bi moral biti pripravljen.</para
+></listitem>
+
+		</orderedlist>
+
+		<para
+>Da stestirate, ali je vaša konfiguracija pravilna, lahko poskusite prevesti <ulink url="http://www.math.nus.edu.sg/aslaksen/cs/sample-utf8.tex"
+>to testno datoteko</ulink
+>.</para>
+
+		<sect2>
+			<title
+>&cjk; Iskanje Napak</title>
+
+			<para
+>Veliko stvari lahko gre narobe, ko sami dodajate &cjk; podporo. Če nekaj ne deluje pravilno, vam bo morda pomagal naslednji seznam.</para>
+
+			<itemizedlist>
+
+			<listitem
+><para
+>Ker zaganjate &latex; kot uporabni in ne kot koren, morate <emphasis
+>dovoliti</emphasis
+> navadnim uporabnikom, da lahko dostopajo do novih datotek. Prepričajte se, da so vse datoteke in mape dostopne z ukazom <command
+>chmod</command
+>.</para
+></listitem>
+
+			<listitem
+><para
+>Če &latex; napiše &DVI; brez problemov, vendar si je vi ne morete ogledati, je to skoraj gotovo zaradi problemov s samodejnim generiranjem slogov pisave <literal role="extension"
+>*.pk</literal
+>. Morali bi se zgenerirati sproti, ko si ogledujete datoteko &DVI;, vendar to se lahko ponesreči iz številnih razlogov: najprej drugič preglejte vašo spremenjeno vrstico v  <filename
+>ttfonts.map</filename
+>. Kakor koli lahko se je zgodilo, da se je vaš ukaz <command
+>ttf2pk</command
+>, ki ga ponavadi pokliče &DVI; preegledovalnik, prevedel <emphasis
+>brez</emphasis
+> podpore za knjižnice <application
+>kpathsea</application
+>. Če je to problem, potem <userinput
+><command
+>ttf2pk</command
+> <option
+>--version</option
+></userinput
+> ne bo omenil <application
+>kpathsea</application
+>. Kot podporo za te knjižnice boste morda morali najti nov paket ali pa sami ponovno prevesti <application
+>FreeType 1</application
+>.</para
+></listitem>
+
+			</itemizedlist>
+
+		</sect2>
+
+
+		<sect2>
+
+			<title
+>Kako vstavim &cjk; v Unicode?</title>
+
+			<para
+>Obstaja številno različnih vhodnih gonilnikov in izbira le-tega je lahko odvisna od vaše osebne preference. Avtor uporablja <ulink url="http://www.scim-im.org/projects/skim"
+><application
+>Skim</application
+></ulink
+>, vrata v &kde; od gonilnika <ulink url="http://www.scim-im.org"
+><application
+>Scim</application
+></ulink
+>. Oglejte si dokumentacijo vaše distribucije, če se želite naučiti, kako namestiti te programe. Konfiguracija teh programov zna biti težavna, v primeru, da uporabljate <application
+>Skim</application
+>, boste morali definirati okoljske spremenljivke <userinput
+><envar
+>XMODIFIERS</envar
+>="@im=SCIM"</userinput
+> <emphasis
+>preden</emphasis
+> zaženete <application
+>X</application
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+
+&include-section-scripting;
+
+<chapter id="help">
+
+	<title
+>Pomoč</title>
+
+	<sect1 id="help_documents">
+
+		<title
+>Dokumenti Pomoči</title>
+
+		<para
+>&latex; je sofisticiran sistem, kjer je mogoče osnovne funkcije in lastnosti razširiti z veliko različnimi dodatnimi paketi. &kile; zagotavlja številne različne načine, da pomaga uporabniku.</para>
+
+		<para
+>Podmeni <menuchoice
+><guimenu
+>Pomoč</guimenu
+> <guisubmenu
+>LaTeX Documentation</guisubmenu
+></menuchoice
+> vključuje povezave za vse vključene pakete in dodatne &latex;-ove reference. </para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+><guimenu
+>Brskalnik Dokumentacij</guimenu
+></term>
+		<listitem
+><para
+>Uporabno orodje za brskanje po &latex;-ovih temah. Namestite si &latex;-ov paket pomoči za vašo distribucijo, če potrebujete popolno dokumentacijo.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>LaTeX</guimenu
+></term>
+		<listitem
+><para
+>Popolna neuradna referenca za &tex; in prijatelje. To ni le opis vseh programov, ampak so omenjeni tudi nekateri pomembni paketi. Vključuje tudi celoten referenčni priročnik za &latex; ukaze&mdash;idealen za iskanje določenega dela oblikovanja med pisanjem dokumenta. Ker je ta dokument res obsežen, se nanj sklicuje &kile; s tremi zaznamki.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>LaTeX Ukazi</guimenu
+></term>
+		<listitem
+><para
+>Še eno abecedno kazalo najpogostejših &latex; ukazov.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>LaTeX Območja</guimenu
+></term>
+		<listitem
+><para
+>Abecedno kazalo najpogostejših &latex; območij.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="help_contextsentitive">
+
+		<title
+>Kontekstno občutljiva pomoč</title>
+
+		<para
+>&kile; podpira tudi kontekstno občutljivo pomoč, ki je priklicana z <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>H</keycap
+></keycombo
+>,<keycap
+>K</keycap
+>. V meniju <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Help</guilabel
+></menuchoice
+> lahko izberete, ali želite uporabljate &kile;-ov &latex; sklic ali sistem pomoči za &tetex;/&texlive;, ki je privzeta nastavitev.</para>
+
+		<screenshot>
+			<screeninfo
+>Naboji</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Naboji</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="help_search">
+
+		<title
+>Iskanje Ključnih Besed</title>
+
+		<para
+>Ni vedno lahko najti pravega dokumenta, saj &tetex;/&texlive; ustvarja veliko dokumentov pomoči. Da si olajšate ta proces, je &tetex;/&texlive; ustvaril majhen program <application
+>texdoctk</application
+>. Zagotavlja bazo podatkov za vse dokumente pomoči, za katere &kile; ponuja uporabniku prijazen vmesnik.</para>
+
+		<screenshot>
+			<screeninfo
+>Naboji</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Naboji</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Vsi dokumenti so združeni v kategorije. Dodatno lahko iščete po imenih paketov ali ključnih besedah. &kile; bo nato prikazal le dokumente z ujemajočim nizom.</para>
+
+		<screenshot>
+			<screeninfo
+>Naboji</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Naboji</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Dvojni klik z miško ali tipko <keycap
+>Space</keycap
+> bo zagnal pregledovalnik za izbrani dokument. To je lahko poljuben dokument, ne le &DVI;, PS, PDF ali &HTML; dokument. &kile; upošteva nastavitve &kde;-ja, da zažene pravilni pregledovalnik.</para>
+
+
+	</sect1>
+
+	<sect1 id="help_userdefined">
+
+		<title
+>Uporabniško Določena Pomoč</title>
+
+		<para
+>Poleg statične &tetex;/&texlive; dokumentacije &kile; podpira tudi bolj fleksibilen način za dokumente pomoči. V meniju <guimenu
+>Help</guimenu
+> ime &kile; poseben podmeni <guimenu
+>User help</guimenu
+>, kjer lahko uporabnik doda dokumente po svoji izbiri. To so lahko najpomombnejši dokumenti &tetex;/&texlive; dokumentacije ali celo dokumenti, ki jih je uporabnik napisal sam. Možno je vnesti tudi URL-je.</para>
+
+		<para
+>Pojdite na <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Nastavi Kile...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Help</guilabel
+></menuchoice
+> in izberite gumb <guibutton
+>Configure</guibutton
+>, da konfigurirate ta meni <guimenu
+>User help</guimenu
+>. Lahko dodajate, odstranjujete ali premikate vnose in vstavljate ločila, da optimizirate strukturo menija.</para>
+
+		<screenshot>
+			<screeninfo
+>Pogovorno okno: konfiguriraj vnose uporabnikov za pomoč</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Pogovorno okno: konfiguriraj vnose uporabnikov za pomoč</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>S pritiskom na gumb <guibutton
+>Dodaj</guibutton
+> boste odprli še eno pogovorno okno, kjer lahko urejate imena vnosov v meni in zanje izbirate ustrezne datoteke ali &URL;-je. Drugi gumb na desni strani besedilnega polja zažene &konqueror;, ki ga lahko uporabite, da določite pravilni &URL;.</para>
+
+		<screenshot>
+			<screeninfo
+>Pogovorno okno: dodaj nov vnos pomoči</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-addhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Pogovorno okno: dodaj nov vnos pomoči</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Potem ko končate s konfiguracijo, se bodo vsi vnosi prikazali v &kile;-ovem meniju <guimenu
+>Pomoč</guimenu
+> kot posebni vnos menija <guimenu
+>User help</guimenu
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Meni uporabniške pomoči</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="menu-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Meni uporabniške pomoči</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="credits">
+
+	<title
+>Zasluge in Licenca</title>
+
+	<para
+>&kile; je odprtokodni uporabniku prijazen urejevalnik &latex;-ove / &tex;-ove izvorne kode. Deluje na sistemih, ki imajo nameščeno &kde;-jevo Namizno Okolje. &kde; je dostopen za več arhitektur, vključno z &Linux;-om in drugimi sistemi, podobnimi Unixu.</para>
+
+	<para
+>Velika hvala ljudem, ki so odločeni, da nadaljujejo projekt &kile; in tistim, ki so žrtvovali številne ure svojega časa, da so razvili orodja, ki jih lahko vsi uporabljamo pod licenco &GNU;. Ažurne informacije o tistih, ki so kaj prispevali, so dostopne v pogovornem oknu <guimenuitem
+>O &kile;-u</guimenuitem
+> iz menija <guimenu
+>Pomoč</guimenu
+>. </para>
+
+	<para
+>Velika zahvala vsem, ki so sodelovali!</para>
+
+<para
+>Prevod: Krištof Trček<email
+>kt91536@student.uni-lj.si</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+
+&documentation.index;
+
+</book>
+
+<!--
+Local Variables:
+mode: xml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab
+-->

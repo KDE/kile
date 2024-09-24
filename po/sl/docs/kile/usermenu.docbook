@@ -1,0 +1,638 @@
+<chapter id="id_usermenu">
+<title
+>Meni, ki ga lahko konfigurira uporabnik</title>
+
+<sect1 id="id_usermenu_configuration">
+<title
+>Konfiguracija</title>
+
+<para
+>&kile; podpira uporabniško nastavljiv meni, ki bo prikazan kot del  menija &kile;. Ta meni lahko nastavite s konfiguracijo &kile;  dialog z<menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Konfiguriraj Kile</guisubmenu
+><guimenuitem
+>Uporabniški meni</guimenuitem
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Konfiguriraj uporabniški meni</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_01.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Konfiguriraj uporabniški meni</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Na voljo imate dve možnosti, kam postaviti ta meni:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>bodisi da se <guimenu
+>Uporabniški meni</guimenu
+> prikaže v glavni menijski vrstici  med meniji <guimenu
+>LaTeX</guimenu
+> in <guimenu
+>Čarovnik</guimenu
+> inbodisi v čarovniku za konfiguracijo <guimenuitem
+>Urejanje uporabniškega menija</guimenuitem
+> v meniju <guimenu
+>Čarovnik</guimenu
+></para>
+
+	<screenshot>
+		<screeninfo
+>Uporabniški meni je postavljen v glavni meni</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_02.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Uporabniški meni je postavljen v glavni meni</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+>ali pa se bosta oba elementa pojavila na dnu menija <guimenu
+>LaTeX</guimenu
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Uporabniški meni kot del menija LaTeX</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_03.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Uporabniški meni kot del menija LaTeX</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+
+<para
+>Že obstoječe uporabniško definirane oznake iz starejših različic &kile; samodejno preoblikuje v nov uporabniško nastavljiv meni. Oznake so shranjene v datoteko, imenovano <filename
+>usertags.xml</filename
+> in kot vse datoteke z definicijami menijev tudi to najdete v imeniku lokalnega uporabniškega menija &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>, &eg; <filename
+>/home/user/.kde/share/apps/kile/usermenu/</filename
+>.</para>
+
+<para
+>Za različna opravila lahko uporabite različne datoteke z definicijami menija. Pokličite čarovnika za uporabniški meni <menuchoice
+><guimenu
+>Čarovnik</guimenu
+><guisubmenu
+>Uredi uporabniški meni</guisubmenu
+></menuchoice
+> ali <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Uredi uporabniški meni</guisubmenu
+></menuchoice
+> za namestitev ali urejanje datoteke z definicijo menija.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_wizard">
+<title
+>Čarovnik</title>
+
+<para
+>Z udobnim uporabniškim menijem lahko ustvarite nove ali spremenite obstoječe menije čarovnika za konfiguracijo najdete v <menuchoice
+><guimenu
+>Čarovnik</guimenu
+><guisubmenu
+>Uredi uporabniški meni</guisubmenu
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Čarovnik za uporabniški meni</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_04.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Čarovnik za uporabniški meni</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Na levi strani boste videli obstoječe drevo menijev. Kot standardni meni so na voljo tri različne vrste elementov menija:</para>
+
+<itemizedlist>
+<listitem
+><para
+>standardni menijski vnosi, ki so dodeljeni dejanju</para
+></listitem>
+<listitem
+><para
+>podmeniji, ki vsebujejo več elementov menija</para
+></listitem>
+<listitem
+><para
+>ločilniki, da dobite vidno strukturo vseh vnosov.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Če želite spremeniti ta meni, uporabite šest gumbov na levi strani. Več možnih dejanj je na voljo v kontekstnem meniju že obstoječih elementov menija.</para>
+
+	<screenshot>
+		<screeninfo
+>Uporabniško definirano drevo menijev</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_05.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Uporabniško definirano drevo menijev</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Vsaka standardna menijska postavka je dodeljena eni od treh vrst dejanj, kjer ima vsaka od njih različne atribute, ki jih je mogoče nastaviti:</para>
+
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Besedilo:</guilabel
+>&nbsp; &kile; vam daje možnost, da naredite svoje lastne oznake. Oznaka je podobna bližnjici, ki zažene nek ukaz oz. piše pogosto uporabljenobesedilo, npr. Joe Sixpack pogosto uporablja stavke <userinput
+>Živjo, bil sem  vstavljen...</userinput
+>. Ta oznaka bo vstavljena na trenutni položaj kazalca, ko je to dejanje klicano (glejte zgoraj). Na voljo so tudi metaznaki (glejte <xref  linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+</listitem>
+
+<listitem
+><para
+><guilabel
+>Vstavi vsebino datoteke:</guilabel
+>&nbsp; Vstavi celotno vsebino dane datoteke.</para>
+
+	<screenshot>
+		<screeninfo
+>Vstavi vsebino datoteke</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Vstavi vsebino datoteke</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+  <listitem
+><para
+><guilabel
+>Izvedi zunanji program:</guilabel
+>&nbsp; Rezultat tega programa lahko vstavite v odprt dokument. Metaznak <userinput
+>%M</userinput
+> je tudi mogoč v ukazni vrstici tega programa, kot bo izbrano besedilo shranjeno v začasni datoteki. Za ime te začasne datoteke uporabite <userinput
+>%M</userinput
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Izvedi zunanji program</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Izvedi zunanji program</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Če nekatere pomembne informacije za dejanje manjkajo, se menijski elementi obarvajo rdeče. To je lahko neobstoječa datoteka</para>
+
+	<screenshot>
+		<screeninfo
+>Neobstoječa datoteka</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Neobstoječa datoteka</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>ali manjkajoči naslov za menijski vnos, ki bo prikazan z vprašaji kot <userinput
+>???</userinput
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Manjka naslov menijskega vnosa</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Manjka naslov vnosa v meniju</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Če odprete kontekstni meni take rdeče obarvane postavke menija, boste prejeli dodatno možnost za več informacij o tej napaki.</para>
+
+	<screenshot>
+		<screeninfo
+>Dodatne informacije</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Dodatne informacije</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Več informacij je lahko na voljo tudi s funkcijo <guilabel
+>Kaj je to</guilabel
+> večine gradnikov.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_placeholders">
+<title
+>Oznake mesta</title>
+
+<sect2 id="id_usermenu_placeholders_text">
+<title
+>Vstavi besedilo</title>
+
+<para
+>Obstaja nekaj oznak mest, ki jih lahko uporabite v svojih uporabniško določenih oznakah: <userinput
+>%C</userinput
+>, <userinput
+>%B</userinput
+>, <userinput
+>%M</userinput
+>, <userinput
+>%E</userinput
+>, <userinput
+>%R</userinput
+> in <userinput
+>%T</userinput
+>.</para>
+
+<itemizedlist>
+<listitem>
+<para
+><userinput
+>%C</userinput
+>:&nbsp; tukaj bo postavljen kazalec po vstavitvi uporabniško določene oznake.</para>
+
+	<screenshot>
+		<screeninfo
+>Položaj kazalca (%C)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Položaj kazalca (%C)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%B</userinput
+>:&nbsp; bo nadomeščena s točko naštevanja (glejte <xref  linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+
+	<screenshot>
+		<screeninfo
+>Točka naštevanja (%B)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Točka naštevanja (%B)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%M</userinput
+>:&nbsp; bo nadomestilo izbrano besedilo.</para>
+
+	<screenshot>
+		<screeninfo
+>Izbrano besedilo (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Izbrano besedilo (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%E</userinput
+>:&nbsp; označuje globino zamika besedila znotraj okolja.</para>
+
+	<screenshot>
+		<screeninfo
+>Zamik okolja besedila (%E)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08d.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Zamik okolja besedila (%E)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%R</userinput
+>:&nbsp; bo poklical referenčno pogovorno okno za izbiro   oznake, ki je že definirana. To se lahko uporablja za sklicevanje na vnaprej določeno oznako, ki jo lahko izbirate s spustnega seznama (glejte tudi <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Reference</guimenuitem
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> oz.<menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Reference</guimenuitem
+><guimenuitem
+>pageref</guimenuitem
+></menuchoice
+>).</para>
+
+	<screenshot>
+		<screeninfo
+>Reference (%R)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08e.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Reference (%R)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%T</userinput
+>:&nbsp; bo poklical pogovorno okno za navajanje, da izbere že definiran citat. Enako kot pri uporabi <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Reference</guimenuitem
+><guimenuitem
+>cit</guimenuitem
+></menuchoice
+> se pojavi seznam z vsemi ključi za navedbe.</para>
+
+	<screenshot>
+		<screeninfo
+>Ključi navedb (%T)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08f.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ključi navedb (%T)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+<para
+>Oglejmo si še en primer z naslednjim makrom <userinput
+>\frac{%M}{%C}</userinput
+>. Najprej izberemo številko v svojem besedilu, recimo <userinput
+>42</userinput
+>. Zdaj pokličemo ta makro in pridobimo <userinput
+>\frac{42}{}</userinput
+> s kazalcem v drugem paru oklepajev.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_file">
+<title
+>Vstavi vsebino datoteke</title>
+
+<para
+>Če želite vstaviti vsebino besedilne datoteke, lahko uporabite iste oznake mest.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_program">
+<title
+>Izvedi program</title>
+
+<para
+>Če želite izvesti zunanji program, je za izbrano besedilo prepoznan samo <userinput
+>%M</userinput
+> v ukazni vrstici. Izbor bo shranjen v začasno datoteko in nadomestni znak <userinput
+>%M</userinput
+> je nadomeščen s tem imenom datoteke.</para>
+
+	<screenshot>
+		<screeninfo
+>Izvedi zunanji program (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_09.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Izvedi zunanji program (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Druga nadomestni znak je <userinput
+>%S</userinput
+>, ki je nadomeščen s celotnim osnovnim imenom trenutnega dokumenta brez poti. To osnovno ime sestoji iz vsehznakov v datoteki do (vendar brez) zadnje pike '.'.</para>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_parameter">
+<title
+>Parameter</title>
+
+<para
+>Večina menijskih vnosov ima lahko dodatne samorazlagajoče parametre, ki jih je lahko preveriti. Če nekateri od teh parametrov niso na voljo za neko vrsto dejanja, soonemogočeni.</para>
+
+	<screenshot>
+		<screeninfo
+>Parameter uporabniškega menija</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_10.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Parameter uporabniškega menija</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Tukaj je en primer za izvajanje zunanjega programa:</para>
+
+	<screenshot>
+		<screeninfo
+>Primer parametra</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Primer parametra</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Vidite lahko, da je poklican skript <userinput
+>perl</userinput
+>, kar bi moralo delovati s trenutno izbiro. Parameter <guilabel
+>Potrebuje izbrano besedilo</guilabel
+> je preverjen, da zagotovite izbiro. Izhod tega skripta bo vstavljen (<guilabel
+>Vstavi izhod izbranega programa</guilabel
+>) in zamenjaj trenutni izbor (<guilabel
+>Zamenjaj izbrano besedilo</guilabel
+>), vendar ni sam izbran.</para>
+
+<para
+>Seveda lahko pokličete tudi svoje programe ali skripte. Na primer izberite seznam številk, ločenih s presledki, in pokličite skript ali program Perl, ki preoblikuje ta izbor v &latex; kodo za matriko. Ne glede na vaše zamisli, jih lahko realizirate z naslednjim vnosom v uporabniškem meniju.</para>
+
+	<screenshot>
+		<screeninfo
+>Primer parametra 2</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Primer parametra 2</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_files">
+<title
+>Datoteke z definicijami menija</title>
+
+<para
+>Med izvajanjem lahko namestite različne menije za različna opravila. Ko pokličete čarovnika za uporabniški meni, se naloži trenutna datoteka z definicijo menija. Če ga spremenite in zaprete pogovorno okno z gumbom <guibutton
+>V redu</guibutton
+>, bodo vaše spremembe shranjene in nameščene kot nov uporabniški meni. Zapiranje pogovornega okna z <guibutton
+>Prekliči</guibutton
+>bo zavrglo vse spremembe.</para>
+
+	<screenshot>
+		<screeninfo
+>Datoteke z definicijami menija</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_12.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Datoteke z definicijami menija</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+
+<para
+>Prav tako lahko spremenjeno datoteko shranite v imenik uporabniškega menija ali naložite drugo datoteko z definicijo menija in jo namestite. Definicije vseh uporabniških menijev datotek mora biti shranjena v imeniku lokalnega uporabniškega menija &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>.</para>
+
+<para
+>Oglejte si datoteko z definicijo menija <userinput
+>example.xml</userinput
+>, da vidite več vnosov menija z njihovimi parametri.</para>
+
+</sect1>
+
+</chapter>

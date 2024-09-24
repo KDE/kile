@@ -1,0 +1,4258 @@
+<chapter id="id_scripting">
+<title
+>Raba skriptov</title>
+
+<sect1 id="id_scripting_kile">
+<title
+>Raba skriptov v &kile;</title>
+
+<para
+>Funkcija skriptiranja &kile; omogoča izvajanje kode <ulink url="http://en.wikipedia.org/wiki/ECMAScript"
+>ECMAScript</ulink
+>, splošno znane kot &javascript;. Našli boste veliko učbenikov, ki nudijo informacije o objektih (spremenljivkah), funkcijah in lastnostih, ki jih podpira &javascript;.</para>
+
+<para
+>Podporo za skripte lahko omogočite v konfiguracijskem pogovornem oknu &kile;: <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guisubmenu
+>Konfiguriraj Kile...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Skriptiranje</guilabel
+></menuchoice
+>. <screenshot>
+	<screeninfo
+>Omogoči ali onemogoči podporo za skripte</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-support.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Omogoči ali onemogoči podporo za skripte</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Če je omogočeno skriptiranje, je v stranski vrstici vidna dodatna plošča skriptov, kjer lahko upravljate skripte: <screenshot>
+	<screeninfo
+>Plošča skriptov v stranski vrstici</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-panel.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Plošča skriptov v stranski vrstici</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Ta gradnik vsebuje šest ikon, ki ponujajo različna opravila: <itemizedlist>
+<listitem
+><para
+>Zaženi izbrani skript.</para
+></listitem>
+<listitem
+><para
+>Ustvari nov skript.</para
+></listitem>
+<listitem
+><para
+>Odpri izbrani skript v urejevalniku.</para
+></listitem>
+<listitem
+><para
+>Konfiguriraj zaporedje tipk za izbrani skript.</para
+></listitem>
+<listitem
+><para
+>Odstrani dodeljeno zaporedje tipk.</para
+></listitem>
+<listitem
+><para
+>Osveži seznam razpoložljivih skriptov, ki jih najdete v <filename
+>$<envar
+>KDEDIR</envar
+>/share/apps/kile/scripts/</filename
+>.</para
+></listitem>
+</itemizedlist>
+</para>
+
+</sect1>
+
+<sect1 id="id_execute_script">
+<title
+>Izvajanje skripta</title>
+
+<para
+>Skript lahko izvedete na tri različne načine:</para>
+
+<procedure>
+<step
+><para
+>Izberite želeni skript in kliknite gumb <guilabel
+>Izvedi</guilabel
+> na levi strani pripomočka za upravljanje skriptov.</para>
+<screenshot>
+	<screeninfo
+>Skriptiranje: gumb za izvajanje</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-execbutton.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Skriptiranje: gumb za izvajanje</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>Uporabite bližnjico na tipkovnici.</para>
+<screenshot>
+	<screeninfo
+>Skriptiranje: bližnjica na tipkovnici</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-shortcut.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Skriptiranje: bližnjica na tipkovnici</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Bližnjico na tipkovnici lahko dodelite skriptu z uporabo gumba <guilabel
+>Konfiguriraj</guilabel
+> v pripomočku za upravljanje skriptov.</para>
+<screenshot>
+	<screeninfo
+>Skriptiranje: pogovorno okno konfiguriranja zaporedja</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-configure.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Skriptiranje: pogovorno okno konfiguriranja zaporedja</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>Uporabite zaporedje tipk urejevalnika. Skript se bo izvedel, če vnesetedodeljeno zaporedje tipk v urejevalniku.</para>
+<screenshot>
+	<screeninfo
+>Skriptiranje: zaporedje tipk urejevalnika</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence1.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Skriptiranje: zaporedje tipk urejevalnika</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>To metodo je mogoče razširiti na precej sofisticirano vrsto dokončanja kode. Predpostavimo, da imate napisan scenarij, ki preprosto vstavi &latex; ukaz <userinput
+>\textbf{}</userinput
+> v trenutni dokument.</para>
+
+<programlisting
+>document.insertText("\\textbf{%C}");
+</programlisting>
+
+<para
+>Če zdaj vnesete dodeljeno zaporedje tipk <userinput
+>bfx</userinput
+> v svoj besedilni dokument, bo to zaporedje tipk odstranjeno in skript izveden. Vstavil bo  <userinput
+>\textbf{}</userinput
+> in kazalec je postavljen med oklepaji.</para>
+<screenshot>
+	<screeninfo
+>Skriptiranje: tipkanje zaporedja tipk urejevalnika</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence2.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Skriptiranje: tipkanje zaporedja tipk urejevalnika</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Kako udobna in zmogljiva metoda dokončanja kode.</para>
+</step>
+</procedure>
+
+</sect1>
+
+<sect1 id="id_scripting_api">
+<title
+>Referenca API-ja</title>
+
+<para
+>Tukaj predstavljeni skriptni API je na voljo v vseh skriptih. Pred se vsebina skripta naloži, &kile; najprej doda več prototipov in funkcij v skriptni kontekst. Ta priročen vmesnik API vsebuje prototipe kot besedilni kazalci in obsegi besedila in se nahaja v mapi <filename
+>KILE_APP_DIR/script-plugins/</filename
+>.</para>
+
+<para
+>&kile; skripti se nekoliko razlikujejo od <ulink url="http://kate-editor.org"
+>&kate;</ulink
+> skriptov, ki uporabljajo drugačno zasnovo, kot so lahko tudizagnani iz ukazne vrstice. Toda vse funkcije &kate; skriptni API so na voljo tudi v API-ju za skripte &kile;, tako da prenos &javascript; Koda iz &kate; v &kile; mora biti zelo enostavna. Toda kot je &kile; zelo bogat predstavljen &latex; urejevalnik, njegov lastni skriptni API ponuja veliko več več možnosti kot &kate;.</para>
+
+<para
+><emphasis
+>Opomba: </emphasis
+>Opis klicev API-ja, ki so tudi na voljo v &kate; skript, so bili vzeti iz dokumentacije &kate;.</para>
+
+
+<sect2 id="id_scripting_api_global">
+<title
+>Globalne funkcije</title>
+
+<para
+>V tem razdelku so navedene globalne funkcije.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void debug(<parameter
+>Niz <replaceable
+>besedilo</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Natisne <parameter
+>besedilo</parameter
+> v <literal
+>stdout</literal
+> v konzoli. Natisnjeno besedilo je obarvano, da se razlikuje od drugih rezultatov odpravljanja napak. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_cursor">
+<title
+>Prototip kazalca</title>
+
+<para
+>Kot &kile; je urejevalnik besedil, vsi skriptni API temeljijo na kazalcih in obsegih, kadar koli je to mogoče. Kazalec je preprost nabor <literal
+>(vrstica, stolpec)</literal
+>, ki predstavlja položaj besedila v dokumentu.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor();
+</synopsis
+></term>
+<listitem
+><para
+>Konstruktor: vrne kazalec na položaju <literal
+>(0,0)</literal
+>. </para
+><para
+>Primer: <function
+>var cursor = new Cursor();</function
+></para>
+</listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>int <replaceable
+>vrstica</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>stolpec</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Konstruktor: vrne kazalec na položaj (vrstica,stolpec). </para
+><para
+>Primer: <function
+>var cursor = new Cursor(3,42);</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>Cursor <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Konstruktor kopiranja: vrne kopijo kazalca <parameter
+>other</parameter
+>. </para
+><para
+>Primer: <function
+>var copy = new Cursor(other);</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.clone();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne klon kazalca. </para
+><para
+>Primer: <function
+>var clone = cursor.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>Preverite, ali je kazalec veljaven. Kazalec ni veljaven, če sta vrstica in/ali stolpec nastavljena na <literal
+>-1</literal
+>. </para
+><para
+>Primer: <function
+>var valid = cursor.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne nov neveljaven kazalec, ki se nahaja na <literal
+>(-1,-1)</literal
+>. </para
+><para
+>Primer: <function
+>var invalidCursor = cursor.invalid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int Cursor.compareTo(<parameter
+>Cursor <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Primerja ta kazalec s kazalcem <parameter
+>other</parameter
+>. Vrne <itemizedlist>
+<listitem
+><para
+><literal
+>-1</literal
+>, če se ta kazalec nahaja pred kazalcem <parameter
+>other</parameter
+>,</para
+></listitem>
+<listitem
+><para
+><literal
+>0</literal
+>, če sta oba kazalca enaka in</para
+></listitem>
+<listitem
+><para
+><literal
+> 1</literal
+>, če se ta kazalec nahaja za kazalcem <parameter
+>other</parameter
+>.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.equals(<parameter
+>Cursor <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če sta ta kazalec in kazalec <parameter
+>other</parameter
+> enaka, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Cursor.toString();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne kazalec kot niz v obliki <literal
+>Cursor(vrstica,stolpec)</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_range">
+<title
+>Prototip dometa</title>
+
+<para
+>Kot &kile; je urejevalnik besedil, vsi skriptni API temeljijo na kazalcih in obsegih kadar koli je to mogoče. Ker je kazalec preprost <literal
+>(vrstica, stolpec)</literal
+> urejen par, ki predstavlja položaj besedila v dokumentu, obseg obsegabesedilo od začetnega položaja kazalca do končnega položaja kazalca.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range();
+</synopsis
+></term>
+<listitem
+><para
+>Konstruktor: Klic <literal
+>new Range()</literal
+> vrne obseg na <literal
+>(0,0) - (0,0)</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Cursor <replaceable
+>start</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>end</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Konstruktor: Klic <literal
+>new Range(<replaceable
+>start</replaceable
+>, <replaceable
+>end</replaceable
+>)</literal
+> vrne obseg od kazalca <parameter
+>start</parameter
+> do kazalca  <parameter
+>end</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>int <replaceable
+>startLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>startColumn</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>endLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>endColumn</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Konstruktor: Klicanje <literal
+>new Range(<replaceable
+>startLine</replaceable
+>,<replaceable
+>startColumn</replaceable
+>,<replaceable
+>endLine</replaceable
+>, <replaceable
+>endColumn</replaceable
+>)</literal
+> vrne obseg od (<literal
+>startLine</literal
+>, <literal
+>startColumn</literal
+>) to (<literal
+>endLine</literal
+>, <literal
+>endColumn</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Range <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Konstruktor kopiranja: vrne kopijo Range <literal
+>other</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Obseg Range.clone();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne klon obsega. </para
+><para
+>Primer: <function
+>var clone = range.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če sta začetni in končni kazalec veljavna, sicer <literal
+>false</literal
+>. </para
+><para
+>Primer: <function
+>var valid = range.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne obseg od (-1,-1) do (-1,-1). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če ta obseg vsebuje položaj kazalke, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Range <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če ta obseg vsebuje obseg <parameter
+>other</parameter
+>, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsColumn(<parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če je <parameter
+>stolpec</parameter
+> v pol odprtem intervalu <literal
+>[start.column, end.column]</literal
+>, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če je <parameter
+>line</parameter
+> v pol odprtem intervalu <literal
+>[start.line, end.line]</literal
+>, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlaps(<parameter
+>Range <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če imata ta obseg in obseg <parameter
+>other</parameter
+> skupno regijo, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če je <parameter
+>line</parameter
+> v intervalu <literal
+>[start.line, end.line]</literal
+>, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsColumn(<parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če je <parameter
+>column</parameter
+> v intervalu <literal
+>[start.column, end.column]</literal
+>, sicer  <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.equals(<parameter
+>Range <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če sta ta obseg in obseg <parameter
+>other</parameter
+> enaka, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Range.toString();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne obseg kot niz v obliki <literal
+>Range(Cursor(line,column) - Cursor(line,column))</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_view">
+<title
+>Pogled API</title>
+
+<para
+>Kadarkoli se izvaja skript, obstaja globalni objekt (spremenljivka) <userinput
+>pogled</userinput
+>, ki predstavlja trenutni aktivni pogled urejevalnika. Vse funkcije <literal
+>pogleda</literal
+> delujejo s položaji kazalca ali izbranim besedilom. Sledi seznam vseh razpoložljivih <userinput
+>pogledov</userinput
+> funkcij.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.backspace();
+</synopsis
+></term>
+<listitem
+><para
+>Programsko izvede enakovredno pritisku tipke vračalka. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.cursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne trenutni položaj kazalca v pogledu. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorPosition(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+void view.setCursorPosition(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Nastavi trenutni položaj kazalca bodisi na <parameter
+>vrstico</parameter
+>, <parameter
+>stolpec</parameter
+> ali na dani <parameter
+>kurzor</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorLeft();
+</synopsis
+></term>
+<listitem
+><para
+>Premakne kazalec eno mesto nazaj v besedilu. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorRight();
+</synopsis
+></term>
+<listitem
+><para
+>Premakne kazalec eno mesto naprej v besedilu. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorUp();
+</synopsis
+></term>
+<listitem
+><para
+>Premakne kazalec eno vrstico navzgor v dokumentu. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorDown();
+</synopsis
+></term>
+<listitem
+><para
+>Premakne kazalec eno vrstico navzdol v dokumentu. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorLine();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne vrstico, v kateri se trenutno nahaja kazalec. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorColumn();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne stolpec, v katerem se trenutno nahaja kazalec. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Nastavi vrstico kazalca na dano <parameter
+>vrstico</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorColumn(<parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Nastavi stolpec kazalca na podani <parameter
+>stolpec</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.virtualCursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>Pridobi trenutni <emphasis
+>virtualni</emphasis
+> položaj kazalca.<emphasis
+>Navidezno</emphasis
+> pomeni, da šteje tabulatorski znak (TAB).<emphasis
+>več</emphasis
+> znakov, kot jih konfigurira uporabnik (npr.en TAB je 8 presledkov). Položaj navideznega kazalca omogoča dostop douporabniško vidne vrednosti trenutnega položaja kazalca. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool view.hasSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če ima pogled izbrano besedilo, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String view.selectedText();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne izbrano besedilo. Če besedilo ni izbrano, je vrnjen prazni niz. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range view.selectionRange();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne izbrani obseg besedila. Vrnjeni obseg je neveljaven, če ni izbranega besedila. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setSelection(<parameter
+>Range <replaceable
+>range</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Nastavi izbrano besedilo na podani <parameter
+>obseg</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectAll();
+</synopsis
+></term>
+<listitem
+><para
+>Izbere celotno besedilo v dokumentu. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.clearSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Počisti izbor besedila brez odstranitve besedila. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.removeSelectedText();
+</synopsis
+></term>
+<listitem
+><para
+>Odstrani izbrano besedilo. Če pogled nima izbranega besedila, to ne naredi ničesar. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine();
+</synopsis
+></term>
+<listitem
+><para
+>Izbere besedilo v trenutni vrstici. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Izbere besedilo v dani <parameter
+>vrstici</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLines(<parameter
+>int <replaceable
+>from</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>to</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Izbere celotno besedilo od vrstice <parameter
+>od</parameter
+> do vrstice <parameter
+>do</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectWord();
+</synopsis
+></term>
+<listitem
+><para
+>Izbere trenutno besedo. Če na trenutnem položaju kazalca ni najdene besede, ne naredi ničesar. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLatexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>Izbere trenutni &latex; ukaz. Če na trenutnem položaju kazalca ni nobenega ukaza, ne naredi ničesar. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectEnvironment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Izbere celotno besedilo trenutnega &latex; okolja. Če je <parameter
+>inside</parameter
+> <literal
+>false</literal
+>, bo izbrano okolje besedila, vključno z okolico &latex; oznake  <userinput
+>\begin{...}...\end{...}</userinput
+>, sicer brez teh oznak. Če ni podanega parametra, <parameter
+>inside</parameter
+> je nastavljen na <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectTexgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Izbere besedilo trenutne &latex; grupe. Če je <parameter
+>inside</parameter
+> <literal
+>true</literal
+>, bo izbrana samo besedilna skupina brezokoliških oklepajev. Če parameter ni podan, je <parameter
+>inside</parameter
+> nastavljen na <literal
+>true</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Izbere besedilo trenutne matematične skupine. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectParagraph(bool wholeLines = true);
+</synopsis
+></term>
+<listitem
+><para
+>Izbere celotno besedilo trenutnega &latex; odstavka. Če je <parameter
+>wholeLines</parameter
+> <literal
+>true</literal
+>, bodo prve in zadnje vrstice odstavka v celoti vključene v izbor (vključno z znakom za konec vrstice); sicer bo izbor samo vseboval znake, ki niso presledni znaki. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_document">
+<title
+>API dokumenta</title>
+
+<para
+>Kadarkoli se izvaja skript, obstaja globalni objekt (spremenljivka) <userinput
+>dokument</userinput
+>, ki predstavlja trenutni aktivni dokument. Sledi seznam vseh razpoložljivih funkcij <userinput
+>document</userinput
+>.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vstavi <parameter
+>text</parameter
+> na trenutni položaj kazalke. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+void document.insertText(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vstavi <parameter
+>text</parameter
+> na dani položaj kazalke. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeText(<parameter
+>int <replaceable
+>fromLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>fromColumn</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>toLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>toColumn</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Cursor <replaceable
+>from</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>to</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Range <replaceable
+>range</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Odstrani besedilo v danem obsegu. Vrne <literal
+>true</literal
+> pri uspehu ali <literal
+>false</literal
+>, če je dokument v načinu samo za branje. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceText(<parameter
+>Range <replaceable
+>range</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Zamenjaj besedilo podanega obsega s podanim besedilom. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lines();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne število vrstic v dokumentu. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.length();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne število znakov v dokumentu. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Dokument obsega.documentRange();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne obseg, ki zajema celotni dokument. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor document.documentEnd();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne trenutni položaj kazalca na koncu dokumenta. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne celotno vsebino dokumenta v enem besedilnem nizu. Nove vrstice so označene z znakom za novo vrstico <literal
+>\n</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text(<parameter
+>int <replaceable
+>fromLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>fromColumn</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>toLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>toColumn</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Cursor <replaceable
+>from</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>to</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Range <replaceable
+>range</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne besedilo v danem obsegu. Priporočljivo je, da uporabite kazalec inrazličica na podlagi obsega za boljšo berljivost izvorne kode. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.setText(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Nastavi celotno besedilo dokumenta. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.clear();
+</synopsis
+></term>
+<listitem
+><para
+>Odstrani celotno besedilo v dokumentu. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne trenutno besedilno vrstico kot niz. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne dano besedilno vrstico kot niz. Niz je prazen, če je zahtevana vrstica izven obsega. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne dolžino trenutne vrstice. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne dolžino <parameter
+>vrstice</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>String <replaceable
+>s</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vstavi besedilo v trenutno vrstico. Vrne <literal
+>true</literal
+> pri uspehu ali <literal
+>false</literal
+>, če je dokument v načinu samo za branje ali če vrstica ni v obsegu dokumenta. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>s</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vstavi besedilo v dano vrstico. Vrne <literal
+>true</literal
+> ob uspehu,ali <literal
+>false</literal
+>, če je dokument v načinu samo za branje alivrstica ni v obsegu dokumenta. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine();
+</synopsis
+></term>
+<listitem
+><para
+>Odstrani trenutno vrstico besedila. Vrne <literal
+>true</literal
+> ob uspehu, ali <literal
+>false</literal
+>, če je dokument v načinu samo za branje. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Odstrani dano vrstico besedila. Vrne <literal
+>true</literal
+> ob uspehu ali <literal
+>false</literal
+>, če je dokument v načinu samo za branje ali če vrstica ni v obsegu dokumenta. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Zamenjaj besedilo trenutne vrstice s podanim besedilom. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Zamenjaj besedilo dane vrstice s podanim besedilom. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncateLine();
+</synopsis
+></term>
+<listitem
+><para
+>Obreže trenutno vrstico na danem stolpcu ali položaju kazalca. Vrne <literal
+>true</literal
+> ob uspehu ali <literal
+>false</literal
+>, če podana vrstica ni del obsega dokumenta. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncate(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+bool document.truncate(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Odreže dano vrstico na danem stolpcu ali položaju kazalca. Vrne <literal
+>true</literal
+> ob uspehu ali <literal
+>false</literal
+>, če podana vrstica ni del obsega dokumenta. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.word();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne besedo na trenutnem položaju kazalca. Če ni najdene besede na položaju kazalca, je vrnjeni niz prazen. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.wordAt(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+String document.wordAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne besedo na danem položaju kazalca. Če tam ni najdene besede na položaju kazalca, je vrnjeni niz prazen. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.wordRange();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne obseg besede na danem položaju kazalca. Če besede ni najdene, je vrnjen <literal
+>Range.invalid()</literal
+>, kar je mogoče preizkusiti z <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne &latex; ukaz na trenutnem položaju kazalca. Če ni najdenega ukaza na tem položaju kazalca, je vrnjeni niz prazen. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommandAt(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+String document.latexCommandAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne &latex; ukaz na danem položaju kazalca. Če ni najdenega ukaza na tem položaju kazalca, je vrnjeni niz prazen. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.latexCommandRange();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne obseg &latex; ukazov na danem položaju kazalca. Če ni najdenega nobenega ukaza &latex;, je vrnjen <literal
+>Range.invalid()</literal
+>, ki ga je mogoče preizkusiti z <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.charAt(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+String document.charAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne znak na danem položaju kazalca. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.firstChar(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne prvi znak v dani <parameter
+>vrstici</parameter
+>, ki ni beli prostor. Prvi znak je v stolpcu 0. Če je vrstica prazna ali vsebuje le beli prostor, je vrnjeni niz prazen. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.lastChar(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne zadnji znak v dani <parameter
+>vrstici</parameter
+>, ki ni beli prostor. Če je vrstica prazna ali vsebuje samo beli prostor, je vrnjeni niz prazen. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.isSpace(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+bool document.isSpace(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če je znak na danem položaju kazalca beli prostor, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavi &kile; <emphasis
+>oznako</emphasis
+>. Ne pozabite, da lahko preprosto skoči na naslednjo ali prejšnjo oznako. To bo tudi poudarilo to oznako, da se samodejno izbriše, ko vnesete prvo črko. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.nextBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Skoči na naslednjo oznako v besedilu, če obstaja. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.previousBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Skoči na prejšnjo oznako v besedilu, če obstaja. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če je najdeno okolje &latex;, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne celotno besedilo obkrožajočega &latex; okolja. Če je <parameter
+>inside</parameter
+> <literal
+>false</literal
+>, bo izbrano okolje besedila, vključno z okoljem &latex; oznake  <userinput
+>\begin{...}...\end{...}</userinput
+>, sicer brez teh oznak. Če ni podanega parametra, je <parameter
+>inside</parameter
+> nastavljen na <literal
+>false</literal
+>. Če ni najdenega nobenega okolja, je vrnjeni niz prazen. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.environmentRange(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne obseg obkroženega &latex; okolja. Če je <parameter
+>inside</parameter
+> <literal
+>false</literal
+>, obsegvključno z okolico &latex; bodo vrnjene oznake <userinput
+>\begin{...}...\end{...}</userinput
+>, sicer brez teh oznak. Če parameter ni podan, je <parameter
+>inside</parameter
+> nastavljen na <literal
+>false</literal
+>. Čeni najdeno nobeno okolje, je vrnjen <literal
+>Range.invalid()</literal
+>, ki ga je mogoče preizkusiti z <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environmentName();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne ime obkrožujočega &latex; okolja ali prazen niz. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeEnvironment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Odstrani besedilo obkrožujočega &latex; okolja. Če je <parameter
+>inside</parameter
+> <literal
+>false</literal
+>, bo besedilo okolja, vključno z okolico &latex; oznake <userinput
+>\begin{...}...\end{...}</userinput
+> odstranjeno, sicer brez teh oznak. Če parameter ni podan, je <parameter
+>inside</parameter
+> nastavljen na <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavite zaključno oznako okolja, če je odprt &latex; okolje se nahaja na trenutnem položaju kazalca. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeAllEnvironments();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavi zaključne oznake okolja za vse odprte &latex; okolja, ki so bila najdena na trenutnem položaju kazalca. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če okolica &latex; skupina je najdena na trenutnem položaju kazalca, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.texgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne besedilo okoliškega &latex; skupina. Če je <parameter
+>inside</parameter
+> <literal
+>false</literal
+>, je besedilo tega &latex; skupina, vključno z okoliškimi oklepaji <userinput
+>{...}</userinput
+>, bo vrnjena, sicer brez njih. Če parameter ni podan, je <parameter
+>inside</parameter
+> nastavljen na <literal
+>false</literal
+>. Vrnjeni niz je prazen, če v okolici &latex; skupina je na trenutnem položaju kazalca. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.texgroupRange(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne obseg okolice &latex; skupina. Če je <parameter
+>inside</parameter
+> <literal
+>false</literal
+>, bo vrnjen obseg, vključno z okoliškimi oklepaji <userinput
+>{...}</userinput
+>, drugače pa brez njih. Če parameter ni podan, je <parameter
+>inside</parameter
+> nastavljen na <literal
+>false</literal
+>. Če ni najdena nobena skupina, je vrnjen <literal
+>Range.invalid()</literal
+>, ki ga je mogoče preizkusiti z <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeTexgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Odstrani besedilo okoliškega &latex; skupina. Če je <parameter
+>inside</parameter
+> <literal
+>false</literal
+>, je besedilo tega &latex; skupina, vključno z okoliškimi oklepaji <userinput
+>{...}</userinput
+>, bo odstranjena, sicer brez njih. Če parameter ni podan, je <parameter
+>inside</parameter
+> nastavljen na <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če okolica &latex; mathgroup je najdena na trenutnem položaju kazalca, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.mathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne besedilo okoliškega &latex; skupina za matematiko. Vrnjeni niz je prazen, če v okolici &latex; mathgroup se nahaja na trenutnem položaju kazalca. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.mathgroupRange();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne obseg okolice &latex; skupina za matematiko. Če ni okoliške matematične skupine, se vrne <literal
+>Range.invalid()</literal
+>, kar je mogoče preizkusiti z <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Odstrani besedilo okoliškega &latex; skupina za matematiko. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.paragraph();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne besedilo trenutnega &latex; odstavek. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.paragraphRange();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne obseg okolice &latex; odstavek. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Odstrani besedilo trenutnega &latex; odstavek. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.matchesAt(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+bool document.matchesAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če se podani <parameter
+>besedilo</parameter
+> ujema na ustreznem položaju kazalke, sicer <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.startsWith(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>pattern</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>skipWhiteSpaces = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če se vrstica začne z <parameter
+>pattern</parameter
+>, sicer <literal
+>false</literal
+>. Argument <parameter
+>skipWhiteSpaces</parameter
+> nadzira, ali se vodilni presledki prezrejo. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.endsWith(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>pattern</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>skipWhiteSpaces = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne <literal
+>true</literal
+>, če se vrstica konča z <parameter
+>pattern</parameter
+>, sicer <literal
+>false</literal
+>. Argument <parameter
+>skipWhiteSpaces</parameter
+> nadzira, ali se končni presledki prezrejo. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.firstColumn(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne prvi stolpec brez presledkov v dani <parameter
+>vrstici</parameter
+>. Če je v vrstici samo beli prostor, je vrnjena vrednost <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lastColumn(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne zadnji stolpec nebelega prostora v dani <parameter
+>vrstici</parameter
+>. Če so v vrstici samo beli prostor, je vrnjena vrednost <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonSpaceColumn(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+int document.prevNonSpaceColumn(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne stolpec z znakom brez presledka, ki se začne na danem položaju kazalke in išče nazaj. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonSpaceColumn(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+int document.nextNonSpaceColumn(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne stolpec z znakom brez presledka, ki se začne na danem položaju kazalke in išče naprej. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonEmptyLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne naslednjo neprazno vrstico, ki vsebuje znake, ki niso presledki, pri iskanju nazaj. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonEmptyLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vrne naslednjo neprazno vrstico, ki vsebuje znake, ki niso presledki, pri iskanju naprej. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginEnv();
+</synopsis
+></term>
+<listitem
+><para
+>Pojdite na začetek okoliškega &latex; okolju. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndEnv();
+</synopsis
+></term>
+<listitem
+><para
+>Pojdite na konec okoliškega &latex; okolju. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Pojdite na začetek okoliškega &latex; skupina. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Pojdite na konec okoliškega &latex; skupina. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Pojdi na naslednji &latex; odstavek. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Pojdi na prejšnji &latex; odstavek. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>Pojdi na naslednji &latex; razdelek. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>Pojdi na prejšnji &latex; razdelek. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Pojdi na dano <literal
+>vrstico</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertChapter();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavite ukaz <userinput
+>\chapter</userinput
+> (glejte tudi <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSection();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavite ukaz <userinput
+>\section</userinput
+>. Tako kot pri izbiri menijskega vnosa <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Sectioning</guisubmenu
+><guimenuitem
+>section</guimenuitem
+></menuchoice
+> se prikaže pogovorno okno, kjer lahko izberete naslov in neobvezna oznaka za ta ukaz za razdeljevanje. <screenshot>
+	<screeninfo
+>Pogovorno okno: ukaz za vstavljanje poglavja</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertsection.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Pogovorno okno: ukaz za vstavljanje poglavja</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsection();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavite ukaz <userinput
+>\subsection</userinput
+> (glejte tudi <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsubsection();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavite ukaz <userinput
+>\subsubsection</userinput
+> (glejte tudi <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavite ukaz <userinput
+>\paragraph</userinput
+> (glejte tudi <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubparagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavi ukaz <userinput
+>\subparagraph</userinput
+> (glejte tudi <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertLabel();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavi ukaz <userinput
+>\label</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertReference();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavite ukaz <userinput
+>\ref</userinput
+>. Tako kot pri izbiri menijskega vnosa <menuchoice
+><guimenu
+>&latex;</guimenu
+><guisubmenu
+>Reference</guisubmenu
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> se prikaže pogovorno okno, kjer lahko izbirate med že definiranimi oznake, ki so navedene v kombiniranem polju. <screenshot>
+	<screeninfo
+>Pogovorno okno: vstavi referenčni ukaz</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertreference.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Pogovorno okno: vstavi referenčni ukaz</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertPageref();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavite ukaz <userinput
+>\pageref</userinput
+> (glejte tudi <literal
+>document.insertReference()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertCitation();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavite ukaz <userinput
+>\cite</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIndex();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavite ukaz <userinput
+>\index</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertFootnote();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavite ukaz <userinput
+>\footnote</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.comment();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavi označevalce komentarjev, da izbor ali trenutna vrstica postane komentar. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uncomment();
+</synopsis
+></term>
+<listitem
+><para
+>Odstrani oznake komentarjev iz izbrane ali trenutne vrstice. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uppercase();
+</synopsis
+></term>
+<listitem
+><para
+>Postavi izbrano besedilo ali črko za kazalcem v velike črke. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.lowercase();
+</synopsis
+></term>
+<listitem
+><para
+>Postavi izbrano besedilo ali črko za kazalcem v male črke. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.capitalize();
+</synopsis
+></term>
+<listitem
+><para
+>Napiši izbrano besedilo ali trenutno besedo z veliko začetnico. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.joinLines();
+</synopsis
+></term>
+<listitem
+><para
+>Združi vrstice trenutnega izbora. Dve zaporedni vrstici besedila sta vedno ločeni z enim presledkom. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentNewline();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavite pametno novo vrstico (glejte <xref linkend="editing_smartnewline" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentTabulator();
+</synopsis
+></term>
+<listitem
+><para
+>Vstavi pametni tabulator (glejte <xref linkend="editing_tabulator" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editBegin();
+</synopsis
+></term>
+<listitem
+><para
+>Zažene skupino za urejanje za razveljavitev/uveljavitev združevanja. Poskrbite, da vedno pokličete<function
+>editEnd()</function
+> tako pogosto, kot pokličete <function
+>editBegin()</function
+>. Interni klic <function
+>editBegin()</function
+> uporablja števec referenc, tj. ta klic je lahko ugnezden.. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editEnd();
+</synopsis
+></term>
+<listitem
+><para
+>Konča skupino za urejanje. Zadnji klic <function
+>editEnd()</function
+> (tj. tisti za prvi klic <function
+>editBegin()</function
+>) zaključi korak urejanja. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.labelList();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne vse definirane oznake kot seznam nizov <literal
+>StringList </literal
+>, kar je lahko uporabljeno v &javascript; kot polje nizov. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.bibitemList();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne vse definirane elemente bibliografije bibitems kot <literal
+>StringList</literal
+>, ki lahko je lahko uporabljen v &javascript; kot polje nizov. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.refreshStructure();
+</synopsis
+></term>
+<listitem
+><para
+>Osveži pogled strukture (glejte <xref linkend="navigating" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_kile">
+<title
+>API za &kile;</title>
+
+<para
+>Globalni objekt (spremenljivka) <userinput
+>kile</userinput
+> se uporablja za obdelavo interakcije na najvišji ravni z zunanjim svetom, vhodno sporočilo in vmesnike dialoga. Ti klici API-ja so razdeljeni na podobjekte, da se to strukturira kot del skriptnega API-ja. Konceptualno je <userinput
+>kile</userinput
+> malo podoben  <userinput
+>oknu</userinput
+> brskalnika v API-ju. <itemizedlist>
+<listitem
+><para
+><literal
+>kile.alert</literal
+>: &nbsp; message boxes</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.input</literal
+>: &nbsp; get user input</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.wizard</literal
+>: &nbsp; call one of &kile;'s wizards</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.script</literal
+>: &nbsp; get info about a running script</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.file</literal
+>: &nbsp; file operations like read and write.</para
+></listitem>
+</itemizedlist>
+</para>
+
+
+<sect3 id="id_scripting_api_kile_alert">
+<title
+>Opozorilo</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.information(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Prikaži pogovorno okno <emphasis
+>Informacije</emphasis
+>. <parameter
+>text</parameter
+> je niz sporočila in <parameter
+>caption</parameter
+> naslov sporočilnega polja. Privzeti naslov je ime skripta. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.sorry(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Prikaži pogovorno okno <emphasis
+>Sorry</emphasis
+>. <parameter
+>text</parameter
+> jeniz sporočila in <parameter
+>caption</parameter
+> naslov polja za sporočila. Privzeti naslov je ime skripta. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.error(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Prikaži pogovorno okno <emphasis
+>Error</emphasis
+>. <parameter
+>text</parameter
+> jeniz sporočila in <parameter
+>caption</parameter
+> naslov polja za sporočila. Privzeti naslov je ime skripta. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.question(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Prikaži pogovorno okno <emphasis
+>question</emphasis
+>. <parameter
+>text</parameter
+> jeniz sporočila in <parameter
+>caption</parameter
+> naslov polja za sporočila. Privzeti naslov je ime skripta. Vrnjen niz je <literal
+>yes</literal
+> ali <literal
+>no</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.warning(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Prikaži pogovorno okno <emphasis
+>warning</emphasis
+>. <parameter
+>text</parameter
+> jeniz sporočila in <parameter
+>caption</parameter
+> naslov polja za sporočila. Privzeti naslov je ime skripta. Vrnjen niz je <literal
+>continue</literal
+> ali <literal
+>cancel</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_input">
+<title
+>Vnos</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getListboxItem(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>list</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funkcija, ki omogoča uporabniku, da izbere element s seznama, ki je prikazan kot seznamsko polje. <parameter
+>caption</parameter
+> je besedilo, ki je prikazano v naslovni vrstici, <parameter
+>label</parameter
+> je besedilo, ki se prikaže kot oznaka za seznam in <parameter
+>list</parameter
+> je seznam nizov, ki je vstavljen na seznam. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getComboboxItem(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>list</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funkcija, ki omogoča uporabniku, da izbere element s seznama, ki je prikazan kot kombinirano polje. <parameter
+> caption</parameter
+> je besedilo, ki je prikazano v naslovni vrstici, <parameter
+>label</parameter
+> je besedilo, ki se prikaže kot oznaka za seznam in <parameter
+>list</parameter
+> je seznam nizov, ki je vstavljen na seznam. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getText(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funkcija za pridobitev niza od uporabnika. <parameter
+>caption</parameter
+> jebesedilo, ki je prikazano v naslovni vrstici in <parameter
+>label</parameter
+>besedilo, ki se prikaže kot oznaka za urejanje vrstice. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getLatexCommand(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funkcija za pridobitev &latex; ukaz od uporabnika. To pomeni, da so dovoljene le male in velike črke. <parameter
+>caption</parameter
+> je besedilo, ki je prikazano v naslovni vrstici in <parameter
+>label</parameter
+> besedilo, ki se pojavi kot oznaka za urejanje vrstice. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getInteger(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = INT_MIN</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = INT_MAX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funkcija za pridobitev celega števila od uporabnika. <parameter
+>caption</parameter
+> jebesedilo, ki je prikazano v naslovni vrstici. <parameter
+>label</parameter
+> jebesedilo, ki se pojavi kot oznaka vrtilnega polja. <parameter
+>min</parameter
+> in <parameter
+>max</parameter
+> sta minimum in maksimumdovoljene vrednosti, ki jih uporabnik lahko izbere. Privzete vrednosti so <literal
+>INT_MIN</literal
+> in <literal
+>INT_MAX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getPosInteger(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = 1</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = INT_MAX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funkcija za pridobitev pozitivnega celega števila od uporabnika. <parameter
+>caption</parameter
+> je besedilo, ki je prikazano v naslovni vrstici. <parameter
+>label</parameter
+> je besedilo, ki se pojavi kot oznaka vrtilnega polja.<parameter
+>min</parameter
+> in <parameter
+>max</parameter
+> sta minimumin največje dovoljene vrednosti, ki jih uporabnik lahko izbere. Privzete vrednosti so<literal
+>1</literal
+> in <literal
+>INT_MAX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_wizard">
+<title
+>Čarovnik</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabular();
+</synopsis
+></term>
+<listitem
+><para
+>Prikliče <emphasis
+>čarovnika za tabele</emphasis
+>, ki pomaga napisati tabelarično okolje (glejte <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.array();
+</synopsis
+></term>
+<listitem
+><para
+>Prikliče <emphasis
+>čarovnika za matriko</emphasis
+>, ki pomaga napisati okolje matrike (glejte <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabbing();
+</synopsis
+></term>
+<listitem
+><para
+>Prikliče <emphasis
+>čarovnika za zavihke</emphasis
+>, ki pomaga napisati okolje za zavihke (glejte <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.floatEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Prikliče <emphasis
+>čarovnika za lebdeče</emphasis
+>, ki pomaga pri vstavljanju plavajočih elementov (glejte <xref linkend="wizard_float" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.mathEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Prikliče <emphasis
+>čarovnika za matematiko</emphasis
+>, ki pomaga pri vstavljanju matematičnih okolij (glejte <xref linkend="wizard_math" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.postscript();
+</synopsis
+></term>
+<listitem
+><para
+>Prikliče <emphasis
+>čarovnika za orodja Postscript</emphasis
+>, ki lahko pomaga pri manipulaciji ali preurejanju dokumentov Postscript (glejte <xref linkend="wizard_postscript" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_script">
+<title
+>Skript</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.name();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne osnovno ime delujočega skripta (brez poti in razširitve). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.caption();
+</synopsis
+></term>
+<listitem
+><para
+>Vrne niz, ki se lahko uporabi kot napis opozorilnih polj. Videti je kot <userinput
+>Script: scriptname.js</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_file">
+<title
+>Datoteka</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read(<parameter
+>String <replaceable
+>filename</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Prebere vsebino besedilne datoteke. Uporablja se kot </para
+><para
+>Primer: <function
+>var res = kile.file.read("path/to/file.txt");</function
+> </para
+><para
+>Povrnjena vrednost <userinput
+>res</userinput
+> je objekt (bolje: mapa) s tremi lastnostmi: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>status:</guilabel
+>&nbsp; Poda statusno kodo operacije, ki je lahko 0 (ni napake), 1 (dostop ni uspel) ali 2 (dostop zavrnjen). Torej, če ni prišlo do napake, vrednost <userinput
+>res.status</userinput
+> oz.<userinput
+>res["status"]</userinput
+> bo 0.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>result:</guilabel
+>&nbsp; Vsebuje besedilo dane datoteke.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>message:</guilabel
+>&nbsp; Vsebuje sporočilo o napaki, če je prišlo do napake.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read();
+</synopsis
+></term>
+<listitem
+><para
+>Enako kot <literal
+>read(filename)</literal
+>, vendar ime datoteke ni navedeno. Aprikaže se pogovorno okno za izbiro datoteke za branje. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>filename</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Zapiše dano besedilo v datoteko. Uporablja se kot </para
+><para
+>Primer: <function
+>var res = kile.file.write("path/to/file.txt","Some text...");</function
+> </para
+><para
+>Povratna vrednost <userinput
+>res</userinput
+> je objekt (bolje: mapa)z dvema lastnostma: <literal
+>status</literal
+> in <literal
+>message</literal
+> (za več informacij glejte <literal
+>read()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Enako kot <literal
+>write(filename,text)</literal
+>, vendar ni dano nobeno ime datoteke. Prikaže se pogovorno okno za izbiro imena datoteke. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.file.getOpenFileName(<parameter
+>String <replaceable
+>startDir</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>filter</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Ustvari modalno pogovorno okno datoteke in vrne izbrano ime datoteke ali prazen niz, če ni izbrana nobena. Upoštevajte, da mora pri tej metodi uporabnik izbratiobstoječe ime datoteke. </para
+><para
+>Parametri: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>startDir:</guilabel
+>&nbsp; Začetni imenik odprtega pogovornega okna.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>filter:</guilabel
+>&nbsp; Shell glob ali filter tipa mime, ki določa, katere datoteke naj se prikažejo. Glejte dokumentacijo KFileDialog za več informacij o tem parametru.</para
+></listitem>
+</itemizedlist>
+</para
+><para
+>Oba parametra sta neobvezna. Če izpustite <literal
+>filter</literal
+>, bodo prikazane vse datoteke. Če je poleg tega izpuščen <literal
+>startDir</literal
+>, bo pogovorno okno vzelo trenutni imenik dokumentov kot začetno točko. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.file.getSaveFileName(<parameter
+>String <replaceable
+>startDir</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>filter</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Ustvari modalno pogovorno okno datoteke in vrne izbrano ime datoteke ali prazen niz, če ni izbran noben. Upoštevajte, da pri tej metodi uporabniku ni treba izbrati obstoječe ime datoteke. Oglejte si <literal
+>getOpenFileName()</literal
+> za razlago parametrov. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect3>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_scripting_examples">
+<title
+>Primeri</title>
+
+<para
+>Nekateri primeri vam lahko pomagajo razumeti, kako uporabljati API za skripte. Teprimere in še nekaj več najdete v skriptnem imeniku &kile;: <filename
+>KILE_APP_DIR/scripts/</filename
+>. Vsak scenarij vsebuje kratek opis.</para>
+
+<sect2 id="id_scripting_example1">
+<title
+>Primer 1: zamenjajte ime okolja</title>
+
+<para
+>Zamenjajte okolico &latex; okolja z drugo, kjer relativni položaj kazalca ne bo spremenjen. <userinput
+>\begin{abc}...\end{abc}</userinput
+> na primer lahko spremenite v <userinput
+>\begin{xyz}...\end{xyz}</userinput
+>.</para>
+
+<programlisting
+>var range = document.environmentRange(false);
+if ( range.isValid() ) {
+        var envname = kile.input.getLatexCommand("Enter Environment","New environment name:");
+        if ( envname != '' ) {
+                replaceEnvCommand(envname,range);
+        }
+}
+else {
+        kile.alert.sorry("No surrounding LaTeX environment found.");
+}
+
+function replaceEnvCommand(newEnv,r)
+{
+        var c = view.cursorPosition();
+
+        var envname = document.environmentName();
+
+        if ( envname != "" ) {
+                var beginRange = new Range(r.start,new Cursor(r.start.line,r.start.column+8+envname.length));
+                var endRange = new Range(new Cursor(r.end.line,r.end.column-6-envname.length),r.end);
+
+                document.editBegin();
+                document.replaceText(endRange,"\\end{"+newEnv+"}");
+                document.replaceText(beginRange,"\\begin{"+newEnv+"}");
+                document.editEnd();
+        }
+}
+</programlisting>
+</sect2>
+
+<sect2 id="id_scripting_example2">
+<title
+>Primer 2: zamenjava &latex; ukaz pisave</title>
+
+<para
+>Zamenjajte okolico &latex; ukaz pisave z drugim ukazom pisave, ko je kazalec postavljen znotraj besedilne skupine. Relativni položaj kazalca ne bo bo spremenjen. <userinput
+>\textbf{abc}</userinput
+> lahko na primer spremenite v <userinput
+>\textit{abc}</userinput
+>.</para>
+
+<programlisting
+>var fontCommands = new Array("\\textbf","\\textit","\\textsl","\\texttt",
+                             "\\textsc","\\textrm","\\textsf","\\emph");
+
+var range = document.texgroupRange(false);
+if ( range.isValid() ) {
+        replaceFontCommand(range);
+}
+else {
+        kile.alert.sorry("No surrounding TeX group found.");
+}
+
+function replaceFontCommand(r)
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.setCursorPosition(r.start);
+        var cmd = document.latexCommand();
+        var index = fontCommands.indexOf(cmd);
+        if ( index 
+>= 0 ) {
+                var cmdRange = document.latexCommandRange();
+                if ( cmdRange.isValid() ) {
+                        var newcommand = kile.input.getListboxItem("Choose",
+                                                    "Choose font command:",buildCmdList(cmd));
+                        if ( newcommand != "" ) {
+                                document.replaceText(cmdRange,newcommand);
+                                c.column = c.column - (cmd.length - newcommand.length);
+                        }
+                }
+/                view.setCursorPosition(c);
+        }
+        else {
+                kile.alert.sorry("No surrounding font command found.");
+        }
+        document.editEnd();
+}
+
+function buildCmdList(current)
+{
+        var result = new Array();
+        for ( i=0; i&lt;fontCommands.length; ++i ) {
+                if ( fontCommands[i] != current ) {
+                        result.push(fontCommands[i]);
+                }
+        }
+        return result;
+}
+</programlisting>
+
+</sect2>
+
+<sect2 id="id_scripting_example3">
+<title
+>Primer 3: obdaj izbrano besedilo</title>
+
+<para
+>Obkrožite izbrano besedilo z ukazom TeX, kjer relativni položaj kazalca ne bo spremenjen. <userinput
+>abc</userinput
+> lahko na primer spremenite v <userinput
+>\texcommand{abc}</userinput
+>.</para>
+
+<programlisting
+>var range = view.selectionRange();
+
+if ( range.isValid() ) {
+        var cmd = kile.input.getLatexCommand("Choose","Choose surrounding LaTeX command:");
+        if ( cmd != "" ) {
+                surroundTexCommand("\\"+cmd,range);
+        }
+}
+else {
+        kile.alert.sorry("No selection found.");
+}
+
+function surroundTexCommand(cmd,r)
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.clearSelection();
+        document.insertText(r.end,"}");
+        document.insertText(r.start,cmd+"{");
+
+        c.column = c.column + cmd.length + 2;
+        view.setCursorPosition(c);
+        document.editEnd();
+}
+</programlisting>
+</sect2>
+
+</sect1>
+
+</chapter>

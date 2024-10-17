@@ -687,7 +687,20 @@ void KileProject::buildProjectTree()
         KileDocument::Info *docinfo = (*it)->getInfo();
 
         if(docinfo) {
-            QUrl parentUrl = docinfo->url();
+            /* Latex will always include dependencies relative from the master argument, i.e., if you have the following files
+             * ```
+             * main.tex
+             * a/a.tex
+             * a/b/b.tex
+             * ```
+             * you will include b.tex in a.tex by writing \input{a/b/b}
+             */
+            QUrl parentUrl;
+            if( (*it)->project() && !(*it)->project()->masterDocument().isEmpty() ) {
+                parentUrl = QUrl((*it)->project()->masterDocument());
+            } else {
+                parentUrl = docinfo->url();
+            }
             if(parentUrl.isLocalFile()) {
                 // strip the file name from 'parentUrl'
                 parentUrl = QUrl::fromUserInput(QFileInfo(parentUrl.path()).path());
@@ -899,6 +912,7 @@ void KileProject::setMasterDocument(const QString & master) {
     }
 
     Q_EMIT (masterDocumentChanged(m_masterDocument));
+    buildProjectTree();
 }
 
 namespace {

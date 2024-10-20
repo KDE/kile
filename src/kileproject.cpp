@@ -696,9 +696,10 @@ void KileProject::buildProjectTree()
              * you will include b.tex in a.tex by writing \input{a/b/b}
              */
             QUrl parentUrl;
-            if( (*it)->project() && !(*it)->project()->masterDocument().isEmpty() ) {
+            if((*it)->project() && !(*it)->project()->masterDocument().isEmpty()) {
                 parentUrl = QUrl((*it)->project()->masterDocument());
-            } else {
+            }
+            else {
                 parentUrl = docinfo->url();
             }
             if(parentUrl.isLocalFile()) {

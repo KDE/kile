@@ -2737,12 +2737,12 @@ msgstr "2 张 DIN A4L 页面 --> DIN A4"
 #: dialogs/postscriptdialog.cpp:130
 #, kde-format
 msgid "Copy All Pages (sorted)"
-msgstr "拷贝所有页面(已排序)"
+msgstr "复制所有页面(已排序)"
 
 #: dialogs/postscriptdialog.cpp:133
 #, kde-format
 msgid "Copy All Pages (unsorted)"
-msgstr "拷贝所有页面(未排序)"
+msgstr "复制所有页面(未排序)"
 
 #: dialogs/postscriptdialog.cpp:134
 #, kde-format
@@ -2808,7 +2808,7 @@ msgstr "未知文件格式：输出文件只接受“.ps”文件。"
 #: dialogs/postscriptdialog.cpp:496
 #, kde-format
 msgid "Copies:"
-msgstr "拷贝："
+msgstr "份数："
 
 #: dialogs/postscriptdialog.cpp:517 kile.cpp:1032
 #, kde-format

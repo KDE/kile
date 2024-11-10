@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2024-10-26 19:03+0200\n"
+"PO-Revision-Date: 2024-11-09 20:09+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.11.70\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2301,7 +2301,7 @@ msgstr "Непознат файлов формат: за изходен файл
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
 msgstr ""
-"Вече има файл с име \"%1\". Сигурни ли сте, че искате да бъде презаписан?"
+"Вече има файл с име „%1“. Сигурни ли сте, че искате да бъде презаписан?"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1730 dialogs/postscriptdialog.cpp:435
 #, kde-format
@@ -3002,7 +3002,7 @@ msgstr "Вече има такъв файл"
 #: dialogs/projectdialogs.cpp:395
 #, kde-format
 msgid "The file \"%1\" already exists, overwrite it?"
-msgstr "Вече има файл \"%1\". Искате ли да бъде презаписан?"
+msgstr "Вече има файл „%1“. Искате ли да бъде презаписан?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox5)
 #: dialogs/projectdialogs.cpp:422 widgets/generalconfigwidget.ui:32
@@ -3730,7 +3730,7 @@ msgstr " Включване само на бележките и изтриван
 #: dialogs/quickdocumentdialog.cpp:980
 #, kde-format
 msgid "%1 '%2' already exists."
-msgstr "Вече има %1 \"%2\"."
+msgstr "Вече има %1 „%2“."
 
 #: dialogs/quickdocumentdialog.cpp:1032
 #, kde-format
@@ -3950,7 +3950,7 @@ msgstr "Стандартен размер &страницата"
 #: dialogs/quickdocumentdialog.cpp:1715
 #, kde-format
 msgid "Do you want to remove \"%1\" from the document class list?"
-msgstr "Искате ли да изтриете \"%1\" от списъка с класове документи?"
+msgstr "Искате ли да изтриете „%1“ от списъка с класове документи?"
 
 #: dialogs/quickdocumentdialog.cpp:1716
 #, kde-format
@@ -3970,7 +3970,7 @@ msgstr "Моля, въведете &размерите на шрифта (раз
 #: dialogs/quickdocumentdialog.cpp:1786
 #, kde-format
 msgid "Do you want to remove \"%1\" from the fontsize list?"
-msgstr "Искате ли да изтриете \"%1\" от списъка с размерите на шрифтовете?"
+msgstr "Искате ли да изтриете „%1“ от списъка с размерите на шрифтовете?"
 
 #: dialogs/quickdocumentdialog.cpp:1786
 #, kde-format
@@ -3990,7 +3990,7 @@ msgstr "Моля, въведете &размерите на страницата
 #: dialogs/quickdocumentdialog.cpp:1823
 #, kde-format
 msgid "Do you want to remove \"%1\" from the papersize list?"
-msgstr "Искате ли да изтриете \"%1\" от списъка с размерите на страниците?"
+msgstr "Искате ли да изтриете „%1“ от списъка с размерите на страниците?"
 
 #: dialogs/quickdocumentdialog.cpp:1823
 #, kde-format
@@ -4103,7 +4103,7 @@ msgstr "Анулиране на списъка с пакети"
 #: dialogs/quickdocumentdialog.cpp:2291
 #, kde-format
 msgid "%1 '%2' is not allowed."
-msgstr "%1 \"%2\" не е позволен."
+msgstr "%1 „%2“ не е позволен."
 
 #: dialogs/quickdocumentdialog.cpp:2315
 #, kde-format
@@ -4738,7 +4738,7 @@ msgstr "Избор на файл"
 #: widgets/usermenuconfigwidget.cpp:74
 #, kde-format
 msgid "File '%1' does not exist."
-msgstr "Няма такъв файл \"%1\"."
+msgstr "Няма такъв файл „%1“."
 
 #: dialogs/usermenu/usermenudialog.cpp:42 usermenu/usermenu.cpp:107
 #, fuzzy, kde-format
@@ -4874,7 +4874,7 @@ msgstr "Запис на файл"
 msgid ""
 "File '%1' does already exist.\n"
 "Overwrite this file?"
-msgstr "Вече има файл \"%1\". Искате ли да бъде презаписан?"
+msgstr "Вече има файл „%1“. Искате ли да бъде презаписан?"
 
 #: dialogs/usermenu/usermenudialog.cpp:399
 #, fuzzy, kde-format
@@ -5382,7 +5382,7 @@ msgid ""
 "A file with filename '%1' already exists.<br>Please provide another one, or "
 "click \"Cancel\" to overwrite it."
 msgstr ""
-"Вече има файл с име \"%1\".<br>Въведете друго име или натиснете \"Отказ\" за "
+"Вече има файл с име „%1“.<br>Въведете друго име или натиснете \"Отказ\" за "
 "презаписване."
 
 #: documentinfo.cpp:157
@@ -7095,7 +7095,7 @@ msgstr "Запис на файл"
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
-msgstr "Вече има файл с име \"%1\". Искате ли да бъде презаписан?"
+msgstr "Вече има файл с име „%1“. Искате ли да бъде презаписан?"
 
 #: kiledocmanager.cpp:1109
 #, kde-format
@@ -7178,7 +7178,7 @@ msgid ""
 "readable.</p><p>Do you want to remove this project from the recent projects "
 "list?</p>"
 msgstr ""
-"Файлът за проекта \"%1\" не съществува или е нечетим. Искате ли да изтриете "
+"Файлът за проекта „%1“ не съществува или е нечетим. Искате ли да изтриете "
 "проекта от списъка с последно отваряните проекти?"
 
 #: kiledocmanager.cpp:1520
@@ -7229,7 +7229,7 @@ msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
 "this project from the recent projects list?</p>"
 msgstr ""
-"Файлът за проекта \"%1\" не съществува или е нечетим. Искате ли да изтриете "
+"Файлът за проекта „%1“ не съществува или е нечетим. Искате ли да изтриете "
 "проекта от списъка с последно отваряните проекти?"
 
 #: kiledocmanager.cpp:1574
@@ -7486,7 +7486,7 @@ msgstr ""
 #: kilelauncher.cpp:247
 #, kde-format
 msgid "There is no executable named \"%1\" in your path."
-msgstr "Няма изпълним файл с име \"%1\" в пътя за търсене."
+msgstr "Няма изпълним файл с име „%1“ в пътя за търсене."
 
 #: kilelauncher.cpp:253
 #, kde-format
@@ -10901,7 +10901,7 @@ msgid ""
 "unknown task '%1'"
 msgstr ""
 "Бързият преглед не може да бъде зареден:\n"
-"непозната задача \"%1\""
+"непозната задача „%1“"
 
 #: quickpreview.cpp:201 widgets/previewwidget.cpp:129
 #, kde-format
@@ -10918,7 +10918,7 @@ msgstr "Няма нищо за компилиране и преглед."
 #: widgets/previewwidget.cpp:181
 #, kde-format
 msgid "Could not run '%1' for QuickPreview."
-msgstr "\"%1\" не може да бъде зареден за бърз преглед."
+msgstr "„%1“ не може да бъде зареден за бърз преглед."
 
 #: quickpreview.cpp:321
 #, kde-format
@@ -11013,7 +11013,7 @@ msgstr ""
 #: scripting/script.cpp:206
 #, fuzzy, kde-format
 msgid "Unable to find '%1'"
-msgstr "Не може да се открие \"%1\""
+msgstr "Не може да се открие „%1“"
 
 #: scripting/script.cpp:239 scripting/script.cpp:242
 #, kde-format
@@ -11093,7 +11093,7 @@ msgstr ""
 #: userhelp.cpp:151
 #, kde-format
 msgid "The file '%1' does not exist."
-msgstr "Файл \"%1\" не съществува."
+msgstr "Файл „%1“ не съществува."
 
 #: usermenu/usermenu.cpp:920
 #, fuzzy, kde-format
@@ -11124,7 +11124,7 @@ msgstr "&Изтриване"
 #: widgets/abbreviationview.cpp:171
 #, kde-format
 msgid "Delete the abbreviation '%1'?"
-msgstr "Да се изтрие ли съкращението \"%1\"?"
+msgstr "Да се изтрие ли съкращението „%1“?"
 
 #: widgets/abbreviationview.cpp:174
 #, kde-format

@@ -346,6 +346,7 @@
       <li xml:lang="fi">Kokoa yhteen kuuluvat tiedostot projektiksi</li>
       <li xml:lang="fr">Collection de documents appartenant au même projet</li>
       <li xml:lang="gl">Recolle documentos que van xuntos nun proxecto.</li>
+      <li xml:lang="he">איסוף מסמכים ששייכים זה לזה לכדי מיזם</li>
       <li xml:lang="ia">Collige documentos que appertine insimul in un projecto</li>
       <li xml:lang="id">Kumpulkan dokumen-dokumen yang menjadi bagian dari suatu projek</li>
       <li xml:lang="it">Raccoglie i documenti che appartengono ad un progetto</li>
@@ -376,6 +377,7 @@
       <li xml:lang="fi">Lisää projekteja käytettäessä lainaukset ja viitteet helposti</li>
       <li xml:lang="fr">Insertion facile de citations et de références au sein de vos projets</li>
       <li xml:lang="gl">Inserción fácil de citas e referencias ao usar proxectos.</li>
+      <li xml:lang="he">הוספה פשוטה של ציטוטים ומבואות בעת שימוש במיזמים</li>
       <li xml:lang="id">Menyisipkan kutipan dan referensi dengan mudah saat menggunakan projek</li>
       <li xml:lang="it">Inserimento semplice di citazioni e di riferimenti quando usi i progetti</li>
       <li xml:lang="ka">ციტატებისა და მიმართვების ადვილი ჩასმა, როცა პროექტებს იყენებთ</li>
@@ -406,6 +408,7 @@
       <li xml:lang="fi">Käännä LaTeX-tiedostosi joustavasti ja älykkäästi</li>
       <li xml:lang="fr">Système de compilation de documents LaTeX flexible et intelligent</li>
       <li xml:lang="gl">Sistema de construción flexíbel e intelixente para compilar documentos de LaTeX.</li>
+      <li xml:lang="he">מערכת בנייה גמישה וחכמה להידור מסמכי ה־LaTeX שלך</li>
       <li xml:lang="id">Sistem pembangunan yang fleksibel dan cerdas untuk mengkompilasi dokumen LaTeX Anda</li>
       <li xml:lang="it">Sistema flessibile e intelligente per compilare i tuoi documenti LaTeX</li>
       <li xml:lang="ka">მოქნილი და ჭკვიანი აგების სისტემა თქვენი LaTeX დოკუმენტების ასაწყობად</li>
@@ -436,6 +439,7 @@
       <li xml:lang="fi">Esikatsele nopeasti tiedoston valittua osa pikaesikatselulla</li>
       <li xml:lang="fr">Aperçu rapide : aperçu rapide d'un passage sélectionné de votre document</li>
       <li xml:lang="gl">Previsualización da parte seleccionada dun documento.</li>
+      <li xml:lang="he">תצוגה מהירה: תצוגה מקדימה של חלק נבחר במסמך שלך</li>
       <li xml:lang="id">QuickPreview: mempratinjau bagian yang dipilih dari dokumen Anda</li>
       <li xml:lang="it">Anteprima rapida: anteprima di una parte selezionata del tuo documento</li>
       <li xml:lang="ka">სწრაფი მინიატურა: თქვენი დოკუმენტის მონიშნული ნაწილის მინიატურა</li>
@@ -466,6 +470,7 @@
       <li xml:lang="fi">Löydä eri lähteiden ohjeet nopeasti</li>
       <li xml:lang="fr">Accès rapide à de nombreuses sources d'assistance</li>
       <li xml:lang="gl">Acceso doado a varios recursos de axuda.</li>
+      <li xml:lang="he">גישה קלה למגוון מקורות עזרה</li>
       <li xml:lang="id">Akses mudah untuk berbagai sumberdaya bantuan</li>
       <li xml:lang="it">Semplice accesso a varie risorse di aiuto</li>
       <li xml:lang="ka">იოლი წვდომა სხვადასხვა დახმარების წყაროებზე</li>
@@ -497,6 +502,7 @@
       <li xml:lang="fi">Kehittyneet muokkauskomennot</li>
       <li xml:lang="fr">Commandes d'édition avancées</li>
       <li xml:lang="gl">Ordes de edición avanzada.</li>
+      <li xml:lang="he">פקודות עריכה מתקדמות</li>
       <li xml:lang="id">Perintah pengeditan tingkat-lanjut</li>
       <li xml:lang="it">Comandi di modifica avanzati</li>
       <li xml:lang="ka">რედაქტორის დამატებითი ბრძანებები</li>
@@ -532,6 +538,7 @@
       <caption xml:lang="fi">Tiedoston muokkaus Kilessä</caption>
       <caption xml:lang="fr">Édition de documents dans Kile</caption>
       <caption xml:lang="gl">Edición de documentos en Kile</caption>
+      <caption xml:lang="he">עריכת מסמכים ב־Kile</caption>
       <caption xml:lang="id">Pengeditan dokumen di Kile</caption>
       <caption xml:lang="ie">Redaction de un document in Kile</caption>
       <caption xml:lang="it">Modifica dei documenti in Kile</caption>

@@ -6505,10 +6505,10 @@
 	<sect1 id="help_contextsentitive">
 
 		<title
->Ajuda sensible al context</title>
+>Ajuda depenent del context</title>
 
 		<para
->El &kile; també implementa una ajuda sensible al context, la qual es crida amb <keycombo action="simul"
+>El &kile; també implementa una ajuda dependent del context, la qual es crida amb <keycombo action="simul"
 >&Ctrl;&Alt;<keycap
 >H</keycap
 ></keycombo

@@ -103,6 +103,12 @@ name = Software
 key = author,title,url,year
 optkey =  abstract, date, doi, eprint, eprintclass, file, hal_id, hal_version, institution, license, month, publisher, related, relatedtype, relatedstring, repository, swhid, urldate, version
 
+[softwareversion]
+internalName = softwareversion
+name = SoftwareVersion
+key = author,title,url,version,year
+optkey =  abstract, crossref, date, doi, eprint, eprintclass, eprinttype, file, hal_id, hal_version, institution, introducedin, license, month, note, organization, publisher, related, relatedtype, relatedstring, repository, swhid, urldate, version
+
 [thesis]
 internalName = thesis
 name = Scientific Thesis

@@ -1,6 +1,6 @@
 # Copyright © 2009, 2010, 2011, 2012 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kile package.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2010, 2011.
+# SPDX-FileCopyrightText: 2009, 2010, 2011, 2024 Tommi Nieminen <translator@legisign.org>
 # Lasse Liehu <lasse.liehu@gmail.com>, 2011, 2012, 2013.
 # Jiri Grönroos <jiri.gronroos+kde@iki.fi>, 2012.
 # Niklas Laxström <niklas.laxstrom+kdetrans@gmail.com>, 2012.
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2023-11-22 18:48+0200\n"
+"PO-Revision-Date: 2024-10-20 14:20+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -24,8 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-POT-Import-Date: 2012-12-01 22:21:19+0000\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5979,7 +5978,7 @@ msgstr "&Tilastot"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "Avaa &yläkansio"
 
 #: kile.cpp:858
 #, kde-format
@@ -6820,13 +6819,13 @@ msgstr "Automaattisisennettyjen ympäristöjen sisennyksen määrä välilyönte
 #: kile.kcfg:214
 #, kde-format
 msgid "Click in editor to select from cursor"
-msgstr ""
+msgstr "Valitse kohdistimen kohdalta napsauttamalla muokkainta"
 
 #. i18n: ectx: label, entry (envEventSearchModifier), group (Editor Ext)
 #: kile.kcfg:218
 #, kde-format
 msgid "Click in editor to search in viewer"
-msgstr ""
+msgstr "Etsi katselimesta napsauttamalla muokkainta"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
 #: kile.kcfg:226
@@ -9579,10 +9578,9 @@ msgid "Math Mode"
 msgstr "Matematiikkatila"
 
 #: kilestdactions.cpp:374
-#, fuzzy, kde-format
-#| msgid "Math Mode - $...$"
+#, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr "Matematiikkatila – $…$"
+msgstr "Matematiikkatila – \\(…\\)"
 
 #: kilestdactions.cpp:375
 #, kde-format
@@ -9984,10 +9982,9 @@ msgid "Intertext"
 msgstr "intertext"
 
 #: kilestdactions.cpp:452
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "Math - \\begin{math}"
-msgstr "gather – \\begin{gather}"
+msgstr "Matematiikka – \\begin{math}"
 
 #: kilestdactions.cpp:454
 #, kde-format
@@ -10220,73 +10217,64 @@ msgid "Bmatrix"
 msgstr "Bmatrix"
 
 #: kilestdactions.cpp:490
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "dmath - \\begin{dmath}"
-msgstr "gather – \\begin{gather}"
+msgstr "dmath – \\begin{dmath}"
 
 #: kilestdactions.cpp:490
 #, kde-format
 msgid "dmath"
-msgstr ""
+msgstr "dmath"
 
 #: kilestdactions.cpp:491
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dmath* - \\begin{dmath*}"
-msgstr "gather* – \\begin{gather*}"
+msgstr "dmath* – \\begin{dmath*}"
 
 #: kilestdactions.cpp:491
 #, kde-format
 msgid "dmath*"
-msgstr ""
+msgstr "dmath*"
 
 #: kilestdactions.cpp:493
-#, fuzzy, kde-format
-#| msgid "Cases - \\begin{cases}"
+#, kde-format
 msgid "dseries - \\begin{dseries}"
-msgstr "cases – \\begin{cases}"
+msgstr "dseries – \\begin{dseries}"
 
 #: kilestdactions.cpp:493
-#, fuzzy, kde-format
-#| msgid "Bold - \\bfseries"
+#, kde-format
 msgid "dseries"
-msgstr "Lihavointi – \\bfseries"
+msgstr "dseries"
 
 #: kilestdactions.cpp:494
-#, fuzzy, kde-format
-#| msgid "Verse - \\begin{verse}"
+#, kde-format
 msgid "dseries* - \\begin{dseries*}"
-msgstr "Säe – \\begin{verse}"
+msgstr "dseries* – \\begin{dseries*}"
 
 #: kilestdactions.cpp:494
 #, kde-format
 msgid "dseries*"
-msgstr ""
+msgstr "dseries*"
 
 #: kilestdactions.cpp:496
-#, fuzzy, kde-format
-#| msgid "Figure - \\begin{figure}"
+#, kde-format
 msgid "dgroup - \\begin{dgroup}"
-msgstr "Kuvio – \\begin{figure}"
+msgstr "dgroup – \\begin{dgroup}"
 
 #: kilestdactions.cpp:496
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup"
-msgstr "Matematiikkaryhmä"
+msgstr "dgroup"
 
 #: kilestdactions.cpp:497
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dgroup* - \\begin{dgroup*}"
-msgstr "gather* – \\begin{gather*}"
+msgstr "dgroup* – \\begin{dgroup*}"
 
 #: kilestdactions.cpp:497
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup*"
-msgstr "Matematiikkaryhmä"
+msgstr "dgroup*"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330
@@ -10784,10 +10772,9 @@ msgstr "&Matriisiympäristöt"
 
 #. i18n: ectx: Menu (menu_mathbreqnenv)
 #: kileui.rc:425
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "breqn Math Environments"
-msgstr "Matematiikkaympäristöt"
+msgstr "breqn-matematiikkaympäristöt"
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:438
@@ -11858,59 +11845,57 @@ msgstr "&Asetukset…"
 #: widgets/latexconfigwidget.cpp:31
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Vaihto"
 
 #: widgets/latexconfigwidget.cpp:32 widgets/latexconfigwidget.cpp:43
 #, kde-format
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: widgets/latexconfigwidget.cpp:33
-#, fuzzy, kde-format
-#| msgid "Alignat"
+#, kde-format
 msgid "Alt"
-msgstr "alignat"
+msgstr "Alt"
 
 #: widgets/latexconfigwidget.cpp:34
 #, kde-format
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
 msgid "Ctrl + Shift"
-msgstr ""
+msgstr "Ctrl + Vaihto"
 
 #: widgets/latexconfigwidget.cpp:36
 #, kde-format
 msgid "Alt + Ctrl"
-msgstr ""
+msgstr "Alt + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:37
 #, kde-format
 msgid "Meta + Ctrl"
-msgstr ""
+msgstr "Meta + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:42
-#, fuzzy, kde-format
-#| msgid "Command"
+#, kde-format
 msgid "Cmd"
-msgstr "Komento"
+msgstr "Cmd"
 
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format
 msgid "Cmd + Shift"
-msgstr ""
+msgstr "Cmd + Vaihto"
 
 #: widgets/latexconfigwidget.cpp:45
 #, kde-format
 msgid "Alt + Cmd"
-msgstr ""
+msgstr "Alt + Cmd"
 
 #: widgets/latexconfigwidget.cpp:46
 #, kde-format
 msgid "Ctrl + Cmd"
-msgstr ""
+msgstr "Ctrl + Cmd"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
@@ -12003,19 +11988,19 @@ msgstr "B&STINPUTS:"
 #: widgets/latexconfigwidget.ui:258
 #, kde-format
 msgid "Modifiers for Left Click Actions"
-msgstr ""
+msgstr "Vasemman hiirinapsautuksen muuntonäppäimet"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/latexconfigwidget.ui:267
 #, kde-format
 msgid "Modifier for forward search in viewer:"
-msgstr ""
+msgstr "Muuntonäppäin eteenpäinhakuun katselimessa:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: widgets/latexconfigwidget.ui:280
 #, kde-format
 msgid "Modifier for selecting from cursor:"
-msgstr ""
+msgstr "Muuntonäppäin kohdistimen kohdalta valintaan:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckRootDoc)
 #: widgets/latextoolconfigwidget.ui:35
@@ -12123,10 +12108,9 @@ msgstr "Valitse työkalu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
 #: widgets/maintoolconfigwidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Show input files"
+#, kde-format
 msgid "Show hidden tools"
-msgstr "Näytä lähdetiedostot"
+msgstr "Näytä piilotetut työkalut"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)

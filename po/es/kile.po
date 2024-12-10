@@ -1,36 +1,34 @@
-# translation of kile.po to Español
 # Translation of kile to Spanish
 # This file is distributed under the same license as the Kile package.
-# Copyright (C) 2003 Jeroen S. Wijnhout <Jeroen.Wijnhout@kdemail.net>
 #
-# Miguel Mingo <miguelmingo@terra.es>, 2002.
-# Quique <quique@sindominio.net>, 2003, 2004.
-# Alberto Pintado <apintado@lycos.es>, 2003.
-# Santiago Fernandez Sancho <santi@est.unileon.es>, 2005.
-# santi <santi@est.unileon.es>, 2005.
+# SPDX-FileCopyrightText: 2002 Miguel Mingo <miguelmingo@terra.es>
+# SPDX-FileCopyrightText: 2003, 2004 Quique <quique@sindominio.net>
+# SPDX-FileCopyrightText: 2003 Alberto Pintado <apintado@lycos.es>
+# SPDX-FileCopyrightText: 2005 Santiago Fernandez Sancho <santi@est.unileon.es>
+# SPDX-FileCopyrightText: 2005 santi <santi@est.unileon.es>
 # SPDX-FileCopyrightText: 2005, 2007, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Eloy Cuadra <ecuadra@eloihr.net>
-# santi <santi@kde-es.org>, 2006, 2007.
-# Jaime Robles <jaime@kde.org>, 2006.
-# santi <hosgiliat@gmail.com>, 2006, 2007.
-# Danilo Vasquez <danilo.vasquez@gmail.com>, 2007.
-# Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>, 2007.
-# Santi <santi@kde-es.org>, 2008.
-# Kira J. Fernandez <kirajfdez@gmail.com>, 2010, 2011.
-# Kira J. Fernandez <kirajfdez@gmail.es>, 2011.
-# Raul Gonzalez <raulgf83@gmail.com>, 2011, 2012, 2013, 2014, 2015.
+# SPDX-FileCopyrightText: 2006, 2007 santi <santi@kde-es.org>
+# SPDX-FileCopyrightText: 2006 Jaime Robles <jaime@kde.org>
+# SPDX-FileCopyrightText: 2006, 2007 santi <hosgiliat@gmail.com>
+# SPDX-FileCopyrightText: 2007 Danilo Vasquez <danilo.vasquez@gmail.com>
+# SPDX-FileCopyrightText: 2007 Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>
+# SPDX-FileCopyrightText: 2008 Santi <santi@kde-es.org>
+# SPDX-FileCopyrightText: 2010, 2011 Kira J. Fernandez <kirajfdez@gmail.com>
+# SPDX-FileCopyrightText: 2011 Kira J. Fernandez <kirajfdez@gmail.es>
+# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015 Raul Gonzalez <raulgf83@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2024-05-28 01:11+0200\n"
+"PO-Revision-Date: 2024-12-09 00:59+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.08.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -5219,9 +5217,9 @@ msgid ""
 "menu of selected items. You can also rearrange items with drag and drop."
 msgstr ""
 "El árbol del menú definido por el usuario, que se puede modificar con los "
-"seis botones que hay bajo el árbol (y sus accesos rápidos). Hay más acciones "
-"disponibles en el menú contextual de los elementos seleccionados. También "
-"puede reorganizar los elementos arrastrándolos y soltándolos."
+"seis botones que hay bajo el árbol (y sus atajos de teclado). Hay más "
+"acciones disponibles en el menú contextual de los elementos seleccionados. "
+"También puede reorganizar los elementos arrastrándolos y soltándolos."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInsertSeparator)
 #: dialogs/usermenu/usermenudialog_base.ui:100

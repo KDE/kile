@@ -34,6 +34,7 @@
   <name xml:lang="pt">Kile</name>
   <name xml:lang="pt-BR">Kile</name>
   <name xml:lang="ru">Kile</name>
+  <name xml:lang="sa">किम्‌</name>
   <name xml:lang="sk">Kile</name>
   <name xml:lang="sl">Kile</name>
   <name xml:lang="sv">Kile</name>
@@ -69,6 +70,7 @@
   <summary xml:lang="pl">Edytor TeX/LaTeX</summary>
   <summary xml:lang="pt">Editor de TeX/LaTeX</summary>
   <summary xml:lang="pt-BR">Editor TeX/LaTeX</summary>
+  <summary xml:lang="sa">TeX/LaTeX सम्पादक</summary>
   <summary xml:lang="sk">TeX/LaTeX Editor</summary>
   <summary xml:lang="sl">Urejevalnik TeX/LaTeX</summary>
   <summary xml:lang="sv">Tex/Latex-editor</summary>
@@ -101,6 +103,7 @@
     <p xml:lang="pl">Kile jest przyjaznym użytkownikowi edytorem TeX/LaTeX dla KDE. Kile umożliwia wykorzystanie wszystkich możliwości LaTeX przy użyciu interfejsu graficznego i ma mechanizm interaktywnego podglądu, aby szybko podejrzeć wyniki edycji.</p>
     <p xml:lang="pt">O Kile é um editor amigável de TeX/LaTeX para o KDE. O Kile dá-lhe a capacidade de usar todas as funcionalidades do LaTeX numa interface gráfica e tem mecanismos de antevisão interactiva para ler de forma imediata os resultados da edição.</p>
     <p xml:lang="pt-BR">O Kile é um editor de TeX/LaTeX fácil de usar criado pela comunidade KDE. Ele permite usar toda a funcionalidade do LaTeX com uma interface gráfica, possuindo ainda pré-visualização interative para ver dinamicamente os resultados da sua edição.</p>
+    <p xml:lang="sa">किले KDE द्वारा उपयोक्तृ-अनुकूलः TeX/LaTeX सम्पादकः अस्ति । किले भवन्तं LaTeX इत्यस्य सर्वाणि कार्यक्षमतां चित्रात्मके अन्तरफलके उपयोक्तुं क्षमताम् अयच्छति तथा च सम्पादनस्य परिणामान् सहजतया द्रष्टुं अन्तरक्रियाशीलपूर्वावलोकनतन्त्राणि सन्ति ।</p>
     <p xml:lang="sk">Kile je užívateľsky príjemný editor TeX/LaTeX od KDE. Kile vám dáva možnosť používať všetky funkcie LaTeXu v grafickom rozhraní a má interaktívne mechanizmy náhľadu, aby ste mohli okamžite vidieť výsledky úprav.</p>
     <p xml:lang="sl">Kile je uporabniku prijazen TeX/LaTeX urejevalnik na namizju KDE. Kile omogoča uporabo vseh funkcij LaTeX v grafičnem vmesniku in imainteraktivne predogledne mehanizmi za lažji ogled rezultatov urejanja.</p>
     <p xml:lang="sv">Kile är en användarvänlig Tex- och Latex-editor av KDE. Kile ger dig möjlighet att använda hela Latex funktionalitet i ett grafiskt gränssnitt, och har en interaktiv förhandsgranskningsmekanism för att enkelt kunna se redigeringsresultatet.</p>
@@ -138,6 +141,7 @@
     <p xml:lang="pt">Funcionalidades:</p>
     <p xml:lang="pt-BR">Recursos:</p>
     <p xml:lang="ru">Возможности:</p>
+    <p xml:lang="sa">गुणाः:</p>
     <p xml:lang="sk">Funkcie:</p>
     <p xml:lang="sl">Zmožnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
@@ -172,6 +176,7 @@
       <li xml:lang="pl">Kompiluj, przekształcaj i oglądaj swoje dokumenty na kliknięcie</li>
       <li xml:lang="pt">Compilar, converter e ver o seu documento com um 'click'</li>
       <li xml:lang="pt-BR">Compile, converta e visualize seu documento com apenas um clique</li>
+      <li xml:lang="sa">एकेन क्लिक् कृत्वा स्वस्य दस्तावेजं संकलितं, परिवर्तयन्तु, पश्यन्तु च</li>
       <li xml:lang="sk">Zostavte, skonvertujte a zobrazte dokument jedným kliknutím</li>
       <li xml:lang="sl">Prevod, pretvorba in ogled dokumenta z enim klikom</li>
       <li xml:lang="sv">Kompilera, konvertera och visa dokumentet med ett klick</li>
@@ -204,6 +209,7 @@
       <li xml:lang="pl">Samouzupełnianie poleceń (La)TeX</li>
       <li xml:lang="pt">Completação automática de comandos de (La)TeX</li>
       <li xml:lang="pt-BR">Função de auto-completar para comandos do (La)TeX</li>
+      <li xml:lang="sa">(La)TeX आदेशानां स्वतः समाप्तिः</li>
       <li xml:lang="sk">Automatické dokončenie príkazov (La)TeX</li>
       <li xml:lang="sl">Avtomatsko dokončevanje (La)TeX ukazov</li>
       <li xml:lang="sv">Automatisk komplettering av Tex- och Latex-kommandon</li>
@@ -234,6 +240,7 @@
       <li xml:lang="pl">Szablony i pomocnicy ułatwiający tworzenie nowych dokumentów</li>
       <li xml:lang="pt">Os modelos e assistentes tornam a criação de documentos novos um esforço mínimo</li>
       <li xml:lang="pt-BR">Modelos e assistentes permitem criar novos documentos sem esforço</li>
+      <li xml:lang="sa">टेम्पलेट्, विजार्ड् च नूतनानां दस्तावेजानां आरम्भं अत्यल्पं कार्यं करोति</li>
       <li xml:lang="sk">Šablóny a sprievodcovia robia spúšťanie nových dokumentov veľmi jednoduché</li>
       <li xml:lang="sl">Predloge in čarovniki omogočajo začetek pisanja novih dokumentov zelo malo dela</li>
       <li xml:lang="sv">Mallar och guider gör att mycket lite arbete behövs för att påbörja nya dokument</li>
@@ -264,6 +271,7 @@
       <li xml:lang="pl">Łatwe wstawianie wielu standardowych znaczników i symboli oraz opcja do definiowania (dowolnej liczby) znaczników użytkownika</li>
       <li xml:lang="pt">Inserção simples de muitas marcas-padrão e símbolos, assim como a opção para definir (um número arbitrário de) marcas definidas pelo utilizador</li>
       <li xml:lang="pt-BR">Inserção fácil de várias tags e símbolos comuns, assim como a opção de definir (uma quantidade arbitrária de) tags feitas pelo usuário</li>
+      <li xml:lang="sa">अनेकमानकटैग्स् चिह्नानि च सुलभं सम्मिलनं तथा च उपयोक्तृनिर्धारितटैग्स् (मनमाना संख्या) परिभाषितुं विकल्पः</li>
       <li xml:lang="sk">Jednoduché vkladanie mnohých štandardných značiek a symbolov a možnosť definovať (ľubovoľný počet) užívateľom definovaných značiek</li>
       <li xml:lang="sl">Enostavno vstavljanje številnih standardnih oznak in simbolov ter možnost določitve (poljubno število) uporabniško definiranih oznak</li>
       <li xml:lang="sv">Enkelt att infoga många standardtaggar och symboler, och möjlighet att definiera (ett godtyckligt antal) användardefinerade taggar</li>
@@ -294,6 +302,7 @@
       <li xml:lang="pl">Wyszukiwanie odwrotne i wprzód: kliknij w przeglądarce DVI i przejdź do odpowiadającego wiersza LaTeX w edytorze lub przejdź z edytora do odpowiadającej strony w przeglądarce</li>
       <li xml:lang="pt">Pesquisa inversa e directa: carregue no visualizador de DVI e vá para a linha de LaTeX correspondente no editor, ou salte do editor para a página correspondente no visualizador</li>
       <li xml:lang="pt-BR">Pesquisa inversa e direta: clique no visualizador de DVI e vá para a linha de LaTeX correspondente no editor, ou salte do editor para a página correspondente no visualizador</li>
+      <li xml:lang="sa">उलटा अग्रे च अन्वेषणम् : DVI दर्शके क्लिक् कृत्वा सम्पादके तत्सम्बद्धे LaTeX रेखायां कूदन्तु, अथवा सम्पादकात् दर्शके तत्सम्बद्धपृष्ठं प्रति कूदन्तु</li>
       <li xml:lang="sk">Inverzné a predbežné vyhľadávanie: kliknite v prehliadači DVI a prejdite na zodpovedajúcu linku LaTeX v editore alebo prejdite z editora na zodpovedajúcu stránku v prehliadači.</li>
       <li xml:lang="sl">Iskanje nazaj in naprej: kliknite v pregledovalnik DVI in skok v urejevalnik na ustrezno vrstico v LaTeXu ali skok iz urejevalnika v ustrezno stran v pregledovalniku DVI</li>
       <li xml:lang="sv">Invers och framåtsökning: Klicka i DVI-visningen och gå till motsvarande Latex-rad i editorn, eller gå från editorn till motsvarande sida i visningen</li>
@@ -324,6 +333,7 @@
       <li xml:lang="pl">Znajdowanie rozdziałów lub sekcji jest bardzo proste. Kile tworzy listę wszystkich rozdziałów itp. w twoim dokumencie. Możesz uzyć tej listy do przeskakiwania do danej sekcji.</li>
       <li xml:lang="pt">A pesquisa de capítulos ou secções é muito simples - o Kile constrói uma lista com todos os capítulos, etc. no seu documento. Poderá usar a lista para ir para a secção correspondente</li>
       <li xml:lang="pt-BR">Achar o capítulo ou seção correta é muito fácil, o Kile constrói uma lista de todos os capítulos e afins do seu documento, permitindo pular para a seção correspondente rapidamente</li>
+      <li xml:lang="sa">अध्यायः अथवा खण्डाः अन्वेष्टुं अतीव सुलभं भवति, किले भवतः दस्तावेजे सर्वेषां अध्यायानां इत्यादीनां सूचीं निर्माति । भवन्तः सूचीं तत्सम्बद्धं विभागं प्रति कूर्दितुं उपयोक्तुं शक्नुवन्ति</li>
       <li xml:lang="sk">Nájdenie kapitoly alebo odsekov je veľmi jednoduché, Kile zostaví zoznam všetkých kapitol atď. v dokumente. Pomocou tohto zoznamu môžete prejsť na príslušnú časť</li>
       <li xml:lang="sl">Iskanje poglavja ali poglavij je zelo enostavno, Kile sestavi seznam vseh poglavij itd. v vašem dokumentu. Seznam lahko uporabite za skok naustrezen razdelek</li>
       <li xml:lang="sv">Det är mycket enkelt att hitta kapitel eller avsnitt. Kile skapar en lista av alla kapitel, etc., i dokumentet. Listan kan användas för att gå till motsvarande avsnitt</li>
@@ -356,6 +366,7 @@
       <li xml:lang="pl">Zbieranie dokumentów należących razem do projektu</li>
       <li xml:lang="pt">Colecção de documentos que pertencem em conjunto a um projecto</li>
       <li xml:lang="pt-BR">Reúna documentos que pertencem a um mesmo projeto</li>
+      <li xml:lang="sa">ये दस्तावेजाः एकत्र परियोजनायां सन्ति तेषां संग्रहणं कुर्वन्तु</li>
       <li xml:lang="sk">Zbierajte dokumenty, ktoré spolu patria do projektu</li>
       <li xml:lang="sl">Zbere dokumente, ki spadajo skupaj v projekt</li>
       <li xml:lang="sv">Samla dokument som hör ihop i ett projekt</li>
@@ -386,6 +397,7 @@
       <li xml:lang="pl">Łatwe wstawianie cytowań i odwołań przy użyciu projektów</li>
       <li xml:lang="pt">Inserção simpless de citações e referências ao usar os projectos</li>
       <li xml:lang="pt-BR">Inserção fácil de citações e referências ao usar projetos</li>
+      <li xml:lang="sa">परियोजनानां उपयोगं कुर्वन् उद्धरणानाम् सन्दर्भाणां च सुलभं सम्मिलनम्</li>
       <li xml:lang="sk">Ľahké vkladanie citácií a referencií pri použití projektov</li>
       <li xml:lang="sl">Enostavno vstavljanje citatov in referenc pri uporabi projektov</li>
       <li xml:lang="sv">Enkelt att infoga hänvisningar och referenser vid användning av projekt</li>
@@ -417,6 +429,7 @@
       <li xml:lang="pl">Eleastyczny i mądry system budowania do kompilowania twoich dokumentów LaTeX</li>
       <li xml:lang="pt">Sistema flexível e inteligente de compilação dos seus documentos em LaTeX</li>
       <li xml:lang="pt-BR">Sistema de depuração flexível e inteligente para compilar seus documentos do LaTeX</li>
+      <li xml:lang="sa">भवतः LaTeX दस्तावेजानां संकलनार्थं लचीलाः स्मार्टः च निर्माणप्रणाली</li>
       <li xml:lang="sk">Flexibilný a inteligentný systém zostavovania na zostavenie vašich dokumentov LaTeX</li>
       <li xml:lang="sl">Fleksibilen in pameten sistem izdelave vaših dokumentov LaTeX</li>
       <li xml:lang="sv">Flexibelt och smart byggsystem för att kompilera Latex-dokument</li>
@@ -448,6 +461,7 @@
       <li xml:lang="pl">SzybkiPodgląd: podgląd wybranej części dokumentu</li>
       <li xml:lang="pt">Antevisão Rápida: antevisão de uma parte seleccionada do seu documento</li>
       <li xml:lang="pt-BR">Visualização rápida: pré-visualize uma parte específica do seu documento</li>
+      <li xml:lang="sa">QuickPreview: स्वस्य दस्तावेजस्य चयनितभागस्य पूर्वावलोकनं कुर्वन्तु</li>
       <li xml:lang="sk">QuickPreview: ukážka vybranej časti dokumentu</li>
       <li xml:lang="sl">QuickPreview: predogled izbranega dela dokumenta</li>
       <li xml:lang="sv">Snabbgranskning: Förhandsgranska en markerad del av dokumentet</li>
@@ -479,6 +493,7 @@
       <li xml:lang="pl">Łatwy dostęp do źródeł pomocy</li>
       <li xml:lang="pt">Acesso simples a diversas fontes de ajuda</li>
       <li xml:lang="pt-BR">Acesso fácil a várias fontes de ajuda</li>
+      <li xml:lang="sa">विभिन्नसहाय्यस्रोतानां सुलभप्रवेशः</li>
       <li xml:lang="sk">Ľahký prístup k rôznym zdrojom pomoci</li>
       <li xml:lang="sl">Enostaven dostop do različnih virov pomoči</li>
       <li xml:lang="sv">Enkel tillgång till olika hjälpkällor</li>
@@ -511,6 +526,7 @@
       <li xml:lang="pl">Rozszerzone polecenia edytowania</li>
       <li xml:lang="pt">Comandos de edição avançados</li>
       <li xml:lang="pt-BR">Comandos de edição avançados</li>
+      <li xml:lang="sa">उन्नत सम्पादन आदेश</li>
       <li xml:lang="sk">Rozšírené editovacie príkazy</li>
       <li xml:lang="sl">Napredni ukazi za urejanje</li>
       <li xml:lang="sv">Avancerade redigeringskommandon</li>
@@ -548,6 +564,7 @@
       <caption xml:lang="pl">Edytowanie dokumentów w Kile</caption>
       <caption xml:lang="pt">Edição de documentos no Kile</caption>
       <caption xml:lang="pt-BR">Edição de documentos no Kile</caption>
+      <caption xml:lang="sa">किले मध्ये दस्तावेजसम्पादनम्</caption>
       <caption xml:lang="sk">Úpravy dokumentov v Kile</caption>
       <caption xml:lang="sl">Urejanje dokumentov v Kile</caption>
       <caption xml:lang="sv">Dokumentredigering i Kile</caption>

@@ -3,29 +3,31 @@
 # This file is distributed under the same license as the kile package.
 # Kali <EMAIL@ADDRESS>, 2024.
 #
+# SPDX-FileCopyrightText: 2024 kali <skkalwar999@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2024-12-13 19:10+0530\n"
-"Last-Translator: Kali <EMAIL@ADDRESS>\n"
-"Language-Team: Sanskrit\n"
+"PO-Revision-Date: 2024-12-14 01:13+0530\n"
+"Last-Translator: kali <skkalwar999@gmail.com>\n"
+"Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n>2);\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "भवतः नामानि"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "भवतः ईमेलपत्राणि"
 
 #: abbreviationmanager.cpp:104
 #, kde-format
@@ -86,13 +88,13 @@ msgstr "द्विचक्रिका"
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
-msgstr ""
+msgstr "अस्य अत्यावश्यकस्य साधनस्य कृते द्विचक्रिका न प्राप्नोत् । %1"
 
 #: configtester.cpp:368
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "No executable '%1' found. %2"
-msgstr ""
+msgstr "न निष्पादनीयः '%1' प्राप्तः । %2"
 
 #: configtester.cpp:373
 #, kde-format
@@ -108,7 +110,7 @@ msgstr "न निष्पादनीयः '%1' प्राप्तः"
 #, kde-format
 msgctxt "executable => path"
 msgid "Found (%1 => %2)"
-msgstr ""
+msgstr "प्राप्तम् (%1 => %2)"
 
 #: configtester.cpp:397
 #, kde-format
@@ -1497,8 +1499,8 @@ msgstr "केवलं उपयोक्तृनिर्धारितप�
 #, kde-format
 msgid "1 item found."
 msgid_plural "%1 items found."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "१ द्रव्यं प्राप्तम् ।"
+msgstr[1] "%1 वस्तूनि प्राप्तानि।"
 
 #: dialogs/listselector.cpp:151
 #, kde-format
@@ -1647,7 +1649,7 @@ msgstr "विचि..."
 #, kde-format
 msgctxt "marked"
 msgid "M"
-msgstr ""
+msgstr "म"
 
 #: dialogs/managetemplatesdialog.cpp:111 dialogs/managetemplatesdialog.cpp:167
 #, kde-format
@@ -2061,7 +2063,7 @@ msgstr "pdfpages: पैरामीटर् चिनोतु"
 #, kde-format
 msgctxt "%1 is the number of pages"
 msgid "%1 (encrypted)"
-msgstr ""
+msgstr "%1 (गुप्तकृतम्) २."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:406
 #, kde-format
@@ -5731,7 +5733,7 @@ msgstr "दुष्टपेटिकाः %1"
 #, kde-format
 msgctxt "Result of the compilation w.r.t. number of errors/warnings/badboxes"
 msgid "%1  %2  %3"
-msgstr ""
+msgstr "%1 %2 %3"
 
 #: errorhandler.cpp:405
 #, kde-format
@@ -5930,7 +5932,7 @@ msgstr "S&statistics"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "&Open Containing Folder"
 
 #: kile.cpp:858
 #, kde-format
@@ -6122,19 +6124,19 @@ msgstr "फोकस सम्पादक दृश्य"
 #, kde-format
 msgctxt "@action: Starts the completion of the current LaTeX command"
 msgid "Complete (La)TeX Command"
-msgstr ""
+msgstr "सम्पूर्ण (La)TeX आदेश"
 
 #: kile.cpp:932
 #, kde-format
 msgctxt "@action: Starts the input (and completion) of a LaTeX environment"
 msgid "Complete LaTeX Environment"
-msgstr ""
+msgstr "सम्पूर्ण LaTeX वातावरण"
 
 #: kile.cpp:934
 #, kde-format
 msgctxt "@action: Starts the completion of the current abbreviation"
 msgid "Complete Abbreviation"
-msgstr ""
+msgstr "सम्पूर्ण संक्षिप्त नाम"
 
 #: kile.cpp:937
 #, kde-format
@@ -6387,7 +6389,7 @@ msgstr "सामान्यविधिः (वर्तमानः मुख
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
-msgstr ""
+msgstr "%1 [केवलं पठनीयम्] ।"
 
 #: kile.cpp:2143
 #, kde-format
@@ -6430,13 +6432,13 @@ msgstr "वर्तमानदस्तावेजं मुख्यदस�
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
-msgstr ""
+msgstr "मृदुवस्तु"
 
 #: kile.cpp:3025
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
-msgstr ""
+msgstr "पंक्ति"
 
 #: kile.cpp:3032
 #, kde-format
@@ -10201,8 +10203,8 @@ msgstr "० दोषाः"
 #, kde-format
 msgid "1 error"
 msgid_plural "%1 errors"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "१ दोषः"
+msgstr[1] "%1 त्रुटयः"
 
 #: kilestdtools.cpp:331
 #, kde-format
@@ -10213,8 +10215,8 @@ msgstr "० चेतावनी"
 #, kde-format
 msgid "1 warning"
 msgid_plural "%1 warnings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "१ चेतावनी"
+msgstr[1] "%1 चेतावनी"
 
 #: kilestdtools.cpp:332
 #, kde-format
@@ -10225,8 +10227,8 @@ msgstr "० दुष्टपेटिकाः"
 #, kde-format
 msgid "1 badbox"
 msgid_plural "%1 badboxes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "१ दुष्टपेटिका"
+msgstr[1] "%1 दुष्टपेटिकाः"
 
 #: kilestdtools.cpp:335
 #, kde-format
@@ -10234,7 +10236,7 @@ msgctxt ""
 "String displayed in the log panel showing the number of errors/warnings/"
 "badboxes"
 msgid "%1, %2, %3"
-msgstr ""
+msgstr "%1, %2, %3"
 
 #: kilestdtools.cpp:378
 #, kde-format
@@ -10884,7 +10886,7 @@ msgstr "KDE एकीकृत LaTeX वातावरणम्"
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
-msgstr ""
+msgstr "किले दलेन (२००३ - %1) २."
 
 #: main.cpp:107
 #, kde-format
@@ -11311,7 +11313,7 @@ msgstr "रिक्त BibTeX सञ्चिका"
 #, kde-format
 msgctxt "<tool name> - <configuration>"
 msgid "%1 - %2"
-msgstr ""
+msgstr "%1 - %2"
 
 #: userhelp.cpp:151
 #, kde-format
@@ -12756,7 +12758,7 @@ msgstr ""
 #, kde-format
 msgctxt "structure view entry: title (line)"
 msgid "%1 (line %2)"
-msgstr ""
+msgstr "%1 (पङ्क्ति %2) २."
 
 #: widgets/structurewidget.cpp:129
 #, kde-format
@@ -12911,8 +12913,8 @@ msgstr "<br/>यूनिकोडः %1"
 #, kde-format
 msgid "Required Package: %2"
 msgid_plural "Required Packages: %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "आवश्यकं संकुलम् : %2"
+msgstr[1] "आवश्यकाः संकुलाः: %2"
 
 #: widgets/symbolview.cpp:239
 #, kde-format

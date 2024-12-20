@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2024-12-14 01:13+0530\n"
+"PO-Revision-Date: 2024-12-19 21:41+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -2314,17 +2314,17 @@ msgstr "***** उपकरण:        "
 #: dialogs/postscriptdialog.cpp:217
 #, kde-format
 msgid "***** input file:  "
-msgstr "***** निवेशसञ्चिका: १.  "
+msgstr "***** निवेशसञ्चिका:  "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:936 dialogs/postscriptdialog.cpp:218
 #, kde-format
 msgid "***** output file: "
-msgstr "***** निर्गम सञ्चिका: १. "
+msgstr "***** निर्गम सञ्चिका: "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:937 dialogs/pdf-wizard/pdfdialog.cpp:1048
 #, kde-format
 msgid "***** param:       "
-msgstr "***** परम्: १.       "
+msgstr "***** परम्:       "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:938
 #, kde-format
@@ -2334,7 +2334,7 @@ msgstr "***** आदेश:     "
 #: dialogs/pdf-wizard/pdfdialog.cpp:939 dialogs/postscriptdialog.cpp:219
 #, kde-format
 msgid "***** viewer:      "
-msgstr "***** दर्शकः : १.      "
+msgstr "***** दर्शकः :      "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1101
 #, kde-format
@@ -7650,7 +7650,7 @@ msgstr "प्रलेखन"
 #: kilelauncher.cpp:110
 #, kde-format
 msgid " output: \n"
-msgstr " उत्पादनम् : १. \n"
+msgstr " उत्पादनम् : \n"
 
 #: kilelauncher.cpp:220
 #, kde-format
@@ -7766,7 +7766,7 @@ msgstr ""
 "आकार विकल्प : 10pt, 11pt, 12pt\n"
 "कागज आकार विकल्प: a4paper, a5paper, b5paper, letterpaper, legalpaper, "
 "executivepaper\n"
-"अन्ये विकल्पाः : १. \n"
+"अन्ये विकल्पाः : \n"
 "landscape -- landscape प्रारूपं चयनं करोति; पूर्वनिर्धारितं चित्रम् अस्ति । \n"
 "titlepage, notitlepage -- पृथक् शीर्षकपृष्ठं भवितुमर्हति वा इति चयनं करोति ।\n"
 "leqno -- समीकरणानां वामभागे समीकरणसङ्ख्यां प्रदर्शयन्तु; पूर्वनिर्धारितं दक्षिणपार्श्वे अस्ति "

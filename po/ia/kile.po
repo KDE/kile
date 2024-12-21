@@ -1,14 +1,14 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2013, 2020, 2021, 2022, 2023 G.Sora <g.sora@tiscali.it>
+# SPDX-FileCopyrightText: 2013, 2020, 2021, 2022, 2023, 2024 G.Sora <g.sora@tiscali.it>
 # giovanni <g.sora@tiscali.it>, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2024-05-13 12:00+0200\n"
+"PO-Revision-Date: 2024-12-20 15:23+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4047,7 +4047,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:2291
 #, kde-format
 msgid "%1 '%2' is not allowed."
-msgstr ""
+msgstr "%1 '%2' non es permittite."
 
 #: dialogs/quickdocumentdialog.cpp:2315
 #, kde-format
@@ -5692,7 +5692,7 @@ msgstr "S&tatistica"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "&Aperi dossier continente"
 
 #: kile.cpp:858
 #, kde-format
@@ -11226,27 +11226,27 @@ msgstr "Con&figura..."
 #: widgets/latexconfigwidget.cpp:31
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: widgets/latexconfigwidget.cpp:32 widgets/latexconfigwidget.cpp:43
 #, kde-format
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: widgets/latexconfigwidget.cpp:33
 #, kde-format
 msgid "Alt"
-msgstr ""
+msgstr "Alt"
 
 #: widgets/latexconfigwidget.cpp:34
 #, kde-format
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
 msgid "Ctrl + Shift"
-msgstr ""
+msgstr "Ctrl + Shift"
 
 #: widgets/latexconfigwidget.cpp:36
 #, kde-format
@@ -12153,7 +12153,7 @@ msgstr "png"
 #: widgets/structureviewconfigwidget.ui:258
 #, kde-format
 msgid "jpg"
-msgstr ""
+msgstr "jpg"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:263

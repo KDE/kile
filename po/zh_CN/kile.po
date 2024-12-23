@@ -5850,7 +5850,7 @@ msgstr "统计信息(&T)"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "打开包含的文件夹(&O)"
 
 #: kile.cpp:858
 #, kde-format
@@ -6677,13 +6677,13 @@ msgstr "使用该数目的空格来自动缩进环境"
 #: kile.kcfg:214
 #, kde-format
 msgid "Click in editor to select from cursor"
-msgstr ""
+msgstr "在编辑器中点击以从光标选择"
 
 #. i18n: ectx: label, entry (envEventSearchModifier), group (Editor Ext)
 #: kile.kcfg:218
 #, kde-format
 msgid "Click in editor to search in viewer"
-msgstr ""
+msgstr "在编辑器中点击以在查看器中搜索"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
 #: kile.kcfg:226

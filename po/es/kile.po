@@ -9614,12 +9614,12 @@ msgstr "Lista de impresión de abreviaturas"
 #: kilestdactions.cpp:330
 #, kde-format
 msgid "ALT.... : you have the choice between these two fields\n"
-msgstr "ALT.... : puede elegir entre estos dos campos\n"
+msgstr "ALT...: puede elegir entre estos dos campos\n"
 
 #: kilestdactions.cpp:331
 #, kde-format
 msgid "OPT.... : optional fields (use the 'Clean' command to remove them)"
-msgstr "OPT.... : campos opcionales (use la orden «Limpiar» para eliminarlos)"
+msgstr "OPT...: campos opcionales (use la orden «Limpiar» para eliminarlos)"
 
 #: kilestdactions.cpp:332
 #, kde-format

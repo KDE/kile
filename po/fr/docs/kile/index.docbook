@@ -260,7 +260,7 @@
 >La plupart de ces éléments sont probablement inclus dans votre distribution &Linux;. Veuillez vous référer à la documentation de votre distribution, ou vous référer au &CD; ou DVD d'installation pour ajouter ces paquets à votre ordinateur.</para>
 
 		<para
->&kile; est peut être déjà disponible sous forme de paquet pré-compilé pour votre distribution &Linux;. Vous pouvez vérifier avec le gestionnaire de paquet de votre distribution.</para>
+>&kile; est peut être déjà disponible sous forme de paquet précompilé pour votre distribution &Linux;. Vous pouvez vérifier avec le gestionnaire de paquet de votre distribution.</para>
 
 	</sect1>
 
@@ -1331,7 +1331,7 @@
 		<para
 >Pour réaliser une recherche en avant, veuillez placer le curseur sur la ligne du code source puis cliquer sur le bouton de souris <mousebutton
 >gauche</mousebutton
-> en maintenant la touche &Shift; enfoncée ou cliquer sur <guilabel
+> en maintenant la touche &Maj; enfoncée ou cliquer sur <guilabel
 >DVI en avant</guilabel
 > / <guilabel
 >PDF en avant</guilabel

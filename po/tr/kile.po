@@ -9,13 +9,13 @@
 # Tolga BALCI <tolgabalci@ttnet.net.tr>, 2007.
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014, 2015, 2017.
 # Kaan Ozdincer <kaanozdincer@gmail.com>, 2014.
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2024-05-27 13:09+0300\n"
+"PO-Revision-Date: 2025-01-11 17:15+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.07.70\n"
+"X-Generator: Lokalize 25.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3452,12 +3452,12 @@ msgstr "Normal sınır, sınır notu alanı için kullanılır"
 #: dialogs/quickdocumentdialog.cpp:681
 #, kde-format
 msgid "Writes the paper size as a special into the DVI-file"
-msgstr "Kağıt boyutunu özel bir kısım olarak DVI dosyasına yazar"
+msgstr "Kâğıt boyutunu özel bir kısım olarak DVI dosyasına yazar"
 
 #: dialogs/quickdocumentdialog.cpp:682
 #, kde-format
 msgid "Writes the paper size into the pdftex page register"
-msgstr "Kağıt boyutunu pdftex sayfa kaydına yazar"
+msgstr "Kâğıt boyutunu pdftex sayfa kaydına yazar"
 
 #: dialogs/quickdocumentdialog.cpp:683
 #, kde-format
@@ -7836,7 +7836,7 @@ msgstr ""
 "\\documentclass[seçenekler]{sınıf}\n"
 "sınıf : article,report,book,letter\n"
 "boyut seçenekleri : 10 pt, 11 pt, 12 pt\n"
-"kağıt boyutu seçenekleri: a4paper, a5paper, b5paper, letterpaper, "
+"kâğıt boyutu seçenekleri: a4paper, a5paper, b5paper, letterpaper, "
 "legalpaper, executivepaper\n"
 "diğer seçenekler: \n"
 "landscape — manzara görünümünü seçer; öntanımlı portredir. \n"

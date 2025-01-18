@@ -1,16 +1,16 @@
 # Translation for kile.po to Euskara/Basque (eu).
-# Copyright (C) 2021-2024 This file is copyright:
+# Copyright (C) 2021-2025 This file is copyright:
 # This file is distributed under the same license as the kile package.
-# SPDX-FileCopyrightText: 2024 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
+# SPDX-FileCopyrightText: 2024, 2025 KDE euskaratzeko proiektuaren arduraduna <xalba@ni.eus>
 #
 # Translator:
-# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2021, 2022, 2023, 2024.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2021, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2024-08-19 14:40+0200\n"
+"PO-Revision-Date: 2025-01-17 06:36+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -126,7 +126,7 @@ msgstr "Ezinbesteko tresna hau ez dabil; zure instalazioa egiazta ezazu."
 #: configtester.cpp:487
 #, kde-format
 msgid "Source Specials Switch"
-msgstr ""
+msgstr "Sorburu berezien etengailua"
 
 #: configtester.cpp:519
 #, kde-format
@@ -134,6 +134,8 @@ msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
 "and forward search capabilities."
 msgstr ""
+"Onartua, (La)TeX-erako 'Modernoa' konfigurazio erabili atzerako eta "
+"aurrerako bilaketa gaitasunak automatikoki gaitzeko."
 
 #: configtester.cpp:526
 #, kde-format
@@ -141,6 +143,8 @@ msgid ""
 "Not supported, use the srcltx package to enable the inverse and forward "
 "search capabilities."
 msgstr ""
+"Ez onartua, «srcltx» paketea erabili atzerako eta aurrerako bilaketa "
+"gaitasunak gaitzeko."
 
 #: configtester.cpp:537
 #, kde-format
@@ -153,6 +157,8 @@ msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
 "enable inverse and forward search capabilities."
 msgstr ""
+"Onartua, PDFLaTeX eta XeLaTeX-en 'Modernoa' konfigurazioa erabili atzerako "
+"eta aurrerako bilaketa gaitasunak automatikoki gaitzeko."
 
 #: configtester.cpp:553
 #, kde-format
@@ -163,6 +169,8 @@ msgstr "Ez dago onartuta"
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr ""
+"Aurreikusteko beheko beiratean, PNG aurreikuspegiak ezin dira erabili "
+"«mathgroups»etarako"
 
 #: configtester.cpp:805
 #, kde-format
@@ -170,6 +178,8 @@ msgid ""
 "PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' "
 "in the bottom preview pane"
 msgstr ""
+"Aurreikusteko beheko beiratean, PNG aurreikuspegiak ezin dira erabili "
+"bihurketekin 'dvi->ps->png' and 'pdf->png'"
 
 #: dialogs/abbreviationinputdialog.cpp:44
 #, kde-format
@@ -230,11 +240,16 @@ msgid ""
 "p><p>It is recommended to run this assistant before using Kile for the first "
 "time.</p><p>Please press 'Next' now to start the test procedure.</p>"
 msgstr ""
+"<p>Konfiguratzeko morroi honek zure sistema LaTeX dokumentuak prozesatzeko "
+"behar bezala ezarrita dagoen egiaztatuko du. Kile-ren konfigurazioa fintzeko "
+"aukera ere emango du, proben emaitzak kontuan hartuz.</p><p>Kile aurreneko "
+"erabili aurretik morroi hau exekutatzea gomendatzen da.</p><p>Mesedez, "
+"sakatu 'Hurrengoa' proba-prozedura hasteko.</p>"
 
 #: dialogs/configcheckerdialog.cpp:124
 #, kde-format
 msgid "System Check & Configuration Assistant"
-msgstr ""
+msgstr "Sistema egiaztatzeko eta konfiguratzeko laguntzailea"
 
 #: dialogs/configcheckerdialog.cpp:127
 #, kde-format
@@ -249,14 +264,14 @@ msgstr "Konfiguratu ikusteko tresna dokumentu erakuslea erabiltzeko"
 #: dialogs/configcheckerdialog.cpp:149
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
-msgstr "Erabili konfigurazio 'modernoa' TeX, PDFTeX, eta LaTeX tresnetan"
+msgstr "TeX, PDFTeX, eta LaTeX tresnetarako 'modernoa' konfigurazioa erabili"
 
 #: dialogs/configcheckerdialog.cpp:151
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr ""
-"Erabili konfigurazio 'modernoa' PDFLaTeX, LuaLaTeX eta XeLaTeX tresnetan"
+"PDFLaTeX, LuaLaTeX eta XeLaTeX tresnetarako 'modernoa' konfigurazioa erabili"
 
 #: dialogs/configcheckerdialog.cpp:153
 #, kde-format
@@ -279,6 +294,9 @@ msgid ""
 ">Kile cannot function correctly on your system. Please consult the test "
 "results<br/>to determine which programs have to be fixed."
 msgstr ""
+"Ondoko proba <b>kritikoak</b> ez dute arrakastarik izan:<br/><br/>%1<br/><br/"
+">Kile-k ezin du zure sisteman behar bezala funtzionatu. Mesedez proben "
+"emaitzak kontsultatu<br/>zein programa konpondu behar diren zehazteko."
 
 #: dialogs/configcheckerdialog.cpp:237
 #, kde-format
@@ -286,12 +304,14 @@ msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
 "able to use Kile; however, not all features are guaranteed to work."
 msgstr ""
+"Ondoko probek ez dute arrakastarik izan:<br/><br/>%1<br/><br/>Kile erabili "
+"ahal izango duzun arren, funtzio guztiak ibiliko direnik ez dago bermatuta."
 
 #: dialogs/configcheckerdialog.cpp:242
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
-msgstr ""
+msgstr "<b>Ez da arazorik antzeman. Zure sisteman Kile ondo ibiliko da.</b>"
 
 #: dialogs/configcheckerdialog.cpp:255
 #, kde-format

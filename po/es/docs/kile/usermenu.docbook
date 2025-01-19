@@ -1,0 +1,638 @@
+<chapter id="id_usermenu">
+<title
+>Menú configurable por el usuario</title>
+
+<sect1 id="id_usermenu_configuration">
+<title
+>Configuración</title>
+
+<para
+>&kile; soporta un menú configurable por el usuario, que se mostrará como una parte del menú de &kile;. Este menú se puede configurar utilizando el diálogo de configuración de &kile; con <menuchoice
+><guimenu
+>Preferencias</guimenu
+><guisubmenu
+>Configurar Kile</guisubmenu
+><guimenuitem
+>Menú del usuario</guimenuitem
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Configurar el menú del usuario</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_01.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Configurar el menú del usuario</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Tiene dos opciones para posicionar este menú:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>El menú <guimenu
+>Menú del usuario</guimenu
+> aparecerá en la barra de menú principal entre los menús <guimenu
+>LaTeX</guimenu
+> y <guimenu
+>Asistente</guimenu
+>, y el asistente de configuración <guimenuitem
+>Editar menú del usuario</guimenuitem
+>, en el menú <guimenu
+>Asistente</guimenu
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>El menú del usuario está ubicado en el menú principal</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_02.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>El menú del usuario está ubicado en el menú principal</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+>o ambos elementos aparecerán en la parte inferior de la entrada del menú <guimenu
+>LaTeX</guimenu
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>El menú del usuario como parte del menú LaTeX</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_03.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>El menú del usuario como parte del menú LaTeX</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+
+<para
+>Las etiquetas definidas por el usuario que ya existan de versiones anteriores de &kile; se transformarán automáticamente en el nuevo menú configurable por el usuario. Las etiquetas se guardan en un archivo llamado <filename
+>usertags.xml</filename
+> y como todos los archivos de definición de menús, pueden estar en el directorio del menú del usuario local de &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>, &eg; <filename
+>/home/user/.kde/share/apps/kile/usermenu/</filename
+>.</para>
+
+<para
+>Puede utilizar diferentes archivos de definición de menús para diferentes tareas. Llame al asistente del menú del usuario <menuchoice
+><guimenu
+>Asistente</guimenu
+><guisubmenu
+>Editar el menú del usuario</guisubmenu
+></menuchoice
+> o <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Editar el menú del usuario</guisubmenu
+></menuchoice
+> para instalar o editar un archivo de definición de menú.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_wizard">
+<title
+>Asistente</title>
+
+<para
+>Puede crear menús nuevos o modificar los existentes con un cómodo asistente de configuración del menú del usuario que se encuentra en <menuchoice
+><guimenu
+>Asistente</guimenu
+><guisubmenu
+>Editar el menú del usuario</guisubmenu
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Asistente del menú del usuario</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_04.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Asistente del menú del usuario</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>En la parte izquierda verá un árbol de menú existente. Al igual que en un menú estándar, hay tres tipos diferentes de elementos de menú disponibles:</para>
+
+<itemizedlist>
+<listitem
+><para
+>entradas de menú estándar, que se asignan a una acción</para
+></listitem>
+<listitem
+><para
+>submenús, que contienen más elementos de menú</para
+></listitem>
+<listitem
+><para
+>separadores, para obtener una estructura visible de todas las entradas.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Para modificar este menú, utilice los seis botones de la izquierda. Hay más acciones posibles disponibles en el menú contextual de los elementos de menú ya existentes.</para>
+
+	<screenshot>
+		<screeninfo
+>Árbol del menú definido por el usuario</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_05.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Árbol del menú definido por el usuario</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Cada elemento de menú estándar está asignado a una de tres tipos de acciones, cada una de las cuáles tiene diferentes atributos, que podrían establecerse: </para>
+
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Texto:</guilabel
+>&nbsp; &kile; le otorga la capacidad de crear sus propias etiquetas. Una etiqueta es similar a un atajo de teclado que lanza algún comando o escribe textos utilizados con frecuencia, &eg; Joe Sixpack suele utilizar con frecuencia la frase <userinput
+>Hola, he sido incluido...</userinput
+>. Esta etiqueta se incluirá en la posición actual del cursor, cuando se llame a esta acción (consultar arriba). Los metacaracteres también están disponibles (consulte <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+</listitem>
+
+<listitem
+><para
+><guilabel
+>Insertar contenidos del archivo:</guilabel
+>&nbsp; Inserta el contenido completo de un archivo indicado.</para>
+
+	<screenshot>
+		<screeninfo
+>Insertar los contenidos de un archivo</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Insertar los contenidos de un archivo</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+  <listitem
+><para
+><guilabel
+>Ejecutar un programa externo:</guilabel
+>&nbsp; La salida de este programa se puede insertar en el documento abierto. También es posible utilizar el metacaracter <userinput
+>%M</userinput
+> en la línea de ordenes de este programa, puesto que el texto seleccionado se guardará en un archivo temporal. Utilice <userinput
+>%M</userinput
+> para el nombre de archivo de este archivo temporal.</para>
+
+	<screenshot>
+		<screeninfo
+>Ejecutar un programa externo</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ejecutar un programa externo</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Si falta alguna información importante para una acción, los elementos del menú se colorean en rojo. Esto puede deberse a un archivo no existente</para>
+
+	<screenshot>
+		<screeninfo
+>Archivo no existente</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Archivo no existente</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>o a la falta de un título para la entrada de menú, lo que se denotará con marcas de interrogación como <userinput
+>???</userinput
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Falta el título de una entrada de menú</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Falta el título de una entrada de menú</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Si abre el menú contextual de uno de estos elementos de menú coloreados en rojo, obtendrá una opción adicional para más información sobre este error.</para>
+
+	<screenshot>
+		<screeninfo
+>Información adicional</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Información adicional</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>También puede disponer de más información utilizando la funcionalidad <guilabel
+>¿Qué es esto?</guilabel
+> de la mayoría de los widgets.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_placeholders">
+<title
+>Marcadores de posición</title>
+
+<sect2 id="id_usermenu_placeholders_text">
+<title
+>Insertar texto</title>
+
+<para
+>Hay algunos marcadores de posición que se pueden utilizar en las etiquetas definidas por el usuario: <userinput
+>%C</userinput
+>, <userinput
+>%B</userinput
+>, <userinput
+>%M</userinput
+>, <userinput
+>%E</userinput
+>, <userinput
+>%R</userinput
+> y <userinput
+>%T</userinput
+>.</para>
+
+<itemizedlist>
+<listitem>
+<para
+><userinput
+>%C</userinput
+>:&nbsp; es donde se colocará el cursor tras la inserción de una etiqueta definida por el usuario.</para>
+
+	<screenshot>
+		<screeninfo
+>Posición del cursor (%C)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Posición del cursor (%C)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%B</userinput
+>:&nbsp; será sustituido por una viñeta (consulte <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+
+	<screenshot>
+		<screeninfo
+>Viñeta (%B)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Viñeta (%B)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%M</userinput
+>:&nbsp; será sustituido por el texto seleccionado.</para>
+
+	<screenshot>
+		<screeninfo
+>Texto seleccionado (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Texto seleccionado (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%E</userinput
+>:&nbsp; denota la profundidad de la sangría del texto que hay dentro de un entorno.</para>
+
+	<screenshot>
+		<screeninfo
+>Sangría del texto de un entorno (%E)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08d.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Sangría del texto de un entorno (%E)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%R</userinput
+>:&nbsp; llamará a un diálogo de referencia para seleccionar una etiqueta ya haya sido definida. Esto se puede utilizar para hacer una referencia a una etiqueta predefinda, que se puede seleccionar de una lista desplegable (consulte también <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Referencias</guimenuitem
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> o <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Referencias</guimenuitem
+><guimenuitem
+>pageref</guimenuitem
+></menuchoice
+>).</para>
+
+	<screenshot>
+		<screeninfo
+>Referencias (%R)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08e.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Referencias (%R)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%T</userinput
+>:&nbsp; llamará a un diálogo de cita para seleccionar una cita ya definida. Al igual que cuando se utiliza <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Referencias</guimenuitem
+><guimenuitem
+>cite</guimenuitem
+></menuchoice
+> aparecerá una lista con todas las claves de citas.</para>
+
+	<screenshot>
+		<screeninfo
+>Claves de citas (%T)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08f.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Claves de citas (%T)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+<para
+>Vamos a considerar otro ejemplo, con la siguiente macro <userinput
+>\frac{%M}{%C}</userinput
+>. En primer lugar, seleccionamos un número en nuestro texto, digamos <userinput
+>42</userinput
+>. Ahora invocamos esta macro y obtenemos <userinput
+>\frac{42}{}</userinput
+> con el cursor colocado dentro del segundo par de corchetes.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_file">
+<title
+>Insertar los contenidos de un archivo</title>
+
+<para
+>Si desea insertar los contenidos de un archivo de texto, puede utilizar los mismos marcadores de posición.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_program">
+<title
+>Ejecutar un programa</title>
+
+<para
+>Si desea ejecutar un programa externo, en la línea de ordenes solo se reconoce el marcador <userinput
+>%M</userinput
+> para el texto seleccionado. La selección se guardará en un archivo temporal y el marcador de posición <userinput
+>%M</userinput
+> se sustituye con este nombre de archivo.</para>
+
+	<screenshot>
+		<screeninfo
+>Ejecutar un programa externo (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_09.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ejecutar un programa externo (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Otro marcador de posición es <userinput
+>%S</userinput
+>, que se sustituye por el nombre base completo, sin la ruta, del documento actual. Este nombre base está compuesto de todos los caracteres del nombre de archivo hasta (pero sin incluirlo) el último carácter «.».</para>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_parameter">
+<title
+>Parámetro</title>
+
+<para
+>Muchas entradas de menú pueden tener parámetros adicionales que se explican por sí solos, y que se pueden marcar. Si algunos de estos parámetros no están disponibles para algún tipo de acción, se desactivan.</para>
+
+	<screenshot>
+		<screeninfo
+>Parámetro del menú del usuario</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_10.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Parámetro del menú del usuario</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Este es un ejemplo de como ejecutar un programa externo:</para>
+
+	<screenshot>
+		<screeninfo
+>Ejemplo de parámetro</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ejemplo de parámetro</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Puede ver que se llama un script <userinput
+>perl</userinput
+>, que debe trabajar con la selección actual. El parámetro <guilabel
+>Se necesita un texto seleccionado</guilabel
+> está marcado para garantizar una selección. La salida de este script se insertará (<guilabel
+>Insertar la salida del programa seleccionado</guilabel
+>) y sustituirá a la selección actual (<guilabel
+>Reemplazar texto seleccionado</guilabel
+>), pero no se seleccionará a sí misma.</para>
+
+<para
+>Por supuesto, también puede lanzar sus propios programas o guiones. Por ejemplo, seleccionar una lista de números separados por espacios y llamar a un guion o a un programa de Perl que transforme dicha selección en código &latex; para una matriz. Cualquier idea que tenga se puede realizar usando la siguiente entrada del menú de usuario.</para>
+
+	<screenshot>
+		<screeninfo
+>Ejemplo de parámetro 2</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ejemplo de parámetro 2</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_files">
+<title
+>Archivos de definición de menús</title>
+
+<para
+>Puede instalar diferentes menús en tiempo de ejecución para diversas tareas. Cuando llame al asistente del menú del usuario, se cargará el archivo de definición de menú actual. Si lo modifica y cierra el diálogo con <guibutton
+>Aceptar</guibutton
+>, los cambios se guardarán y se instalarán como un nuevo menú de usuario. El cierre del diálogo con <guibutton
+>Cancelar</guibutton
+> descartará todos los cambios.</para>
+
+	<screenshot>
+		<screeninfo
+>Archivos de definición de menú</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_12.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Archivos de definición de menú</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+
+<para
+>También es libre de guardar el archivo modificado en el directorio de menús de usuario o de cargar otro archivo de definición de menú e instalarlo. Todos los archivos de definición de menús de usuario se deben guardar en el directorio local de menús de usuario de &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>.</para>
+
+<para
+>Eche un vistazo al archivo de definición de menú de ejemplo <userinput
+>example.xml</userinput
+> para ver más entradas de menú con sus parámetros.</para>
+
+</sect1>
+
+</chapter>

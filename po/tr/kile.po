@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2025-01-11 17:15+0300\n"
+"PO-Revision-Date: 2025-01-19 13:50+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -247,7 +247,7 @@ msgstr ""
 "<p>Bu yapılandırma yardımcısı sisteminizin LaTeX belgelerini işlemek için "
 "doğru ayarlanıp ayarlanmadığını denetleyecektir. Sınama sonuçları alınırken "
 "Kile için ince ayarlar yapmaya da izin verir.</p><p>Bu yardımcının ilk Kile "
-"çalışmasından önce çalıştırılması önerilir.</p><p>‘Sonraki’ düğmesine "
+"çalışmasından önce çalıştırılması önerilir.</p><p>“Sonraki” düğmesine "
 "tıklayarak sınamayı başlatın.</p>"
 
 #: dialogs/configcheckerdialog.cpp:124
@@ -284,7 +284,7 @@ msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
 "changes."
 msgstr ""
-"<br/>Lütfen önerilen yapılandırma değişikliklerini kabul etmek için ‘Bitir’ "
+"<br/>Lütfen önerilen yapılandırma değişikliklerini kabul etmek için “Bitir” "
 "düğmesine tıklayın."
 
 #: dialogs/configcheckerdialog.cpp:156
@@ -439,7 +439,7 @@ msgstr "Kod Tamamlama"
 #: dialogs/configurationdialog.cpp:251 kileui.rc:150
 #, kde-format
 msgid "Quick Preview"
-msgstr "Hızlı Önizleme"
+msgstr "Tez Önizleme"
 
 #: dialogs/configurationdialog.cpp:251 kile.cpp:752
 #, kde-format
@@ -668,7 +668,7 @@ msgstr ""
 "<br><br>Ortamlar, grafikler, etiketler, kaynaklar ve girdi dosyaları için de "
 "sabit önceden tanımlanmış kipler vardır. Eğer dizgi boşsa Kile bu kipin "
 "bütün komutlarını arayacaktır. Bir dizgi verildiğinde parametre olarak "
-"alınacaktır. Örneğin, Kile ‘center’ dizgisiyle ortam kipinde "
+"alınacaktır. Örneğin, Kile “center” dizgisiyle ortam kipinde "
 "“\\begin{center}” ifadesini, grafik kipinde “.*\\.png” dizgisiyle bütün png "
 "dosyalarını arayacaktır."
 
@@ -1883,7 +1883,7 @@ msgid ""
 "quick from one cell to another."
 msgstr ""
 "Her hücreye madde imi ekleyin. Seçenek+Kontrol+Sağ Ok ve Seçenek+Kontrol+Sol "
-"Ok ile hızlı bir şekilde bir hücreden diğerine geçebilirsiniz."
+"Ok ile tez bir hücreden diğerine geçebilirsiniz."
 
 #: dialogs/mathenvironmentdialog.cpp:207
 #: dialogs/tabular/newtabulardialog.cpp:145
@@ -1939,7 +1939,7 @@ msgstr "Hata: Bu adda bir araç halihazırda var."
 #: dialogs/newtoolwizard.cpp:71
 #, kde-format
 msgid "Error: The name may not contain a slash '/'."
-msgstr "Hata: Ad, bir eğik çizgi (‘/’) içeremez."
+msgstr "Hata: Ad, bir eğik çizgi (“/”) içeremez."
 
 #: dialogs/newtoolwizard.cpp:75
 #, kde-format
@@ -2101,7 +2101,7 @@ msgid ""
 "Please enter the password for this PDF file\n"
 " or leave it blank to try another method: "
 msgstr ""
-"Bu PDF dosyası şifrelenmiş ve ‘pdftk’ onu açamıyor.\n"
+"Bu PDF dosyası şifrelenmiş ve “pdftk” onu açamıyor.\n"
 "Lütfen ya PDF dosyası için parolayı girin\n"
 " ya da boş bırakarak başka bir yöntem deneyin: "
 
@@ -2215,12 +2215,12 @@ msgstr "Parametre:"
 #: dialogs/pdf-wizard/pdfdialog.cpp:791
 #, kde-format
 msgid "All options for 'pdftk'"
-msgstr "‘pdftk’ için bütün seçenekler"
+msgstr "“pdftk” için bütün seçenekler"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:796
 #, kde-format
 msgid "All options for 'pdfpages'"
-msgstr "‘pdfpages’ için bütün seçenekler"
+msgstr "“pdfpages” için bütün seçenekler"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:818
 #, kde-format
@@ -2284,11 +2284,11 @@ msgid ""
 msgstr ""
 "<center>PDF Sihirbazı</center><br>Bu sihirbaz <ul><li>var olan bir PDF "
 "dosyasının sayfalarını <li>okuyup belge bilgisini bir PDF dosyasına "
-"güncellemek (yalnızca pdftk)</li> ve yeniden düzenlemek için</li> ‘pdftk’ ve "
-"‘pdfpages’ LaTeX paketini kullanır. Bu belge ayarını atamak veya değiştirmek "
-"için bir parola gereklidir.</li></ul><p>‘pdfpages’ paketi yalnızca "
-"şifrelenmemiş belgelerde çalışacaktır. ‘pdftk’ paketi her durumda çalışır; "
-"ancak şifreli dosyalarda parola gereklidir. ‘pdftk’ veya ‘pdfpages’ yoksa "
+"güncellemek (yalnızca pdftk)</li> ve yeniden düzenlemek için</li> “pdftk” ve "
+"“pdfpages” LaTeX paketini kullanır. Bu belge ayarını atamak veya değiştirmek "
+"için bir parola gereklidir.</li></ul><p>“pdfpages” paketi yalnızca "
+"şifrelenmemiş belgelerde çalışacaktır. “pdftk” paketi her durumda çalışır; "
+"ancak şifreli dosyalarda parola gereklidir. “pdftk” veya “pdfpages” yoksa "
 "olası yeniden düzenlemeler kısıtlanacaktır.</p><p><i>Uyarı:</i> Şifreleme ve "
 "parola gerçek PDF güvenliği sağlamazlar. İçerik şifrelenir; ancak anahtar "
 "bilinir. Siz, bunu yazarın isteklerine saygı için kibar; ancak sert bir "
@@ -2314,7 +2314,7 @@ msgstr "PDF Araçları"
 #: dialogs/pdf-wizard/pdfdialog.cpp:925
 #, kde-format
 msgid "LaTeX with 'pdfpages' package"
-msgstr "‘pdfpages’ paketiyle LaTeX"
+msgstr "“pdfpages” paketiyle LaTeX"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:925
 #, kde-format
@@ -2391,7 +2391,7 @@ msgstr "Bu kipte uygulama bazı parametrelere gereksinim duyuyor."
 #: dialogs/pdf-wizard/pdfdialog.cpp:1632
 #, kde-format
 msgid "Illegal page list 'from-to': %1 is bigger than %2."
-msgstr "Geçersiz ‘from-to’ sayfa listesi: %1, %2 ögesinden daha büyük."
+msgstr "Geçersiz “from-to” sayfa listesi: %1, %2 ögesinden daha büyük."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1636 dialogs/pdf-wizard/pdfdialog.cpp:1643
 #, kde-format
@@ -2508,7 +2508,7 @@ msgstr "Simge"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:158
 #, kde-format
 msgid "This wizard will use 'pdftk' and LaTeX package 'pdfpages'."
-msgstr "Bu sihirbaz, ‘pdftk’ ve ‘pdfpages’ LaTeX paketini kullanacaktır."
+msgstr "Bu sihirbaz, “pdftk” ve “pdfpages” LaTeX paketini kullanacaktır."
 
 #. i18n: ectx: attribute (title), widget (QWidget, m_tbRearrangements)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:194
@@ -2579,8 +2579,8 @@ msgid ""
 "'Select pages' and 'Free Parameter' need some specific parameter, which you "
 "can enter here"
 msgstr ""
-"‘Sayfalar Seç’ ve ‘Serbest Değişken’ler özel değişkenlere gereksinim duyar. "
-"Bu değişkenleri burada girebilirsiniz"
+"“Sayfalar Seç” ve “Serbest Değişken”ler özel değişkenlere gereksinim duyar. "
+"Bu değişkenleri burada girebilirsiniz."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbStamp)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:281
@@ -2757,17 +2757,17 @@ msgstr "PostScript Dosyasını Yeniden Düzenle"
 #: dialogs/postscriptdialog.cpp:97
 #, kde-format
 msgid "Neither 'pstops' nor 'psselect' found."
-msgstr "Ne ‘pstops’ ne ‘pselect’ bulunamadı."
+msgstr "Ne “pstops” ne de “pselect” bulunamadı."
 
 #: dialogs/postscriptdialog.cpp:100
 #, kde-format
 msgid "'pstops' not found."
-msgstr "‘pstops’ bulunamadı."
+msgstr "“pstops” bulunamadı."
 
 #: dialogs/postscriptdialog.cpp:103
 #, kde-format
 msgid "'psselect' not found."
-msgstr "‘psselect’ bulunamadı."
+msgstr "“psselect” bulunamadı."
 
 #: dialogs/postscriptdialog.cpp:114
 #, kde-format
@@ -2916,8 +2916,8 @@ msgid ""
 "Be sure to call 'dvips' with option '-t a4' and\n"
 "hyperref package (if needed) with option 'a4paper'."
 msgstr ""
-"ps dosyalarının dönüştürülmesi ‘pstops’ ve ‘psselect’ ile yapılır.\n"
-"‘dvips’ komutunu ‘-t a4’ ile ve (gerekirse) hyperref paketini ‘a4paper’\n"
+"ps dosyalarının dönüştürülmesi “pstops” ve “psselect” ile yapılır.\n"
+"“dvips” komutunu “-t a4” ile ve (gerekirse) hyperref paketini “a4paper”\n"
 "seçenekleri ile çağırın."
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, m_edInfile)
@@ -2930,7 +2930,7 @@ msgstr "Dönüştürülmesi gereken girdi dosyası."
 #: dialogs/postscriptdialog_base.ui:78
 #, kde-format
 msgid "Show ps file with 'okular'"
-msgstr "Ps dosyasını ‘okular’ ile göster"
+msgstr "Ps dosyasını “okular” ile göster"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, m_spCopies)
 #: dialogs/postscriptdialog_base.ui:120
@@ -3171,7 +3171,7 @@ msgstr "(kendiliğinden algıla)"
 #: dialogs/projectdialogs.cpp:466
 #, kde-format
 msgid "&QuickBuild configuration:"
-msgstr "&Hızlı Yap yapılandırması:"
+msgstr "&Tez Yap yapılandırması:"
 
 #: dialogs/projectdialogs.cpp:485
 #, kde-format
@@ -4539,7 +4539,7 @@ msgid ""
 "quickly from one cell to another."
 msgstr ""
 "Her hücreye madde imi ekleyin. Seçenek+Kontrol+Sağ Ok ve Seçenek+Kontrol+Sol "
-"Ok ile hızlı bir şekilde bir hücreden diğerine geçebilirsiniz."
+"Ok ile tez bir hücreden diğerine geçebilirsiniz."
 
 #: dialogs/tabular/newtabulardialog.cpp:182
 #, kde-format
@@ -5587,7 +5587,7 @@ msgid ""
 "one, or click \"Cancel\" to save anyway."
 msgstr ""
 "Dosya adı geçersiz karakterler içeriyor ($~ #).<br>Lütfen başka bir ad girin "
-"veya ‘İptal’ düğmesine tıklayarak bu haliyle kaydedin."
+"veya “İptal” düğmesine tıklayarak bu haliyle kaydedin."
 
 #: documentinfo.cpp:134
 #, kde-format
@@ -5596,7 +5596,7 @@ msgid ""
 "click \"Cancel\" to overwrite it."
 msgstr ""
 "“%1” adlı bir dosya halihazırda var.<br>Lütfen başka bir ad girin veya "
-"‘İptal’ düğmesine tıklayarak üzerine yazın."
+"“İptal” düğmesine tıklayarak üzerine yazın."
 
 #: documentinfo.cpp:157
 #, kde-format
@@ -5810,7 +5810,7 @@ msgstr ""
 "“Derle → Diğer” menüsü altında kullanımınıza açık olacak ve yapılandırma "
 "diyaloğu aracılığıyla yapılandırılabileceklerdir (“Ayarlar → Kile "
 "Uygulamasını Yapılandır”ı seçin). Bunun bazı avantajları vardır; kendi "
-"araçlarınız istediğiniz takdirde ‘Hızlı Yap’ komutu için de kullanılabilir."
+"araçlarınız istediğiniz takdirde “Tez Yap” komutu için de kullanılabilir."
 
 #: kile.cpp:393
 #, kde-format
@@ -5924,8 +5924,8 @@ msgid ""
 msgstr ""
 "<p>Karşılık gelen LaTeX komutlarını görmek için fareyi simgelerin üzerine "
 "getirin. <br/>Karşılık gelen komutu eklemek için simgenin üzerine tıklayın, "
-"matematik kipindeyken ‘Üst Karakter’ düğmesine, süslü parantezler içindeyken "
-"‘Kontrol’ düğmesine basmanız komutu ekleyecektir.</p>"
+"matematik kipindeyken “Üst Karakter” düğmesine, süslü parantezler içindeyken "
+"“Kontrol” düğmesine basmanız komutu ekleyecektir.</p>"
 
 #: kile.cpp:707 widgets/codecompletionconfigwidget.cpp:55
 #, kde-format
@@ -6301,7 +6301,7 @@ msgstr "Biblatex Ayarları"
 #: kile.cpp:1025 kile.cpp:2255
 #, kde-format
 msgid "Quick Start"
-msgstr "Hızlı Başlangıç"
+msgstr "Tez Başlangıç"
 
 #: kile.cpp:1028 kilestdactions.cpp:385
 #, kde-format
@@ -6386,7 +6386,7 @@ msgstr "Dönüştür"
 #: kile.cpp:1259 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Quick"
-msgstr "Hızlı"
+msgstr "Tez"
 
 #: kile.cpp:1438
 #, kde-format
@@ -6653,7 +6653,7 @@ msgstr ""
 #: kile.kcfg:126
 #, kde-format
 msgid "Holds the TEXINPUTS environment variable for QuickPreview tools."
-msgstr "TEXINPUTS çevre değişkenini Hızlı Önizleme araçları için tutar."
+msgstr "TEXINPUTS çevre değişkenini Tez Önizleme araçları için tutar."
 
 #. i18n: ectx: whatsthis, entry (PreviewTeXPaths), group (Tools)
 #: kile.kcfg:127
@@ -6664,9 +6664,9 @@ msgid ""
 "additional packages and/or files. You do not have to add :$TEXINPUTS at the "
 "end."
 msgstr ""
-"Hızlı Önizleme araçları için TEXINPUTS değişkenini burada belirleyin. "
+"Tez Önizleme araçları için TEXINPUTS değişkenini burada belirleyin. "
 "TEXINPUTS, TeX’in ek paketler/dosyalar için arayacağı yolların tümünün "
-"listesidir. Girdiler iki nokta üstüste karakteri ile ayrılır. Sonuna :"
+"listesidir. Girdiler iki nokta üst üste karakteri ile ayrılır. Sonuna :"
 "$TEXINPUTS eklemenize gerek yoktur."
 
 #. i18n: ectx: label, entry (BibInputPaths), group (Tools)
@@ -6692,7 +6692,7 @@ msgstr ""
 #: kile.kcfg:136
 #, kde-format
 msgid "Holds the BIBINPUTS environment variable for QuickPreview tools."
-msgstr "QuickPreview araçları için BIBINPUTS çevre değişkenini tutar."
+msgstr "Tez Önizleme araçları için BIBINPUTS çevre değişkenini tutar."
 
 #. i18n: ectx: whatsthis, entry (PreviewBibInputPaths), group (Tools)
 #: kile.kcfg:137
@@ -6703,7 +6703,7 @@ msgid ""
 "bibliography tool (e.g. BibTeX or Biber) should look for additional packages "
 "and/or files. You do not have to add :$BIBINPUTS at the end."
 msgstr ""
-"QuickPreview araçları için BIBINPUTS çevre değişkenini burada ayarlayın. "
+"Tez Önizleme araçları için BIBINPUTS çevre değişkenini burada ayarlayın. "
 "BIBINPUTS, BibTeX veya Biber’in ek paketler ve/veya dosyalar için bakacağı "
 "bütün yolları sütunlarla ayrılmış liste şeklinde tutmalıdır. Sonuna :"
 "$BIBINPUTS eklemeniz gerekmez."
@@ -7101,7 +7101,7 @@ msgstr "Mathgroups önizlemesi için dönüştürme aracı alt çubukta."
 #: kile.kcfg:484
 #, kde-format
 msgid "The background color of the quick preview pane."
-msgstr "Hızlı önizleme bölgesinin arka plan rengi."
+msgstr "Tez önizleme panelinin arka plan rengi."
 
 #. i18n: ectx: label, entry (ScriptingEnabled), group (Scripting)
 #: kile.kcfg:564
@@ -7238,7 +7238,7 @@ msgid ""
 "report."
 msgstr ""
 "Kile’nin iç yapısı bozuk (muhtemelen Kile’deki bir hata yüzünden). Lütfen "
-"‘Dosya’ menüsünden ‘Tümünü Kaydet’i seçin ve Kile’yi kapatın.\n"
+"“Dosya” menüsünden “Tümünü Kaydet”i seçin ve Kile’yi kapatın.\n"
 "Kile ekibi bu olumsuzluktan dolayı özür diler ve tarafınızdan gelecek bir "
 "hata raporunu bekler."
 
@@ -7517,7 +7517,7 @@ msgid ""
 "Save Project again."
 msgstr ""
 "Geçerli belge bir projeyle ilişkili değil. Lütfen kaydetmek istediğiniz "
-"projeyle ilişkili bir belge açın ve sonra ‘Projeyi Kaydet’i yeniden seçin."
+"projeyle ilişkili bir belge açın ve sonra “Projeyi Kaydet”i yeniden seçin."
 
 #: kiledocmanager.cpp:1743
 #, kde-format
@@ -7546,7 +7546,7 @@ msgid ""
 "to, then choose Add Files again."
 msgstr ""
 "Açık bir proje yok. Lütfen dosya eklemek istediğiniz projeyi açın ve sonra "
-"‘Dosyalar Ekle’yi yeniden seçin."
+"“Dosyalar Ekle”yi yeniden seçin."
 
 #: kiledocmanager.cpp:1795 kiledocmanager.cpp:1830
 #, kde-format
@@ -7566,7 +7566,7 @@ msgid ""
 "Project Options again."
 msgstr ""
 "Geçerli belge bir projeyle ilişkili değil. Lütfen değiştirmek istediğiniz "
-"projeyle ilişkili bir belge açın ve sonra ‘Proje Seçenekleri’ni yeniden "
+"projeyle ilişkili bir belge açın ve sonra “Proje Seçenekleri”ni yeniden "
 "seçin."
 
 #: kiledocmanager.cpp:1856
@@ -7582,7 +7582,7 @@ msgid ""
 "Close Project again."
 msgstr ""
 "Geçerli belge bir projeyle ilişkili değil. Lütfen kapatmak istediğiniz "
-"projeyle ilişkili bir belge açın ve sonra ‘Projeyi Kapat’ı yeniden seçin."
+"projeyle ilişkili bir belge açın ve sonra “Projeyi Kapat”ı yeniden seçin."
 
 #: kiledocmanager.cpp:1907
 #, kde-format
@@ -8116,7 +8116,7 @@ msgid ""
 msgstr ""
 "Açıklama ortamı, etiketli listeler hazırlamak için kullanılır.\n"
 "Etiketli listenin her girdisi \\item[label] komutu ile başlar.\n"
-"‘Etiket’, kalın yazıtipi ile yazılır ve sağa hizalıdır."
+"“Etiket”, kalın yazıtipi ile yazılır ve sağa hizalıdır."
 
 #: kilestdactions.cpp:59
 #, kde-format
@@ -9213,7 +9213,7 @@ msgid ""
 msgstr ""
 "\\hspace* komutu \\hspace komutu gibi yatay boşluk ekler. LaTeX satır sonuna "
 "gelen yatay boşluğu kaldırır. Eğer LaTeX’in bu boşluğu kaldırmasını "
-"istemiyorsanız isteğe bağlı ‘*’ argümanını kullanın. Bu argüman "
+"istemiyorsanız isteğe bağlı “*” argümanını kullanın. Bu argüman "
 "kullanıldığında satır sonundaki boşluk kaldırılmaz."
 
 #: kilestdactions.cpp:189
@@ -9257,7 +9257,7 @@ msgid ""
 msgstr ""
 "\\vspace* komutu \\vspace komutu gibi düşey boşluk ekler. LaTeX sayfa sonuna "
 "gelen yatay boşluğu kaldırır. Eğer LaTeX’in bu boşluğu kaldırmasını "
-"istemiyorsanız isteğe bağlı ‘*’ argümanını kullanın. Bu argüman "
+"istemiyorsanız isteğe bağlı “*” argümanını kullanın. Bu argüman "
 "kullanıldığında sayfa sonundaki boşluk kaldırılmaz."
 
 #: kilestdactions.cpp:194
@@ -9466,7 +9466,7 @@ msgstr "ALT: İki alan arasında tercih hakkınız vardır\n"
 #, kde-format
 msgid "OPT.... : optional fields (use the 'Clean' command to remove them)"
 msgstr ""
-"OPT: İsteğe bağlı alanlar (ögeleri kaldırmak için ‘Temizle’ komutunu "
+"OPT: İsteğe bağlı alanlar (ögeleri kaldırmak için “Temizle” komutunu "
 "kullanın)"
 
 #: kilestdactions.cpp:332
@@ -10473,7 +10473,7 @@ msgid ""
 "Archive again."
 msgstr ""
 "Geçerli belge bir projeyle ilişkili değil. Lütfen arşivlemek istediğiniz "
-"projeyle ilişkili bir belge açın ve sonra ‘Arşivle’yi yeniden seçin."
+"projeyle ilişkili bir belge açın ve sonra “Arşivle”yi yeniden seçin."
 
 #: kiletool.cpp:675
 #, kde-format
@@ -10913,17 +10913,17 @@ msgstr "Sonlandırıcı Hata"
 #: kileviewmanager.cpp:842
 #, kde-format
 msgid "&QuickPreview Selection"
-msgstr "Seçiliyi &Hızlı Önizle"
+msgstr "Seçiliyi &Tez Önizle"
 
 #: kileviewmanager.cpp:843
 #, kde-format
 msgid "&QuickPreview Environment"
-msgstr "&Hızlı Önizleme Ortamı"
+msgstr "&Tez Önizleme Ortamı"
 
 #: kileviewmanager.cpp:844
 #, kde-format
 msgid "&QuickPreview Math"
-msgstr "&Matematik Hızlı Önizleme"
+msgstr "&Matematik Tez Önizleme"
 
 #: kileviewmanager.cpp:1132
 #, kde-format
@@ -11120,7 +11120,7 @@ msgstr "Yeni bir Kile ana penceresi aç"
 #: main.cpp:140
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
-msgstr "Açılacak dosyalar / standart girdiden okunacağını ‘-’ ile belirtin"
+msgstr "Açılacak dosyalar / standart girdiden okunacağını “-” ile belirtin."
 
 #: main.cpp:171
 #, kde-format
@@ -11231,8 +11231,8 @@ msgid ""
 "Could not run QuickPreview:\n"
 "unknown task '%1'"
 msgstr ""
-"Hızlı Önizleme çalıştırılamadı:\n"
-"bilinmeyen görev “%1”"
+"Tez Önizleme çalıştırılamadı:\n"
+"Bilinmeyen görev: “%1”"
 
 #: quickpreview.cpp:201 widgets/previewwidget.cpp:129
 #, kde-format
@@ -11251,7 +11251,7 @@ msgstr "Derlenecek ve önizlenecek bir şey yok."
 #: widgets/previewwidget.cpp:181
 #, kde-format
 msgid "Could not run '%1' for QuickPreview."
-msgstr "Hızlı Önizleme için “%1” çalıştırılamadı."
+msgstr "Tez Önizleme için “%1” çalıştırılamadı."
 
 #: quickpreview.cpp:321
 #, kde-format
@@ -11271,7 +11271,7 @@ msgstr "“\\begin{document}” komutu bulunamadı."
 #: quickpreview.cpp:385 widgets/previewwidget.cpp:238
 #, kde-format
 msgid "QuickPreview"
-msgstr "Hızlı Önizleme"
+msgstr "Tez Önizleme"
 
 #: scripting/kilescriptobject.cpp:42
 #, kde-format
@@ -12244,12 +12244,12 @@ msgstr "Lütfen kullanılacak şablonu seçin:"
 #: widgets/newdocumentwidget.ui:93
 #, kde-format
 msgid "Start the Quick Start wizard when creating an empty LaTeX file"
-msgstr "Boş bir LaTeX dosyası oluştururken Hızlı Başlangıç sihirbazını başlat"
+msgstr "Boş bir LaTeX dosyası oluştururken Tez Başlangıç sihirbazını başlat"
 
 #: widgets/previewconfigwidget.cpp:50
 #, kde-format
 msgid "Quick Preview in a Separate Window"
-msgstr "Ayrı bir pencerede Hızlı Önizleme"
+msgstr "Ayrı Bir Pencerede Tez Önizle"
 
 #: widgets/previewconfigwidget.cpp:58
 #, kde-format
@@ -12259,7 +12259,7 @@ msgstr "Bir yapılandırma seçin:"
 #: widgets/previewconfigwidget.cpp:68
 #, kde-format
 msgid "Quick Preview in Bottom Bar"
-msgstr "Alt Çubukta Hızlı Önizleme"
+msgstr "Alt Çubukta Tez Önizle"
 
 #: widgets/previewconfigwidget.cpp:76
 #, kde-format
@@ -12472,11 +12472,11 @@ msgstr ""
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">%res:</span> kile-&gt;tools-&gt;preview yapılandırmasında "
-"ayarlanan hızlı önizleme çözünürlüğü</p>\n"
+"ayarlanan tez önizleme çözünürlüğü</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">%AFL</span>: Arşivlenmek için işaretlenmiş bir projenin tüm "
-"dosyalarının listesi. Arşiv etiketini ‘Dosyalar ve Projeler’ kenar "
+"dosyalarının listesi. Arşiv etiketini “Dosyalar ve Projeler” kenar "
 "çubuğundan bağlam menüsünü kullanarak ayarlayın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbOptions)
@@ -12983,7 +12983,7 @@ msgstr "Y&orum"
 #: widgets/structurewidget.cpp:785
 #, kde-format
 msgid "Run QuickPreview"
-msgstr "Hızlı Önizlemeyi Çalıştır"
+msgstr "Tez Önizlemeyi Çalıştır"
 
 #: widgets/structurewidget.cpp:812
 #, kde-format
@@ -13106,7 +13106,7 @@ msgstr "Araçlar Dizisi Çalıştır"
 #: widgets/toolconfigwidget.cpp:161
 #, kde-format
 msgid "Use the \"Advanced\" tab to configure this tool."
-msgstr "Bu aracı yapılandırmak için ‘Gelişmiş’ sekmesini kullanın."
+msgstr "Bu aracı yapılandırmak için “Gelişmiş” sekmesini kullanın."
 
 #: widgets/toolconfigwidget.cpp:172
 #, kde-format

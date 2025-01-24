@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2025-01-17 06:36+0100\n"
+"PO-Revision-Date: 2025-01-23 21:44+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -318,6 +318,8 @@ msgstr "<b>Ez da arazorik antzeman. Zure sisteman Kile ondo ibiliko da.</b>"
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr ""
+"Kapsulatutako dokumentu erakuslea erabilgarri dago eta zuzeneko "
+"aurreikuzpegiaren euskarria du."
 
 #: dialogs/configcheckerdialog.cpp:258
 #, kde-format
@@ -325,6 +327,8 @@ msgid ""
 "The embedded document viewer is available, but the installed version of "
 "PDFLaTeX is<br/><b>not compatible</b> with live preview."
 msgstr ""
+"Kapsulatutako dokumentu erakuslea erabilgarri dago, baina instalatutako "
+"PDFLaTeX bertsioa<br/><b>ez da bateragarria</b> zuzeneko aurreikuspegiarekin."
 
 #: dialogs/configcheckerdialog.cpp:266
 #, kde-format
@@ -333,6 +337,9 @@ msgid ""
 "not available or the installed<br/>version is too old). Live preview is "
 "hence not supported."
 msgstr ""
+"Kapsulatutako dokumentu erakuslea <b>ez dago erabilgarri</b> (Okular ez "
+"baitago erabilgarri edo instalatutako<br/> bertsioa zaharregia delako). Hori "
+"dela eta, ez dago zuzeneko aurreikuspegiaren euskarririk."
 
 #: dialogs/configcheckerdialog.cpp:290
 #, kde-format
@@ -340,6 +347,8 @@ msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "
 "Please check the available disk space.</b></font>"
 msgstr ""
+"<br/><font color=\"#FF0000\"><b>Probak ezin izan dira behar bezala bukatu. "
+"Mesedez, egiaztatu diskoan erabilgarri dagoen lekua.</b></font>"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UserMenuDialog)
 #. i18n: ectx: property (windowTitle), widget (QWidget, ToolConfigWidget)
@@ -620,6 +629,8 @@ msgid ""
 "Enter the file name pattern of the files to search here. You may give "
 "several patterns separated by commas."
 msgstr ""
+"Bilatu beharreko fitxategien fitxategi-izen eredua hemen sartu. Koma bidez "
+"bereizitako hainbat eredu eman ditzakezu."
 
 #: dialogs/findfilesdialog.cpp:284
 #, kde-format
@@ -646,7 +657,7 @@ msgstr ""
 #: dialogs/findfilesdialog.cpp:297
 #, kde-format
 msgid "Enter the directory which contains the files you want to search in."
-msgstr ""
+msgstr "Sartu bilatu nahi dituzun fitxategiak dituen direktorioa."
 
 #: dialogs/findfilesdialog.cpp:299
 #, kde-format
@@ -828,6 +839,7 @@ msgstr "Fitxategi guztiak (*)"
 #, kde-format
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr ""
+"Testua egokitzeko aukerak erabiltzeko, «wrapfig» paketea sartu behar duzu"
 
 #: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3241
 #, kde-format
@@ -976,9 +988,9 @@ msgstr "Behea:"
 #: dialogs/includegraphicsdialog_base.ui:242
 #: dialogs/includegraphicsdialog_base.ui:249
 #: dialogs/includegraphicsdialog_base.ui:256
-#, fuzzy, kde-format
+#, kde-format
 msgid "0pt"
-msgstr "pt"
+msgstr "0pt"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: dialogs/includegraphicsdialog_base.ui:296
@@ -1046,13 +1058,13 @@ msgstr "Neurrira ipinia:"
 #: dialogs/includegraphicsdialog_base.ui:409
 #, kde-format
 msgid "wrapfigure"
-msgstr ""
+msgstr "wrapfigure"
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_wrapfigure)
 #: dialogs/includegraphicsdialog_base.ui:415
 #, kde-format
 msgid "Use wrapfigure environment"
-msgstr ""
+msgstr "«wrapfigure» ingurunea erabili"
 
 #. i18n: ectx: property (text), widget (QLineEdit, edit_wrapwidth)
 #: dialogs/includegraphicsdialog_base.ui:448
@@ -1064,37 +1076,37 @@ msgstr "3,5 hazb"
 #: dialogs/includegraphicsdialog_base.ui:465
 #, kde-format
 msgid "Lines to break:"
-msgstr ""
+msgstr "Jauzi beharreko lerroak:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_wrapleft)
 #: dialogs/includegraphicsdialog_base.ui:475
 #, kde-format
 msgid "Left (L/l)"
-msgstr ""
+msgstr "Ezkerra (L/l)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_wrapoutside)
 #: dialogs/includegraphicsdialog_base.ui:482
 #, kde-format
 msgid "Outside (O/o)"
-msgstr ""
+msgstr "Kanpoan (O/o)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_wrapright)
 #: dialogs/includegraphicsdialog_base.ui:489
 #, kde-format
 msgid "Right  (R/r)"
-msgstr ""
+msgstr "Eskuina (R/r)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_wrapinside)
 #: dialogs/includegraphicsdialog_base.ui:499
 #, kde-format
 msgid "Inside (I/i)"
-msgstr ""
+msgstr "Barruan (I/i)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_wrapfloat)
 #: dialogs/includegraphicsdialog_base.ui:506
 #, kde-format
 msgid "Float figure"
-msgstr ""
+msgstr "Irudi higikorra"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: dialogs/includegraphicsdialog_base.ui:516
@@ -1104,7 +1116,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: dialogs/includegraphicsdialog_base.ui:529
-#, fuzzy, kde-format
+#, kde-format
 msgid "Placement:"
 msgstr "Kokapena:"
 
@@ -1126,12 +1138,12 @@ msgstr "Ize&na:"
 #: dialogs/latexcommanddialog.cpp:102
 #, kde-format
 msgid "Include *-&version:"
-msgstr ""
+msgstr "Barneratu *-&bertsioa:"
 
 #: dialogs/latexcommanddialog.cpp:115
-#, fuzzy, kde-format
+#, kde-format
 msgid "Name of the group, to which this environment or command belongs."
-msgstr "Taldearen izena, "
+msgstr "Ingurune edo komando hori dagokion taldearen izena."
 
 #: dialogs/latexcommanddialog.cpp:117
 #, kde-format
@@ -1146,7 +1158,7 @@ msgstr "Editatu beharreko ingurune edo komandoaren izena."
 #: dialogs/latexcommanddialog.cpp:122
 #, kde-format
 msgid "Does this environment or command also exist in a starred version?"
-msgstr ""
+msgstr "Ingurune edo komando hau bertsio izardun batean ere existitzen al da?"
 
 #: dialogs/latexcommanddialog.cpp:126
 #, kde-format
@@ -1204,6 +1216,8 @@ msgid ""
 "Does this environment need an additional parameter like {n} for an integer "
 "number, {w} for a width or { } for any other parameter?"
 msgstr ""
+"Ingurune honek parametro osagarri bat behar al du, hala nola {n} zenbaki oso "
+"baterako, {w} zabalera baterako edo { } beste edozein parametrorako?"
 
 #: dialogs/latexcommanddialog.cpp:196
 #, kde-format
@@ -1253,7 +1267,7 @@ msgstr "LaTeX konfigurazioa"
 #: dialogs/latexcommanddialog.cpp:388
 #, kde-format
 msgid "AMS-Math"
-msgstr ""
+msgstr "AMS-Matematika"
 
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
@@ -1271,12 +1285,12 @@ msgstr "Zerrendak"
 #: dialogs/latexcommanddialog.cpp:391 kile.cpp:1027 kilestdactions.cpp:80
 #, kde-format
 msgid "Tabular"
-msgstr ""
+msgstr "Taula"
 
 #: dialogs/latexcommanddialog.cpp:392 kilestdactions.cpp:54
 #, kde-format
 msgid "Verbatim"
-msgstr ""
+msgstr "Literala"
 
 #: dialogs/latexcommanddialog.cpp:394 widgets/structurewidget.cpp:332
 #, kde-format
@@ -1299,9 +1313,9 @@ msgid "Citations"
 msgstr "Aipamenak"
 
 #: dialogs/latexcommanddialog.cpp:398
-#, fuzzy, kde-format
+#, kde-format
 msgid "Includes"
-msgstr "Hauek hartzen ditu barne"
+msgstr "Barneratuak"
 
 #: dialogs/latexcommanddialog.cpp:623 kile.cpp:1078
 #, kde-format
@@ -1343,6 +1357,8 @@ msgid ""
 "All your 'environment' settings will be overwritten with the default "
 "settings, are you sure you want to continue?"
 msgstr ""
+"Zure 'ingurune' ezarpen guztiak lehenetsitako ezarpenekin gainidatziko dira, "
+"ziur zaude jarraitu nahi duzula?"
 
 #: dialogs/latexcommanddialog.cpp:763
 #, kde-format
@@ -1350,12 +1366,14 @@ msgid ""
 "All your 'command' settings will be overwritten with the default settings, "
 "are you sure you want to continue?"
 msgstr ""
+"Zure 'komando' ezarpen guztiak ezarpen lehenetsiekin gainidatziko dira, ziur "
+"zaude jarraitu nahi duzula?"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/latexcommanddialog_base.ui:30
 #, kde-format
 msgid "Define LaTeX Environments and Commands for Kile"
-msgstr ""
+msgstr "Definitu Kile-rako LaTeX inguruneak eta komandoak"
 
 #. i18n: ectx: property (whatsThis), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog_base.ui:62
@@ -1470,9 +1488,9 @@ msgid "File Name"
 msgstr "Fitxategi-izena"
 
 #: dialogs/listselector.cpp:151 widgets/codecompletionconfigwidget.cpp:96
-#, fuzzy, kde-format
+#, kde-format
 msgid "Local File"
-msgstr "Fitxategi lokala:"
+msgstr "Fitxategi lokala"
 
 #: dialogs/listselector.cpp:151
 #, kde-format
@@ -1492,7 +1510,7 @@ msgstr "Gehitu hautatutako fitxategi denak"
 #: dialogs/listselector.cpp:173
 #, kde-format
 msgid "Install custom files"
-msgstr ""
+msgstr "Instalatu neurriko fitxategiak"
 
 #: dialogs/listselector.cpp:174
 #, kde-format
@@ -1502,7 +1520,7 @@ msgstr "Instalatu zure osatze-fitxategi propioak"
 #: dialogs/listselector.cpp:175
 #, kde-format
 msgid "Manage custom files"
-msgstr ""
+msgstr "Kudeatu neurriko fitxategiak"
 
 #: dialogs/listselector.cpp:176
 #, kde-format
@@ -1550,7 +1568,7 @@ msgstr ""
 #: dialogs/listselector.cpp:241
 #, kde-format
 msgid "Replace Local File?"
-msgstr ""
+msgstr "Fitxategi lokala ordeztu?"
 
 #: dialogs/listselector.cpp:244
 #, kde-format
@@ -1558,6 +1576,8 @@ msgid ""
 "An error occurred while removing the file \"%1\".\n"
 "Please check the file permissions."
 msgstr ""
+"Errore bat gertatu da \"%1\" fitxategia kentzerakoan.\n"
+"Mesedez, egiaztatu fitxategi baimenak."
 
 #: dialogs/listselector.cpp:245
 #, kde-format
@@ -1570,6 +1590,8 @@ msgid ""
 "Cannot copy the file to the local directory!\n"
 "Please check the access permissions of the directory \"%1\"."
 msgstr ""
+"Ezin da fitxategia direktorio lokalera kopiatu!\n"
+"Mesedez, egiaztatu \"%1\" direktoriora sartzeko baimenak."
 
 #: dialogs/listselector.cpp:257
 #, kde-format
@@ -1580,6 +1602,7 @@ msgstr "Kopiatu errorea"
 #, kde-format
 msgid "The custom files have been installed and preselected for adding."
 msgstr ""
+"Neurriko fitxategiak instalatu editatu eta gehitzeko aurre-hautatu dira."
 
 #: dialogs/listselector.cpp:281
 #, kde-format
@@ -1612,7 +1635,7 @@ msgstr "M"
 #: dialogs/managetemplatesdialog.cpp:111 dialogs/managetemplatesdialog.cpp:167
 #, kde-format
 msgid "Existing Templates"
-msgstr ""
+msgstr "Lehendik dauden txantiloiak"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2)
 #: dialogs/managetemplatesdialog.cpp:112 dialogs/managetemplatesdialog.cpp:168
@@ -1655,11 +1678,13 @@ msgid ""
 "The template name that you have entered is invalid.\n"
 "Please enter a new name."
 msgstr ""
+"Sartu duzun txantiloi-izenak ez du balio.\n"
+"Mesedez, sartu izen berri bat."
 
 #: dialogs/managetemplatesdialog.cpp:257
 #, kde-format
 msgid "Please choose an icon first."
-msgstr ""
+msgstr "Mesedez, aurrena ikono bat aukeratu."
 
 #: dialogs/managetemplatesdialog.cpp:265
 #, kde-format
@@ -1667,6 +1692,8 @@ msgid ""
 "The icon file: %1\n"
 "does not seem to exist. Please choose a new icon."
 msgstr ""
+"Ikono-fitxategia: %1\n"
+"ematen du ez dela existitzen. Mesedez aukeratu beste ikono bat."
 
 #: dialogs/managetemplatesdialog.cpp:273
 #, kde-format
@@ -1674,6 +1701,8 @@ msgid ""
 "The file: %1\n"
 "does not seem to exist. Maybe you forgot to save the file?"
 msgstr ""
+"Fitxategia: %1\n"
+"ematen du ez dela existitzen. Agian fitxategia gordetzea ahaztu duzu?"
 
 #: dialogs/managetemplatesdialog.cpp:280
 #, kde-format
@@ -1681,36 +1710,38 @@ msgid ""
 "A template named \"%1\" already exists.\n"
 "Please remove it first."
 msgstr ""
+"\"%1\" izeneko fitxategi bat jada badago.\n"
+"Mesedez aurrena hura kendu."
 
 #: dialogs/managetemplatesdialog.cpp:289
 #, kde-format
 msgid "You are about to replace the template \"%1\"; are you sure?"
-msgstr ""
+msgstr "\"%1\" txantiloia ordeztera zoaz; ziur zaude?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
+#, kde-format
 msgid "Replace template"
-msgstr "Kendu txantiloia"
+msgstr "Ordeztu txantiloia"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
 msgid "Failed to create the template."
-msgstr ""
+msgstr "Txantiloia sortzea huts egin du."
 
 #: dialogs/managetemplatesdialog.cpp:310
 #, kde-format
 msgid "Please select a template that should be removed."
-msgstr ""
+msgstr "Mesedez aukeratu kendu beharreko txantiloi bat."
 
 #: dialogs/managetemplatesdialog.cpp:319
 #, kde-format
 msgid "You are about to remove the template \"%1\"; are you sure?"
-msgstr ""
+msgstr "\"%1\" txantiloia kentzera zoaz; ziur zaude?"
 
 #: dialogs/managetemplatesdialog.cpp:326
 #, kde-format
 msgid "The template could not be removed."
-msgstr ""
+msgstr "Ezin izan du txantiloia kendu."
 
 #: dialogs/mathenvironmentdialog.cpp:49
 #, kde-format
@@ -1753,25 +1784,25 @@ msgstr ""
 #: dialogs/mathenvironmentdialog.cpp:66
 #, kde-format
 msgid "Use &bullets:"
-msgstr ""
+msgstr "Erabili &buletak:"
 
 #: dialogs/mathenvironmentdialog.cpp:146
 #: dialogs/tabular/newtabulardialog.cpp:173
 #, kde-format
 msgid "Choose an environment."
-msgstr ""
+msgstr "Aukeratu ingurune bat."
 
 #: dialogs/mathenvironmentdialog.cpp:147
 #: dialogs/tabular/newtabulardialog.cpp:179
 #, kde-format
 msgid "Use the starred version of this environment."
-msgstr ""
+msgstr "Ingurunearen bertsio izarduna erabili."
 
 #: dialogs/mathenvironmentdialog.cpp:148
 #: dialogs/tabular/newtabulardialog.cpp:175
 #, kde-format
 msgid "Choose the number of table rows."
-msgstr ""
+msgstr "Aukeratu taularen errenkada kopurua."
 
 #: dialogs/mathenvironmentdialog.cpp:149
 #, kde-format
@@ -1831,7 +1862,7 @@ msgstr "BibTeX dokumentua"
 #: dialogs/newfilewizard.cpp:77
 #, kde-format
 msgid "Kile Script"
-msgstr ""
+msgstr "Kile gidoia"
 
 #: dialogs/newtoolwizard.cpp:24
 #, kde-format
@@ -1846,22 +1877,22 @@ msgstr "Klasea"
 #: dialogs/newtoolwizard.cpp:48
 #, kde-format
 msgid "<Custom>"
-msgstr ""
+msgstr "<Neurrira>"
 
 #: dialogs/newtoolwizard.cpp:67
 #, kde-format
 msgid "Error: A tool by this name exists already."
-msgstr ""
+msgstr "Errorea: Izen hori duen tresna bat jada dago."
 
 #: dialogs/newtoolwizard.cpp:71
 #, kde-format
 msgid "Error: The name may not contain a slash '/'."
-msgstr ""
+msgstr "Errorea: Izenak ezin du '/' barra zeihar bat izen."
 
 #: dialogs/newtoolwizard.cpp:75
 #, kde-format
 msgid "Error: The name may not contain a (, ), [, or ]."
-msgstr ""
+msgstr "Errorea: Izenak ezin du (, ), [, edo ] izan."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbBehavior)
 #: dialogs/newtoolwizard_class_page.ui:25
@@ -1880,7 +1911,7 @@ msgstr ""
 #: dialogs/newtoolwizard_toolname_page.ui:19
 #, kde-format
 msgid "Type a short descriptive name for the &tool:"
-msgstr ""
+msgstr "Tekleatu &tresnaren izen labur deskribatzaile bat:"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:70
 #, kde-format
@@ -1894,34 +1925,34 @@ msgid "Re&arrange"
 msgstr "Berr&antolatu"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:130
-#, kde-format
+#, fuzzy, kde-format
 msgid "1 Page + Empty Page --> 2up"
-msgstr ""
+msgstr "Orrialde 1 + Orrialde hutsa --> "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:131
-#, kde-format
+#, fuzzy, kde-format
 msgid "1 Page + Duplicate --> 2up"
-msgstr ""
+msgstr "Orrialde 1 + bikoiztua -->"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:132
-#, kde-format
+#, fuzzy, kde-format
 msgid "2 Pages --> 2up"
-msgstr ""
+msgstr "2 orrialdea --> "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:133
-#, kde-format
+#, fuzzy, kde-format
 msgid "2 Pages (landscape) --> 2up"
-msgstr ""
+msgstr "2 orrialde (paisaia) --> "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:134
-#, kde-format
+#, fuzzy, kde-format
 msgid "4 Pages --> 4up"
-msgstr ""
+msgstr "4 orrialde --> "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:135
-#, kde-format
+#, fuzzy, kde-format
 msgid "4 Pages (landscape) --> 4up"
-msgstr ""
+msgstr "4 orrialde (paisaia) --> "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:136 dialogs/postscriptdialog.cpp:125
 #, kde-format
@@ -1966,12 +1997,12 @@ msgstr "Ezabatu orriak"
 #: dialogs/pdf-wizard/pdfdialog.cpp:144
 #, kde-format
 msgid "Apply a background watermark"
-msgstr ""
+msgstr "Aplikatu atzeko planoko filigrana bat"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:145
 #, kde-format
 msgid "Apply a background color"
-msgstr ""
+msgstr "Aplikatu atzeko planoren kolorea"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:146
 #, kde-format
@@ -1981,28 +2012,28 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog.cpp:147
 #, kde-format
 msgid "pdftk: Choose Parameter"
-msgstr ""
+msgstr "pdftk: Aukeratu parametroa"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:148
 #, kde-format
 msgid "pdfpages: Choose Parameter"
-msgstr ""
+msgstr "pdfpages: aukeratu parametroa"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:398
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "%1 is the number of pages"
 msgid "%1 (encrypted)"
-msgstr "Zifratua"
+msgstr "%1 (zifratuta)"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:406
 #, kde-format
 msgid "Error: unknown number of pages"
-msgstr ""
+msgstr "Errorea: orrialde kopuru ezezaguna"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:419
 #, kde-format
 msgid "PDFTK-Password"
-msgstr ""
+msgstr "PDFTK-Pasahitza"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:420
 #, kde-format
@@ -2011,52 +2042,57 @@ msgid ""
 "Please enter the password for this PDF file\n"
 " or leave it blank to try another method: "
 msgstr ""
+"PDF fitxategi hau zifratuta dago eta 'pdftk'-ak ezin du ireki.\n"
+"Mesedez, sartu PDF fitxategi honetarako pasahitza\n"
+" edo hutsik utzi beste metodo bat probatzeko: "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:566
 #, kde-format
 msgid "A password is necessary to set or change the current settings."
-msgstr ""
+msgstr "Uneko ezarpenak ezartzeko edo aldatzeko pasahitz bat behar da."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:570
 #, kde-format
 msgid "The permissions of this document can be changed with <i>pdftk</i>."
-msgstr ""
+msgstr "Dokumentu honen baimenak <i>pdftk</i>rekin alda daitezke."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:571
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no permission can be changed."
-msgstr ""
+msgstr "<i>pdftk</i> ez dago erabilgarri; beraz, ezin da baimenik aldatu."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:575
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no property can be changed."
-msgstr ""
+msgstr "<i>pdftk</i> ez dago erabilgarri; beraz, ezin da propietaterik aldatu."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:578
 #, kde-format
 msgid "The properties of this document can be changed with <i>pdftk</i>."
-msgstr ""
+msgstr "Dokumentu honen propietateak <i>pdftk</i>rekin alda daitezke."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:586
 #, kde-format
 msgid "This input file is encrypted, so only <i>pdftk</i> works."
-msgstr ""
+msgstr "Sarreko fitxategia zifratuta dago; beraz, <i>pdftk</i> bakarrik dabil."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:587
 #, kde-format
 msgid "A password is necessary to rearrange pages."
-msgstr ""
+msgstr "Orrialdeak berrantolatzeko pasahitz bat behar da."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:588
 #, kde-format
 msgid "This input file is encrypted, but <i>pdftk</i> is not installed."
 msgstr ""
+"Sarrerako fitxategia zifratuta dago, baina <i>pdftk</i> ez dago instalatuta."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:592
 #, kde-format
 msgid ""
 "This wizard will use <i>pdftk</i> and the LaTeX package <i>pdfpages</i>."
 msgstr ""
+"Morroi honek <i>pdftk</i> eta <i>pdfpages</i> LaTeX paketea erabiliko ditu."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:593
 #, kde-format
@@ -2064,6 +2100,8 @@ msgid ""
 "This wizard will only use <i>pdftk</i> (<i>pdfpages.sty</i> is not "
 "installed)."
 msgstr ""
+"Morroi honek <i>pdftk</i> bakarrik erabiliko du (<i>pdfpages.sty</i> ez dago "
+"instalatuta)."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:596
 #, kde-format
@@ -2071,11 +2109,15 @@ msgid ""
 "This wizard will only use the LaTeX package <i>pdfpages</i> (<i>pdftk</i> "
 "was not found)."
 msgstr ""
+"Morroi honek <i>pdfpages</i> LaTeX paketea bakarrik erabiliko du (<i>pdftk</"
+"i> ez da aurkitu)."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:597
 #, kde-format
 msgid "This wizard can't work, because no tool was found (see help section)."
 msgstr ""
+"Morroi hau ezin da ibili, tresnarik ez delako aurkitu (begiratu laguntza "
+"atala)."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:602
 #, kde-format
@@ -2083,22 +2125,24 @@ msgid ""
 "<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</"
 "i>"
 msgstr ""
+"<i>(libpoppler pdf liburutegia gabe konpilatuta. Ataza guztiak ez daude "
+"erabilgarri.)</i>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:721
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Update"
-msgstr "&Eguneratu"
+msgstr "Eg&uneratu"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/pdf-wizard/pdfdialog.cpp:784 dialogs/pdf-wizard/pdfdialog_base.ui:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pages:"
 msgstr "Orrialdeak:"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:785
 #, kde-format
 msgid "Comma separated page list: 1,4-7,9"
-msgstr ""
+msgstr "Koma bidez bereizitako orrialde-zerrenda: 1,4-7,9"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameter)
 #: dialogs/pdf-wizard/pdfdialog.cpp:790 dialogs/pdf-wizard/pdfdialog.cpp:795
@@ -2106,19 +2150,19 @@ msgstr ""
 #: dialogs/postscriptdialog_base.ui:147
 #: dialogs/tabular/newtabulardialog.cpp:132
 #: dialogs/usermenu/usermenudialog_base.ui:607
-#, fuzzy, kde-format
+#, kde-format
 msgid "Parameter:"
 msgstr "Parametroa:"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:791
 #, kde-format
 msgid "All options for 'pdftk'"
-msgstr ""
+msgstr "'pdftk'ren aukera guztiak"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:796
 #, kde-format
 msgid "All options for 'pdfpages'"
-msgstr ""
+msgstr "'pdfpages'ren aukera guztiak"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:818
 #, kde-format
@@ -2139,7 +2183,7 @@ msgid ""
 msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:843
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Apply"
 msgstr "&Aplikatu"
 
@@ -2150,6 +2194,9 @@ msgid ""
 "\n"
 "This wizard cannot be used."
 msgstr ""
+"Aldi baterako direktorio bat sortzea huts egin du.\n"
+"\n"
+"Morroi hau ezin da erabili."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:889
 #, kde-format
@@ -2176,27 +2223,30 @@ msgid ""
 "library. Setting, changing and removing of properties and permissions is not "
 "possible.</p>"
 msgstr ""
+"<p><i>Informazioa:</i> Kile-ren bertsio hau libpoppler liburutegia gabe "
+"konpilatu da. Ezin dira propietateak eta baimenak ezarri, aldatu edo kendu.</"
+"p>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:910 dialogs/pdf-wizard/pdfdialog.cpp:1698
 #: dialogs/pdf-wizard/pdfdialog.cpp:1768 kile.cpp:1033
 #, kde-format
 msgid "PDF Tools"
-msgstr ""
+msgstr "PDF Tresnak"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:925
 #, kde-format
 msgid "LaTeX with 'pdfpages' package"
-msgstr ""
+msgstr "LaTeX 'pdfpages' paketearekin"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:925
 #, kde-format
 msgid "pdftk"
-msgstr ""
+msgstr "pdftk"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:926
 #, kde-format
 msgid "Rearranging PDF file: %1"
-msgstr ""
+msgstr "PDF fitxategiak berrantolatzea: %1"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:934 dialogs/pdf-wizard/pdfdialog.cpp:1046
 #: dialogs/postscriptdialog.cpp:216
@@ -2248,7 +2298,7 @@ msgstr "Errore batekin bukatu da"
 #: dialogs/pdf-wizard/pdfdialog.cpp:1174
 #, kde-format
 msgid "Could not create the ViewPDF tool"
-msgstr ""
+msgstr "Ezin izan du ViewPDF tresna sortu"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1174
 #, kde-format
@@ -3412,17 +3462,17 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:705
 #, kde-format
 msgid "Include lists of figures and tables in the TOC"
-msgstr ""
+msgstr "Sartu irudi eta taula zerrendak aurkibidean"
 
 #: dialogs/quickdocumentdialog.cpp:706
 #, kde-format
 msgid "Include the bibliography in the TOC"
-msgstr ""
+msgstr "Sartu bibliografia aurkibidean"
 
 #: dialogs/quickdocumentdialog.cpp:707
 #, kde-format
 msgid "Include the index in the TOC"
-msgstr ""
+msgstr "Sartu indizea aurkibidean"
 
 #: dialogs/quickdocumentdialog.cpp:708
 #, kde-format
@@ -3502,7 +3552,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:733
 #, kde-format
 msgid "Include the abstract's title"
-msgstr ""
+msgstr "Sartu laburpenaren izenburua"
 
 #: dialogs/quickdocumentdialog.cpp:734
 #, kde-format
@@ -8538,12 +8588,12 @@ msgstr ""
 #: kilestdactions.cpp:168
 #, kde-format
 msgid "Embedded Code - \\verb||"
-msgstr ""
+msgstr "Kapsulatutako kodea - \\verb||"
 
 #: kilestdactions.cpp:168
 #, kde-format
 msgid "Embedded Code"
-msgstr ""
+msgstr "Kapsulatutako kodea"
 
 #: kilestdactions.cpp:168
 #, kde-format
@@ -8553,12 +8603,12 @@ msgstr ""
 #: kilestdactions.cpp:170
 #, kde-format
 msgid "Embedded Code (show spaces) - \\verb*||"
-msgstr ""
+msgstr "Kapsulatutako kodea (zuriuneak erakutsi) - \\verb*||"
 
 #: kilestdactions.cpp:170
 #, kde-format
 msgid "Embedded Code (show spaces)"
-msgstr ""
+msgstr "Kapsulatutako kodea (zuriuneak erakutsi)"
 
 #: kilestdactions.cpp:170
 #, kde-format

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2025-01-23 21:44+0100\n"
+"PO-Revision-Date: 2025-01-24 23:52+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -1178,7 +1178,7 @@ msgstr "&Tabulatzailea:"
 #: dialogs/latexcommanddialog.cpp:143
 #, kde-format
 msgid "Shall 'Smart New Line' insert \\\\?"
-msgstr ""
+msgstr "'Lerro berri adimenduna'k \\\\ txertatu behar du?"
 
 #: dialogs/latexcommanddialog.cpp:144
 #, kde-format
@@ -1770,16 +1770,18 @@ msgid ""
 "Space command\n"
 "to &separate groups:"
 msgstr ""
+"Espazio komandoa\n"
+"taldeak &banatzeko:"
 
 #: dialogs/mathenvironmentdialog.cpp:64
 #, kde-format
 msgid "Standard &tabulator:"
-msgstr ""
+msgstr "&Tabulazio estandarra:"
 
 #: dialogs/mathenvironmentdialog.cpp:65
 #, kde-format
 msgid "Display&math mode:"
-msgstr ""
+msgstr "&Matematika azaltzeko modua:"
 
 #: dialogs/mathenvironmentdialog.cpp:66
 #, kde-format
@@ -1807,17 +1809,17 @@ msgstr "Aukeratu taularen errenkada kopurua."
 #: dialogs/mathenvironmentdialog.cpp:149
 #, kde-format
 msgid "Choose the number of table columns or alignment groups."
-msgstr ""
+msgstr "Aukeratu taula-zutabeen edo lerrokatze-taldeen kopurua."
 
 #: dialogs/mathenvironmentdialog.cpp:150
 #, kde-format
 msgid "Define an extra LaTeX command to separate alignment groups."
-msgstr ""
+msgstr "Definitu, lerrokatze-taldeak bereizteko LaTeX komando gehigarri bat."
 
 #: dialogs/mathenvironmentdialog.cpp:151
 #, kde-format
 msgid "Choose one of some predefined tabulators."
-msgstr ""
+msgstr "Aukeratu aurrez definitutako tabuladoreetako bat."
 
 #: dialogs/mathenvironmentdialog.cpp:152
 #, kde-format
@@ -1825,6 +1827,8 @@ msgid ""
 "Some environments are only valid in math mode. You can surround them with "
 "one of these display math modes."
 msgstr ""
+"Ingurune batzuk matematika moduan bakarrik balio dute. Matematika azaltzeko "
+"modu hauetako batekin inguratu ditzakezu."
 
 #: dialogs/mathenvironmentdialog.cpp:153
 #, kde-format
@@ -1832,6 +1836,8 @@ msgid ""
 "Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very "
 "quick from one cell to another."
 msgstr ""
+"Txertatu buletak gelaxka bakoitzean. Alt+Ktrl+Eskuina eta Alt+Ktrl+Ezkerra "
+"gelaxka batetik beste batera oso azkar mugituko du."
 
 #: dialogs/mathenvironmentdialog.cpp:207
 #: dialogs/tabular/newtabulardialog.cpp:145
@@ -1906,6 +1912,13 @@ msgid ""
 "cause your tool to behave just like\n"
 "the standard \"LaTeX\" tool."
 msgstr ""
+"Aukeratu tresna honen jokabide (klase)\n"
+"lehenetsia. Oinarri duen tresnaren\n"
+"propietate guztiak heredatuko ditu.\n"
+"\n"
+"Adibidez, \"LaTeX\" hautatzeak zure\n"
+"tresna \"LaTeX\" estandarra bezalaxe\n"
+"jokatzea eragingo du."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbName)
 #: dialogs/newtoolwizard_toolname_page.ui:19
@@ -1925,34 +1938,34 @@ msgid "Re&arrange"
 msgstr "Berr&antolatu"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:130
-#, fuzzy, kde-format
+#, kde-format
 msgid "1 Page + Empty Page --> 2up"
-msgstr "Orrialde 1 + Orrialde hutsa --> "
+msgstr "Orrialde 1 + Orrialde hutsa --> orrialdeko 2"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:131
-#, fuzzy, kde-format
+#, kde-format
 msgid "1 Page + Duplicate --> 2up"
-msgstr "Orrialde 1 + bikoiztua -->"
+msgstr "Orrialde 1 + bikoiztua --> orrialdeko 2"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:132
-#, fuzzy, kde-format
+#, kde-format
 msgid "2 Pages --> 2up"
-msgstr "2 orrialdea --> "
+msgstr "2 orrialdea --> orrialdeko 2"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:133
-#, fuzzy, kde-format
+#, kde-format
 msgid "2 Pages (landscape) --> 2up"
-msgstr "2 orrialde (paisaia) --> "
+msgstr "2 orrialde (paisaia) --> orrialdeko 2"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:134
-#, fuzzy, kde-format
+#, kde-format
 msgid "4 Pages --> 4up"
-msgstr "4 orrialde --> "
+msgstr "4 orrialde --> orrialdeko 4"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:135
-#, fuzzy, kde-format
+#, kde-format
 msgid "4 Pages (landscape) --> 4up"
-msgstr "4 orrialde (paisaia) --> "
+msgstr "4 orrialde (paisaia) --> orrialdeko 4"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:136 dialogs/postscriptdialog.cpp:125
 #, kde-format
@@ -1987,7 +2000,7 @@ msgstr "Deszifratu"
 #: dialogs/pdf-wizard/pdfdialog.cpp:142
 #, kde-format
 msgid "Select Pages"
-msgstr "Hautatu orriak"
+msgstr "Hautatu orrialdeak"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:143
 #, kde-format
@@ -2007,7 +2020,7 @@ msgstr "Aplikatu atzeko planoren kolorea"
 #: dialogs/pdf-wizard/pdfdialog.cpp:146
 #, kde-format
 msgid "Apply a foreground stamp"
-msgstr ""
+msgstr "Aplikatu aurreko planoko zigilu bat"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:147
 #, kde-format
@@ -2308,92 +2321,99 @@ msgstr "ViewPDF"
 #: dialogs/pdf-wizard/pdfdialog.cpp:1614
 #, kde-format
 msgid "The utility needs some parameters in this mode."
-msgstr ""
+msgstr "Utilitateak parametro batzuk behar ditu modu honetan."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1632
 #, kde-format
 msgid "Illegal page list 'from-to': %1 is bigger than %2."
-msgstr ""
+msgstr "'nondik-nora' orrialde zerrenda ilegala: %1 %2 baino handiagoa da."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1636 dialogs/pdf-wizard/pdfdialog.cpp:1643
 #, kde-format
 msgid "Illegal pagenumber: %1."
-msgstr ""
+msgstr "Orrialde zenbaki ilegala: %1."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1656
 #, kde-format
 msgid "You need to define a PDF file as foreground stamp."
-msgstr ""
+msgstr "PDF fitxategi bat lehen planoko zigilu gisa definitu behar duzu."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1657
 #, kde-format
 msgid "You need to define a PDF file as background watermark."
-msgstr ""
+msgstr "PDF fitxategi bat atzeko planoko filigrana gisa definitu behar duzu."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1664
 #, kde-format
 msgid ""
 "Unknown file format: only '.pdf' is accepted as image file in this mode."
 msgstr ""
+"Fitxategi-formatu ezezaguna: modu honetan, irudi-fitxategi gisa '.pdf' "
+"bakarrik onartzen da."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1669
 #, kde-format
 msgid "The given file doesn't exist."
-msgstr ""
+msgstr "Emandako fitxategia ez da existitzen."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1682
 #, kde-format
 msgid "You need to define an output file."
-msgstr ""
+msgstr "Irteera-fitxategi bat definitu behar duzu."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1689
 #, kde-format
 msgid "Unknown file format: only '.pdf' is accepted as output file."
 msgstr ""
+"Fitxategi-formatu ezezaguna: '.pdf' bakarrik onartzen da irteera-fitxategi "
+"gisa."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1695 dialogs/postscriptdialog.cpp:477
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
 msgstr ""
-"%1 izeneko fitxategia badago lehendik ere. Ziur zaude gainidatzi nahi duzula?"
+"\"%1\" izeneko fitxategi bat badago lehendik ere. Ziur zaude gainidatzi nahi "
+"duzula?"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1730 dialogs/postscriptdialog.cpp:435
 #, kde-format
 msgid "No input file is given."
-msgstr ""
+msgstr "Ez da sarrera-fitxategirik eman."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1737
 #, kde-format
 msgid "Unknown file format: only '.pdf' are accepted for input files."
 msgstr ""
+"Fitxategi-formatu ezezaguna: '.pdf' bakarrik onartzen dira sarrera-fitxategi "
+"gisa."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1742 dialogs/postscriptdialog.cpp:447
 #, kde-format
 msgid "This input file does not exist."
-msgstr ""
+msgstr "Sarrera-fitxategi hori ez da existitzen."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1754
 #, kde-format
 msgid "No password is given."
-msgstr ""
+msgstr "Ez da pasahitzik eman."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1759
 #, kde-format
 msgid "The password should be at least 6 characters long."
-msgstr ""
+msgstr "Pasahitzak gutxienez 6 karaktereko luzera izan behar du."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
 #: dialogs/texdocumentationdialog.cpp:433
 #, kde-format
 msgid "<center>"
-msgstr ""
+msgstr "<center>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
 #: dialogs/texdocumentationdialog.cpp:434
 #, kde-format
 msgid "</center>"
-msgstr ""
+msgstr "</center>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -2426,7 +2446,7 @@ msgstr "Ikonoa"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:158
 #, kde-format
 msgid "This wizard will use 'pdftk' and LaTeX package 'pdfpages'."
-msgstr ""
+msgstr "Morroi honek 'pdftk' eta 'pdfpages' LaTeX paketea erabiliko ditu."
 
 #. i18n: ectx: attribute (title), widget (QWidget, m_tbRearrangements)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:194
@@ -2473,12 +2493,14 @@ msgid ""
 "View the result of the conversion process. okular is always taken as an "
 "external viewer."
 msgstr ""
+"Ikusi bihurketa prozesuaren emaitza. Okular beti hartzen da kanpoko erakusle "
+"gisa."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbView)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:240
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show the resulting PDF file"
-msgstr "Erakutsi emaitzaren PDF fitxategia"
+msgstr "Erakutsi emaitza PDF fitxategia"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbOverwrite)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:253
@@ -2495,6 +2517,8 @@ msgid ""
 "'Select pages' and 'Free Parameter' need some specific parameter, which you "
 "can enter here"
 msgstr ""
+"'Hautatu orrialdeak' eta 'Parametro askea'k hemen sar ditzakezun berariazko "
+"parametro batzuk behar dituzte."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbStamp)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:281
@@ -2641,15 +2665,15 @@ msgstr "Bete inprimakiko eremuak datuekin:"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:681
 #: dialogs/pdf-wizard/pdfdialog_base.ui:694
 #: dialogs/pdf-wizard/pdfdialog_base.ui:720
-#, fuzzy, kde-format
+#, kde-format
 msgid "allowed"
-msgstr "Bai&menduta"
+msgstr "baimenduta"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:701
 #, kde-format
 msgid "Change or add annotations or fill form fields:"
-msgstr ""
+msgstr "Aldatu, edo idatzoharrak gehitu, edo inprimakiko eremuak bete:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbPrinting)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:779
@@ -2741,12 +2765,12 @@ msgstr "Kopiatu orrialde guztiak (sailkatu gabe)"
 #: dialogs/postscriptdialog.cpp:134
 #, kde-format
 msgid "pstops: Choose Parameter"
-msgstr ""
+msgstr "pstops: Aukeratu parametroa"
 
 #: dialogs/postscriptdialog.cpp:137
 #, kde-format
 msgid "psselect: Choose Parameter"
-msgstr ""
+msgstr "psselect: Aukeratu parametroa"
 
 #: dialogs/postscriptdialog.cpp:156
 #, kde-format
@@ -2778,26 +2802,30 @@ msgstr "Errore bat gertatu da fitxategia berrantolatzean."
 msgid ""
 "Unknown file format: only '.ps' and '.ps.gz' are accepted for input files."
 msgstr ""
+"Fitxategi-formatu ezezaguna: '.ps' eta '.ps.gz' bakarrik onartzen dira "
+"sarrera-fitxategirako."
 
 #: dialogs/postscriptdialog.cpp:455
 #, kde-format
 msgid "psselect needs some parameters in this mode."
-msgstr ""
+msgstr "\"psselect\"ek, modu honetan, parametro batzuk behar ditu."
 
 #: dialogs/postscriptdialog.cpp:458
 #, kde-format
 msgid "pstops needs some parameters in this mode."
-msgstr ""
+msgstr "\"pstops\"ek, modu honetan, parametro batzuk behar ditu."
 
 #: dialogs/postscriptdialog.cpp:465
 #, kde-format
 msgid "You need to define an output file or select the viewer."
-msgstr ""
+msgstr "Irteera-fitxategi bat definitu edo erakusle bat hautatu behar duzu."
 
 #: dialogs/postscriptdialog.cpp:472
 #, kde-format
 msgid "Unknown file format: only '.ps' is accepted as output file."
 msgstr ""
+"Fitxategi-formatu ezezaguna: '.ps' bakarrik onartzen da sarrera-fitxategi "
+"gisa."
 
 #: dialogs/postscriptdialog.cpp:496
 #, kde-format
@@ -2816,6 +2844,8 @@ msgid ""
 "Choose one of the 18 operations to convert a postscript file. The last four "
 "operations need specific parameters."
 msgstr ""
+"Aukeratu postscript fitxategi bat bihurtzeko 18 eragiketetako bat. Azken lau "
+"eragiketek berariazko parametroak behar dituzten."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbInfo)
 #: dialogs/postscriptdialog_base.ui:44
@@ -2830,19 +2860,19 @@ msgstr ""
 #: dialogs/postscriptdialog_base.ui:68
 #, kde-format
 msgid "Input file, which should be converted."
-msgstr ""
+msgstr "Bihurtu beharreko sarrera-fitxategia."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbView)
 #: dialogs/postscriptdialog_base.ui:78
 #, kde-format
 msgid "Show ps file with 'okular'"
-msgstr ""
+msgstr "Erakutsi ps fitxategia 'okular'rekin"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, m_spCopies)
 #: dialogs/postscriptdialog_base.ui:120
 #, kde-format
 msgid "When you want to copy pages, you must enter the number of copies"
-msgstr ""
+msgstr "Orrialdeak kopiatu nahi dituzunean, kopia kopurua sartu behar duzu"
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, m_edOutfile)
 #: dialogs/postscriptdialog_base.ui:133
@@ -2852,6 +2882,9 @@ msgid ""
 "to view the result without saving it. In this case the viewer checkbox must "
 "be checked."
 msgstr ""
+"Irteera-fitxategiaren izena. Sarrera hori hutsik utzi zenezake, emaitza "
+"ikusi baino gorde nahi ez baduzu. Kasu horretan, erakuslea egiaztapen-laukia "
+"markatu behar da."
 
 #: dialogs/projectdialogs.cpp:58
 #, kde-format
@@ -2937,22 +2970,22 @@ msgstr ""
 #: dialogs/projectdialogs.cpp:156
 #, kde-format
 msgid "Invalid extension"
-msgstr ""
+msgstr "Luzapen baliogabea"
 
 #: dialogs/projectdialogs.cpp:223
-#, fuzzy, kde-format
+#, kde-format
 msgid "Create New Project"
 msgstr "Sortu proiektu berria"
 
 #: dialogs/projectdialogs.cpp:237
 #, kde-format
 msgid "Create a new file and add it to this project"
-msgstr ""
+msgstr "Sortu fitxategi berri bat eta gehitu proiektu honetara"
 
 #: dialogs/projectdialogs.cpp:239
 #, kde-format
 msgid "File&name (relative to where the project file is):"
-msgstr ""
+msgstr "Fitxategi-ize&na (proiektu-fitxategia dagoen lekuarekiko erlatibo):"
 
 #: dialogs/projectdialogs.cpp:246
 #, kde-format
@@ -2960,6 +2993,9 @@ msgid ""
 "If you want Kile to create a new file and add it to the project, then check "
 "this option and select a template from the list that will appear below."
 msgstr ""
+"Kile-k fitxategi berri bat sortu eta proiektura gehitzea nahi baduzu, "
+"markatu aukera hau eta aukeratu txantiloi bat behean agertuko den "
+"zerrendatik."
 
 #: dialogs/projectdialogs.cpp:336
 #, kde-format
@@ -3006,14 +3042,15 @@ msgid ""
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:361
-#, fuzzy, kde-format
+#, kde-format
 msgid "No File Name Given"
-msgstr "<p>Ez da fitxategi izena eman!</p>"
+msgstr "Ez da fitxategi izenik eman"
 
 #: dialogs/projectdialogs.cpp:374
 #, kde-format
 msgid "The project file exists already. Please choose another name."
 msgstr ""
+"Proiektu-fitxategia jada existitzen da. Mesedez, aukeratu beste izen bat."
 
 #: dialogs/projectdialogs.cpp:374 dialogs/projectdialogs.cpp:380
 #, kde-format
@@ -3027,9 +3064,9 @@ msgid ""
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:395 documentinfo.cpp:133
-#, fuzzy, kde-format
+#, kde-format
 msgid "File Already Exists"
-msgstr "Fitxategia badago lehendik ere"
+msgstr "Fitxategia jada existitzen da"
 
 #: dialogs/projectdialogs.cpp:395
 #, kde-format
@@ -3043,9 +3080,9 @@ msgid "Project Options"
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:423
-#, fuzzy, kde-format
+#, kde-format
 msgid "(use global setting)"
-msgstr "Erabili ezarpen orokorra"
+msgstr "(erabili ezarpen globala)"
 
 #: dialogs/projectdialogs.cpp:438
 #, kde-format
@@ -3058,9 +3095,9 @@ msgid "&Master document:"
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:449
-#, fuzzy, kde-format
+#, kde-format
 msgid "(auto-detect)"
-msgstr "Auto-antzeman"
+msgstr "(auto-antzeman)"
 
 #: dialogs/projectdialogs.cpp:466
 #, kde-format
@@ -3210,14 +3247,14 @@ msgid "Remove the current package option"
 msgstr "Kendu uneko pakete-aukera"
 
 #: dialogs/quickdocumentdialog.cpp:317
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Reset to Defaults"
-msgstr "Lehenetsietara berrezarri"
+msgstr "Lehenetsietara be&rrezarri"
 
 #: dialogs/quickdocumentdialog.cpp:319
 #, kde-format
 msgid "Reset to the default list of packages"
-msgstr ""
+msgstr "Pakete-zerrenda lehenetsira berrezarri"
 
 #: dialogs/quickdocumentdialog.cpp:343
 #, kde-format
@@ -3755,9 +3792,9 @@ msgid " Include only notes and suppress frames"
 msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:980
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 '%2' already exists."
-msgstr "<i>%1</i> lehendik ere badago."
+msgstr "%1 '%2' lehendik ere badago."
 
 #: dialogs/quickdocumentdialog.cpp:1032
 #, kde-format
@@ -3947,9 +3984,9 @@ msgid "<empty>"
 msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1658 kilestdactions.cpp:31
-#, fuzzy, kde-format
+#, kde-format
 msgid "Document Class"
-msgstr "Dokumentu klasea:"
+msgstr "Dokumentu klasea"
 
 #: dialogs/quickdocumentdialog.cpp:1660
 #, kde-format
@@ -4034,7 +4071,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:1846 dialogs/quickdocumentdialog.cpp:1881
 #: dialogs/quickdocumentdialog.cpp:1932 dialogs/quickdocumentdialog.cpp:1963
 #: dialogs/quickdocumentdialog.cpp:2028 dialogs/quickdocumentdialog.cpp:2035
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Description:"
 msgstr "&Deskribapena:"
 
@@ -4059,9 +4096,9 @@ msgid "Add Package"
 msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1930 dialogs/quickdocumentdialog.cpp:2006
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Package:"
-msgstr "Paketea"
+msgstr "&Paketea:"
 
 #: dialogs/quickdocumentdialog.cpp:1934
 #, kde-format
@@ -4069,35 +4106,35 @@ msgid "&Select this package"
 msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1956
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Option:"
-msgstr "Aukera"
+msgstr "&Aukera:"
 
 #: dialogs/quickdocumentdialog.cpp:1956 dialogs/quickdocumentdialog.cpp:2000
 #: dialogs/quickdocumentdialog.cpp:2276
-#, fuzzy, kde-format
+#, kde-format
 msgid "package:"
-msgstr "Paketea"
+msgstr "paketea:"
 
 #: dialogs/quickdocumentdialog.cpp:1958
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Editable"
-msgstr "Editagarria"
+msgstr "&Editagarria"
 
 #: dialogs/quickdocumentdialog.cpp:1959 dialogs/quickdocumentdialog.cpp:2024
-#, fuzzy, kde-format
+#, kde-format
 msgid "De&fault value:"
-msgstr "Balio lehenetsia"
+msgstr "Balio le&henetsia:"
 
 #: dialogs/quickdocumentdialog.cpp:1961 dialogs/quickdocumentdialog.cpp:2026
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Value:"
 msgstr "&Balioa:"
 
 #: dialogs/quickdocumentdialog.cpp:2000
-#, fuzzy, kde-format
+#, kde-format
 msgid "Op&tion:"
-msgstr "Aukera"
+msgstr "Au&kera:"
 
 #: dialogs/quickdocumentdialog.cpp:2005
 #, kde-format
@@ -4184,12 +4221,12 @@ msgstr ""
 #: dialogs/scriptshortcutdialog_base.ui:79
 #, kde-format
 msgid "Editor key sequence"
-msgstr ""
+msgstr "Editorearen tekla sekuentzia"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbShortcut)
 #: dialogs/scriptshortcutdialog_base.ui:106
 #: dialogs/usermenu/usermenudialog.cpp:53
-#, fuzzy, kde-format
+#, kde-format
 msgid "Shortcut"
 msgstr "Lasterbidea"
 
@@ -4197,23 +4234,23 @@ msgstr "Lasterbidea"
 #: dialogs/scriptshortcutdialog_base.ui:134
 #, kde-format
 msgid "Please enter a key sequence for this script:"
-msgstr ""
+msgstr "Mesedez, sartu gidoi honetarako tekla sekuentzia bat:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbShortcut)
 #: dialogs/scriptshortcutdialog_base.ui:150
 #, kde-format
 msgid "Please enter a shortcut for this script:"
-msgstr ""
+msgstr "Mesedez, sartu gidoi honetarako lasterbide bat:"
 
 #: dialogs/statisticsdialog.cpp:50
-#, fuzzy, kde-format
+#, kde-format
 msgid "Copy"
 msgstr "Kopiatu"
 
 #: dialogs/statisticsdialog.cpp:53
 #, kde-format
 msgid "Copy as LaTeX"
-msgstr ""
+msgstr "Kopiatu LaTeX gisa"
 
 #: dialogs/statisticsdialog.cpp:86 dialogs/statisticsdialog.cpp:92
 #, fuzzy, kde-format

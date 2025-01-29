@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2025-01-24 23:52+0100\n"
+"PO-Revision-Date: 2025-01-28 22:25+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -1671,6 +1671,9 @@ msgid ""
 "Note that you cannot delete templates marked with an asterisk (for which you "
 "lack the necessary deletion permissions)."
 msgstr ""
+"Mesedez, aukeratu kendu nahi duzun txantiloia.\n"
+"Jakizu asterisko batekin markatutako txantiloiak ezin dituzula ezabatu (ez "
+"duzu haiek ezabatzeko beharrezko baimenik)."
 
 #: dialogs/managetemplatesdialog.cpp:249
 #, kde-format
@@ -2185,6 +2188,11 @@ msgid ""
 "the input PDF. This page is scaled and rotated as needed to fit the input "
 "page."
 msgstr ""
+"PDF filigrana bat aplikatzen dio sarrera-PDFaren orrialde bakarraren atzeko "
+"planoari. «Pdftk»ak atzeko planoko PDFaren lehen orrialdea bakarrik "
+"erabiltzen du, eta sarrera-PDFko orrialde guztietan aplikatzen du. Orri "
+"horri sarrerako orrialdean egokitzeko beharrezko eskalatzea eta biratzea "
+"egiten zaio."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:823
 #, kde-format
@@ -2855,6 +2863,9 @@ msgid ""
 "Be sure to call 'dvips' with option '-t a4' and\n"
 "hyperref package (if needed) with option 'a4paper'."
 msgstr ""
+"PS fitxategien bihurketa 'pstops' eta 'psselect' bidez egiten da.\n"
+"Deitu 'dvips' '-t a4' aukerarekin eta hyperref paketea\n"
+"(beharrezkoa bada) 'a4paper' aukerarekin."
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, m_edInfile)
 #: dialogs/postscriptdialog_base.ui:68
@@ -2902,6 +2913,8 @@ msgid ""
 "Insert a list (separated by spaces) of file extensions which should be "
 "treated also as files of the corresponding type in this project."
 msgstr ""
+"Txertatu, proiektu honetan dagokien motako fitxategi gisa ere tratatu behar "
+"diren fitxategi-luzapenen zerrenda bat (zuriune bidez bereizia)."
 
 #: dialogs/projectdialogs.cpp:69
 #, kde-format
@@ -2927,6 +2940,8 @@ msgstr "(erabili ezarpen orokorrak)"
 #, kde-format
 msgid "Default graphic extension to open when none specified by file name."
 msgstr ""
+"Fitxategi-izenak zehazten ez duenean, ireki beharreko luzapen grafiko "
+"lehenetsia."
 
 #: dialogs/projectdialogs.cpp:108
 #, kde-format
@@ -3004,11 +3019,14 @@ msgid ""
 "name will be set to \"Untitled\".\n"
 "Do you want to create the project nevertheless?"
 msgstr ""
+"Ez duzu proiektu-izen bat sartu. Jarraitzea erabakitzen baduzu, proiektuaren "
+"izena \"Izengabea\" gisa ezarriko da.\n"
+"Hala ere, proiektua sortu nahi duzu?"
 
 #: dialogs/projectdialogs.cpp:337
 #, kde-format
 msgid "No Project Name Given"
-msgstr ""
+msgstr "Ez da proiektuaren izenik eman"
 
 #: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1044
 #, kde-format
@@ -3018,17 +3036,17 @@ msgstr "Izengabea"
 #: dialogs/projectdialogs.cpp:351
 #, kde-format
 msgid "Please enter the folder where the project file should be saved to."
-msgstr ""
+msgstr "Mesedez, sartu proiektu-fitxategia gorde behar den direktorioa."
 
 #: dialogs/projectdialogs.cpp:351
 #, kde-format
 msgid "Empty Location"
-msgstr ""
+msgstr "Kokalekua hutsik"
 
 #: dialogs/projectdialogs.cpp:356
 #, kde-format
 msgid "Please enter an absolute path to the project folder."
-msgstr ""
+msgstr "Mesedez, sartu proiektuaren karpetaren bide-izen absolutu bat."
 
 #: dialogs/projectdialogs.cpp:356
 #, kde-format
@@ -3040,6 +3058,7 @@ msgstr "Kokapen baliogabea"
 msgid ""
 "Please enter a filename for the file that should be added to this project."
 msgstr ""
+"Mesedez, sartu proiektura gehitu behar den fitxategiaren fitxategi-izena."
 
 #: dialogs/projectdialogs.cpp:361
 #, kde-format
@@ -3055,13 +3074,15 @@ msgstr ""
 #: dialogs/projectdialogs.cpp:374 dialogs/projectdialogs.cpp:380
 #, kde-format
 msgid "Project File Already Exists"
-msgstr ""
+msgstr "Proiektu-fitxategia jada existitzen da"
 
 #: dialogs/projectdialogs.cpp:380
 #, kde-format
 msgid ""
 "The GUI settings file exists already. Please choose another project name."
 msgstr ""
+"EIGaren ezarpen fitxategi jada existitzen da. Mesedez, aukeratu beste "
+"proiektu-izen bat."
 
 #: dialogs/projectdialogs.cpp:395 documentinfo.cpp:133
 #, kde-format
@@ -3071,13 +3092,13 @@ msgstr "Fitxategia jada existitzen da"
 #: dialogs/projectdialogs.cpp:395
 #, kde-format
 msgid "The file \"%1\" already exists, overwrite it?"
-msgstr ""
+msgstr "\"%1\" fitxategia jada existitzen da, gainidatzi nahi duzu?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox5)
 #: dialogs/projectdialogs.cpp:422 widgets/generalconfigwidget.ui:32
 #, kde-format
 msgid "Project Options"
-msgstr ""
+msgstr "Proiektuaren aukerak"
 
 #: dialogs/projectdialogs.cpp:423
 #, kde-format
@@ -3088,11 +3109,12 @@ msgstr "(erabili ezarpen globala)"
 #, kde-format
 msgid "Select the default master document. Leave empty for auto detection."
 msgstr ""
+"Aukeratu dokumentu-maisu lehenetsia. Utzi hutsik automatikoki antzemateko."
 
 #: dialogs/projectdialogs.cpp:443
 #, kde-format
 msgid "&Master document:"
-msgstr ""
+msgstr "Dokumentu-&maisua:"
 
 #: dialogs/projectdialogs.cpp:449
 #, kde-format
@@ -3115,6 +3137,8 @@ msgid ""
 "<p>Could not create the project folder \"\n"
 "%1\"</p>.<p>Please check whether you have write permissions.</p>"
 msgstr ""
+"<p>Ezin izan du \"%1\" proiektuaren karpeta sortu.</p>\n"
+"<p>Mesedez, egiaztatu idazteko baimena duzun.</p>"
 
 #: dialogs/projectdialogs.cpp:606
 #, kde-format
@@ -6587,13 +6611,13 @@ msgstr ""
 #: kile.kcfg:180
 #, kde-format
 msgid "Whether to show (La)TeX warnings in the LogMsg view."
-msgstr ""
+msgstr "LogMsg ikuspegian (La)TeX abisuak erakutsi ala ez."
 
 #. i18n: ectx: label, entry (SelectedLeftView), group (Show)
 #: kile.kcfg:184
 #, kde-format
 msgid "The identifier of the selected view in the left pane."
-msgstr ""
+msgstr "Ezkerreko beirateko hautatutako ikuspegiaren identifikatzailea."
 
 #. i18n: ectx: label, entry (ShowSplashScreen), group (Show)
 #: kile.kcfg:188
@@ -7320,6 +7344,8 @@ msgid ""
 "There are no projects opened. Please open the project you want to add files "
 "to, then choose Add Files again."
 msgstr ""
+"Ez dago irekitako proiekturik. Mesedez, ireki fitxategiak gehitu nahi "
+"dizkiozun proiektua, gero berriz aukeratu Gehitu fitxategiak."
 
 #: kiledocmanager.cpp:1795 kiledocmanager.cpp:1830
 #, kde-format

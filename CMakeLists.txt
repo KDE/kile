@@ -112,24 +112,6 @@ install(
 	DESTINATION ${KDE_INSTALL_MIMEDIR})
 # update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
 
-install(
-	FILES
-		kile.upd
-	DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kconf_update)
-
-install(
-	PROGRAMS
-		kile1.6_upd.pl
-		kile1.7_upd.pl
-		kile1.9_upd.pl
-		kile1.9-1_upd.pl
-		kile2.0-1_upd.pl
-		kile2.0-2_upd.pl
-		kile2.0-3_upd.pl
-		kile2.0-4_upd.pl
-		kile2.0-5_upd.pl
-	DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kconf_update)
-
 install(FILES
 		AUTHORS
 		ChangeLog

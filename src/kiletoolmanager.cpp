@@ -687,8 +687,8 @@ KileTool::ToolConfigPair KileTool::Manager::findFirstBibliographyToolForCommand(
 {
     // for now we will just select the first suitable tool
     for(const KileTool::ToolConfigPair& tool : m_bibliographyToolsList) {
-        const QString toolCommand = commandFor(tool, m_config);
-        if (QString::compare(command, toolCommand, Qt::CaseInsensitive) == 0) {
+        const QFileInfo toolCommand(commandFor(tool, m_config));
+        if (QString::compare(command, toolCommand.baseName(), Qt::CaseInsensitive) == 0) {
             return tool;
         }
     }

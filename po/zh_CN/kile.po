@@ -9370,7 +9370,7 @@ msgstr "数学模式"
 #: kilestdactions.cpp:374
 #, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr ""
+msgstr "数学模式 - \\(...\\)"
 
 #: kilestdactions.cpp:375
 #, kde-format
@@ -9772,7 +9772,7 @@ msgstr "公式间文本"
 #: kilestdactions.cpp:452
 #, kde-format
 msgid "Math - \\begin{math}"
-msgstr ""
+msgstr "数学 - \\begin{math}"
 
 #: kilestdactions.cpp:454
 #, kde-format
@@ -10007,62 +10007,62 @@ msgstr "Bmatrix"
 #: kilestdactions.cpp:490
 #, kde-format
 msgid "dmath - \\begin{dmath}"
-msgstr ""
+msgstr "dmath - \\begin{dmath}"
 
 #: kilestdactions.cpp:490
 #, kde-format
 msgid "dmath"
-msgstr ""
+msgstr "dmath"
 
 #: kilestdactions.cpp:491
 #, kde-format
 msgid "dmath* - \\begin{dmath*}"
-msgstr ""
+msgstr "dmath* - \\begin{dmath*}"
 
 #: kilestdactions.cpp:491
 #, kde-format
 msgid "dmath*"
-msgstr ""
+msgstr "dmath*"
 
 #: kilestdactions.cpp:493
 #, kde-format
 msgid "dseries - \\begin{dseries}"
-msgstr ""
+msgstr "dseries - \\begin{dseries}"
 
 #: kilestdactions.cpp:493
 #, kde-format
 msgid "dseries"
-msgstr ""
+msgstr "dseries"
 
 #: kilestdactions.cpp:494
 #, kde-format
 msgid "dseries* - \\begin{dseries*}"
-msgstr ""
+msgstr "dseries* - \\begin{dseries*}"
 
 #: kilestdactions.cpp:494
 #, kde-format
 msgid "dseries*"
-msgstr ""
+msgstr "dseries*"
 
 #: kilestdactions.cpp:496
 #, kde-format
 msgid "dgroup - \\begin{dgroup}"
-msgstr ""
+msgstr "dgroup - \\begin{dgroup}"
 
 #: kilestdactions.cpp:496
 #, kde-format
 msgid "dgroup"
-msgstr ""
+msgstr "dgroup"
 
 #: kilestdactions.cpp:497
 #, kde-format
 msgid "dgroup* - \\begin{dgroup*}"
-msgstr ""
+msgstr "dgroup* - \\begin{dgroup*}"
 
 #: kilestdactions.cpp:497
 #, kde-format
 msgid "dgroup*"
-msgstr ""
+msgstr "dgroup*"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330
@@ -10547,7 +10547,7 @@ msgstr "矩阵环境(&M)"
 #: kileui.rc:425
 #, kde-format
 msgid "breqn Math Environments"
-msgstr ""
+msgstr "breqn 数学环境"
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:438
@@ -11608,57 +11608,57 @@ msgstr "配置(&F)..."
 #: widgets/latexconfigwidget.cpp:31
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: widgets/latexconfigwidget.cpp:32 widgets/latexconfigwidget.cpp:43
 #, kde-format
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: widgets/latexconfigwidget.cpp:33
 #, kde-format
 msgid "Alt"
-msgstr ""
+msgstr "Alt"
 
 #: widgets/latexconfigwidget.cpp:34
 #, kde-format
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
 msgid "Ctrl + Shift"
-msgstr ""
+msgstr "Ctrl + Shift"
 
 #: widgets/latexconfigwidget.cpp:36
 #, kde-format
 msgid "Alt + Ctrl"
-msgstr ""
+msgstr "Alt + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:37
 #, kde-format
 msgid "Meta + Ctrl"
-msgstr ""
+msgstr "Meta + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:42
 #, kde-format
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format
 msgid "Cmd + Shift"
-msgstr ""
+msgstr "Cmd + Shift"
 
 #: widgets/latexconfigwidget.cpp:45
 #, kde-format
 msgid "Alt + Cmd"
-msgstr ""
+msgstr "Alt + Cmd"
 
 #: widgets/latexconfigwidget.cpp:46
 #, kde-format
 msgid "Ctrl + Cmd"
-msgstr ""
+msgstr "Ctrl + Cmd"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
@@ -11747,19 +11747,19 @@ msgstr "B&STINPUTS:"
 #: widgets/latexconfigwidget.ui:258
 #, kde-format
 msgid "Modifiers for Left Click Actions"
-msgstr ""
+msgstr "左键点击操作的修饰符 "
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/latexconfigwidget.ui:267
 #, kde-format
 msgid "Modifier for forward search in viewer:"
-msgstr ""
+msgstr "查看器中向前搜索的修饰符："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: widgets/latexconfigwidget.ui:280
 #, kde-format
 msgid "Modifier for selecting from cursor:"
-msgstr ""
+msgstr "从光标处开始选择的修饰符："
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckRootDoc)
 #: widgets/latextoolconfigwidget.ui:35
@@ -11866,7 +11866,7 @@ msgstr "选择工具"
 #: widgets/maintoolconfigwidget.ui:94
 #, kde-format
 msgid "Show hidden tools"
-msgstr ""
+msgstr "显示隐藏的工具"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)

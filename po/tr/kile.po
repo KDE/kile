@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2025-01-19 13:50+0300\n"
+"PO-Revision-Date: 2025-02-17 19:30+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7033,7 +7033,7 @@ msgid ""
 "Whether the current directory shown in the console is kept synchronized with "
 "the open tabs"
 msgstr ""
-"Konsolda gösterilen geçerli dizinin açık sekmelerle eşitlenip saklanıp "
+"Konsolda gösterilen geçerli dizinin açık sekmelerle eşzamanlanıp saklanıp "
 "saklanmayacağı"
 
 #. i18n: ectx: label, entry (WatchFileForDocumentViewer), group (User)
@@ -7185,7 +7185,7 @@ msgstr "Canlı önizleme işlevini etkinleştir."
 #: kile.kcfg:620
 #, kde-format
 msgid "Synchronize the cursor position with the view."
-msgstr "İmleç konumunu görünümle eşitle."
+msgstr "İmleç konumunu görünümle eşzamanlayın."
 
 #. i18n: ectx: label, entry (previewEnabledForFreshlyOpenedDocuments), group (LivePreview)
 #: kile.kcfg:624
@@ -7842,9 +7842,9 @@ msgstr ""
 "landscape — manzara görünümünü seçer; öntanımlı portredir. \n"
 "titlepage, notitlepage — Ayrı bir başlık sayfası olup olmayacağını "
 "belirler.\n"
-"leqno — denklem numarasını eşitliğin solunda gösterir; öntanımlıı sağ "
+"leqno — denklem numarasını eşitliğin solunda gösterir; öntanımlı sağ "
 "taraftır.\n"
-"fleqn — formülleri sola hizalı olarak gösterir; öntanımlıı ortalanmıştır.\n"
+"fleqn — formülleri sola hizalı olarak gösterir; öntanımlı ortalanmıştır.\n"
 "onecolumn, twocolumn — bir veya iki sütun; öntanımlı bir sütundur\n"
 "oneside, twoside — tek veya çift yerleşimi seçer.\n"
 
@@ -10883,7 +10883,7 @@ msgstr "İmleç Konumunu Görüntüleyicide Göster"
 #: kileviewmanager.cpp:129
 #, kde-format
 msgid "Synchronize Cursor Position with Viewer"
-msgstr "İmleç Konumunu Görüntüleyiciyle Eşitle"
+msgstr "İmleç Konumunu Görüntüleyiciyle Eşzamanla"
 
 #: kileviewmanager.cpp:182
 #, kde-format
@@ -11060,7 +11060,7 @@ msgstr "Simon Martin"
 #: main.cpp:114
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
-msgstr "KConfig XT, Çeşitli İyileştirmeler ve Hata Düzeltmeleri"
+msgstr "KConfig XT, çeşitli iyileştirmeler ve hata düzeltmeleri"
 
 #: main.cpp:115
 #, kde-format
@@ -11795,7 +11795,7 @@ msgstr "Değişikliklerden sonra belgeyi kendiliğinden yeniden yükle"
 #: widgets/generalconfigwidget.ui:175
 #, kde-format
 msgid "Synchronize the directory shown in the console with the document tabs"
-msgstr "Konsolda gösterilen dizinle belge sekmelerini eşitle"
+msgstr "Konsolda gösterilen dizinle belge sekmelerini eşzamanla"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RunLyxServer)
 #: widgets/generalconfigwidget.ui:182

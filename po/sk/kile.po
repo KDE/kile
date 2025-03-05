@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-05 00:39+0000\n"
+"POT-Creation-Date: 2025-03-05 00:43+0000\n"
 "PO-Revision-Date: 2023-12-17 14:53+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -11668,8 +11668,14 @@ msgstr "Vykonávanie kontroly systému"
 msgid "Checking if your TeX system is installed correctly..."
 msgstr "Kontrola, či je váš systém TeX správne nainštalovaný..."
 
+#. i18n: ectx: property (format), widget (QProgressBar, m_progress)
+#: widgets/configcheckerwidget.ui:45
+#, no-c-format, kde-format
+msgid "%p%"
+msgstr ""
+
 #. i18n: ectx: property (title), widget (QGroupBox, m_grpResults)
-#: widgets/configcheckerwidget.ui:55
+#: widgets/configcheckerwidget.ui:58
 #, kde-format
 msgid "Results"
 msgstr "Výsledky"

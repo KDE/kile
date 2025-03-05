@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-05 00:39+0000\n"
-"PO-Revision-Date: 2025-02-17 19:30+0300\n"
+"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"PO-Revision-Date: 2025-03-04 13:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -5902,7 +5902,7 @@ msgstr "Yunan"
 #: kile.cpp:672 widgets/latexconfigwidget.ui:133
 #, kde-format
 msgid "Special Characters"
-msgstr "Özel karakterler"
+msgstr "Özel Karakterler"
 
 #: kile.cpp:677
 #, kde-format
@@ -11661,8 +11661,14 @@ msgstr "Sistem Denetimi Uygulanıyor"
 msgid "Checking if your TeX system is installed correctly..."
 msgstr "TeX sisteminizin doğru kurulup kurulmadığı denetleniyor…"
 
+#. i18n: ectx: property (format), widget (QProgressBar, m_progress)
+#: widgets/configcheckerwidget.ui:45
+#, no-c-format, kde-format
+msgid "%p%"
+msgstr ""
+
 #. i18n: ectx: property (title), widget (QGroupBox, m_grpResults)
-#: widgets/configcheckerwidget.ui:55
+#: widgets/configcheckerwidget.ui:58
 #, kde-format
 msgid "Results"
 msgstr "Sonuçlar"
@@ -11852,7 +11858,7 @@ msgstr "Bağlama Duyarlı Yardım"
 #: widgets/helpconfigwidget.ui:41
 #, kde-format
 msgid "&Use the LaTeX2e unofficial reference manual"
-msgstr "&Kile’nin LaTeX başvurusunu kullan"
+msgstr "&Resmi olmayan LaTeX2e başvuru kılavuzunu kullan"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_kilerefs)
 #: widgets/helpconfigwidget.ui:51
@@ -11937,7 +11943,7 @@ msgstr "LaTeX ortamları ve komutlarını yapılandır"
 #: widgets/latexconfigwidget.ui:71
 #, kde-format
 msgid "Double Quotes"
-msgstr "Çİft Tırnak"
+msgstr "Çift Tırnaklar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InsertDoubleQuotes)
 #: widgets/latexconfigwidget.ui:80
@@ -11976,7 +11982,7 @@ msgstr ""
 #: widgets/latexconfigwidget.ui:161
 #, kde-format
 msgid "Math mode"
-msgstr "Matematik kipi"
+msgstr "Matematik Kipi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoInsertDollar)
 #: widgets/latexconfigwidget.ui:170
@@ -13075,7 +13081,7 @@ msgstr "Kile kapatılırken semboller listesini temizle"
 #: widgets/symbolviewconfigwidget.ui:94
 #, kde-format
 msgid "Unicode"
-msgstr "Unikod"
+msgstr "Unicode"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_symbolViewUTF8)
 #: widgets/symbolviewconfigwidget.ui:103
@@ -13164,7 +13170,7 @@ msgstr "Yapılandırma Kaldırılamıyor"
 #: widgets/usermenuconfigwidget.cpp:89
 #, kde-format
 msgid "no file installed"
-msgstr "dosya kurulmadı"
+msgstr "Kurulu dosya yok"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/usermenuconfigwidget.ui:40

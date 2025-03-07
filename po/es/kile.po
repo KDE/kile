@@ -1,12 +1,12 @@
-# Translation of kile to Spanish
-# This file is distributed under the same license as the Kile package.
+# Translation of kile.po to Spanish
+# This file is distributed under the same license as the kile package.
 #
 # SPDX-FileCopyrightText: 2002 Miguel Mingo <miguelmingo@terra.es>
 # SPDX-FileCopyrightText: 2003, 2004 Quique <quique@sindominio.net>
 # SPDX-FileCopyrightText: 2003 Alberto Pintado <apintado@lycos.es>
 # SPDX-FileCopyrightText: 2005 Santiago Fernandez Sancho <santi@est.unileon.es>
 # SPDX-FileCopyrightText: 2005 santi <santi@est.unileon.es>
-# SPDX-FileCopyrightText: 2005, 2007, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2005, 2007, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Eloy Cuadra <ecuadra@eloihr.net>
 # SPDX-FileCopyrightText: 2006, 2007 santi <santi@kde-es.org>
 # SPDX-FileCopyrightText: 2006 Jaime Robles <jaime@kde.org>
 # SPDX-FileCopyrightText: 2006, 2007 santi <hosgiliat@gmail.com>
@@ -21,14 +21,14 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-05 00:43+0000\n"
-"PO-Revision-Date: 2024-12-09 00:59+0100\n"
+"PO-Revision-Date: 2025-03-06 20:09+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 24.12.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -268,7 +268,7 @@ msgstr "Asistente de verificación y configuración del sistema"
 #: dialogs/configcheckerdialog.cpp:127
 #, kde-format
 msgid "Checking whether the system is set up correctly..."
-msgstr "Comprueba si el sistema está configurado correctamente..."
+msgstr "Comprueba si el sistema está configurado correctamente…"
 
 #: dialogs/configcheckerdialog.cpp:147
 #, kde-format
@@ -1503,7 +1503,7 @@ msgstr "Añadir un nuevo entorno."
 #: dialogs/userhelpdialog.cpp:75
 #, kde-format
 msgid "&Add..."
-msgstr "&Añadir..."
+msgstr "&Añadir…"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, deleteButton)
 #: dialogs/latexcommanddialog_base.ui:186
@@ -1528,7 +1528,7 @@ msgstr "Editar un entorno definido por el usuario."
 #: dialogs/latexcommanddialog_base.ui:199
 #, kde-format
 msgid "&Edit..."
-msgstr "&Editar..."
+msgstr "&Editar…"
 
 #. i18n: ectx: property (text), widget (QCheckBox, showOnlyUserDefined)
 #: dialogs/latexcommanddialog_base.ui:222
@@ -1686,7 +1686,7 @@ msgstr "Icono:"
 #: dialogs/managetemplatesdialog.cpp:103
 #, kde-format
 msgid "Select..."
-msgstr "Seleccionar..."
+msgstr "Seleccionar…"
 
 #: dialogs/managetemplatesdialog.cpp:110 dialogs/managetemplatesdialog.cpp:166
 #, kde-format
@@ -3310,7 +3310,7 @@ msgstr "Añadir una nueva opción de clase"
 #: dialogs/quickdocumentdialog.cpp:249 dialogs/quickdocumentdialog.cpp:307
 #, kde-format
 msgid "Ed&it..."
-msgstr "Ed&itar..."
+msgstr "Ed&itar…"
 
 #: dialogs/quickdocumentdialog.cpp:251
 #, kde-format
@@ -3340,7 +3340,7 @@ msgstr "Valor"
 #: dialogs/quickdocumentdialog.cpp:297
 #, kde-format
 msgid "&Add Package..."
-msgstr "&Añadir paquete..."
+msgstr "&Añadir paquete…"
 
 #: dialogs/quickdocumentdialog.cpp:299
 #, kde-format
@@ -3350,7 +3350,7 @@ msgstr "Añadir un nuevo paquete"
 #: dialogs/quickdocumentdialog.cpp:302
 #, kde-format
 msgid "Add Op&tion..."
-msgstr "Añadir &opción..."
+msgstr "Añadir &opción…"
 
 #: dialogs/quickdocumentdialog.cpp:304
 #, kde-format
@@ -6047,12 +6047,12 @@ msgstr "Guardar todo"
 #: kile.cpp:851
 #, kde-format
 msgid "Create Template From Document..."
-msgstr "Crear una plantilla a partir de un documento..."
+msgstr "Crear una plantilla a partir de un documento…"
 
 #: kile.cpp:852
 #, kde-format
 msgid "&Remove Template..."
-msgstr "Elimina&r plantilla..."
+msgstr "Elimina&r plantilla…"
 
 #: kile.cpp:854 kile.cpp:985
 #, kde-format
@@ -6153,7 +6153,7 @@ msgstr "Párrafo anterior"
 #: kile.cpp:881
 #, kde-format
 msgid "Find &in Files..."
-msgstr "Buscar en arch&ivos..."
+msgstr "Buscar en arch&ivos…"
 
 #: kile.cpp:883
 #, kde-format
@@ -6163,12 +6163,12 @@ msgstr "Actualizar estr&uctura"
 #: kile.cpp:886
 #, kde-format
 msgid "&New Project..."
-msgstr "&Nuevo proyecto..."
+msgstr "&Nuevo proyecto…"
 
 #: kile.cpp:887
 #, kde-format
 msgid "&Open Project..."
-msgstr "&Abrir proyecto..."
+msgstr "&Abrir proyecto…"
 
 #: kile.cpp:889
 #, kde-format
@@ -6178,7 +6178,7 @@ msgstr "Abrir un proyecto &reciente"
 #: kile.cpp:896
 #, kde-format
 msgid "A&dd Files to Project..."
-msgstr "&Añadir archivos al proyecto..."
+msgstr "&Añadir archivos al proyecto…"
 
 #: kile.cpp:897 widgets/projectview.cpp:870
 #, kde-format
@@ -6203,17 +6203,17 @@ msgstr "&Cerrar el proyecto"
 #: kile.cpp:903
 #, kde-format
 msgid "&Show Projects..."
-msgstr "Mo&strar proyectos..."
+msgstr "Mo&strar proyectos…"
 
 #: kile.cpp:904
 #, kde-format
 msgid "Re&move Files From Project..."
-msgstr "Eli&minar archivos del proyecto..."
+msgstr "Eli&minar archivos del proyecto…"
 
 #: kile.cpp:905
 #, kde-format
 msgid "Show Project &Files..."
-msgstr "Mostrar a&rchivos del proyecto..."
+msgstr "Mostrar a&rchivos del proyecto…"
 
 #: kile.cpp:907 widgets/projectview.cpp:868
 #, kde-format
@@ -6223,7 +6223,7 @@ msgstr "Abrir todos los archivos del &proyecto"
 #: kile.cpp:908
 #, kde-format
 msgid "Find in &Project..."
-msgstr "Buscar en el &proyecto..."
+msgstr "Buscar en el &proyecto…"
 
 #: kile.cpp:911 kile.cpp:1009 kile.cpp:2150 kiledocmanager.cpp:1963
 #: kiledocmanager.cpp:1973
@@ -6448,7 +6448,7 @@ msgstr "&Acerca del componente de edición"
 #: kile.cpp:1090
 #, kde-format
 msgid "&System Check..."
-msgstr "Verificar &sistema..."
+msgstr "Verificar &sistema…"
 
 #: kile.cpp:1108 kileinfo.cpp:357
 #, kde-format
@@ -6586,7 +6586,7 @@ msgstr "LÍNEA"
 #: kile.cpp:3032
 #, kde-format
 msgid "Refreshing structure..."
-msgstr "Actualizando la estructura..."
+msgstr "Actualizando la estructura…"
 
 #: kile.cpp:3050
 #, kde-format
@@ -7463,7 +7463,7 @@ msgstr "Todos los archivos (*)"
 #: kiledocmanager.cpp:928
 #, kde-format
 msgid "Save Compiled Document As..."
-msgstr "Guardar el documento compilado como..."
+msgstr "Guardar el documento compilado como…"
 
 #: kiledocmanager.cpp:953
 #, kde-format
@@ -7794,12 +7794,12 @@ msgstr "Error del proyecto"
 #: kiledocmanager.cpp:2328
 #, kde-format
 msgid "Opening Project..."
-msgstr "Abriendo proyecto..."
+msgstr "Abriendo proyecto…"
 
 #: kiledocmanager.cpp:2331
 #, kde-format
 msgid "Scanning project files..."
-msgstr "Explorando los archivos del proyecto..."
+msgstr "Explorando los archivos del proyecto…"
 
 #: kileextensions.cpp:70
 #, kde-format
@@ -8534,9 +8534,9 @@ msgid ""
 "depth of its row."
 msgstr ""
 "\\begin{tabular}[pos]{cols}\n"
-"entrada de la columna 1 & entrada de la columna 2 ... & entrada de la "
-"columna n \\\\\n"
-"...\n"
+"entrada de la columna 1 & entrada de la columna 2 … & entrada de la columna "
+"n \\\\\n"
+"…\n"
 "\\end{tabular}\n"
 "pos : Especifica la posición vertical; por omisión la alineación se realiza "
 "al centro del documento.\n"
@@ -9044,8 +9044,8 @@ msgid ""
 "stretch to fill out the specified width."
 msgstr ""
 "\\begin{tabular*}{anchura}[pos]{cols}\n"
-"column 1 entrada & column 2 entrada ... & column n entrada \\\\\n"
-"...\n"
+"column 1 entrada & column 2 entrada … & column n entrada \\\\\n"
+"…\n"
 "\\end{tabular*}\n"
 "Esta es una versión extendida del entorno tabular con un parámetro adicional "
 "para la anchura. Debe haber espacio elástico entre las columnas de forma que "
@@ -9171,7 +9171,7 @@ msgid ""
 msgstr ""
 "\\begin{thebibliography}{widest-label}\n"
 "\\bibitem[label]{cite_key}\n"
-"...\n"
+"…\n"
 "\\end{thebibliography}\n"
 "\n"
 "widest-label : Cuando se imprima el texto este tendrá, aproximadamente, la "
@@ -9614,12 +9614,12 @@ msgstr "Lista de impresión de abreviaturas"
 #: kilestdactions.cpp:330
 #, kde-format
 msgid "ALT.... : you have the choice between these two fields\n"
-msgstr "ALT...: puede elegir entre estos dos campos\n"
+msgstr "ALT…: puede elegir entre estos dos campos\n"
 
 #: kilestdactions.cpp:331
 #, kde-format
 msgid "OPT.... : optional fields (use the 'Clean' command to remove them)"
-msgstr "OPT...: campos opcionales (use la orden «Limpiar» para eliminarlos)"
+msgstr "OPT…: campos opcionales (use la orden «Limpiar» para eliminarlos)"
 
 #: kilestdactions.cpp:332
 #, kde-format
@@ -9744,7 +9744,7 @@ msgstr "\\qquad"
 #: kilestdactions.cpp:373
 #, kde-format
 msgid "Math Mode - $...$"
-msgstr "Modo matemático - $...$"
+msgstr "Modo matemático - $…$"
 
 #: kilestdactions.cpp:373 kilestdactions.cpp:374
 #, kde-format
@@ -9754,12 +9754,12 @@ msgstr "Modo matemático"
 #: kilestdactions.cpp:374
 #, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr "Modo matemático - \\(...\\)"
+msgstr "Modo matemático - \\(…\\)"
 
 #: kilestdactions.cpp:375
 #, kde-format
 msgid "Displaymath Mode - \\[...\\]"
-msgstr "Modo Displaymath - \\[...\\]"
+msgstr "Modo Displaymath - \\[…\\]"
 
 #: kilestdactions.cpp:375
 #, kde-format
@@ -9864,9 +9864,9 @@ msgid ""
 "     l -- for flush left \n"
 "     r -- for flush right\n"
 msgstr ""
-"\\begin{array}{col1col2...coln}\n"
-"entrada columna 1 & entrada columna 2 ... & entrada columna n \\\\ \n"
-"...\n"
+"\\begin{array}{col1col2…coln}\n"
+"entrada columna 1 & entrada columna 2 … & entrada columna n \\\\ \n"
+"…\n"
 "\\end{array}\n"
 "Cada columna, coln, se encuentra especificada por una única letra que."
 "determina como deben ser formateados los elementos de esa columna.\n"
@@ -11087,12 +11087,12 @@ msgstr "Vista previa &matemática"
 #: kileviewmanager.cpp:1132
 #, kde-format
 msgid "Print Compiled Document..."
-msgstr "Imprimir documento compilado..."
+msgstr "Imprimir documento compilado…"
 
 #: kileviewmanager.cpp:1138
 #, kde-format
 msgid "Print Preview For Compiled Document..."
-msgstr "Vista previa de impresión del documento compilado..."
+msgstr "Vista previa de impresión del documento compilado…"
 
 #: livepreview.cpp:187
 #, kde-format
@@ -11107,7 +11107,7 @@ msgstr "Recompilar vista previa en vivo"
 #: livepreview.cpp:197
 #, kde-format
 msgid "Save Compiled Document..."
-msgstr "Guardar el documento compilado..."
+msgstr "Guardar el documento compilado…"
 
 #: livepreview.cpp:908
 #, kde-format
@@ -11774,7 +11774,7 @@ msgstr "Terminación a&utomática para las abreviaturas"
 #: widgets/codecompletionconfigwidget.ui:133
 #, kde-format
 msgid "Add..."
-msgstr "Añadir..."
+msgstr "Añadir…"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_removeFileButton)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbRemoveTool)
@@ -11827,13 +11827,13 @@ msgstr "Efectuar verificación del sistema"
 #: widgets/configcheckerwidget.ui:32
 #, kde-format
 msgid "Checking if your TeX system is installed correctly..."
-msgstr "Verifica si su sistema TeX se ha instalado correctamente..."
+msgstr "Verifica si su sistema TeX se ha instalado correctamente…"
 
 #. i18n: ectx: property (format), widget (QProgressBar, m_progress)
 #: widgets/configcheckerwidget.ui:45
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p %"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_grpResults)
 #: widgets/configcheckerwidget.ui:58
@@ -12042,7 +12042,7 @@ msgstr "Usar la referencia de LaTeX de &Kile"
 #: widgets/helpconfigwidget.ui:97
 #, kde-format
 msgid "Con&figure..."
-msgstr "Con&figurar..."
+msgstr "Con&figurar…"
 
 #: widgets/latexconfigwidget.cpp:31
 #, kde-format
@@ -12103,7 +12103,7 @@ msgstr "Ctrl + Cmd"
 #: widgets/latexconfigwidget.ui:37
 #, kde-format
 msgid "Configure..."
-msgstr "Configurar..."
+msgstr "Configurar…"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlCommands)
 #: widgets/latexconfigwidget.ui:50
@@ -12321,7 +12321,7 @@ msgstr "Mostrar las herramientas ocultas"
 #: widgets/maintoolconfigwidget.ui:116 widgets/maintoolconfigwidget.ui:216
 #, kde-format
 msgid "New..."
-msgstr "Nueva..."
+msgstr "Nueva…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_groupBox)
 #: widgets/maintoolconfigwidget.ui:152
@@ -12699,7 +12699,7 @@ msgstr "&Abrir con"
 #: widgets/projectview.cpp:820 widgets/structurewidget.cpp:807
 #, kde-format
 msgid "Other..."
-msgstr "Otro..."
+msgstr "Otro…"
 
 #: widgets/projectview.cpp:826
 #, kde-format
@@ -12729,7 +12729,7 @@ msgstr "&Eliminar del proyecto"
 #: widgets/projectview.cpp:866
 #, kde-format
 msgid "A&dd Files..."
-msgstr "Aña&dir archivos..."
+msgstr "Aña&dir archivos…"
 
 #: widgets/projectview.cpp:882 widgets/projectview.cpp:885
 #, kde-format
@@ -12931,7 +12931,7 @@ msgstr "Valor pre&determinado"
 #: widgets/structureviewconfigwidget.ui:112
 #, kde-format
 msgid "(&1=part, 2=chapter, 3=section, 4=subsection, 5=subsubsection, ...)"
-msgstr "(&1=parte, 2=capítulo, 3=sección, 4=subsección, 5=subsubsección, ...)"
+msgstr "(&1=parte, 2=capítulo, 3=sección, 4=subsección, 5=subsubsección, …)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowLabels)
 #: widgets/structureviewconfigwidget.ui:137

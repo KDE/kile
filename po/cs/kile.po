@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2024-06-20 16:28+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -255,35 +255,41 @@ msgstr "Pomocník prověření a nastavení systému"
 msgid "Checking whether the system is set up correctly..."
 msgstr "Zjišťuje se zda je systém správně nastaven..."
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, kde-format
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr ""
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr "Nastavit prohlížecí nástroje k použití prohlížeče dokumentů"
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr "Použít 'moderní' nastavení nástrojů pro TeX, PDFTeX a LaTeX"
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr "Použít 'moderní' nastavení nástrojů pro PDFLaTeX, LuaLaTeX a XeLaTeX"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
 "changes."
 msgstr "<br/>Stisknutím 'Zakončit' přijmete doporučené změny v nastavení."
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "Výsledky testů"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -294,7 +300,7 @@ msgstr ""
 "ve vašem systému běžet správně. Prosím projděte výsledky testů<br/>ať víte, "
 "co je třeba opravit."
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -303,21 +309,21 @@ msgstr ""
 "Následující testy selhaly:<br/><br/>%1<br/><br/>Budete moci nadále používat "
 "Kile, nicméně některé vlastnosti nemusí fungovat."
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
 msgstr ""
 "<b>Nenalezeny žádné problémy. Kile bude ve vašem systému běžet správně.</b>"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr ""
 "Vestavěný prohlížeč dokumentů je k dispozici a živý náhled je podporován."
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -326,7 +332,7 @@ msgstr ""
 "Vestavěný prohlížeč dokumentů je k dispozici, ale nainstalovaná verze "
 "PDFLaTeXu<br/><b>není kompatibilní</b> s živým náhledem."
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -337,7 +343,7 @@ msgstr ""
 "není nainstalován anebo<br/>je nainstalovaná verze příliš stará). Živý "
 "náhled tudíž není podporován."
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "

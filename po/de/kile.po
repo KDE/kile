@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2022-07-24 15:05+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -264,19 +264,25 @@ msgstr "Systemprüfung und Konfigurationsassistent"
 msgid "Checking whether the system is set up correctly..."
 msgstr "Es wird geprüft, ob Ihr System richtig eingerichtet ist ..."
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, kde-format
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr ""
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr "Betrachterwerkzeuge einrichten, um den Dokumentbetrachter zu verwenden"
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr ""
 "Die „modern“-Einrichtung für die TeX-, PDFTeX- und LaTeX-Werkzeuge verwenden"
 
 # Konfiguration -> Einstellung; „Konfiguration“ erscheint besonders im Zusammenhang mit dem Menü „Einstellungen“ -> „Kile einrichten ...“ -> „Werkzeuge“ / „Erstellen“ -> (z.B.) PDFLaTeX im oberen Aufklappmenü.
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
@@ -284,7 +290,7 @@ msgstr ""
 "Die „modern“-Einrichtung für die PDFLaTeX-, LuaLaTeX- und XeLaTeX-Werkzeuge "
 "verwenden"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
@@ -293,12 +299,12 @@ msgstr ""
 "<br/>Drücken Sie jetzt „Fertigstellen“, um die empfohlenen Änderungen an der "
 "Konfiguration anzuwenden."
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "Ergebnisse testen"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -310,7 +316,7 @@ msgstr ""
 "betrachten Sie die<br/> Testergebnisse und beheben Sie die Fehler "
 "entsprechend."
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -319,7 +325,7 @@ msgstr ""
 "Folgende Tests sind nicht bestanden worden:<br/><br/>%1<br/><br/> Sie können "
 "Kile verwenden; bei einigen Werkzeugen kann es aber zu Fehlfunktionen kommen."
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
@@ -327,7 +333,7 @@ msgstr ""
 "<b>Es wurden keine Probleme festgestellt. Kile wird auf Ihrem System richtig "
 "funktionieren.</b>"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
@@ -335,7 +341,7 @@ msgstr ""
 "Der eingebettete Dokumentbetrachter ist verfügbar und die Live-Vorschau wird "
 "unterstützt."
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -344,7 +350,7 @@ msgstr ""
 "Der eingebettete Dokumentbetrachter ist verfügbar, die installierte Version "
 "von<br/>PDFLaTeX ist mit der Live-Vorschau <b>nicht kompatibel</b>."
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -355,7 +361,7 @@ msgstr ""
 "entweder nicht installiert<br/> oder die installierte Version zu alt). Die "
 "Live-Vorschau wird daher nicht unterstützt."
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "

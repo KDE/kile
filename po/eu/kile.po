@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2025-01-28 22:25+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -256,24 +256,30 @@ msgstr "Sistema egiaztatzeko eta konfiguratzeko laguntzailea"
 msgid "Checking whether the system is set up correctly..."
 msgstr "Sistema ondo ezarrita dagoen egiaztatzen..."
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, kde-format
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr ""
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr "Konfiguratu ikusteko tresna dokumentu erakuslea erabiltzeko"
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr "TeX, PDFTeX, eta LaTeX tresnetarako 'modernoa' konfigurazioa erabili"
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr ""
 "PDFLaTeX, LuaLaTeX eta XeLaTeX tresnetarako 'modernoa' konfigurazioa erabili"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
@@ -282,12 +288,12 @@ msgstr ""
 "<br/>Mesedez, sakatu 'Amaitu' orain aholkatutako konfiguratzeko aldaketak "
 "onartzeko."
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "Probaren emaitzak"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -298,7 +304,7 @@ msgstr ""
 ">Kile-k ezin du zure sisteman behar bezala funtzionatu. Mesedez proben "
 "emaitzak kontsultatu<br/>zein programa konpondu behar diren zehazteko."
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -307,13 +313,13 @@ msgstr ""
 "Ondoko probek ez dute arrakastarik izan:<br/><br/>%1<br/><br/>Kile erabili "
 "ahal izango duzun arren, funtzio guztiak ibiliko direnik ez dago bermatuta."
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
 msgstr "<b>Ez da arazorik antzeman. Zure sisteman Kile ondo ibiliko da.</b>"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
@@ -321,7 +327,7 @@ msgstr ""
 "Kapsulatutako dokumentu erakuslea erabilgarri dago eta zuzeneko "
 "aurreikuzpegiaren euskarria du."
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -330,7 +336,7 @@ msgstr ""
 "Kapsulatutako dokumentu erakuslea erabilgarri dago, baina instalatutako "
 "PDFLaTeX bertsioa<br/><b>ez da bateragarria</b> zuzeneko aurreikuspegiarekin."
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -341,7 +347,7 @@ msgstr ""
 "baitago erabilgarri edo instalatutako<br/> bertsioa zaharregia delako). Hori "
 "dela eta, ez dago zuzeneko aurreikuspegiaren euskarririk."
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "

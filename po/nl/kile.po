@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2025-03-05 11:16+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -284,18 +284,25 @@ msgstr "Systeemcontrole & configuratie-assistent"
 msgid "Checking whether the system is set up correctly..."
 msgstr "Bezig met controleren of het systeem juist is ingesteld..."
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, fuzzy, kde-format
+#| msgid "%p%"
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr "%p%"
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr ""
 "De viewerhulpmiddelen instellen om de documentenvieuwer te kunnen gebruiken."
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr "De configuratie 'modern' voor de hulpmiddelen TeX, PDFTeX en LaTeX"
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
@@ -303,7 +310,7 @@ msgstr ""
 "De configuratie 'modern' gebruiken voor de hulpmiddelen PDFLaTeX, LuaLaTex "
 "en XeLaTeX"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
@@ -312,12 +319,12 @@ msgstr ""
 "<br/>Gaarne nu 'Beëindigen' indrukken om de aanbevolen wijzigingen in de "
 "configuratie te accepteren."
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "Testresultaten"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -328,7 +335,7 @@ msgstr ""
 ">Kile kan niet juist functioneren op uw systeem. Bekijk de<br/"
 ">testresultaten om te bepalen welke programma's gerepareerd moeten worden."
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -338,7 +345,7 @@ msgstr ""
 "steeds Kile kunnen gebruiken maar het is niet meer gegarandeerd dat alle "
 "mogelijkheden zullen werken."
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
@@ -346,7 +353,7 @@ msgstr ""
 "<b>Er zijn geen problemen gedetecteerd: Kile zal op de juiste manier op uw "
 "systeem werken.</b>"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
@@ -354,7 +361,7 @@ msgstr ""
 "De ingebedde documentviewer is beschikbaar en een live voorbeeld wordt "
 "ondersteund."
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -363,7 +370,7 @@ msgstr ""
 "De ingebedde documentviewer is beschikbaar, maar de geïnstalleerde versie "
 "van PDFLaTeX is<br/><b>niet compatibel</b> met een live voorbeeld."
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -374,7 +381,7 @@ msgstr ""
 "beschikbaar is of de geïnstalleerde versie te oud is). Een live voorbeeld "
 "wordt dus niet ondersteund."
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "

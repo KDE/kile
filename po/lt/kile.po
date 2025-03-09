@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2017-06-25 14:30+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -244,38 +244,44 @@ msgstr ""
 msgid "Checking whether the system is set up correctly..."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, kde-format
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr ""
+
+#: dialogs/configcheckerdialog.cpp:148
 #, fuzzy, kde-format
 #| msgid "Whether to show the side bar."
 msgid "Configure the viewer tools to use the document viewer"
 msgstr "Ar rodyti šoninę juostą."
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, fuzzy, kde-format
 #| msgid "You need at least one configuration for each tool."
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr "Kiekvienam įrankiui reikia bent vienos konfigūracijos."
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, fuzzy, kde-format
 #| msgid "You need at least one configuration for each tool."
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr "Kiekvienam įrankiui reikia bent vienos konfigūracijos."
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
 "changes."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "Bandymo rezultatai"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>The following tools did not pass all <b>critical</b> tests:<br>"
@@ -290,7 +296,7 @@ msgstr ""
 "neparuošta darbui. Prašom pažiūrėti rezultatus, kad žinotumėte, ką taisyti.</"
 "qt>"
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, fuzzy, kde-format
 #| msgid ""
 #| "The following tools did not pass all tests:\n"
@@ -305,27 +311,27 @@ msgstr ""
 " %1\n"
 "Jūs vis tiek galėsite naudoti Kile; tačiau gali veikti ne visos galimybės."
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, fuzzy, kde-format
 #| msgid "No problems detected, your system is ready to use."
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
 msgstr "Problemų neaptikta, jūsų sistema paruošta darbui."
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
 "PDFLaTeX is<br/><b>not compatible</b> with live preview."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -333,7 +339,7 @@ msgid ""
 "hence not supported."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, fuzzy, kde-format
 #| msgid ""
 #| "The file %1/%2 does not exist. If you are surprised, check the file "

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2017-11-03 14:40+0300\n"
 "Last-Translator: Safa Alfulaij <safa1996alfulaij@gmail.com>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
@@ -238,35 +238,41 @@ msgstr "فحص النّظام ومساعد الضّبط"
 msgid "Checking whether the system is set up correctly..."
 msgstr "يفحص فيما إذا كان النّظام مُعدّا كما ينبغي..."
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, kde-format
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr ""
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr "اضبط أدوات العارض لاستخدام عارض المستندات"
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
 "changes."
 msgstr "<br/>فضلًا انقر 'أنهِ' لقبول التّعديلات المستحسنة على الضّبط."
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "نتائج الاختبار"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -277,7 +283,7 @@ msgstr ""
 "ل‍«كايل» العمل كما ينبغي في النّظام. فضلًا راجع نتائج الاختبارات<br/>لتحدّد أيّ "
 "البرامج تحتاج إصلاحًا."
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -286,19 +292,19 @@ msgstr ""
 "الاختبارات الآتية لم تنجح:<br/><br/>%1<br/><br/>ستستطيع استخدام «كايل» إلّا "
 "أنّه لا ضمان على عمل كلّ مزاياه."
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
 msgstr "<b>لم تُكتشف أيّة مشاكل. سيعمل «كايل» كما ينبغي في النّظام.</b>"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr "عارض المستندات المضمّن متوفّر والمعاينة الحيّة مدعومة."
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -307,7 +313,7 @@ msgstr ""
 "عارض المستندات المضمّن متوفّر، ولكن الإصدارة المثبّتة من PDFLaTeX <br/><b>ليست "
 "متوافقة</b> مع المعاينة الحيّة."
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -317,7 +323,7 @@ msgstr ""
 "عارض المستندات المضمّن <b>ليس متوفّرًا</b> (إذ أنّ «أوكلار» ليس متوفّرًا أو أنّ<br/"
 ">الإصدارة المثبّتة قديمة جدًّا). لهذا السّبب، المعاينة الحيّة غير مدعومة."
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "

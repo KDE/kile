@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2019-10-12 16:08+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -259,40 +259,46 @@ msgstr ""
 msgid "Checking whether the system is set up correctly..."
 msgstr "Идёт проверка, корректно ли установлена ваша система TeX..."
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, kde-format
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr ""
+
+#: dialogs/configcheckerdialog.cpp:148
 #, fuzzy, kde-format
 #| msgid "Whether to show the side bar."
 msgid "Configure the viewer tools to use the document viewer"
 msgstr "Показывать ли боковую панель."
 
 # BUGME: should this be translatable? --aspotashev
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, fuzzy, kde-format
 #| msgid "Choose a configuration for the current tool"
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr "Конфигурация для текущего инструмента"
 
 # BUGME: should this be translatable? --aspotashev
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, fuzzy, kde-format
 #| msgid "Choose a configuration for the current tool"
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr "Конфигурация для текущего инструмента"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
 "changes."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "Результаты тестов"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>The following tools did not pass all <b>critical</b> tests:<br>"
@@ -307,7 +313,7 @@ msgstr ""
 "%1<br>Ваша система не готова к использованию. Просмотрите результаты "
 "тестирования, чтобы понять, что надо исправить.</qt>"
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, fuzzy, kde-format
 #| msgid ""
 #| "The following tools did not pass all tests:\n"
@@ -323,27 +329,27 @@ msgstr ""
 "Вы всё ещё можете использовать Kile, хотя, возможно, не все возможности "
 "будут работать."
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, fuzzy, kde-format
 #| msgid "No problems detected, your system is ready to use."
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
 msgstr "Проблем не обнаружено, ваша система готова к использованию."
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
 "PDFLaTeX is<br/><b>not compatible</b> with live preview."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -351,7 +357,7 @@ msgid ""
 "hence not supported."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, fuzzy, kde-format
 #| msgid ""
 #| "The file %1 could not be saved, check the permissions and free disk space."

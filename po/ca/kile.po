@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2025-03-05 09:49+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -260,26 +260,33 @@ msgstr "Assistent de comprovació i configuració del sistema"
 msgid "Checking whether the system is set up correctly..."
 msgstr "S'està comprovant que aquest sistema està configurat correctament..."
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, fuzzy, kde-format
+#| msgid "%p%"
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr "%p%"
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr ""
 "Configura les eines del visualitzador per a usar el visualitzador de "
 "documents"
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr "Usa la configuració «moderna» per a les eines TeX, PDFTeX i LaTeX"
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr ""
 "Usa la configuració «moderna» per a les eines PDFLaTeX, LuaLaTeX i XeLaTeX"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
@@ -288,12 +295,12 @@ msgstr ""
 "<br/>Ara premeu «Finalitza» per a acceptar els canvis de configuració "
 "recomanats."
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "Resultats de la prova"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -304,7 +311,7 @@ msgstr ""
 ">El Kile no pot funcionar correctament en aquest sistema. Consulteu els<br/"
 ">resultats de les proves per a trobar què s'ha d'arranjar."
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -314,7 +321,7 @@ msgstr ""
 "usar el Kile. No obstant això, no es garanteix que funcionin totes les "
 "característiques."
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
@@ -322,7 +329,7 @@ msgstr ""
 "<b>No s'ha detectat cap problema. El Kile funcionarà correctament en aquest "
 "sistema.</b>"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
@@ -330,7 +337,7 @@ msgstr ""
 "El visualitzador de documents incrustat està disponible i la vista prèvia en "
 "viu és compatible."
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -340,7 +347,7 @@ msgstr ""
 "instal·lada de PDFLaTeX<br/><b>no és compatible</b> amb la vista prèvia en "
 "viu."
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -351,7 +358,7 @@ msgstr ""
 "l'Okular no està disponible o la versió instal·lada<br/>és massa antiga). "
 "Per tant, la vista prèvia en viu, no està suportada."
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "

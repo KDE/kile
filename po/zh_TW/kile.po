@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2024-08-03 13:50+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -251,18 +251,24 @@ msgstr "系統檢查與設定精靈"
 msgid "Checking whether the system is set up correctly..."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, kde-format
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr ""
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, fuzzy, kde-format
 #| msgid "Choose a configuration for the current tool"
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr "選擇目前工具的設定"
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, fuzzy, kde-format
 #| msgid ""
 #| "Supported, use the 'Modern' configuration for (La)TeX and PDF(La)TeX to "
@@ -272,19 +278,19 @@ msgid ""
 msgstr ""
 "支援，用「現代」的 (La)TeX 與 PDF(La)TeX 設定來自動開啟往前或往後搜尋功能。"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
 "changes."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "測試結果"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>The following tools did not pass all <b>critical</b> tests:<br>"
@@ -298,7 +304,7 @@ msgstr ""
 "<qt>以下的工具未通過所有關鍵的測試：<br/>%1<br/> 您的系統目前尚無法使用。請參"
 "考此結果並找出解決方式。</qt>"
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, fuzzy, kde-format
 #| msgid ""
 #| "The following tools did not pass all tests:\n"
@@ -313,27 +319,27 @@ msgstr ""
 "%1\n"
 "您仍然可以使用 Kile，但是有些功能可能無法運作。"
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, fuzzy, kde-format
 #| msgid "No problems detected, your system is ready to use."
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
 msgstr "沒有偵測到問題。您的系統現在已可使用。"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
 "PDFLaTeX is<br/><b>not compatible</b> with live preview."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -341,7 +347,7 @@ msgid ""
 "hence not supported."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, fuzzy, kde-format
 #| msgid ""
 #| "The file %1 could not be saved, check the permissions and free disk space."

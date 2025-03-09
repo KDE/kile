@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2024-05-30 07:49+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -254,23 +254,29 @@ msgstr "Asistanto pri Sistema Kontrolo & Agordo"
 msgid "Checking whether the system is set up correctly..."
 msgstr "Kontrolante ĉu la sistemo estas ĝuste agordita..."
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, kde-format
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr ""
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr "Agordi la ilojn de spektilo por uzi la dokumentrigardilon"
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr "Uzi la 'modernan' agordon por la iloj TeX, PDFTeX kaj LaTeX"
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr "Uzi la 'modernan' agordon por la iloj PDFLaTeX, LuaLaTeX kaj XeLaTeX"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
@@ -278,12 +284,12 @@ msgid ""
 msgstr ""
 "<br/>Bonvolu premi 'Fini' nun por akcepti la rekomenditajn agordajn ŝanĝojn."
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "Testrezultoj"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -294,7 +300,7 @@ msgstr ""
 "povas funkcii ĝuste en via sistemo. Bonvolu konsulti la testrezultojn<br/"
 ">por determini kiuj programoj devas esti riparitaj."
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -303,14 +309,14 @@ msgstr ""
 "La jenaj provoj ne sukcesis:<br/><br/>%1<br/><br/>Vi ankoraŭ povos uzi Kile; "
 "tamen, ne ĉiuj funkcioj garantias funkcii."
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
 msgstr ""
 "<b>Neniaj problemoj estis detektitaj. Kile funkcios ĝuste en via sistemo.</b>"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
@@ -318,7 +324,7 @@ msgstr ""
 "La enigita dokumenta spektilo disponeblas kaj reala antaŭrigardo estas "
 "subtenata."
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -327,7 +333,7 @@ msgstr ""
 "La enigita dokumentospektilo disponeblas, sed la instalita versio de "
 "PDFLaTeX<br/><b>ne kongruas</b> kun reala antaŭrigardo."
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -338,7 +344,7 @@ msgstr ""
 "disponeblas aŭ la instalita<br/>versio estas tro malnova). Viva antaŭrigardo "
 "do ne estas subtenata."
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "

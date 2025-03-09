@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2025-03-05 06:48+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -257,23 +257,30 @@ msgstr "Preverjanje sistema in pomočnik za prilagajanje"
 msgid "Checking whether the system is set up correctly..."
 msgstr "Preverjam, ali je sistem pravilno nastavljen..."
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, fuzzy, kde-format
+#| msgid "%p%"
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr "%p%"
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr "Prilagodi orodja za pregledovanje kot pregledovalnik dokumentov"
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr "Uporabite 'moderno' nastavitev za orodja TeX, PDFTeX, in LaTeX"
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr "Uporabite 'moderno' nastavitev za orodja PDFLaTeX, LuaLaTeX in XeLaTeX"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
@@ -281,12 +288,12 @@ msgid ""
 msgstr ""
 "<br/>Pritisnite 'Dokončaj', da sprejmete priporočene spremembe nastavitev."
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "Rezultati preizkusa"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -297,7 +304,7 @@ msgstr ""
 "vašem sistemu ne more pravilno delovati. Prosimo, posvetite se rezultatom  "
 "testa<br/>, da določite, katere programe je treba popraviti."
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -306,7 +313,7 @@ msgstr ""
 "Naslednji testi niso uspeli:<br/><br/>%1<br/><br/>Lahko boste sicer "
 "uporabljali Kile, a ni zagotovljeno, da bodo delovale vse zmožnosti."
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
@@ -314,14 +321,14 @@ msgstr ""
 "<b>Zaznanih ni bilo nobenih težav. Kile bo pravilno deloval v vašem sistemu."
 "</b>"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr ""
 "Na voljo je vdelani pregledovalnik dokumentov in podprt je živi predogled."
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -330,7 +337,7 @@ msgstr ""
 "Vdelani pregledovalnik dokumentov je na voljo, vendar nameščena verzija "
 "programa PDFLaTeX <br/><b>ni združljiva</b> z živim predogledom."
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -340,7 +347,7 @@ msgstr ""
 "Vdelani pregledovalnik dokumentov <b>ni na voljo</b> (kot tudi ni na voljo "
 "Okular ali je nameščena verzija<br/>prestara). Živi predogled zato ni podprt."
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "

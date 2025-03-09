@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2024-08-19 23:19+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -250,35 +250,41 @@ msgstr "시스템 검사 및 설정 마법사"
 msgid "Checking whether the system is set up correctly..."
 msgstr "시스템이 올바르게 설정되어 있는지 확인 중..."
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, kde-format
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr ""
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr "문서 뷰어로 사용하도록 뷰어 도구를 설정하는 중"
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr "TeX, PDFTeX, LaTeX 도구의 'Modern' 설정 사용"
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr "PDFLaTeX, LuaLaTeX, XeLaTeX 도구의 'Modern' 설정 사용"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
 "changes."
 msgstr "<br/>'완료'를 누르면 추천하는 설정 변경 사항을 적용합니다."
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "검사 결과"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -289,7 +295,7 @@ msgstr ""
 "올바르게 작동할 수 없습니다. 검사 결과를 참조하여<br/>프로그램 설정 상태를 수"
 "정하십시오."
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -298,20 +304,20 @@ msgstr ""
 "다음 검사에 실패했습니다:<br/><br/>%1<br/><br/>Kile을 사용할 수는 있지만 모"
 "든 기능이 올바르게 작동하지는 않을 수도 있습니다."
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
 msgstr ""
 "<b>문제점을 발견하지 못했습니다. Kile이 시스템에서 올바르게 작동합니다.</b>"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr "내장된 문서 뷰어를 사용할 수 있으며 즉시 미리 보기를 지원합니다."
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -320,7 +326,7 @@ msgstr ""
 "내장된 문서 뷰어를 사용할 수 있으나 설치되어 있는 PDFLaTeX 버전이<br/> 즉시 "
 "미리 보기 기능과 <b>호환되지 않습니다</b>."
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -330,7 +336,7 @@ msgstr ""
 "내장된 문서 뷰어를 <b>사용할 수 없습니다</b>. Okular를 사용할 수 없거나 설치"
 "된 버전이<br/>너무 오래되었습니다. 즉시 미리 보기를 지원하지 않습니다."
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "

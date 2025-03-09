@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2025-03-05 06:19+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -255,20 +255,27 @@ msgstr "სისტემის შემოწმებისა და მო
 msgid "Checking whether the system is set up correctly..."
 msgstr "შემოწმება, სისტემა სწორადაა მორგებული, თუ არა..."
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, fuzzy, kde-format
+#| msgid "%p%"
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr "%p%"
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr ""
 "დამთვალიერებლის ხელსაწყოების მორგება დოკუმენტის დამთვალიერებლის "
 "გამოსაყენებლად"
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr ""
 "'თანამედროვე' კონფიგურაციის გამოყენება TeX, PDFTeX და LaTeX პროგრამებისთვის"
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
@@ -276,7 +283,7 @@ msgstr ""
 "'თანამედროვე' კონფიგურაციის გამოყენება PDFLaTeX, LuaLaTeX და XeLaTeX "
 "ხელსაწყოებისთვის"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
@@ -285,12 +292,12 @@ msgstr ""
 "<br/>დააწექით ღილაკს 'დასრულება' რეკომენდებული კონფიგურაციის ცვლილებების "
 "მისაღებად."
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "ტესტის შედეგები"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -301,7 +308,7 @@ msgstr ""
 ">Kile-ს თქვენს სისტემაზე ფუნქციონირება არ შეუძლია. გადახედეთ ტესტის შედეგებს,"
 "<br/>რომ გაიგოთ, რომელი პროგრამები გაქვთ გასასწორებელი."
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -310,14 +317,14 @@ msgstr ""
 "წარუმატებლად დასრულდა შემდეგი ტესტები:<br/><br/>%1<br/><br/>Kile-ის "
 "გამოყენებას მაინც შეძლებთ, უბრალოდ ყველა ფუნქცია არ იმუშავებს."
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
 msgstr ""
 "<b>პრობლემები აღმოჩენილი არაა. თქვენს სისტემაზე Kile სწორად იმუშავებს.</b>"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
@@ -325,7 +332,7 @@ msgstr ""
 "ჩაშენებული დოკუმენტის დამთვალიერებელი ხელმისაწვდომია და ცოცხალი მინიატურა "
 "მხარდაჭერილია."
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -334,7 +341,7 @@ msgstr ""
 "ჩაშენებული დოკუმენტის დამთვალიერებელი ხელმისაწვდომია, მაგრამ PDFLaTeX-ის "
 "დაყენებული ვერსია<br/>ცოცხალ მინიატურასთან <b>თავსებადი არაა</b>."
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -345,7 +352,7 @@ msgstr ""
 "არც ხელმისაწვდომია, არც დაყენებული, ან დაყენებული<br/>ვერსია ძალიან ძველია). "
 "ამიტომ ცოცხალი მინიატურა მხარდაჭერილი არაა."
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "

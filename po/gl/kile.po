@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2025-01-19 13:41+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -267,19 +267,25 @@ msgstr "Asistente de comprobación do sistema e configuración"
 msgid "Checking whether the system is set up correctly..."
 msgstr "Comprobando se o sistema está correctamente configurado…"
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, kde-format
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr ""
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr ""
 "Configurar as ferramentas de visualización para usar o visor de documentos"
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr ""
 "Usar a configuración «moderna» para as ferramentas de TeX, PDFTeX e LaTeX"
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
@@ -287,7 +293,7 @@ msgstr ""
 "Usar a configuración «moderna» para as ferramentas de PDFLaTeX, LuaLaTeX e "
 "XeLaTeX"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
@@ -296,12 +302,12 @@ msgstr ""
 "<br/>Prema «Rematar» agora para aceptar os cambios de configuración "
 "recomendados."
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "Resultados da proba"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -312,7 +318,7 @@ msgstr ""
 "%1<br/><br/>Kile non pode funcionar correctamente neste sistema. Consulte os "
 "resultados das probas<br/>para determinar que programas hai que arranxar."
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -322,7 +328,7 @@ msgstr ""
 "así, pódese usar Kile; porén, non se garante que funcionen todas as "
 "funcionalidades."
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
@@ -330,7 +336,7 @@ msgstr ""
 "<b>Non se detectaron problemas. Kile pode funcionar correctamente neste "
 "sistema.</b>"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
@@ -338,7 +344,7 @@ msgstr ""
 "O visor de documentos incrustado está dispoñíbel e permítese a "
 "previsualización ao vivo."
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -347,7 +353,7 @@ msgstr ""
 "O visor de documentos incrustado está dispoñíbel, pero a versión do PDFLaTeX "
 "instalada<br/><b>non é compatíbel</b> coa previsualización ao vivo."
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -358,7 +364,7 @@ msgstr ""
 "ou non está dispoñíbel ou<br/>a versión instalada é vella de máis). Por esta "
 "razón non se permiten as previsualizacións ao vivo."
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2024-12-25 19:37+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -251,36 +251,42 @@ msgstr "प्रणाली जाँच एवं विन्यास स�
 msgid "Checking whether the system is set up correctly..."
 msgstr "प्रणाली सम्यक् स्थापिता अस्ति वा इति परीक्ष्य..."
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, kde-format
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr ""
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr "दस्तावेजदर्शकस्य उपयोगाय दर्शकसाधनं विन्यस्यताम्"
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr "TeX, PDFTeX, LaTeX च साधनानां कृते 'आधुनिक' विन्यासस्य उपयोगं कुर्वन्तु"
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr ""
 "PDFLaTeX, LuaLaTeX तथा XeLaTeX उपकरणानां कृते 'आधुनिक' विन्यासस्य उपयोगं कुर्वन्तु"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
 "changes."
 msgstr "<br/>अनुशंसितं विन्यासपरिवर्तनं स्वीकुर्वितुं कृपया इदानीं &#39;Finish&#39; नुदन्तु ।"
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "परीक्षाफलम्"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -291,7 +297,7 @@ msgstr ""
 "प्रणाल्यां सम्यक् कार्यं कर्तुं न शक्नोति । कृपया परीक्षणपरिणामस्य परामर्शं कुर्वन्तु<br/> केषां "
 "कार्यक्रमानां निश्चयः करणीयः इति निर्धारयितुं ।"
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -300,19 +306,19 @@ msgstr ""
 "निम्नलिखितपरीक्षाः सफलाः न अभवन् ।<br/><br/> %1<br/><br/> भवन्तः अद्यापि किले "
 "इत्यस्य उपयोगं कर्तुं शक्नुवन्ति; तथापि सर्वेषां विशेषतानां कार्यं कर्तुं गारण्टी नास्ति ।"
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
 msgstr "<b>कोऽपि समस्या न ज्ञाता । किले भवतः प्रणाल्यां सम्यक् कार्यं करिष्यति ।</b>"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr "एम्बेडेड् दस्तावेजदर्शकः उपलब्धः अस्ति तथा च लाइव् पूर्वावलोकनं समर्थितम् अस्ति ।"
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -321,7 +327,7 @@ msgstr ""
 "एम्बेडेड् दस्तावेजदर्शकः उपलब्धः अस्ति, परन्तु PDFLaTeX इत्यस्य संस्थापितं संस्करणम् अस्ति<br/> "
 "लाइव पूर्वावलोकनेन सह <b>सङ्गतम् नास्ति</b> ।"
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -332,7 +338,7 @@ msgstr ""
 "संस्थापितः अस्ति<br/> संस्करणम् अतीव पुरातनम् अस्ति)। अतः लाइव पूर्वावलोकनं समर्थितं नास्ति "
 "।"
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "

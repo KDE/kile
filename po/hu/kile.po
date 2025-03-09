@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:41+0000\n"
 "PO-Revision-Date: 2014-10-13 14:34+0200\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -240,25 +240,31 @@ msgstr "Rendszerellenőrző és beállító segéd"
 msgid "Checking whether the system is set up correctly..."
 msgstr "Annak ellenőrzése, hogy a rendszer megfelelően van-e beállítva…"
 
-#: dialogs/configcheckerdialog.cpp:147
+#: dialogs/configcheckerdialog.cpp:134
+#, kde-format
+msgctxt "%p is the percent value, % is the percent sign"
+msgid "%p%"
+msgstr ""
+
+#: dialogs/configcheckerdialog.cpp:148
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr ""
 "A megjelenítő eszközök beállítása a dokumentummegjelenítő használatához"
 
-#: dialogs/configcheckerdialog.cpp:149
+#: dialogs/configcheckerdialog.cpp:150
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr "A „modern” beállítás használata a TeX, PDFTeX és a LaTeX eszközökhöz"
 
-#: dialogs/configcheckerdialog.cpp:151
+#: dialogs/configcheckerdialog.cpp:152
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr ""
 "A „modern” beállítás használata a PDFLaTeX, LuaLaTeX és XeLaTeX eszközökhöz"
 
-#: dialogs/configcheckerdialog.cpp:153
+#: dialogs/configcheckerdialog.cpp:154
 #, kde-format
 msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
@@ -267,12 +273,12 @@ msgstr ""
 "<br/>Nyomja meg most a „Befejezés” gombot az ajánlott beállítás "
 "változtatások elfogadásához."
 
-#: dialogs/configcheckerdialog.cpp:156
+#: dialogs/configcheckerdialog.cpp:157
 #, kde-format
 msgid "Test Results"
 msgstr "Teszteredmények"
 
-#: dialogs/configcheckerdialog.cpp:231
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -280,14 +286,14 @@ msgid ""
 "results<br/>to determine which programs have to be fixed."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:237
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
 "able to use Kile; however, not all features are guaranteed to work."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:242
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
@@ -295,14 +301,14 @@ msgstr ""
 "<b>Nem észlelhetők problémák. A Kile megfelelően fog működni az ön "
 "rendszerén.</b>"
 
-#: dialogs/configcheckerdialog.cpp:255
+#: dialogs/configcheckerdialog.cpp:256
 #, fuzzy, kde-format
 #| msgid "The embedded viewer is available and live preview is supported."
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr "A beágyazott megjelenítő elérhető és az élő előnézet támogatott."
 
-#: dialogs/configcheckerdialog.cpp:258
+#: dialogs/configcheckerdialog.cpp:259
 #, fuzzy, kde-format
 #| msgid ""
 #| "The embedded viewer is available, but the installed version of PDFLaTeX "
@@ -314,7 +320,7 @@ msgstr ""
 "A beágyazott megjelenítő elérhető, de a PDFLaTeX telepített verziója<br/"
 "><b>nem kompatibilis</b> az élő előnézettel."
 
-#: dialogs/configcheckerdialog.cpp:266
+#: dialogs/configcheckerdialog.cpp:267
 #, fuzzy, kde-format
 #| msgid ""
 #| "The embedded viewer is <b>not available</b> (as Okular is either not "
@@ -329,7 +335,7 @@ msgstr ""
 "érhető el, vagy a telepített<br/>verziója túl régi). Az élő előnézet ezért "
 "nem támogatott."
 
-#: dialogs/configcheckerdialog.cpp:290
+#: dialogs/configcheckerdialog.cpp:291
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "

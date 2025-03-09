@@ -15,6 +15,8 @@
 #ifndef CODECOMPLETION_H
 #define CODECOMPLETION_H
 
+#include <utility>
+
 #include <QObject>
 #include <QList>
 #include <QRegularExpression>
@@ -164,7 +166,7 @@ public:
     /**
      * Returns a pair (local CWL base dir, global CWL base dir).
      */
-    static QPair<QString, QString> getCwlBaseDirs();
+    static std::pair<QString, QString> getCwlBaseDirs();
 
 public Q_SLOTS:
     void startLaTeXCompletion(KTextEditor::View *view = nullptr);

@@ -14,9 +14,10 @@
 #ifndef ABBREVIATIONMANAGER_H
 #define ABBREVIATIONMANAGER_H
 
+#include <utility>
+
 #include <QMap>
 #include <QObject>
-#include <QPair>
 #include <QString>
 
 #include <KConfig>
@@ -25,7 +26,7 @@ class KileInfo;
 
 namespace KileAbbreviation {
 
-typedef QPair<QString, bool> StringBooleanPair;
+using StringBooleanPair = std::pair<QString, bool>;
 typedef QMap<QString, StringBooleanPair> AbbreviationMap;
 
 /**

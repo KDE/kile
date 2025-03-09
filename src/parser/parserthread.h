@@ -15,7 +15,6 @@
 #define PARSERTHREAD_H
 
 #include <QMutex>
-#include <QPair>
 #include <QThread>
 #include <QQueue>
 #include <QWaitCondition>

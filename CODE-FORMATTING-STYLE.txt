@@ -32,7 +32,7 @@ void Manager::writeIDs()
     configGroup.writeEntry("IDs", idList);
 }
 
-QPair<int, QString> pair = m_kileInfo->editorKeySequenceManager()->checkSequence(newSequence, oldSequence);
+std::pair<int, QString> pair = m_kileInfo->editorKeySequenceManager()->checkSequence(newSequence, oldSequence);
 if(pair.first == 0) {
     m_kileInfo->scriptManager()->setEditorKeySequence(script, newType, newSequence);
 }

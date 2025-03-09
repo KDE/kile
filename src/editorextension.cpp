@@ -69,15 +69,15 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 
 
     m_quoteList
-            << QPair<QString, QString>("``", "''")
-            << QPair<QString, QString>("\"<", "\">")
-            << QPair<QString, QString>("\"`", "\"'")
-            << QPair<QString, QString>("\\flqq", "\\frqq")
-            << QPair<QString, QString>("\\glqq", "\\grqq")
-            << QPair<QString, QString>("\\ilqq", "\\irqq")
-            << QPair<QString, QString>("\\iflqq", "\\ifrqq")
-            << QPair<QString, QString>("\\uv{", "}")
-            << QPair<QString, QString>("\\enquote{", "}");
+            << std::pair<QString, QString>("``", "''")
+            << std::pair<QString, QString>("\"<", "\">")
+            << std::pair<QString, QString>("\"`", "\"'")
+            << std::pair<QString, QString>("\\flqq", "\\frqq")
+            << std::pair<QString, QString>("\\glqq", "\\grqq")
+            << std::pair<QString, QString>("\\ilqq", "\\irqq")
+            << std::pair<QString, QString>("\\iflqq", "\\ifrqq")
+            << std::pair<QString, QString>("\\uv{", "}")
+            << std::pair<QString, QString>("\\enquote{", "}");
 
     readConfig();
 }

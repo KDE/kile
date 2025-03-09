@@ -14,8 +14,9 @@
 #ifndef TOOL_UTILS_H
 #define TOOL_UTILS_H
 
+#include <utility>
+
 #include <QMetaType>
-#include <QPair>
 #include <QString>
 
 #define DEFAULT_TOOL_CONFIGURATION "Default"
@@ -23,7 +24,7 @@
 namespace KileTool
 {
 
-class ToolConfigPair : public QPair<QString, QString>
+class ToolConfigPair : public std::pair<QString, QString>
 {
 public:
     ToolConfigPair();

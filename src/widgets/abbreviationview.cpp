@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <utility>
+
 #include "widgets/abbreviationview.h"
 
 #include <QFile>
@@ -59,11 +61,11 @@ void AbbreviationView::updateAbbreviations()
     KILE_DEBUG_MAIN;
     setUpdatesEnabled(false);
     clear();
-    const QMap<QString, QPair<QString, bool> >& abbreviationMap = m_abbreviationManager->getAbbreviationMap();
+    const QMap<QString, std::pair<QString, bool> >& abbreviationMap = m_abbreviationManager->getAbbreviationMap();
     QList<QTreeWidgetItem*> itemList;
-    for(QMap<QString, QPair<QString, bool> >::const_iterator i = abbreviationMap.begin();
+    for(QMap<QString, std::pair<QString, bool> >::const_iterator i = abbreviationMap.begin();
             i != abbreviationMap.end(); ++i) {
-        QPair<QString, bool> pair = i.value();
+        std::pair<QString, bool> pair = i.value();
         QTreeWidgetItem *item = new QTreeWidgetItem();
         item->setText(ALVabbrev, i.key());
         item->setText(ALVlocal, (pair.second) ? QString() : "*");

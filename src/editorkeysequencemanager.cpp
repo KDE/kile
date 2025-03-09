@@ -141,7 +141,7 @@ bool Manager::isSequenceAssigned(const QString& seq) const {
     return false;
 }
 
-QPair<int, QString> Manager::checkSequence(const QString& seq, const QString& skip)
+std::pair<int, QString> Manager::checkSequence(const QString& seq, const QString& skip)
 {
     for(const QString& entry : std::as_const(m_watchedKeySequencesList)) {
         if (entry == skip) {

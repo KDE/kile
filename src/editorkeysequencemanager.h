@@ -14,6 +14,8 @@
 #ifndef EDITORKEYSEQUENCEMANAGER_H
 #define EDITORKEYSEQUENCEMANAGER_H
 
+#include <utility>
+
 #include <QEvent>
 #include <QMap>
 #include <QObject>
@@ -163,7 +165,7 @@ public:
      *          in the second component: a string that corresponds to one
      *          of the previous cases (in the case 0: QString())
      **/
-    QPair<int, QString> checkSequence(const QString& seq, const QString& skip = QString());
+    std::pair<int, QString> checkSequence(const QString& seq, const QString& skip = QString());
 
 Q_SIGNALS:
     /**

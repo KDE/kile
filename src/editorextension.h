@@ -16,6 +16,8 @@
 #ifndef EDITOREXTENSION_H
 #define EDITOREXTENSION_H
 
+#include <utility>
+
 #include <QObject>
 #include <QRegExp>
 #include <QString>
@@ -246,7 +248,7 @@ private:
     // double Quotes
     bool m_dblQuotes;
     QStringList m_quoteListI18N;
-    QList<QPair<QString, QString> > m_quoteList;
+    QList<std::pair<QString, QString> > m_quoteList;
     QString m_leftDblQuote, m_rightDblQuote;
 
     // special chars

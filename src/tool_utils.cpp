@@ -18,12 +18,12 @@
 namespace KileTool {
 
 ToolConfigPair::ToolConfigPair()
-    : QPair<QString, QString>()
+    : std::pair<QString, QString>()
 {
 }
 
 ToolConfigPair::ToolConfigPair(const QString& toolName, const QString& configName)
-    : QPair<QString, QString>(toolName, configName)
+    : std::pair<QString, QString>(toolName, configName)
 {
 }
 

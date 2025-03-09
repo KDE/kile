@@ -11,6 +11,8 @@
 *                                                                         *
 ***************************************************************************/
 
+#include <utility>
+
 #include "widgets/scriptsmanagementwidget.h"
 #include "dialogs/scriptshortcutdialog.h"
 
@@ -210,7 +212,7 @@ void ScriptsManagement::configureSelectedKeySequence() {
     }
     else {
         if(newType == KileScript::Script::KEY_SEQUENCE) {
-            QPair<int, QString> pair = m_kileInfo->editorKeySequenceManager()->checkSequence(newSequence, oldSequence);
+            std::pair<int, QString> pair = m_kileInfo->editorKeySequenceManager()->checkSequence(newSequence, oldSequence);
             if(pair.first == 0) {
                 m_kileInfo->scriptManager()->setEditorKeySequence(script, newType, newSequence);
                 m_kileInfo->scriptManager()->writeConfig();

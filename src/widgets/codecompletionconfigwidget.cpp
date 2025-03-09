@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <utility>
+
 #include "widgets/codecompletionconfigwidget.h"
 
 #include <QCheckBox>
@@ -69,7 +71,7 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileErro
     connect(m_removeFileButton, SIGNAL(clicked()), this, SLOT(removeClicked()));
 
     // find resource directories for cwl files
-    QPair<QString, QString> p = KileCodeCompletion::Manager::getCwlBaseDirs();
+    std::pair<QString, QString> p = KileCodeCompletion::Manager::getCwlBaseDirs();
     m_localCwlDir = p.first;
     m_globalCwlDir = p.second;
 

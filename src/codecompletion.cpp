@@ -1119,7 +1119,7 @@ QMap<QString, QString> Manager::getAllCwlFiles(const QString &localCwlPath, cons
     return fileMap;
 }
 
-QPair<QString, QString> Manager::getCwlBaseDirs()
+std::pair<QString, QString> Manager::getCwlBaseDirs()
 {
     QString localDir = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + QLatin1Char('/') + QLatin1String("complete");
     QString globalDir;
@@ -1138,7 +1138,7 @@ QPair<QString, QString> Manager::getCwlBaseDirs()
     if(!globalDir.endsWith(QLatin1Char('/'))) {
         globalDir += QLatin1Char('/');
     }
-    return QPair<QString, QString>(localDir, globalDir);
+    return std::pair<QString, QString>(localDir, globalDir);
 }
 
 }

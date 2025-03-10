@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-09 00:41+0000\n"
-"PO-Revision-Date: 2025-03-05 09:49+0100\n"
+"PO-Revision-Date: 2025-03-09 11:31+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -261,8 +261,7 @@ msgid "Checking whether the system is set up correctly..."
 msgstr "S'està comprovant que aquest sistema està configurat correctament..."
 
 #: dialogs/configcheckerdialog.cpp:134
-#, fuzzy, kde-format
-#| msgid "%p%"
+#, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
 msgstr "%p%"

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-09 00:41+0000\n"
-"PO-Revision-Date: 2025-03-05 08:45+0200\n"
+"PO-Revision-Date: 2025-03-09 16:35+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -262,8 +262,7 @@ msgid "Checking whether the system is set up correctly..."
 msgstr "Перевірка того, чи належним чином налаштовано систему…"
 
 #: dialogs/configcheckerdialog.cpp:134
-#, fuzzy, kde-format
-#| msgid "%p%"
+#, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
 msgstr "%p%"

@@ -1,21 +1,23 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-#
 # Safa Alfulaij <safa1996alfulaij@gmail.com>, 2016, 2017.
+# SPDX-FileCopyrightText: 2025 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-09 00:41+0000\n"
-"PO-Revision-Date: 2017-11-03 14:40+0300\n"
-"Last-Translator: Safa Alfulaij <safa1996alfulaij@gmail.com>\n"
-"Language-Team: Arabic <doc@arabeyes.org>\n"
+"PO-Revision-Date: 2025-03-09 21:42+0400\n"
+"Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
+"Language-Team: ar\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -393,9 +395,9 @@ msgid "Scripting Support"
 msgstr "دعم السّكربتات"
 
 #: dialogs/configurationdialog.cpp:220
-#, fuzzy, kde-format
+#, kde-format
 msgid "Scripting"
-msgstr "السّكربتة"
+msgstr "البرمجة النصية"
 
 #. i18n: ectx: Menu (menu_usermenu)
 #: dialogs/configurationdialog.cpp:229 kileui.rc:498 usermenu/usermenu.cpp:68
@@ -512,18 +514,18 @@ msgstr "القالب:"
 #: dialogs/findfilesdialog.cpp:141
 #, kde-format
 msgid "Normal"
-msgstr ""
+msgstr "عاديّ"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, commands)
 #: dialogs/findfilesdialog.cpp:142 dialogs/latexcommanddialog_base.ui:133
 #, kde-format
 msgid "Command"
-msgstr ""
+msgstr "أمر"
 
 #: dialogs/findfilesdialog.cpp:143
 #, kde-format
 msgid "Command[]"
-msgstr ""
+msgstr "الأمر[]"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
@@ -532,31 +534,31 @@ msgstr ""
 #: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:998
 #, kde-format
 msgid "Environment"
-msgstr ""
+msgstr "البيئة"
 
 #: dialogs/findfilesdialog.cpp:145
 #, kde-format
 msgid "Image"
-msgstr ""
+msgstr "صورة"
 
 #: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:128
 #: kilestdactions.cpp:129 usermenu/usermenu.cpp:909
 #, kde-format
 msgid "Label"
-msgstr ""
+msgstr "لصيقة"
 
 #: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:134
 #: usermenu/usermenu.cpp:914
 #, kde-format
 msgid "Reference"
-msgstr ""
+msgstr "مرجع"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/findfilesdialog.cpp:148 dialogs/includegraphicsdialog_base.ui:17
 #: dialogs/projectdialogs.cpp:233
 #, kde-format
 msgid "File"
-msgstr ""
+msgstr "ملفّ"
 
 #: dialogs/findfilesdialog.cpp:171
 #, kde-format
@@ -778,10 +780,9 @@ msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
 msgstr "*.png *.jpg *.pdf *.ps *.eps|الرّسوم\n"
 
 #: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "PNG Files (*.png)"
-msgstr "كلّ الملفّات"
+msgstr "ملفات PNG (*.png)"
 
 #: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
 #, fuzzy, kde-format
@@ -818,10 +819,9 @@ msgid "EPS Files (*.eps)"
 msgstr "كلّ الملفّات"
 
 #: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "All Files (*)"
-msgstr "كلّ الملفّات"
+msgstr "كلّ الملفّات (*)"
 
 #: dialogs/includegraphicsdialog.cpp:621
 #, kde-format
@@ -983,7 +983,7 @@ msgstr ""
 #: dialogs/includegraphicsdialog_base.ui:296
 #, kde-format
 msgid "figure"
-msgstr ""
+msgstr "شكل"
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_figure)
 #: dialogs/includegraphicsdialog_base.ui:302
@@ -1160,7 +1160,7 @@ msgstr "يحتاج وضع الرّيا&ضيّات:"
 #: dialogs/latexcommanddialog.cpp:128
 #, kde-format
 msgid "&Tabulator:"
-msgstr ""
+msgstr "&علامة الجدولة:"
 
 #: dialogs/latexcommanddialog.cpp:143
 #, kde-format
@@ -1180,7 +1180,7 @@ msgstr ""
 #: dialogs/latexcommanddialog.cpp:156
 #, kde-format
 msgid "Opt&ion:"
-msgstr ""
+msgstr "ال&خيار:"
 
 #: dialogs/latexcommanddialog.cpp:167
 #, kde-format
@@ -1195,7 +1195,7 @@ msgstr ""
 #: dialogs/latexcommanddialog.cpp:178
 #, kde-format
 msgid "&Parameter:"
-msgstr ""
+msgstr "ال&مُعامِل:"
 
 #: dialogs/latexcommanddialog.cpp:190
 #, kde-format
@@ -1260,17 +1260,17 @@ msgstr ""
 #: kile.cpp:1031 kilestdactions.cpp:452 kileui.rc:583
 #, kde-format
 msgid "Math"
-msgstr ""
+msgstr "رياضيات"
 
 #: dialogs/latexcommanddialog.cpp:390
 #, kde-format
 msgid "Lists"
-msgstr ""
+msgstr "قوائم"
 
 #: dialogs/latexcommanddialog.cpp:391 kile.cpp:1027 kilestdactions.cpp:80
 #, kde-format
 msgid "Tabular"
-msgstr ""
+msgstr "جدولي"
 
 #: dialogs/latexcommanddialog.cpp:392 kilestdactions.cpp:54
 #, kde-format
@@ -1280,12 +1280,12 @@ msgstr ""
 #: dialogs/latexcommanddialog.cpp:394 widgets/structurewidget.cpp:332
 #, kde-format
 msgid "Labels"
-msgstr ""
+msgstr "لصائق"
 
 #: dialogs/latexcommanddialog.cpp:395
 #, kde-format
 msgid "References"
-msgstr ""
+msgstr "مراجع"
 
 #: dialogs/latexcommanddialog.cpp:396
 #, kde-format
@@ -1300,7 +1300,7 @@ msgstr ""
 #: dialogs/latexcommanddialog.cpp:398
 #, kde-format
 msgid "Includes"
-msgstr ""
+msgstr "يشمل"
 
 #: dialogs/latexcommanddialog.cpp:623 kile.cpp:1078
 #, kde-format
@@ -1384,7 +1384,7 @@ msgstr ""
 #: dialogs/latexcommanddialog_base.ui:89
 #, kde-format
 msgid "Tab"
-msgstr ""
+msgstr "محرف جدولة"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #. i18n: ectx: property (text), widget (QTreeWidget, commands)
@@ -1392,7 +1392,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:220
 #, kde-format
 msgid "Option"
-msgstr ""
+msgstr "الخيار"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbParameter)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
@@ -1403,14 +1403,14 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:639
 #, kde-format
 msgid "Parameter"
-msgstr ""
+msgstr "المُعامِل"
 
 #. i18n: ectx: attribute (title), widget (QWidget, pageCommands)
 #. i18n: ectx: property (title), widget (QGroupBox, m_bgCommands)
 #: dialogs/latexcommanddialog_base.ui:108 widgets/latexconfigwidget.ui:26
 #, kde-format
 msgid "Commands"
-msgstr ""
+msgstr "الأوامر"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, addButton)
 #: dialogs/latexcommanddialog_base.ui:176
@@ -1519,7 +1519,7 @@ msgstr "أدر ملفّات الإكمال المحليّة في مدير الم
 #: widgets/codecompletionconfigwidget.cpp:353
 #, kde-format
 msgid "yes"
-msgstr ""
+msgstr "نعم"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbEncryption)
 #: dialogs/listselector.cpp:214 dialogs/pdf-wizard/pdfdialog.cpp:283
@@ -1529,7 +1529,7 @@ msgstr ""
 #: widgets/codecompletionconfigwidget.cpp:356
 #, kde-format
 msgid "no"
-msgstr ""
+msgstr "لا"
 
 #: dialogs/listselector.cpp:230
 #, kde-format
@@ -1614,7 +1614,7 @@ msgstr "اختر..."
 #, kde-format
 msgctxt "marked"
 msgid "M"
-msgstr ""
+msgstr "ع"
 
 #: dialogs/managetemplatesdialog.cpp:111 dialogs/managetemplatesdialog.cpp:167
 #, kde-format
@@ -1973,7 +1973,7 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog.cpp:141
 #, kde-format
 msgid "Decrypt"
-msgstr ""
+msgstr "فكّ التّعمية"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:142
 #, kde-format
@@ -2014,7 +2014,7 @@ msgstr ""
 #, kde-format
 msgctxt "%1 is the number of pages"
 msgid "%1 (encrypted)"
-msgstr ""
+msgstr "%1 (معماة)"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:406
 #, kde-format
@@ -2226,33 +2226,33 @@ msgstr "يعيد ترتيب ملفّ PDF:‏ "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:934 dialogs/pdf-wizard/pdfdialog.cpp:1046
 #: dialogs/postscriptdialog.cpp:216
-#, fuzzy, kde-format
+#, kde-format
 msgid "***** tool:        "
-msgstr "***** الأداة:        "
+msgstr "***** أداة:        "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:935 dialogs/pdf-wizard/pdfdialog.cpp:1047
 #: dialogs/postscriptdialog.cpp:217
-#, fuzzy, kde-format
+#, kde-format
 msgid "***** input file:  "
-msgstr "***** ملفّ الدّخل:  "
+msgstr "***** الملفّ الدّخل:  "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:936 dialogs/postscriptdialog.cpp:218
-#, fuzzy, kde-format
+#, kde-format
 msgid "***** output file: "
 msgstr "***** ملفّ الخرج: "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:937 dialogs/pdf-wizard/pdfdialog.cpp:1048
 #, kde-format
 msgid "***** param:       "
-msgstr ""
+msgstr "***** معامل:       "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:938
-#, fuzzy, kde-format
+#, kde-format
 msgid "***** command:     "
-msgstr "***** الأمر:     "
+msgstr "***** أمر:     "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:939 dialogs/postscriptdialog.cpp:219
-#, fuzzy, kde-format
+#, kde-format
 msgid "***** viewer:      "
 msgstr "***** العارض:      "
 
@@ -2901,7 +2901,7 @@ msgstr "امتداد الرّسوم الافتراضيّ:"
 #: dialogs/projectdialogs.cpp:120
 #, kde-format
 msgid "Predefined:"
-msgstr ""
+msgstr "مسبق التعريف:"
 
 #: dialogs/projectdialogs.cpp:156
 #, fuzzy, kde-format
@@ -3028,7 +3028,7 @@ msgstr "خيارات المشروع"
 #: dialogs/projectdialogs.cpp:423
 #, kde-format
 msgid "(use global setting)"
-msgstr ""
+msgstr "(استخدم الإعداد العموميّ)"
 
 #: dialogs/projectdialogs.cpp:438
 #, kde-format
@@ -3038,12 +3038,12 @@ msgstr ""
 #: dialogs/projectdialogs.cpp:443
 #, kde-format
 msgid "&Master document:"
-msgstr ""
+msgstr "&مستند رئيس:"
 
 #: dialogs/projectdialogs.cpp:449
 #, kde-format
 msgid "(auto-detect)"
-msgstr ""
+msgstr "(اكتشف آليًّا)"
 
 #: dialogs/projectdialogs.cpp:466
 #, kde-format
@@ -3746,7 +3746,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:980
 #, kde-format
 msgid "%1 '%2' already exists."
-msgstr ""
+msgstr "%1 '%2' موجود مسبقًا."
 
 #: dialogs/quickdocumentdialog.cpp:1032
 #, kde-format
@@ -4011,7 +4011,7 @@ msgid "Remove Papersize"
 msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1842 dialogs/quickdocumentdialog.cpp:1954
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add Option"
 msgstr "أضف خيارًا"
 
@@ -4045,7 +4045,7 @@ msgstr "أتريد حذف خيار الصّنف هذا؟"
 #: dialogs/quickdocumentdialog.cpp:1928
 #, kde-format
 msgid "Add Package"
-msgstr ""
+msgstr "أضف حزمة"
 
 #: dialogs/quickdocumentdialog.cpp:1930 dialogs/quickdocumentdialog.cpp:2006
 #, kde-format
@@ -4071,7 +4071,7 @@ msgstr "الحزمة:"
 #: dialogs/quickdocumentdialog.cpp:1958
 #, kde-format
 msgid "&Editable"
-msgstr ""
+msgstr "&قابل للتحرير"
 
 #: dialogs/quickdocumentdialog.cpp:1959 dialogs/quickdocumentdialog.cpp:2024
 #, kde-format
@@ -4116,7 +4116,7 @@ msgstr "تصفير قائمة الحزم"
 #: dialogs/quickdocumentdialog.cpp:2291
 #, kde-format
 msgid "%1 '%2' is not allowed."
-msgstr ""
+msgstr "%1 '%2' غير مسموح به."
 
 #: dialogs/quickdocumentdialog.cpp:2315
 #, kde-format
@@ -4180,7 +4180,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:53
 #, kde-format
 msgid "Shortcut"
-msgstr ""
+msgstr "اختصار"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbKeySequence)
 #: dialogs/scriptshortcutdialog_base.ui:134
@@ -4667,9 +4667,9 @@ msgid "User Help"
 msgstr "مساعدة المستخدم"
 
 #: dialogs/userhelpdialog.cpp:63
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Menu item:"
-msgstr "عنصر ال&قائمة:"
+msgstr "&بند قائمة:"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbRemove)
 #: dialogs/userhelpdialog.cpp:76 widgets/quicktoolconfigwidget.ui:116
@@ -4680,7 +4680,7 @@ msgstr "أ&زل"
 #: dialogs/userhelpdialog.cpp:77
 #, kde-format
 msgid "&Separator"
-msgstr ""
+msgstr "&فاصل"
 
 #: dialogs/userhelpdialog.cpp:78
 #, kde-format
@@ -4746,7 +4746,7 @@ msgstr ""
 #: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2109
 #, kde-format
 msgid "Select File"
-msgstr ""
+msgstr "اختر ملفًّا"
 
 #: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:300
 #: dialogs/usermenu/usermenutree.cpp:233 usermenu/usermenu.cpp:339
@@ -4772,21 +4772,21 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:103
 #, kde-format
 msgid "Separator"
-msgstr ""
+msgstr "الفاصل"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbInsertSubmenu)
 #: dialogs/usermenu/usermenudialog.cpp:56
 #: dialogs/usermenu/usermenudialog_base.ui:143
 #, kde-format
 msgid "Submenu"
-msgstr ""
+msgstr "القائمة الفرعية"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenuentryType)
 #: dialogs/usermenu/usermenudialog.cpp:56
 #: dialogs/usermenu/usermenudialog_base.ui:539 kileinfo.cpp:353
 #, kde-format
 msgid "Text"
-msgstr ""
+msgstr "النص"
 
 #: dialogs/usermenu/usermenudialog.cpp:56
 #, kde-format
@@ -4894,8 +4894,7 @@ msgstr ""
 "أأكتب عليه؟"
 
 #: dialogs/usermenu/usermenudialog.cpp:399
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
 msgstr "أأكتب فوق الملفّ؟"
 
@@ -4927,7 +4926,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:485
 #, kde-format
 msgid "Choose"
-msgstr ""
+msgstr "اختر"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbUserMenu)
 #: dialogs/usermenu/usermenudialog_base.ui:45
@@ -4966,7 +4965,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:123
 #, kde-format
 msgid "Down"
-msgstr ""
+msgstr "أسفل"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInsertBelow)
 #: dialogs/usermenu/usermenudialog_base.ui:130
@@ -4978,7 +4977,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:133
 #, kde-format
 msgid "Insert"
-msgstr ""
+msgstr "أدرج"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInsertSubmenu)
 #: dialogs/usermenu/usermenudialog_base.ui:140
@@ -4996,7 +4995,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:169
 #, kde-format
 msgid "Up"
-msgstr ""
+msgstr "أعلى"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/usermenu/usermenudialog_base.ui:197
@@ -5016,7 +5015,7 @@ msgstr ""
 #: widgets/usermenuconfigwidget.ui:86
 #, kde-format
 msgid "Install"
-msgstr ""
+msgstr "ثبّت"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbLoad)
 #: dialogs/usermenu/usermenudialog_base.ui:247
@@ -5028,7 +5027,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:250
 #, kde-format
 msgid "Load"
-msgstr ""
+msgstr "حمّل"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbSave)
 #: dialogs/usermenu/usermenudialog_base.ui:273
@@ -5042,7 +5041,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:276
 #, kde-format
 msgid "Save"
-msgstr ""
+msgstr "احفظ"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbSaveAs)
 #: dialogs/usermenu/usermenudialog_base.ui:283
@@ -5056,13 +5055,13 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:286
 #, kde-format
 msgid "Save as"
-msgstr ""
+msgstr "حفظ باسم"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbXmlInstalled)
 #: dialogs/usermenu/usermenudialog_base.ui:352
 #, kde-format
 msgid "(installed)"
-msgstr ""
+msgstr "(الأكثر تثبيتاً)"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbNew)
 #: dialogs/usermenu/usermenudialog_base.ui:375
@@ -5074,25 +5073,25 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:378
 #, kde-format
 msgid "New"
-msgstr ""
+msgstr "جديد"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbText)
 #: dialogs/usermenu/usermenudialog_base.ui:420
 #, kde-format
 msgid "Text:"
-msgstr ""
+msgstr "النص:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbShortcut)
 #: dialogs/usermenu/usermenudialog_base.ui:452
 #, kde-format
 msgid "Shortcut:"
-msgstr ""
+msgstr "الاختصار:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbType)
 #: dialogs/usermenu/usermenudialog_base.ui:466
 #, kde-format
 msgid "Type:"
-msgstr ""
+msgstr "النوع:"
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, m_urlRequester)
 #: dialogs/usermenu/usermenudialog_base.ui:473
@@ -5122,7 +5121,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:562
 #, kde-format
 msgid "Change"
-msgstr ""
+msgstr "غيّر"
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, m_leMenuEntry)
 #: dialogs/usermenu/usermenudialog_base.ui:571
@@ -5134,7 +5133,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:584
 #, kde-format
 msgid "Entry:"
-msgstr ""
+msgstr "المدخلة:"
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, m_leParameter)
 #: dialogs/usermenu/usermenudialog_base.ui:614
@@ -5170,7 +5169,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:660
 #, kde-format
 msgid "Replace selected text"
-msgstr ""
+msgstr "استبدل النص المحدد"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbNeedsSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:673
@@ -5212,22 +5211,22 @@ msgstr ""
 #: dialogs/usermenu/usermenuitem.h:26
 #, kde-format
 msgid "???"
-msgstr ""
+msgstr "؟؟؟"
 
 #: dialogs/usermenu/usermenuitem.h:27
 #, kde-format
 msgid "  >"
-msgstr ""
+msgstr "  >"
 
 #: dialogs/usermenu/usermenutree.cpp:166
 #, kde-format
 msgid "Insert above"
-msgstr ""
+msgstr "أدرج في الأعلى"
 
 #: dialogs/usermenu/usermenutree.cpp:167
 #, kde-format
 msgid "Insert below"
-msgstr ""
+msgstr "أدرج في الأسفل"
 
 #: dialogs/usermenu/usermenutree.cpp:172
 #, kde-format
@@ -5297,7 +5296,7 @@ msgstr ""
 #: dialogs/usermenu/usermenutree.cpp:213
 #, kde-format
 msgid "Info"
-msgstr ""
+msgstr "معلومات"
 
 #: dialogs/usermenu/usermenutree.cpp:437
 #, kde-format
@@ -5363,7 +5362,7 @@ msgstr ""
 #: dialogs/usermenu/usermenutree.cpp:953
 #, kde-format
 msgid "<p><strong>Error:</strong>"
-msgstr ""
+msgstr "<p><strong>خطأ:</strong>"
 
 #: dialogs/usermenu/usermenutree.cpp:965
 #, kde-format
@@ -5373,13 +5372,13 @@ msgstr ""
 #: dialogs/usermenu/usermenutree.cpp:1016
 #, kde-format
 msgid "Name"
-msgstr ""
+msgstr "الاسم"
 
 #. i18n: ectx: ToolBar (extraToolBar)
 #: docpartui.rc:3
 #, kde-format
 msgid "Extra"
-msgstr ""
+msgstr "اضافية"
 
 #: documentinfo.cpp:107
 #, kde-format
@@ -5661,7 +5660,7 @@ msgstr "العلاقات"
 #: kile.cpp:642
 #, kde-format
 msgid "Operators"
-msgstr ""
+msgstr "معاملات"
 
 #: kile.cpp:647
 #, kde-format
@@ -5681,7 +5680,7 @@ msgstr ""
 #: kile.cpp:662
 #, kde-format
 msgid "Delimiters"
-msgstr ""
+msgstr "الفواصل"
 
 #: kile.cpp:667
 #, kde-format
@@ -5716,7 +5715,7 @@ msgstr ""
 #: kile.cpp:707 widgets/codecompletionconfigwidget.cpp:55
 #, kde-format
 msgid "Abbreviation"
-msgstr ""
+msgstr "اختصار"
 
 #: kile.cpp:738
 #, kde-format
@@ -5767,42 +5766,42 @@ msgstr "إح&صائيّات"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "ا&فتح المجلّد الحاوي"
 
 #: kile.cpp:858
 #, kde-format
 msgid "&ASCII"
-msgstr ""
+msgstr "&أسكي"
 
 #: kile.cpp:859
 #, kde-format
 msgid "Latin-&1 (iso 8859-1)"
-msgstr ""
+msgstr "اللاتينية  (ISO- 8859-1)"
 
 #: kile.cpp:860
 #, kde-format
 msgid "Latin-&2 (iso 8859-2)"
-msgstr ""
+msgstr "اللاتينية  (ISO- 8859-2)"
 
 #: kile.cpp:861
 #, kde-format
 msgid "Latin-&3 (iso 8859-3)"
-msgstr ""
+msgstr "اللاتينية  (ISO- 8859-3)"
 
 #: kile.cpp:862
 #, kde-format
 msgid "Latin-&4 (iso 8859-4)"
-msgstr ""
+msgstr "اللاتينية  (ISO- 8859-4)"
 
 #: kile.cpp:863
 #, kde-format
 msgid "Latin-&5 (iso 8859-5)"
-msgstr ""
+msgstr "اللاتينية  (ISO- 8859-5)"
 
 #: kile.cpp:864
 #, kde-format
 msgid "Latin-&9 (iso 8859-9)"
-msgstr ""
+msgstr "اللاتينية  (ISO- 8899-9)"
 
 #: kile.cpp:865
 #, kde-format
@@ -5867,7 +5866,7 @@ msgstr "ا&فتح مشروعًا..."
 #: kile.cpp:889
 #, kde-format
 msgid "Open &Recent Project"
-msgstr ""
+msgstr "افتح &مشروعًا حديثًا"
 
 #: kile.cpp:896
 #, kde-format
@@ -5907,12 +5906,12 @@ msgstr ""
 #: kile.cpp:905
 #, kde-format
 msgid "Show Project &Files..."
-msgstr ""
+msgstr "ا&عرض ملفّات المشروع…"
 
 #: kile.cpp:907 widgets/projectview.cpp:868
 #, kde-format
 msgid "Open All &Project Files"
-msgstr ""
+msgstr "افتح كلّ ملفّات المشروع"
 
 #: kile.cpp:908
 #, kde-format
@@ -5923,7 +5922,7 @@ msgstr "ابحث في الم&شروع..."
 #: kiledocmanager.cpp:1973
 #, kde-format
 msgid "Clean"
-msgstr ""
+msgstr "امسح"
 
 #: kile.cpp:916
 #, kde-format
@@ -6011,12 +6010,12 @@ msgstr ""
 #: kile.cpp:953 kile.cpp:970
 #, kde-format
 msgid "Paragraph"
-msgstr ""
+msgstr "الفقرة"
 
 #: kile.cpp:955
 #, kde-format
 msgid "Line"
-msgstr ""
+msgstr "الخط"
 
 #: kile.cpp:957 kile.cpp:974
 #, kde-format
@@ -6026,7 +6025,7 @@ msgstr ""
 #: kile.cpp:972
 #, kde-format
 msgid "To End of Line"
-msgstr ""
+msgstr "إلى نهاية السطر"
 
 #: kile.cpp:977 kile.cpp:988
 #, kde-format
@@ -6041,17 +6040,17 @@ msgstr ""
 #: kile.cpp:981 kile.cpp:992
 #, kde-format
 msgid "Match"
-msgstr ""
+msgstr "طابق"
 
 #: kile.cpp:983 kile.cpp:994
 #, kde-format
 msgid "Close"
-msgstr ""
+msgstr "أغلق"
 
 #: kile.cpp:997
 #, kde-format
 msgid "Selection"
-msgstr ""
+msgstr "التحديد"
 
 #: kile.cpp:999
 #, kde-format
@@ -6066,13 +6065,13 @@ msgstr ""
 #: kile.cpp:1005
 #, kde-format
 msgid "&Bibliography"
-msgstr ""
+msgstr "&ثبَت مراجع"
 
 #. i18n: ectx: Menu (settings)
 #: kile.cpp:1011 kileui.rc:517
 #, kde-format
 msgid "&Settings"
-msgstr ""
+msgstr "إ&عدادات"
 
 #: kile.cpp:1014
 #, kde-format
@@ -6092,7 +6091,7 @@ msgstr ""
 #: kile.cpp:1028 kilestdactions.cpp:385
 #, kde-format
 msgid "Array"
-msgstr ""
+msgstr "مصفوفة"
 
 #: kile.cpp:1029 kile.cpp:2307 kilestdactions.cpp:79
 #, kde-format
@@ -6132,7 +6131,7 @@ msgstr ""
 #: kile.cpp:1079
 #, kde-format
 msgid "Context Help"
-msgstr ""
+msgstr "مساعدة سياقيّة"
 
 #: kile.cpp:1082
 #, kde-format
@@ -6147,22 +6146,22 @@ msgstr "فحص النّ&ظام..."
 #: kile.cpp:1108 kileinfo.cpp:357
 #, kde-format
 msgid "BibTeX"
-msgstr ""
+msgstr "بب تخ"
 
 #: kile.cpp:1111
 #, kde-format
 msgid "Biblatex"
-msgstr ""
+msgstr "ببل تخ"
 
 #: kile.cpp:1256 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Compile"
-msgstr ""
+msgstr "صرّف"
 
 #: kile.cpp:1257 widgets/toolconfigwidget.cpp:78
 #, kde-format
 msgid "View"
-msgstr ""
+msgstr "اعرض"
 
 #: kile.cpp:1258 widgets/toolconfigwidget.cpp:77
 #, kde-format
@@ -6205,7 +6204,7 @@ msgstr "الوضع العاديّ"
 #: kile.cpp:1516
 #, kde-format
 msgid "Master document: %1"
-msgstr ""
+msgstr "مستند رئيس: %1"
 
 #: kile.cpp:1521 kile.cpp:2664
 #, kde-format
@@ -6236,7 +6235,7 @@ msgstr "عليك تضمين الحزمة %1."
 #: kile.cpp:2226 kile.cpp:2229
 #, kde-format
 msgid "Insert text"
-msgstr ""
+msgstr "أدرج نصاً"
 
 #: kile.cpp:2229
 #, kde-format
@@ -6246,12 +6245,12 @@ msgstr "عليك تضمين الحزم %1."
 #: kile.cpp:2450
 #, kde-format
 msgid "No Name"
-msgstr ""
+msgstr "بلا اسم"
 
 #: kile.cpp:2486
 #, kde-format
 msgid "no name"
-msgstr ""
+msgstr "بلا اسم"
 
 #: kile.cpp:2682
 #, kde-format
@@ -6281,12 +6280,12 @@ msgstr "ينعش البنية..."
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
-msgstr ""
+msgstr "سيُخفي هذا شريط القوائم بالكامل. يمكنك إظهاره مجدّدًا بضغط %1."
 
 #: kile.cpp:3053
 #, kde-format
 msgid "Hide menu bar"
-msgstr ""
+msgstr "أخفِ شريط القوائم"
 
 #. i18n: ectx: label, entry (RCVersion), group (VersionInfo)
 #: kile.kcfg:17
@@ -7027,12 +7026,12 @@ msgstr "تعذّر إنشاء قالب لنوع المستندات هذا."
 #: kiledocmanager.cpp:740
 #, kde-format
 msgid "Create Template From Document"
-msgstr ""
+msgstr "أنشئ قالبًا من المستند"
 
 #: kiledocmanager.cpp:746
 #, kde-format
 msgid "Remove Template"
-msgstr ""
+msgstr "أزل القالب"
 
 #: kiledocmanager.cpp:811
 #, kde-format
@@ -7050,13 +7049,12 @@ msgstr ""
 #: kiledocmanager.cpp:893
 #, kde-format
 msgid "Saving"
-msgstr ""
+msgstr "يحفظ"
 
 #: kiledocmanager.cpp:926
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "Any files (*)"
-msgstr "كلّ الملفّات"
+msgstr "أيّ ملفّ (*)"
 
 #: kiledocmanager.cpp:928
 #, fuzzy, kde-format
@@ -7081,7 +7079,7 @@ msgstr ""
 #: kiledocmanager.cpp:1072
 #, kde-format
 msgid "Save File"
-msgstr ""
+msgstr "احفظ الملفّ"
 
 #: kiledocmanager.cpp:1108
 #, kde-format
@@ -7241,7 +7239,7 @@ msgstr "افتح مشروعًا"
 #: kiledocmanager.cpp:1693
 #, kde-format
 msgid "Save Project"
-msgstr ""
+msgstr "احفظ المشروع"
 
 #: kiledocmanager.cpp:1743
 #, kde-format
@@ -7259,17 +7257,17 @@ msgstr ""
 #: kiledocmanager.cpp:1764
 #, kde-format
 msgid "Add Files to Project"
-msgstr ""
+msgstr "أضف ملفّات إلى المشروع"
 
 #: kiledocmanager.cpp:1777
 #, kde-format
 msgid "Add Files"
-msgstr ""
+msgstr "أضف ملفات"
 
 #: kiledocmanager.cpp:1780
 #, kde-format
 msgid "Add"
-msgstr ""
+msgstr "أضف"
 
 #: kiledocmanager.cpp:1795
 #, kde-format
@@ -7324,7 +7322,7 @@ msgstr ""
 #: kiledocmanager.cpp:1972
 #, kde-format
 msgid "Cleaning %1: %2"
-msgstr ""
+msgstr "ينظف %1: %2"
 
 #: kiledocmanager.cpp:2045
 #, kde-format
@@ -7417,10 +7415,9 @@ msgid "Kile Project Files"
 msgstr "ملفّات مشاريع «كايل»"
 
 #: kileextensions.cpp:108
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "* |All Files"
-msgstr "كلّ الملفّات"
+msgstr "* |كلّ الملفّات"
 
 #: kilehelp.cpp:101
 #, kde-format
@@ -7437,12 +7434,12 @@ msgstr "لا مساعدة متوفّرة ل‍%1."
 #: kileinfo.cpp:351
 #, kde-format
 msgid "Undefined"
-msgstr ""
+msgstr "غير معرّف"
 
 #: kileinfo.cpp:359
 #, kde-format
 msgid "Script"
-msgstr ""
+msgstr "برنامج نصي"
 
 #: kilelauncher.cpp:110
 #, kde-format
@@ -7452,7 +7449,7 @@ msgstr ""
 #: kilelauncher.cpp:220
 #, kde-format
 msgid "terminated"
-msgstr ""
+msgstr "انتهى"
 
 #: kilelauncher.cpp:229
 #, kde-format
@@ -7489,7 +7486,7 @@ msgstr ""
 #: kilelauncher.cpp:279
 #, kde-format
 msgid "finished with exit code %1"
-msgstr ""
+msgstr " انتهى مع رمز الخروج %1"
 
 #: kilelauncher.cpp:291
 #, kde-format
@@ -7499,12 +7496,12 @@ msgstr ""
 #: kilelauncher.cpp:307
 #, kde-format
 msgid "failed to start"
-msgstr ""
+msgstr "فشل البدء"
 
 #: kilelauncher.cpp:310
 #, kde-format
 msgid "crashed"
-msgstr ""
+msgstr "انهار"
 
 #: kilelauncher.cpp:313
 #, kde-format
@@ -7534,7 +7531,7 @@ msgstr ""
 #: kilelyxserver.cpp:251
 #, kde-format
 msgid "Paste"
-msgstr ""
+msgstr "ألصق"
 
 #: kilestdactions.cpp:31
 #, kde-format
@@ -7696,7 +7693,7 @@ msgstr ""
 #: kilestdactions.cpp:50
 #, kde-format
 msgid "Quote"
-msgstr ""
+msgstr "اقتباس"
 
 #: kilestdactions.cpp:50
 #, kde-format
@@ -7713,7 +7710,7 @@ msgstr ""
 #: kilestdactions.cpp:51
 #, kde-format
 msgid "Quotation"
-msgstr ""
+msgstr "تنصيص"
 
 #: kilestdactions.cpp:51
 #, kde-format
@@ -7775,7 +7772,7 @@ msgstr ""
 #: kilestdactions.cpp:56
 #, kde-format
 msgid "Enumeration"
-msgstr ""
+msgstr "عناصر مجموعة"
 
 #: kilestdactions.cpp:56
 #, kde-format
@@ -7857,7 +7854,7 @@ msgstr ""
 #: kilestdactions.cpp:69
 #, kde-format
 msgid "Title Page"
-msgstr ""
+msgstr "صفحة العنوان"
 
 #: kilestdactions.cpp:70
 #, kde-format
@@ -7877,7 +7874,7 @@ msgstr ""
 #: kilestdactions.cpp:72
 #, kde-format
 msgid "Italics"
-msgstr ""
+msgstr "مائل"
 
 #: kilestdactions.cpp:72
 #, kde-format
@@ -7922,7 +7919,7 @@ msgstr ""
 #: kilestdactions.cpp:75
 #, kde-format
 msgid "Typewriter"
-msgstr ""
+msgstr "كتابة"
 
 #: kilestdactions.cpp:75
 #, kde-format
@@ -7937,7 +7934,7 @@ msgstr ""
 #: kilestdactions.cpp:76
 #, kde-format
 msgid "Small Caps"
-msgstr ""
+msgstr "حروف كبيرة مصغرة"
 
 #: kilestdactions.cpp:76
 #, kde-format
@@ -8037,7 +8034,7 @@ msgstr ""
 #: kilestdactions.cpp:82
 #, kde-format
 msgid "Horizontal Line"
-msgstr ""
+msgstr "خط أفقي"
 
 #: kilestdactions.cpp:82
 #, kde-format
@@ -8052,7 +8049,7 @@ msgstr ""
 #: kilestdactions.cpp:83
 #, kde-format
 msgid "Vertical Line"
-msgstr ""
+msgstr "خط رأسي"
 
 #: kilestdactions.cpp:83
 #, kde-format
@@ -8086,7 +8083,7 @@ msgstr ""
 #: kilestdactions.cpp:86
 #, kde-format
 msgid "New Page"
-msgstr ""
+msgstr "صفحة جديدة"
 
 #: kilestdactions.cpp:86
 #, kde-format
@@ -8101,7 +8098,7 @@ msgstr ""
 #: kilestdactions.cpp:87
 #, kde-format
 msgid "Line Break"
-msgstr ""
+msgstr "كاسر أسطر"
 
 #: kilestdactions.cpp:87
 #, kde-format
@@ -8118,7 +8115,7 @@ msgstr ""
 #: kilestdactions.cpp:88
 #, kde-format
 msgid "Page Break"
-msgstr ""
+msgstr "فاصل صفحات"
 
 #: kilestdactions.cpp:88
 #, kde-format
@@ -8225,7 +8222,7 @@ msgstr ""
 #: kilestdactions.cpp:100
 #, kde-format
 msgid "&Part"
-msgstr ""
+msgstr "&جزء"
 
 #: kilestdactions.cpp:100 kilestdactions.cpp:102 kilestdactions.cpp:103
 #: kilestdactions.cpp:104 kilestdactions.cpp:105 kilestdactions.cpp:107
@@ -8246,7 +8243,7 @@ msgstr ""
 #: kilestdactions.cpp:102
 #, kde-format
 msgid "C&hapter"
-msgstr ""
+msgstr "&فصل"
 
 #: kilestdactions.cpp:103
 #, kde-format
@@ -8272,7 +8269,7 @@ msgstr ""
 #: kilestdactions.cpp:104
 #, kde-format
 msgid "&Subsection"
-msgstr ""
+msgstr "&قسم الفرعي"
 
 #: kilestdactions.cpp:105
 #, kde-format
@@ -8298,7 +8295,7 @@ msgstr ""
 #: kilestdactions.cpp:107
 #, kde-format
 msgid "&Paragraph"
-msgstr ""
+msgstr "&فقرة"
 
 #: kilestdactions.cpp:108
 #, kde-format
@@ -8311,12 +8308,12 @@ msgstr ""
 #: kilestdactions.cpp:108
 #, kde-format
 msgid "&Subparagraph"
-msgstr ""
+msgstr "فقرة الفر&عية"
 
 #: kilestdactions.cpp:110
 #, kde-format
 msgid "Size"
-msgstr ""
+msgstr "الحجم"
 
 #: kilestdactions.cpp:112
 #, kde-format
@@ -8336,7 +8333,7 @@ msgstr ""
 #: kilestdactions.cpp:115
 #, kde-format
 msgid "small"
-msgstr ""
+msgstr "صغير"
 
 #: kilestdactions.cpp:117
 #, kde-format
@@ -8346,7 +8343,7 @@ msgstr ""
 #: kilestdactions.cpp:119
 #, kde-format
 msgid "large"
-msgstr ""
+msgstr "كبير"
 
 #: kilestdactions.cpp:120
 #, kde-format
@@ -8356,7 +8353,7 @@ msgstr ""
 #: kilestdactions.cpp:121
 #, kde-format
 msgid "LARGE"
-msgstr ""
+msgstr "LARGE"
 
 #: kilestdactions.cpp:122
 #, kde-format
@@ -8415,7 +8412,7 @@ msgstr ""
 #: kilestdactions.cpp:146
 #, kde-format
 msgid "Abstract"
-msgstr ""
+msgstr "خلاصة"
 
 #: kilestdactions.cpp:146
 #, kde-format
@@ -8435,7 +8432,7 @@ msgstr ""
 #: kilestdactions.cpp:148
 #, kde-format
 msgid "Tabular*"
-msgstr ""
+msgstr "مجدول*"
 
 #: kilestdactions.cpp:148
 #, kde-format
@@ -8535,7 +8532,7 @@ msgstr ""
 #: kilestdactions.cpp:161
 #, kde-format
 msgid "Glossary"
-msgstr ""
+msgstr "مُسرَد"
 
 #: kilestdactions.cpp:161
 #, kde-format
@@ -8550,7 +8547,7 @@ msgstr ""
 #: kilestdactions.cpp:163 widgets/projectview.cpp:477
 #, kde-format
 msgid "Bibliography"
-msgstr ""
+msgstr "ثبَت مراجع"
 
 #: kilestdactions.cpp:163
 #, kde-format
@@ -8674,7 +8671,7 @@ msgstr ""
 #: kilestdactions.cpp:181
 #, kde-format
 msgid "Horizontal Rule"
-msgstr ""
+msgstr "مسطرة أفقية"
 
 #: kilestdactions.cpp:181
 #, kde-format
@@ -8798,7 +8795,7 @@ msgstr ""
 #: kilestdactions.cpp:195
 #, kde-format
 msgid "Strong"
-msgstr ""
+msgstr "قوي"
 
 #: kilestdactions.cpp:195
 #, kde-format
@@ -8833,7 +8830,7 @@ msgstr ""
 #: kilestdactions.cpp:199
 #, kde-format
 msgid "Monospace"
-msgstr ""
+msgstr "Monospace"
 
 #: kilestdactions.cpp:201
 #, kde-format
@@ -9184,7 +9181,7 @@ msgstr ""
 #: kilestdactions.cpp:382
 #, kde-format
 msgid "Square Root"
-msgstr ""
+msgstr "جذر تربيعي"
 
 #: kilestdactions.cpp:383
 #, kde-format
@@ -9638,7 +9635,7 @@ msgstr ""
 #: kilestdactions.cpp:476
 #, kde-format
 msgid "Aligned"
-msgstr ""
+msgstr "محاذي"
 
 #: kilestdactions.cpp:477
 #, kde-format
@@ -10206,7 +10203,7 @@ msgstr ""
 #: kileui.rc:305
 #, kde-format
 msgid "Braces"
-msgstr ""
+msgstr "أقواس متموجة"
 
 #. i18n: ectx: Menu (menu_mathtext)
 #: kileui.rc:323
@@ -10303,7 +10300,7 @@ msgstr ""
 #: kileui.rc:448
 #, kde-format
 msgid "Font Family"
-msgstr ""
+msgstr "عائلة الخط"
 
 #. i18n: ectx: Menu (menu_fontseries)
 #: kileui.rc:453
@@ -10878,7 +10875,7 @@ msgstr "تعذّر بدء السّكربت: لا منظور متوفّر"
 #: scriptmanager.cpp:108
 #, kde-format
 msgid "Script Error"
-msgstr ""
+msgstr "خطأ في السكربت"
 
 #: scriptmanager.cpp:491
 #, kde-format
@@ -11062,7 +11059,7 @@ msgstr ""
 #: widgets/codecompletionconfigwidget.cpp:274
 #, kde-format
 msgid "Completion"
-msgstr ""
+msgstr "الإكمال"
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_autocomplete)
 #: widgets/codecompletionconfigwidget.ui:23
@@ -11074,13 +11071,13 @@ msgstr ""
 #: widgets/codecompletionconfigwidget.ui:37
 #, kde-format
 msgid "Threshold:"
-msgstr ""
+msgstr "العتبة:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: widgets/codecompletionconfigwidget.ui:57
 #, kde-format
 msgid "letters"
-msgstr ""
+msgstr "حروف"
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_autocompleteabbrev)
 #: widgets/codecompletionconfigwidget.ui:82
@@ -11151,7 +11148,7 @@ msgstr "يفحص فيما إذا كان نظام تخ مثبّت كما ينبغ
 #: widgets/configcheckerwidget.ui:45
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p٪"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_grpResults)
 #: widgets/configcheckerwidget.ui:58
@@ -11311,7 +11308,7 @@ msgstr ""
 #: widgets/graphicsconfigwidget.ui:61
 #, kde-format
 msgid "Bo&unding box:"
-msgstr ""
+msgstr "ال&مربّع المحيطيّ:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_boundingbox)
 #: widgets/graphicsconfigwidget.ui:80
@@ -11329,7 +11326,7 @@ msgstr "(عليك تثبيت حزمة ImageMagick لاستخدام هذا الخ
 #: widgets/graphicsconfigwidget.ui:103
 #, kde-format
 msgid "ImageMagick:"
-msgstr ""
+msgstr "إيماج ماجيك:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbContextHelp)
 #: widgets/helpconfigwidget.ui:32
@@ -11359,57 +11356,57 @@ msgstr "ا&ضبط..."
 #: widgets/latexconfigwidget.cpp:31
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: widgets/latexconfigwidget.cpp:32 widgets/latexconfigwidget.cpp:43
 #, kde-format
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: widgets/latexconfigwidget.cpp:33
 #, kde-format
 msgid "Alt"
-msgstr ""
+msgstr "Alt"
 
 #: widgets/latexconfigwidget.cpp:34
 #, kde-format
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
 msgid "Ctrl + Shift"
-msgstr ""
+msgstr "Ctrl + Shift"
 
 #: widgets/latexconfigwidget.cpp:36
 #, kde-format
 msgid "Alt + Ctrl"
-msgstr ""
+msgstr "Alt + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:37
 #, kde-format
 msgid "Meta + Ctrl"
-msgstr ""
+msgstr "Meta + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:42
 #, kde-format
 msgid "Cmd"
-msgstr ""
+msgstr "Cmd"
 
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format
 msgid "Cmd + Shift"
-msgstr ""
+msgstr "Cmd + Shift"
 
 #: widgets/latexconfigwidget.cpp:45
 #, kde-format
 msgid "Alt + Cmd"
-msgstr ""
+msgstr "Alt + Cmd"
 
 #: widgets/latexconfigwidget.cpp:46
 #, kde-format
 msgid "Ctrl + Cmd"
-msgstr ""
+msgstr "Ctrl + Cmd"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
@@ -11427,7 +11424,7 @@ msgstr "اضبط بيئات لاتخ وأوامرها"
 #: widgets/latexconfigwidget.ui:71
 #, kde-format
 msgid "Double Quotes"
-msgstr ""
+msgstr "علامات تنصيص مزدوجة"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_InsertDoubleQuotes)
 #: widgets/latexconfigwidget.ui:80
@@ -11476,7 +11473,7 @@ msgstr ""
 #: widgets/latexconfigwidget.ui:189
 #, kde-format
 msgid "Environment Variables"
-msgstr ""
+msgstr "المتغيرات البيئية"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlPath)
 #: widgets/latexconfigwidget.ui:201
@@ -11812,7 +11809,7 @@ msgstr ""
 #: widgets/previewconfigwidget.cpp:99
 #, kde-format
 msgid "convert:"
-msgstr ""
+msgstr "حوّل:"
 
 #: widgets/previewconfigwidget.cpp:127
 #, fuzzy, kde-format
@@ -11919,7 +11916,7 @@ msgstr ""
 #: widgets/processtoolconfigwidget.ui:83
 #, kde-format
 msgid "Options:"
-msgstr ""
+msgstr "الخيارات:"
 
 #: widgets/projectview.cpp:246
 #, kde-format
@@ -11932,22 +11929,19 @@ msgid "Include in Archive"
 msgstr ""
 
 #: widgets/projectview.cpp:468
-#, fuzzy, kde-format
-#| msgid "Project Files"
+#, kde-format
 msgid "Project File"
-msgstr "ملفّات المشروع"
+msgstr "ملف المشروع"
 
 #: widgets/projectview.cpp:471
-#, fuzzy, kde-format
-#| msgid "&Packages"
+#, kde-format
 msgid "Packages"
-msgstr "ال&حزم"
+msgstr "الحزم"
 
 #: widgets/projectview.cpp:474
-#, fuzzy, kde-format
-#| msgid "pages"
+#, kde-format
 msgid "Images"
-msgstr "الصّفحات"
+msgstr "الصور"
 
 #: widgets/projectview.cpp:808
 #, kde-format
@@ -11957,22 +11951,22 @@ msgstr ""
 #: widgets/projectview.cpp:820 widgets/structurewidget.cpp:807
 #, kde-format
 msgid "Other..."
-msgstr ""
+msgstr "أخرى..."
 
 #: widgets/projectview.cpp:826
 #, kde-format
 msgid "&Open"
-msgstr ""
+msgstr "ا&فتح"
 
 #: widgets/projectview.cpp:829
 #, kde-format
 msgid "&Save"
-msgstr ""
+msgstr "ا&حفظ"
 
 #: widgets/projectview.cpp:839
 #, kde-format
 msgid "&Add to Project"
-msgstr ""
+msgstr "أ&ضف إلى المشروع"
 
 #: widgets/projectview.cpp:849
 #, kde-format
@@ -12119,7 +12113,7 @@ msgstr ""
 #: widgets/statisticswidget.cpp:44
 #, kde-format
 msgid "Characters"
-msgstr ""
+msgstr "الحروف"
 
 #: widgets/statisticswidget.cpp:51
 #, kde-format
@@ -12193,7 +12187,7 @@ msgstr ""
 #: widgets/structureviewconfigwidget.ui:137
 #, kde-format
 msgid "Show &labels"
-msgstr ""
+msgstr "أظهر الل&صائق"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenLabels)
 #: widgets/structureviewconfigwidget.ui:144
@@ -12277,31 +12271,31 @@ msgstr ""
 #: widgets/structureviewconfigwidget.ui:243
 #, kde-format
 msgid "eps"
-msgstr ""
+msgstr "eps"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:248
 #, kde-format
 msgid "pdf"
-msgstr ""
+msgstr "pdf"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:253
 #, kde-format
 msgid "png"
-msgstr ""
+msgstr "png"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:258
 #, kde-format
 msgid "jpg"
-msgstr ""
+msgstr "jpg"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:263
 #, kde-format
 msgid "tif"
-msgstr ""
+msgstr "tif"
 
 #: widgets/structurewidget.cpp:105
 #, kde-format
@@ -12342,7 +12336,7 @@ msgstr ""
 #: widgets/structurewidget.cpp:344
 #, kde-format
 msgid "TODO"
-msgstr ""
+msgstr "مَهمّة"
 
 #: widgets/structurewidget.cpp:348
 #, kde-format
@@ -12404,7 +12398,7 @@ msgstr ""
 #: widgets/structurewidget.cpp:783
 #, kde-format
 msgid "C&omment"
-msgstr ""
+msgstr "&علّق"
 
 #: widgets/structurewidget.cpp:785
 #, kde-format
@@ -12603,7 +12597,7 @@ msgstr ""
 #: widgets/usermenuconfigwidget.ui:69
 #, kde-format
 msgid "File "
-msgstr ""
+msgstr "ملفّ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/usermenuconfigwidget.ui:149

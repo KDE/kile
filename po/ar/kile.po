@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-09 00:41+0000\n"
-"PO-Revision-Date: 2025-03-09 21:42+0400\n"
+"PO-Revision-Date: 2025-03-13 14:07+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -77,7 +77,7 @@ msgstr "الإصدارة"
 #: configtester.cpp:325
 #, kde-format
 msgid "Embedding of Okular is supported"
-msgstr ""
+msgstr "تضمين أوكلار مدعوم"
 
 #: configtester.cpp:337
 #, kde-format
@@ -244,7 +244,7 @@ msgstr "يفحص فيما إذا كان النّظام مُعدّا كما ين�
 #, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr ""
+msgstr "%p٪"
 
 #: dialogs/configcheckerdialog.cpp:148
 #, kde-format
@@ -977,7 +977,7 @@ msgstr "الأسفل:"
 #: dialogs/includegraphicsdialog_base.ui:256
 #, kde-format
 msgid "0pt"
-msgstr ""
+msgstr "0نقطة"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: dialogs/includegraphicsdialog_base.ui:296
@@ -1057,7 +1057,7 @@ msgstr "استخدم بيئة wrapfigure"
 #: dialogs/includegraphicsdialog_base.ui:448
 #, kde-format
 msgid "3.5in"
-msgstr ""
+msgstr "3.5 بوصة"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: dialogs/includegraphicsdialog_base.ui:465
@@ -5975,12 +5975,12 @@ msgstr "أكمل الاختصار"
 #: kile.cpp:937
 #, kde-format
 msgid "Next Bullet"
-msgstr ""
+msgstr "النقطة التالية"
 
 #: kile.cpp:939
 #, kde-format
 msgid "Prev Bullet"
-msgstr ""
+msgstr "النقطة السابقة"
 
 #: kile.cpp:943 kile.cpp:960
 #, kde-format
@@ -6005,7 +6005,7 @@ msgstr ""
 #: kile.cpp:951 kile.cpp:968
 #, kde-format
 msgid "Math Group"
-msgstr ""
+msgstr "مجموعة رياضيات"
 
 #: kile.cpp:953 kile.cpp:970
 #, kde-format
@@ -6020,7 +6020,7 @@ msgstr "الخط"
 #: kile.cpp:957 kile.cpp:974
 #, kde-format
 msgid "TeX Word"
-msgstr ""
+msgstr "كلمة تخ"
 
 #: kile.cpp:972
 #, kde-format
@@ -6030,12 +6030,12 @@ msgstr "إلى نهاية السطر"
 #: kile.cpp:977 kile.cpp:988
 #, kde-format
 msgid "Go to Begin"
-msgstr ""
+msgstr "انتقل إلى البداية"
 
 #: kile.cpp:979 kile.cpp:990
 #, kde-format
 msgid "Go to End"
-msgstr ""
+msgstr "انتقل إلى النهاية"
 
 #: kile.cpp:981 kile.cpp:992
 #, kde-format
@@ -6171,7 +6171,7 @@ msgstr "حوّل"
 #: kile.cpp:1259 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Quick"
-msgstr ""
+msgstr "سريع"
 
 #: kile.cpp:1438
 #, kde-format
@@ -6297,13 +6297,13 @@ msgstr "إصدارة ملفّ المورد."
 #: kile.kcfg:39
 #, kde-format
 msgid "The main window's width."
-msgstr "عرض النّافذة الرّئيسيّة."
+msgstr "عرض النّافذة الرّئيسة."
 
 #. i18n: ectx: label, entry (MainwindowHeight), group (Geometries)
 #: kile.kcfg:45
 #, kde-format
 msgid "The main window's height."
-msgstr "ارتفاع النّافذة الرّئيسيّة."
+msgstr "ارتفاع النّافذة الرّئيسة."
 
 #. i18n: ectx: label, entry (DefaultLevel), group (Structure)
 #: kile.kcfg:53
@@ -8256,7 +8256,7 @@ msgstr ""
 #: kilestdactions.cpp:103
 #, kde-format
 msgid "&Section"
-msgstr ""
+msgstr "ال&قسم"
 
 #: kilestdactions.cpp:104
 #, kde-format
@@ -8318,7 +8318,7 @@ msgstr "الحجم"
 #: kilestdactions.cpp:112
 #, kde-format
 msgid "tiny"
-msgstr ""
+msgstr "ضئيل"
 
 #: kilestdactions.cpp:113
 #, kde-format
@@ -8338,38 +8338,38 @@ msgstr "صغير"
 #: kilestdactions.cpp:117
 #, kde-format
 msgid "normalsize"
-msgstr ""
+msgstr "الحجم العادي"
 
 #: kilestdactions.cpp:119
 #, kde-format
 msgid "large"
-msgstr "كبير"
+msgstr "كبير 1"
 
 #: kilestdactions.cpp:120
 #, kde-format
 msgid "Large"
-msgstr ""
+msgstr "كبير 2"
 
 #: kilestdactions.cpp:121
 #, kde-format
 msgid "LARGE"
-msgstr "LARGE"
+msgstr "كبير 3"
 
 #: kilestdactions.cpp:122
 #, kde-format
 msgid "huge"
-msgstr ""
+msgstr "ضخم 1"
 
 #: kilestdactions.cpp:123
 #, kde-format
 msgid "Huge"
-msgstr ""
+msgstr "ضخم 2"
 
 #: kilestdactions.cpp:125 widgets/projectview.cpp:481
 #: widgets/toolconfigwidget.cpp:79
 #, kde-format
 msgid "Other"
-msgstr ""
+msgstr "أخرى"
 
 #: kilestdactions.cpp:127
 #, kde-format
@@ -8810,7 +8810,7 @@ msgstr ""
 #: kilestdactions.cpp:197
 #, kde-format
 msgid "Roman"
-msgstr ""
+msgstr "لاتيني"
 
 #: kilestdactions.cpp:198
 #, kde-format
@@ -8820,7 +8820,7 @@ msgstr ""
 #: kilestdactions.cpp:198
 #, kde-format
 msgid "Sans Serif"
-msgstr ""
+msgstr "غير مُذيل"
 
 #: kilestdactions.cpp:199
 #, kde-format
@@ -8840,7 +8840,7 @@ msgstr ""
 #: kilestdactions.cpp:201
 #, kde-format
 msgid "Medium"
-msgstr ""
+msgstr "متوسط"
 
 #: kilestdactions.cpp:202
 #, kde-format
@@ -9016,22 +9016,22 @@ msgstr ""
 #: kilestdactions.cpp:356
 #, kde-format
 msgid "\\acute{}"
-msgstr ""
+msgstr "\\acute{}"
 
 #: kilestdactions.cpp:357
 #, kde-format
 msgid "\\grave{}"
-msgstr ""
+msgstr "\\grave{}"
 
 #: kilestdactions.cpp:358
 #, kde-format
 msgid "\\tilde{}"
-msgstr ""
+msgstr "\\tilde{}"
 
 #: kilestdactions.cpp:359
 #, kde-format
 msgid "\\bar{}"
-msgstr ""
+msgstr "\\bar{}"
 
 #: kilestdactions.cpp:360
 #, kde-format
@@ -9041,7 +9041,7 @@ msgstr ""
 #: kilestdactions.cpp:361
 #, kde-format
 msgid "\\hat{}"
-msgstr ""
+msgstr "\\hat{}"
 
 #: kilestdactions.cpp:362
 #, kde-format
@@ -9051,12 +9051,12 @@ msgstr ""
 #: kilestdactions.cpp:363
 #, kde-format
 msgid "\\breve{}"
-msgstr ""
+msgstr "\\breve{}"
 
 #: kilestdactions.cpp:364
 #, kde-format
 msgid "\\dot{}"
-msgstr ""
+msgstr "\\dot{}"
 
 #: kilestdactions.cpp:365
 #, kde-format
@@ -9081,7 +9081,7 @@ msgstr ""
 #: kilestdactions.cpp:370
 #, kde-format
 msgid "\\quad"
-msgstr ""
+msgstr "\\quad"
 
 #: kilestdactions.cpp:371
 #, kde-format
@@ -9121,7 +9121,7 @@ msgstr ""
 #: kilestdactions.cpp:376
 #, kde-format
 msgid "Equation"
-msgstr ""
+msgstr "معادلة رياضية"
 
 #: kilestdactions.cpp:377
 #, kde-format
@@ -9131,17 +9131,17 @@ msgstr ""
 #: kilestdactions.cpp:377
 #, kde-format
 msgid "Subscript"
-msgstr ""
+msgstr "منخفض"
 
 #: kilestdactions.cpp:378
 #, kde-format
 msgid "Superscript - ^{}"
-msgstr ""
+msgstr "مرتفع - ^{}"
 
 #: kilestdactions.cpp:378
 #, kde-format
 msgid "Superscript"
-msgstr ""
+msgstr "مرتفع"
 
 #: kilestdactions.cpp:379
 #, kde-format
@@ -9186,12 +9186,12 @@ msgstr "جذر تربيعي"
 #: kilestdactions.cpp:383
 #, kde-format
 msgid "\\left"
-msgstr ""
+msgstr "\\left"
 
 #: kilestdactions.cpp:384
 #, kde-format
 msgid "\\right"
-msgstr ""
+msgstr "\\right"
 
 #: kilestdactions.cpp:385
 #, kde-format
@@ -9220,17 +9220,17 @@ msgstr ""
 #: kilestdactions.cpp:391
 #, kde-format
 msgid "left ("
-msgstr ""
+msgstr "( اليسار"
 
 #: kilestdactions.cpp:392
 #, kde-format
 msgid "left ["
-msgstr ""
+msgstr "[ اليسار"
 
 #: kilestdactions.cpp:393
 #, kde-format
 msgid "left {"
-msgstr ""
+msgstr "{ اليسار"
 
 #: kilestdactions.cpp:394
 #, kde-format
@@ -9240,17 +9240,17 @@ msgstr ""
 #: kilestdactions.cpp:396
 #, kde-format
 msgid "left )"
-msgstr ""
+msgstr ") اليسار"
 
 #: kilestdactions.cpp:397
 #, kde-format
 msgid "left ]"
-msgstr ""
+msgstr "] اليسار"
 
 #: kilestdactions.cpp:398
 #, kde-format
 msgid "left }"
-msgstr ""
+msgstr "} اليسار"
 
 #: kilestdactions.cpp:399
 #, kde-format
@@ -9260,7 +9260,7 @@ msgstr ""
 #: kilestdactions.cpp:401
 #, kde-format
 msgid "left ."
-msgstr ""
+msgstr ". يسار"
 
 #: kilestdactions.cpp:403
 #, kde-format
@@ -9270,17 +9270,17 @@ msgstr ""
 #: kilestdactions.cpp:405
 #, kde-format
 msgid "right )"
-msgstr ""
+msgstr ") اليمين"
 
 #: kilestdactions.cpp:406
 #, kde-format
 msgid "right ]"
-msgstr ""
+msgstr "] اليمين"
 
 #: kilestdactions.cpp:407
 #, kde-format
 msgid "right }"
-msgstr ""
+msgstr "} اليمين"
 
 #: kilestdactions.cpp:408
 #, kde-format
@@ -9290,17 +9290,17 @@ msgstr ""
 #: kilestdactions.cpp:410
 #, kde-format
 msgid "right ("
-msgstr ""
+msgstr "( اليمين"
 
 #: kilestdactions.cpp:411
 #, kde-format
 msgid "right ["
-msgstr ""
+msgstr "[ اليمين"
 
 #: kilestdactions.cpp:412
 #, kde-format
 msgid "right {"
-msgstr ""
+msgstr "{ اليمين"
 
 #: kilestdactions.cpp:413
 #, kde-format
@@ -9310,7 +9310,7 @@ msgstr ""
 #: kilestdactions.cpp:415
 #, kde-format
 msgid "right ."
-msgstr ""
+msgstr ". اليمين"
 
 #: kilestdactions.cpp:420
 #, kde-format
@@ -9360,7 +9360,7 @@ msgstr ""
 #: kilestdactions.cpp:428
 #, kde-format
 msgid "Left-Right ()"
-msgstr ""
+msgstr "يسار-يمين ()"
 
 #: kilestdactions.cpp:430
 #, kde-format
@@ -9545,7 +9545,7 @@ msgstr ""
 #: kilestdactions.cpp:462
 #, kde-format
 msgid "Split"
-msgstr ""
+msgstr "اقسم"
 
 #: kilestdactions.cpp:464
 #, kde-format
@@ -9555,7 +9555,7 @@ msgstr ""
 #: kilestdactions.cpp:464
 #, kde-format
 msgid "Gather"
-msgstr ""
+msgstr "تجميعة"
 
 #: kilestdactions.cpp:465
 #, kde-format
@@ -9565,7 +9565,7 @@ msgstr ""
 #: kilestdactions.cpp:465
 #, kde-format
 msgid "Gather*"
-msgstr ""
+msgstr "تجميعة*"
 
 #: kilestdactions.cpp:467
 #, kde-format
@@ -9575,7 +9575,7 @@ msgstr ""
 #: kilestdactions.cpp:467
 #, kde-format
 msgid "Align"
-msgstr ""
+msgstr "حاذِ"
 
 #: kilestdactions.cpp:468
 #, kde-format
@@ -9585,7 +9585,7 @@ msgstr ""
 #: kilestdactions.cpp:468
 #, kde-format
 msgid "Align*"
-msgstr ""
+msgstr "حاذِ*"
 
 #: kilestdactions.cpp:470
 #, kde-format
@@ -9675,7 +9675,7 @@ msgstr ""
 #: kilestdactions.cpp:482
 #, kde-format
 msgid "matrix"
-msgstr ""
+msgstr "مصفوفة"
 
 #: kilestdactions.cpp:483
 #, kde-format
@@ -9973,7 +9973,7 @@ msgstr "لم تحدّد ملفّات للأرشفة."
 #: kiletool.cpp:691
 #, kde-format
 msgid "Archive Project"
-msgstr ""
+msgstr "أرشف المشروع"
 
 #: kiletool.cpp:817 kiletoolmanager.cpp:284
 #, kde-format
@@ -9988,7 +9988,7 @@ msgstr ""
 #: kiletoolmanager.cpp:361
 #, kde-format
 msgid "Aborted"
-msgstr ""
+msgstr "أُجهض"
 
 #: kiletoolmanager.cpp:485
 #, kde-format
@@ -9998,7 +9998,7 @@ msgstr "تعذّر إيجاد الأداة \"%1\" في قاعدة بيانات �
 #: kiletoolmanager.cpp:730
 #, kde-format
 msgid "&Stop"
-msgstr ""
+msgstr "أو&قِف"
 
 #: kiletoolmanager.cpp:739
 #, kde-format
@@ -10008,7 +10008,7 @@ msgstr ""
 #: kiletoolmanager.cpp:740
 #, kde-format
 msgid "Auto-Detect"
-msgstr ""
+msgstr "ا&كتشف آليًّا"
 
 #: kiletoolmanager.cpp:741
 #, kde-format
@@ -10048,7 +10048,7 @@ msgstr "أ&كمل"
 #: kileui.rc:68
 #, kde-format
 msgid "&Bullets"
-msgstr ""
+msgstr "ال&نقاط"
 
 #. i18n: ectx: Menu (select)
 #: kileui.rc:72 widgets/structurewidget.cpp:780
@@ -10076,10 +10076,9 @@ msgstr "مجموعة ت&خ"
 
 #. i18n: ectx: Menu (selection)
 #: kileui.rc:118
-#, fuzzy, kde-format
-#| msgid "&Select"
+#, kde-format
 msgid "&Selection"
-msgstr "ح&دّد"
+msgstr "&تحديد"
 
 #. i18n: ectx: Menu (view)
 #. i18n: ectx: Menu (menu_viewer)
@@ -10098,10 +10097,9 @@ msgstr "عارض المستندات"
 
 #. i18n: ectx: Menu (go)
 #: kileui.rc:131
-#, fuzzy, kde-format
-#| msgid "&Go to"
+#, kde-format
 msgid "&Go"
-msgstr "انت&قل إلى"
+msgstr "ا&ذهب"
 
 #. i18n: ectx: Menu (menu_build)
 #: kileui.rc:145
@@ -10318,7 +10316,7 @@ msgstr ""
 #: kileui.rc:464
 #, kde-format
 msgid "Spa&cing"
-msgstr ""
+msgstr "ال&تباعد"
 
 #. i18n: ectx: Menu (menu_breaks)
 #: kileui.rc:465
@@ -10330,7 +10328,7 @@ msgstr ""
 #: kileui.rc:472
 #, kde-format
 msgid "Space"
-msgstr ""
+msgstr "مسافة"
 
 #. i18n: ectx: Menu (menu_rubberlength)
 #: kileui.rc:483
@@ -10361,7 +10359,7 @@ msgstr "توثيق تخ"
 #: kileui.rc:548
 #, kde-format
 msgid "Main"
-msgstr "الرّئيسيّ"
+msgstr "الرّئيس"
 
 #. i18n: ectx: ToolBar (editToolBar)
 #: kileui.rc:564
@@ -10633,7 +10631,7 @@ msgstr ""
 #: parser/latexparser.cpp:221 parser/latexparser.cpp:249
 #, kde-format
 msgid "Frame"
-msgstr ""
+msgstr "إطار"
 
 #: parser/latexparser.cpp:271
 #, kde-format
@@ -10770,9 +10768,9 @@ msgid "Script: sorry"
 msgstr "السّكربت: آسفون"
 
 #: scripting/kilescriptobject.cpp:54
-#, fuzzy, kde-format
+#, kde-format
 msgid "Script: error"
-msgstr "السّكربت: خطأ"
+msgstr "البرنامج النصي: خطأ"
 
 #: scripting/kilescriptobject.cpp:60
 #, fuzzy, kde-format
@@ -10930,7 +10928,7 @@ msgstr ""
 #: widgets/abbreviationview.cpp:38
 #, kde-format
 msgid "Short"
-msgstr ""
+msgstr "قصيرة"
 
 #: widgets/abbreviationview.cpp:38
 #, kde-format
@@ -11049,7 +11047,7 @@ msgstr ""
 #: widgets/codecompletionconfigwidget.cpp:204
 #, kde-format
 msgid "File not found"
-msgstr ""
+msgstr "الملف غير موجود"
 
 #: widgets/codecompletionconfigwidget.cpp:274
 #, kde-format
@@ -11588,7 +11586,7 @@ msgstr ""
 #: widgets/livepreviewconfigwidget.ui:70
 #, kde-format
 msgid " ms"
-msgstr ""
+msgstr " مث"
 
 #. i18n: ectx: property (text), widget (QLabel, m_previewDefaultToolLabel)
 #: widgets/livepreviewconfigwidget.ui:104
@@ -11634,10 +11632,9 @@ msgstr "اختر ضبطًا للأداة الحاليّة"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
 #: widgets/maintoolconfigwidget.ui:175
-#, fuzzy, kde-format
-#| msgid "&Select"
+#, kde-format
 msgid "Se&lect:"
-msgstr "ح&دّد"
+msgstr "ح&دّد:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
 #: widgets/maintoolconfigwidget.ui:331
@@ -11649,7 +11646,7 @@ msgstr "متقدّم"
 #: widgets/maintoolconfigwidget.ui:388
 #, kde-format
 msgid "C&lass:"
-msgstr ""
+msgstr "الصّنف:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbSource)
 #: widgets/maintoolconfigwidget.ui:411
@@ -11717,7 +11714,7 @@ msgstr "فضلًا اختر نوع المستند الذي تريد إنشائه
 #: widgets/newdocumentwidget.ui:74
 #, kde-format
 msgid "Template"
-msgstr ""
+msgstr "القالب"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: widgets/newdocumentwidget.ui:80
@@ -11824,12 +11821,12 @@ msgstr ""
 #: widgets/previewconfigwidget.cpp:129
 #, kde-format
 msgid "Selection:"
-msgstr ""
+msgstr "التحديد:"
 
 #: widgets/previewconfigwidget.cpp:130
 #, kde-format
 msgid "Environment:"
-msgstr ""
+msgstr "البيئة:"
 
 #: widgets/previewconfigwidget.cpp:131
 #, kde-format
@@ -11850,7 +11847,7 @@ msgstr ""
 #: widgets/processtoolconfigwidget.ui:37
 #, kde-format
 msgid "Co&mmand:"
-msgstr ""
+msgstr "الأ&مر:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, m_lbOptions)
 #: widgets/processtoolconfigwidget.ui:80
@@ -11946,7 +11943,7 @@ msgstr "الصور"
 #: widgets/projectview.cpp:808
 #, kde-format
 msgid "&Open With"
-msgstr ""
+msgstr "ا&فتح في"
 
 #: widgets/projectview.cpp:820 widgets/structurewidget.cpp:807
 #, kde-format
@@ -12054,7 +12051,7 @@ msgstr ""
 #: widgets/scriptsmanagementwidget.cpp:82
 #, kde-format
 msgid "Create New Script"
-msgstr ""
+msgstr "أنشئ برنامجًا نصيًا جديدًا"
 
 #: widgets/scriptsmanagementwidget.cpp:88
 #, kde-format
@@ -12084,7 +12081,7 @@ msgstr "اسم السّكربت"
 #: widgets/scriptsmanagementwidget.cpp:118
 #, kde-format
 msgid "Sequence"
-msgstr ""
+msgstr "التسلسل"
 
 #: widgets/scriptsmanagementwidget.cpp:223
 #, kde-format
@@ -12469,7 +12466,7 @@ msgstr[5] "الحزم المطلوبة: %2"
 #: widgets/symbolview.cpp:239
 #, kde-format
 msgid "Comment: %1"
-msgstr ""
+msgstr "التعليق: %1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: widgets/symbolviewconfigwidget.ui:28

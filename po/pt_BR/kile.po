@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-09 00:41+0000\n"
+"POT-Creation-Date: 2025-03-16 00:42+0000\n"
 "PO-Revision-Date: 2023-11-08 15:47-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -1546,7 +1546,7 @@ msgstr[1] "%1 itens encontrados."
 msgid "File Name"
 msgstr "Nome do arquivo"
 
-#: dialogs/listselector.cpp:151 widgets/codecompletionconfigwidget.cpp:96
+#: dialogs/listselector.cpp:151 widgets/codecompletionconfigwidget.cpp:98
 #, kde-format
 msgid "Local File"
 msgstr "Arquivo local"
@@ -1590,8 +1590,8 @@ msgstr ""
 #: dialogs/listselector.cpp:210 dialogs/listselector.cpp:263
 #: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
 #: dialogs/pdf-wizard/pdfdialog.cpp:939 dialogs/postscriptdialog.cpp:219
-#: widgets/codecompletionconfigwidget.cpp:196
-#: widgets/codecompletionconfigwidget.cpp:353
+#: widgets/codecompletionconfigwidget.cpp:198
+#: widgets/codecompletionconfigwidget.cpp:355
 #, kde-format
 msgid "yes"
 msgstr "sim"
@@ -1600,8 +1600,8 @@ msgstr "sim"
 #: dialogs/listselector.cpp:214 dialogs/pdf-wizard/pdfdialog.cpp:283
 #: dialogs/pdf-wizard/pdfdialog.cpp:939
 #: dialogs/pdf-wizard/pdfdialog_base.ui:518 dialogs/postscriptdialog.cpp:219
-#: widgets/codecompletionconfigwidget.cpp:200
-#: widgets/codecompletionconfigwidget.cpp:356
+#: widgets/codecompletionconfigwidget.cpp:202
+#: widgets/codecompletionconfigwidget.cpp:358
 #, kde-format
 msgid "no"
 msgstr "não"
@@ -5984,7 +5984,7 @@ msgstr ""
 "pressionar adicionalmente \"Shift\" insere-o no modo matemático, pressionar "
 "\"Ctrl\" insere-o em chaves.</p>"
 
-#: kile.cpp:707 widgets/codecompletionconfigwidget.cpp:55
+#: kile.cpp:707 widgets/codecompletionconfigwidget.cpp:57
 #, kde-format
 msgid "Abbreviation"
 msgstr "Abreviatura"
@@ -10650,7 +10650,7 @@ msgid "Con&vert To"
 msgstr "Con&verter para"
 
 #. i18n: ectx: Menu (edit)
-#: kileui.rc:55 widgets/abbreviationview.cpp:120
+#: kileui.rc:55 widgets/abbreviationview.cpp:122
 #, kde-format
 msgid "&Edit"
 msgstr "&Editar"
@@ -11550,33 +11550,33 @@ msgstr "O arquivo '%1' não existe."
 msgid "Input Dialog"
 msgstr "Janela de entrada"
 
-#: widgets/abbreviationview.cpp:38
+#: widgets/abbreviationview.cpp:40
 #, kde-format
 msgid "Short"
 msgstr "Pequeno"
 
-#: widgets/abbreviationview.cpp:38
+#: widgets/abbreviationview.cpp:40
 #, kde-format
 msgid "Expanded Text"
 msgstr "Texto expandido"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbAdd)
-#: widgets/abbreviationview.cpp:111 widgets/quicktoolconfigwidget.ui:103
+#: widgets/abbreviationview.cpp:113 widgets/quicktoolconfigwidget.ui:103
 #, kde-format
 msgid "&Add"
 msgstr "&Adicionar"
 
-#: widgets/abbreviationview.cpp:124 widgets/structurewidget.cpp:781
+#: widgets/abbreviationview.cpp:126 widgets/structurewidget.cpp:781
 #, kde-format
 msgid "&Delete"
 msgstr "E&xcluir"
 
-#: widgets/abbreviationview.cpp:171
+#: widgets/abbreviationview.cpp:173
 #, kde-format
 msgid "Delete the abbreviation '%1'?"
 msgstr "Excluir a abreviação '%1'?"
 
-#: widgets/abbreviationview.cpp:174
+#: widgets/abbreviationview.cpp:176
 #, kde-format
 msgid "Delete Abbreviation"
 msgstr "Excluir abreviação"
@@ -11605,32 +11605,32 @@ msgstr "Mostrar a tela de apresentação ao iniciar"
 msgid "Show in external window"
 msgstr "Mostrar em janela separada"
 
-#: widgets/codecompletionconfigwidget.cpp:53
+#: widgets/codecompletionconfigwidget.cpp:55
 #, kde-format
 msgid "TeX/LaTeX"
 msgstr "TeX/LaTeX"
 
-#: widgets/codecompletionconfigwidget.cpp:54
+#: widgets/codecompletionconfigwidget.cpp:56
 #, kde-format
 msgid "Dictionary"
 msgstr "Dicionário"
 
-#: widgets/codecompletionconfigwidget.cpp:57
+#: widgets/codecompletionconfigwidget.cpp:59
 #, kde-format
 msgid "Try to place the cursor."
 msgstr "Tente colocar o cursor."
 
-#: widgets/codecompletionconfigwidget.cpp:58
+#: widgets/codecompletionconfigwidget.cpp:60
 #, kde-format
 msgid "Insert bullets where the user must input data."
 msgstr "Inserir marcadores onde o usuário deve inserir os dados."
 
-#: widgets/codecompletionconfigwidget.cpp:59
+#: widgets/codecompletionconfigwidget.cpp:61
 #, kde-format
 msgid "Also close an environment when an opening command is inserted."
 msgstr "Fechar também o ambiente quando um comando de abertura for inserido."
 
-#: widgets/codecompletionconfigwidget.cpp:60
+#: widgets/codecompletionconfigwidget.cpp:62
 #, kde-format
 msgid ""
 "Directional or popup-based completion of the TeX/LaTeX commands that are "
@@ -11639,7 +11639,7 @@ msgstr ""
 "Completamento direcional ou por menu com comandos TeX/LaTeX, que estão "
 "contidos nos arquivos de completamento selecionados."
 
-#: widgets/codecompletionconfigwidget.cpp:61
+#: widgets/codecompletionconfigwidget.cpp:63
 #, kde-format
 msgid ""
 "Automatically show a completion list of TeX/LaTeX commands when the word has "
@@ -11648,14 +11648,14 @@ msgstr ""
 "Mostrar automaticamente uma lista de completamento de comandos do TeX/LaTeX "
 "quando a palavra tiver este comprimento."
 
-#: widgets/codecompletionconfigwidget.cpp:63
+#: widgets/codecompletionconfigwidget.cpp:65
 #, kde-format
 msgid "Show abbreviations of the selected completion files in the sidebar"
 msgstr ""
 "Mostrar abreviaturas dos arquivos de completamento selecionados na barra "
 "lateral"
 
-#: widgets/codecompletionconfigwidget.cpp:64
+#: widgets/codecompletionconfigwidget.cpp:66
 #, kde-format
 msgid ""
 "Directional or popup-based completion of abbreviations that are contained in "
@@ -11664,7 +11664,7 @@ msgstr ""
 "Completamento direcional ou por menu suspenso das abreviaturas que estão "
 "contidas nos arquivos de completamento selecionados."
 
-#: widgets/codecompletionconfigwidget.cpp:65
+#: widgets/codecompletionconfigwidget.cpp:67
 #, kde-format
 msgid "Show LaTeX commands of the selected completion files in the sidebar"
 msgstr ""
@@ -11672,24 +11672,24 @@ msgstr ""
 "lateral"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: widgets/codecompletionconfigwidget.cpp:95
-#: widgets/codecompletionconfigwidget.cpp:326
+#: widgets/codecompletionconfigwidget.cpp:97
+#: widgets/codecompletionconfigwidget.cpp:328
 #: widgets/codecompletionconfigwidget.ui:99
 #, kde-format
 msgid "Completion Files"
 msgstr "Arquivos de completamento"
 
-#: widgets/codecompletionconfigwidget.cpp:204
+#: widgets/codecompletionconfigwidget.cpp:206
 #, kde-format
 msgid "File not found"
 msgstr "Arquivo não encontrado"
 
-#: widgets/codecompletionconfigwidget.cpp:274
+#: widgets/codecompletionconfigwidget.cpp:276
 #, kde-format
 msgid "Wordlist '%1' contains duplicate entries."
 msgstr "A lista de palavras '%1' contém entradas duplicadas."
 
-#: widgets/codecompletionconfigwidget.cpp:274
+#: widgets/codecompletionconfigwidget.cpp:276
 #, kde-format
 msgid "Completion"
 msgstr "Completamento"
@@ -12741,59 +12741,59 @@ msgstr "&Limitar o tempo de execução dos scripts"
 msgid "&Time limit (seconds):"
 msgstr "&Limite de tempo (segundos):"
 
-#: widgets/scriptsmanagementwidget.cpp:76
+#: widgets/scriptsmanagementwidget.cpp:78
 #, kde-format
 msgid "Run Selected Script"
 msgstr "Executar o script selecionado"
 
-#: widgets/scriptsmanagementwidget.cpp:82
+#: widgets/scriptsmanagementwidget.cpp:84
 #, kde-format
 msgid "Create New Script"
 msgstr "Criar novo script"
 
-#: widgets/scriptsmanagementwidget.cpp:88
+#: widgets/scriptsmanagementwidget.cpp:90
 #, kde-format
 msgid "Open Selected Script in Editor"
 msgstr "Abrir o script selecionado no editor."
 
-#: widgets/scriptsmanagementwidget.cpp:94
+#: widgets/scriptsmanagementwidget.cpp:96
 #, kde-format
 msgid "Configure Key Sequence"
 msgstr "Configurar sequência de teclas"
 
-#: widgets/scriptsmanagementwidget.cpp:100
+#: widgets/scriptsmanagementwidget.cpp:102
 #, kde-format
 msgid "Remove Key Sequence"
 msgstr "Remove sequência de teclas"
 
-#: widgets/scriptsmanagementwidget.cpp:106
+#: widgets/scriptsmanagementwidget.cpp:108
 #, kde-format
 msgid "Refresh List"
 msgstr "Atualizar a lista"
 
-#: widgets/scriptsmanagementwidget.cpp:117
+#: widgets/scriptsmanagementwidget.cpp:119
 #, kde-format
 msgid "Script Name"
 msgstr "Nome do script"
 
-#: widgets/scriptsmanagementwidget.cpp:118
+#: widgets/scriptsmanagementwidget.cpp:120
 #, kde-format
 msgid "Sequence"
 msgstr "Sequência"
 
-#: widgets/scriptsmanagementwidget.cpp:223
+#: widgets/scriptsmanagementwidget.cpp:225
 #, kde-format
 msgid "The sequence \"%1\" is already assigned to the action \"%2\""
 msgstr "A sequência \"%1\" já está associada à ação \"%2\""
 
-#: widgets/scriptsmanagementwidget.cpp:224
-#: widgets/scriptsmanagementwidget.cpp:228
-#: widgets/scriptsmanagementwidget.cpp:232
+#: widgets/scriptsmanagementwidget.cpp:226
+#: widgets/scriptsmanagementwidget.cpp:230
+#: widgets/scriptsmanagementwidget.cpp:234
 #, kde-format
 msgid "Sequence Already Assigned"
 msgstr "Sequência já associada"
 
-#: widgets/scriptsmanagementwidget.cpp:227
+#: widgets/scriptsmanagementwidget.cpp:229
 #, kde-format
 msgid ""
 "The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to "
@@ -12802,7 +12802,7 @@ msgstr ""
 "A sequência \"%1\" é uma subsequência de \"%2\", que já está associada à "
 "ação \"%3\"."
 
-#: widgets/scriptsmanagementwidget.cpp:231
+#: widgets/scriptsmanagementwidget.cpp:233
 #, kde-format
 msgid "The shorter sequence \"%1\" is already assigned to the action \"%2\""
 msgstr "A sequência mais curta \"%1\" já está associada à ação \"%2\"."

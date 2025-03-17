@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-16 00:42+0000\n"
+"POT-Creation-Date: 2025-03-17 00:41+0000\n"
 "PO-Revision-Date: 2021-06-29 20:38+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -12700,38 +12700,38 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: widgets/toolconfigwidget.cpp:350
+#: widgets/toolconfigwidget.cpp:351
 #, fuzzy, kde-format
 #| msgid "You need at least one configuration for each tool."
 msgid "Choose a configuration for the tool %1"
 msgstr "प्रत्येक औज़ार के लिए आपको कम-से-कम एक कॉन्फ़िगरेशन की आवश्यकता है."
 
-#: widgets/toolconfigwidget.cpp:420
+#: widgets/toolconfigwidget.cpp:421
 #, kde-format
 msgid "New Configuration"
 msgstr "नया कॉन्फ़िगरेशन"
 
-#: widgets/toolconfigwidget.cpp:420
+#: widgets/toolconfigwidget.cpp:421
 #, kde-format
 msgid "Enter new configuration name:"
 msgstr "नया कॉन्फ़िगरेशन नाम भरें:"
 
-#: widgets/toolconfigwidget.cpp:447
+#: widgets/toolconfigwidget.cpp:448
 #, kde-format
 msgid "Are you sure you want to remove the tool %1?"
 msgstr "क्या आप वाक़ई औज़ार %1 को मिटाना चाहते हैं?"
 
-#: widgets/toolconfigwidget.cpp:477
+#: widgets/toolconfigwidget.cpp:478
 #, kde-format
 msgid "Are you sure that you want to remove this configuration?"
 msgstr "क्या आप वाक़ई इस कॉन्फिगरेशन को मिटाना चाहते हैं?"
 
-#: widgets/toolconfigwidget.cpp:491
+#: widgets/toolconfigwidget.cpp:492
 #, kde-format
 msgid "You need at least one configuration for each tool."
 msgstr "प्रत्येक औज़ार के लिए आपको कम-से-कम एक कॉन्फ़िगरेशन की आवश्यकता है."
 
-#: widgets/toolconfigwidget.cpp:491
+#: widgets/toolconfigwidget.cpp:492
 #, kde-format
 msgid "Cannot Remove Configuration"
 msgstr "कॉन्फ़िगरेशन मिटा नहीं सका"

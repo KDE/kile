@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-16 00:42+0000\n"
+"POT-Creation-Date: 2025-03-17 00:41+0000\n"
 "PO-Revision-Date: 2017-06-25 14:30+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -12831,38 +12831,38 @@ msgstr ""
 "Visos jūsų įrankio nuostatos bus perrašysimos numatytomis nuostatomis, ar "
 "tikrai norite tęsti?"
 
-#: widgets/toolconfigwidget.cpp:350
+#: widgets/toolconfigwidget.cpp:351
 #, fuzzy, kde-format
 #| msgid "You need at least one configuration for each tool."
 msgid "Choose a configuration for the tool %1"
 msgstr "Kiekvienam įrankiui reikia bent vienos konfigūracijos."
 
-#: widgets/toolconfigwidget.cpp:420
+#: widgets/toolconfigwidget.cpp:421
 #, kde-format
 msgid "New Configuration"
 msgstr "Nauja konfigūracija"
 
-#: widgets/toolconfigwidget.cpp:420
+#: widgets/toolconfigwidget.cpp:421
 #, kde-format
 msgid "Enter new configuration name:"
 msgstr "Įveskite naujos konfigūracijos pavadinimą:"
 
-#: widgets/toolconfigwidget.cpp:447
+#: widgets/toolconfigwidget.cpp:448
 #, kde-format
 msgid "Are you sure you want to remove the tool %1?"
 msgstr "Ar tikrai norite pašalinti įrankį %1?"
 
-#: widgets/toolconfigwidget.cpp:477
+#: widgets/toolconfigwidget.cpp:478
 #, fuzzy, kde-format
 msgid "Are you sure that you want to remove this configuration?"
 msgstr "Ar tikrai norite pašalinti šią konfigūraciją?"
 
-#: widgets/toolconfigwidget.cpp:491
+#: widgets/toolconfigwidget.cpp:492
 #, kde-format
 msgid "You need at least one configuration for each tool."
 msgstr "Kiekvienam įrankiui reikia bent vienos konfigūracijos."
 
-#: widgets/toolconfigwidget.cpp:491
+#: widgets/toolconfigwidget.cpp:492
 #, kde-format
 msgid "Cannot Remove Configuration"
 msgstr "Nepavyksta pašalinti konfigūracijos"

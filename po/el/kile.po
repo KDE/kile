@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-16 00:42+0000\n"
+"POT-Creation-Date: 2025-03-17 00:41+0000\n"
 "PO-Revision-Date: 2024-09-19 21:56+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -13360,37 +13360,37 @@ msgstr ""
 "Όλες οι ρυθμίσεις εργαλείων σας θα αντικατασταθούν με τις προκαθορισμένες.\n"
 "Επιθυμείτε σίγουρα τη συνέχεια;"
 
-#: widgets/toolconfigwidget.cpp:350
+#: widgets/toolconfigwidget.cpp:351
 #, kde-format
 msgid "Choose a configuration for the tool %1"
 msgstr "Επιλέξτε μία διαμόρφωση για το εργαλείο %1"
 
-#: widgets/toolconfigwidget.cpp:420
+#: widgets/toolconfigwidget.cpp:421
 #, kde-format
 msgid "New Configuration"
 msgstr "Νέα διαμόρφωση"
 
-#: widgets/toolconfigwidget.cpp:420
+#: widgets/toolconfigwidget.cpp:421
 #, kde-format
 msgid "Enter new configuration name:"
 msgstr "Εισαγάγετε το όνομα της νέας διαμόρφωσης:"
 
-#: widgets/toolconfigwidget.cpp:447
+#: widgets/toolconfigwidget.cpp:448
 #, kde-format
 msgid "Are you sure you want to remove the tool %1?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του εργαλείου %1;"
 
-#: widgets/toolconfigwidget.cpp:477
+#: widgets/toolconfigwidget.cpp:478
 #, kde-format
 msgid "Are you sure that you want to remove this configuration?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση αυτής της διαμόρφωσης;"
 
-#: widgets/toolconfigwidget.cpp:491
+#: widgets/toolconfigwidget.cpp:492
 #, kde-format
 msgid "You need at least one configuration for each tool."
 msgstr "Χρειάζεται τουλάχιστον μία διαμόρφωση για κάθε εργαλείο."
 
-#: widgets/toolconfigwidget.cpp:491
+#: widgets/toolconfigwidget.cpp:492
 #, kde-format
 msgid "Cannot Remove Configuration"
 msgstr "Αδυναμία αφαίρεσης της διαμόρφωσης"

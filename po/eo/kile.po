@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-16 00:42+0000\n"
+"POT-Creation-Date: 2025-03-17 00:41+0000\n"
 "PO-Revision-Date: 2024-05-30 07:49+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -13136,37 +13136,37 @@ msgstr ""
 "Ĉiuj viaj ilaj agordoj estos anstataŭitaj per la defaŭltaj agordoj.\n"
 "Ĉu vi certas, ke vi volas daŭrigi?"
 
-#: widgets/toolconfigwidget.cpp:350
+#: widgets/toolconfigwidget.cpp:351
 #, kde-format
 msgid "Choose a configuration for the tool %1"
 msgstr "Elektu agordon por la ilo %1"
 
-#: widgets/toolconfigwidget.cpp:420
+#: widgets/toolconfigwidget.cpp:421
 #, kde-format
 msgid "New Configuration"
 msgstr "Nova Agordo"
 
-#: widgets/toolconfigwidget.cpp:420
+#: widgets/toolconfigwidget.cpp:421
 #, kde-format
 msgid "Enter new configuration name:"
 msgstr "Enigu novan agordan nomon:"
 
-#: widgets/toolconfigwidget.cpp:447
+#: widgets/toolconfigwidget.cpp:448
 #, kde-format
 msgid "Are you sure you want to remove the tool %1?"
 msgstr "Ĉu vi certas, ke vi volas forigi la ilon %1?"
 
-#: widgets/toolconfigwidget.cpp:477
+#: widgets/toolconfigwidget.cpp:478
 #, kde-format
 msgid "Are you sure that you want to remove this configuration?"
 msgstr "Ĉu vi certas, ke vi volas forigi ĉi tiun agordon?"
 
-#: widgets/toolconfigwidget.cpp:491
+#: widgets/toolconfigwidget.cpp:492
 #, kde-format
 msgid "You need at least one configuration for each tool."
 msgstr "Vi bezonas almenaŭ unu agordon por ĉiu ilo."
 
-#: widgets/toolconfigwidget.cpp:491
+#: widgets/toolconfigwidget.cpp:492
 #, kde-format
 msgid "Cannot Remove Configuration"
 msgstr "Ne Povas Forigi Agordon"

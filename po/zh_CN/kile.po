@@ -6373,7 +6373,7 @@ msgstr "刷新结构..."
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
-msgstr ""
+msgstr "这将完全隐藏菜单栏。按 %1 可以重新显示。"
 
 #: kile.cpp:3053
 #, kde-format

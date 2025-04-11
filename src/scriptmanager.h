@@ -46,7 +46,7 @@ public:
     /**
      * Constructs a new Manager object.
      **/
-    Manager(KileInfo *info, KConfig *config, KActionCollection *actionCollection, QObject *parent = 0, const char *name = 0);
+    Manager(KileInfo *info, KConfig *config, KActionCollection *actionCollection, QObject *parent = nullptr, const char *name = nullptr);
     virtual ~Manager();
 
     /**
@@ -194,7 +194,7 @@ class ScriptExecutionAction : public QAction {
     Q_OBJECT
 
 public:
-    ScriptExecutionAction(unsigned int scriptID, Manager *manager, QObject* parent = 0);
+    ScriptExecutionAction(unsigned int scriptID, Manager *manager, QObject* parent = nullptr);
 
     virtual ~ScriptExecutionAction();
 

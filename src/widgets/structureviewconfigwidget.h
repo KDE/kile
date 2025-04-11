@@ -23,7 +23,7 @@ class KileWidgetStructureViewConfig : public QWidget, public Ui::KileWidgetStruc
     Q_OBJECT
 
 public:
-    explicit KileWidgetStructureViewConfig(QWidget *parent = 0);
+    explicit KileWidgetStructureViewConfig(QWidget *parent = nullptr);
     ~KileWidgetStructureViewConfig();
 };
 

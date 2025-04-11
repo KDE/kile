@@ -28,7 +28,7 @@ class TabularTable : public QTableWidget {
     Q_OBJECT
 
 public:
-    explicit TabularTable(QWidget *parent = 0);
+    explicit TabularTable(QWidget *parent = nullptr);
 
 public Q_SLOTS:
     void paste();

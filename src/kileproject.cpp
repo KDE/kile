@@ -91,8 +91,8 @@ void KileProjectItem::setParent(KileProjectItem *projectItem)
         }
     }
     else {
-        setChild(0);
-        setSibling(0);
+        setChild(nullptr);
+        setSibling(nullptr);
     }
 }
 
@@ -294,7 +294,7 @@ void KileProject::init(const QUrl &url)
 
 void KileProject::setLastDocument(const QUrl &url)
 {
-    if (item(url) != 0) {
+    if (item(url)) {
         m_lastDocument = KileUtilities::canonicalUrl(url);
     }
 }
@@ -677,7 +677,7 @@ void KileProject::buildProjectTree()
 
     //clean first
     for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
-        (*it)->setParent(0);
+        (*it)->setParent(nullptr);
     }
 
     //use the dependencies list of the documentinfo object to determine the parent
@@ -722,7 +722,7 @@ void KileProject::buildProjectTree()
                     inputUrl = QUrl::fromLocalFile(KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::bibinputs));
                 }
                 itm = item(inputUrl);
-                if(itm && (itm->parent() == 0)
+                if(itm && (!itm->parent())
                         && !isAncestorOf(itm, *it)) { // avoid circular references if a file should
                     // include itself in a circular way
                     itm->setParent(*it);

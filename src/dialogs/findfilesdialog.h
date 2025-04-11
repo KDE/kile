@@ -58,7 +58,7 @@ class FindFilesDialog : public QDialog
     Q_OBJECT
 
 public:
-    FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name = 0);
+    FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name = nullptr);
     ~FindFilesDialog();
 
     void appendFilter(const QString &name, const QString &filter);

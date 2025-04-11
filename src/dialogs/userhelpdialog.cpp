@@ -238,7 +238,7 @@ void UserHelpDialog::slotRemove()
             m_menulistbox->setCurrentRow(index);
         }
         else {
-            m_menulistbox->setCurrentItem(0);
+            m_menulistbox->setCurrentItem(nullptr);
         }
     }
 

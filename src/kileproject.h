@@ -46,7 +46,7 @@ class KileProjectItem : public QObject
     Q_OBJECT
 
 public:
-    explicit KileProjectItem(KileProject *project = 0, const QUrl &url = QUrl(), int type = Source);
+    explicit KileProjectItem(KileProject *project = nullptr, const QUrl &url = QUrl(), int type = Source);
     ~KileProjectItem() {
         KILE_DEBUG_MAIN << "DELETING PROJITEM " << m_path << Qt::endl;
     }

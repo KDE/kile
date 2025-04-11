@@ -88,7 +88,7 @@ public:
     /**
      * Constructs a new manager object.
      **/
-    explicit Manager(KileInfo* kileInfo, QObject *parent = 0, const char *name = 0);
+    explicit Manager(KileInfo* kileInfo, QObject *parent = nullptr, const char *name = nullptr);
     virtual ~Manager();
 
     /**

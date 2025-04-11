@@ -174,7 +174,7 @@ void TabularTable::mouseReleaseEvent(QMouseEvent *event)
     if(m_LastItem) {
         setCurrentItem(m_LastItem);
         currentItem()->setSelected(true);
-        m_LastItem = 0;
+        m_LastItem = nullptr;
     }
     QTableWidget::mouseReleaseEvent(event);
 }

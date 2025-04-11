@@ -37,7 +37,7 @@ class TexDocDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit TexDocDialog(QWidget *parent = 0);
+    explicit TexDocDialog(QWidget *parent = nullptr);
     ~TexDocDialog();
 
 private:

@@ -41,7 +41,7 @@ class ToolConfig : public QWidget
     enum GeneralExtraStack { GES_None = 1, GES_LaTeX/*, GES_ViewBib*/ };
 
 public:
-    ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char * name = 0);
+    ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char * name = nullptr);
 
 public Q_SLOTS:
     void writeConfig();

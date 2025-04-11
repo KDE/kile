@@ -211,7 +211,7 @@ void StructureView::cleanUp(bool preserveState/* = true */)
     }
     clear();
     if(m_docinfo) {
-        disconnect(m_docinfo, 0, this, 0);
+        disconnect(m_docinfo, nullptr, this, nullptr);
     }
     init();
 }

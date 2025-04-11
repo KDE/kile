@@ -59,7 +59,7 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
     mainLayout->addWidget(mainWidget);
 
     // 'add' is only allowed, if the QTreeWidgetItem is defined
-    m_addmode = (lvitem == 0);
+    m_addmode = (lvitem == nullptr);
     m_envmode = (cmdtype < KileDocument::CmdAttrLabel);
     m_cmdType = cmdtype;
 

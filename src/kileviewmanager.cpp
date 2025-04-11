@@ -419,7 +419,7 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
     QAction *action = view->actionCollection()->action(KStandardAction::name(KStandardAction::Save));
     if(action) {
         KILE_DEBUG_MAIN << "   reconnect action 'file_save'...";
-        disconnect(action, &QAction::triggered, 0, 0);
+        disconnect(action, &QAction::triggered, nullptr, nullptr);
         connect(action, &QAction::triggered, [=]() {
             m_ki->docManager()->fileSave();
         });
@@ -427,7 +427,7 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
     action = view->actionCollection()->action(KStandardAction::name(KStandardAction::SaveAs));
     if(action) {
         KILE_DEBUG_MAIN << "   reconnect action 'file_save_as'...";
-        disconnect(action, &QAction::triggered, 0, 0);
+        disconnect(action, &QAction::triggered, nullptr, nullptr);
         connect(action, &QAction::triggered, [=]() {
             m_ki->docManager()->fileSaveAs();
         });
@@ -436,7 +436,7 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
     // use Kile's smart-new-line feature
     action = view->actionCollection()->action("smart_newline");
     if(action) {
-        disconnect(action, &QAction::triggered, 0, 0);
+        disconnect(action, &QAction::triggered, nullptr, nullptr);
         connect(action, &QAction::triggered, [=]() {
             m_ki->editorExtension()->insertIntelligentNewline();
         });

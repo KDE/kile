@@ -128,7 +128,7 @@ bool KileLyxServer::openPipes()
     QDir lyxDir(QDir::homePath() + QDir::separator() + ".lyx");
     if(!lyxDir.exists()) {
         KILE_DEBUG_MAIN << "Directory " << lyxDir.absolutePath() << " does not exist";
-        if(mkdir(QFile::encodeName( lyxDir.path() ), m_perms | S_IXUSR) == -1) {
+        if (mkdir(QFile::encodeName( lyxDir.path() ).constData(), m_perms | S_IXUSR) == -1) {
             qCritical() << "Could not create directory";
         }
         else {
@@ -149,7 +149,7 @@ bool KileLyxServer::openPipes()
         if(!pipeInfo.exists()) {
             //create the dir first
             if(!QFileInfo::exists(pipeInfo.absolutePath())) {
-                if(mkdir(QFile::encodeName( pipeInfo.path() ), m_perms | S_IXUSR) == -1) {
+                if (mkdir(QFile::encodeName( pipeInfo.path() ).constData(), m_perms | S_IXUSR) == -1) {
                     qCritical() << "Could not create directory for pipe";
                     continue;
                 }
@@ -157,7 +157,7 @@ bool KileLyxServer::openPipes()
                     KILE_DEBUG_MAIN << "Created directory " << pipeInfo.path();
                 }
             }
-            if (mkfifo(QFile::encodeName( pipeInfo.absoluteFilePath() ), m_perms) != 0) {
+            if (mkfifo(QFile::encodeName( pipeInfo.absoluteFilePath() ).constData(), m_perms) != 0) {
                 qCritical() << "Could not create pipe: " << pipeInfo.absoluteFilePath();
                 continue;
             }
@@ -166,7 +166,8 @@ bool KileLyxServer::openPipes()
             }
         }
 
-        if(symlink(QFile::encodeName(pipeInfo.absoluteFilePath()),QFile::encodeName(linkInfo.absoluteFilePath())) != 0) {
+        if (symlink(QFile::encodeName(pipeInfo.absoluteFilePath()).constData(),
+                    QFile::encodeName(linkInfo.absoluteFilePath()).constData()) != 0) {
             qCritical() << "Could not create symlink: " << linkInfo.absoluteFilePath() << " --> " << pipeInfo.absoluteFilePath();
             continue;
         }

@@ -260,8 +260,8 @@ QString TexDocDialog::searchFile(const QString &docfilename, const QString &list
     QString filename;
     for(const QString& itp : pathlist) {
         for(const QString& ite : extensions) {
-            filename = (subdir.isEmpty()) ? itp + '/' + docfilename + ite
-                       : itp + '/' + subdir + '/' + docfilename + ite;
+            filename = (subdir.isEmpty()) ? QString(itp + '/' + docfilename + ite)
+                       : QString(itp + '/' + subdir + '/' + docfilename + ite);
 
             if(QFile::exists(filename)) {
                 return filename;

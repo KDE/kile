@@ -423,7 +423,7 @@ QString KileInfo::expandEnvironmentVars(const QString &str)
     while (matches.hasNext()) {
         const auto match = matches.next();
 
-        result.replace(match.captured(0), qgetenv(match.captured(1).toLocal8Bit()));
+        result.replace(match.captured(0), qgetenv(match.captured(1).toLocal8Bit().constData()));
     }
 
     return result;

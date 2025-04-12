@@ -62,29 +62,29 @@ public:
 ResultItem::ResultItem(QListWidget *listWidget, const QString &toolGroup, int status, bool isCritical, const QList<ConfigTest*> &tests)
     : QListWidgetItem(listWidget)
 {
-    QString rt = "<hr /><b><font color=\"%1\">%2</font></b> (%3)<br /><ul>";
+    QString rt = QStringLiteral("<hr /><b><font color=\"%1\">%2</font></b> (%3)<br /><ul>");
     for (int i = 0; i < tests.count(); ++i) {
-        QString itemcolor = "black";
+        QString itemcolor = QStringLiteral("black");
         if (tests[i]->status() == ConfigTest::Failure) {
             if (tests[i]->isCritical()) {
-                itemcolor = "#AA0000";
+                itemcolor = QStringLiteral("#AA0000");
             }
             else {
-                itemcolor = "#FFA201";
+                itemcolor = QStringLiteral("#FFA201");
             }
         }
-        rt += QString("<li><b><font color=\"%1\">%2</font></b>: &nbsp;%3</li>").arg(itemcolor, tests[i]->name(), tests[i]->resultText());
+        rt += QStringLiteral("<li><b><font color=\"%1\">%2</font></b>: &nbsp;%3</li>").arg(itemcolor, tests[i]->name(), tests[i]->resultText());
     }
-    rt += "</ul>";
+    rt += QStringLiteral("</ul>");
 
-    QString color = "#00AA00", statustr = i18n("Passed");
+    QString color = QStringLiteral("#00AA00"), statustr = i18n("Passed");
     if(status == ConfigTest::Failure) {
         if(isCritical) {
-            color = "#AA0000";
+            color = QStringLiteral("#AA0000");
             statustr = i18n("Critical failure, Kile will not function properly");
         }
         else {
-            color = "#FFA201";
+            color = QStringLiteral("#FFA201");
             statustr = i18n("Failed, but not critical");
         }
     }
@@ -134,7 +134,7 @@ ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)
     m_progressBar->setFormat(i18nc("%p is the percent value, % is the percent sign", "%p%"));
     vboxLayout->addWidget(m_progressBar);
     vboxLayout->addStretch();
-    m_runningTestsPageWidgetItem = addPage(runningTestsWidget, "");
+    m_runningTestsPageWidgetItem = addPage(runningTestsWidget, QStringLiteral(""));
 
     QWidget *testResultsWidget = new QWidget(this);
     vboxLayout = new QVBoxLayout();
@@ -227,24 +227,24 @@ void ConfigChecker::finished(bool ok)
     m_listWidget->sortItems();
 
     if(ok) {
-        QString testResultText = "<br/>";
+        QString testResultText = QStringLiteral("<br/>");
         if (critical.count() > 0) {
             testResultText += i18n("The following <b>critical</b> tests did not succeed:"
                                    "<br/><br/>%1<br/><br/>Kile cannot function correctly on your system. Please consult the "
-                                   "test results<br/>to determine which programs have to be fixed.", critical.join(", "));
+                                   "test results<br/>to determine which programs have to be fixed.", critical.join(QStringLiteral(", ")));
         }
         else {
             if (failure.count() > 0) {
                 testResultText += i18n("The following tests did not succeed:<br/><br/>%1<br/><br/>You will still "
                                        "be able to use Kile; however, not all features are guaranteed "
-                                       "to work.", failure.join(", "));
+                                       "to work.", failure.join(QStringLiteral(", ")));
             }
             else {
                 testResultText += i18n("<b>No problems were detected. Kile will work correctly on your system.</b>");
             }
         }
 
-        testResultText += "<br/><br/>";
+        testResultText += QStringLiteral("<br/><br/>");
         m_useModernConfigurationForLaTeXCheckBox->setChecked(m_tester->areSrcSpecialsSupportedForLaTeX());
         m_useModernConfigurationForPDFLaTeX->setChecked(m_tester->isSyncTeXSupportedForPDFLaTeX());
 
@@ -268,7 +268,7 @@ void ConfigChecker::finished(bool ok)
                                    "Live preview is hence not supported.");
         }
 
-        testResultText += "<br/><br/>";
+        testResultText += QStringLiteral("<br/><br/>");
 
         m_overallResultLabel->setText(testResultText);
 
@@ -297,19 +297,19 @@ void ConfigChecker::finished(bool ok)
 void ConfigChecker::assistantFinished()
 {
     if(m_useEmbeddedViewerCheckBox->isChecked()) {
-        m_ki->toolManager()->setConfigName("ViewPS", "Document Viewer");
-        m_ki->toolManager()->setConfigName("ViewPDF", "Document Viewer");
-        m_ki->toolManager()->setConfigName("ViewDVI", "Document Viewer");
+        m_ki->toolManager()->setConfigName(QStringLiteral("ViewPS"), QStringLiteral("Document Viewer"));
+        m_ki->toolManager()->setConfigName(QStringLiteral("ViewPDF"), QStringLiteral("Document Viewer"));
+        m_ki->toolManager()->setConfigName(QStringLiteral("ViewDVI"), QStringLiteral("Document Viewer"));
     }
     if(m_useModernConfigurationForLaTeXCheckBox->isChecked()) {
-        m_ki->toolManager()->setConfigName("TeX", "Modern");
-        m_ki->toolManager()->setConfigName("PDFTeX", "Modern");
-        m_ki->toolManager()->setConfigName("LaTeX", "Modern");
+        m_ki->toolManager()->setConfigName(QStringLiteral("TeX"), QStringLiteral("Modern"));
+        m_ki->toolManager()->setConfigName(QStringLiteral("PDFTeX"), QStringLiteral("Modern"));
+        m_ki->toolManager()->setConfigName(QStringLiteral("LaTeX"), QStringLiteral("Modern"));
     }
     if(m_useModernConfigurationForPDFLaTeX->isChecked()) {
-        m_ki->toolManager()->setConfigName("PDFLaTeX", "Modern");
-        m_ki->toolManager()->setConfigName("XeLaTeX", "PDF Modern");
-        m_ki->toolManager()->setConfigName("LuaLaTeX", "PDF Modern");
+        m_ki->toolManager()->setConfigName(QStringLiteral("PDFLaTeX"), QStringLiteral("Modern"));
+        m_ki->toolManager()->setConfigName(QStringLiteral("XeLaTeX"), QStringLiteral("PDF Modern"));
+        m_ki->toolManager()->setConfigName(QStringLiteral("LuaLaTeX"), QStringLiteral("PDF Modern"));
     }
 }
 

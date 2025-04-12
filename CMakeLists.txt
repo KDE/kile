@@ -30,6 +30,7 @@ ecm_setup_version(${PROJECT_VERSION}
     VARIABLE_PREFIX KILE
     VERSION_HEADER ${CMAKE_CURRENT_BINARY_DIR}/src/cmake-kile-version.h
 )
+remove_definitions(-DQT_NO_CAST_FROM_ASCII)
 
 kde_enable_exceptions()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)

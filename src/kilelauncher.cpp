@@ -262,7 +262,7 @@ bool ProcessLauncher::selfCheck()
 void ProcessLauncher::slotProcessOutput()
 {
     QByteArray buf = m_proc->readAllStandardOutput();
-    Q_EMIT output(QString::fromLocal8Bit(buf, buf.size()));
+    Q_EMIT output(QString::fromLocal8Bit(buf.constData(), buf.size()));
 }
 
 void ProcessLauncher::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)

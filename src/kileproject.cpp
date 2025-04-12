@@ -621,7 +621,7 @@ void KileProject::writeConfigEntry(const QString &key, const QString &standardEx
         generalGroup.writeEntry(key, standardExt);
     }
     else {
-        generalGroup.writeEntry(key, standardExt + ' ' + extensions(type));
+        generalGroup.writeEntry(key, QString(standardExt + ' ' + extensions(type)));
     }
 }
 

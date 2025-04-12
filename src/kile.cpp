@@ -2526,7 +2526,7 @@ void Kile::transformOldUserSettings()
 
             if(i < 10) {
                 QAction *toolAction = static_cast<QAction*>(actionCollection()->action("tool_" + tempItem.name));
-                actionCollection()->setDefaultShortcut(toolAction, "Alt+Shift+" + QString::number(i + 1)); //should be alt+shift+
+                actionCollection()->setDefaultShortcut(toolAction, QString("Alt+Shift+" + QString::number(i + 1))); //should be alt+shift+
             }
         }
     }

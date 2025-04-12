@@ -2061,7 +2061,7 @@ void Manager::projectShow()
 
             // called from QAction 'Show projects...': find the first opened
             // LaTeX document or, if that fails, any other opened file
-            const QStringList extensionsList = (m_ki->extensions()->latexDocuments() + ' ' + m_ki->extensions()->latexPackages()).split(' ');
+            const QStringList extensionsList = QString(m_ki->extensions()->latexDocuments() + ' ' + m_ki->extensions()->latexPackages()).split(' ');
             for(const QString& extension : extensionsList) {
                 if(itempath.indexOf(extension, -1 * extension.length()) >= 0)  {
                     if (m_ki->isOpen(item->url()))  {

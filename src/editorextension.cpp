@@ -389,7 +389,7 @@ void EditorExtension::closeAllEnvironments(KTextEditor::View *view)
             doc->insertText(KTextEditor::Cursor(currentRow, outputCol), whitespace);
             outputCol += whitespace.length();
         }
-        QString endtag = ( entry[0] == "\\[" ) ? "\\]\n" : "\\end{"+entry[0]+"}\n";
+        QString endtag = ( entry[0] == "\\[" ) ? "\\]\n" : QString("\\end{"+entry[0]+"}\n");
         doc->insertText(KTextEditor::Cursor(currentRow, outputCol), endtag);
         ++currentRow;
     }

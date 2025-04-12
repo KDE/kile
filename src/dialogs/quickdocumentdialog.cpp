@@ -1397,8 +1397,8 @@ bool QuickDocument::isTreeWidgetChild(QTreeWidget *treeWidget, const QString &en
 QString QuickDocument::addPackageDefault(const QString &option, const QString &description)
 {
     return (m_dictPackagesDefaultvalues.contains(option))
-           ? description + " [" + m_dictPackagesDefaultvalues[option] + ']'
-           : description + " [ ]";
+           ? QString(description + " [" + m_dictPackagesDefaultvalues[option] + ']')
+           : QString(description + " [ ]");
 }
 
 QString QuickDocument::stripPackageDefault(const QString &option, const QString &description)

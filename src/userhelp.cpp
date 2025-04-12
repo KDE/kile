@@ -121,7 +121,7 @@ void UserHelp::setupUserHelpMenu()
             }
             KileAction::VariantSelection *action = new KileAction::VariantSelection(menu, QVariant::fromValue(url), this);
             if(!url.isLocalFile() ||  ext == "html" || ext == "dvi" || ext == "ps" || ext == "pdf") {
-                QString icon = (!url.isLocalFile()) ? "viewhtml" : "view" + ext;
+                QString icon = (!url.isLocalFile()) ? "viewhtml" : QString("view" + ext);
                 action->setIcon(QIcon::fromTheme(icon));
             }
             connect(action, SIGNAL(triggered(QUrl)), this, SLOT(slotUserHelpActivated(QUrl)));

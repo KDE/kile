@@ -243,6 +243,7 @@ PUBLIC
     KF6::TextEditor
     KF6::TextWidgets
     KF6::WindowSystem
+    KF6::ColorScheme
 )
 
 target_link_libraries(kile PUBLIC Qt6::Qml Qt6::Core5Compat KF6::IconWidgets)

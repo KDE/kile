@@ -59,6 +59,7 @@ find_package(KF6 6.0.0
 		WindowSystem
 		XmlGui
 		TextWidgets
+		ColorScheme
 	OPTIONAL_COMPONENTS
 		DocTools
 )

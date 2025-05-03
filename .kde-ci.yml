@@ -18,6 +18,7 @@ Dependencies:
     'frameworks/ktexteditor': '@latest-kf6'
     'frameworks/kwindowsystem': '@latest-kf6'
     'frameworks/kxmlgui': '@latest-kf6'
+    'frameworks/kcolorscheme': '@latest-kf6'
     'graphics/okular': '@latest-kf6'
 
 Options:

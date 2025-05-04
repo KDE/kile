@@ -36,7 +36,7 @@ void QuickToolConfigWidget::updateSequence(const QString &sequence)
     m_cbTools->addItems(toollist);
 
     updateConfigs(m_cbTools->currentText());
-    connect(m_cbTools, SIGNAL(activated(QString)), this, SLOT(updateConfigs(QString)));
+    connect(m_cbTools, SIGNAL(textActivated(QString)), this, SLOT(updateConfigs(QString)));
 
     m_sequence = sequence;
     QStringList list = sequence.split(',', Qt::SkipEmptyParts);

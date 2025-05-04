@@ -21,6 +21,9 @@
 
 #include "kiletool.h"
 
+namespace KileDialog {
+class Config;
+}
 namespace KileTool {
 class Manager;
 }
@@ -41,7 +44,7 @@ class ToolConfig : public QWidget
     enum GeneralExtraStack { GES_None = 1, GES_LaTeX/*, GES_ViewBib*/ };
 
 public:
-    ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char * name = 0);
+    ToolConfig(KileTool::Manager *mngr, KileDialog::Config *configDialog);
 
 public Q_SLOTS:
     void writeConfig();
@@ -50,6 +53,7 @@ private:
     void setupAdvanced();
     void setupGeneral();
     int indexQuickBuild();
+    void validateToolStatus();
 
 private Q_SLOTS:
     void updateGeneral();
@@ -90,6 +94,7 @@ Q_SIGNALS:
 
 private:
     ToolConfigWidget	*m_configWidget;
+    KileDialog::Config	*m_kileConfig;
     KileTool::Manager	*m_manager;
     KConfig			*m_config;
     KileTool::Config	m_map;

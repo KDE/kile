@@ -467,9 +467,7 @@ void Manager::saveEntryMap(const QString & name, Config & map, bool usequeue, bo
 
     Config::Iterator it;
     for(it = map.begin() ; it != map.end(); ++it) {
-        if(!it.value().isEmpty()) {
-            configGroup.writeEntry(it.key(), it.value());
-        }
+        configGroup.writeEntry(it.key(), it.value());
     }
 }
 

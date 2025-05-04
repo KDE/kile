@@ -41,15 +41,16 @@
 #include "widgets/processtoolconfigwidget.h"
 #include "widgets/quicktoolconfigwidget.h"
 #include "widgets/latextoolconfigwidget.h"
+#include "dialogs/configurationdialog.h"
 #include "dialogs/newtoolwizard.h"
 
 namespace KileWidget
 {
-ToolConfig::ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char *name) :
-    QWidget(parent),
+ToolConfig::ToolConfig(KileTool::Manager *mngr, KileDialog::Config *configDialog) :
+    QWidget(configDialog),
+    m_kileConfig(configDialog),
     m_manager(mngr)
 {
-    setObjectName(name);
     m_config = m_manager->config();
     QVBoxLayout *layout = new QVBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
@@ -117,7 +118,7 @@ void ToolConfig::setupAdvanced()
 
     m_classes << "Compile" << "Convert" << "Archive" << KileTool::BibliographyCompile::ToolClass << "View" <<  "Sequence" << "LaTeX" << "ViewHTML" << "ViewBib" << "ForwardDVI" << "Base";
     m_configWidget->m_cbClass->addItems(m_classes);
-    connect(m_configWidget->m_cbClass, SIGNAL(activated(QString)), this, SLOT(switchClass(QString)));
+    connect(m_configWidget->m_cbClass, SIGNAL(textActivated(QString)), this, SLOT(switchClass(QString)));
 
     connect(m_configWidget->m_leSource, SIGNAL(textChanged(QString)), this, SLOT(setFrom(QString)));
     connect(m_configWidget->m_leTarget, SIGNAL(textChanged(QString)), this, SLOT(setTo(QString)));
@@ -218,6 +219,7 @@ void ToolConfig::updateGeneral()
     m_configWidget->m_stackBasic->setCurrentIndex(basicPage);
     m_configWidget->m_stackExtra->setCurrentIndex(extraPage);
 
+    validateToolStatus();
 }
 
 void ToolConfig::writeDefaults()
@@ -525,12 +527,14 @@ void ToolConfig::switchType(int index)
 
 void ToolConfig::setCommand(const QString & command) {
     m_map["command"] = command.trimmed();
+    validateToolStatus();
 }
 void ToolConfig::setOptions() {
     m_map["options"] = m_ptcw->m_options->toPlainText().trimmed();
 }
 void ToolConfig::setSequence(const QString & sequence) {
     m_map["sequence"] = sequence.trimmed();
+    validateToolStatus();
 }
 void ToolConfig::setClose(bool on) {
     m_map["close"] = on ? "yes" : "no";
@@ -564,5 +568,39 @@ void ToolConfig::setTo(const QString & to) {
 void ToolConfig::setClass(const QString & cls) {
     m_map["class"] = cls.trimmed();
 }
+
+void ToolConfig::validateToolStatus()
+{
+    QListWidgetItem *toolItem = m_configWidget->m_lstbTools->currentItem();
+
+    // Current tool status
+    int basicPage = m_configWidget->m_stackBasic->currentIndex();
+    bool status = (basicPage == GBS_None)
+                  || (basicPage == GBS_Error)
+                  || (basicPage == GBS_Process && !m_map["command"].isEmpty())
+                  || (basicPage == GBS_Sequence && !m_map["sequence"].isEmpty());
+
+    // Mark invalid tool state with warning icon
+    toolItem->setIcon(status ? QIcon() : QIcon::fromTheme(QStringLiteral("emblem-warning")));
+
+    // Store the valid/invalid state of the given tool
+    toolItem->setData(Qt::UserRole, status);
+
+    // Disable the dialog button if any tool is in an invalid state. If 'status' is false, then
+    // one can be sure that the OK button can be disabled, otherwise check them all.
+    if(!status) {
+        m_kileConfig->button(QDialogButtonBox::Ok)->setEnabled(false);
+        return;
+    }
+
+    const int nItems = m_configWidget->m_lstbTools->count();
+    for(int i = 0; i < nItems; ++i) {
+         if(m_configWidget->m_lstbTools->item(i)->data(Qt::UserRole) == false) {
+             return;
+         }
+    }
+
+    m_kileConfig->button(QDialogButtonBox::Ok)->setEnabled(true);
 }
 
+}

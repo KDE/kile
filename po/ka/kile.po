@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-17 00:41+0000\n"
+"POT-Creation-Date: 2025-05-05 00:42+0000\n"
 "PO-Revision-Date: 2025-03-09 05:01+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -6381,22 +6381,22 @@ msgstr "BibTeX"
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1256 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1256 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "Compile"
 msgstr "კომპილაცია"
 
-#: kile.cpp:1257 widgets/toolconfigwidget.cpp:78
+#: kile.cpp:1257 widgets/toolconfigwidget.cpp:79
 #, kde-format
 msgid "View"
 msgstr "ხედო"
 
-#: kile.cpp:1258 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1258 widgets/toolconfigwidget.cpp:78
 #, kde-format
 msgid "Convert"
 msgstr "გარდაქმნა"
 
-#: kile.cpp:1259 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1259 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Quick"
 msgstr "სწრაფი"
@@ -8804,7 +8804,7 @@ msgid "Huge"
 msgstr "უზარმაზარი"
 
 #: kilestdactions.cpp:125 widgets/projectview.cpp:481
-#: widgets/toolconfigwidget.cpp:79
+#: widgets/toolconfigwidget.cpp:80
 #, kde-format
 msgid "Other"
 msgstr "სხვა"
@@ -10496,33 +10496,33 @@ msgstr "პროგრამების ქარხანა დაყენ�
 msgid "Aborted"
 msgstr "შეწყვეტილია"
 
-#: kiletoolmanager.cpp:485
+#: kiletoolmanager.cpp:483
 #, kde-format
 msgid "Cannot find the tool \"%1\" in the configuration database."
 msgstr "ხელსაწყო \"%1\" კონფიგურაციის მონაცემთა ბაზაში აღმოჩენილი არაა."
 
-#: kiletoolmanager.cpp:730
+#: kiletoolmanager.cpp:728
 #, kde-format
 msgid "&Stop"
 msgstr "გაჩერება"
 
-#: kiletoolmanager.cpp:739
+#: kiletoolmanager.cpp:737
 #, kde-format
 msgid "Bibliography Back End"
 msgstr "ბიბლიოგრაფიის უკანაბოლო"
 
-#: kiletoolmanager.cpp:740
+#: kiletoolmanager.cpp:738
 #, kde-format
 msgid "Auto-Detect"
 msgstr "ავტომატური გამოცნობა"
 
-#: kiletoolmanager.cpp:741
+#: kiletoolmanager.cpp:739
 #, kde-format
 msgid "Auto-detect the bibliography back end from LaTeX output"
 msgstr ""
 "ბიბლიოგრაფიის უკანაბოლოს ავტომატური დადგენა LaTeX-ის გამოტანილი ინფორმაციიდან"
 
-#: kiletoolmanager.cpp:746
+#: kiletoolmanager.cpp:744
 #, kde-format
 msgid "Reset Auto-Detected Back End"
 msgstr "ავტომატურად დადგენილი უკანაბოლოს ჩამოყრა"
@@ -13093,32 +13093,32 @@ msgstr "უნიკოდი"
 msgid "Insert Unicode representation of the selected symbol (when available)"
 msgstr "მონიშნული სიმბოლოს უნიკოდში წარმოდგენის ჩართვა (როცა ხელმისაწვდომია)"
 
-#: widgets/toolconfigwidget.cpp:111
+#: widgets/toolconfigwidget.cpp:112
 #, kde-format
 msgid "Run Outside of Kile"
 msgstr "Kile-ის გარეთ გაშვება"
 
-#: widgets/toolconfigwidget.cpp:112
+#: widgets/toolconfigwidget.cpp:113
 #, kde-format
 msgid "Run in Konsole"
 msgstr "Konsole-ში გაშვება"
 
-#: widgets/toolconfigwidget.cpp:113
+#: widgets/toolconfigwidget.cpp:114
 #, kde-format
 msgid "Use Document Viewer"
 msgstr "დოკუმენტის დამთვალიერებლის გამოყენება"
 
-#: widgets/toolconfigwidget.cpp:114
+#: widgets/toolconfigwidget.cpp:115
 #, kde-format
 msgid "Run Sequence of Tools"
 msgstr "ხელსაწყოების მიმდევრობის გაშვება"
 
-#: widgets/toolconfigwidget.cpp:161
+#: widgets/toolconfigwidget.cpp:162
 #, kde-format
 msgid "Use the \"Advanced\" tab to configure this tool."
 msgstr "გამოიყენეთ ჩანართი \"დამატებით\" ამ ხელსაწყოს მოსარგებად."
 
-#: widgets/toolconfigwidget.cpp:172
+#: widgets/toolconfigwidget.cpp:173
 #, kde-format
 msgid ""
 "Unknown tool type; your configuration data is malformed.\n"
@@ -13127,7 +13127,7 @@ msgstr ""
 "უცნობი ხელსაწყოს ტიპი. თქვენი კონფიგურაციის მონაცემები არასწორია.\n"
 "ალბათ კარგი იდეაა, ნაგულისხმევი პარამეტრები აღადგინოთ."
 
-#: widgets/toolconfigwidget.cpp:225
+#: widgets/toolconfigwidget.cpp:227
 #, kde-format
 msgid ""
 "All your tool settings will be overwritten with the default settings.\n"
@@ -13136,37 +13136,37 @@ msgstr ""
 "ყველა თქვენი ხელსაწყოს პარამეტრები საწყის მნიშვნელობებზე დაბრუნდება.\n"
 "მართლა გნებავთ, გააგრძელოთ?"
 
-#: widgets/toolconfigwidget.cpp:351
+#: widgets/toolconfigwidget.cpp:353
 #, kde-format
 msgid "Choose a configuration for the tool %1"
 msgstr "აირჩიეთ კონფიგურაცია ხელსაწყოსთვის %1"
 
-#: widgets/toolconfigwidget.cpp:421
+#: widgets/toolconfigwidget.cpp:423
 #, kde-format
 msgid "New Configuration"
 msgstr "ახალი კონფიგურაცია"
 
-#: widgets/toolconfigwidget.cpp:421
+#: widgets/toolconfigwidget.cpp:423
 #, kde-format
 msgid "Enter new configuration name:"
 msgstr "შეიყვანეთ ახალი კონფიგურაციის სახელი:"
 
-#: widgets/toolconfigwidget.cpp:448
+#: widgets/toolconfigwidget.cpp:450
 #, kde-format
 msgid "Are you sure you want to remove the tool %1?"
 msgstr "მართლა გნებავთ, წაშალოთ ხელსაწყო %1?"
 
-#: widgets/toolconfigwidget.cpp:478
+#: widgets/toolconfigwidget.cpp:480
 #, kde-format
 msgid "Are you sure that you want to remove this configuration?"
 msgstr "მართლა გნებავთ, წაშალოთ ეს კონფიგურაცია?"
 
-#: widgets/toolconfigwidget.cpp:492
+#: widgets/toolconfigwidget.cpp:494
 #, kde-format
 msgid "You need at least one configuration for each tool."
 msgstr "თითოეული ხელსაწყოსთვის, სულ ცოტა, ერთი კონფიგურაცია გჭირდებათ."
 
-#: widgets/toolconfigwidget.cpp:492
+#: widgets/toolconfigwidget.cpp:494
 #, kde-format
 msgid "Cannot Remove Configuration"
 msgstr "კონფიგურაციის წაშლა შეუძლებელია"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-17 00:41+0000\n"
+"POT-Creation-Date: 2025-05-05 00:42+0000\n"
 "PO-Revision-Date: 2020-09-08 19:06+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -6241,22 +6241,22 @@ msgstr "BibTeX"
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1256 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1256 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "Compile"
 msgstr ""
 
-#: kile.cpp:1257 widgets/toolconfigwidget.cpp:78
+#: kile.cpp:1257 widgets/toolconfigwidget.cpp:79
 #, kde-format
 msgid "View"
 msgstr "Vizualizare"
 
-#: kile.cpp:1258 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1258 widgets/toolconfigwidget.cpp:78
 #, kde-format
 msgid "Convert"
 msgstr "Convertește"
 
-#: kile.cpp:1259 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1259 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Quick"
 msgstr ""
@@ -8455,7 +8455,7 @@ msgid "Huge"
 msgstr "Imensă"
 
 #: kilestdactions.cpp:125 widgets/projectview.cpp:481
-#: widgets/toolconfigwidget.cpp:79
+#: widgets/toolconfigwidget.cpp:80
 #, kde-format
 msgid "Other"
 msgstr "Alta"
@@ -10072,33 +10072,33 @@ msgstr ""
 msgid "Aborted"
 msgstr "Anulat"
 
-#: kiletoolmanager.cpp:485
+#: kiletoolmanager.cpp:483
 #, kde-format
 msgid "Cannot find the tool \"%1\" in the configuration database."
 msgstr ""
 
-#: kiletoolmanager.cpp:730
+#: kiletoolmanager.cpp:728
 #, kde-format
 msgid "&Stop"
 msgstr "&Oprește"
 
-#: kiletoolmanager.cpp:739
+#: kiletoolmanager.cpp:737
 #, fuzzy, kde-format
 #| msgid "No bibliographies found."
 msgid "Bibliography Back End"
 msgstr "Nicio bibliografie găsită."
 
-#: kiletoolmanager.cpp:740
+#: kiletoolmanager.cpp:738
 #, fuzzy, kde-format
 msgid "Auto-Detect"
 msgstr "&Detectează automat"
 
-#: kiletoolmanager.cpp:741
+#: kiletoolmanager.cpp:739
 #, kde-format
 msgid "Auto-detect the bibliography back end from LaTeX output"
 msgstr ""
 
-#: kiletoolmanager.cpp:746
+#: kiletoolmanager.cpp:744
 #, kde-format
 msgid "Reset Auto-Detected Back End"
 msgstr ""
@@ -12655,77 +12655,77 @@ msgstr ""
 msgid "Insert Unicode representation of the selected symbol (when available)"
 msgstr ""
 
-#: widgets/toolconfigwidget.cpp:111
+#: widgets/toolconfigwidget.cpp:112
 #, kde-format
 msgid "Run Outside of Kile"
 msgstr ""
 
-#: widgets/toolconfigwidget.cpp:112
+#: widgets/toolconfigwidget.cpp:113
 #, kde-format
 msgid "Run in Konsole"
 msgstr "Rulează în konsolă"
 
-#: widgets/toolconfigwidget.cpp:113
+#: widgets/toolconfigwidget.cpp:114
 #, fuzzy, kde-format
 #| msgid "Document Type"
 msgid "Use Document Viewer"
 msgstr "Tip document"
 
-#: widgets/toolconfigwidget.cpp:114
+#: widgets/toolconfigwidget.cpp:115
 #, kde-format
 msgid "Run Sequence of Tools"
 msgstr "Rulează secvență de unelte"
 
-#: widgets/toolconfigwidget.cpp:161
+#: widgets/toolconfigwidget.cpp:162
 #, kde-format
 msgid "Use the \"Advanced\" tab to configure this tool."
 msgstr ""
 
-#: widgets/toolconfigwidget.cpp:172
+#: widgets/toolconfigwidget.cpp:173
 #, kde-format
 msgid ""
 "Unknown tool type; your configuration data is malformed.\n"
 "Perhaps it is a good idea to restore the default settings."
 msgstr ""
 
-#: widgets/toolconfigwidget.cpp:225
+#: widgets/toolconfigwidget.cpp:227
 #, kde-format
 msgid ""
 "All your tool settings will be overwritten with the default settings.\n"
 "Are you sure you want to continue?"
 msgstr ""
 
-#: widgets/toolconfigwidget.cpp:351
+#: widgets/toolconfigwidget.cpp:353
 #, kde-format
 msgid "Choose a configuration for the tool %1"
 msgstr "Alegeți o configurație pentru unealta %1"
 
-#: widgets/toolconfigwidget.cpp:421
+#: widgets/toolconfigwidget.cpp:423
 #, kde-format
 msgid "New Configuration"
 msgstr "Configurație nouă"
 
-#: widgets/toolconfigwidget.cpp:421
+#: widgets/toolconfigwidget.cpp:423
 #, kde-format
 msgid "Enter new configuration name:"
 msgstr ""
 
-#: widgets/toolconfigwidget.cpp:448
+#: widgets/toolconfigwidget.cpp:450
 #, kde-format
 msgid "Are you sure you want to remove the tool %1?"
 msgstr "Sigur doriți să eliminați unealta %1?"
 
-#: widgets/toolconfigwidget.cpp:478
+#: widgets/toolconfigwidget.cpp:480
 #, kde-format
 msgid "Are you sure that you want to remove this configuration?"
 msgstr "Sigur doriți să eliminați această configurație?"
 
-#: widgets/toolconfigwidget.cpp:492
+#: widgets/toolconfigwidget.cpp:494
 #, kde-format
 msgid "You need at least one configuration for each tool."
 msgstr ""
 
-#: widgets/toolconfigwidget.cpp:492
+#: widgets/toolconfigwidget.cpp:494
 #, kde-format
 msgid "Cannot Remove Configuration"
 msgstr "Imposibil de eliminat configurația"

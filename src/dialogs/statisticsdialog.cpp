@@ -55,21 +55,21 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
     buttonBox()->button(QDialogButtonBox::Close)->setDefault(true);
 
     connect(copyButton, &QPushButton::clicked, this, [=]() {
-        KILE_DEBUG_MAIN << "Open tab is" << currentPage()->name() << ' ' + (m_pagetoname.contains(currentPage()) ?  m_pagetoname[currentPage()] : "No such entry");
+        KILE_DEBUG_MAIN << "Open tab is" << currentPage()->name() << QLatin1Char(' ') + (m_pagetoname.contains(currentPage()) ?  m_pagetoname[currentPage()] : QStringLiteral("No such entry"));
         QClipboard *clip = QApplication::clipboard();
         QString text;
         convertText(&text, false);
         clip->setText(text, QClipboard::Selection); // the text will be available with the middle mouse button
     });
     connect(copyLatexButton, &QPushButton::clicked, this, [=]() {
-        KILE_DEBUG_MAIN << "Open tab is" << currentPage()->name() << ' ' + (m_pagetoname.contains(currentPage()) ?  m_pagetoname[currentPage()] : "No such entry");
+        KILE_DEBUG_MAIN << "Open tab is" << currentPage()->name() << QLatin1Char(' ') + (m_pagetoname.contains(currentPage()) ?  m_pagetoname[currentPage()] : QStringLiteral("No such entry"));
         QClipboard *clip = QApplication::clipboard();
         QString text;
         convertText(&text, true);
         clip->setText(text, QClipboard::Selection); // the text will be available with the middle mouse button
     });
     connect(buttonBox(), &QDialogButtonBox::helpRequested, this, [=] () {
-        KHelpClient::invokeHelp("statistics", "kile");
+        KHelpClient::invokeHelp(QStringLiteral("statistics"), QStringLiteral("kile"));
     });
 
     m_summarystats = new long[SIZE_STAT_ARRAY];
@@ -183,7 +183,7 @@ void StatisticsDialog::convertText(QString* text, bool forLaTeX) // the bool det
     QString stringGroupName = widget->m_stringsGroup->title();
 
     if (forLaTeX) {
-        text->append("\\begin{tabular}{ll}\n");
+        text->append(QStringLiteral("\\begin{tabular}{ll}\n"));
     }
 
     if (m_project && currentPage()) {
@@ -203,34 +203,34 @@ void StatisticsDialog::convertText(QString* text, bool forLaTeX) // the bool det
         }
     }
     if(forLaTeX) {
-        text->append(" & \\\\\\hline\n");
+        text->append(QStringLiteral(" & \\\\\\hline\n"));
     }
     else {
-        text->append("\n\n");
+        text->append(QStringLiteral("\n\n"));
     }
-    text->append(charGroupName + (forLaTeX ? " &  \\\\\n" : "\n"));
-    text->append(widget->m_wordCharText->text() + (forLaTeX ? " & " : "\t") + widget->m_wordChar->text() + (forLaTeX ? " \\\\\n" : "\n"));
-    text->append(widget->m_commandCharText->text() + (forLaTeX ? " & " : "\t") + widget->m_commandChar->text() + (forLaTeX ? " \\\\\n" : "\n"));
-    text->append(widget->m_whitespaceCharText->text() + (forLaTeX ? " & " : "\t") + widget->m_whitespaceChar->text() + (forLaTeX ? " \\\\\n" : "\n"));
-    text->append(widget->m_totalCharText->text() + (forLaTeX ? " & " : "\t") + widget->m_totalChar->text() + (forLaTeX ? " \\\\\n" : "\n"));
+    text->append(charGroupName + (forLaTeX ? QStringLiteral(" &  \\\\\n") : QStringLiteral("\n")));
+    text->append(widget->m_wordCharText->text() + (forLaTeX ? QStringLiteral(" & ") : QStringLiteral("\t")) + widget->m_wordChar->text() + (forLaTeX ? QStringLiteral(" \\\\\n") : QStringLiteral("\n")));
+    text->append(widget->m_commandCharText->text() + (forLaTeX ? QStringLiteral(" & ") : QStringLiteral("\t")) + widget->m_commandChar->text() + (forLaTeX ? QStringLiteral(" \\\\\n") : QStringLiteral("\n")));
+    text->append(widget->m_whitespaceCharText->text() + (forLaTeX ? QStringLiteral(" & ") : QStringLiteral("\t")) + widget->m_whitespaceChar->text() + (forLaTeX ? QStringLiteral(" \\\\\n") : QStringLiteral("\n")));
+    text->append(widget->m_totalCharText->text() + (forLaTeX ? QStringLiteral(" & ") : QStringLiteral("\t")) + widget->m_totalChar->text() + (forLaTeX ? QStringLiteral(" \\\\\n") : QStringLiteral("\n")));
 
-    text->append((forLaTeX ? " & \\\\\n" : "\n"));
-    text->append(stringGroupName + (forLaTeX ? " &  \\\\\n" : "\n"));
-    text->append(widget->m_wordStringText->text() + (forLaTeX ? " & " : "\t") + widget->m_wordString->text() + (forLaTeX ? " \\\\\n" : "\n"));
-    text->append(widget->m_commandStringText->text() + (forLaTeX ? " & " : "\t") + widget->m_commandString->text() + (forLaTeX ? " \\\\\n" : "\n"));
-    text->append(widget->m_environmentStringText->text() + (forLaTeX ? " & " : "\t") + widget->m_environmentString->text() + (forLaTeX ? " \\\\\n" : "\n"));
-    text->append(widget->m_totalStringText->text() + (forLaTeX ? " & " : "\t") + widget->m_totalString->text() + (forLaTeX ? " \\\\\\hline\n" : "\n"));
+    text->append((forLaTeX ? QStringLiteral(" & \\\\\n") : QStringLiteral("\n")));
+    text->append(stringGroupName + (forLaTeX ? QStringLiteral(" &  \\\\\n") : QStringLiteral("\n")));
+    text->append(widget->m_wordStringText->text() + (forLaTeX ? QStringLiteral(" & ") : QStringLiteral("\t")) + widget->m_wordString->text() + (forLaTeX ? QStringLiteral(" \\\\\n") : QStringLiteral("\n")));
+    text->append(widget->m_commandStringText->text() + (forLaTeX ? QStringLiteral(" & ") : QStringLiteral("\t")) + widget->m_commandString->text() + (forLaTeX ? QStringLiteral(" \\\\\n") : QStringLiteral("\n")));
+    text->append(widget->m_environmentStringText->text() + (forLaTeX ? QStringLiteral(" & ") : QStringLiteral("\t")) + widget->m_environmentString->text() + (forLaTeX ? QStringLiteral(" \\\\\n") : QStringLiteral("\n")));
+    text->append(widget->m_totalStringText->text() + (forLaTeX ? QStringLiteral(" & ") : QStringLiteral("\t")) + widget->m_totalString->text() + (forLaTeX ? QStringLiteral(" \\\\\\hline\n") : QStringLiteral("\n")));
 
     if (forLaTeX) {
-        text->append("\\end{tabular}\n");
+        text->append(QStringLiteral("\\end{tabular}\n"));
     }
 
     if (m_hasSelection) { // we can't have both cases
-        text->append((forLaTeX ? "\\par\\bigskip\n" : "\n") + widget->m_warning->text() + '\n');
+        text->append((forLaTeX ? QStringLiteral("\\par\\bigskip\n") : QStringLiteral("\n")) + widget->m_warning->text() + QLatin1Char('\n'));
     }
     else {
         if(m_notAllFilesOpenWarning) {
-            text->append((forLaTeX ? "\\par\\bigskip\n" : "\n") + widget->m_warning->text() + '\n');
+            text->append((forLaTeX ? QStringLiteral("\\par\\bigskip\n") : QStringLiteral("\n")) + widget->m_warning->text() + QLatin1Char('\n'));
         }
     }
 }

@@ -25,7 +25,7 @@ namespace KileDialog {
 
 TabularHeaderItem::TabularHeaderItem(QWidget *parent)
     : QObject(parent),
-      QTableWidgetItem(QIcon::fromTheme("format-justify-left"), "l"),
+      QTableWidgetItem(QIcon::fromTheme(QStringLiteral("format-justify-left")), QStringLiteral("l")),
       m_Alignment(Qt::AlignLeft),
       m_InsertBefore(false),
       m_InsertAfter(false),
@@ -34,9 +34,9 @@ TabularHeaderItem::TabularHeaderItem(QWidget *parent)
       m_hasXAlignment(false)
 {
     m_Popup = new QMenu(parent);
-    m_Popup->addAction(QIcon::fromTheme("format-justify-left"), i18n("Align Left"), this, SLOT(slotAlignLeft()));
-    m_Popup->addAction(QIcon::fromTheme("format-justify-center"), i18n("Align Center"), this, SLOT(slotAlignCenter()));
-    m_Popup->addAction(QIcon::fromTheme("format-justify-right"), i18n("Align Right"), this, SLOT(slotAlignRight()));
+    m_Popup->addAction(QIcon::fromTheme(QStringLiteral("format-justify-left")), i18n("Align Left"), this, SLOT(slotAlignLeft()));
+    m_Popup->addAction(QIcon::fromTheme(QStringLiteral("format-justify-center")), i18n("Align Center"), this, SLOT(slotAlignCenter()));
+    m_Popup->addAction(QIcon::fromTheme(QStringLiteral("format-justify-right")), i18n("Align Right"), this, SLOT(slotAlignRight()));
     m_Popup->addAction(i18n("p{w} Alignment"), this, SLOT(slotAlignP()));
     m_Popup->addAction(i18n("b{w} Alignment"), this, SLOT(slotAlignB()));
     m_Popup->addAction(i18n("m{w} Alignment"), this, SLOT(slotAlignM()));
@@ -110,40 +110,40 @@ void TabularHeaderItem::format()
     QString text;
 
     if(m_SuppressSpace) {
-        text += '@';
+        text += QLatin1Char('@');
     } else if(m_DontSuppressSpace) {
-        text += '!';
+        text += QLatin1Char('!');
     }
     if(m_InsertBefore) {
-        text += '>';
+        text += QLatin1Char('>');
     }
 
     switch(m_Alignment) {
     case Qt::AlignLeft:
-        text += 'l';
+        text += QLatin1Char('l');
         break;
     case Qt::AlignHCenter:
-        text += 'c';
+        text += QLatin1Char('c');
         break;
     case Qt::AlignRight:
-        text += 'r';
+        text += QLatin1Char('r');
         break;
     case AlignP:
-        text += 'p';
+        text += QLatin1Char('p');
         break;
     case AlignB:
-        text += 'b';
+        text += QLatin1Char('b');
         break;
     case AlignM:
-        text += 'm';
+        text += QLatin1Char('m');
         break;
     case AlignX:
-        text += 'X';
+        text += QLatin1Char('X');
         break;
     }
 
     if(m_InsertAfter) {
-        text += '<';
+        text += QLatin1Char('<');
     }
 
     setText(text);
@@ -153,11 +153,11 @@ inline QIcon TabularHeaderItem::iconForAlignment(int alignment) const
 {
     switch(alignment) {
     case Qt::AlignLeft:
-        return QIcon::fromTheme("format-justify-left");
+        return QIcon::fromTheme(QStringLiteral("format-justify-left"));
     case Qt::AlignHCenter:
-        return QIcon::fromTheme("format-justify-center");
+        return QIcon::fromTheme(QStringLiteral("format-justify-center"));
     case Qt::AlignRight:
-        return QIcon::fromTheme("format-justify-right");
+        return QIcon::fromTheme(QStringLiteral("format-justify-right"));
     default:
         return QIcon();
     }

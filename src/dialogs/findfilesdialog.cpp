@@ -157,7 +157,7 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
     m_lastTemplateIndex = 0;
 
     template_edit = new QLineEdit(searchgroup);
-    template_edit->setText("%s");
+    template_edit->setText(QStringLiteral("%s"));
     template_edit->setMinimumSize(template_edit->sizeHint());
     template_label->setBuddy(template_edit);
     template_layout->addWidget(template_edit);
@@ -215,12 +215,12 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
     search_button = new QPushButton(i18n("&Search"));
     search_button->setDefault(true);
     search_button->setEnabled(false);
-    search_button->setIcon(QIcon::fromTheme("edit-find"));
+    search_button->setIcon(QIcon::fromTheme(QStringLiteral("edit-find")));
     connect(search_button, &QPushButton::clicked, this, &FindFilesDialog::slotSearch);
     actionbox->addButton(search_button, QDialogButtonBox::ActionRole);
     clear_button = new QPushButton(i18n("&Clear"));
     clear_button->setEnabled(false);
-    clear_button->setIcon(QIcon::fromTheme("edit-clear-locationbar"));
+    clear_button->setIcon(QIcon::fromTheme(QStringLiteral("edit-clear-locationbar")));
     connect(clear_button, &QPushButton::clicked, this, &FindFilesDialog::slotClear);
     actionbox->addButton(clear_button, QDialogButtonBox::ActionRole);
     close_button = actionbox->addButton(QDialogButtonBox::Close);
@@ -352,13 +352,13 @@ void FindFilesDialog::readConfig()
     m_TemplateList = readList(KileGrep::SearchTemplates) ;
     if(m_TemplateList.count() != 3) {
         m_TemplateList.clear();
-        m_TemplateList << "%s" << "\\\\%s\\{" << "\\\\%s(\\[[^]]*\\])?\\{";
+        m_TemplateList << QStringLiteral("%s") << QStringLiteral("\\\\%s\\{") << QStringLiteral("\\\\%s(\\[[^]]*\\])?\\{");
     }
-    m_TemplateList << "\\\\begin\\{"                             // to be closed with "%s\\}"
-                   << "\\\\includegraphics(\\[[^]]*\\])?\\{"
-                   << "\\\\(label" + labels + ")\\{"
-                   << "\\\\(ref|pageref|vref|vpageref|fref|Fref|eqref" + references + ")(\\[[^]]*\\])?\\{"
-                   << "\\\\(input|include)\\{"
+    m_TemplateList << QStringLiteral("\\\\begin\\{")                             // to be closed with "%s\\}"
+                   << QStringLiteral("\\\\includegraphics(\\[[^]]*\\])?\\{")
+                   << QStringLiteral("\\\\(label") + labels + QStringLiteral(")\\{")
+                   << QStringLiteral("\\\\(ref|pageref|vref|vpageref|fref|Fref|eqref") + references + QStringLiteral(")(\\[[^]]*\\])?\\{")
+                   << QStringLiteral("\\\\(input|include)\\{")
                    ;
 
     if (m_mode == KileGrep::Directory) {
@@ -436,7 +436,7 @@ QStringList FindFilesDialog::readList(KileGrep::List listtype)
     }
 
     while (strings.count() > 0) {
-        if(stripSlash && strings[0].right(1) == "/") {
+        if(stripSlash && strings[0].right(1) == QStringLiteral("/")) {
             strings[0].truncate(strings[0].length() - 1);
         }
         if(!strings[0].isEmpty()) {
@@ -455,10 +455,10 @@ void FindFilesDialog::slotItemSelected(const QString& item)
     int pos;
 
     QString str = item;
-    if((pos = str.indexOf(':')) != -1) {
+    if((pos = str.indexOf(QLatin1Char(':'))) != -1) {
         QString filename = str.left(pos);
         str = str.right(str.length() - 1 - pos);
-        if((pos = str.indexOf(':')) != -1) {
+        if((pos = str.indexOf(QLatin1Char(':'))) != -1) {
             QString linenumber = str.left(pos);
             QFileInfo fileInfo(filename);
             if(fileInfo.isAbsolute()) {
@@ -485,7 +485,7 @@ void FindFilesDialog::startGrep()
     m_errbuf.clear();
     QString command;
     if (m_mode == KileGrep::Project) {
-        command = buildProjectCommand() + ' ' + KShell::quoteArg(m_projectfiles[m_grepJobs-1]);
+        command = buildProjectCommand() + QLatin1Char(' ') + KShell::quoteArg(m_projectfiles[m_grepJobs-1]);
     }
     else {
         command = buildFilesCommand();
@@ -512,7 +512,7 @@ void FindFilesDialog::processOutput(bool forceAll)
     //       method again.
     int pos;
     int n = 0;
-    while((pos = m_buf.indexOf('\n')) != -1) {
+    while((pos = m_buf.indexOf(QLatin1Char('\n'))) != -1) {
         QString item = m_buf.left(pos);
         if(!item.isEmpty()) {
             if(m_mode == KileGrep::Project) {
@@ -569,7 +569,7 @@ void FindFilesDialog::finish()
         m_proc->deleteLater();
         m_proc = nullptr;
     }
-    m_buf += '\n';
+    m_buf += QLatin1Char('\n');
     // we process all the remaining output
     processOutput(true);
 
@@ -606,13 +606,13 @@ QString FindFilesDialog::getPattern()
             pattern = pattern_combo->currentText();
         }
         else {
-            pattern.replace("%s", pattern_combo->currentText());
+            pattern.replace(QStringLiteral("%s"), pattern_combo->currentText());
         }
     }
     else {
         pattern = m_TemplateList[template_mode];
         if (!pattern_combo->currentText().isEmpty()) {
-            pattern += pattern_combo->currentText()  + "\\}";
+            pattern += pattern_combo->currentText()  + QStringLiteral("\\}");
         }
     }
 
@@ -622,7 +622,7 @@ QString FindFilesDialog::getPattern()
 QString FindFilesDialog::getShellPattern()
 {
     QString pattern = getPattern();
-    pattern.replace('\'', "'\\''");
+    pattern.replace(QLatin1Char('\''), QStringLiteral("'\\''"));
     return KShell::quoteArg(pattern);
 }
 
@@ -638,34 +638,34 @@ QString FindFilesDialog::buildFilesCommand()
         files_temp = filter_combo->currentText();
     }
 
-    QStringList tokens = files_temp.split(' ', Qt::SkipEmptyParts);
+    QStringList tokens = files_temp.split(QLatin1Char(' '), Qt::SkipEmptyParts);
     QStringList::Iterator it = tokens.begin();
     if (it != tokens.end()) {
-        files = " '" + (*it) + '\'';
+        files = QStringLiteral(" '") + (*it) + QLatin1Char('\'');
         ++it;
     }
 
     for(; it != tokens.end(); ++it) {
-        files = files + " -o -name " + '\'' + (*it) + '\'';
+        files = files + QStringLiteral(" -o -name \'") + (*it) + QLatin1Char('\'');
     }
 
     QString shell_command;
-    shell_command += "find ";
+    shell_command += QStringLiteral("find ");
     shell_command += KShell::quoteArg(dir_combo->url().path());
-    shell_command += " \\( -name ";
+    shell_command += QStringLiteral(" \\( -name ");
     shell_command += files;
-    shell_command += " \\)";
+    shell_command += QStringLiteral(" \\)");
     if (!recursive_box->isChecked()) {
-        shell_command += " -maxdepth 1";
+        shell_command += QStringLiteral(" -maxdepth 1");
     }
-    shell_command += " -exec grep -n -E -I -H -e " + getShellPattern() + " {} \\;";
+    shell_command += QStringLiteral(" -exec grep -n -E -I -H -e ") + getShellPattern() + QStringLiteral(" {} \\;");
     KILE_DEBUG_MAIN << "shell command" << shell_command;
     return shell_command;
 }
 
 QString FindFilesDialog::buildProjectCommand()
 {
-    return "grep -n -E -I -H -e " + getShellPattern();
+    return QStringLiteral("grep -n -E -I -H -e ") + getShellPattern();
 }
 
 ///////////////////// Search /////////////////////
@@ -782,9 +782,9 @@ void FindFilesDialog::setFilter(const QString &filter)
     m_filterList.clear();
     filter_combo->clear();
     if (!filter.isEmpty()) {
-        QStringList filter_lst = filter.split('\n');
+        QStringList filter_lst = filter.split(QLatin1Char('\n'));
         for (QStringList::Iterator it = filter_lst.begin(); it != filter_lst.end(); ++it) {
-            QStringList filter_split = (*it).split('|');
+            QStringList filter_split = (*it).split(QLatin1Char('|'));
             m_filterList.append(filter_split[0]);
             filter_combo->addItem(filter_split[1]);
         }
@@ -871,7 +871,7 @@ QString FindFilesDialog::getCommandList(KileDocument::CmdAttribute attrtype)
     // build list of references
     QString commands;
     for (it = cmdlist.constBegin(); it != cmdlist.constEnd(); ++it) {
-        commands += '|' + (*it).mid(1);
+        commands += QLatin1Char('|') + (*it).mid(1);
     }
     return commands;
 }

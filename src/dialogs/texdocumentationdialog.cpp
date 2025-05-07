@@ -74,7 +74,7 @@ TexDocDialog::TexDocDialog(QWidget *parent)
     groupbox->setLayout(groupboxLayout);
 
     m_leKeywords = new QLineEdit(groupbox);
-    m_leKeywords->setPlaceholderText("Keyword");
+    m_leKeywords->setPlaceholderText(QString::fromUtf8("Keyword"));
     m_leKeywords->setClearButtonEnabled(true);
     m_pbSearch = new QPushButton(i18n("&Search"), groupbox);
 
@@ -107,10 +107,9 @@ TexDocDialog::TexDocDialog(QWidget *parent)
 
     connect(this, &TexDocDialog::processFinished, this, &TexDocDialog::slotInitToc);
     executeScript(
-        "kpsewhich --progname=texdoctk --format='other text files' texdoctk.dat && "
-        "kpsewhich --expand-path='$TEXMF/doc' && "
-        "kpsewhich --expand-path='$TEXMF'"
-    );
+        QStringLiteral("kpsewhich --progname=texdoctk --format='other text files' texdoctk.dat && "
+                       "kpsewhich --expand-path='$TEXMF/doc' && "
+                       "kpsewhich --expand-path='$TEXMF'"));
 
     mainLayout->addWidget(m_texdocs);
     mainLayout->addWidget(groupbox);
@@ -144,13 +143,13 @@ void TexDocDialog::readToc()
     QTextStream data(&fin);
     while (!data.atEnd()) {
         textline = data.readLine();
-        if (!(textline.isEmpty() || textline[0] == '#')) {
+        if (!(textline.isEmpty() || textline[0] == QLatin1Char('#'))) {
             // save the whole entry
             m_tocList.append(textline);
 
             // list entries 0,1,basename(2),3 are needed for keyword search
             // (key,title,filepath,keywords)
-            QStringList list = textline.split(';', Qt::KeepEmptyParts);
+            QStringList list = textline.split(QLatin1Char(';'), Qt::KeepEmptyParts);
 
             // get basename of help file
             QString basename;
@@ -163,12 +162,12 @@ void TexDocDialog::readToc()
                     continue;
                 }
             }
-            QString entry = list[0] + ';' + list[1];
+            QString entry = list[0] + QLatin1Char(';') + list[1];
             if (!basename.isEmpty()) {
-                entry += ';' + basename;
+                entry += QLatin1Char(';') + basename;
             }
             if (list.count() > 3) {
-                entry += ';' + list[3];
+                entry += QLatin1Char(';') + list[3];
             }
             m_tocSearchList.append(entry);
         }
@@ -185,12 +184,12 @@ void TexDocDialog::showToc(const QString &caption, const QStringList &doclist, b
     m_texdocs->setHeaderLabel(caption);
 
     for (int i = 0; i < doclist.count(); ++i) {
-        if (doclist[i][0] == '@') {
+        if (doclist[i][0] == QLatin1Char('@')) {
             section = doclist[i];
             itemsection = new QTreeWidgetItem(m_texdocs, QStringList(section.remove(0, 1)));
         }
         else {
-            keylist = doclist[i].split(';', Qt::KeepEmptyParts);
+            keylist = doclist[i].split(QLatin1Char(';'), Qt::KeepEmptyParts);
             if((keylist.size() >= 4) && itemsection) {
                 QTreeWidgetItem *item = new QTreeWidgetItem(itemsection, QStringList() << keylist[1] << keylist[0]);
                 item->setIcon(0, QIcon::fromTheme(getIconName(keylist[2])));
@@ -255,13 +254,13 @@ bool TexDocDialog::eventFilter(QObject *o, QEvent *e)
 QString TexDocDialog::searchFile(const QString &docfilename, const QString &listofpaths, const QString &subdir)
 {
     const QStringList pathlist  = listofpaths.split(LIST_SEPARATOR);
-    const QString extensions[] = {"", QLatin1String(".gz"), QLatin1String(".bz2")};
+    const QString extensions[] = {QStringLiteral(""), QStringLiteral(".gz"), QStringLiteral(".bz2")};
 
     QString filename;
     for(const QString& itp : pathlist) {
         for(const QString& ite : extensions) {
-            filename = (subdir.isEmpty()) ? QString(itp + '/' + docfilename + ite)
-                       : QString(itp + '/' + subdir + '/' + docfilename + ite);
+            filename = (subdir.isEmpty()) ? QString(itp + QLatin1Char('/') + docfilename + ite)
+                       : QString(itp + QLatin1Char('/') + subdir + QLatin1Char('/') + docfilename + ite);
 
             if(QFile::exists(filename)) {
                 return filename;
@@ -277,7 +276,7 @@ QString TexDocDialog::findFile(const QString &docfilename)
     QString filename = searchFile(docfilename, m_texmfdocPath);
     if(filename.isEmpty()) {
         // not found: search it elsewhere
-        filename = searchFile(docfilename, m_texmfPath, "tex");
+        filename = searchFile(docfilename, m_texmfPath, QStringLiteral("tex"));
         if(filename.isEmpty()) {
             return QString();
         }
@@ -352,7 +351,7 @@ void TexDocDialog::slotSearchClicked()
     QStringList searchlist;
 
     for (int i = 0; i < m_tocList.count(); i++) {
-        if (m_tocList[i][0] == '@') {
+        if (m_tocList[i][0] == QLatin1Char('@')) {
             section = m_tocList[i];
             writesection = true;
         }
@@ -418,7 +417,7 @@ void TexDocDialog::executeScript(const QString &command)
 
 void TexDocDialog::slotProcessOutput()
 {
-    m_output += m_proc->readAll();
+    m_output += QString::fromUtf8(m_proc->readAll());
 }
 
 void TexDocDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
@@ -441,7 +440,7 @@ void TexDocDialog::slotInitToc()
 {
     disconnect(this, &TexDocDialog::processFinished, this, &TexDocDialog::slotInitToc);
 
-    QStringList results = m_output.split('\n', Qt::KeepEmptyParts);
+    QStringList results = m_output.split(QLatin1Char('\n'), Qt::KeepEmptyParts);
     if (results.count() < 3) {
         KMessageBox::error(this, i18n("Could not determine the installation path of your TeX distribution or find the file 'texdoctk.dat'.<br/>"
                                       "Hence, we cannot provide you with an overview of the installed TeX documentation."));
@@ -456,7 +455,7 @@ void TexDocDialog::slotInitToc()
     KILE_DEBUG_MAIN << "\ttexmfdoc path: " << m_texmfdocPath << Qt::endl;
     KILE_DEBUG_MAIN << "\ttexmf path: " << m_texmfPath << Qt::endl;
 
-    if(m_texdoctkPath.indexOf('\n', -1) > -1) {
+    if(m_texdoctkPath.indexOf(QLatin1Char('\n'), -1) > -1) {
         m_texdoctkPath.truncate(m_texdoctkPath.length() - 1);
     }
 
@@ -480,8 +479,8 @@ QString TexDocDialog::getMimeType(const QString &filename)
     QString ext = fi.suffix().toLower();
 
     QString mimetype;
-    if (ext == "txt" || ext == "faq" || ext == "sty" || basename == "readme" || basename == "00readme") {
-        mimetype = "text/plain";
+    if (ext == QStringLiteral("txt") || ext == QStringLiteral("faq") || ext == QStringLiteral("sty") || basename == QStringLiteral("readme") || basename == QStringLiteral("00readme")) {
+        mimetype = QStringLiteral("text/plain");
     }
     else {
         QUrl mimeurl;
@@ -502,29 +501,29 @@ QString TexDocDialog::getIconName(const QString &filename)
     QString ext = fi.suffix().toLower();
 
     QString icon;
-    if (ext == "application-x-bzdvi" ) { // FIXME exchange as soon as a real dvi icon is available
+    if (ext == QStringLiteral("application-x-bzdvi") ) { // FIXME exchange as soon as a real dvi icon is available
         icon = ext;
     }
-    else if( ext == "htm" || ext == "html" ) {
-        icon = "text-html";
+    else if (ext == QStringLiteral("htm") || ext == QStringLiteral("html")) {
+        icon = QStringLiteral("text-html");
     }
-    else if(ext == "pdf" ) {
-        icon = "application-pdf";
+    else if (ext == QStringLiteral("pdf")) {
+        icon = QStringLiteral("application-pdf");
     }
-    else if( ext == "txt") {
-        icon = "text-plain";
+    else if (ext == QStringLiteral("txt")) {
+        icon = QStringLiteral("text-plain");
     }
-    else if(ext == "ps") {
-        icon = "application-postscript";
+    else if (ext == QStringLiteral("ps")) {
+        icon = QStringLiteral("application-postscript");
     }
-    else if(ext == "sty") {
-        icon = "text-x-tex";
+    else if (ext == QStringLiteral("sty")) {
+        icon = QStringLiteral("text-x-tex");
     }
-    else if(ext == "faq" || basename == "readme" || basename == "00readme") {
-        icon = "text-x-readme";
+    else if (ext == QStringLiteral("faq") || basename == QStringLiteral("readme") || basename == QStringLiteral("00readme")) {
+        icon = QStringLiteral("text-x-readme");
     }
     else {
-        icon = "text-plain";
+        icon = QStringLiteral("text-plain");
     }
     return icon;
 }

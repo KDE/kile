@@ -54,7 +54,7 @@ void MenuentryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 
     // display separators
     QString itemtype = index.data(Qt::UserRole+1).toString();
-    if ( itemtype == "separator" ) {
+    if (itemtype == QStringLiteral("separator")) {
         QRect r = option.rect;
         int y =  ( r.bottom() + r.top() ) / 2;
 
@@ -102,16 +102,16 @@ void UserMenuTree::initEnvPathlist()
 {
     QString envpath;
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    if ( env.contains("PATH") ) {
-        envpath = env.value("PATH");
+    if ( env.contains(QStringLiteral("PATH")) ) {
+        envpath = env.value(QStringLiteral("PATH"));
     }
 
 #ifdef Q_WS_WIN
-    m_envPathlist = envpath.split(';');
+    m_envPathlist = envpath.split(QLatin1Char(';'));
 #else
-    m_envPathlist = envpath.split(':');
+    m_envPathlist = envpath.split(QLatin1Char(':'));
 #endif
-    m_envPathlist.append(".");
+    m_envPathlist.append(QStringLiteral("."));
 }
 
 bool UserMenuTree::isItemExecutable(const QString &filename)
@@ -128,7 +128,7 @@ bool UserMenuTree::isItemExecutable(const QString &filename)
 
     // search in all paths
     for (int i=0; i<m_envPathlist.size(); ++i ) {
-        bool executable = QFileInfo(m_envPathlist[i]+'/'+filename).isExecutable();
+        bool executable = QFileInfo(m_envPathlist[i] + QLatin1Char('/') + filename).isExecutable();
         if ( executable ) {
             // move to front
             if ( i > 0 ) {
@@ -163,34 +163,34 @@ void UserMenuTree::contextMenuRequested(const QPoint &pos)
     QMenu popup;
 
     // insert standard menu items
-    popup.addAction(QIcon::fromTheme("usermenu-insert-above.png"),i18n("Insert above"), this, [this] {insertMenuItem(m_popupItem, false);});
-    popup.addAction(QIcon::fromTheme("usermenu-insert-below.png"),i18n("Insert below"), this, [this] {insertMenuItem(m_popupItem, true);});
+    popup.addAction(QIcon::fromTheme(QStringLiteral("usermenu-insert-above.png")), i18n("Insert above"), this, [this] {insertMenuItem(m_popupItem, false);});
+    popup.addAction(QIcon::fromTheme(QStringLiteral("usermenu-insert-below.png")), i18n("Insert below"), this, [this] {insertMenuItem(m_popupItem, true);});
     popup.addSeparator();
 
     // insert separators
     if ( !separator ) {
-        popup.addAction(QIcon::fromTheme("usermenu-separator-above.png"),i18n("Insert a separator above"), this, [this] {insertSeparator(m_popupItem, false);});
-        popup.addAction(QIcon::fromTheme("usermenu-separator-below.png"),i18n("Insert a separator below"), this, [this] {insertSeparator(m_popupItem, true);});
+        popup.addAction(QIcon::fromTheme(QStringLiteral("usermenu-separator-above.png")), i18n("Insert a separator above"), this, [this] {insertSeparator(m_popupItem, false);});
+        popup.addAction(QIcon::fromTheme(QStringLiteral("usermenu-separator-below.png")), i18n("Insert a separator below"), this, [this] {insertSeparator(m_popupItem, true);});
         popup.addSeparator();
     }
 
     // insert submenus
-    popup.addAction(QIcon::fromTheme("usermenu-submenu-above.png"),i18n("Insert a submenu above"), this, [this] {insertSubmenu(m_popupItem, false);});
-    popup.addAction(QIcon::fromTheme("usermenu-submenu-below.png"),i18n("Insert a submenu below"), this, [this] {insertSubmenu(m_popupItem, true);});
+    popup.addAction(QIcon::fromTheme(QStringLiteral("usermenu-submenu-above.png")), i18n("Insert a submenu above"), this, [this] {insertSubmenu(m_popupItem, false);});
+    popup.addAction(QIcon::fromTheme(QStringLiteral("usermenu-submenu-below.png")), i18n("Insert a submenu below"), this, [this] {insertSubmenu(m_popupItem, true);});
     popup.addSeparator();
 
     // insert into submenus
     if ( submenu ) {
-        popup.addAction(QIcon::fromTheme("usermenu-into-submenu.png"),i18n("Insert into this submenu"), this, [this] {insertIntoSubmenu(m_popupItem, UserMenuData::Text);});
+        popup.addAction(QIcon::fromTheme(QStringLiteral("usermenu-into-submenu.png")), i18n("Insert into this submenu"), this, [this] {insertIntoSubmenu(m_popupItem, UserMenuData::Text);});
         popup.addAction(i18n("Insert a separator into this submenu"), this, [this] {insertIntoSubmenu(m_popupItem, UserMenuData::Separator);});
         popup.addAction(i18n("Insert a submenu into this submenu"), this, [this] {insertIntoSubmenu(m_popupItem, UserMenuData::Submenu);});
         popup.addSeparator();
     }
 
     // delete actions
-    popup.addAction(QIcon::fromTheme("usermenu-delete.png"),i18n("Delete this item"), this, [this] {itemDelete(m_popupItem);});
+    popup.addAction(QIcon::fromTheme(QStringLiteral("usermenu-delete.png")), i18n("Delete this item"), this, [this] {itemDelete(m_popupItem);});
     popup.addSeparator();
-    popup.addAction(QIcon::fromTheme("usermenu-clear.png"),i18n("Delete the complete tree"), this, [this] {deleteMenuTree();});
+    popup.addAction(QIcon::fromTheme(QStringLiteral("usermenu-clear.png")), i18n("Delete the complete tree"), this, [this] {deleteMenuTree();});
 
     // expand/collapse tree
     if ( submenu ) {
@@ -210,7 +210,7 @@ void UserMenuTree::contextMenuRequested(const QPoint &pos)
     int error = m_popupItem->data(0,Qt::UserRole+2).toInt();
     if ( error != UserMenuItem::MODEL_ERROR_NONE ) {
         popup.addSeparator();
-        popup.addAction(QIcon::fromTheme("help-about.png"),i18n("Info"), this, [this] {itemInfo(m_popupItem);});
+        popup.addAction(QIcon::fromTheme(QStringLiteral("help-about.png")),i18n("Info"), this, [this] {itemInfo(m_popupItem);});
     }
 
     // const QPoint& pos parameter in the customContextMenuRequested() signal is normally in widget coordinates.
@@ -227,7 +227,7 @@ bool UserMenuTree::readXml(const QString &filename)
 {
     KILE_DEBUG_MAIN << "read xml file " << filename;
 
-    QDomDocument doc("UserMenu");
+    QDomDocument doc(QStringLiteral("UserMenu"));
     QFile file(filename);
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
         KMessageBox::error(this, i18n("File '%1' does not exist.", filename));
@@ -252,10 +252,10 @@ bool UserMenuTree::readXml(const QString &filename)
         QString tag = e.tagName();
 
         UserMenuItem *item = nullptr;
-        if ( tag == "submenu" ) {
+        if (tag == QStringLiteral("submenu")) {
             item = readXmlSubmenu(e);
         }
-        else if ( tag == "separator" ) {
+        else if (tag == QStringLiteral("separator")) {
             item = readXmlSeparator();
         }
         else { /* if ( tag == "menu" ) */
@@ -299,13 +299,13 @@ UserMenuItem *UserMenuTree::readXmlSubmenu(const QDomElement &element)
 
             QString title;
             QString tag = e.tagName();
-            if ( tag == "title" ) {
+            if (tag == QStringLiteral("title")) {
                 title = e.text();
             }
-            else if ( tag == "submenu" ) {
+            else if (tag == QStringLiteral("submenu")) {
                 item = readXmlSubmenu(e);
             }
-            else if ( tag == "separator" ) {
+            else if (tag == QStringLiteral("separator")) {
                 item = readXmlSeparator();
             }
             else { /* if ( tag == "menu" ) */
@@ -328,7 +328,7 @@ UserMenuItem *UserMenuTree::readXmlSubmenu(const QDomElement &element)
 // read tags for a standard menu item
 UserMenuItem *UserMenuTree::readXmlMenuentry(const QDomElement &element)
 {
-    QString menutypename = element.attribute("type");
+    QString menutypename = element.attribute(QStringLiteral("type"));
     UserMenuData::MenuType menutype = UserMenuData::xmlMenuType(menutypename);
 
     UserMenuItem *menuentryitem = new UserMenuItem(menutype, QString()) ;
@@ -952,14 +952,14 @@ void  UserMenuTree::itemInfo(UserMenuItem *item)
 
     QString msg = i18n("<p><strong>Error:</strong>");
     if ( list.size() == 1 ) {
-        msg += "<br/><br/>" + list[0] + "</p>";
+        msg += QStringLiteral("<br/><br/>") + list[0] + QStringLiteral("</p>");
     }
     else {
-        msg += "<ul>";
+        msg += QStringLiteral("<ul>");
         for(const QString &s: std::as_const(list)) {
-            msg += "<li>&nbsp;" + s + "</li>";
+            msg += QStringLiteral("<li>&nbsp;") + s + QStringLiteral("</li>");
         }
-        msg += "</ul></p>";
+        msg += QStringLiteral("</ul></p>");
     }
 
     KMessageBox::information(this, msg, i18n("Menutree Error"));
@@ -1006,7 +1006,7 @@ void UserMenuTree::takeItem(QTreeWidgetItem *parent, QTreeWidgetItem *item)
 
 bool UserMenuTree::str2bool(const QString &value)
 {
-    return ( value == "true" );
+    return (value == QStringLiteral("true"));
 }
 
 

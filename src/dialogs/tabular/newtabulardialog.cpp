@@ -78,39 +78,39 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
     m_tbFormat->setFloatable(false);
     m_tbFormat->setOrientation(Qt::Horizontal);
 
-    m_acLeft = addAction(QIcon::fromTheme("format-justify-left"), i18n("Align Left"), SLOT(slotAlignLeft()), page);
-    m_acCenter = addAction(QIcon::fromTheme("format-justify-center"), i18n("Align Center"), SLOT(slotAlignCenter()), page);
-    m_acRight = addAction(QIcon::fromTheme("format-justify-right"), i18n("Align Right"), SLOT(slotAlignRight()), page);
+    m_acLeft = addAction(QIcon::fromTheme(QStringLiteral("format-justify-left")), i18n("Align Left"), SLOT(slotAlignLeft()), page);
+    m_acCenter = addAction(QIcon::fromTheme(QStringLiteral("format-justify-center")), i18n("Align Center"), SLOT(slotAlignCenter()), page);
+    m_acRight = addAction(QIcon::fromTheme(QStringLiteral("format-justify-right")), i18n("Align Right"), SLOT(slotAlignRight()), page);
     m_tbFormat->addSeparator();
-    m_acBold = addAction(QIcon::fromTheme("format-text-bold"), i18n("Bold"), SLOT(slotBold()), page);
-    m_acItalic = addAction(QIcon::fromTheme("format-text-italic"), i18n("Italic"), SLOT(slotItalic()), page);
-    m_acUnderline = addAction(QIcon::fromTheme("format-text-underline"), i18n("Underline"), SLOT(slotUnderline()), page);
+    m_acBold = addAction(QIcon::fromTheme(QStringLiteral("format-text-bold")), i18n("Bold"), SLOT(slotBold()), page);
+    m_acItalic = addAction(QIcon::fromTheme(QStringLiteral("format-text-italic")), i18n("Italic"), SLOT(slotItalic()), page);
+    m_acUnderline = addAction(QIcon::fromTheme(QStringLiteral("format-text-underline")), i18n("Underline"), SLOT(slotUnderline()), page);
     m_tbFormat->addSeparator();
-    m_acJoin = addAction(QIcon::fromTheme("joincells"), i18n("Join Cells"), SLOT(slotJoinCells()), page);
-    m_acSplit = addAction(QIcon::fromTheme("splitcells"), i18n("Split Cells"), SLOT(slotSplitCells()), page);
+    m_acJoin = addAction(QIcon::fromTheme(QStringLiteral("joincells")), i18n("Join Cells"), SLOT(slotJoinCells()), page);
+    m_acSplit = addAction(QIcon::fromTheme(QStringLiteral("splitcells")), i18n("Split Cells"), SLOT(slotSplitCells()), page);
     m_acSplit->setEnabled(false);
     m_acFrame = new SelectFrameAction(i18n("Edit Frame"), m_tbFormat);
     connect(m_acFrame, SIGNAL(borderSelected(int)), this, SLOT(slotFrame(int)));
     m_tbFormat->addAction(m_acFrame);
     m_tbFormat->addSeparator();
 
-    m_acBackground = new SelectColorAction(QIcon::fromTheme("format-fill-color"), i18n("Background Color"), page);
+    m_acBackground = new SelectColorAction(QIcon::fromTheme(QStringLiteral("format-fill-color")), i18n("Background Color"), page);
     m_acBackground->setIcon(generateColorIcon(true));
     connect(m_acBackground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentBackground()));
     connect(m_acBackground, SIGNAL(colorSelected(QColor)), this, SLOT(slotBackground(QColor)));
     m_tbFormat->addAction(m_acBackground);
-    m_acForeground = new SelectColorAction(QIcon::fromTheme("format-stroke-color"), i18n("Text Color"), page);
+    m_acForeground = new SelectColorAction(QIcon::fromTheme(QStringLiteral("format-stroke-color")), i18n("Text Color"), page);
     m_acForeground->setIcon(generateColorIcon(false));
     connect(m_acForeground, SIGNAL(colorSelected(QColor)), this, SLOT(slotForeground(QColor)));
     connect(m_acForeground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentForeground()));
     m_tbFormat->addAction(m_acForeground);
 
     m_tbFormat->addSeparator();
-    m_acClearText = addAction(QIcon::fromTheme("edit-clear"), i18n("Clear Text"), SLOT(slotClearText()), page); // FIXME icon
-    m_acClearAttributes = addAction(QIcon::fromTheme("edit-clear"), i18n("Clear Attributes"), SLOT(slotClearAttributes()), page); // FIXME icon
-    m_acClearAll = addAction(QIcon::fromTheme("edit-clear"), i18n("Clear All"), SLOT(slotClearAll()), page);
+    m_acClearText = addAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Clear Text"), SLOT(slotClearText()), page); // FIXME icon
+    m_acClearAttributes = addAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Clear Attributes"), SLOT(slotClearAttributes()), page); // FIXME icon
+    m_acClearAll = addAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Clear All"), SLOT(slotClearAll()), page);
     m_tbFormat->addSeparator();
-    m_acPaste = addAction(QIcon::fromTheme("edit-paste"), i18n("Paste content from clipboard"), m_Table, SLOT(paste()), page);
+    m_acPaste = addAction(QIcon::fromTheme(QStringLiteral("edit-paste")), i18n("Paste content from clipboard"), m_Table, SLOT(paste()), page);
 
     /* checkable items */
     m_acLeft->setCheckable(true);
@@ -241,8 +241,8 @@ void NewTabularDialog::initEnvironments()
     if(index != -1) {
         m_cmbName->setCurrentIndex(index);
     } else {
-        if(m_defaultEnvironment == "array") {
-            m_cmbName->insertItem(0, "array");
+        if(m_defaultEnvironment == QStringLiteral("array")) {
+            m_cmbName->insertItem(0, QStringLiteral("array"));
             m_cmbName->setCurrentIndex(0);
         }
     }
@@ -303,7 +303,7 @@ bool NewTabularDialog::checkForColumnAlignment(int column)
 
 QIcon NewTabularDialog::generateColorIcon(bool background) const
 {
-    QString iconName = background ? "format-fill-color" : "format-stroke-color";
+    QString iconName = background ? QStringLiteral("format-fill-color") : QStringLiteral("format-stroke-color");
     const int iconSize = style()->pixelMetric(QStyle::PM_ToolBarIconSize);
     QPixmap pixmap = QIcon::fromTheme(iconName).pixmap(iconSize);
 
@@ -452,78 +452,78 @@ void NewTabularDialog::slotAccepted()
     QString environmentFormatted = m_cmbName->currentText();
     QString tableWidth;
     if(m_cbStarred->isEnabled() && m_cbStarred->isChecked()) {
-        environmentFormatted += '*';
+        environmentFormatted += QLatin1Char('*');
     }
 
     // Environment needs a width
     if(m_leTableWidth->isEnabled()) {
-        tableWidth = '{' + m_leTableWidth->text() + '}';
+        tableWidth = QLatin1Char('{') + m_leTableWidth->text() + QLatin1Char('}');
     }
 
     /* build table parameter */
     QString tableParameter;
     if(m_cmbParameter->currentIndex() != 0) {
-        tableParameter = '[' + m_cmbParameter->currentText() + ']';
+        tableParameter = QLatin1Char('[') + m_cmbParameter->currentText() + QLatin1Char(']');
     }
 
     /* build table alignment */
-    QString tableAlignment = QString('{');
+    QString tableAlignment = QStringLiteral("{");
     if(properties.hasLeftBorder()) {
-        tableAlignment += '|';
+        tableAlignment += QLatin1Char('|');
     }
     for(int column = 0; column < columns; ++column) {
         TabularHeaderItem *headerItem = static_cast<TabularHeaderItem*>(m_Table->horizontalHeaderItem(column));
         if(headerItem->suppressSpace()) {
-            tableAlignment += QString("@{%1}").arg(properties.bullet());
+            tableAlignment += QStringLiteral("@{%1}").arg(properties.bullet());
         } else if(headerItem->dontSuppressSpace()) {
-            tableAlignment += QString("!{%1}").arg(properties.bullet());
+            tableAlignment += QStringLiteral("!{%1}").arg(properties.bullet());
         }
         if(headerItem->insertBefore()) {
-            tableAlignment += QString(">{%1}").arg(properties.bullet());
+            tableAlignment += QStringLiteral(">{%1}").arg(properties.bullet());
         }
 
         switch(headerItem->alignment()) {
         case Qt::AlignLeft:
-            tableAlignment += 'l';
+            tableAlignment += QLatin1Char('l');
             break;
         case Qt::AlignHCenter:
-            tableAlignment += 'c';
+            tableAlignment += QLatin1Char('c');
             break;
         case Qt::AlignRight:
-            tableAlignment += 'r';
+            tableAlignment += QLatin1Char('r');
             break;
         case TabularHeaderItem::AlignP:
-            tableAlignment += QString("p{%1}").arg(properties.bullet());
+            tableAlignment += QStringLiteral("p{%1}").arg(properties.bullet());
             break;
         case TabularHeaderItem::AlignB:
-            tableAlignment += QString("b{%1}").arg(properties.bullet());
+            tableAlignment += QStringLiteral("b{%1}").arg(properties.bullet());
             break;
         case TabularHeaderItem::AlignM:
-            tableAlignment += QString("m{%1}").arg(properties.bullet());
+            tableAlignment += QStringLiteral("m{%1}").arg(properties.bullet());
             break;
         case TabularHeaderItem::AlignX:
-            tableAlignment += 'X';
+            tableAlignment += QLatin1Char('X');
             break;
         }
 
         if(headerItem->insertAfter()) {
-            tableAlignment += QString("<{%1}").arg(properties.bullet());
+            tableAlignment += QStringLiteral("<{%1}").arg(properties.bullet());
         }
 
         if(properties.hasBorderBesideColumn(column)) {
-            tableAlignment += '|';
+            tableAlignment += QLatin1Char('|');
         }
     }
-    tableAlignment += '}';
+    tableAlignment += QLatin1Char('}');
 
     /* build top border */
     QString topBorderStr;
     if(properties.hasTopBorder()) {
         if(m_cbBooktabs->isChecked()) { // we need a toprule with booktabs here
-            topBorderStr = "\\toprule";
+            topBorderStr = QStringLiteral("\\toprule");
         }
         else {
-            topBorderStr = "\\hline";
+            topBorderStr = QStringLiteral("\\hline");
         }
     }
     else {
@@ -539,16 +539,16 @@ void NewTabularDialog::slotAccepted()
     }
 
     if(m_cbCenter->isChecked()) {
-        m_td.tagBegin += "\\begin{center}\n";
+        m_td.tagBegin += QStringLiteral("\\begin{center}\n");
     }
 
-    m_td.tagBegin += QString("\\begin{%1}%2%3%4%5\n")
+    m_td.tagBegin += QStringLiteral("\\begin{%1}%2%3%4%5\n")
                      .arg(environmentFormatted, tableWidth, tableParameter, tableAlignment, topBorderStr);
 
     /* required packages */
     m_requiredPackages.clear();
     if(properties.requiredPackages().count()) {
-        m_td.tagBegin += "% use packages: " + properties.requiredPackages().join(",") + '\n';
+        m_td.tagBegin += QStringLiteral("% use packages: ") + properties.requiredPackages().join(QStringLiteral(",")) + QLatin1Char('\n');
         m_requiredPackages << properties.requiredPackages();
     }
 
@@ -556,7 +556,7 @@ void NewTabularDialog::slotAccepted()
     for(int row = 0; row < rows; ++row) {
         rowColor = properties.rowColor(row);
         if(rowColor.isValid()) {
-            m_td.tagBegin += "\\rowcolor{" + properties.colorName(rowColor) + "}\n";
+            m_td.tagBegin += QStringLiteral("\\rowcolor{") + properties.colorName(rowColor) + QStringLiteral("}\n");
         }
         MultiColumnBorderHelper columnBorderHelper;
         for(int column = 0; column < columns;) {
@@ -570,21 +570,21 @@ void NewTabularDialog::slotAccepted()
                 }
             }
 
-            QString sep = " & ";
+            QString sep = QStringLiteral(" & ");
             if(column + columnSpan >= columns) {
                 QString end;
                 sep.clear();
                 if(properties.hasBorderUnderRow(row)) {
                     if(m_cbBooktabs->isChecked()) { // we need a midrule with booktabs.
                         if(row < rows-1) {
-                            end = "\\midrule";
+                            end = QStringLiteral("\\midrule");
                         }
                         else { // last line gets a bottomrule
-                            end = "\\bottomrule";
+                            end = QStringLiteral("\\bottomrule");
                         }
                     }
                     else {
-                        end = "\\hline";
+                        end = QStringLiteral("\\hline");
                     }
                 }
                 else {
@@ -592,9 +592,9 @@ void NewTabularDialog::slotAccepted()
                     end = columnBorderHelper.toLaTeX();
                 }
                 if(row < rows - 1 || !end.isEmpty()) {
-                    sep = "\\\\";
+                    sep = QStringLiteral("\\\\");
                 }
-                sep += end + '\n';
+                sep += end + QLatin1Char('\n');
             }
             m_td.tagBegin += content + sep;
 
@@ -602,33 +602,33 @@ void NewTabularDialog::slotAccepted()
         }
     }
 
-    m_td.tagEnd += QString("\\end{%1}\n").arg(environmentFormatted);
+    m_td.tagEnd += QStringLiteral("\\end{%1}\n").arg(environmentFormatted);
 
     if(m_cbCenter->isChecked()) {
-        m_td.tagEnd += "\\end{center}\n";
+        m_td.tagEnd += QStringLiteral("\\end{center}\n");
     }
 
     QHashIterator<QString, QString> itColorName(properties.colorNames());
-    QString colorNames = "";
+    QString colorNames = QStringLiteral("");
     while(itColorName.hasNext()) {
         itColorName.next();
-        colorNames += "\\definecolor{" + itColorName.value() + "}{rgb}{";
+        colorNames += QStringLiteral("\\definecolor{") + itColorName.value() + QStringLiteral("}{rgb}{");
         QColor color(itColorName.key());
-        colorNames += QString::number(color.redF()) + ','
-                      + QString::number(color.greenF()) + ','
-                      + QString::number(color.blueF()) + "}\n";
+        colorNames += QString::number(color.redF()) + QLatin1Char(',')
+                      + QString::number(color.greenF()) + QLatin1Char(',')
+                      + QString::number(color.blueF()) + QStringLiteral("}\n");
     }
     m_td.tagBegin = colorNames + m_td.tagBegin;
 
     if(properties.useMultiColumn()) {
-        m_td.tagBegin = "\\newcommand{\\mc}[3]{\\multicolumn{#1}{#2}{#3}}\n"
+        m_td.tagBegin = QStringLiteral("\\newcommand{\\mc}[3]{\\multicolumn{#1}{#2}{#3}}\n")
                         + m_td.tagBegin;
     }
 
     /* use {} if mc was defined */
     if(properties.useMultiColumn()) {
-        m_td.tagBegin = "{%\n" + m_td.tagBegin;
-        m_td.tagEnd += "}%\n";
+        m_td.tagBegin = QStringLiteral("{%\n") + m_td.tagBegin;
+        m_td.tagEnd += QStringLiteral("}%\n");
     }
 }
 
@@ -729,9 +729,9 @@ void NewTabularDialog::slotEnvironmentChanged(const QString &environment)
         slotStarredChanged();
 
         // option
-        if(attr.option.indexOf('[') == 0) {
-            QStringList optionlist = attr.option.split("");
-            optionlist.removeAll("");
+        if(attr.option.indexOf(QLatin1Char('[')) == 0) {
+            QStringList optionlist = attr.option.split(QStringLiteral(""));
+            optionlist.removeAll(QStringLiteral(""));
             if(optionlist.count() > 2) {
                 // ok, let's enable it
                 m_cmbParameter->setEnabled(true);
@@ -744,13 +744,13 @@ void NewTabularDialog::slotEnvironmentChanged(const QString &environment)
         }
 
         // enable table width line edit if needed
-        if( attr.parameter.indexOf('{') == 0 ) {
+        if( attr.parameter.indexOf(QLatin1Char('{')) == 0 ) {
             m_leTableWidth->setEnabled(true);
         }
     }
 
     // has X alignment
-    bool hasXAlignment = (environment == "tabularx" || environment == "xtabular");
+    bool hasXAlignment = (environment == QStringLiteral("tabularx") || environment == QStringLiteral("xtabular"));
     for(int column = 0; column < m_Table->columnCount(); ++column) {
         static_cast<TabularHeaderItem*>(m_Table->horizontalHeaderItem(column))->setHasXAlignment(hasXAlignment);
     }

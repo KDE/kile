@@ -46,8 +46,8 @@ QString MultiColumnBorderHelper::toLaTeX() const
     QString result;
     QVector<std::pair<int,int> >::const_iterator it;
     for(it = m_SpanColumns.constBegin(); it != m_SpanColumns.constEnd(); ++it) {
-        result += "\\cline{" + QString::number(it->first + 1) + '-' +
-                  QString::number(it->second + 1) + '}';
+        result += QStringLiteral("\\cline{") + QString::number(it->first + 1) + QLatin1Char('-') +
+                  QString::number(it->second + 1) + QLatin1Char('}');
     }
     return result;
 }

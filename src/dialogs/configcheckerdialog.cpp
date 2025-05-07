@@ -92,7 +92,7 @@ ResultItem::ResultItem(QListWidget *listWidget, const QString &toolGroup, int st
     setData(Qt::UserRole, rt.arg(color, toolGroup, statustr));
 
     //this is for sorting only
-    setText(QString::number(status) + ':' + toolGroup);
+    setText(QString::number(status) + QLatin1Char(':') + toolGroup);
 }
 
 ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)

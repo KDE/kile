@@ -55,19 +55,19 @@ QString TabularCell::toLaTeX( TabularProperties &properties ) const
     QString colorCommand;
     if(background().style() != Qt::NoBrush
             && !properties.rowColor(row()).isValid()) {
-        colorCommand = ">{\\columncolor{" + properties.colorName(background().color()) + "}}";
+        colorCommand = QStringLiteral(">{\\columncolor{") + properties.colorName(background().color()) + QStringLiteral("}}");
     }
 
     QString leftBorder, rightBorder;
     // First col border always needs to be set
     if(column() == 0) {
         if(border() & TabularCell::Left) {
-            leftBorder = '|';
+            leftBorder = QLatin1Char('|');
         }
     }
     // Does the cell have a right border?
     if(border() & TabularCell::Right) {
-        rightBorder = '|';
+        rightBorder = QLatin1Char('|');
     }
 
     bool adjustBorder = false;
@@ -90,51 +90,51 @@ QString TabularCell::toLaTeX( TabularProperties &properties ) const
         switch(alignment) {
         case Qt::AlignHCenter:
             properties.setUseMultiColumn();
-            prefix += "\\mc{" + QString::number(columnSpan) + "}{" +
-                      leftBorder + colorCommand + 'c' + rightBorder + "}{";
-            suffix = '}' + suffix;
+            prefix += QStringLiteral("\\mc{") + QString::number(columnSpan) + QStringLiteral("}{") +
+                      leftBorder + colorCommand + QLatin1Char('c') + rightBorder + QStringLiteral("}{");
+            suffix = QLatin1Char('}') + suffix;
             break;
 
         case Qt::AlignRight:
             properties.setUseMultiColumn();
-            prefix += "\\mc{" + QString::number(columnSpan) + "}{" +
-                      leftBorder + colorCommand + 'r' + rightBorder + "}{";
-            suffix = '}' + suffix;
+            prefix += QStringLiteral("\\mc{") + QString::number(columnSpan) + QStringLiteral("}{") +
+                      leftBorder + colorCommand + QLatin1Char('r') + rightBorder + QStringLiteral("}{");
+            suffix = QLatin1Char('}') + suffix;
             break;
         default: // This handles Qt::AlignLeft,
             // alignP, alignM, alignB and alignX (they get thrown away here)
             properties.setUseMultiColumn();
-            prefix += "\\mc{" + QString::number(columnSpan) + "}{" +
-                      leftBorder + colorCommand + 'l' + rightBorder + "}{";
-            suffix = '}' + suffix;
+            prefix += QStringLiteral("\\mc{") + QString::number(columnSpan) + QStringLiteral("}{") +
+                      leftBorder + colorCommand + QLatin1Char('l') + rightBorder + QStringLiteral("}{");
+            suffix = QLatin1Char('}') + suffix;
             break;
         };
     }
 
     /* format */
     if (font().bold()) {
-        prefix += "\\textbf{";
-        suffix = '}' + suffix;
+        prefix += QStringLiteral("\\textbf{");
+        suffix = QLatin1Char('}') + suffix;
     }
     if (font().italic()) {
-        prefix += "\\textit{";
-        suffix = '}' + suffix;
+        prefix += QStringLiteral("\\textit{");
+        suffix = QLatin1Char('}') + suffix;
     }
 
     /* prefix */
     if (font().underline()) {
-        prefix += "\\underline{";
-        suffix = '}' + suffix;
+        prefix += QStringLiteral("\\underline{");
+        suffix = QLatin1Char('}') + suffix;
     }
 
     /* foreground color */
     if(foreground().style() != Qt::NoBrush) {
-        prefix += "\\textcolor{" + properties.colorName(foreground().color()) + "}{";
-        suffix = '}' + suffix;
+        prefix += QStringLiteral("\\textcolor{") + properties.colorName(foreground().color()) + QStringLiteral("}{");
+        suffix = QLatin1Char('}') + suffix;
     }
 
     /* content */
-    QString content = "";
+    QString content = QStringLiteral("");
     QString incontent = text().trimmed();
     if(incontent.isEmpty()) {
         incontent = properties.bullet();

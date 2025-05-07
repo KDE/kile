@@ -85,7 +85,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
     QString fileName = m_sourceURL.fileName();
     //remove the extension
-    int dotPos = fileName.lastIndexOf('.');
+    int dotPos = fileName.lastIndexOf(QLatin1Char('.'));
     if (dotPos >= 0) {
         fileName = fileName.mid(0, dotPos);
     }
@@ -96,7 +96,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
     topLayout->addWidget(new QLabel(i18n("Type: %1", KileInfo::documentTypeToString(m_templateType)), page), 0, 2);
     topLayout->addWidget(new QLabel(i18n("Icon:"), page), 1, 0);
 
-    m_iconEdit = new QLineEdit(KileUtilities::locate(QStandardPaths::AppDataLocation, "pics/type_Default.png"), page);
+    m_iconEdit = new QLineEdit(KileUtilities::locate(QStandardPaths::AppDataLocation, QStringLiteral("pics/type_Default.png")), page);
     mainLayout->addWidget(m_iconEdit);
     topLayout->addWidget(m_iconEdit, 1, 1);
 
@@ -125,7 +125,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
     QPushButton *clearSelectionButton = new QPushButton(page);
     mainLayout->addWidget(clearSelectionButton);
-    clearSelectionButton->setIcon(QIcon::fromTheme("edit-clear-locationbar"));
+    clearSelectionButton->setIcon(QIcon::fromTheme(QStringLiteral("edit-clear-locationbar")));
     int buttonSize = clearSelectionButton->sizeHint().height();
     clearSelectionButton->setFixedSize(buttonSize, buttonSize);
     clearSelectionButton->setToolTip(i18n("Clear Selection"));
@@ -210,7 +210,7 @@ void ManageTemplatesDialog::populateTemplateListView(KileDocument::Type type)
     {
         KileTemplate::Info info = *i;
         QFileInfo iconFileInfo(info.icon);
-        QString mode = (QFileInfo(info.path).isWritable() && (!iconFileInfo.exists() || iconFileInfo.isWritable())) ? " " : "*";
+        QString mode = (QFileInfo(info.path).isWritable() && (!iconFileInfo.exists() || iconFileInfo.isWritable())) ? QStringLiteral(" ") : QStringLiteral("*");
         if ((type == KileDocument::Undefined) || (info.type == type)) {
             previousItem = new TemplateListViewItem(m_templateList, previousItem, mode, info);
         }

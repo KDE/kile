@@ -70,12 +70,12 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
     QString psfilename,psoutfilename;
     if(!texfilename.isEmpty()) {
         // working with a postscript document, so we try to determine the LaTeX source file
-        QStringList extlist = latexextensions.split(' ');
+        QStringList extlist = latexextensions.split(QLatin1Char(' '));
         for (QStringList::Iterator it = extlist.begin(); it != extlist.end(); ++it) {
             if (texfilename.indexOf((*it), -(*it).length()) >= 0) {
                 QString basename = psfilename = texfilename.left(texfilename.length() - (*it).length());
-                psfilename = basename + ".ps";
-                psoutfilename = basename + "-out.ps";
+                psfilename = basename + QStringLiteral(".ps");
+                psoutfilename = basename + QStringLiteral("-out.ps");
                 if (!QFileInfo::exists(psfilename))
                     psfilename.clear();
                 break;
@@ -89,8 +89,8 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
     m_PostscriptDialog.setupUi(page);
 
     // line 0: QLabel
-    bool pstops = !QStandardPaths::findExecutable("pstops").isEmpty();
-    bool psselect = !QStandardPaths::findExecutable("psselect").isEmpty();
+    bool pstops = !QStandardPaths::findExecutable(QStringLiteral("pstops")).isEmpty();
+    bool psselect = !QStandardPaths::findExecutable(QStringLiteral("psselect")).isEmpty();
 
     if (!pstops && !psselect) {
         m_PostscriptDialog.m_mwErrors->setMessageType(KMessageWidget::Error);
@@ -155,7 +155,7 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
     // set an user button to execute the task
     buttonBox->button(QDialogButtonBox::Close)->setText(i18n("Done"));
     executeButton->setText(i18n("Execute"));
-    executeButton->setIcon(QIcon::fromTheme("system-run"));
+    executeButton->setIcon(QIcon::fromTheme(QStringLiteral("system-run")));
     if (!pstops && !psselect)
         executeButton->setEnabled(false);
 
@@ -207,17 +207,17 @@ void PostscriptDialog::execute()
         // output for log window
         QString msg = i18n("rearrange ps file: %1", from.fileName());
         if (!to.fileName().isEmpty())
-            msg += " ---> " + to.fileName();
+            msg += QStringLiteral(" ---> ") + to.fileName();
         m_errorHandler->printMessage(KileTool::Info, msg, m_program);
 
         // some output logs
         m_output->clear();
-        QString s = QString("*****\n")
-                    + i18n("***** tool:        ") + m_program + ' ' + m_param + '\n'
-                    + i18n("***** input file:  ") + from.fileName()+ '\n'
-                    + i18n("***** output file: ") + to.fileName()+ '\n'
-                    + i18n("***** viewer:      ") + ((m_PostscriptDialog.m_cbView->isChecked()) ? i18n("yes") : i18n("no")) + '\n'
-                    + "*****\n";
+        QString s = QStringLiteral("*****\n")
+                    + i18n("***** tool:        ") + m_program + QLatin1Char(' ') + m_param + QLatin1Char('\n')
+                    + i18n("***** input file:  ") + from.fileName() + QLatin1Char('\n')
+                    + i18n("***** output file: ") + to.fileName() + QLatin1Char('\n')
+                    + i18n("***** viewer:      ") + ((m_PostscriptDialog.m_cbView->isChecked()) ? i18n("yes") : i18n("no")) + QLatin1Char('\n')
+                    + QStringLiteral("*****\n");
         Q_EMIT( output(s) );
 
         // delete old KProcess
@@ -225,7 +225,7 @@ void PostscriptDialog::execute()
             delete m_proc;
 
         m_proc = new KProcess();
-        m_proc->setShellCommand("sh " + m_tempfile);
+        m_proc->setShellCommand(QStringLiteral("sh ") + m_tempfile);
         m_proc->setOutputChannelMode(KProcess::MergedChannels);
         m_proc->setReadChannel(QProcess::StandardOutput);
 
@@ -244,8 +244,8 @@ void PostscriptDialog::execute()
 
 void PostscriptDialog::slotProcessOutput()
 {
-    Q_EMIT(output(m_proc->readAllStandardOutput()));
-    Q_EMIT(output(m_proc->readAllStandardError()));
+    Q_EMIT(output(QString::fromUtf8(m_proc->readAllStandardOutput())));
+    Q_EMIT(output(QString::fromUtf8(m_proc->readAllStandardError())));
 }
 
 
@@ -261,71 +261,71 @@ void PostscriptDialog::slotProcessExited(int /* exitCode */, QProcess::ExitStatu
 QString PostscriptDialog::buildTempfile()
 {
     // build command
-    m_program = "pstops";          // default
-    m_param = "";
+    m_program = QStringLiteral("pstops");          // default
+    m_param = QStringLiteral("");
 
     switch (m_PostscriptDialog.m_cbTask->currentIndex()) {
     case PS_A5_EMPTY:
-        m_param = "1:0L(29.7cm,0cm)";
+        m_param = QStringLiteral("1:0L(29.7cm,0cm)");
         break;
     case PS_A5_DUPLICATE:
-        m_param = "1:0L(29.7cm,0cm)+0L(29.7cm,14.85cm)";
+        m_param = QStringLiteral("1:0L(29.7cm,0cm)+0L(29.7cm,14.85cm)");
         break;
     case PS_2xA5:
-        m_param = "2:0L(29.7cm,0cm)+1L(29.7cm,14.85cm)";
+        m_param = QStringLiteral("2:0L(29.7cm,0cm)+1L(29.7cm,14.85cm)");
         break;
     case PS_2xA5L:
         break;
     case PS_4xA5:
-        m_param = "4:0@0.7(0cm,8.7cm)"
-                  "+1@0.7(10.5cm,8.7cm)"
-                  "+2@0.7(0cm,-6.15cm)"
-                  "+3@0.7(10.5cm,-6.15cm)";
+        m_param = QStringLiteral("4:0@0.7(0cm,8.7cm)"
+                                    "+1@0.7(10.5cm,8.7cm)"
+                                    "+2@0.7(0cm,-6.15cm)"
+                                    "+3@0.7(10.5cm,-6.15cm)");
         break;
     case PS_A4_EMPTY:
-        m_param = "1:0L@0.7(21cm,0cm)";
+        m_param = QStringLiteral("1:0L@0.7(21cm,0cm)");
         break;
     case PS_A4_DUPLICATE:
-        m_param = "1:0L@0.7(21cm,0cm)+0L@0.7(21cm,14.85cm)";
+        m_param = QStringLiteral("1:0L@0.7(21cm,0cm)+0L@0.7(21cm,14.85cm)");
         break;
     case PS_2xA4:
-        m_param = "2:0L@0.7(21cm,0cm)+1L@0.7(21cm,14.85cm)";
+        m_param = QStringLiteral("2:0L@0.7(21cm,0cm)+1L@0.7(21cm,14.85cm)");
         break;
     case PS_2xA4L:
-        m_param = "2:0R@0.7(0cm,29.7cm)+1R@0.7(0cm,14.85cm)";
+        m_param = QStringLiteral("2:0R@0.7(0cm,29.7cm)+1R@0.7(0cm,14.85cm)");
         break;
     case PS_EVEN:
-        m_program = "psselect";
-        m_param = "-e";
+        m_program = QStringLiteral("psselect");
+        m_param = QStringLiteral("-e");
         break;
     case PS_ODD:
-        m_program = "psselect";
-        m_param = "-o";
+        m_program = QStringLiteral("psselect");
+        m_param = QStringLiteral("-o");
         break;
     case PS_EVEN_REV:
-        m_program = "psselect";
-        m_param = "-e -r";
+        m_program = QStringLiteral("psselect");
+        m_param = QStringLiteral("-e -r");
         break;
     case PS_ODD_REV:
-        m_program = "psselect";
-        m_param = "-o -r";
+        m_program = QStringLiteral("psselect");
+        m_param = QStringLiteral("-o -r");
         break;
     case PS_REVERSE:
-        m_program = "psselect";
-        m_param = "-r";
+        m_program = QStringLiteral("psselect");
+        m_param = QStringLiteral("-r");
         break;
     case PS_COPY_SORTED:
-        m_program = "psselect";
-        m_param = "-p" + duplicateParameter("1-");
+        m_program = QStringLiteral("psselect");
+        m_param = QStringLiteral("-p") + duplicateParameter(QStringLiteral("1-"));
         break;
     case PS_COPY_UNSORTED:
-        m_param = "1:" + duplicateParameter("0");
+        m_param = QStringLiteral("1:") + duplicateParameter(QStringLiteral("0"));
         break;
     case PS_PSTOPS_FREE:
         m_param = m_PostscriptDialog.m_edParameter->text();
         break;
     case PS_PSSELECT_FREE:
-        m_program = "psselect";
+        m_program = QStringLiteral("psselect");
         m_param = m_PostscriptDialog.m_edParameter->text();
         break;
     }
@@ -346,7 +346,7 @@ QString PostscriptDialog::buildTempfile()
 
     // accept only ".ps" or ".ps.gz" as an input file
     QFileInfo fi(m_PostscriptDialog.m_edInfile->lineEdit()->text());
-    bool zipped_psfile = (fi.completeSuffix() == "ps.gz") ? true : false;
+    bool zipped_psfile = (fi.completeSuffix() == QStringLiteral("ps.gz")) ? true : false;
 
     // there are four possible cases
     //         outfile view
@@ -356,14 +356,14 @@ QString PostscriptDialog::buildTempfile()
     //     4)    -      -        error (already detected by checkParameter())
 
     // some files, which are used
-    QString command    = m_program + " \"" + m_param + "\"";
-    QString inputfile  = "\"" + m_PostscriptDialog.m_edInfile->lineEdit()->text() + "\"";
-    QString outputfile = "\"" + m_PostscriptDialog.m_edOutfile->lineEdit()->text() + "\"";
+    QString command    = m_program + QStringLiteral(" \"") + m_param + QStringLiteral("\"");
+    QString inputfile  = QStringLiteral("\"") + m_PostscriptDialog.m_edInfile->lineEdit()->text() + QStringLiteral("\"");
+    QString outputfile = QStringLiteral("\"") + m_PostscriptDialog.m_edOutfile->lineEdit()->text() + QStringLiteral("\"");
     bool viewer = m_PostscriptDialog.m_cbView->isChecked();
 
     bool equalfiles = false;
     if (inputfile == outputfile) {
-        outputfile = tempname + ".tmp";
+        outputfile = tempname + QStringLiteral(".tmp");
         equalfiles = true;
     }
 
@@ -421,7 +421,7 @@ QString PostscriptDialog::duplicateParameter(const QString &param)
         if (i == 0)
             s += param;
         else
-            s += ',' + param;
+            s += QLatin1Char(',') + param;
     }
 
     return s;
@@ -438,7 +438,7 @@ bool PostscriptDialog::checkParameter()
 
     QFileInfo fi(infile);
     QString suffix = fi.completeSuffix();
-    if (suffix != "ps" && suffix != "ps.gz") {
+    if (suffix != QStringLiteral("ps") && suffix != QStringLiteral("ps.gz")) {
         showError(i18n("Unknown file format: only '.ps' and '.ps.gz' are accepted for input files."));
         return false;
     }
@@ -468,7 +468,7 @@ bool PostscriptDialog::checkParameter()
 
     if (! outfile.isEmpty()) {
         QFileInfo fo(outfile);
-        if (fo.completeSuffix() != "ps") {
+        if (fo.completeSuffix() != QStringLiteral("ps")) {
             showError(i18n("Unknown file format: only '.ps' is accepted as output file."));
             return false;
         }
@@ -476,8 +476,8 @@ bool PostscriptDialog::checkParameter()
         if (infile != outfile && fo.exists()) {
             QString s = i18n("A file named \"%1\" already exists. Are you sure you want to overwrite it?", fo.fileName());
             if (KMessageBox::questionTwoActions(this,
-                                                "<center>" + s + "</center>",
-                                                "Postscript tools",
+                                                QStringLiteral("<center>") + s + QStringLiteral("</center>"),
+                                                QStringLiteral("Postscript tools"),
                                                 KStandardGuiItem::overwrite(), KStandardGuiItem::cancel())
                 == KMessageBox::SecondaryAction) {
                 return false;

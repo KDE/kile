@@ -148,7 +148,7 @@ void UserHelpDialog::setParameter(const QStringList &menuentries, const QList<QU
     for (int i = 0; i < menuentries.count(); ++i) {
         m_menulistbox->addItem(menuentries[i]);
 
-        if(m_menulistbox->item(i)->text() != "-") {
+        if(m_menulistbox->item(i)->text() != QStringLiteral("-")) {
             m_filelist << helpfiles[i];
         }
         else {
@@ -167,7 +167,7 @@ void UserHelpDialog::getParameter(QStringList &userhelpmenulist, QList<QUrl> &us
 
     // now get all entries
     for (int i = 0; i < m_menulistbox->count(); ++i) {
-        if(m_menulistbox->item(i)->text() != "-") {
+        if(m_menulistbox->item(i)->text() != QStringLiteral("-")) {
             userhelpmenulist << m_menulistbox->item(i)->text();
             userhelpfilelist << m_filelist[i];
             separator = false;
@@ -254,7 +254,7 @@ void UserHelpDialog::slotAddSep()
     }
 
     // insert separator
-    m_menulistbox->insertItem(index, "-");
+    m_menulistbox->insertItem(index, QStringLiteral("-"));
     m_filelist.insert(index, QUrl());
 
     updateButton();
@@ -346,7 +346,7 @@ void UserHelpDialog::updateButton()
         }
     }
     // don't allow two continuous spearators
-    if(m_menulistbox->currentItem() && m_menulistbox->currentItem()->text() == "-") {
+    if(m_menulistbox->currentItem() && m_menulistbox->currentItem()->text() == QStringLiteral("-")) {
         sep_state = false;
     }
 
@@ -395,9 +395,9 @@ UserHelpAddDialog::UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent)
     m_leHelpFile->setReadOnly(false);
     m_leHelpFile->setClearButtonEnabled(true);
     grid->addWidget(m_leHelpFile, 1, 1);
-    m_pbChooseFile = new QPushButton("", group);
-    m_pbChooseFile->setObjectName("filechooser_button");
-    m_pbChooseFile->setIcon(QIcon::fromTheme("document-open"));
+    m_pbChooseFile = new QPushButton(QStringLiteral(""), group);
+    m_pbChooseFile->setObjectName(QStringLiteral("filechooser_button"));
+    m_pbChooseFile->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     int buttonSize = m_leHelpFile->sizeHint().height();
     m_pbChooseFile->setFixedSize(buttonSize, buttonSize);
     m_pbChooseFile->setToolTip(i18n("Open file dialog"));

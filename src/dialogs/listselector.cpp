@@ -204,8 +204,8 @@ void ManageCompletionFilesDialog::fillTreeView() {
     std::sort(list.begin(), list.end());
     m_listView->clear();
     for(const QString &filename: std::as_const(list)) {
-        QString expectedLocalPath = m_localCompletionDirectory + '/' + filename;
-        QString expectedGlobalPath = m_globalCompletionDirectory + '/' + filename;
+        QString expectedLocalPath = m_localCompletionDirectory + QLatin1Char('/') + filename;
+        QString expectedGlobalPath = m_globalCompletionDirectory + QLatin1Char('/') + filename;
         if (QFileInfo::exists(expectedLocalPath) && QFileInfo(expectedLocalPath).isReadable()) {
             QTreeWidgetItem* item = new QTreeWidgetItem(m_listView, QStringList() << filename << i18n("yes"));
             item->setCheckState(2, previouslySelectedItems.contains(filename) ? Qt::Checked : Qt::Unchecked);
@@ -235,7 +235,7 @@ void ManageCompletionFilesDialog::addCustomCompletionFiles()
 
     for(const QString &file: std::as_const(files)) {
         QFileInfo fileInf(file);
-        QFileInfo localFile(m_localCompletionDirectory + '/' + fileInf.fileName());
+        QFileInfo localFile(m_localCompletionDirectory + QLatin1Char('/') + fileInf.fileName());
         if (localFile.exists()) {
             const QString dialog_text = i18n("A local completion file with the name \"%1\" already exists.\nDo you want to replace this file?", localFile.fileName());
             const QString dialog_caption = i18n("Replace Local File?");

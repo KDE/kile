@@ -69,13 +69,13 @@ UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu
     m_UserMenuDialog.m_keyChooser->setCheckActionCollections(allCollections);
     KILE_DEBUG_MAIN << "total collections: " << allCollections.count();
 
-    m_UserMenuDialog.m_pbInsertBelow->setIcon(QIcon::fromTheme("usermenu-insert-below.png"));
-    m_UserMenuDialog.m_pbInsertSubmenu->setIcon(QIcon::fromTheme("usermenu-submenu-below.png"));
-    m_UserMenuDialog.m_pbInsertSeparator->setIcon(QIcon::fromTheme("usermenu-separator-below.png"));
-    m_UserMenuDialog.m_pbDelete->setIcon(QIcon::fromTheme("usermenu-delete.png"));
-    m_UserMenuDialog.m_pbUp->setIcon(QIcon::fromTheme("usermenu-up.png"));
-    m_UserMenuDialog.m_pbDown->setIcon(QIcon::fromTheme("usermenu-down.png"));
-    m_UserMenuDialog.m_pbIconDelete->setIcon(QIcon::fromTheme("edit-clear-locationbar-rtl.png"));
+    m_UserMenuDialog.m_pbInsertBelow->setIcon(QIcon::fromTheme(QStringLiteral("usermenu-insert-below.png")));
+    m_UserMenuDialog.m_pbInsertSubmenu->setIcon(QIcon::fromTheme(QStringLiteral("usermenu-submenu-below.png")));
+    m_UserMenuDialog.m_pbInsertSeparator->setIcon(QIcon::fromTheme(QStringLiteral("usermenu-separator-below.png")));
+    m_UserMenuDialog.m_pbDelete->setIcon(QIcon::fromTheme(QStringLiteral("usermenu-delete.png")));
+    m_UserMenuDialog.m_pbUp->setIcon(QIcon::fromTheme(QStringLiteral("usermenu-up.png")));
+    m_UserMenuDialog.m_pbDown->setIcon(QIcon::fromTheme(QStringLiteral("usermenu-down.png")));
+    m_UserMenuDialog.m_pbIconDelete->setIcon(QIcon::fromTheme(QStringLiteral("edit-clear-locationbar-rtl.png")));
 
     connect(m_UserMenuDialog.m_pbInsertBelow, &QPushButton::clicked, this, &UserMenuDialog::slotInsertMenuItem);
     connect(m_UserMenuDialog.m_pbInsertSubmenu, &QPushButton::clicked, this, &UserMenuDialog::slotInsertSubmenu);
@@ -347,7 +347,7 @@ bool UserMenuDialog::saveClicked()
     }
 
     // force to save file in local directory
-    QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "usermenu", QStandardPaths::LocateDirectory);
+    QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("usermenu"), QStandardPaths::LocateDirectory);
     if (dirs.size() > 1) {
         if (m_currentXmlFile.startsWith(dirs[1])) {
             m_currentXmlFile.replace(dirs[1],dirs[0]);
@@ -386,7 +386,7 @@ QString UserMenuDialog::saveAsClicked()
         return QString();
     }
 
-    const QString directory = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + QLatin1Char('/') + "usermenu/";
+    const QString directory = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + QLatin1Char('/') + QStringLiteral("usermenu/");
     const QString filter = i18n("User Menu Files (*.xml)");
 
     QString filename = QFileDialog::getSaveFileName(this, i18n("Save Menu File"), directory, filter);
@@ -523,8 +523,8 @@ void UserMenuDialog::updateAfterDelete()
 
 void UserMenuDialog::slotCurrentItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *previous)
 {
-    QString from = (previous) ? previous->text(0) : "---";
-    QString to   = (current)  ? current->text(0)  : "---";
+    QString from = (previous) ? previous->text(0) : QStringLiteral("---");
+    QString to   = (current)  ? current->text(0)  : QStringLiteral("---");
 
     KILE_DEBUG_MAIN << "currentItemChanged: from=" << from << "  to=" << to;
     bool modifiedState = m_modified;
@@ -624,20 +624,20 @@ void UserMenuDialog::slotUrlTextChanged(const QString &)
 
     QString file = m_UserMenuDialog.m_urlRequester->text().trimmed();
 
-    QString color = "black";
+    QString color = QStringLiteral("black");
     int type = current->menutype();
     if (type == UserMenuData::FileContent) {
         if (file.isEmpty() || !QFile::exists(file)) {
-            color = "red";
+            color = QStringLiteral("red");
         }
     }
     else if (type == UserMenuData::Program) {
         if (file.isEmpty() || !m_menutree->isItemExecutable(file)) {
-            color= "red";
+            color= QStringLiteral("red");
         }
     }
 
-    m_UserMenuDialog.m_urlRequester->setStyleSheet( "QLineEdit { color: " + color + "; }" );
+    m_UserMenuDialog.m_urlRequester->setStyleSheet(QStringLiteral("QLineEdit { color: ") + color + QStringLiteral("; }"));
     setModified();
 }
 
@@ -904,7 +904,7 @@ void UserMenuDialog::setMenuentryIcon(UserMenuItem *item, bool state, const QStr
     }
     else {
         QString iconpath = KIconLoader::global()->iconPath(m_currentIcon,KIconLoader::Small);
-        m_UserMenuDialog.m_lbIconChosen->setText("<img src=\"" +  iconpath +"\" />");
+        m_UserMenuDialog.m_lbIconChosen->setText(QStringLiteral("<img src=\"") +  iconpath + QStringLiteral("\" />"));
         m_UserMenuDialog.m_lbIconChosen->show();
         m_UserMenuDialog.m_pbIcon->hide();
     }

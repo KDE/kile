@@ -126,14 +126,14 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 
     // initialize dialog
     m_coDisplaymath->addItem(QString());
-    m_coDisplaymath->addItem("displaymath");
-    m_coDisplaymath->addItem("\\[");
-    m_coDisplaymath->addItem("equation");
-    m_coDisplaymath->addItem("equation*");
+    m_coDisplaymath->addItem(QStringLiteral("displaymath"));
+    m_coDisplaymath->addItem(QStringLiteral("\\["));
+    m_coDisplaymath->addItem(QStringLiteral("equation"));
+    m_coDisplaymath->addItem(QStringLiteral("equation*"));
 
     // install environments
     initEnvironments();
-    int alignIndex = m_coEnvironment->findText("align");
+    int alignIndex = m_coEnvironment->findText(QStringLiteral("align"));
     if(alignIndex >= 0) {
         m_coEnvironment->setCurrentIndex(alignIndex);
     }
@@ -171,12 +171,12 @@ void MathEnvironmentDialog::initEnvironments()
 
 bool MathEnvironmentDialog::isGroupsParameterEnv()
 {
-    return (m_parameter == "{n}");
+    return (m_parameter == QStringLiteral("{n}"));
 }
 
 bool MathEnvironmentDialog::isParameterEnv()
 {
-    return (m_parameter.indexOf("{") >= 0);
+    return (m_parameter.indexOf(QStringLiteral("{")) >= 0);
 }
 
 ////////////////////////////// determine the whole tag //////////////////////////////
@@ -191,9 +191,9 @@ void MathEnvironmentDialog::slotEnvironmentChanged(int index)
     if (m_latexCommands->commandAttributes(m_envname, attr)) {
         m_starred = attr.starred;
         m_mathmode = attr.mathmode;
-        m_columns = (attr.tabulator == "&");
-        m_groups  = (attr.tabulator == "&=");
-        m_fixedcolumns  = (attr.tabulator == "&=&");
+        m_columns = (attr.tabulator == QStringLiteral("&"));
+        m_groups  = (attr.tabulator == QStringLiteral("&="));
+        m_fixedcolumns  = (attr.tabulator == QStringLiteral("&=&"));
         m_tabulator = attr.tabulator;
         m_parameter = attr.parameter;
     }
@@ -212,7 +212,7 @@ void MathEnvironmentDialog::slotEnvironmentChanged(int index)
 
     if (m_columns) {
         spinstate = true;
-        if (m_envname != "cases") {           // 1,49,3
+        if (m_envname != QStringLiteral("cases")) {           // 1,49,3
             maxvalue = 49;
             value = 3;
         }
@@ -236,7 +236,7 @@ void MathEnvironmentDialog::slotEnvironmentChanged(int index)
                 value = 3;
             }
             else {
-                if (m_envname == "split") {
+                if (m_envname == QStringLiteral("split")) {
                     spinstate = true;
                     maxvalue = 2;                        // 1,2,1
                 }
@@ -257,18 +257,20 @@ void MathEnvironmentDialog::slotEnvironmentChanged(int index)
     // set tabulator entries
     m_coTabulator->clear();
     QStringList tablist;
-    if(m_tabulator == "&=&") {
-        tablist << "&=&" << "& &" << "&<&" << "&<=&" << "&>&" << "&>=&"
-                << "&\\ne&" << "&\\approx&" << "&\\equiv&" << "&\\conq&";
+    if(m_tabulator == QStringLiteral("&=&")) {
+        tablist << QStringLiteral("&=&") << QStringLiteral("& &") << QStringLiteral("&<&") << QStringLiteral("&<=&")
+                << QStringLiteral("&>&") << QStringLiteral("&>=&") << QStringLiteral("&\\ne&")
+                << QStringLiteral("&\\approx&") << QStringLiteral("&\\equiv&") << QStringLiteral("&\\conq&");
     }
     else {
-        if(m_tabulator == "&=") {
-            tablist << "&=" << "& " << "&<" << "&<=" << "&>" << "&>="
-                    << "&\\ne" << "&\\approx" << "&\\equiv" << "&\\conq";
+        if(m_tabulator == QStringLiteral("&=")) {
+            tablist << QStringLiteral("&=") << QStringLiteral("& ") << QStringLiteral("&<") << QStringLiteral("&<=")
+                    << QStringLiteral("&>") << QStringLiteral("&>=") << QStringLiteral("&\\ne")
+                    << QStringLiteral("&\\approx") << QStringLiteral("&\\equiv") << QStringLiteral("&\\conq");
         }
         else {
             if(!m_tabulator.isEmpty()) {
-                tablist << "&";
+                tablist << QStringLiteral("&");
             }
         }
     }
@@ -294,7 +296,7 @@ void MathEnvironmentDialog::slotSpinboxValueChanged(int index)
 void MathEnvironmentDialog::slotAccepted()
 {
     // environment
-    QString envname = (m_cbStarred->isChecked()) ? m_envname + '*' : m_envname;
+    QString envname = (m_cbStarred->isChecked()) ? m_envname + QLatin1Char('*') : m_envname;
     QString indent = m_ki->editorExtension()->autoIndentEnvironment();
 
     // use bullets?
@@ -302,9 +304,9 @@ void MathEnvironmentDialog::slotAccepted()
 
     // normal tabulator
     QString tab = m_coTabulator->currentText();
-    tab.replace("<=", "\\le");
-    tab.replace(">=", "\\ge");
-    QString tabulator = bullet + ' ' + tab + ' ';
+    tab.replace(QStringLiteral("<="), QStringLiteral("\\le"));
+    tab.replace(QStringLiteral(">="), QStringLiteral("\\ge"));
+    QString tabulator = bullet + QLatin1Char(' ') + tab + QLatin1Char(' ');
 
     // number of rows
     int numrows = m_spRows->value();
@@ -315,12 +317,12 @@ void MathEnvironmentDialog::slotAccepted()
     bool aligngroups;
     if (m_groups) {
         aligngroups = true;
-        numgroups = (m_tabulator != "&") ? m_spCols->value() : 1;
+        numgroups = (m_tabulator != QStringLiteral("&")) ? m_spCols->value() : 1;
         if (m_edSpace->isEnabled()) {
-            grouptabulator = "  &" + m_edSpace->text() + "  ";
+            grouptabulator = QStringLiteral("  &") + m_edSpace->text() + QStringLiteral("  ");
         }
         else {
-            grouptabulator = "  &  ";
+            grouptabulator = QStringLiteral("  &  ");
         }
     }
     else {
@@ -339,13 +341,13 @@ void MathEnvironmentDialog::slotAccepted()
     if(m_coDisplaymath->isEnabled()) {
         QString mathmode = m_coDisplaymath->currentText();
         if(!mathmode.isEmpty()) {
-            if(mathmode == "\\[") {
-                displaymathbegin = "\\[\n";
-                displaymathend   = "\\]\n";
+            if(mathmode == QStringLiteral("\\[")) {
+                displaymathbegin = QStringLiteral("\\[\n");
+                displaymathend   = QStringLiteral("\\]\n");
             }
             else {
-                displaymathbegin = QString("\\begin{%1}\n").arg(mathmode);
-                displaymathend   = QString("\\end{%1}\n").arg(mathmode);
+                displaymathbegin = QStringLiteral("\\begin{%1}\n").arg(mathmode);
+                displaymathend   = QStringLiteral("\\end{%1}\n").arg(mathmode);
             }
         }
     }
@@ -355,16 +357,16 @@ void MathEnvironmentDialog::slotAccepted()
 
     QString parameter;
     if (isGroupsParameterEnv()) {
-        parameter = QString("{%2}").arg(numgroups);
+        parameter = QStringLiteral("{%2}").arg(numgroups);
     }
     else {
         if(isParameterEnv()) {
-            parameter = '{' + bullet + '}';
+            parameter = QLatin1Char('{') + bullet + QLatin1Char('}');
         }
     }
 
     // open environment
-    m_td.tagBegin += QString("\\begin{%1}").arg(envname) + parameter + '\n';
+    m_td.tagBegin += QStringLiteral("\\begin{%1}").arg(envname) + parameter + QLatin1Char('\n');
 
     for(int row = 0; row < numrows; ++row) {
         m_td.tagBegin += indent;
@@ -377,7 +379,7 @@ void MathEnvironmentDialog::slotAccepted()
         }
         // last row without CR
         if(row < numrows - 1) {
-            m_td.tagBegin += bullet + " \\\\\n";
+            m_td.tagBegin += bullet + QStringLiteral(" \\\\\n");
         }
         else {
             m_td.tagBegin += bullet;
@@ -385,7 +387,7 @@ void MathEnvironmentDialog::slotAccepted()
     }
 
     // close environment
-    m_td.tagEnd = QString("\n\\end{%1}\n").arg(envname);
+    m_td.tagEnd = QStringLiteral("\n\\end{%1}\n").arg(envname);
     m_td.tagEnd += displaymathend;
 
     m_td.dy = (displaymathbegin.isEmpty()) ? 1 : 2;

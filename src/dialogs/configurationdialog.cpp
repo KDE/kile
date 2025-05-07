@@ -65,10 +65,10 @@ Config::Config(KConfig *config, KileInfo *ki, QWidget* parent)
     // we need a dialog manager
     m_manager = new KConfigDialogManager(this,KileConfig::self());
 
-    KPageWidgetItem* kilePageWidgetItem = addConfigFolder(i18n("Kile"), "kile");
-    KPageWidgetItem* latexPageWidgetItem = addConfigFolder(i18n("LaTeX"), "latex-config");
-    KPageWidgetItem* toolsPageWidgetItem = addConfigFolder(i18n("Tools"), "system-run");
-    KPageWidgetItem* editorPageWidgetItem = addConfigFolder(i18n("Editor"), "accessories-text-editor");
+    KPageWidgetItem* kilePageWidgetItem = addConfigFolder(i18n("Kile"), QStringLiteral("kile"));
+    KPageWidgetItem* latexPageWidgetItem = addConfigFolder(i18n("LaTeX"), QStringLiteral("latex-config"));
+    KPageWidgetItem* toolsPageWidgetItem = addConfigFolder(i18n("Tools"), QStringLiteral("system-run"));
+    KPageWidgetItem* editorPageWidgetItem = addConfigFolder(i18n("Editor"), QStringLiteral("accessories-text-editor"));
 
     // setup all configuration pages
     setupGeneralOptions(kilePageWidgetItem);
@@ -113,7 +113,7 @@ Config::Config(KConfig *config, KileInfo *ki, QWidget* parent)
         }
     }
 
-    m_configDialogSize = m_config->group("KileConfigDialog");
+    m_configDialogSize = m_config->group(QStringLiteral("KileConfigDialog"));
 
     resize(sizeHint());
     // as of October 2016, 'restoreWindowSize' has no effect when called directly from here
@@ -197,7 +197,7 @@ void Config::setupGeneralOptions(KPageWidgetItem* parent)
 {
     generalPage = new KileWidgetGeneralConfig(this);
     generalPage->setObjectName("LaTeX");
-    KPageWidgetItem *item = addConfigPage(parent, generalPage, i18n("General"), "configure", i18n("General Settings"));
+    KPageWidgetItem *item = addConfigPage(parent, generalPage, i18n("General"), QStringLiteral("configure"), i18n("General Settings"));
     setCurrentPage(item);
 }
 
@@ -206,7 +206,7 @@ void Config::setupGeneralOptions(KPageWidgetItem* parent)
 void Config::setupTools(KPageWidgetItem* parent)
 {
     toolPage = new KileWidget::ToolConfig(m_ki->toolManager(), this);
-    addConfigPage(parent, toolPage, i18n("Build"), "application-x-executable", i18n("Build"));
+    addConfigPage(parent, toolPage, i18n("Build"), QStringLiteral("application-x-executable"), i18n("Build"));
 }
 
 //////////////////// Scripting  ////////////////////
@@ -217,7 +217,7 @@ void Config::setupScripting(KPageWidgetItem* parent)
     scriptingPage->setObjectName("Scripting");
     // we hide this now as the feature is not implemented currently
     scriptingPage->executionTimeLimitGroupBox->setHidden(true);
-    addConfigPage(parent, scriptingPage, i18n("Scripting"), "application-x-executable-script", i18n("Scripting Support"));
+    addConfigPage(parent, scriptingPage, i18n("Scripting"), QStringLiteral("application-x-executable-script"), i18n("Scripting Support"));
 }
 
 //////////////////// Usermenu  ////////////////////
@@ -226,7 +226,7 @@ void Config::setupUsermenu(KPageWidgetItem *parent)
 {
     usermenuPage = new KileWidgetUsermenuConfig(m_ki->userMenu(), this);
     usermenuPage->setObjectName("Usermenu");
-    addConfigPage(parent, usermenuPage, i18n("User Menu"), "usermenu-install", i18n("User Menu"));
+    addConfigPage(parent, usermenuPage, i18n("User Menu"), QStringLiteral("usermenu-install"), i18n("User Menu"));
 }
 
 //////////////////// LaTeX specific editing options ////////////////////
@@ -238,7 +238,7 @@ void Config::setupCodeCompletion(KPageWidgetItem* parent)
     completePage = new CodeCompletionConfigWidget(m_config, m_ki->errorHandler());
     completePage->readConfig();
 
-    addConfigPage(parent, completePage, i18n("Complete"), "text-x-tex", i18n("Code Completion"));
+    addConfigPage(parent, completePage, i18n("Complete"), QStringLiteral("text-x-tex"), i18n("Code Completion"));
 }
 
 //////////////////// QuickPreview (dani) ////////////////////
@@ -248,7 +248,7 @@ void Config::setupQuickPreview(KPageWidgetItem* parent)
     previewPage = new KileWidgetPreviewConfig(m_config,m_ki->quickPreview(),this);
     previewPage->readConfig();
 
-    addConfigPage(parent, previewPage, i18n("Preview"), "preview", i18n("Quick Preview"));
+    addConfigPage(parent, previewPage, i18n("Preview"), QStringLiteral("preview"), i18n("Quick Preview"));
 }
 
 void Config::setupHelp(KPageWidgetItem* parent)
@@ -256,7 +256,7 @@ void Config::setupHelp(KPageWidgetItem* parent)
     helpPage = new KileWidgetHelpConfig(this);
     helpPage->setHelp(m_ki->help());
 
-    addConfigPage(parent, helpPage, i18n("Help"),"help-browser");
+    addConfigPage(parent, helpPage, i18n("Help"), QStringLiteral("help-browser"));
 }
 
 void Config::setupLivePreview(KPageWidgetItem* parent)
@@ -264,7 +264,7 @@ void Config::setupLivePreview(KPageWidgetItem* parent)
     livePreviewPage = new KileWidgetLivePreviewConfig(m_config, this);
     livePreviewPage->readConfig();
 
-    addConfigPage(parent, livePreviewPage, i18n("Live Preview"), "preview", i18n("Live Preview"));
+    addConfigPage(parent, livePreviewPage, i18n("Live Preview"), QStringLiteral("preview"), i18n("Live Preview"));
 }
 
 void Config::setupAppearance(KPageWidgetItem* parent)
@@ -272,7 +272,7 @@ void Config::setupAppearance(KPageWidgetItem* parent)
     appearancePage = new KileWidgetAppearanceConfig(m_config, this);
     appearancePage->readConfig();
 
-    addConfigPage(parent, appearancePage, i18n("Appearance"), "preview", i18n("Appearance"));
+    addConfigPage(parent, appearancePage, i18n("Appearance"), QStringLiteral("preview"), i18n("Appearance"));
 }
 
 //////////////////// LaTeX environments ////////////////////
@@ -282,14 +282,14 @@ void Config::setupLatex(KPageWidgetItem* parent)
     latexPage = new KileWidgetLatexConfig(m_config, m_ki, this);
     latexPage->readConfig();
 
-    addConfigPage(parent, latexPage, i18n("General"), "configure");
+    addConfigPage(parent, latexPage, i18n("General"), QStringLiteral("configure"));
 }
 
 void Config::setupEnvironment(KPageWidgetItem* parent)
 {
     envPage = new KileWidgetEnvironmentConfig(this);
     envPage->setObjectName("LaTeX");
-    addConfigPage(parent, envPage, i18n("Environments"), "environment");
+    addConfigPage(parent, envPage, i18n("Environments"), QStringLiteral("environment"));
 }
 
 void Config::setupGraphics(KPageWidgetItem* parent)
@@ -297,21 +297,21 @@ void Config::setupGraphics(KPageWidgetItem* parent)
     graphicsPage = new KileWidgetGraphicsConfig(this);
     graphicsPage->setObjectName("Graphics");
     graphicsPage->m_lbImagemagick->setText( ( KileConfig::imagemagick() ) ? i18n("installed") : i18n("not installed") );
-    addConfigPage(parent, graphicsPage, i18n("Graphics"), "graphicspage");
+    addConfigPage(parent, graphicsPage, i18n("Graphics"), QStringLiteral("graphicspage"));
 }
 
 void Config::setupStructure(KPageWidgetItem* parent)
 {
     structurePage = new KileWidgetStructureViewConfig(this);
     structurePage->setObjectName("StructureView");
-    addConfigPage(parent, structurePage, i18n("Structure View"), "view-list-tree");
+    addConfigPage(parent, structurePage, i18n("Structure View"), QStringLiteral("view-list-tree"));
 }
 
 void Config::setupSymbolView(KPageWidgetItem* parent)
 {
     symbolViewPage = new KileWidgetSymbolViewConfig(this);
     symbolViewPage->setObjectName("SymbolView");
-    addConfigPage(parent, symbolViewPage, i18n("Symbol View"), "math0");
+    addConfigPage(parent, symbolViewPage, i18n("Symbol View"), QStringLiteral("math0"));
 }
 
 //////////////////// Editor ////////////////////

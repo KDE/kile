@@ -161,71 +161,79 @@ QString IncludeGraphics::getTemplate()
 
         // build position string
         if (here||top||bottom||page||custom) { // Don't check for force -- if it is the only selection, just skip the position tag
-            p += '[';
-            if (here)	p+= 'h';
-            if (top)	p+= 't';
-            if (bottom)	p+= 'b';
-            if (page)	p+= 'p';
-            if (force)    	p+= '!';
+            p += QLatin1Char('[');
+            if (here)	p+= QLatin1Char('h');
+            if (top)	p+= QLatin1Char('t');
+            if (bottom)	p+= QLatin1Char('b');
+            if (page)	p+= QLatin1Char('p');
+            if (force)    	p+= QLatin1Char('!');
             if (custom)	p+= m_widget.edit_custom->text();
-            p += ']';
+            p += QLatin1Char(']');
         }
 
         // add start of figure environment
-        s += "\\begin{figure}" + p + '\n';
+        s += QStringLiteral("\\begin{figure}") + p + QLatin1Char('\n');
     }
 
     // build tags for start of wrapfigure environment
     if (wrapfigure) {
-        s += "\\begin{wrapfigure}";
+        s += QStringLiteral("\\begin{wrapfigure}");
 
         // number of lines in length
         if (!m_widget.edit_wraplines->text().isEmpty()) {
-            s += '[' + m_widget.edit_wraplines->text() + ']';
+            s += QLatin1Char('[') + m_widget.edit_wraplines->text() + QLatin1Char(']');
         }
 
         // positioning for wrapfigure environment
         bool wrapfloat;
         wrapfloat = m_widget.cb_wrapfloat->isChecked();
         if (m_widget.cb_wrapright->isChecked()) {
-            if (wrapfloat) 	s += "{R}";
-            else		s += "{r}";
+            if (wrapfloat)
+                s += QStringLiteral("{R}");
+            else
+                s += QStringLiteral("{r}");
         }
         if (m_widget.cb_wrapleft->isChecked()) {
-            if (wrapfloat) 	s += "{L}";
-            else		s += "{l}";
+            if (wrapfloat)
+                s += QStringLiteral("{L}");
+            else
+                s += QStringLiteral("{l}");
         }
         if (m_widget.cb_wrapinside->isChecked()) {
-            if (wrapfloat) 	s += "{I}";
-            else		s += "{i}";
+            if (wrapfloat)
+                s += QStringLiteral("{I}");
+            else
+                s += QStringLiteral("{i}");
         }
         if (m_widget.cb_wrapoutside->isChecked()) {
-            if (wrapfloat) 	s += "{O}";
-            else		s += "{i}";
+            if (wrapfloat)
+                s += QStringLiteral("{O}");
+            else
+                s += QStringLiteral("{i}");
         }
 
         // overhang into margin
         if (!m_widget.edit_wrapoverhang->text().isEmpty()) {
-            s += '[' + m_widget.edit_wrapoverhang->text() + ']';
+            s += QLatin1Char('[') + m_widget.edit_wrapoverhang->text() + QLatin1Char(']');
         }
 
         // width of figure
         if (!m_widget.edit_wrapwidth->text().isEmpty()) {
-            s += '{' + m_widget.edit_wrapwidth->text() + '}';
+            s += QLatin1Char('{') + m_widget.edit_wrapwidth->text() + QLatin1Char('}');
         }
 
         // end of wrapfigure options
-        s += '\n';
+        s += QLatin1Char('\n');
 
         // Include warning in comment if wrapfig is not loaded.
         // Sending a warning to the log here would be good, but
         // the log seems to get cleared before user could catch
         // the warning.
         QStringList packagelist = m_ki->allPackages();
-        if (!packagelist.contains("wrapfig")) {
-            s += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
-            s += "%%% You will need to add \\usepackage{wrapfig} to your preamble to use textwrapping %%%\n";
-            s += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+        if (!packagelist.contains(QStringLiteral("wrapfig"))) {
+            s += QStringLiteral("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+            s += QStringLiteral("%%% You will need to add \\usepackage{wrapfig} to your preamble to use textwrapping %%%\n");
+            s += QStringLiteral("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
         }
     }
 
@@ -233,19 +241,19 @@ QString IncludeGraphics::getTemplate()
     // add start of center environment ?
     if (center) {
         if (figure || wrapfigure) {
-            s += indent + "\\centering\n";
+            s += indent + QStringLiteral("\\centering\n");
         } else {
-            s += "\\begin{center}\n";
+            s += QStringLiteral("\\begin{center}\n");
         }
     }
 
     // add includegraphics command
-    s += indent + "\\includegraphics";
+    s += indent + QStringLiteral("\\includegraphics");
 
     // add some options
     QString options = getOptions();
     if (!options.isEmpty()) {
-        s += '[' + options + ']';
+        s += QLatin1Char('[') + options + QLatin1Char(']');
     }
 
     // add name of picture
@@ -254,42 +262,42 @@ QString IncludeGraphics::getTemplate()
     QString filename = (m_widget.cb_graphicspath->isChecked())
                        ? QFileInfo(m_widget.edit_file->lineEdit()->text()).fileName()
                        : relativeUrl;
-    s += '{' + filename + "}\n";
+    s += QLatin1Char('{') + filename + QStringLiteral("}\n");
 
     // add some comments (depending of given resolution, this may be wrong!)
     QString info = getInfo();
     if (info.length() > 0) {
-        s += indent + info + '\n';
+        s += indent + info + QLatin1Char('\n');
     }
 
     // close center environment ?
     if (center && !figure && !wrapfigure) {
-        s += "\\end{center}\n";
+        s += QStringLiteral("\\end{center}\n");
     }
 
     // close figure environment ?
     if (figure) {
         QString caption = m_widget.edit_caption->text().trimmed();
         if (!caption.isEmpty()) {
-            s +=  indent + "\\caption{" + caption + "}\n";
+            s +=  indent + QStringLiteral("\\caption{") + caption + QStringLiteral("}\n");
         }
         QString label = m_widget.edit_label->text().trimmed();
-        if (!label.isEmpty() && label != "fig:") {
-            s +=  indent + "\\label{" + label + "}\n";
+        if (!label.isEmpty() && label != QStringLiteral("fig:")) {
+            s +=  indent + QStringLiteral("\\label{") + label + QStringLiteral("}\n");
         }
-        s += "\\end{figure}\n";
+        s += QStringLiteral("\\end{figure}\n");
     }
 
     if (wrapfigure) {
         QString caption = m_widget.edit_wrapcaption->text().trimmed();
         if (!caption.isEmpty()) {
-            s +=  indent + "\\caption{" + caption + "}\n";
+            s +=  indent + QStringLiteral("\\caption{") + caption + QStringLiteral("}\n");
         }
         QString label = m_widget.edit_wraplabel->text().trimmed();
-        if (!label.isEmpty() && label != "fig:") {
-            s +=  indent + "\\label{" + label + "}\n";
+        if (!label.isEmpty() && label != QStringLiteral("fig:")) {
+            s +=  indent + QStringLiteral("\\label{") + label + QStringLiteral("}\n");
         }
-        s += "\\end{wrapfigure}\n";
+        s += QStringLiteral("\\end{wrapfigure}\n");
     }
 
     return s;
@@ -307,33 +315,33 @@ QString IncludeGraphics::getOptions()
     QString s = QString();
 
     if (!m_widget.edit_width->text().isEmpty()) {
-        s += ",width=" + m_widget.edit_width->text();
+        s += QStringLiteral(",width=") + m_widget.edit_width->text();
     }
 
     if (!m_widget.edit_height->text().isEmpty()) {
-        s += ",height=" + m_widget.edit_height->text();
+        s += QStringLiteral(",height=") + m_widget.edit_height->text();
     }
 
     if (!m_widget.edit_angle->text().isEmpty()) {
-        s += ",angle=" + m_widget.edit_angle->text();
+        s += QStringLiteral(",angle=") + m_widget.edit_angle->text();
     }
 
     // Only dvips needs the bounding box, not pdftex/pdflatex.
     // But it will be always inserted as a comment.
     if (!m_widget.edit_bb->text().isEmpty() && m_widget.cb_bb->isChecked()) {
-        s += ",bb=" + m_widget.edit_bb->text();
+        s += QStringLiteral(",bb=") + m_widget.edit_bb->text();
     }
 
     if (!m_widget.edit_scale->text().isEmpty()) {
-        s += ",scale=" + m_widget.edit_scale->text();
+        s += QStringLiteral(",scale=") + m_widget.edit_scale->text();
     }
 
     if (m_widget.cb_keepAspect->isChecked()) {
-        s+= ",keepaspectratio=true";
+        s+= QStringLiteral(",keepaspectratio=true");
     }
 
     if (m_widget.cb_clip->isChecked()) {
-        QString l="0pt", b="0pt", r="0pt", t="0pt";
+        QString l = QStringLiteral("0pt"), b = QStringLiteral("0pt"), r = QStringLiteral("0pt"), t = QStringLiteral("0pt");
         if (!m_widget.edit_trimLeft->text().isEmpty()) {
             l = m_widget.edit_trimLeft->text();
         }
@@ -346,10 +354,10 @@ QString IncludeGraphics::getOptions()
         if (!m_widget.edit_trimTop->text().isEmpty()) {
             t = m_widget.edit_trimTop->text();
         }
-        s += ",clip=true,trim=" + l + ' ' + b + ' ' + r + ' ' + t;
+        s += QStringLiteral(",clip=true,trim=") + l + QLatin1Char(' ') + b + QLatin1Char(' ') + r + QLatin1Char(' ') + t;
     }
 
-    if (s.left(1) == ",") {
+    if (s.left(1) == QStringLiteral(",")) {
         return s.right(s.length() - 1);
     } else {
         return s;
@@ -369,11 +377,11 @@ QString IncludeGraphics::getInfo()
     } else {
         QFileInfo fi(m_widget.edit_file->lineEdit()->text());
 
-        return "% " + fi.baseName() + '.' + fi.completeSuffix()
-               + QString(": %1x%2 px").arg(wpx).arg(hpx)
-               + ", " + dpi + "dpi"
-               + ", " + wcm + 'x' + hcm + " cm"
-               + ", bb=" + m_widget.edit_bb->text();
+        return QStringLiteral("% ") + fi.baseName() + QLatin1Char('.') + fi.completeSuffix()
+               + QStringLiteral(": %1x%2 px").arg(wpx).arg(hpx)
+               + QStringLiteral(", ") + dpi + QStringLiteral("dpi")
+               + QStringLiteral(", ") + wcm + QLatin1Char('x') + hcm + QStringLiteral(" cm")
+               + QStringLiteral(", bb=") + m_widget.edit_bb->text();
     }
 }
 
@@ -384,11 +392,11 @@ void IncludeGraphics::setInfo()
     int wpx, hpx;
 
     if (!m_widget.edit_file->lineEdit()->text().isEmpty() && getPictureSize(wpx, hpx, dpi, wcm, hcm)) {
-        text = QString("%1x%2 px").arg(wpx).arg(hpx)
-               + " / " + wcm + 'x' + hcm + " cm"
-               + "  (" + dpi + "dpi)";
+        text = QStringLiteral("%1x%2 px").arg(wpx).arg(hpx)
+               + QStringLiteral(" / ") + wcm + QLatin1Char('x') + hcm + QStringLiteral(" cm")
+               + QStringLiteral("  (") + dpi + QStringLiteral("dpi)");
     } else {
-        text = "---";
+        text = QStringLiteral("---");
     }
 
     // insert text
@@ -441,24 +449,24 @@ void IncludeGraphics::onUrlSelected(const QUrl &url)
         // execute the command and filter the result:
         // eps|eps.gz --> %%BoundingBox: 0 0 123 456
         // bitmaps    --> w=123 h=456 dpi=789
-        QString grep = " | grep -m1 \"^%%BoundingBox:\"";
+        QString grep = QStringLiteral(" | grep -m1 \"^%%BoundingBox:\"");
         QString ext = fi.completeSuffix();
-        if (ext == "eps") {
-            execute("cat " + url.toLocalFile() + grep);
+        if (ext == QStringLiteral("eps")) {
+            execute(QStringLiteral("cat ") + url.toLocalFile() + grep);
         }
-        else if (ext == "eps.gz") {
-            execute("gunzip -c " + url.toLocalFile() + grep);
+        else if (ext == QStringLiteral("eps.gz")) {
+            execute(QStringLiteral("gunzip -c ") + url.toLocalFile() + grep);
         }
         else {
-            execute("identify -format \"w=%w h=%h dpi=%x %U\" \"" + url.toLocalFile() + "\"");
+            execute(QStringLiteral("identify -format \"w=%w h=%h dpi=%x %U\" \"") + url.toLocalFile() + QLatin1Char('\"'));
         }
         m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
     } else {
         KILE_DEBUG_MAIN << "=== IncludeGraphics::error ====================";
         KILE_DEBUG_MAIN << "   filename: '" << url.toLocalFile() << "'";
 
-        m_widget.infolabel->setText("---");
-        m_widget.edit_bb->setText("");
+        m_widget.infolabel->setText(QStringLiteral("---"));
+        m_widget.edit_bb->setText(QStringLiteral(""));
         m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     }
 }
@@ -470,7 +478,7 @@ void IncludeGraphics::onTextChanged(const QString &string)
 
 void IncludeGraphics::execute(const QString &command)
 {
-    if (!m_boundingbox || (!m_imagemagick && command.left(8) == "identify")) {
+    if (!m_boundingbox || (!m_imagemagick && command.left(8) == QStringLiteral("identify"))) {
         return;
     }
 
@@ -498,7 +506,7 @@ void IncludeGraphics::execute(const QString &command)
 
 void IncludeGraphics::onProcessOutput()
 {
-    m_output += m_proc->readAll();
+    m_output += QString::fromUtf8(m_proc->readAll());
 }
 
 // identify was called
@@ -512,11 +520,11 @@ void IncludeGraphics::onProcessExited(int /* exitCode */, QProcess::ExitStatus e
         m_resolution = m_defaultresolution;
 
         // analyze the result
-        if (m_output.left(14) == "%%BoundingBox:") {
+        if (m_output.left(14) == QStringLiteral("%%BoundingBox:")) {
             m_widget.edit_bb->setText(m_output.trimmed().mid(15, m_output.length() - 15));
 
             // this regexp will extract width and height from the bounding box
-            QRegExp reg("(\\d+) (\\d+) (\\d+) (\\d+)");
+            QRegExp reg(QStringLiteral("(\\d+) (\\d+) (\\d+) (\\d+)"));
             if(reg.indexIn(m_output) == -1) {
                 return;
             }
@@ -551,7 +559,7 @@ void IncludeGraphics::onProcessExited(int /* exitCode */, QProcess::ExitStatus e
             setInfo();
         }
         else {
-            if (m_output.left(2) == "w=") {
+            if (m_output.left(2) == QStringLiteral("w=")) {
                 // dani  31.7.2004
                 // older version of imagemagick (pre 6.0):
                 //  - doesn't care of PixelsPerCentimeter, but always works with PixelsPerInch
@@ -559,7 +567,7 @@ void IncludeGraphics::onProcessExited(int /* exitCode */, QProcess::ExitStatus e
                 // so the bounding box has to be calculated in a different way
 
                 // this regexp will accept floating point numbers as resolution
-                QRegExp reg("w=(\\d+)\\s+h=(\\d+)\\s+dpi=([0-9.]+) (.*)");
+                QRegExp reg(QStringLiteral("w=(\\d+)\\s+h=(\\d+)\\s+dpi=([0-9.]+) (.*)"));
                 if(reg.indexIn(m_output) == -1) {
                     return;
                 }
@@ -585,7 +593,7 @@ void IncludeGraphics::onProcessExited(int /* exitCode */, QProcess::ExitStatus e
                 }
 
                 // look, if resolution is in PixelsPerCentimeter
-                if (reg.cap(4).trimmed() == "PixelsPerCentimeter") {
+                if (reg.cap(4).trimmed() == QStringLiteral("PixelsPerCentimeter")) {
                     m_resolution *= 2.54f;
                 }
 
@@ -594,8 +602,8 @@ void IncludeGraphics::onProcessExited(int /* exitCode */, QProcess::ExitStatus e
                 int bbh = (int)((float)m_height * 72.0 / m_resolution + 0.5);
 
                 // take width and height as parameters for the bounding box
-                m_widget.edit_bb->setText(QString("0 0 ") + QString::number(bbw)
-                                          + ' '
+                m_widget.edit_bb->setText(QStringLiteral("0 0 ") + QString::number(bbw)
+                                          + QLatin1Char(' ')
                                           + QString::number(bbh));
 
                 // show information
@@ -617,7 +625,7 @@ void IncludeGraphics::onWrapFigureSelected(bool state) {
     }
     // Adds warning to log if wrapfig isn't in the preamble
     QStringList packagelist = m_ki->allPackages();
-    if (!packagelist.contains("wrapfig")) {
+    if (!packagelist.contains(QStringLiteral("wrapfig"))) {
         m_ki->errorHandler()->printMessage(KileTool::Error, i18n("You must include the wrapfig package to use the text wrapping options"), i18n("Missing Package"));
     }
 }

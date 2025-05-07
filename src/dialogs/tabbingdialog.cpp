@@ -49,28 +49,28 @@ void QuickTabbing::onAccepted()
     QString s = m_tabbingDialog.m_leSpacing->text();
     QString indent = m_info->editorExtension()->autoIndentEnvironment();
 
-    m_td.tagBegin = "\\begin{tabbing}\n";
+    m_td.tagBegin = QStringLiteral("\\begin{tabbing}\n");
     m_td.tagBegin += indent;
 
     for (int j = 1; j < x ; ++j) {
-        m_td.tagBegin += "\\hspace{" + s + "}\\=";
+        m_td.tagBegin += QStringLiteral("\\hspace{") + s + QStringLiteral("}\\=");
     }
 
-    m_td.tagBegin += "\\kill\n";
+    m_td.tagBegin += QStringLiteral("\\kill\n");
 
     for (int i = 0; i < y - 1; ++i) {
         m_td.tagBegin += indent;
         for (int j = 1; j < x; ++j)
-            m_td.tagBegin += " \\> ";
-        m_td.tagBegin += "\\\\ \n";
+            m_td.tagBegin += QStringLiteral(" \\> ");
+        m_td.tagBegin += QStringLiteral("\\\\ \n");
     }
 
     m_td.tagBegin += indent;
     for (int j = 1; j < x; ++j) {
-        m_td.tagBegin += " \\> ";
+        m_td.tagBegin += QStringLiteral(" \\> ");
     }
 
-    m_td.tagEnd = "\n\\end{tabbing}";
+    m_td.tagEnd = QStringLiteral("\n\\end{tabbing}");
     m_td.dy = 1;
     m_td.dx = indent.length();
 

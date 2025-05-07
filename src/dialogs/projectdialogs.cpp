@@ -88,19 +88,19 @@ KileProjectDialogBase::KileProjectDialogBase(const QString &caption, KileDocumen
     // combo box for default graphics extension
     m_defaultGraphicsExtensionCombo = new QComboBox(this);
     KileDocument::Extensions extManager;
-    QStringList imageExtensions = extManager.images().split(' ');
+    QStringList imageExtensions = extManager.images().split(QLatin1Char(' '));
     for(const QString &extension: std::as_const(imageExtensions)) {
         const QString extName = extension.mid(1); // all characters right of "."
         m_defaultGraphicsExtensionCombo->addItem(extension, extName);
     }
-    m_defaultGraphicsExtensionCombo->addItem(i18n("(use global settings)"),"");
+    m_defaultGraphicsExtensionCombo->addItem(i18n("(use global settings)"), QStringLiteral(""));
     const QString whatsThisTextDefaultGraphicsExtension = i18n("Default graphic extension to open when none specified by file name.");
     m_defaultGraphicsExtensionCombo->setWhatsThis(whatsThisTextDefaultGraphicsExtension);
 
     // extension settings groupbox
     m_userFileExtensions = new QLineEdit(this);
     m_userFileExtensions->setWhatsThis(whatsthisExt);
-    QRegularExpression reg("[\\. a-zA-Z0-9]+");
+    QRegularExpression reg(QStringLiteral("[\\. a-zA-Z0-9]+"));
     auto extValidator = new QRegularExpressionValidator(reg, m_extensionGroup);
     m_userFileExtensions->setValidator(extValidator);
 
@@ -143,14 +143,14 @@ void KileProjectDialogBase::onExtensionsTextEdited(const QString &text)
 
 bool KileProjectDialogBase::acceptUserExtensions()
 {
-    QRegExp reg("\\.\\w+");
+    QRegExp reg(QStringLiteral("\\.\\w+"));
 
     for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
         m_val_extensions[i-1] = m_val_extensions[i-1].trimmed();
         if (! m_val_extensions[i-1].isEmpty()) {
             // some tiny extension checks
             QStringList::ConstIterator it;
-            QStringList list = m_val_extensions[i-1].split(' ');
+            QStringList list = m_val_extensions[i-1].split(QLatin1Char(' '));
             for (it = list.constBegin(); it != list.constEnd(); ++it) {
                 if (! reg.exactMatch(*it)) {
                     KMessageBox::error(this, i18n("Error in extension '%1':\nAll user-defined extensions should look like '.xyz'", *it), i18n("Invalid extension"));
@@ -323,7 +323,7 @@ void KileNewProjectDialog::clickedCreateNewFileCb()
 
 QString KileNewProjectDialog::cleanProjectFile()
 {
-    return projectTitle().toLower().trimmed().remove(QRegularExpression("\\s*")) + ".kilepr";
+    return projectTitle().toLower().trimmed().remove(QRegularExpression(QStringLiteral("\\s*"))) + QStringLiteral(".kilepr");
 }
 
 void KileNewProjectDialog::handleOKButtonClicked()
@@ -467,7 +467,7 @@ KileProjectOptionsDialog::KileProjectOptionsDialog(KileProject *project, KileDoc
     m_QuickBuildCheckbox = new KComboBox(group3);
     quickbuildLabel->setBuddy(m_QuickBuildCheckbox);
     m_QuickBuildCheckbox->addItem(m_toolDefaultString);
-    m_QuickBuildCheckbox->addItems(KileTool::configNames("QuickBuild", KSharedConfig::openConfig().data()));
+    m_QuickBuildCheckbox->addItems(KileTool::configNames(QStringLiteral("QuickBuild"), KSharedConfig::openConfig().data()));
     QString itemToSelect = project->quickBuildConfig().length() > 0 ? project->quickBuildConfig() : m_toolDefaultString;
     int selectIndex = m_QuickBuildCheckbox->findText(itemToSelect);
     if(selectIndex >= 0) {
@@ -567,7 +567,7 @@ void KileProjectOptionsDialog::onAccepted()
     }
 
     if (m_QuickBuildCheckbox->currentText() == m_toolDefaultString) {
-        m_project->setQuickBuildConfig("");
+        m_project->setQuickBuildConfig(QStringLiteral(""));
     }
     else {
         m_project->setQuickBuildConfig(m_QuickBuildCheckbox->currentText());

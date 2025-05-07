@@ -293,7 +293,7 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
     frameWidgetLayout->addWidget(m_FrameWidget);
     frameWidgetLayout->addStretch();
 
-    m_pbDone = new QPushButton(QIcon::fromTheme("dialog-ok-apply"), i18n("Apply"), page);
+    m_pbDone = new QPushButton(QIcon::fromTheme(QStringLiteral("dialog-ok-apply")), i18n("Apply"), page);
 
     layout->addWidget(buttonBox);
     layout->addWidget(frameWidget);

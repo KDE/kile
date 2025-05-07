@@ -51,13 +51,13 @@ NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, KileDocumen
     setLayout(mainLayout);
 
     // first read config
-    KConfigGroup newFileWizardGroup = KSharedConfig::openConfig()->group("NewFileWizard");
-    bool wizard = newFileWizardGroup.readEntry("UseWizardWhenCreatingEmptyFile", false);
-    int w = newFileWizardGroup.readEntry("width", -1);
+    KConfigGroup newFileWizardGroup = KSharedConfig::openConfig()->group(QStringLiteral("NewFileWizard"));
+    bool wizard = newFileWizardGroup.readEntry(QStringLiteral("UseWizardWhenCreatingEmptyFile"), false);
+    int w = newFileWizardGroup.readEntry(QStringLiteral("width"), -1);
     if(w == -1) {
         w = width();
     }
-    int h = newFileWizardGroup.readEntry("height", -1);
+    int h = newFileWizardGroup.readEntry(QStringLiteral("height"), -1);
     if(h == -1) {
         h = height();
     }
@@ -134,18 +134,18 @@ bool NewFileWizard::useWizard()
 
 QString NewFileWizard::getConfigKey(int index)
 {
-    QString configKey = "NewFileWizardSelectedIcon";
+    QString configKey = QStringLiteral("NewFileWizardSelectedIcon");
     switch(index) {
     case LATEX_TYPE:
-        configKey += "LaTeX";
+        configKey += QStringLiteral("LaTeX");
         break;
 
     case BIBTEX_TYPE:
-        configKey += "BibTeX";
+        configKey += QStringLiteral("BibTeX");
         break;
 
     case SCRIPT_TYPE:
-        configKey += "Script";
+        configKey += QStringLiteral("Script");
         break;
     }
     return configKey;
@@ -158,13 +158,13 @@ void NewFileWizard::storeSelectedIcon()
     }
     TemplateItem *selectedItem = getSelection();
     if (selectedItem) {
-        KSharedConfig::openConfig()->group("default").writeEntry(getConfigKey(m_currentlyDisplayedType), selectedItem->name());
+        KSharedConfig::openConfig()->group(QStringLiteral("default")).writeEntry(getConfigKey(m_currentlyDisplayedType), selectedItem->name());
     }
 }
 
 void NewFileWizard::restoreSelectedIcon()
 {
-    KConfigGroup defaultGroup = KSharedConfig::openConfig()->group("default");
+    KConfigGroup defaultGroup = KSharedConfig::openConfig()->group(QStringLiteral("default"));
     QString selectedIconName = defaultGroup.readEntry(getConfigKey(m_currentlyDisplayedType),
                                KileTemplate::Manager::defaultEmptyTemplateCaption());
     QList<QListWidgetItem*> items = m_newDocumentWidget->templateIconView->findItems(selectedIconName, Qt::MatchExactly);
@@ -175,7 +175,7 @@ void NewFileWizard::restoreSelectedIcon()
 
 void NewFileWizard::okButtonClicked()
 {
-    KConfigGroup newFileWizardGroup = KSharedConfig::openConfig()->group("NewFileWizard");
+    KConfigGroup newFileWizardGroup = KSharedConfig::openConfig()->group(QStringLiteral("NewFileWizard"));
 
     newFileWizardGroup.writeEntry("UseWizardWhenCreatingEmptyFile", m_newDocumentWidget->quickStartWizardCheckBox->isChecked());
     newFileWizardGroup.writeEntry("width", width());

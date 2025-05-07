@@ -100,10 +100,10 @@ void TabularCellDelegate::setEditorData(QWidget *editor,
     QLineEdit *edit = static_cast<QLineEdit*>(editor);
     QString styleSheet;
     if(bgBrush.style() != Qt::NoBrush) {
-        styleSheet += "background-color:" + bgBrush.color().name() + ';';
+        styleSheet += QStringLiteral("background-color:") + bgBrush.color().name() + QLatin1Char(';');
     }
     if(fgBrush.style() != Qt::NoBrush) {
-        styleSheet += "color:" + fgBrush.color().name() + ';';
+        styleSheet += QStringLiteral("color:") + fgBrush.color().name() + QLatin1Char(';');
     }
     edit->setStyleSheet(styleSheet);
     edit->setAlignment((Qt::Alignment)alignment);

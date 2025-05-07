@@ -145,9 +145,9 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
         m_coTab->setWhatsThis(i18n("Define the standard tabulator of this environment."));
 
         m_coTab->addItem(QString());
-        m_coTab->addItem("&");
-        m_coTab->addItem("&=");
-        m_coTab->addItem("&=&");
+        m_coTab->addItem(QStringLiteral("&"));
+        m_coTab->addItem(QStringLiteral("&="));
+        m_coTab->addItem(QStringLiteral("&=&"));
 
         currentRow += 3;
     }
@@ -162,14 +162,14 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 
         m_coOption->addItem(QString());
         if (m_envmode) {
-            m_coOption->addItem("[tcb]");
-            m_coOption->addItem("[lcr]");
+            m_coOption->addItem(QStringLiteral("[tcb]"));
+            m_coOption->addItem(QStringLiteral("[lcr]"));
             m_coOption->setWhatsThis(i18n("Define an optional alignment parameter."));
         }
         else {
             m_coOption->setWhatsThis(i18n("Does this command need an optional parameter?"));
         }
-        m_coOption->addItem("[ ]");
+        m_coOption->addItem(QStringLiteral("[ ]"));
 
         currentRow++;
     }
@@ -184,14 +184,14 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 
         if(m_envmode) {
             m_coParameter->addItem(QString());
-            m_coParameter->addItem("{n}");
-            m_coParameter->addItem("{w}");
-            m_coParameter->addItem("{ }");
+            m_coParameter->addItem(QStringLiteral("{n}"));
+            m_coParameter->addItem(QStringLiteral("{w}"));
+            m_coParameter->addItem(QStringLiteral("{ }"));
             m_coParameter->setWhatsThis(i18n("Does this environment need an additional parameter like {n} for an integer number, {w} for a width or { } for any other parameter?"));
         }
         else
         {
-            m_coParameter->addItem("{ }");
+            m_coParameter->addItem(QStringLiteral("{ }"));
             // m_coParameter->addItem(QString());
             m_coParameter->setWhatsThis(i18n("Does this command need an argument?"));
         }
@@ -205,11 +205,11 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
         QString pattern;
         if(m_envmode) {
             label1->setText(i18n("Define a new LaTeX environment:"));
-            pattern = "[A-Za-z]+";
+            pattern = QStringLiteral("[A-Za-z]+");
         }
         else {
             label1->setText(i18n("Define a new LaTeX command:"));
-            pattern = "\\\\?[A-Za-z]+";
+            pattern = QStringLiteral("\\\\?[A-Za-z]+");
         }
         QRegularExpression reg(pattern);
         m_edName->setValidator(new QRegularExpressionValidator(reg, m_edName));
@@ -219,14 +219,14 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
         // always insert name and starred attribute
         m_edName->setText(lvitem->text(0));
         m_edName->setReadOnly(true);
-        m_chStarred->setChecked(lvitem->text(1) == "*");
+        m_chStarred->setChecked(lvitem->text(1) == QStringLiteral("*"));
 
         int index;
         if (m_envmode) {            // insert existing arguments for environments
             label1->setText(i18n("Edit a LaTeX Environment"));
             if(m_useMathOrTab) {
-                m_chEndofline->setChecked(lvitem->text(2) == "\\\\");
-                m_chMath->setChecked(lvitem->text(3) == "$");
+                m_chEndofline->setChecked(lvitem->text(2) == QStringLiteral("\\\\"));
+                m_chMath->setChecked(lvitem->text(3) == QStringLiteral("$"));
                 if ((index = m_coTab->findText(lvitem->text(4))) > -1)
                     m_coTab->setCurrentIndex(index);
             }
@@ -274,8 +274,8 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 void NewLatexCommand::getParameter(QString &name, KileDocument::LatexCmdAttributes &attr)
 {
     name = m_edName->text();
-    if(m_envmode == false && name.at(0) != '\\') {
-        name.prepend('\\');
+    if(m_envmode == false && name.at(0) != QLatin1Char('\\')) {
+        name.prepend(QLatin1Char('\\'));
     }
 
     // set main attributes
@@ -310,8 +310,8 @@ void NewLatexCommand::slotAccepted()
     }
 
     QString name = m_edName->text();
-    if (m_envmode == false && name.at(0) != '\\') {
-        name.prepend('\\');
+    if (m_envmode == false && name.at(0) != QLatin1Char('\\')) {
+        name.prepend(QLatin1Char('\\'));
     }
 
     if (m_addmode && m_dict->contains(name)) {
@@ -511,17 +511,17 @@ void LatexCommandsDialog::setEntry(QTreeWidgetItem *parent, const QString &name,
 
     // always set the starred entry
     if (attr.starred)
-        item->setText(1, "*");
+        item->setText(1, QStringLiteral("*"));
 
     // environments have more attributes
     if (attr.type < KileDocument::CmdAttrLabel)         // environments
     {
         if (attr.cr)
-            item->setText(2, "\\\\");
+            item->setText(2, QStringLiteral("\\\\"));
         if (attr.mathmode)
-            item->setText(3, "$");
+            item->setText(3, QStringLiteral("$"));
         else if (attr.displaymathmode)
-            item->setText(3, "$$");
+            item->setText(3, QStringLiteral("$$"));
         item->setText(4, attr.tabulator);
         item->setText(5, attr.option);
         item->setText(6, attr.parameter);
@@ -540,13 +540,13 @@ void LatexCommandsDialog::setEntry(QTreeWidgetItem *parent, const QString &name,
 void LatexCommandsDialog::getEntry(QTreeWidgetItem *item, KileDocument::LatexCmdAttributes &attr)
 {
     // always set the starred entry
-    attr.starred = (item->text(1) == "*");
+    attr.starred = (item->text(1) == QStringLiteral("*"));
 
     // get all attributes
-    if (item->text(0).at(0) != '\\') {                 // environment
-        attr.cr = (item->text(2) == "\\\\");
-        attr.mathmode = (item->text(3) == "$");
-        attr.displaymathmode = (item->text(3) == "$$");
+    if (item->text(0).at(0) != QLatin1Char('\\')) {                 // environment
+        attr.cr = (item->text(2) == QStringLiteral("\\\\"));
+        attr.mathmode = (item->text(3) == QStringLiteral("$"));
+        attr.displaymathmode = (item->text(3) == QStringLiteral("$$"));
         attr.tabulator = item->text(4);
         attr.option = item->text(5);
         attr.parameter = item->text(6);
@@ -817,8 +817,8 @@ void LatexCommandsDialog::writeConfig(QTreeWidget *listview, const QString &grou
                 QString value = m_commands->configString(attr, env);
                 KILE_DEBUG_MAIN << "\tLatexCommandsDialog write config: " << key << " --> " << value << Qt::endl;
                 if (!value.isEmpty()) {
-                    group.writeEntry("Command" + QString::number(nrOfdefinedCommands), key);
-                    group.writeEntry("Parameters" + QString::number(nrOfdefinedCommands), value);
+                    group.writeEntry(QStringLiteral("Command") + QString::number(nrOfdefinedCommands), key);
+                    group.writeEntry(QStringLiteral("Parameters") + QString::number(nrOfdefinedCommands), value);
                     ++nrOfdefinedCommands;
                 }
             }

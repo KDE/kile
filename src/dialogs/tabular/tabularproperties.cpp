@@ -47,7 +47,7 @@ void TabularProperties::addColor(const QColor &color)
 
     if(!m_ColorNames.contains(color.name())) {
         int index = m_ColorIndex;
-        QString newColorName = "tc";
+        QString newColorName = QStringLiteral("tc");
 
         do {
             int value = index % 26;
@@ -56,7 +56,7 @@ void TabularProperties::addColor(const QColor &color)
         } while(index > 0);
 
         if(m_ColorNames.count() == 0) {
-            m_RequiredPackages << "color" << "colortbl";
+            m_RequiredPackages << QStringLiteral("color") << QStringLiteral("colortbl");
         }
 
         m_ColorNames.insert(color.name(), newColorName);

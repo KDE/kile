@@ -247,7 +247,7 @@ msgstr "正在检查系统是否设置正确……"
 #, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: dialogs/configcheckerdialog.cpp:148
 #, kde-format
@@ -11413,7 +11413,7 @@ msgstr "正在检查 TeX 系统是否被正确安装..."
 #: widgets/configcheckerwidget.ui:45
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_grpResults)
 #: widgets/configcheckerwidget.ui:58

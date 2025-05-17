@@ -19,7 +19,7 @@
 #include "kileinfo.h"
 
 EditorCommands::EditorCommands(KileInfo *info)
-    : KTextEditor::Command(QStringList() << "w" << "wa" << "wq" << "q" << "wqa")
+    : KTextEditor::Command(QStringList() << QStringLiteral("w") << QStringLiteral("wa") << QStringLiteral("wq") << QStringLiteral("q") << QStringLiteral("wqa"))
     , m_ki(info)
 {
 }
@@ -33,8 +33,8 @@ bool EditorCommands::exec(KTextEditor::View *view, const QString &cmd, QString &
 {
     Q_UNUSED(range)
 
-    if(cmd == "w" || cmd == "wa") {
-        if(cmd == "wa") {
+    if (cmd == QStringLiteral("w") || cmd == QStringLiteral("wa")) {
+        if (cmd == QStringLiteral("wa")) {
             bool result = m_ki->docManager()->fileSaveAll();
             msg = result ? i18n("All documents saved to disk.")
                   : i18n("Saving of all documents failed.");
@@ -47,10 +47,10 @@ bool EditorCommands::exec(KTextEditor::View *view, const QString &cmd, QString &
             return result;
         }
     }
-    else if(cmd == "q" || cmd == "wq" || cmd == "wqa") {
-        if(cmd == "wq" || cmd == "wqa") {
+    else if (cmd == QStringLiteral("q") || cmd == QStringLiteral("wq") || cmd == QStringLiteral("wqa")) {
+        if (cmd == QStringLiteral("wq") || cmd == QStringLiteral("wqa")) {
             bool result = true;
-            if(cmd == "wq") {
+            if (cmd == QStringLiteral("wq")) {
                 result = m_ki->docManager()->fileSave(view);
             }
             else {
@@ -72,17 +72,17 @@ bool EditorCommands::help(KTextEditor::View *view, const QString &cmd, QString &
 {
     Q_UNUSED(view);
 
-    if(cmd == "w" || cmd == "wa") {
-        msg = "<p><b>w/wa</b>: Save document(s) to disk.</p>"
-              "<p><b>w</b> only saves the current document, whereas "
-              "<b>wa</b> saves all the documents.</p>";
+    if (cmd == QStringLiteral("w") || cmd == QStringLiteral("wa")) {
+        msg = QStringLiteral("<p><b>w/wa</b>: Save document(s) to disk.</p>"
+                             "<p><b>w</b> only saves the current document, whereas "
+                             "<b>wa</b> saves all the documents.</p>");
         return true;
     }
-    else if(cmd == "q" || cmd == "wq" || cmd == "wqa") {
-        msg = "<p><b>q/wq/wqa</b>: Quit Kile</p>"
-              "<p><b>wq</b> additionally saves the current document to disk "
-              "before quitting, whereas <b>wqa</b> saves all the documents "
-              "before exiting.</p>";
+    else if (cmd == QStringLiteral("q") || cmd == QStringLiteral("wq") || cmd == QStringLiteral("wqa")) {
+        msg = QStringLiteral("<p><b>q/wq/wqa</b>: Quit Kile</p>"
+                             "<p><b>wq</b> additionally saves the current document to disk "
+                             "before quitting, whereas <b>wqa</b> saves all the documents "
+                             "before exiting.</p>");
         return true;
     }
 

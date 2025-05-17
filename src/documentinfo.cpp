@@ -94,7 +94,7 @@ namespace KileDocument
 bool Info::containsInvalidCharacters(const QUrl &url)
 {
     QString filename = url.fileName();
-    return filename.contains(" ") || filename.contains("~") || filename.contains("$") || filename.contains("#");
+    return filename.contains(QStringLiteral(" ")) || filename.contains(QStringLiteral("~")) || filename.contains(QStringLiteral("$")) || filename.contains(QStringLiteral("#"));
 }
 
 QUrl Info::repairInvalidCharacters(const QUrl &url, QWidget* mainWidget, bool checkForFileExistence /* = true */)
@@ -150,7 +150,7 @@ QUrl Info::repairExtension(const QUrl &url, QWidget *mainWidget, bool checkForFi
     QUrl ret(url);
 
     QString filename = url.fileName();
-    if(filename.contains(".") && filename[0] != '.') // There already is an extension
+    if (filename.contains(QStringLiteral(".")) && filename[0] != QLatin1Char('.')) // There already is an extension
         return ret;
 
     if(KMessageBox::questionTwoActions(nullptr,
@@ -158,10 +158,10 @@ QUrl Info::repairExtension(const QUrl &url, QWidget *mainWidget, bool checkForFi
             i18n("Missing Extension"),
             KStandardGuiItem::add(),
             KStandardGuiItem::cancel(),
-            "AutomaticallyAddExtension") == KMessageBox::PrimaryAction)
+            QStringLiteral("AutomaticallyAddExtension")) == KMessageBox::PrimaryAction)
     {
         ret = ret.adjusted(QUrl::RemoveFilename);
-        ret.setPath(ret.path() + filename + ".tex");
+        ret.setPath(ret.path() + filename + QStringLiteral(".tex"));
     }
     return (checkForFileExistence ? renameIfExist(ret, mainWidget) : ret);
 }
@@ -283,16 +283,16 @@ void Info::count(const QString& line, long *stat)
 
         switch(state) {
         case stStandard:
-            if(c == TEX_CAT0) {
+            if(c == QLatin1Char(TEX_CAT0)) {
                 state = stControlSequence;
                 ++stat[1];
 
                 //look ahead to avoid counting words like K\"ahler as two words
-                if( (p+1) < lineLength && ( !line[p+1].isPunct() || line[p+1] == '~' || line[p+1] == '^' )) {
+                if ((p + 1) < lineLength && (!line[p+1].isPunct() || line[p + 1] == QLatin1Char('~') || line[p + 1] == QLatin1Char('^'))) {
                     word = false;
                 }
             }
-            else if(c == TEX_CAT14) {
+            else if(c == QLatin1Char(TEX_CAT14)) {
                 state = stComment;
             }
             else {
@@ -314,13 +314,13 @@ void Info::count(const QString& line, long *stat)
         case stControlSequence :
             if(c.isLetter()) {
                 // "\begin{[a-zA-z]+}" is an environment, and you can't define a command like \begin
-                if(line.mid(p, 5) == "begin") {
+                if (line.mid(p, 5) == QStringLiteral("begin")) {
                     ++stat[5];
                     state = stEnvironment;
                     stat[1] +=5;
                     p+=4; // after break p++ is executed
                 }
-                else if(line.mid(p, 3) == "end") {
+                else if (line.mid(p, 3) == QStringLiteral("end")) {
                     stat[1] +=3;
                     state = stEnvironment;
                     p+=2;
@@ -342,11 +342,11 @@ void Info::count(const QString& line, long *stat)
             if(c.isLetter()) {
                 ++stat[1];
             }
-            else if(c == TEX_CAT0) {
+            else if(c == QLatin1Char(TEX_CAT0)) {
                 ++stat[1];
                 state = stControlSequence;
             }
-            else if(c == TEX_CAT14) {
+            else if(c == QLatin1Char(TEX_CAT14)) {
                 state = stComment;
             }
             else {
@@ -356,11 +356,11 @@ void Info::count(const QString& line, long *stat)
             break;
 
         case stEnvironment :
-            if(c == TEX_CAT2) { // until we find a closing } we have an environment
+            if(c == QLatin1Char(TEX_CAT2)) { // until we find a closing } we have an environment
                 ++stat[1];
                 state = stStandard;
             }
-            else if(c == TEX_CAT14) {
+            else if(c == QLatin1Char(TEX_CAT14)) {
                 state = stComment;
             }
             else {
@@ -369,7 +369,7 @@ void Info::count(const QString& line, long *stat)
             break;
 
         case stComment : // if we get a selection the line possibly contains \n and so the comment is only valid till \n and not necessarily till line.length()
-            if(c == '\n') {
+            if(c == QLatin1Char('\n')) {
                 ++stat[2]; // \n was counted as punctuation in the old implementation
                 state = stStandard;
                 word = false;
@@ -534,7 +534,7 @@ bool TextInfo::isTextDocument()
 
 void TextInfo::setMode(const QString &mode)
 {
-    KILE_DEBUG_MAIN << "==Kile::setMode(" << (m_doc ? m_doc->url().toString() : "<null doc>") << "," << mode << ")==================";
+    KILE_DEBUG_MAIN << "==Kile::setMode(" << (m_doc ? m_doc->url().toString() : QStringLiteral("<null doc>")) << "," << mode << ")==================";
 
     if (m_doc && !mode.isEmpty()) {
         m_doc->setMode(mode);
@@ -543,7 +543,7 @@ void TextInfo::setMode(const QString &mode)
 
 void TextInfo::setHighlightingMode(const QString& highlight)
 {
-    KILE_DEBUG_MAIN << "==Kile::setHighlightingMode(" << (m_doc ? m_doc->url().toString() : "<null doc>") << "," << highlight << " )==================";
+    KILE_DEBUG_MAIN << "==Kile::setHighlightingMode(" << (m_doc ? m_doc->url().toString() : QStringLiteral("<null doc>")) << "," << highlight << " )==================";
 
     if (m_doc && !highlight.isEmpty()) {
         m_doc->setHighlightingMode(highlight);
@@ -560,17 +560,17 @@ void TextInfo::setDefaultMode(const QString& string)
 QString TextInfo::matchBracket(QChar obracket, int &l, int &pos)
 {
     QChar cbracket;
-    if(obracket == '{') {
-        cbracket = '}';
+    if (obracket == QLatin1Char('{')) {
+        cbracket = QLatin1Char('}');
     }
-    if(obracket == '[') {
-        cbracket = ']';
+    if (obracket == QLatin1Char('[')) {
+        cbracket = QLatin1Char(']');
     }
-    if(obracket == '(') {
-        cbracket = ')';
+    if (obracket == QLatin1Char('(')) {
+        cbracket = QLatin1Char(')');
     }
 
-    QString line, grab = "";
+    QString line, grab = QStringLiteral("");
     int count=0;
     ++pos;
 
@@ -579,7 +579,7 @@ QString TextInfo::matchBracket(QChar obracket, int &l, int &pos)
         line = getTextline(l,todo);
         int len = line.length();
         for (int i=pos; i < len; ++i) {
-            if(line[i] == '\\' && (line[i+1] == obracket || line[i+1] == cbracket)) {
+            if (line[i] == QLatin1Char('\\') && (line[i+1] == obracket || line[i+1] == cbracket)) {
                 ++i;
             }
             else if(line[i] == obracket) {
@@ -604,19 +604,19 @@ QString TextInfo::matchBracket(QChar obracket, int &l, int &pos)
 
 QString TextInfo::getTextline(uint line, TodoResult &todo)
 {
-    static QRegularExpression reComments("[^\\\\](%.*$)");
+    static QRegularExpression reComments(QStringLiteral("[^\\\\](%.*$)"));
 
     todo.type = -1;
     QString s = m_doc->line(line);
     if(!s.isEmpty()) {
         // remove comment lines
-        if(s[0] == '%') {
+        if(s[0] == QLatin1Char('%')) {
             searchTodoComment(s,0,todo);
             s.clear();
         }
         else {
             //remove escaped \ characters
-            s.replace("\\\\", "  ");
+            s.replace(QStringLiteral("\\\\"), QStringLiteral("  "));
 
             //remove comments
             QRegularExpressionMatch match;
@@ -632,7 +632,7 @@ QString TextInfo::getTextline(uint line, TodoResult &todo)
 
 void TextInfo::searchTodoComment(const QString &s, uint startpos, TodoResult &todo)
 {
-    static QRegularExpression reTodoComment("\\b(TODO|FIXME)\\b(:|\\s)?\\s*(.*)");
+    static QRegularExpression reTodoComment(QStringLiteral("\\b(TODO|FIXME)\\b(:|\\s)?\\s*(.*)"));
     QRegularExpressionMatch todoCommentMatch;
 
     if(s.indexOf(reTodoComment, startpos, &todoCommentMatch) != -1) {
@@ -841,7 +841,7 @@ LaTeXInfo::LaTeXInfo(Extensions *extensions,
                      KileView::Manager *viewManager,
                      KileParser::Manager *parserManager,
                      KileTool::Manager *toolManager)
-    : TextInfo(extensions, abbreviationManager, parserManager, "LaTeX"),
+    : TextInfo(extensions, abbreviationManager, parserManager, QStringLiteral("LaTeX")),
       m_commands(commands),
       m_editorExtension(editorExtension),
       m_configurationManager(manager),
@@ -893,53 +893,53 @@ void LaTeXInfo::updateStructLevelInfo() {
     //TODO: make sectioning and bibliography configurable
 
     // sectioning
-    m_dictStructLevel["\\part"] = KileStructData(1, KileStruct::Sect, "part");
-    m_dictStructLevel["\\chapter"] = KileStructData(2, KileStruct::Sect, "chapter");
-    m_dictStructLevel["\\section"] = KileStructData(3, KileStruct::Sect, "section");
-    m_dictStructLevel["\\subsection"] = KileStructData(4, KileStruct::Sect, "subsection");
-    m_dictStructLevel["\\subsubsection"] = KileStructData(5, KileStruct::Sect, "subsubsection");
-    m_dictStructLevel["\\paragraph"] = KileStructData(6, KileStruct::Sect, "subsubsection");
-    m_dictStructLevel["\\subparagraph"] = KileStructData(7, KileStruct::Sect, "subsubsection");
+    m_dictStructLevel[QStringLiteral("\\part")] = KileStructData(1, KileStruct::Sect, QStringLiteral("part"));
+    m_dictStructLevel[QStringLiteral("\\chapter")] = KileStructData(2, KileStruct::Sect, QStringLiteral("chapter"));
+    m_dictStructLevel[QStringLiteral("\\section")] = KileStructData(3, KileStruct::Sect, QStringLiteral("section"));
+    m_dictStructLevel[QStringLiteral("\\subsection")] = KileStructData(4, KileStruct::Sect, QStringLiteral("subsection"));
+    m_dictStructLevel[QStringLiteral("\\subsubsection")] = KileStructData(5, KileStruct::Sect, QStringLiteral("subsubsection"));
+    m_dictStructLevel[QStringLiteral("\\paragraph")] = KileStructData(6, KileStruct::Sect, QStringLiteral("subsubsection"));
+    m_dictStructLevel[QStringLiteral("\\subparagraph")] = KileStructData(7, KileStruct::Sect, QStringLiteral("subsubsection"));
 
     // hidden commands
-    m_dictStructLevel["\\usepackage"] = KileStructData(KileStruct::Hidden, KileStruct::Package);
-    m_dictStructLevel["\\newcommand"] = KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
-    m_dictStructLevel["\\newlength"] = KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
-    m_dictStructLevel["\\newenvironment"] = KileStructData(KileStruct::Hidden, KileStruct::NewEnvironment);
-    m_dictStructLevel["\\addunit"] = KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // hack to get support for the fancyunits package until we can configure the commands in the gui (tbraun)
-    m_dictStructLevel["\\DeclareMathOperator"] = KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // amsmath package
-    m_dictStructLevel["\\caption"] = KileStructData(KileStruct::Hidden,KileStruct::Caption);
+    m_dictStructLevel[QStringLiteral("\\usepackage")] = KileStructData(KileStruct::Hidden, KileStruct::Package);
+    m_dictStructLevel[QStringLiteral("\\newcommand")] = KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
+    m_dictStructLevel[QStringLiteral("\\newlength")] = KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
+    m_dictStructLevel[QStringLiteral("\\newenvironment")] = KileStructData(KileStruct::Hidden, KileStruct::NewEnvironment);
+    m_dictStructLevel[QStringLiteral("\\addunit")] = KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // hack to get support for the fancyunits package until we can configure the commands in the gui (tbraun)
+    m_dictStructLevel[QStringLiteral("\\DeclareMathOperator")] = KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // amsmath package
+    m_dictStructLevel[QStringLiteral("\\caption")] = KileStructData(KileStruct::Hidden,KileStruct::Caption);
 
     // bibitems
     if(m_showStructureBibitems) {
-        m_dictStructLevel["\\bibitem"] = KileStructData(KileStruct::NotSpecified, KileStruct::BibItem, QString(), "bibs");
+        m_dictStructLevel[QStringLiteral("\\bibitem")] = KileStructData(KileStruct::NotSpecified, KileStruct::BibItem, QString(), QStringLiteral("bibs"));
     }
 
     // graphics
     if(m_showStructureGraphics) {
-        m_dictStructLevel["\\includegraphics"] = KileStructData(KileStruct::Object,KileStruct::Graphics, "graphics");
+        m_dictStructLevel[QStringLiteral("\\includegraphics")] = KileStructData(KileStruct::Object,KileStruct::Graphics, QStringLiteral("graphics"));
     }
 
     // float environments
     if(m_showStructureFloats) {
-        m_dictStructLevel["\\begin"] = KileStructData(KileStruct::Object,KileStruct::BeginEnv);
-        m_dictStructLevel["\\end"] = KileStructData(KileStruct::Hidden,KileStruct::EndEnv);
+        m_dictStructLevel[QStringLiteral("\\begin")] = KileStructData(KileStruct::Object,KileStruct::BeginEnv);
+        m_dictStructLevel[QStringLiteral("\\end")] = KileStructData(KileStruct::Hidden,KileStruct::EndEnv);
 
         // some entries, which could never be found (but they are set manually)
-        m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "figure-env");
-        m_dictStructLevel["\\begin{figure*}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "figure-env");
-        m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "table-env");
-        m_dictStructLevel["\\begin{table*}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "table-env");
-        m_dictStructLevel["\\begin{asy}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "image-x-generic");
-        m_dictStructLevel["\\end{float}"]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
+        m_dictStructLevel[QStringLiteral("\\begin{figure}")]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, QStringLiteral("figure-env"));
+        m_dictStructLevel[QStringLiteral("\\begin{figure*}")]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, QStringLiteral("figure-env"));
+        m_dictStructLevel[QStringLiteral("\\begin{table}")]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, QStringLiteral("table-env"));
+        m_dictStructLevel[QStringLiteral("\\begin{table*}")]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, QStringLiteral("table-env"));
+        m_dictStructLevel[QStringLiteral("\\begin{asy}")]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, QStringLiteral("image-x-generic"));
+        m_dictStructLevel[QStringLiteral("\\end{float}")]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
     }
 
     // preliminary minimal beamer support
-    m_dictStructLevel["\\frame"] = KileStructData(KileStruct::Object, KileStruct::BeamerFrame, "beamerframe");
-    m_dictStructLevel["\\frametitle"] = KileStructData(KileStruct::Hidden, KileStruct::BeamerFrametitle);
-    m_dictStructLevel["\\begin{frame}"] = KileStructData(KileStruct::Object, KileStruct::BeamerBeginFrame, "beamerframe");
-    m_dictStructLevel["\\end{frame}"] = KileStructData(KileStruct::Hidden, KileStruct::BeamerEndFrame);
-    m_dictStructLevel["\\begin{block}"] = KileStructData(KileStruct::Object, KileStruct::BeamerBeginBlock, "beamerblock");
+    m_dictStructLevel[QStringLiteral("\\frame")] = KileStructData(KileStruct::Object, KileStruct::BeamerFrame, QStringLiteral("beamerframe"));
+    m_dictStructLevel[QStringLiteral("\\frametitle")] = KileStructData(KileStruct::Hidden, KileStruct::BeamerFrametitle);
+    m_dictStructLevel[QStringLiteral("\\begin{frame}")] = KileStructData(KileStruct::Object, KileStruct::BeamerBeginFrame, QStringLiteral("beamerframe"));
+    m_dictStructLevel[QStringLiteral("\\end{frame}")] = KileStructData(KileStruct::Hidden, KileStruct::BeamerEndFrame);
+    m_dictStructLevel[QStringLiteral("\\begin{block}")] = KileStructData(KileStruct::Object, KileStruct::BeamerBeginBlock, QStringLiteral("beamerblock"));
 
     // add user-defined commands
 
@@ -949,14 +949,14 @@ void LaTeXInfo::updateStructLevelInfo() {
     // labels, we also gather them
     m_commands->commandList(list,KileDocument::CmdAttrLabel, false);
     for(it=list.constBegin(); it != list.constEnd(); ++it) {
-        m_dictStructLevel[*it] = KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString(), "labels");
+        m_dictStructLevel[*it] = KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString(), QStringLiteral("labels"));
     }
 
     // input files
     if(m_showStructureInputFiles) {
         m_commands->commandList(list, KileDocument::CmdAttrIncludes, false);
         for(it = list.constBegin(); it != list.constEnd(); ++it) {
-            m_dictStructLevel[*it] = KileStructData(KileStruct::File, KileStruct::Input, "input-file");
+            m_dictStructLevel[*it] = KileStructData(KileStruct::File, KileStruct::Input, QStringLiteral("input-file"));
         }
     }
 
@@ -971,7 +971,7 @@ void LaTeXInfo::updateStructLevelInfo() {
     //bibliography commands
     m_commands->commandList(list,KileDocument::CmdAttrBibliographies, false);
     for(it=list.constBegin(); it != list.constEnd(); ++it) {
-        m_dictStructLevel[*it] = KileStructData(0, KileStruct::Bibliography, "viewbib");
+        m_dictStructLevel[*it] = KileStructData(0, KileStruct::Bibliography, QStringLiteral("viewbib"));
     }
 }
 
@@ -1022,10 +1022,10 @@ BracketResult LaTeXInfo::matchBracket(int &l, int &pos)
     BracketResult result;
     TodoResult todo;
 
-    if(m_doc->line(l)[pos] == '[') {
-        result.option = TextInfo::matchBracket('[', l, pos);
+    if(m_doc->line(l)[pos] == QLatin1Char('[')) {
+        result.option = TextInfo::matchBracket(QLatin1Char('['), l, pos);
         while(l < m_doc->lines()) {
-            int p = getTextline(l, todo).indexOf('{', pos);
+            int p = getTextline(l, todo).indexOf(QLatin1Char('{'), pos);
             if(p != -1) {
                 pos = p;
                 break;
@@ -1037,10 +1037,10 @@ BracketResult LaTeXInfo::matchBracket(int &l, int &pos)
         }
     }
 
-    if(m_doc->line(l)[pos] == '{') {
+    if(m_doc->line(l)[pos] == QLatin1Char('{')) {
         result.line = l;
         result.col = pos;
-        result.value  = TextInfo::matchBracket('{', l, pos);
+        result.value  = TextInfo::matchBracket(QLatin1Char('{'), l, pos);
     }
 
     return result;
@@ -1092,7 +1092,7 @@ BibInfo::BibInfo(Extensions* extensions,
                  KileAbbreviation::Manager* abbreviationManager,
                  KileParser::Manager* parserManager,
                  LatexCommands* /* commands */)
-    : TextInfo(extensions, abbreviationManager, parserManager, "BibTeX")
+    : TextInfo(extensions, abbreviationManager, parserManager, QStringLiteral("BibTeX"))
 {
     documentTypePromotionAllowed = false;
 }
@@ -1140,7 +1140,7 @@ std::vector<Extensions::ExtensionType> BibInfo::getFileFilter() const
 ScriptInfo::ScriptInfo(Extensions* extensions,
                        KileAbbreviation::Manager* abbreviationManager,
                        KileParser::Manager* parserManager)
-    : TextInfo(extensions, abbreviationManager, parserManager, "JavaScript")
+    : TextInfo(extensions, abbreviationManager, parserManager, QStringLiteral("JavaScript"))
 {
     documentTypePromotionAllowed = false;
 }

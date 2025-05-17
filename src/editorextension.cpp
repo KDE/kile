@@ -50,9 +50,9 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
     m_latexCommands = m_ki->latexCommands();
 
     // init regexp
-    m_reg.setPattern("(\\\\(begin|end)\\s*\\{([A-Za-z]+\\*?)\\})|(\\\\\\[|\\\\\\])");
+    m_reg.setPattern(QStringLiteral("(\\\\(begin|end)\\s*\\{([A-Za-z]+\\*?)\\})|(\\\\\\[|\\\\\\])"));
     //                1    2                 3                   4
-    m_regexpEnter.setPattern("^(.*)((\\\\begin\\s*\\{([^\\{\\}]*)\\})|(\\\\\\[))");
+    m_regexpEnter.setPattern(QStringLiteral("^(.*)((\\\\begin\\s*\\{([^\\{\\}]*)\\})|(\\\\\\[))"));
     //                         1   23                 4               5
 
     // init double quotes
@@ -69,15 +69,15 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 
 
     m_quoteList
-            << std::pair<QString, QString>("``", "''")
-            << std::pair<QString, QString>("\"<", "\">")
-            << std::pair<QString, QString>("\"`", "\"'")
-            << std::pair<QString, QString>("\\flqq", "\\frqq")
-            << std::pair<QString, QString>("\\glqq", "\\grqq")
-            << std::pair<QString, QString>("\\ilqq", "\\irqq")
-            << std::pair<QString, QString>("\\iflqq", "\\ifrqq")
-            << std::pair<QString, QString>("\\uv{", "}")
-            << std::pair<QString, QString>("\\enquote{", "}");
+            << std::pair<QString, QString>(QStringLiteral("``"), QStringLiteral("''"))
+            << std::pair<QString, QString>(QStringLiteral("\"<"), QStringLiteral("\">"))
+            << std::pair<QString, QString>(QStringLiteral("\"`"), QStringLiteral("\"'"))
+            << std::pair<QString, QString>(QStringLiteral("\\flqq"), QStringLiteral("\\frqq"))
+            << std::pair<QString, QString>(QStringLiteral("\\glqq"), QStringLiteral("\\grqq"))
+            << std::pair<QString, QString>(QStringLiteral("\\ilqq"), QStringLiteral("\\irqq"))
+            << std::pair<QString, QString>(QStringLiteral("\\iflqq"), QStringLiteral("\\ifrqq"))
+            << std::pair<QString, QString>(QStringLiteral("\\uv{"), QStringLiteral("}"))
+            << std::pair<QString, QString>(QStringLiteral("\\enquote{"), QStringLiteral("}"));
 
     readConfig();
 }
@@ -104,10 +104,10 @@ void EditorExtension::readConfig()
             if(num < 1 || num > 9) {
                 num = 1;
             }
-            m_envAutoIndent.fill(' ', num);
+            m_envAutoIndent.fill(QLatin1Char(' '), num);
         }
         else {
-            m_envAutoIndent = "\t";
+            m_envAutoIndent = QStringLiteral("\t");
         }
     }
 }
@@ -123,8 +123,8 @@ void EditorExtension::insertTag(const KileAction::TagData& data, KTextEditor::Vi
     bool wrap = !data.tagEnd.isNull() && view->selection();
 
     //%C before or after the selection
-    bool before = data.tagBegin.count("%C");
-    bool after = data.tagEnd.count("%C");
+    bool before = data.tagBegin.count(QStringLiteral("%C"));
+    bool after = data.tagEnd.count(QStringLiteral("%C"));
 
     //save current cursor position
     KTextEditor::Cursor cursor = view->cursorPosition();
@@ -139,7 +139,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, KTextEditor::Vi
     int dxIndentEnv = 0;
 
     // environment tag
-    bool envtag = data.tagBegin.count("%E") || data.tagEnd.count("%E");
+    bool envtag = data.tagBegin.count(QStringLiteral("%E")) || data.tagEnd.count(QStringLiteral("%E"));
     QString whitespace = getWhiteSpace( doc->line(para).left(index) );
 
     //if there is a selection act as if cursor is at the beginning of selection
@@ -164,13 +164,13 @@ void EditorExtension::insertTag(const KileAction::TagData& data, KTextEditor::Vi
 
         // no autoindentation of environments, when text is selected
         if(envtag) {
-            ins.remove("%E");
-            tagEnd.remove("%E\n");
+            ins.remove(QStringLiteral("%E"));
+            tagEnd.remove(QStringLiteral("%E\n"));
         }
 
         // strip one of two consecutive line ends
         int len = sel.length();
-        if(tagEnd.at(0)=='\n' && len > 0 && sel.indexOf('\n',-1) == len - 1) {
+        if (tagEnd.at(0) == QLatin1Char('\n') && len > 0 && sel.indexOf(QLatin1Char('\n'), -1) == len - 1) {
             sel.truncate( len-1 );
         }
 
@@ -179,38 +179,38 @@ void EditorExtension::insertTag(const KileAction::TagData& data, KTextEditor::Vi
 
         // place the cursor behind this tag, if there is no other wish
         if(!before && !after) {
-            trailing = "%C";
+            trailing = QStringLiteral("%C");
             after = true;
         }
     }
     else if(envtag) {
-        ins.replace("%E",whitespace+m_envAutoIndent);
-        tagEnd.replace("%E",whitespace+m_envAutoIndent);
+        ins.replace(QStringLiteral("%E"), whitespace + m_envAutoIndent);
+        tagEnd.replace(QStringLiteral("%E"), whitespace + m_envAutoIndent);
         if(data.dy > 0) {
             dxIndentEnv = whitespace.length() + m_envAutoIndent.length();
         }
     }
 
-    tagEnd.replace("\\end{",whitespace+"\\end{");
+    tagEnd.replace(QStringLiteral("\\end{"), whitespace + QStringLiteral("\\end{"));
     ins += tagEnd + trailing;
 
     //do some replacements
     QFileInfo fi( doc->url().toLocalFile());
-    ins.replace("%S", fi.completeBaseName());
-    ins.replace("%B", s_bullet);
+    ins.replace(QStringLiteral("%S"), fi.completeBaseName());
+    ins.replace(QStringLiteral("%B"), s_bullet);
 
     //insert first part of tag at cursor position
     doc->insertText(KTextEditor::Cursor(para, index), ins);
 
     //move cursor to the new position
     if(before || after) {
-        int n = data.tagBegin.count("\n")+ data.tagEnd.count("\n");
+        int n = data.tagBegin.count(QStringLiteral("\n")) + data.tagEnd.count(QStringLiteral("\n"));
         if(wrap) {
             n += para_end > para ? para_end-para : para-para_end;
         }
         for (int line = para_begin; line <= para_begin+n; ++line) {
-            if(doc->line(line).count("%C")) {
-                int i=doc->line(line).indexOf("%C");
+            if(doc->line(line).count(QStringLiteral("%C"))) {
+                int i=doc->line(line).indexOf(QStringLiteral("%C"));
                 para_cursor = line;
                 index_cursor = i;
                 doc->removeText(KTextEditor::Range(line, i, line, i+2));
@@ -333,11 +333,11 @@ void EditorExtension::closeEnvironment(KTextEditor::View *view)
     currentCol = cursor.column();
 
     if(findOpenedEnvironment(row, col, name, view)) {
-        if(name == "\\[") {
-            view->document()->insertText(KTextEditor::Cursor(currentRow, currentCol), "\\]");
+        if (name == QStringLiteral("\\[")) {
+            view->document()->insertText(KTextEditor::Cursor(currentRow, currentCol), QStringLiteral("\\]"));
         }
         else {
-            view->document()->insertText(KTextEditor::Cursor(currentRow, currentCol), "\\end{" + name + '}');
+            view->document()->insertText(KTextEditor::Cursor(currentRow, currentCol), QStringLiteral("\\end{") + name + QLatin1Char('}'));
         }
 // 		view->setCursorPosition(KTextEditor::Cursor(row + 1, 0));
     }
@@ -365,15 +365,15 @@ void EditorExtension::closeAllEnvironments(KTextEditor::View *view)
 
     bool indent = !m_envAutoIndent.isEmpty();
     if(indent && currentCol > 0) {
-        doc->insertText(KTextEditor::Cursor(currentRow, currentCol),"\n");
+        doc->insertText(KTextEditor::Cursor(currentRow, currentCol), QStringLiteral("\n"));
         currentRow++;
         currentCol = 0;
     }
 
     bool ok1,ok2;
     for(const QString& envEntry : envlist) {
-        QStringList entry = envEntry.split(',');
-        if(entry[0] == "document") {
+        QStringList entry = envEntry.split(QLatin1Char(','));
+        if(entry[0] == QStringLiteral("document")) {
             break;
         }
 
@@ -389,7 +389,7 @@ void EditorExtension::closeAllEnvironments(KTextEditor::View *view)
             doc->insertText(KTextEditor::Cursor(currentRow, outputCol), whitespace);
             outputCol += whitespace.length();
         }
-        QString endtag = ( entry[0] == "\\[" ) ? "\\]\n" : QString("\\end{"+entry[0]+"}\n");
+        QString endtag = ( entry[0] == QStringLiteral("\\[") ) ? QStringLiteral("\\]\n") : QStringLiteral("\\end{") + entry[0] + QStringLiteral("}\n");
         doc->insertText(KTextEditor::Cursor(currentRow, outputCol), endtag);
         ++currentRow;
     }
@@ -487,14 +487,14 @@ bool EditorExtension::getMathgroup(KTextEditor::View *view, int &row1, int &col1
     // check for '\ensuremath{...}'
     QString currentWord;
     int x1, x2;
-    if(getCurrentWord(doc, row, col, smTex, currentWord, x1, x2) && currentWord == "\\ensuremath") {
+    if(getCurrentWord(doc, row, col, smTex, currentWord, x1, x2) && currentWord == QStringLiteral("\\ensuremath")) {
         view->setCursorPosition(KTextEditor::Cursor(row, x2));
     }
 
     BracketData open,close;
     if(getTexgroup(false, open, close, view)) {
         QString s = getTextLineReal(doc,open.row);
-        if(open.col >= 11 && s.mid(open.col - 11, 11) == "\\ensuremath") {
+        if (open.col >= 11 && s.mid(open.col - 11, 11) == QStringLiteral("\\ensuremath")) {
             view->setCursorPosition(KTextEditor::Cursor(row, col));
             row1 = open.row;
             col1 = open.col-11;
@@ -509,10 +509,10 @@ bool EditorExtension::getMathgroup(KTextEditor::View *view, int &row1, int &col1
 
     // '$' is difficult, because it is used as opening and closing tag
     int mode = 0;
-    if(col < textline.length() && textline[col] == '$') {
+    if(col < textline.length() && textline[col] == QLatin1Char('$')) {
         mode = 1;
     }
-    else if((col - 1 < textline.length()) && col > 0 && textline[col - 1] == '$') {
+    else if ((col - 1 < textline.length()) && col > 0 && textline[col - 1] == QLatin1Char('$')) {
         mode = 2;
     }
 
@@ -624,7 +624,7 @@ bool EditorExtension::isOpeningMathTagPosition(KTextEditor::Document *doc, uint 
 {
     QString textline = getTextLineReal(doc,row);
 
-    QRegExp reg("\\\\begin\\s*\\{([A-Za-z]+\\*?)\\}|\\\\\\[|\\\\\\(");
+    QRegExp reg(QStringLiteral("\\\\begin\\s*\\{([A-Za-z]+\\*?)\\}|\\\\\\[|\\\\\\("));
     if((int)col != reg.indexIn(textline, col)) {
         return false;
     }
@@ -638,10 +638,10 @@ bool EditorExtension::isOpeningMathTagPosition(KTextEditor::Document *doc, uint 
 
     switch(id.unicode()) {
     case 'b':
-        if(!(m_latexCommands->isMathEnv(envname) || envname=="math") || m_latexCommands->needsMathMode(envname)) {
+        if (!(m_latexCommands->isMathEnv(envname) || envname == QStringLiteral("math")) || m_latexCommands->needsMathMode(envname)) {
             return false;
         }
-        mathdata.tag = ( envname=="math" ) ? mmMathEnv : mmDisplaymathEnv;
+        mathdata.tag = (envname == QStringLiteral("math")) ? mmMathEnv : mmDisplaymathEnv;
         mathdata.envname = envname;
         break;
     case '[':
@@ -659,7 +659,7 @@ bool EditorExtension::isClosingMathTagPosition(KTextEditor::Document *doc, uint 
 {
     QString textline = doc->line(row);
 
-    QRegExp reg("\\\\end\\s*\\{([A-Za-z]+\\*?)\\}|\\\\\\]|\\\\\\)");
+    QRegExp reg(QStringLiteral("\\\\end\\s*\\{([A-Za-z]+\\*?)\\}|\\\\\\]|\\\\\\)"));
     int pos = reg.lastIndexIn(textline, col);
     if(pos < 0 || (int)col > pos + reg.matchedLength()) {
         return false;
@@ -674,10 +674,10 @@ bool EditorExtension::isClosingMathTagPosition(KTextEditor::Document *doc, uint 
 
     switch(id.unicode()) {
     case 'e':
-        if(!(m_latexCommands->isMathEnv(envname) || envname=="math") || m_latexCommands->needsMathMode(envname)) {
+        if (!(m_latexCommands->isMathEnv(envname) || envname == QStringLiteral("math")) || m_latexCommands->needsMathMode(envname)) {
             return false;
         }
-        mathdata.tag = ( envname=="math" ) ? mmMathEnv : mmDisplaymathEnv;
+        mathdata.tag = (envname == QStringLiteral("math")) ? mmMathEnv : mmDisplaymathEnv;
         mathdata.envname = envname;
         break;
     case ']':
@@ -693,11 +693,11 @@ bool EditorExtension::isClosingMathTagPosition(KTextEditor::Document *doc, uint 
 
 bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int col, MathData &mathdata)
 {
-    const QString regExpString = "\\$"
-                                 "|\\\\begin\\s*\\{([A-Za-z]+\\*?)\\}"
-                                 "|\\\\end\\s*\\{([A-Za-z]+\\*?)\\}"
-                                 "|\\\\\\[|\\\\\\]"
-                                 "|\\\\\\(|\\\\\\)";
+    const QString regExpString = QStringLiteral("\\$"
+                                                "|\\\\begin\\s*\\{([A-Za-z]+\\*?)\\}"
+                                                "|\\\\end\\s*\\{([A-Za-z]+\\*?)\\}"
+                                                "|\\\\\\[|\\\\\\]"
+                                                "|\\\\\\(|\\\\\\)");
 
     QRegExp reg(regExpString);
     int lastrow = -1, lastcol = -1;
@@ -721,7 +721,7 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
 
             // should be better called 'isValidChar()', because it checks for comments
             // and escaped chars like backslash and dollar in '\\' and '\$'
-            if(mathname == "$") {
+            if (mathname == QStringLiteral("$")) {
                 // count and continue search
                 ++numDollar;
 
@@ -732,33 +732,33 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
                     foundDollar = true;
                 }
             }
-            else if(mathname=="\\[" || mathname=="\\(") {
+            else if (mathname == QStringLiteral("\\[") || mathname == QStringLiteral("\\(")) {
                 // found start of mathmode
                 if(numDollar == 0) {
-                    mathdata.tag = ( mathname == "\\[" ) ? mmDisplaymathParen : mmMathParen;
+                    mathdata.tag = (mathname == QStringLiteral("\\[")) ? mmDisplaymathParen : mmMathParen;
                     mathdata.numdollar = 0;
                     return true;
                 }
                 //KILE_DEBUG_MAIN << "error: dollar not allowed in \\[ or \\( mode";
                 return false;
             }
-            else if(mathname=="\\]" || mathname=="\\)") {
+            else if (mathname == QStringLiteral("\\]") || mathname == QStringLiteral("\\)")) {
                 continueSearch = false;
                 break;
             }
-            else  if(mathname=="\\b") {
+            else if (mathname == QStringLiteral("\\b")) {
                 // save name of environment
                 QString envname = reg.cap(1);
 
                 // if we found the opening tag of a math env
-                if(m_latexCommands->isMathEnv(envname) || envname=="math") {
+                if (m_latexCommands->isMathEnv(envname) || envname == QStringLiteral("math")) {
                     if(numDollar > 0) {
                         //KILE_DEBUG_MAIN << "error: dollar not allowed in math env   numdollar=" << numDollar;
                         return false;
                     }
 
                     // if this is a math env with its own mathmode, we have found the starting position
-                    if(envname == "math") {
+                    if (envname == QStringLiteral("math")) {
                         mathdata.tag = mmMathEnv;
                         mathdata.envname = envname;
                         return true;
@@ -776,13 +776,13 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
                     break;
                 }
             }
-            else if(mathname == "\\e") {
+            else if (mathname == QStringLiteral("\\e")) {
                 QString envname = reg.cap(2);
 
                 // if we found the closing tag of a math env
-                if(m_latexCommands->isMathEnv(envname) || envname == "math") {
+                if (m_latexCommands->isMathEnv(envname) || envname == QStringLiteral("math")) {
                     // if this is a math env with its own mathmode
-                    if(!m_latexCommands->needsMathMode(envname) || envname == "math") {
+                    if (!m_latexCommands->needsMathMode(envname) || envname == QStringLiteral("math")) {
                         continueSearch = false;
                         break;
                     }
@@ -838,11 +838,11 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
 
 bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int col, MathData &mathdata)
 {
-    const QString regExpString = "\\$"
-                                 "|\\\\begin\\s*\\{([A-Za-z]+\\*?)\\}"
-                                 "|\\\\end\\s*\\{([A-Za-z]+\\*?)\\}"
-                                 "|\\\\\\[|\\\\\\]"
-                                 "|\\\\\\(|\\\\\\)";
+    const QString regExpString = QStringLiteral("\\$"
+                                                "|\\\\begin\\s*\\{([A-Za-z]+\\*?)\\}"
+                                                "|\\\\end\\s*\\{([A-Za-z]+\\*?)\\}"
+                                                "|\\\\\\[|\\\\\\]"
+                                                "|\\\\\\(|\\\\\\)");
 
     KTextEditor::Range searchRange = KTextEditor::Range(KTextEditor::Cursor(row, col), doc->documentEnd());
 
@@ -877,44 +877,44 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
             mathdata.col = colFound;
             mathdata.len = textFound.length();
 
-            if(mathname=="$") {
+            if (mathname == QStringLiteral("$")) {
                 mathdata.tag = mmMathDollar;
                 return true;
             }
-            else if(mathname=="\\]") {
+            else if (mathname == QStringLiteral("\\]")) {
                 mathdata.tag = mmDisplaymathParen;
                 return true;
             }
-            else if(mathname=="\\)") {
+            else if (mathname == QStringLiteral("\\)")) {
                 mathdata.tag = mmMathParen;
                 return true;
             }
-            else if(mathname=="\\[" || mathname=="\\(") {
+            else if (mathname == QStringLiteral("\\[") || mathname == QStringLiteral("\\(")) {
                 //KILE_DEBUG_MAIN << "error: current mathgroup was not closed";
                 return false;
             }
-            else if(mathname=="\\b") {
+            else if (mathname == QStringLiteral("\\b")) {
                 QString envname = doc->text(foundRanges[1]);
-                if(!(m_latexCommands->isMathEnv(envname) || envname=="math")) {
+                if (!(m_latexCommands->isMathEnv(envname) || envname == QStringLiteral("math"))) {
                     //KILE_DEBUG_MAIN << "error: only math env are allowed in mathmode (found begin tag)";
                     return false;
                 }
 
-                if(!m_latexCommands->needsMathMode(envname) || envname=="math") {
+                if (!m_latexCommands->needsMathMode(envname) || envname == QStringLiteral("math")) {
                     //KILE_DEBUG_MAIN << "error: mathenv with its own mathmode are not allowed in mathmode ";
                     return false;
                 }
 
                 // else continue search
             }
-            else if(mathname == "\\e") {
+            else if (mathname == QStringLiteral("\\e")) {
                 QString envname = doc->text(foundRanges[2]);
-                if(!(m_latexCommands->isMathEnv(envname) || envname=="math")) {
+                if (!(m_latexCommands->isMathEnv(envname) || envname == QStringLiteral("math"))) {
                     //KILE_DEBUG_MAIN << "error: only math env are allowed in mathmode (found end tag)";
                     return false;
                 }
 
-                if(envname == "math") {
+                if (envname == QStringLiteral("math")) {
                     mathdata.tag = mmMathEnv;
                     mathdata.envname = envname;
                     return true;
@@ -967,27 +967,27 @@ void EditorExtension::insertIntelligentNewline(KTextEditor::View *view)
     int row = cursor.line();
     int col = cursor.column();
 
-    QString newLineAndIndentationString = '\n' + extractIndentationString(view, row);
+    QString newLineAndIndentationString = QLatin1Char('\n') + extractIndentationString(view, row);
 
     if(isCommentPosition(doc, row, col)) {
         KILE_DEBUG_MAIN << "found comment";
-        view->insertText(newLineAndIndentationString + "% ");
+        view->insertText(newLineAndIndentationString + QStringLiteral("% "));
         moveCursorToLastPositionInCurrentLine(view);
         return;
     }
     else if(findOpenedEnvironment(row, col, name, view)) {
         if(m_latexCommands->isListEnv(name)) {
-            if ( name == "description" ) {
-                view->insertText(newLineAndIndentationString + "\\item[]");
+            if (name == QStringLiteral("description")) {
+                view->insertText(newLineAndIndentationString + QStringLiteral("\\item[]"));
             }
             else {
-                view->insertText(newLineAndIndentationString + "\\item ");
+                view->insertText(newLineAndIndentationString + QStringLiteral("\\item "));
             }
             moveCursorToLastPositionInCurrentLine(view);
             return;
         }
         else if(m_latexCommands->isTabularEnv(name) || m_latexCommands->isMathEnv(name)) {
-            view->insertText(newLineAndIndentationString + "\\\\");
+            view->insertText(newLineAndIndentationString + QStringLiteral("\\\\"));
             moveCursorToLastPositionInCurrentLine(view);
             return;
         }
@@ -1077,7 +1077,7 @@ QStringList EditorExtension::findOpenedEnvironmentList(KTextEditor::View *view, 
             col = env.col;
 
             if(position) {
-                envlist << env.name + QString(",%1,%2").arg(row).arg(col);
+                envlist << env.name + QStringLiteral(",%1,%2").arg(row).arg(col);
             }
             else {
                 envlist << env.name;
@@ -1205,7 +1205,7 @@ QString EditorExtension::getEnvironmentText(int &row, int &col, QString &name, K
 
     EnvData envbegin, envend;
 
-    if(getEnvironment(false, envbegin, envend, view) && envbegin.name != "document") {
+    if (getEnvironment(false, envbegin, envend, view) && envbegin.name != QStringLiteral("document")) {
         row = envbegin.row;
         col = envbegin.col;
         name = envbegin.name;
@@ -1224,7 +1224,7 @@ bool EditorExtension::hasEnvironment(KTextEditor::View *view)
     }
 
     EnvData envbegin,envend;
-    return (getEnvironment(false, envbegin, envend, view) && envbegin.name != "document");
+    return (getEnvironment(false, envbegin, envend, view) && envbegin.name != QStringLiteral("document"));
 }
 
 // when an environment is selected (inside or outside),
@@ -1391,10 +1391,10 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 
         if(isValidBackslash(doc, env.row, env.col)) {
             // index 0 is the fullmatch, 1 first cap and so on
-            QString cap2 = (foundRanges[2].isValid() ? doc->text(foundRanges[2]) : "");
-            QString cap3 = (foundRanges[3].isValid() ? doc->text(foundRanges[3]) : "");
-            QString cap4 = (foundRanges[4].isValid() ? doc->text(foundRanges[4]) : "");
-            EnvTag found_env = (cap2 == "begin" || cap4 == "\\[") ? EnvBegin : EnvEnd;
+            QString cap2 = (foundRanges[2].isValid() ? doc->text(foundRanges[2]) : QStringLiteral(""));
+            QString cap3 = (foundRanges[3].isValid() ? doc->text(foundRanges[3]) : QStringLiteral(""));
+            QString cap4 = (foundRanges[4].isValid() ? doc->text(foundRanges[4]) : QStringLiteral(""));
+            EnvTag found_env = (cap2 == QStringLiteral("begin") || cap4 == QStringLiteral("\\[")) ? EnvBegin : EnvEnd;
             if(found_env == wrong_env) {
                 ++envcount;
             }
@@ -1404,10 +1404,10 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
                 }
                 else {
                     if(found_env == EnvBegin) {
-                        env.name = (cap2 == "begin") ? cap3 : "\\[";
+                        env.name = (cap2 == QStringLiteral("begin")) ? cap3 : QStringLiteral("\\[");
                     }
                     else {
-                        env.name = (cap2 == "end") ? cap3 : "\\]";
+                        env.name = (cap2 == QStringLiteral("end")) ? cap3 : QStringLiteral("\\]");
                     }
                     env.tag = found_env;
                     //KILE_DEBUG_MAIN << "found " << env.name;
@@ -1455,7 +1455,7 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
     //KILE_DEBUG_MAIN << "col=" << col;
 
     // check if there is a match in this line from the current position to the left
-    int startcol = (textline[col] == '\\') ? col - 1 : col;
+    int startcol = (textline[col] == QLatin1Char('\\')) ? col - 1 : col;
     if(startcol >= 1) {
         //KILE_DEBUG_MAIN << "search to the left ";
         QRegularExpressionMatch match;
@@ -1466,12 +1466,12 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
             env.row = row;
             env.col = pos;
             QChar ch = textline.at(pos + 1);
-            if(ch=='b' || ch=='e') {
-                env.tag = (ch == 'b') ? EnvBegin : EnvEnd;
+            if (ch == QLatin1Char('b') || ch == QLatin1Char('e')) {
+                env.tag = (ch == QLatin1Char('b')) ? EnvBegin : EnvEnd;
                 env.name = match.captured(3);
             }
             else {
-                env.tag = (ch == '[') ? EnvBegin : EnvEnd;
+                env.tag = (ch == QLatin1Char('[')) ? EnvBegin : EnvEnd;
                 env.name = match.captured(4);
             }
 
@@ -1490,18 +1490,18 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
     // check if there is a match in this line from the current position to the right
     //KILE_DEBUG_MAIN << "search to the right " ;
     QRegularExpressionMatch match;
-    if (textline[col] == '\\' && col == textline.indexOf(m_reg, col, &match)) {
+    if (textline[col] == QLatin1Char('\\') && col == textline.indexOf(m_reg, col, &match)) {
         //KILE_DEBUG_MAIN << "search to the right: found";
         env.row = row;
         env.col = col;
         env.len = match.capturedLength(0);
         QChar ch = textline.at(col+1);
-        if(ch == 'b' || ch == 'e') { // found "\begin" or "\end"
-            env.tag = ( ch == 'b' ) ? EnvBegin : EnvEnd;
+        if (ch == QLatin1Char('b') || ch == QLatin1Char('e')) { // found "\begin" or "\end"
+            env.tag = ( ch == QLatin1Char('b')) ? EnvBegin : EnvEnd;
             env.name = match.captured(3);
         }
         else { // found "\[" or "\\]"
-            env.tag = (ch == '[') ? EnvBegin : EnvEnd;
+            env.tag = (ch == QLatin1Char('[')) ? EnvBegin : EnvEnd;
             env.name = match.captured(4);
         }
         //KILE_DEBUG_MAIN << "search to the right: stop";
@@ -1521,7 +1521,7 @@ bool EditorExtension::isCommentPosition(KTextEditor::Document *doc, int row, int
 
     bool backslash = false;
     for(int i = 0; i < col; ++i) {
-        if(textline[i] == '%') {
+        if (textline[i] == QLatin1Char('%')) {
             if(!backslash) { // found a comment sign
                 return true;
             }
@@ -1529,7 +1529,7 @@ bool EditorExtension::isCommentPosition(KTextEditor::Document *doc, int row, int
                 backslash = false;
             }
         }
-        else if(textline[i] == '\\') { // count number of backslashes
+        else if (textline[i] == QLatin1Char('\\')) { // count number of backslashes
             backslash = !backslash;
         }
         else {
@@ -1550,7 +1550,7 @@ bool EditorExtension::isValidBackslash(KTextEditor::Document *doc, int row, int 
 
     bool backslash = false;
     for(int i = 0; i < col; ++i) {
-        if(textline[i] == '%') {
+        if (textline[i] == QLatin1Char('%')) {
             if(!backslash) {
                 return false;                 // found a comment sign
             }
@@ -1558,7 +1558,7 @@ bool EditorExtension::isValidBackslash(KTextEditor::Document *doc, int row, int 
                 backslash = false;
             }
         }
-        else if(textline[i] == '\\') {  // count number of backslashes
+        else if (textline[i] == QLatin1Char('\\')) {  // count number of backslashes
             backslash = !backslash;
         }
         else {
@@ -1820,7 +1820,7 @@ void EditorExtension::closeTexgroup(KTextEditor::View *view)
     }
 
     if(findOpenBracketTag(doc, rowtemp, coltemp, bracket)) {
-        doc->insertText(KTextEditor::Cursor(row, col), "}");
+        doc->insertText(KTextEditor::Cursor(row, col), QStringLiteral("}"));
         view->setCursorPosition(KTextEditor::Cursor(row, col + 1));
     }
 }
@@ -1994,28 +1994,28 @@ bool EditorExtension::isBracketPosition(KTextEditor::Document *doc, int row, int
     QChar left  = ((col - 1 < textline.length()) && col > 0) ? textline[col - 1] : QLatin1Char(' ');
 
     if (m_overwritemode) {
-        if(right == '{') {
+        if (right == QLatin1Char('{')) {
             bracket.open = true;
         }
-        else if(left == '}') {
+        else if (left == QLatin1Char('}')) {
             bracket.open = false;
         }
         else {
             return false;
         }
     }
-    else if(left == '}') {
+    else if (left == QLatin1Char('}')) {
         bracket.open = false;
         --bracket.col;
     }
-    else if(right == '{') {
+    else if (right == QLatin1Char('{')) {
         bracket.open = true;
     }
-    else if(left == '{') {
+    else if (left == QLatin1Char('{')) {
         bracket.open = true;
         --bracket.col;
     }
-    else if(right == '}') {
+    else if (right == QLatin1Char('}')) {
         bracket.open = false;
     }
     else {
@@ -2034,10 +2034,10 @@ bool EditorExtension::findCloseBracketTag(KTextEditor::Document *doc, int row, i
         uint start = (line == row) ? col : 0;
         QString textline = getTextLineReal(doc,line);
         for(int i = start; i < textline.length(); ++i) {
-            if(textline[i] == '{') {
+            if (textline[i] == QLatin1Char('{')) {
                 ++brackets;
             }
-            else if(textline[i] == '}') {
+            else if (textline[i] == QLatin1Char('}')) {
                 if(brackets > 0) {
                     --brackets;
                 }
@@ -2067,7 +2067,7 @@ bool EditorExtension::findOpenBracketTag(KTextEditor::Document *doc, int row, in
         int start = (line == row && col < textline.length()) ? col : textline.length() - 1;
         for (int i = start; i >= 0; --i) {
             //KILE_DEBUG_MAIN << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].toLatin1();
-            if(textline[i] == '{') {
+            if (textline[i] == QLatin1Char('{')) {
                 if(brackets > 0) {
                     --brackets;
                 }
@@ -2078,7 +2078,7 @@ bool EditorExtension::findOpenBracketTag(KTextEditor::Document *doc, int row, in
                     return true;
                 }
             }
-            else if(textline[i] == '}') {
+            else if (textline[i] == QLatin1Char('}')) {
                 ++brackets;
             }
         }
@@ -2107,27 +2107,27 @@ QString EditorExtension::getTextLineReal(KTextEditor::Document *doc, int row)
 
     bool backslash = false;
     for(int i = 0; i < len; ++i) {
-        if (textline[i]=='{' || textline[i]=='}' || textline[i]=='$') {
+        if (textline[i] == QLatin1Char('{') || textline[i] == QLatin1Char('}') || textline[i] == QLatin1Char('$')) {
             if(backslash) {
-                textline[i-1] = '&';
-                textline[i] = '&';
+                textline[i-1] = QLatin1Char('&');
+                textline[i] = QLatin1Char('&');
             }
             backslash = false;
         }
-        else if(textline[i] == '\\') {
+        else if (textline[i] == QLatin1Char('\\')) {
             if(backslash) {
-                textline[i-1] = '&';
-                textline[i] = '&';
+                textline[i-1] = QLatin1Char('&');
+                textline[i] = QLatin1Char('&');
                 backslash = false;
             }
             else {
                 backslash = true;
             }
         }
-        else if(textline[i]=='%') {
+        else if (textline[i] == QLatin1Char('%')) {
             if (backslash) {
-                textline[i-1] = '&';
-                textline[i] = '&';
+                textline[i-1] = QLatin1Char('&');
+                textline[i] = QLatin1Char('&');
             }
             else {
                 len = i;
@@ -2165,20 +2165,20 @@ bool EditorExtension::getCurrentWord(KTextEditor::Document *doc, int row, int co
     QString pattern1, pattern2;
     switch(mode) {
     case smLetter:
-        pattern1 = "[^a-zA-Z]+";
-        pattern2 = "[a-zA-Z]+";
+        pattern1 = QStringLiteral("[^a-zA-Z]+");
+        pattern2 = QStringLiteral("[a-zA-Z]+");
         break;
     case smWord:
-        pattern1 = "[^a-zA-Z0-9]";
-        pattern2 = "[a-zA-Z0-9]+";
+        pattern1 = QStringLiteral("[^a-zA-Z0-9]");
+        pattern2 = QStringLiteral("[a-zA-Z0-9]+");
         break;
     case smNospace:
-        pattern1 = "\\s";
-        pattern2 = "\\S+";
+        pattern1 = QStringLiteral("\\s");
+        pattern2 = QStringLiteral("\\S+");
         break;
     default:
-        pattern1 = "[^a-zA-Z]";
-        pattern2 = "\\\\?[a-zA-Z]+\\*?";
+        pattern1 = QStringLiteral("[^a-zA-Z]");
+        pattern2 = QStringLiteral("\\\\?[a-zA-Z]+\\*?");
         break;
     }
     x1 = x2 = col;
@@ -2191,7 +2191,7 @@ bool EditorExtension::getCurrentWord(KTextEditor::Document *doc, int row, int co
         if(pos != -1) {        // found an illegal character
             x1 = pos + 1;
             if(mode == smTex) {
-                if(textline[pos] == '\\') {
+                if (textline[pos] == QLatin1Char('\\')) {
                     x1 = pos;
                 }
                 col = x1;
@@ -2650,7 +2650,7 @@ void EditorExtension::commentLaTeX(KTextEditor::Document* document, const KTextE
 {
     int startLine = range.start().line(), endLine = range.end().line();
     for(int i = startLine; i <= endLine; ++i) {
-        document->insertText(KTextEditor::Cursor(i, 0), "% ");
+        document->insertText(KTextEditor::Cursor(i, 0), QStringLiteral("% "));
     }
 }
 
@@ -2726,23 +2726,23 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
     }
 
     // simply insert, if autoinsert mode is not active or the char bevor is \ (typically for \"a useful)
-    if (!m_dblQuotes || (col > 0 && doc->text(KTextEditor::Range(row, col - 1, row, col)) == "\\")) {
+    if (!m_dblQuotes || (col > 0 && doc->text(KTextEditor::Range(row, col - 1, row, col)) == QStringLiteral("\\"))) {
         return false;
     }
 
     // insert with auto mode
     QString pattern1 = QRegExp::escape(m_leftDblQuote);
     if(m_leftDblQuote.at(m_leftDblQuote.length()-1).isLetter()) {
-        pattern1 += "(\\b|(\\{\\}))";
+        pattern1 += QStringLiteral("(\\b|(\\{\\}))");
     }
     QString pattern2 = QRegExp::escape(m_rightDblQuote);
     if(m_rightDblQuote.at(m_rightDblQuote.length()-1).isLetter()) {
-        pattern2 += "(\\b|(\\{\\}))";
+        pattern2 += QStringLiteral("(\\b|(\\{\\}))");
     }
 
     bool openFound = false;
     KTextEditor::Range searchRange = KTextEditor::Range(KTextEditor::Cursor(0, 0), KTextEditor::Cursor(row, col));
-    QVector<KTextEditor::Range> foundRanges = doc->searchText(searchRange, '(' + pattern1 + ")|(" + pattern2 + ')',
+    QVector<KTextEditor::Range> foundRanges = doc->searchText(searchRange, QLatin1Char('(') + pattern1 + QStringLiteral(")|(") + pattern2 + QLatin1Char(')'),
             KTextEditor::Regex | KTextEditor::Backwards);
     // KTextEditor::Document#searchText always returns at least one range, even
     // if no occurrences have been found. Thus, we have to check if the range is valid.
@@ -2763,7 +2763,7 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
         //KILE_DEBUG_MAIN << "startcol=" << startcol << " col=" << col ;
         if (startcol>=0 && textline.indexOf(m_leftDblQuote, startcol) == startcol) {
             doc->removeText(KTextEditor::Range(row, startcol, row, startcol + m_leftDblQuote.length()));
-            doc->insertText(KTextEditor::Cursor(row, startcol), "\"");
+            doc->insertText(KTextEditor::Cursor(row, startcol), QStringLiteral("\""));
         }
         else {
             doc->insertText(KTextEditor::Cursor(row, col), m_rightDblQuote);
@@ -2777,7 +2777,7 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
         //KILE_DEBUG_MAIN << "startcol=" << startcol << " col=" << col ;
         if (startcol >= 0 && textline.indexOf(m_rightDblQuote, startcol) == startcol) {
             doc->removeText(KTextEditor::Range(row, startcol, row, startcol + m_rightDblQuote.length()));
-            doc->insertText(KTextEditor::Cursor(row,startcol), "\"");
+            doc->insertText(KTextEditor::Cursor(row,startcol), QStringLiteral("\""));
         }
         else {
             doc->insertText(KTextEditor::Cursor(row, col), m_leftDblQuote);
@@ -2795,401 +2795,401 @@ bool EditorExtension::insertLatexFromUnicode(unsigned short rep, KTextEditor::Vi
     switch(rep)
     {   // Find the unicode decimal representation
     case 160:
-        return insertSpecialCharacter("~", view);
+        return insertSpecialCharacter(QStringLiteral("~"), view);
     case 161:
-        return insertSpecialCharacter("!`", view);
+        return insertSpecialCharacter(QStringLiteral("!`"), view);
     case 162:
-        return insertSpecialCharacter("\\textcent", view, "textcomp");
+        return insertSpecialCharacter(QStringLiteral("\\textcent"), view, QStringLiteral("textcomp"));
     case 163:
-        return insertSpecialCharacter("\\pounds", view);
+        return insertSpecialCharacter(QStringLiteral("\\pounds"), view);
     case 164:
-        return insertSpecialCharacter("\\textcurrency", view, "textcomp");
+        return insertSpecialCharacter(QStringLiteral("\\textcurrency"), view, QStringLiteral("textcomp"));
     case 165:
-        return insertSpecialCharacter("\\textyen", view, "textcomp");
+        return insertSpecialCharacter(QStringLiteral("\\textyen"), view, QStringLiteral("textcomp"));
     case 166:
-        return insertSpecialCharacter("\\textbrokenbar", view, "textcomp");
+        return insertSpecialCharacter(QStringLiteral("\\textbrokenbar"), view, QStringLiteral("textcomp"));
     case 167:
-        return insertSpecialCharacter("\\S", view);
+        return insertSpecialCharacter(QStringLiteral("\\S"), view);
     case 168:
-        return insertSpecialCharacter("\"", view);
+        return insertSpecialCharacter(QStringLiteral("\""), view);
     case 169:
-        return insertSpecialCharacter("\\copyright", view);
+        return insertSpecialCharacter(QStringLiteral("\\copyright"), view);
     case 170:
-        return insertSpecialCharacter("\\textordfeminine", view, "textcomp");
+        return insertSpecialCharacter(QStringLiteral("\\textordfeminine"), view, QStringLiteral("textcomp"));
     case 171:
-        return insertSpecialCharacter("\\guillemotleft", view);
+        return insertSpecialCharacter(QStringLiteral("\\guillemotleft"), view);
     case 172:
-        return insertSpecialCharacter("\\neg", view); // TODO: Check for math
+        return insertSpecialCharacter(QStringLiteral("\\neg"), view); // TODO: Check for math
     case 173:
-        return insertSpecialCharacter("-", view); // TODO: Check for math
+        return insertSpecialCharacter(QStringLiteral("-"), view); // TODO: Check for math
     case 174:
-        return insertSpecialCharacter("\\textregistered", view, "textcomp");
+        return insertSpecialCharacter(QStringLiteral("\\textregistered"), view, QStringLiteral("textcomp"));
     case 176:
-        return insertSpecialCharacter("^\\circ", view); // TODO: Check for math
+        return insertSpecialCharacter(QStringLiteral("^\\circ"), view); // TODO: Check for math
     case 177:
-        return insertSpecialCharacter("\\pm", view); // TODO: Check for math
+        return insertSpecialCharacter(QStringLiteral("\\pm"), view); // TODO: Check for math
     case 178:
-        return insertSpecialCharacter("^2", view); // TODO: Check for math
+        return insertSpecialCharacter(QStringLiteral("^2"), view); // TODO: Check for math
     case 179:
-        return insertSpecialCharacter("^3", view); // TODO: Check for math
+        return insertSpecialCharacter(QStringLiteral("^3"), view); // TODO: Check for math
     case 180:
-        return insertSpecialCharacter("'", view);
+        return insertSpecialCharacter(QStringLiteral("'"), view);
     case 181:
-        return insertSpecialCharacter("\\mu", view); // TODO: Check for math
+        return insertSpecialCharacter(QStringLiteral("\\mu"), view); // TODO: Check for math
     case 182:
-        return insertSpecialCharacter("\\P", view);
+        return insertSpecialCharacter(QStringLiteral("\\P"), view);
     case 185:
-        return insertSpecialCharacter("^1", view); // TODO: Check for math
+        return insertSpecialCharacter(QStringLiteral("^1"), view); // TODO: Check for math
     case 186:
-        return insertSpecialCharacter("\\textordmasculine", view, "textcomp");
+        return insertSpecialCharacter(QStringLiteral("\\textordmasculine"), view, QStringLiteral("textcomp"));
     case 187:
-        return insertSpecialCharacter("\\guillemotright", view);
+        return insertSpecialCharacter(QStringLiteral("\\guillemotright"), view);
     case 191:
-        return insertSpecialCharacter("?`", view);
+        return insertSpecialCharacter(QStringLiteral("?`"), view);
     case 192:
-        return insertSpecialCharacter("\\`A", view);
+        return insertSpecialCharacter(QStringLiteral("\\`A"), view);
     case 193:
-        return insertSpecialCharacter("\\'A", view);
+        return insertSpecialCharacter(QStringLiteral("\\'A"), view);
     case 194:
-        return insertSpecialCharacter("\\^A", view);
+        return insertSpecialCharacter(QStringLiteral("\\^A"), view);
     case 195:
-        return insertSpecialCharacter("\\~A", view);
+        return insertSpecialCharacter(QStringLiteral("\\~A"), view);
     case 196:
-        return insertSpecialCharacter("\\\"A", view);
+        return insertSpecialCharacter(QStringLiteral("\\\"A"), view);
     case 197:
-        return insertSpecialCharacter("\\AA", view);
+        return insertSpecialCharacter(QStringLiteral("\\AA"), view);
     case 198:
-        return insertSpecialCharacter("\\AE", view);
+        return insertSpecialCharacter(QStringLiteral("\\AE"), view);
     case 199:
-        return insertSpecialCharacter("\\c{C}", view);
+        return insertSpecialCharacter(QStringLiteral("\\c{C}"), view);
     case 200:
-        return insertSpecialCharacter("\\`E", view);
+        return insertSpecialCharacter(QStringLiteral("\\`E"), view);
     case 201:
-        return insertSpecialCharacter("\\'E", view);
+        return insertSpecialCharacter(QStringLiteral("\\'E"), view);
     case 202:
-        return insertSpecialCharacter("\\^E", view);
+        return insertSpecialCharacter(QStringLiteral("\\^E"), view);
     case 203:
-        return insertSpecialCharacter("\\\"E", view);
+        return insertSpecialCharacter(QStringLiteral("\\\"E"), view);
     case 204:
-        return insertSpecialCharacter("\\`I", view);
+        return insertSpecialCharacter(QStringLiteral("\\`I"), view);
     case 205:
-        return insertSpecialCharacter("\\'I", view);
+        return insertSpecialCharacter(QStringLiteral("\\'I"), view);
     case 206:
-        return insertSpecialCharacter("\\^I", view);
+        return insertSpecialCharacter(QStringLiteral("\\^I"), view);
     case 207:
-        return insertSpecialCharacter("\\\"I", view);
+        return insertSpecialCharacter(QStringLiteral("\\\"I"), view);
     case 209:
-        return insertSpecialCharacter("\\~N", view);
+        return insertSpecialCharacter(QStringLiteral("\\~N"), view);
     case 210:
-        return insertSpecialCharacter("\\`O", view);
+        return insertSpecialCharacter(QStringLiteral("\\`O"), view);
     case 211:
-        return insertSpecialCharacter("\\'O", view);
+        return insertSpecialCharacter(QStringLiteral("\\'O"), view);
     case 212:
-        return insertSpecialCharacter("\\^O", view);
+        return insertSpecialCharacter(QStringLiteral("\\^O"), view);
     case 213:
-        return insertSpecialCharacter("\\~O", view);
+        return insertSpecialCharacter(QStringLiteral("\\~O"), view);
     case 214:
-        return insertSpecialCharacter("\\\"O", view);
+        return insertSpecialCharacter(QStringLiteral("\\\"O"), view);
     case 215:
-        return insertSpecialCharacter("\\times", view); //TODO: Check for math
+        return insertSpecialCharacter(QStringLiteral("\\times"), view); //TODO: Check for math
     case 216:
-        return insertSpecialCharacter("\\Oslash", view);
+        return insertSpecialCharacter(QStringLiteral("\\Oslash"), view);
     case 217:
-        return insertSpecialCharacter("\\`U", view);
+        return insertSpecialCharacter(QStringLiteral("\\`U"), view);
     case 218:
-        return insertSpecialCharacter("\\'U", view);
+        return insertSpecialCharacter(QStringLiteral("\\'U"), view);
     case 219:
-        return insertSpecialCharacter("\\^U", view);
+        return insertSpecialCharacter(QStringLiteral("\\^U"), view);
     case 220:
-        return insertSpecialCharacter("\\\"U", view);
+        return insertSpecialCharacter(QStringLiteral("\\\"U"), view);
     case 221:
-        return insertSpecialCharacter("\\'Y", view);
+        return insertSpecialCharacter(QStringLiteral("\\'Y"), view);
     case 223:
-        return insertSpecialCharacter("\\ss{}", view);
+        return insertSpecialCharacter(QStringLiteral("\\ss{}"), view);
     case 224:
-        return insertSpecialCharacter("\\`a", view);
+        return insertSpecialCharacter(QStringLiteral("\\`a"), view);
     case 225:
-        return insertSpecialCharacter("\\'a", view);
+        return insertSpecialCharacter(QStringLiteral("\\'a"), view);
     case 226:
-        return insertSpecialCharacter("\\^a", view);
+        return insertSpecialCharacter(QStringLiteral("\\^a"), view);
     case 227:
-        return insertSpecialCharacter("\\~a", view);
+        return insertSpecialCharacter(QStringLiteral("\\~a"), view);
     case 228:
-        return insertSpecialCharacter("\\\"a", view);
+        return insertSpecialCharacter(QStringLiteral("\\\"a"), view);
     case 229:
-        return insertSpecialCharacter("\\aa", view);
+        return insertSpecialCharacter(QStringLiteral("\\aa"), view);
     case 230:
-        return insertSpecialCharacter("\\ae", view);
+        return insertSpecialCharacter(QStringLiteral("\\ae"), view);
     case 231:
-        return insertSpecialCharacter("\\c{c}", view);
+        return insertSpecialCharacter(QStringLiteral("\\c{c}"), view);
     case 232:
-        return insertSpecialCharacter("\\`e", view);
+        return insertSpecialCharacter(QStringLiteral("\\`e"), view);
     case 233:
-        return insertSpecialCharacter("\\'e", view);
+        return insertSpecialCharacter(QStringLiteral("\\'e"), view);
     case 234:
-        return insertSpecialCharacter("\\^e", view);
+        return insertSpecialCharacter(QStringLiteral("\\^e"), view);
     case 235:
-        return insertSpecialCharacter("\\\"e", view);
+        return insertSpecialCharacter(QStringLiteral("\\\"e"), view);
     case 236:
-        return insertSpecialCharacter("\\`i", view);
+        return insertSpecialCharacter(QStringLiteral("\\`i"), view);
     case 237:
-        return insertSpecialCharacter("\\'i", view);
+        return insertSpecialCharacter(QStringLiteral("\\'i"), view);
     case 238:
-        return insertSpecialCharacter("\\^i", view);
+        return insertSpecialCharacter(QStringLiteral("\\^i"), view);
     case 239:
-        return insertSpecialCharacter("\\\"i", view);
+        return insertSpecialCharacter(QStringLiteral("\\\"i"), view);
     case 240:
-        return insertSpecialCharacter("\\~o", view);
+        return insertSpecialCharacter(QStringLiteral("\\~o"), view);
     case 241:
-        return insertSpecialCharacter("\\~n", view);
+        return insertSpecialCharacter(QStringLiteral("\\~n"), view);
     case 242:
-        return insertSpecialCharacter("\\`o", view);
+        return insertSpecialCharacter(QStringLiteral("\\`o"), view);
     case 243:
-        return insertSpecialCharacter("\\'o", view);
+        return insertSpecialCharacter(QStringLiteral("\\'o"), view);
     case 244:
-        return insertSpecialCharacter("\\^o", view);
+        return insertSpecialCharacter(QStringLiteral("\\^o"), view);
     case 245:
-        return insertSpecialCharacter("\\~o", view);
+        return insertSpecialCharacter(QStringLiteral("\\~o"), view);
     case 246:
-        return insertSpecialCharacter("\\\"o", view);
+        return insertSpecialCharacter(QStringLiteral("\\\"o"), view);
     case 247:
-        return insertSpecialCharacter("\\div", view);
+        return insertSpecialCharacter(QStringLiteral("\\div"), view);
     case 248:
-        return insertSpecialCharacter("\\oslash", view);
+        return insertSpecialCharacter(QStringLiteral("\\oslash"), view);
     case 249:
-        return insertSpecialCharacter("\\`u", view);
+        return insertSpecialCharacter(QStringLiteral("\\`u"), view);
     case 250:
-        return insertSpecialCharacter("\\'u", view);
+        return insertSpecialCharacter(QStringLiteral("\\'u"), view);
     case 251:
-        return insertSpecialCharacter("\\^u", view);
+        return insertSpecialCharacter(QStringLiteral("\\^u"), view);
     case 252:
-        return insertSpecialCharacter("\\\"u", view);
+        return insertSpecialCharacter(QStringLiteral("\\\"u"), view);
     case 253:
-        return insertSpecialCharacter("\\'y", view);
+        return insertSpecialCharacter(QStringLiteral("\\'y"), view);
     case 255:
-        return insertSpecialCharacter("\\\"y", view);
+        return insertSpecialCharacter(QStringLiteral("\\\"y"), view);
     case 256:
-        return insertSpecialCharacter("\\=A", view);
+        return insertSpecialCharacter(QStringLiteral("\\=A"), view);
     case 257:
-        return insertSpecialCharacter("\\=a", view);
+        return insertSpecialCharacter(QStringLiteral("\\=a"), view);
     case 258:
-        return insertSpecialCharacter("\\uA", view);
+        return insertSpecialCharacter(QStringLiteral("\\uA"), view);
     case 259:
-        return insertSpecialCharacter("\\ua", view);
+        return insertSpecialCharacter(QStringLiteral("\\ua"), view);
     case 262:
-        return insertSpecialCharacter("\\'C", view);
+        return insertSpecialCharacter(QStringLiteral("\\'C"), view);
     case 263:
-        return insertSpecialCharacter("\\'c", view);
+        return insertSpecialCharacter(QStringLiteral("\\'c"), view);
     case 264:
-        return insertSpecialCharacter("\\^C", view);
+        return insertSpecialCharacter(QStringLiteral("\\^C"), view);
     case 265:
-        return insertSpecialCharacter("\\^c", view);
+        return insertSpecialCharacter(QStringLiteral("\\^c"), view);
     case 266:
-        return insertSpecialCharacter("\\.C", view);
+        return insertSpecialCharacter(QStringLiteral("\\.C"), view);
     case 267:
-        return insertSpecialCharacter("\\.c", view);
+        return insertSpecialCharacter(QStringLiteral("\\.c"), view);
     case 268:
-        return insertSpecialCharacter("\\vC", view);
+        return insertSpecialCharacter(QStringLiteral("\\vC"), view);
     case 269:
-        return insertSpecialCharacter("\\vc", view);
+        return insertSpecialCharacter(QStringLiteral("\\vc"), view);
     case 270:
-        return insertSpecialCharacter("\\vD", view);
+        return insertSpecialCharacter(QStringLiteral("\\vD"), view);
     case 271:
-        return insertSpecialCharacter("\\vd", view);
+        return insertSpecialCharacter(QStringLiteral("\\vd"), view);
     case 272:
-        return insertSpecialCharacter("\\=D", view);
+        return insertSpecialCharacter(QStringLiteral("\\=D"), view);
     case 273:
-        return insertSpecialCharacter("\\=d", view);
+        return insertSpecialCharacter(QStringLiteral("\\=d"), view);
     case 274:
-        return insertSpecialCharacter("\\=E", view);
+        return insertSpecialCharacter(QStringLiteral("\\=E"), view);
     case 275:
-        return insertSpecialCharacter("\\=e", view);
+        return insertSpecialCharacter(QStringLiteral("\\=e"), view);
     case 276:
-        return insertSpecialCharacter("\\uE", view);
+        return insertSpecialCharacter(QStringLiteral("\\uE"), view);
     case 277:
-        return insertSpecialCharacter("\\ue", view);
+        return insertSpecialCharacter(QStringLiteral("\\ue"), view);
     case 278:
-        return insertSpecialCharacter("\\.E", view);
+        return insertSpecialCharacter(QStringLiteral("\\.E"), view);
     case 279:
-        return insertSpecialCharacter("\\.e", view);
+        return insertSpecialCharacter(QStringLiteral("\\.e"), view);
     case 282:
-        return insertSpecialCharacter("\\vE", view);
+        return insertSpecialCharacter(QStringLiteral("\\vE"), view);
     case 283:
-        return insertSpecialCharacter("\\ve", view);
+        return insertSpecialCharacter(QStringLiteral("\\ve"), view);
     case 284:
-        return insertSpecialCharacter("\\^G", view);
+        return insertSpecialCharacter(QStringLiteral("\\^G"), view);
     case 285:
-        return insertSpecialCharacter("\\^g", view);
+        return insertSpecialCharacter(QStringLiteral("\\^g"), view);
     case 286:
-        return insertSpecialCharacter("\\uG", view);
+        return insertSpecialCharacter(QStringLiteral("\\uG"), view);
     case 287:
-        return insertSpecialCharacter("\\ug", view);
+        return insertSpecialCharacter(QStringLiteral("\\ug"), view);
     case 288:
-        return insertSpecialCharacter("\\.G", view);
+        return insertSpecialCharacter(QStringLiteral("\\.G"), view);
     case 289:
-        return insertSpecialCharacter("\\.g", view);
+        return insertSpecialCharacter(QStringLiteral("\\.g"), view);
     case 290:
-        return insertSpecialCharacter("\\cG", view);
+        return insertSpecialCharacter(QStringLiteral("\\cG"), view);
     case 291:
-        return insertSpecialCharacter("\\'g", view);
+        return insertSpecialCharacter(QStringLiteral("\\'g"), view);
     case 292:
-        return insertSpecialCharacter("\\^H", view);
+        return insertSpecialCharacter(QStringLiteral("\\^H"), view);
     case 293:
-        return insertSpecialCharacter("\\^h", view);
+        return insertSpecialCharacter(QStringLiteral("\\^h"), view);
     case 294:
-        return insertSpecialCharacter("\\=H", view);
+        return insertSpecialCharacter(QStringLiteral("\\=H"), view);
     case 295:
-        return insertSpecialCharacter("\\=h", view);
+        return insertSpecialCharacter(QStringLiteral("\\=h"), view);
     case 296:
-        return insertSpecialCharacter("\\~I", view);
+        return insertSpecialCharacter(QStringLiteral("\\~I"), view);
     case 297:
-        return insertSpecialCharacter("\\~i", view);
+        return insertSpecialCharacter(QStringLiteral("\\~i"), view);
     case 298:
-        return insertSpecialCharacter("\\=I", view);
+        return insertSpecialCharacter(QStringLiteral("\\=I"), view);
     case 299:
-        return insertSpecialCharacter("\\=i", view);
+        return insertSpecialCharacter(QStringLiteral("\\=i"), view);
     case 300:
-        return insertSpecialCharacter("\\uI", view);
+        return insertSpecialCharacter(QStringLiteral("\\uI"), view);
     case 301:
-        return insertSpecialCharacter("\\ui", view);
+        return insertSpecialCharacter(QStringLiteral("\\ui"), view);
     case 304:
-        return insertSpecialCharacter("\\.I", view);
+        return insertSpecialCharacter(QStringLiteral("\\.I"), view);
     case 305:
-        return insertSpecialCharacter("\\i", view);
+        return insertSpecialCharacter(QStringLiteral("\\i"), view);
     case 308:
-        return insertSpecialCharacter("\\^J", view);
+        return insertSpecialCharacter(QStringLiteral("\\^J"), view);
     case 309:
-        return insertSpecialCharacter("\\^j", view);
+        return insertSpecialCharacter(QStringLiteral("\\^j"), view);
     case 310:
-        return insertSpecialCharacter("\\cK", view);
+        return insertSpecialCharacter(QStringLiteral("\\cK"), view);
     case 311:
-        return insertSpecialCharacter("\\ck", view);
+        return insertSpecialCharacter(QStringLiteral("\\ck"), view);
     case 313:
-        return insertSpecialCharacter("\\'L", view);
+        return insertSpecialCharacter(QStringLiteral("\\'L"), view);
     case 314:
-        return insertSpecialCharacter("\\'l", view);
+        return insertSpecialCharacter(QStringLiteral("\\'l"), view);
     case 315:
-        return insertSpecialCharacter("\\cL", view);
+        return insertSpecialCharacter(QStringLiteral("\\cL"), view);
     case 316:
-        return insertSpecialCharacter("\\cl", view);
+        return insertSpecialCharacter(QStringLiteral("\\cl"), view);
     case 317:
-        return insertSpecialCharacter("\\vL", view);
+        return insertSpecialCharacter(QStringLiteral("\\vL"), view);
     case 318:
-        return insertSpecialCharacter("\\vl", view);
+        return insertSpecialCharacter(QStringLiteral("\\vl"), view);
     case 323:
-        return insertSpecialCharacter("\\'N", view);
+        return insertSpecialCharacter(QStringLiteral("\\'N"), view);
     case 324:
-        return insertSpecialCharacter("\\'n", view);
+        return insertSpecialCharacter(QStringLiteral("\\'n"), view);
     case 325:
-        return insertSpecialCharacter("\\cN", view);
+        return insertSpecialCharacter(QStringLiteral("\\cN"), view);
     case 326:
-        return insertSpecialCharacter("\\cn", view);
+        return insertSpecialCharacter(QStringLiteral("\\cn"), view);
     case 327:
-        return insertSpecialCharacter("\\vN", view);
+        return insertSpecialCharacter(QStringLiteral("\\vN"), view);
     case 328:
-        return insertSpecialCharacter("\\vn", view);
+        return insertSpecialCharacter(QStringLiteral("\\vn"), view);
     case 332:
-        return insertSpecialCharacter("\\=O", view);
+        return insertSpecialCharacter(QStringLiteral("\\=O"), view);
     case 333:
-        return insertSpecialCharacter("\\=o", view);
+        return insertSpecialCharacter(QStringLiteral("\\=o"), view);
     case 334:
-        return insertSpecialCharacter("\\uO", view);
+        return insertSpecialCharacter(QStringLiteral("\\uO"), view);
     case 335:
-        return insertSpecialCharacter("\\uo", view);
+        return insertSpecialCharacter(QStringLiteral("\\uo"), view);
     case 336:
-        return insertSpecialCharacter("\\HO", view);
+        return insertSpecialCharacter(QStringLiteral("\\HO"), view);
     case 337:
-        return insertSpecialCharacter("\\Ho", view);
+        return insertSpecialCharacter(QStringLiteral("\\Ho"), view);
     case 338:
-        return insertSpecialCharacter("\\OE", view);
+        return insertSpecialCharacter(QStringLiteral("\\OE"), view);
     case 339:
-        return insertSpecialCharacter("\\oe", view);
+        return insertSpecialCharacter(QStringLiteral("\\oe"), view);
     case 340:
-        return insertSpecialCharacter("\\'R", view);
+        return insertSpecialCharacter(QStringLiteral("\\'R"), view);
     case 341:
-        return insertSpecialCharacter("\\'r", view);
+        return insertSpecialCharacter(QStringLiteral("\\'r"), view);
     case 342:
-        return insertSpecialCharacter("\\cR", view);
+        return insertSpecialCharacter(QStringLiteral("\\cR"), view);
     case 343:
-        return insertSpecialCharacter("\\cr", view);
+        return insertSpecialCharacter(QStringLiteral("\\cr"), view);
     case 344:
-        return insertSpecialCharacter("\\vR", view);
+        return insertSpecialCharacter(QStringLiteral("\\vR"), view);
     case 345:
-        return insertSpecialCharacter("\\vr", view);
+        return insertSpecialCharacter(QStringLiteral("\\vr"), view);
     case 346:
-        return insertSpecialCharacter("\\'S", view);
+        return insertSpecialCharacter(QStringLiteral("\\'S"), view);
     case 347:
-        return insertSpecialCharacter("\\'s", view);
+        return insertSpecialCharacter(QStringLiteral("\\'s"), view);
     case 348:
-        return insertSpecialCharacter("\\^S", view);
+        return insertSpecialCharacter(QStringLiteral("\\^S"), view);
     case 349:
-        return insertSpecialCharacter("\\^s", view);
+        return insertSpecialCharacter(QStringLiteral("\\^s"), view);
     case 350:
-        return insertSpecialCharacter("\\cS", view);
+        return insertSpecialCharacter(QStringLiteral("\\cS"), view);
     case 351:
-        return insertSpecialCharacter("\\cs", view);
+        return insertSpecialCharacter(QStringLiteral("\\cs"), view);
     case 352:
-        return insertSpecialCharacter("\\vS", view);
+        return insertSpecialCharacter(QStringLiteral("\\vS"), view);
     case 353:
-        return insertSpecialCharacter("\\vs", view);
+        return insertSpecialCharacter(QStringLiteral("\\vs"), view);
     case 354:
-        return insertSpecialCharacter("\\cT", view);
+        return insertSpecialCharacter(QStringLiteral("\\cT"), view);
     case 355:
-        return insertSpecialCharacter("\\ct", view);
+        return insertSpecialCharacter(QStringLiteral("\\ct"), view);
     case 356:
-        return insertSpecialCharacter("\\vT", view);
+        return insertSpecialCharacter(QStringLiteral("\\vT"), view);
     case 357:
-        return insertSpecialCharacter("\\vt", view);
+        return insertSpecialCharacter(QStringLiteral("\\vt"), view);
     case 358:
-        return insertSpecialCharacter("\\=T", view);
+        return insertSpecialCharacter(QStringLiteral("\\=T"), view);
     case 359:
-        return insertSpecialCharacter("\\=t", view);
+        return insertSpecialCharacter(QStringLiteral("\\=t"), view);
     case 360:
-        return insertSpecialCharacter("\\~U", view);
+        return insertSpecialCharacter(QStringLiteral("\\~U"), view);
     case 361:
-        return insertSpecialCharacter("\\~u", view);
+        return insertSpecialCharacter(QStringLiteral("\\~u"), view);
     case 362:
-        return insertSpecialCharacter("\\=U", view);
+        return insertSpecialCharacter(QStringLiteral("\\=U"), view);
     case 363:
-        return insertSpecialCharacter("\\=u", view);
+        return insertSpecialCharacter(QStringLiteral("\\=u"), view);
     case 364:
-        return insertSpecialCharacter("\\uU", view);
+        return insertSpecialCharacter(QStringLiteral("\\uU"), view);
     case 365:
-        return insertSpecialCharacter("\\uu", view);
+        return insertSpecialCharacter(QStringLiteral("\\uu"), view);
     case 366:
-        return insertSpecialCharacter("\\AU", view);
+        return insertSpecialCharacter(QStringLiteral("\\AU"), view);
     case 367:
-        return insertSpecialCharacter("\\Au", view);
+        return insertSpecialCharacter(QStringLiteral("\\Au"), view);
     case 368:
-        return insertSpecialCharacter("\\HU", view);
+        return insertSpecialCharacter(QStringLiteral("\\HU"), view);
     case 369:
-        return insertSpecialCharacter("\\Hu", view);
+        return insertSpecialCharacter(QStringLiteral("\\Hu"), view);
     case 370:
-        return insertSpecialCharacter("\\cU", view);
+        return insertSpecialCharacter(QStringLiteral("\\cU"), view);
     case 371:
-        return insertSpecialCharacter("\\cu", view);
+        return insertSpecialCharacter(QStringLiteral("\\cu"), view);
     case 372:
-        return insertSpecialCharacter("\\^W", view);
+        return insertSpecialCharacter(QStringLiteral("\\^W"), view);
     case 373:
-        return insertSpecialCharacter("\\^w", view);
+        return insertSpecialCharacter(QStringLiteral("\\^w"), view);
     case 374:
-        return insertSpecialCharacter("\\^Y", view);
+        return insertSpecialCharacter(QStringLiteral("\\^Y"), view);
     case 375:
-        return insertSpecialCharacter("\\^y", view);
+        return insertSpecialCharacter(QStringLiteral("\\^y"), view);
     case 376:
-        return insertSpecialCharacter("\\\"Y", view);
+        return insertSpecialCharacter(QStringLiteral("\\\"Y"), view);
     case 377:
-        return insertSpecialCharacter("\\'Z", view);
+        return insertSpecialCharacter(QStringLiteral("\\'Z"), view);
     case 378:
-        return insertSpecialCharacter("\\'z", view);
+        return insertSpecialCharacter(QStringLiteral("\\'z"), view);
     case 379:
-        return insertSpecialCharacter("\\.Z", view);
+        return insertSpecialCharacter(QStringLiteral("\\.Z"), view);
     case 380:
-        return insertSpecialCharacter("\\.z", view);
+        return insertSpecialCharacter(QStringLiteral("\\.z"), view);
     case 381:
-        return insertSpecialCharacter("\\vZ", view);
+        return insertSpecialCharacter(QStringLiteral("\\vZ"), view);
     case 382:
-        return insertSpecialCharacter("\\vz", view);
+        return insertSpecialCharacter(QStringLiteral("\\vz"), view);
     default:
         return false;
     }
@@ -3257,7 +3257,7 @@ void EditorExtension::insertIntelligentTabulator(KTextEditor::View *view)
 
     int row, col, currentRow, currentCol;
     QString envname,tab;
-    QString prefix = " ";
+    QString prefix = QStringLiteral(" ");
 
     KTextEditor::Cursor cursor = view->cursorPosition();
     currentRow = cursor.line();
@@ -3268,7 +3268,7 @@ void EditorExtension::insertIntelligentTabulator(KTextEditor::View *view)
 
         // try to align tabulator with textline above
         if(currentRow >= 1) {
-            int tabpos = view->document()->line(currentRow - 1).indexOf('&', currentCol);
+            int tabpos = view->document()->line(currentRow - 1).indexOf(QLatin1Char('&'), currentCol);
             if(tabpos >= 0) {
                 currentCol = tabpos;
                 prefix.clear();
@@ -3277,9 +3277,9 @@ void EditorExtension::insertIntelligentTabulator(KTextEditor::View *view)
     }
 
     if(tab.isEmpty()) {
-        tab = '&';
+        tab = QLatin1Char('&');
     }
-    tab = prefix + tab + ' ';
+    tab = prefix + tab + QLatin1Char(' ');
 
     view->document()->insertText(KTextEditor::Cursor(currentRow, currentCol), tab);
     view->setCursorPosition(KTextEditor::Cursor(currentRow, currentCol + tab.length()));
@@ -3311,28 +3311,28 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
         line = m_regexpEnter.cap(1);
         for(int i = 0; i < line.length(); ++i) {
             if(!line[i].isSpace()) {
-                line[i] = ' ';
+                line[i] = QLatin1Char(' ');
             }
         }
 
         QString envname, endenv;
-        if(m_regexpEnter.cap(2) == "\\[") {
+        if (m_regexpEnter.cap(2) == QStringLiteral("\\[")) {
             envname = m_regexpEnter.cap(2);
-            endenv = "\\]";
+            endenv = QStringLiteral("\\]");
         }
         else {
             envname = m_regexpEnter.cap(4);
-            endenv = m_regexpEnter.cap(2).replace("\\begin","\\end");
+            endenv = m_regexpEnter.cap(2).replace(QStringLiteral("\\begin"), QStringLiteral("\\end"));
         }
 
         if (col < lineLength) {
             //If the cursor was not at the end of the line when the user pressed enter, insert a newline after \end{env}
-            endenv = endenv + '\n' + line;
+            endenv = endenv + QLatin1Char('\n') + line;
         }
 
         if(shouldCompleteEnv(envname, view)) {
-            QString item =  m_latexCommands->isListEnv(envname) ? "\\item " : QString();
-            view->document()->insertText(KTextEditor::Cursor(row, col), '\n' + line + m_envAutoIndent + item + '\n' + line + endenv);
+            QString item =  m_latexCommands->isListEnv(envname) ? QStringLiteral("\\item ") : QString();
+            view->document()->insertText(KTextEditor::Cursor(row, col), QLatin1Char('\n') + line + m_envAutoIndent + item + QLatin1Char('\n') + line + endenv);
             view->setCursorPosition(KTextEditor::Cursor(row + 1, line.length() + m_envAutoIndent.length() + item.length()));
             return true;
         }
@@ -3344,16 +3344,16 @@ bool EditorExtension::shouldCompleteEnv(const QString &env, KTextEditor::View *v
 {
     KILE_DEBUG_MAIN << "===EditorExtension::shouldCompleteEnv( " << env << " )===";
     QRegularExpression reTestBegin,reTestEnd;
-    if(env == "\\[") {
+    if (env == QStringLiteral("\\[")) {
         KILE_DEBUG_MAIN << "display style";
-        reTestBegin.setPattern("(?:[^\\\\]|^)\\\\\\[");
+        reTestBegin.setPattern(QStringLiteral("(?:[^\\\\]|^)\\\\\\["));
         // the first part is a non-capturing bracket (?:...) and we check if we don't have a backslash in front,
         //  or that we are at the begin of the line
-        reTestEnd.setPattern("(?:[^\\\\]|^)\\\\\\]");
+        reTestEnd.setPattern(QStringLiteral("(?:[^\\\\]|^)\\\\\\]"));
     }
     else {
-        reTestBegin.setPattern("(?:[^\\\\]|^)\\\\begin\\s*\\{" + QRegularExpression::escape(env) + "\\}");
-        reTestEnd.setPattern("(?:[^\\\\]|^)\\\\end\\s*\\{" + QRegularExpression::escape(env) + "\\}");
+        reTestBegin.setPattern(QStringLiteral("(?:[^\\\\]|^)\\\\begin\\s*\\{") + QRegularExpression::escape(env) + QStringLiteral("\\}"));
+        reTestEnd.setPattern(QStringLiteral("(?:[^\\\\]|^)\\\\end\\s*\\{") + QRegularExpression::escape(env) + QStringLiteral("\\}"));
     }
 
     int num = view->document()->lines();
@@ -3386,7 +3386,7 @@ QString EditorExtension::getWhiteSpace(const QString &s)
 
     for(int i = 0; i < whitespace.length(); ++i) {
         if(!whitespace[i].isSpace()) {
-            whitespace[i] = ' ';
+            whitespace[i] = QLatin1Char(' ');
         }
     }
     return whitespace;
@@ -3423,7 +3423,7 @@ bool EditorExtension::insideVerb(KTextEditor::View *view)
 
     int startpos = 0;
     QString textline = getTextLineReal(view->document(),row);
-    QRegularExpression reg("\\\\verb(\\*?)(.)");
+    QRegularExpression reg(QStringLiteral("\\\\verb(\\*?)(.)"));
     while(true) {
         auto match = reg.match(textline, startpos);
         int pos = textline.indexOf(reg, startpos);
@@ -3489,7 +3489,7 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
 
     // FIXME tbraun make this more clever, introdoce in kiledocinfo a flag which can be easily queried for that, so that we don'
     // check, if the document was changed in the meantime
-    QRegExp reg( "\\\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)\\*?\\s*(\\{|\\[)" );
+    QRegExp reg(QStringLiteral("\\\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)\\*?\\s*(\\{|\\[)"));
     QString textline = getTextLineReal(doc,row1);
     if(reg.indexIn(textline, col1) != col1) {
         m_ki->errorHandler()->clearMessages();
@@ -3530,7 +3530,7 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
         text = QApplication::clipboard()->text();                              // clipboard -> text
         if(!text.isEmpty()) {
             view->setCursorPosition(KTextEditor::Cursor(row2, col2));                             // insert
-            view->insertText(text + '\n');
+            view->insertText(text + QLatin1Char('\n'));
         }
         break;
     case KileWidget::StructureWidget::SectioningSelect:
@@ -3560,7 +3560,7 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
 bool EditorExtension::findEndOfDocument(KTextEditor::Document *doc, int row, int col, int &rowFound, int &colFound)
 {
     KTextEditor::Range documentRange(KTextEditor::Cursor(row, col), doc->documentEnd());
-    QVector<KTextEditor::Range> foundRanges = doc->searchText(documentRange, "\\end{document}");
+    QVector<KTextEditor::Range> foundRanges = doc->searchText(documentRange, QStringLiteral("\\end{document}"));
 
     if(foundRanges.size() >= 1) {
         KTextEditor::Range range = foundRanges.first();

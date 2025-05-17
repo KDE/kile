@@ -97,34 +97,34 @@ KileErrorHandler::~KileErrorHandler()
 
 void KileErrorHandler::createActions(KActionCollection *ac)
 {
-    m_viewLogAction = ac->addAction("ViewLog", this, SLOT(ViewLog()));
+    m_viewLogAction = ac->addAction(QStringLiteral("ViewLog"), this, SLOT(ViewLog()));
     m_viewLogAction->setText(i18n("View Log File"));
     ac->setDefaultShortcut(m_viewLogAction, QKeySequence(Qt::ALT | Qt::Key_0));
-    m_viewLogAction->setIcon(QIcon::fromTheme("viewlog"));
+    m_viewLogAction->setIcon(QIcon::fromTheme(QStringLiteral("viewlog")));
 
-    m_previousErrorAction = ac->addAction("PreviousError", this, SLOT(PreviousError()));
+    m_previousErrorAction = ac->addAction(QStringLiteral("PreviousError"), this, SLOT(PreviousError()));
     m_previousErrorAction->setText(i18n("Previous LaTeX Error"));
-    m_previousErrorAction->setIcon(QIcon::fromTheme("errorprev"));
+    m_previousErrorAction->setIcon(QIcon::fromTheme(QStringLiteral("errorprev")));
 
-    m_nextErrorAction = ac->addAction("NextError", this, SLOT(NextError()));
+    m_nextErrorAction = ac->addAction(QStringLiteral("NextError"), this, SLOT(NextError()));
     m_nextErrorAction->setText(i18n("Next LaTeX Error"));
-    m_nextErrorAction->setIcon(QIcon::fromTheme("errornext"));
+    m_nextErrorAction->setIcon(QIcon::fromTheme(QStringLiteral("errornext")));
 
-    m_previousWarningAction = ac->addAction("PreviousWarning", this, SLOT(PreviousWarning()));
+    m_previousWarningAction = ac->addAction(QStringLiteral("PreviousWarning"), this, SLOT(PreviousWarning()));
     m_previousWarningAction->setText(i18n("Previous LaTeX Warning"));
-    m_previousWarningAction->setIcon(QIcon::fromTheme("warnprev"));
+    m_previousWarningAction->setIcon(QIcon::fromTheme(QStringLiteral("warnprev")));
 
-    m_nextWarningAction = ac->addAction("NextWarning", this, SLOT(NextWarning()));
+    m_nextWarningAction = ac->addAction(QStringLiteral("NextWarning"), this, SLOT(NextWarning()));
     m_nextWarningAction->setText(i18n("Next LaTeX Warnings"));
-    m_nextWarningAction->setIcon(QIcon::fromTheme("warnnext"));
+    m_nextWarningAction->setIcon(QIcon::fromTheme(QStringLiteral("warnnext")));
 
-    m_previousBadBoxAction = ac->addAction("PreviousBadBox", this, SLOT(PreviousBadBox()));
+    m_previousBadBoxAction = ac->addAction(QStringLiteral("PreviousBadBox"), this, SLOT(PreviousBadBox()));
     m_previousBadBoxAction->setText(i18n("Previous LaTeX BadBox"));
-    m_previousBadBoxAction->setIcon(QIcon::fromTheme("bboxprev"));
+    m_previousBadBoxAction->setIcon(QIcon::fromTheme(QStringLiteral("bboxprev")));
 
-    m_nextBadBoxAction = ac->addAction("NextBadBox", this, SLOT(NextBadBox()));
+    m_nextBadBoxAction = ac->addAction(QStringLiteral("NextBadBox"), this, SLOT(NextBadBox()));
     m_nextBadBoxAction->setText(i18n("Next LaTeX BadBox"));
-    m_nextBadBoxAction->setIcon(QIcon::fromTheme("bboxnext"));
+    m_nextBadBoxAction->setIcon(QIcon::fromTheme(QStringLiteral("bboxnext")));
 }
 
 void KileErrorHandler::setErrorHandlerToolBar(QToolBar *toolBar)
@@ -359,7 +359,7 @@ void KileErrorHandler::displayProblemsInLogWidget(KileWidget::LogWidget *logWidg
             i != infoList.end(); ++i) {
 
         const LatexOutputInfo& info = *i;
-        message = info.source() + ':' + QString::number(info.sourceLine()) + ':' + info.message();
+        message = info.source() + QLatin1Char(':') + QString::number(info.sourceLine()) + QLatin1Char(':') + info.message();
         switch(info.type()) {
         case LatexOutputInfo::itmBadBox:
             if(problemType == AllProblems || problemType == OnlyBadBoxes) {

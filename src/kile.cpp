@@ -922,10 +922,10 @@ void Kile::setupActions()
     createAction(i18n("Previous Document"), "gotoPrevDocument", "go-previous-view-page",
                  prevTabShorcuts, viewManager(), &KileView::Manager::gotoPrevView);
 
-    createAction(i18n("Focus Log/Messages View"), "focus_log", QKeySequence("CTRL+Alt+M"), this, &Kile::focusLog);
-    createAction(i18n("Focus Output View"), "focus_output", QKeySequence("CTRL+Alt+O"), this, &Kile::focusOutput);
-    createAction(i18n("Focus Konsole View"), "focus_konsole", QKeySequence("CTRL+Alt+K"), this, &Kile::focusKonsole);
-    createAction(i18n("Focus Editor View"), "focus_editor", QKeySequence("CTRL+Alt+F"), this, &Kile::focusEditor);
+    createAction(i18n("Focus Log/Messages View"), "focus_log", QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_M), this, &Kile::focusLog);
+    createAction(i18n("Focus Output View"), "focus_output", QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_O), this, &Kile::focusOutput);
+    createAction(i18n("Focus Konsole View"), "focus_konsole", QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_K), this, &Kile::focusKonsole);
+    createAction(i18n("Focus Editor View"), "focus_editor", QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_F), this, &Kile::focusEditor);
 
     createAction(i18nc("@action: Starts the completion of the current LaTeX command", "Complete (La)TeX Command"), "edit_complete_word", "complete1",
                  QKeySequence(Qt::SHIFT | Qt::CTRL | Qt::Key_Space), codeCompletionManager(), [this]() { codeCompletionManager()->startLaTeXCompletion(); });
@@ -940,64 +940,72 @@ void Kile::setupActions()
                  m_edit, [this]() { m_edit->prevBullet(); });
 
 // advanced editor (dani)
-    createAction(i18n("Environment (inside)"), "edit_select_inside_env", "selenv_i", QKeySequence("CTRL+Alt+S, E"),
+    createAction(i18n("Environment (inside)"), "edit_select_inside_env", "selenv_i", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_E)),
                  m_edit, &KileDocument::EditorExtension::selectEnvInside);
-    createAction(i18n("Environment (outside)"), "edit_select_outside_env", "selenv_o", QKeySequence("CTRL+Alt+S, F"),
+    createAction(i18n("Environment (outside)"), "edit_select_outside_env", "selenv_o", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_F)),
                  m_edit, &KileDocument::EditorExtension::selectEnvOutside);
-    createAction(i18n("TeX Group (inside)"), "edit_select_inside_group", "selgroup_i", QKeySequence("CTRL+Alt+S, T"),
+    createAction(i18n("TeX Group (inside)"), "edit_select_inside_group", "selgroup_i", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_T)),
                  m_edit, &KileDocument::EditorExtension::selectTexgroupInside);
-    createAction(i18n("TeX Group (outside)"), "edit_select_outside_group", "selgroup_o", QKeySequence("CTRL+Alt+S, U"),
+    createAction(i18n("TeX Group (outside)"), "edit_select_outside_group", "selgroup_o", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_U)),
                  m_edit, &KileDocument::EditorExtension::selectTexgroupOutside);
-    createAction(i18n("Math Group"), "edit_select_mathgroup", "selmath", QKeySequence("CTRL+Alt+S, M"),
+    createAction(i18n("Math Group"), "edit_select_mathgroup", "selmath", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_M)),
                  m_edit, [this]() { m_edit->selectMathgroup(); });
-    createAction(i18n("Paragraph"), "edit_select_paragraph", "selpar", QKeySequence("CTRL+Alt+S, P"),
+    createAction(i18n("Paragraph"), "edit_select_paragraph", "selpar", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_P)),
                  m_edit, [this]() { m_edit->selectParagraph(); });
-    createAction(i18n("Line"), "edit_select_line", "selline", QKeySequence("CTRL+Alt+S, L"),
+    createAction(i18n("Line"), "edit_select_line", "selline", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_L)),
                  m_edit, [this]() { m_edit->selectLine(); });
-    createAction(i18n("TeX Word"), "edit_select_word", "selword", QKeySequence("CTRL+Alt+S, W"),
+    createAction(i18n("TeX Word"), "edit_select_word", "selword", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_W)),
                  m_edit, [this]() { m_edit->selectWord(); });
 
-    createAction(i18n("Environment (inside)"), "edit_delete_inside_env", "delenv_i", QKeySequence("CTRL+Alt+T, E"),
+    createAction(i18n("Environment (inside)"), "edit_delete_inside_env", "delenv_i", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_E)),
                  m_edit, &KileDocument::EditorExtension::deleteEnvInside);
-    createAction(i18n("Environment (outside)"), "edit_delete_outside_env", "delenv_o", QKeySequence("CTRL+Alt+T, F"),
+    createAction(i18n("Environment (outside)"), "edit_delete_outside_env", "delenv_o", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_F)),
                  m_edit, &KileDocument::EditorExtension::deleteEnvOutside);
-    createAction(i18n("TeX Group (inside)"), "edit_delete_inside_group", "delgroup_i", QKeySequence("CTRL+Alt+T, T"),
+    createAction(i18n("TeX Group (inside)"), "edit_delete_inside_group", "delgroup_i", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_T)),
                  m_edit, &KileDocument::EditorExtension::deleteTexgroupInside);
-    createAction(i18n("TeX Group (outside)"), "edit_delete_outside_group", "delgroup_o",QKeySequence("CTRL+Alt+T, U"),
+    createAction(i18n("TeX Group (outside)"), "edit_delete_outside_group", "delgroup_o",QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_U)),
                  m_edit, &KileDocument::EditorExtension::deleteTexgroupInside);
-    createAction(i18n("Math Group"), "edit_delete_mathgroup", "delmath", QKeySequence("CTRL+Alt+T, M"),
+    createAction(i18n("Math Group"), "edit_delete_mathgroup", "delmath", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_M)),
                  m_edit, [this]() { m_edit->deleteMathgroup(); });
-    createAction(i18n("Paragraph"), "edit_delete_paragraph", "delpar", QKeySequence("CTRL+Alt+T, P"),
+    createAction(i18n("Paragraph"), "edit_delete_paragraph", "delpar", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_P)),
                  m_edit, [this]() { m_edit->deleteParagraph(); });
-    createAction(i18n("To End of Line"), "edit_delete_eol", "deleol", QKeySequence("CTRL+Alt+T, L"),
+    createAction(i18n("To End of Line"), "edit_delete_eol", "deleol", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_L)),
                  m_edit, [this]() { m_edit->deleteEndOfLine(); });
-    createAction(i18n("TeX Word"), "edit_delete_word", "delword", QKeySequence("CTRL+Alt+T, W"),
+    createAction(i18n("TeX Word"), "edit_delete_word", "delword", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_W)),
                  m_edit, [this]() { m_edit->deleteWord(); });
 
-    createAction(i18n("Go to Begin"), "edit_begin_env", "gotobeginenv", QKeySequence("CTRL+Alt+E, B"),
+    createAction(i18n("Go to Begin"), "edit_begin_env", "gotobeginenv", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_B)),
                  m_edit, &KileDocument::EditorExtension::gotoBeginEnv);
-    createAction(i18n("Go to End"), "edit_end_env", "gotoendenv", QKeySequence("CTRL+Alt+E, E"),
+    createAction(i18n("Go to End"), "edit_end_env", "gotoendenv", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_E)),
                  m_edit, &KileDocument::EditorExtension::gotoEndEnv);
-    createAction(i18n("Match"), "edit_match_env", "matchenv", QKeySequence("CTRL+Alt+E, M"),
+    createAction(i18n("Match"), "edit_match_env", "matchenv", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_M)),
                  m_edit, &KileDocument::EditorExtension::matchEnv);
-    createAction(i18n("Close"), "edit_close_env", "closeenv", QKeySequence("CTRL+Alt+E, C"),
+    createAction(i18n("Close"), "edit_close_env", "closeenv", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_C)),
                  m_edit, &KileDocument::EditorExtension::closeEnv);
-    createAction(i18n("Close All"), "edit_closeall_env", "closeallenv", QKeySequence("CTRL+Alt+E, A"),
+    createAction(i18n("Close All"), "edit_closeall_env", "closeallenv", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_A)),
                  m_edit, &KileDocument::EditorExtension::closeAllEnv);
 
-    createAction(i18n("Go to Begin"), "edit_begin_group", "gotobegingroup", QKeySequence("CTRL+Alt+G, B"),
+    createAction(i18n("Go to Begin"), "edit_begin_group", "gotobegingroup", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_G), QKeyCombination(Qt::Key_B)),
                  m_edit, &KileDocument::EditorExtension::gotoBeginTexgroup);
-    createAction(i18n("Go to End"), "edit_end_group", "gotoendgroup", QKeySequence("CTRL+Alt+G, E"),
+    createAction(i18n("Go to End"), "edit_end_group", "gotoendgroup", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_G), QKeyCombination(Qt::Key_E)),
                  m_edit, &KileDocument::EditorExtension::gotoEndTexgroup);
-    createAction(i18n("Match"), "edit_match_group", "matchgroup", QKeySequence("CTRL+Alt+G, M"),
+    createAction(i18n("Match"), "edit_match_group", "matchgroup", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_G), QKeyCombination(Qt::Key_M)),
                  m_edit, [this]() { m_edit->matchTexgroup(); });
-    createAction(i18n("Close"), "edit_close_group", "closegroup", QKeySequence("CTRL+Alt+G, C"),
+    createAction(i18n("Close"), "edit_close_group", "closegroup", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_G), QKeyCombination(Qt::Key_C)),
                  m_edit, [this]() { m_edit->closeTexgroup(); });
 
-    createAction(i18n("Selection"), "quickpreview_selection", "preview_sel", QKeySequence("CTRL+Alt+P, S"), this, &Kile::quickPreviewSelection);
-    createAction(i18n("Environment"), "quickpreview_environment", "preview_env",QKeySequence("CTRL+Alt+P, E"), this, &Kile::quickPreviewEnvironment);
-    createAction(i18n("Subdocument"), "quickpreview_subdocument", "preview_subdoc",QKeySequence("CTRL+Alt+P, D"), this, &Kile::quickPreviewSubdocument);
-    createAction(i18n("Mathgroup"), "quickpreview_math", "preview_math", QKeySequence("CTRL+Alt+P, M"), this, &Kile::quickPreviewMathgroup);
+    createAction(i18n("Selection"), "quickpreview_selection", "preview_sel",
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_P), QKeyCombination(Qt::Key_S)),
+                 this, &Kile::quickPreviewSelection);
+    createAction(i18n("Environment"), "quickpreview_environment", "preview_env",
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_P), QKeyCombination(Qt::Key_E)),
+                 this, &Kile::quickPreviewEnvironment);
+    createAction(i18n("Subdocument"), "quickpreview_subdocument", "preview_subdoc",
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_P), QKeyCombination(Qt::Key_D)),
+                 this, &Kile::quickPreviewSubdocument);
+    createAction(i18n("Mathgroup"), "quickpreview_math", "preview_math",
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_P), QKeyCombination(Qt::Key_M)),
+                 this, &Kile::quickPreviewMathgroup);
 
     KileStdActions::setupStdTags(this, this, actionCollection(), this);
     KileStdActions::setupMathTags(this, actionCollection());
@@ -1073,11 +1081,21 @@ void Kile::setupActions()
         WatchFileAction->setChecked(false);
     }
 
-    createAction(i18n("LaTeX"), "help_latex_index", QKeySequence("CTRL+Alt+H, L"), m_help, &KileHelp::Help::helpLatexIndex);
-    createAction(i18n("LaTeX Commands"), "help_latex_command", QKeySequence("CTRL+Alt+H, C"), m_help, &KileHelp::Help::helpLatexCommand);
-    createAction(i18n("LaTeX Environments"), "help_latex_env", QKeySequence("CTRL+Alt+H, E"), m_help, &KileHelp::Help::helpLatexEnvironment);
-    createAction(i18n("Context Help"), "help_context", QKeySequence("CTRL+Alt+H, K"), m_help, [this]() { m_help->helpKeyword(); });
-    createAction(i18n("Documentation Browser"), "help_docbrowser", QKeySequence("CTRL+Alt+H, B"), m_help, &KileHelp::Help::helpDocBrowser);
+    createAction(i18n("LaTeX"), "help_latex_index",
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_H), QKeyCombination(Qt::Key_L)),
+                 m_help, &KileHelp::Help::helpLatexIndex);
+    createAction(i18n("LaTeX Commands"), "help_latex_command",
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_H), QKeyCombination(Qt::Key_C)),
+                 m_help, &KileHelp::Help::helpLatexCommand);
+    createAction(i18n("LaTeX Environments"), "help_latex_env",
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_H), QKeyCombination(Qt::Key_E)),
+                 m_help, &KileHelp::Help::helpLatexEnvironment);
+    createAction(i18n("Context Help"), "help_context",
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_H), QKeyCombination(Qt::Key_K)),
+                 m_help, [this]() { m_help->helpKeyword(); });
+    createAction(i18n("Documentation Browser"), "help_docbrowser",
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_H), QKeyCombination(Qt::Key_B)),
+                 m_help, &KileHelp::Help::helpDocBrowser);
 
     createAction(i18n("&About Editor Component"), "help_about_editor", this, &Kile::aboutEditorComponent);
 

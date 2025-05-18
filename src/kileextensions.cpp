@@ -26,20 +26,20 @@ namespace KileDocument
 
 Extensions::Extensions()
 {
-    m_documents = ".tex .ltx .latex .dtx .ins";
-    m_packages = ".cls .sty .bbx .cbx .lbx .dbx";
-    m_bibtex = ".bib";
-    m_metapost = ".mp";
-    m_script = ".js";
-    m_project = ".kilepr";
-    //m_images = ".eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png";
-    m_images = ".eps .jpg .jpeg .png .pdf .ps .fig .gif";
+    m_documents = QStringLiteral(".tex .ltx .latex .dtx .ins");
+    m_packages = QStringLiteral(".cls .sty .bbx .cbx .lbx .dbx");
+    m_bibtex = QStringLiteral(".bib");
+    m_metapost = QStringLiteral(".mp");
+    m_script = QStringLiteral(".js");
+    m_project = QStringLiteral(".kilepr");
+    //m_images = QStringLiteral(".eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png");
+    m_images = QStringLiteral(".eps .jpg .jpeg .png .pdf .ps .fig .gif");
 
-    m_latexDefault = ".tex";
-    m_bibtexDefault = ".bib";
-    m_metapostDefault = ".mp";
-    m_scriptDefault = ".js";
-    m_projectDefault = ".kilepr";
+    m_latexDefault = QStringLiteral(".tex");
+    m_bibtexDefault = QStringLiteral(".bib");
+    m_metapostDefault = QStringLiteral(".mp");
+    m_scriptDefault = QStringLiteral(".js");
+    m_projectDefault = QStringLiteral(".kilepr");
 }
 
 //////////////////// file filter ////////////////////
@@ -49,8 +49,8 @@ QString Extensions::fileFilterKDEStyle(ExtensionType type) const
     QString ext, text;
     fileFilterRaw(type, ext, text);
 
-    ext.replace('.', "*.");
-    return ext + '|' + text;
+    ext.replace(QLatin1Char('.'), QStringLiteral("*."));
+    return ext + QLatin1Char('|') + text;
 }
 
 QString Extensions::fileFilterQtStyle(ExtensionType type) const
@@ -58,8 +58,8 @@ QString Extensions::fileFilterQtStyle(ExtensionType type) const
     QString ext, text;
     fileFilterRaw(type, ext, text);
 
-    ext.replace('.', "*.");
-    return text + QStringLiteral(" (") + ext + ')';
+    ext.replace(QLatin1Char('.'), QStringLiteral("*."));
+    return text + QStringLiteral(" (") + ext + QLatin1Char(')');
 }
 
 void Extensions::fileFilterRaw(ExtensionType type, QString& ext, QString& text) const
@@ -101,7 +101,7 @@ QString Extensions::fileFilterKDEStyle(bool includeAllFiles, const std::vector<E
     QString toReturn;
 
     for(ExtensionType extension : extensions) {
-        toReturn += fileFilterKDEStyle(extension) + '\n';
+        toReturn += fileFilterKDEStyle(extension) + QLatin1Char('\n');
     }
 
     if(includeAllFiles) {
@@ -131,31 +131,31 @@ QString Extensions::fileFilterQtStyle(bool includeAllFiles, const std::vector<Ex
 bool Extensions::isTexFile(const QString &fileName) const
 {
     //TODO use mimetype
-    QString ext = '.' + QFileInfo(fileName).suffix();
+    QString ext = QLatin1Char('.') + QFileInfo(fileName).suffix();
     return isLatexDocument(ext) || isLatexPackage(ext);
 }
 
 bool Extensions::isBibFile(const QString &fileName) const
 {
-    QString ext = '.' + QFileInfo(fileName).suffix();
+    QString ext = QLatin1Char('.') + QFileInfo(fileName).suffix();
     return isBibtex(ext);
 }
 
 bool Extensions::isScriptFile(const QString &fileName) const
 {
-    QString ext = '.' + QFileInfo(fileName).suffix();
+    QString ext = QLatin1Char('.') + QFileInfo(fileName).suffix();
     return isScript(ext);
 }
 
 bool Extensions::isProjectFile(const QString &fileName) const
 {
-    QString ext = '.' + QFileInfo(fileName).suffix();
+    QString ext = QLatin1Char('.') + QFileInfo(fileName).suffix();
     return isProject(ext);
 }
 
 bool Extensions::validExtension(const QString &ext, const QString &extensions) const
 {
-    const QStringList extlist = extensions.split(' ');
+    const QStringList extlist = extensions.split(QLatin1Char(' '));
     for(QStringList::ConstIterator it = extlist.constBegin(); it != extlist.constEnd(); ++it) {
         if((*it) == ext) {
             return true;

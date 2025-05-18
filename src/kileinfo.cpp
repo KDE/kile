@@ -201,12 +201,12 @@ QString KileInfo::getFullFromPrettyName(const OutputInfo& info, const QString& n
 
     QString file = name;
 
-    if(file.left(2) == "./") {
-        file = QFileInfo(info.mainSourceFile()).absolutePath() + '/' + file.mid(2);
+    if(file.left(2) == QStringLiteral("./")) {
+        file = QFileInfo(info.mainSourceFile()).absolutePath() + QLatin1Char('/') + file.mid(2);
     }
 
     if(QDir::isRelativePath(file)) {
-        file = QFileInfo(info.mainSourceFile()).absolutePath() + '/' + file;
+        file = QFileInfo(info.mainSourceFile()).absolutePath() + QLatin1Char('/') + file;
     }
 
     QFileInfo fi(file);
@@ -214,7 +214,7 @@ QString KileInfo::getFullFromPrettyName(const OutputInfo& info, const QString& n
         // - call from logwidget or error handling, which
         //   tries to determine the LaTeX source file
         bool found = false;
-        QStringList extlist = (m_extensions->latexDocuments()).split(' ');
+        QStringList extlist = (m_extensions->latexDocuments()).split(QLatin1Char(' '));
         for(QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it) {
             QString extName = file + (*it);
             if(QFileInfo::exists(extName)) {
@@ -417,13 +417,13 @@ void KileInfo::clearSelection() const
 
 QString KileInfo::expandEnvironmentVars(const QString &str)
 {
-    static QRegularExpression reEnvVars("\\$(\\w+)");
+    static QRegularExpression reEnvVars(QStringLiteral("\\$(\\w+)"));
     QString result = str;
     auto matches = reEnvVars.globalMatch(str);
     while (matches.hasNext()) {
         const auto match = matches.next();
 
-        result.replace(match.captured(0), qgetenv(match.captured(1).toLocal8Bit().constData()));
+        result.replace(match.captured(0), QString::fromUtf8(qgetenv(match.captured(1).toLocal8Bit().constData())));
     }
 
     return result;
@@ -439,13 +439,13 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
     switch(type)
     {
     case bibinputs:
-        configpaths = KileConfig::bibInputPaths() + LIST_SEPARATOR + "$BIBINPUTS";
+        configpaths = KileConfig::bibInputPaths() + LIST_SEPARATOR + QStringLiteral("$BIBINPUTS");
         break;
     case texinputs:
-        configpaths = KileConfig::teXPaths() + LIST_SEPARATOR + "$TEXINPUTS";
+        configpaths = KileConfig::teXPaths() + LIST_SEPARATOR + QStringLiteral("$TEXINPUTS");
         break;
     case bstinputs:
-        configpaths = KileConfig::bstInputPaths() + LIST_SEPARATOR + "$BSTINPUTS";
+        configpaths = KileConfig::bstInputPaths() + LIST_SEPARATOR + QStringLiteral("$BSTINPUTS");
         break;
     default:
         KILE_DEBUG_MAIN << "Unknown type in checkOtherPaths" << Qt::endl;
@@ -459,7 +459,7 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
     // the first match is supposed to be the correct one
     for(const QString &string: std::as_const(inputpaths)) {
         KILE_DEBUG_MAIN << "path is " << string << "and file is " << file << Qt::endl;
-        info.setFile(string + '/' + file);
+        info.setFile(string + QLatin1Char('/') + file);
         if(info.exists()) {
             KILE_DEBUG_MAIN << "filepath after correction is: " << info.path() << Qt::endl;
             return info.absoluteFilePath();

@@ -28,24 +28,49 @@ namespace KileStdActions
 
 void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *actionCollection, QWidget *parentWidget)
 {
-    (void) new KileAction::Tag(i18n("Document Class Selection - \\documentclass{}"), i18n("Document Class"), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, "tag_documentclass",
-                               "\\documentclass[10pt]{","}", 21, 0, i18n("\\documentclass[options]{class}\nclass : article,report,book,letter\nsize options : 10pt, 11pt, 12pt\npaper size options: a4paper, a5paper, b5paper, letterpaper, legalpaper, executivepaper\n"
+    (void) new KileAction::Tag(i18n("Document Class Selection - \\documentclass{}"), i18n("Document Class"),
+                               QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, QStringLiteral("tag_documentclass"),
+                               QStringLiteral("\\documentclass[10pt]{"), QStringLiteral("}"), 21, 0,
+                               i18n("\\documentclass[options]{class}\nclass : article,report,book,letter\nsize options : 10pt, 11pt, 12pt\npaper size options: a4paper, a5paper, b5paper, letterpaper, legalpaper, executivepaper\n"
                                        "other options: \nlandscape -- selects landscape format; default is portrait. \ntitlepage, notitlepage -- selects if there should be a separate title page.\nleqno -- display equation number on left side of equations; default is right side.\n"
                                        "fleqn -- display formulae flush left; default is centered.\nonecolumn, twocolumn -- one or two columns; defaults to one column\noneside, twoside -- selects one- or two-sided layout.\n" ));
 
-    (void) new KileAction::Tag(i18n("Package Import - \\usepackage{}"), i18n("Package Import"), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_usepackage",
-                               "\\usepackage{","}", 12, 0, i18n("Any options given in the \\documentclass command that are unknown by the selected document class\n"
+    (void) new KileAction::Tag(i18n("Package Import - \\usepackage{}"), i18n("Package Import"),
+                               QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, QStringLiteral("tag_usepackage"),
+                               QStringLiteral("\\usepackage{"), QStringLiteral("}"), 12, 0,
+                               i18n("Any options given in the \\documentclass command that are unknown by the selected document class\n"
                                        "are passed on to the packages loaded with \\usepackage."));
 
-    (void) new KileAction::Tag(i18n("AMS Packages"), QString(), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_amspackages","\\usepackage{amsmath}\n\\usepackage{amsfonts}\n\\usepackage{amssymb}\n",QString(),0,3,i18n("The principal American Mathematical Society packages"));
-    (void) new KileAction::Tag(i18n("Start Document Body - \\begin{document}"), i18n("Start Document Body"), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_env_document","\\begin{document}\n", "\n\\end{document}", 0,1,i18n("Text is allowed only between \\begin{document} and \\end{document}.\nThe 'preamble' (before \\begin{document} ) may contain declarations only."));
-    (void) new KileAction::Tag(i18n("Generate Title - \\maketitle"), i18n("Generate Title"), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_maketitle","\\maketitle",QString(),10,0,i18n("This command generates a title on a separate title page\n- except in the article class, where the title normally goes at the top of the first page."));
-    (void) new KileAction::Tag(i18n("Table of Contents - \\tableofcontents"), i18n("Table of Contents"), "view-table-of-contents-ltr", QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_tableofcontents","\\tableofcontents",QString(),16,0,i18n("Put this command where you want the table of contents to go"));
-    (void) new KileAction::Tag(i18n("Title Definition - \\title{}"), i18n("Title Definition"), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_title","\\title{","}",7,0,i18n( "\\title{text}\nThe \\title command declares text to be the title.\nUse \\\\ to tell LaTeX where to start a new line in a long title."));
-    (void) new KileAction::Tag(i18n("Author Definition - \\author{}"), i18n("Author Definition"), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_author","\\author{","}",8,0,i18n( "\\author{names}\nThe \\author command declares the author(s), where names is a list of authors separated by \\and commands."));
+    (void) new KileAction::Tag(i18n("AMS Packages"), QString(), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, QStringLiteral("tag_amspackages"), QStringLiteral("\\usepackage{amsmath}\n\\usepackage{amsfonts}\n\\usepackage{amssymb}\n"), QString(), 0, 3, i18n("The principal American Mathematical Society packages"));
+    (void) new KileAction::Tag(i18n("Start Document Body - \\begin{document}"), i18n("Start Document Body"),
+                               QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, QStringLiteral("tag_env_document"),
+                               QStringLiteral("\\begin{document}\n"), QStringLiteral("\n\\end{document}"), 0, 1,
+                               i18n("Text is allowed only between \\begin{document} and \\end{document}.\nThe 'preamble' (before \\begin{document} ) may contain declarations only."));
+    (void) new KileAction::Tag(i18n("Generate Title - \\maketitle"), i18n("Generate Title"),
+                               QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, QStringLiteral("tag_maketitle"),
+                               QStringLiteral("\\maketitle"), QString(), 10, 0,
+                               i18n("This command generates a title on a separate title page\n- except in the article class, where the title normally goes at the top of the first page."));
+    (void) new KileAction::Tag(i18n("Table of Contents - \\tableofcontents"), i18n("Table of Contents"), QStringLiteral("view-table-of-contents-ltr"),
+                               QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, QStringLiteral("tag_tableofcontents"),
+                               QStringLiteral("\\tableofcontents"), QString(), 16, 0,
+                               i18n("Put this command where you want the table of contents to go"));
+    (void) new KileAction::Tag(i18n("Title Definition - \\title{}"), i18n("Title Definition"),
+                               QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, QStringLiteral("tag_title"),
+                               QStringLiteral("\\title{"), QStringLiteral("}"), 7, 0,
+                               i18n( "\\title{text}\nThe \\title command declares text to be the title.\nUse \\\\ to tell LaTeX where to start a new line in a long title."));
+    (void) new KileAction::Tag(i18n("Author Definition - \\author{}"), i18n("Author Definition"),
+                               QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, QStringLiteral("tag_author"),
+                               QStringLiteral("\\author{"), QStringLiteral("}"), 8, 0,
+                               i18n( "\\author{names}\nThe \\author command declares the author(s), where names is a list of authors separated by \\and commands."));
 
-    (void) new KileAction::Tag(i18n("Center - \\begin{center}"), i18n("Center"), "format-justify-center", QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_center", "\\begin{center}\n","%E\n\\end{center}", 0,1, i18n("Each line must be terminated with the string \\\\."));
-    (void) new KileAction::Tag(i18n("Align Left - \\begin{flushleft}"), i18n("Align Left"), "format-justify-left", QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_flushleft", "\\begin{flushleft}\n","%E\n\\end{flushleft}", 0,1, i18n("Each line must be terminated with the string \\\\.") );
+    (void) new KileAction::Tag(i18n("Center - \\begin{center}"), i18n("Center"), "format-justify-center",
+                               QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, QStringLiteral("tag_center"),
+                               QStringLiteral("\\begin{center}\n"), QStringLiteral("%E\n\\end{center}"), 0, 1,
+                               i18n("Each line must be terminated with the string \\\\."));
+    (void) new KileAction::Tag(i18n("Align Left - \\begin{flushleft}"), i18n("Align Left"), "format-justify-left",
+                               QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, QStringLiteral("tag_flushleft"),
+                               QStringLiteral("\\begin{flushleft}\n"), QStringLiteral("%E\n\\end{flushleft}"), 0, 1,
+                               i18n("Each line must be terminated with the string \\\\.") );
     (void) new KileAction::Tag(i18n("Align Right - \\begin{flushright}"), i18n("Align Right"), "format-justify-right", QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_flushright", "\\begin{flushright}\n","%E\n\\end{flushright}", 0,1, i18n("Each line must be terminated with the string \\\\.") );
     (void) new KileAction::Tag(i18n("Quote - \\begin{quote}"), i18n("Quote"), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_quote","\\begin{quote}\n","%E\n\\end{quote} ",0,1,i18n("The text is justified at both margins.\nLeaving a blank line between text produces a new paragraph.") );
     (void) new KileAction::Tag(i18n("Quotation - \\begin{quotation}"), i18n("Quotation"), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_quotation","\\begin{quotation}\n","%E\n\\end{quotation} ",0,1, i18n("The text is justified at both margins and there is paragraph indentation.\nLeaving a blank line between text produces a new paragraph.") );

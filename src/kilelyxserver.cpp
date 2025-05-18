@@ -52,8 +52,8 @@ KileLyxServer::KileLyxServer(bool startMe) :
         return;
     }
 
-    m_links << ".lyxpipe.in" << ".lyx/lyxpipe.in";
-    m_links << ".lyxpipe.out" << ".lyx/lyxpipe.out";
+    m_links << QStringLiteral(".lyxpipe.in") << QStringLiteral(".lyx/lyxpipe.in");
+    m_links << QStringLiteral(".lyxpipe.out") << QStringLiteral(".lyx/lyxpipe.out");
 
     for(int i = 0; i < m_links.count() ; ++i) {
         m_pipes.append( m_tempDir->path() + QDir::separator() + m_links[i] );
@@ -94,7 +94,7 @@ bool KileLyxServer::start()
     if (openPipes()) {
         QSocketNotifier *notifier;
         for(QList<QFile*>::iterator it = m_pipeIn.begin(); it != m_pipeIn.end(); ++it) {
-            if ((*it)->fileName().right(3) == ".in" ) {
+            if ((*it)->fileName().right(3) == QStringLiteral(".in")) {
                 notifier = new QSocketNotifier((*it)->handle(), QSocketNotifier::Read, this);
                 connect(notifier, SIGNAL(activated(int)), this, SLOT(receive(int)));
                 m_notifier.append(notifier);
@@ -125,7 +125,7 @@ bool KileLyxServer::openPipes()
     struct stat buf;
     struct stat *stats = &buf;
 
-    QDir lyxDir(QDir::homePath() + QDir::separator() + ".lyx");
+    QDir lyxDir(QDir::homePath() + QDir::separator() + QStringLiteral(".lyx"));
     if(!lyxDir.exists()) {
         KILE_DEBUG_MAIN << "Directory " << lyxDir.absolutePath() << " does not exist";
         if (mkdir(QFile::encodeName( lyxDir.path() ).constData(), m_perms | S_IXUSR) == -1) {
@@ -232,19 +232,19 @@ void KileLyxServer::processLine(const QString &line)
 {
     KILE_DEBUG_MAIN << "===void KileLyxServer::processLine(const QString " << line << ")===";
 
-    static QRegularExpression reCite(":citation-insert:(.*)$");
-    static QRegularExpression reBibtexdbadd(":bibtex-database-add:(.*)$");
-    static QRegularExpression rePaste(":paste:(.*)$");
+    static QRegularExpression reCite(QStringLiteral(":citation-insert:(.*)$"));
+    static QRegularExpression reBibtexdbadd(QStringLiteral(":bibtex-database-add:(.*)$"));
+    static QRegularExpression rePaste(QStringLiteral(":paste:(.*)$"));
 
     auto match = reCite.match(line);
     if(match.hasMatch()) {
-        Q_EMIT(insert(KileAction::TagData(i18n("Cite"), "\\cite{"+match.captured(1)+'}')));
+        Q_EMIT(insert(KileAction::TagData(i18n("Cite"), QStringLiteral("\\cite{") + match.captured(1) + QLatin1Char('}'))));
         return;
     }
 
     match = reBibtexdbadd.match(line);
     if(match.hasMatch()) {
-        Q_EMIT(insert(KileAction::TagData(i18n("Add BibTeX database"), "\\bibliography{"+ match.captured(1) + '}')));
+        Q_EMIT(insert(KileAction::TagData(i18n("Add BibTeX database"), QStringLiteral("\\bibliography{") + match.captured(1) + QLatin1Char('}'))));
     }
 
     match = rePaste.match(line);
@@ -261,7 +261,7 @@ void KileLyxServer::receive(int fd)
         char buffer[size];
         if((bytesRead = read(fd, buffer, size - 1)) > 0) {
             buffer[bytesRead] = '\0'; // turn it into a c string
-            QStringList cmds = QString(buffer).trimmed().split('\n');
+            QStringList cmds = QString::fromUtf8(buffer).trimmed().split(QLatin1Char('\n'));
             for(int i = 0; i < cmds.count(); ++i) {
                 processLine(cmds[i]);
             }

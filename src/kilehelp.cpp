@@ -38,7 +38,7 @@ Help::Help(KileDocument::EditorExtension *edit, QWidget *mainWindow) : m_mainWin
     m_helpDir = KileUtilities::locate(QStandardPaths::AppDataLocation, QLatin1String("help/"), QStandardPaths::LocateDirectory); // this must end in '/'
     KILE_DEBUG_MAIN << "help dir: " << m_helpDir;
 
-    m_kileReference = m_helpDir + "latexhelp.html";
+    m_kileReference = m_helpDir + QStringLiteral("latexhelp.html");
 
     m_contextHelpType = contextHelpType();
     initContextHelp();
@@ -53,10 +53,10 @@ void Help::initContextHelp()
 {
     // read a list with keywords for context help
     if(m_contextHelpType == HelpKileRefs) {
-        readHelpList("latex-kile.index");
+        readHelpList(QStringLiteral("latex-kile.index"));
     }
     else if(m_contextHelpType == HelpLatex2eRefs) {
-        readHelpList("unofficial-latex2e-reference-manual.index");
+        readHelpList(QStringLiteral("unofficial-latex2e-reference-manual.index"));
     }
 }
 
@@ -90,7 +90,7 @@ void Help::enableUserhelpEntries(bool state)
 void Help::showHelpFile(const QString &parameter)
 {
     KILE_DEBUG_MAIN << "--------------------------------------------> help file: " << parameter;
-    KileTool::Base *tool = m_manager->createTool("ViewHTML", QString(), false);
+    KileTool::Base *tool = m_manager->createTool(QStringLiteral("ViewHTML"), QString(), false);
     if(!tool) {
         return;
     }
@@ -125,17 +125,17 @@ void Help::helpDocBrowser()
 void Help::helpLatex(HelpType type)
 {
     if(type == HelpLatexIndex) {
-        QUrl url("https://latexref.xyz/");
+        QUrl url(QStringLiteral("https://latexref.xyz/"));
         auto *openUrlJob = new KIO::OpenUrlJob(url);
         openUrlJob->start();
     }
     else if(type == HelpLatexCommand) {
-        QUrl url("https://latexref.xyz/Index.html#Index_cp_symbol-10");
+        QUrl url(QStringLiteral("https://latexref.xyz/Index.html#Index_cp_symbol-10"));
         auto *openUrlJob = new KIO::OpenUrlJob(url);
         openUrlJob->start();
     }
     else if(type == HelpLatexEnvironment) {
-        QUrl url("https://latexref.xyz/Environments.html");
+        QUrl url(QStringLiteral("https://latexref.xyz/Environments.html"));
         auto *openUrlJob = new KIO::OpenUrlJob(url);
         openUrlJob->start();
     }
@@ -153,12 +153,12 @@ void Help::helpKeyword(KTextEditor::View *view)
         KILE_DEBUG_MAIN << "about to show help for '" << word << "' (section " << m_dictHelpTex[word] << " )";
 
         if(m_contextHelpType == HelpLatex2eRefs) {
-            QUrl url("https://latexref.xyz/" + m_dictHelpTex[word]);
+            QUrl url(QStringLiteral("https://latexref.xyz/") + m_dictHelpTex[word]);
             auto *openUrlJob = new KIO::OpenUrlJob(url);
             openUrlJob->start();
         }
         else if ( m_contextHelpType == HelpKileRefs ) {
-            showHelpFile(m_kileReference + '#' + m_dictHelpTex[word]);
+            showHelpFile(m_kileReference + QLatin1Char('#') + m_dictHelpTex[word]);
         }
     }
     else {
@@ -188,7 +188,7 @@ QString Help::getKeyword(KTextEditor::View *view)
     if (m_edit->getCurrentWord(doc, row, col, KileDocument::EditorExtension::smTex, word, col1, col2)) {
         // There is no starred keyword in the references. So if     // dani 04.08.2004
         // we find one, we better try the unstarred keyword.
-        if(word.right(1) == "*") {
+        if(word.right(1) == QStringLiteral("*")) {
             return word.left(word.length() - 1);
         }
         else {
@@ -224,14 +224,14 @@ void Help::readHelpList(const QString &filename)
     }
 
     KILE_DEBUG_MAIN << "read keyword file: " << file;
-    QRegularExpression reg("\\s*(\\S+)\\s*\\t\\s*(\\S+)");
+    QRegularExpression reg(QStringLiteral("\\s*(\\S+)\\s*\\t\\s*(\\S+)"));
 
     QFile f(file);
     if(f.open(QIODevice::ReadOnly)) { // file opened successfully
         QTextStream t(&f);         // use a text stream
         while(!t.atEnd()) { // until end of file...
             QString s = t.readLine().trimmed();       // line of text excluding '\n'
-            if(!(s.isEmpty() || s.at(0)=='#')) {
+            if (!(s.isEmpty() || s.at(0) == QLatin1Char('#'))) {
                 QRegularExpressionMatch match;
                 const int pos = s.indexOf(reg);
                 if(pos != -1) {

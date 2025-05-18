@@ -188,12 +188,12 @@ void InputTag::emitData()
 
         TagData td(m_data);
 
-        td.tagBegin.replace("%R",dlg->tag());
-        td.tagEnd.replace("%R",dlg->tag());
+        td.tagBegin.replace(QStringLiteral("%R"), dlg->tag());
+        td.tagEnd.replace(QStringLiteral("%R"), dlg->tag());
 
-        QString alt = dlg->useAlternative() ? "*" : "";
-        td.tagBegin.replace("%A", alt);
-        td.tagEnd.replace("%A", alt);
+        QString alt = dlg->useAlternative() ? QStringLiteral("*") : QStringLiteral("");
+        td.tagBegin.replace(QStringLiteral("%A"), alt);
+        td.tagEnd.replace(QStringLiteral("%A"), alt);
 
         if(dlg->useLabel()) {
             td.tagEnd += dlg->label();
@@ -214,7 +214,7 @@ void InputTag::emitData()
         Q_EMIT(triggered(td));
         // refresh document structure and project tree when a file was inserted
         if(dlg->useAddProjectFile()) {
-            m_ki->docManager()->projectAddFile(QFileInfo(m_ki->getCompileName()).absolutePath() + '/' + dlg->tag());
+            m_ki->docManager()->projectAddFile(QFileInfo(m_ki->getCompileName()).absolutePath() + QLatin1Char('/') + dlg->tag());
         }
     }
     delete dlg;
@@ -233,9 +233,9 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
     setObjectName(name);
 
     QString newcaption = caption;
-    setWindowTitle(newcaption.remove('&'));
+    setWindowTitle(newcaption.remove(QLatin1Char('&')));
 
-    m_labelprefix = (newcaption == "chapter") ? "chap:" : "sec:";
+    m_labelprefix = (newcaption == QStringLiteral("chapter")) ? QStringLiteral("chap:") : QStringLiteral("sec:");
     m_usedSelection = false;
 
     QGridLayout *gbox = new QGridLayout(this);
@@ -250,7 +250,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
     QWidget *focus;
     if((options & KileAction::KeepHistory) || (options & KileAction::FromLabelList) || (options & KileAction::FromBibItemList)) {
         KComboBox *input = new KComboBox(true, this);
-        input->setObjectName("input_dialog_input");
+        input->setObjectName(QStringLiteral("input_dialog_input"));
         input->setCompletionMode(KCompletion::CompletionAuto);
         input->setMinimumWidth(300);
         focus = input;
@@ -313,7 +313,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
     if(options & KileAction::ShowBrowseButton) {
         QPushButton *pbutton = new QPushButton(QString(), this);
         mainLayout->addWidget(pbutton);
-        pbutton->setIcon(QIcon::fromTheme("document-open"));
+        pbutton->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
         gbox->addWidget(pbutton, 1, 2);
         gbox->setColumnMinimumWidth(1, 8);
         gbox->setColumnMinimumWidth(2, pbutton->sizeHint().width() + 5);
@@ -323,7 +323,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
     if(options & KileAction::ShowAlternative) {
         QCheckBox *m_checkbox = new QCheckBox(alter, this);
         mainLayout->addWidget(m_checkbox);
-        m_checkbox->setObjectName("input_dialog_checkbox");
+        m_checkbox->setObjectName(QStringLiteral("input_dialog_checkbox"));
         connect(m_checkbox, SIGNAL(clicked()), this, SLOT(slotAltClicked()));
         m_useAlternative=false;
         gbox->addWidget(m_checkbox, 2, 0, 1, 3);
@@ -404,7 +404,7 @@ QString InputDialog::label()
     if(m_edLabel) {
         QString labelString = m_edLabel->text().trimmed();
         if(!labelString.isEmpty() && labelString != m_labelprefix) {
-            return "\\label{" + labelString + "}\n";
+            return QStringLiteral("\\label{") + labelString + QStringLiteral("}\n");
         }
     }
 
@@ -418,7 +418,7 @@ QString InputDialog::label()
 Select::Select(const QString &text, const QKeySequence &shortcut, KActionCollection *parent, const char *name)
     : KSelectAction(text, parent)
 {
-    parent->addAction(name, this);
+    parent->addAction(QString::fromUtf8(name), this);
     parent->setDefaultShortcut(this, shortcut);
 }
 

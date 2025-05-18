@@ -689,7 +689,7 @@ KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocu
 
 KTextEditor::View* Manager::createNewJScript()
 {
-    KTextEditor::View *view = createDocumentWithText(QString(), Script, "js", QUrl::fromLocalFile(m_ki->scriptManager()->getLocalScriptDirectory()));
+    KTextEditor::View *view = createDocumentWithText(QString(), Script, QStringLiteral("js"), QUrl::fromLocalFile(m_ki->scriptManager()->getLocalScriptDirectory()));
     Q_EMIT(updateStructure(false, nullptr));
     Q_EMIT(updateModeStatus());
     return view;
@@ -705,13 +705,13 @@ KTextEditor::View* Manager::createNewLaTeXDocument()
 
 void Manager::replaceTemplateVariables(QString &line)
 {
-    line=line.replace("$$AUTHOR$$", KileConfig::author());
-    line=line.replace("$$DOCUMENTCLASSOPTIONS$$", KileConfig::documentClassOptions());
+    line = line.replace(QStringLiteral("$$AUTHOR$$"), KileConfig::author());
+    line = line.replace(QStringLiteral("$$DOCUMENTCLASSOPTIONS$$"), KileConfig::documentClassOptions());
     if (!KileConfig::templateEncoding().isEmpty()) {
-        line=line.replace("$$INPUTENCODING$$", "\\usepackage["+ KileConfig::templateEncoding() +"]{inputenc}");
+        line = line.replace(QStringLiteral("$$INPUTENCODING$$"), QStringLiteral("\\usepackage[") + KileConfig::templateEncoding() + QStringLiteral("]{inputenc}"));
     }
     else {
-        line = line.remove("$$INPUTENCODING$$");
+        line = line.remove(QStringLiteral("$$INPUTENCODING$$"));
     }
 }
 
@@ -775,7 +775,7 @@ void Manager::fileNew(const QUrl &url)
     //create the directory structure first
     QFileInfo fileInfo(file);
     QDir dir = fileInfo.absolutePath();
-    dir.mkpath(".");
+    dir.mkpath(QStringLiteral("."));
     
     //create an empty file
     file.open(QIODevice::ReadWrite);
@@ -1056,7 +1056,7 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
     if(startUrl.isEmpty()) {
         QUrl baseDirectory = info->getBaseDirectory();
         if(baseDirectory.isEmpty()) {
-            startUrl = QUrl("kfiledialog:///KILE_LATEX_SAVE_DIR");
+            startUrl = QUrl(QStringLiteral("kfiledialog:///KILE_LATEX_SAVE_DIR"));
         }
         else {
             startUrl = baseDirectory;
@@ -1315,7 +1315,7 @@ void Manager::projectNew()
                 QUrl url = project->baseURL();
                 url = url.adjusted(QUrl::StripTrailingSlash);
                 QString filename = dlg->file();
-                url.setPath(url.path() + '/' + filename);
+                url.setPath(url.path() + QLatin1Char('/') + filename);
 
                 newTextInfo = textInfoFor(view->document());
 
@@ -1928,13 +1928,13 @@ void Manager::cleanUpTempFiles(const QUrl &url, bool silent)
 
     QStringList extlist;
     QFileInfo fi(url.toLocalFile());
-    const QStringList templist = KileConfig::cleanUpFileExtensions().split(' ');
+    const QStringList templist = KileConfig::cleanUpFileExtensions().split(QLatin1Char(' '));
     const QString fileName = fi.fileName();
     const QString dirPath = fi.absolutePath();
     const QString baseName = fi.completeBaseName();
 
     for (const QString& temp : templist) {
-        fi.setFile(dirPath + '/' + baseName + temp);
+        fi.setFile(dirPath + QLatin1Char('/') + baseName + temp);
         if(fi.exists()) {
             extlist.append(temp);
         }
@@ -1964,12 +1964,12 @@ void Manager::cleanUpTempFiles(const QUrl &url, bool silent)
     }
     else {
         for(const QString& ext : std::as_const(extlist)) {
-            QFile file(dirPath + '/' + baseName + ext);
+            QFile file(dirPath + QLatin1Char('/') + baseName + ext);
             KILE_DEBUG_MAIN << "About to remove file = " << file.fileName();
             file.remove();
         }
         m_ki->errorHandler()->printMessage(KileTool::Info,
-                                           i18n("Cleaning %1: %2", fileName, extlist.join(" ")),
+                                           i18n("Cleaning %1: %2", fileName, extlist.join(QStringLiteral(" "))),
                                            i18n("Clean"));
     }
 }
@@ -2061,7 +2061,7 @@ void Manager::projectShow()
 
             // called from QAction 'Show projects...': find the first opened
             // LaTeX document or, if that fails, any other opened file
-            const QStringList extensionsList = QString(m_ki->extensions()->latexDocuments() + ' ' + m_ki->extensions()->latexPackages()).split(' ');
+            const QStringList extensionsList = QString(m_ki->extensions()->latexDocuments() + QLatin1Char(' ') + m_ki->extensions()->latexPackages()).split(QLatin1Char(' '));
             for(const QString& extension : extensionsList) {
                 if(itempath.indexOf(extension, -1 * extension.length()) >= 0)  {
                     if (m_ki->isOpen(item->url()))  {
@@ -2346,7 +2346,7 @@ void Manager::loadDocumentAndViewSettings(KileDocument::TextInfo *textInfo)
         return;
     }
 
-    document->readSessionConfig(configGroup, QSet<QString>() << "SkipEncoding" << "SkipUrl");
+    document->readSessionConfig(configGroup, QSet<QString>() << QStringLiteral("SkipEncoding") << QStringLiteral("SkipUrl"));
     {
         LaTeXInfo *latexInfo = dynamic_cast<LaTeXInfo*>(textInfo);
         if(latexInfo) {
@@ -2381,10 +2381,10 @@ void Manager::saveDocumentAndViewSettings(KileDocument::TextInfo *textInfo)
     KConfigGroup configGroup = configGroupForDocumentSettings(document);
 
     QUrl url = document->url();
-    url.setPassword(""); // we don't want the password to appear in the configuration file
+    url.setPassword(QStringLiteral("")); // we don't want the password to appear in the configuration file
     deleteDocumentAndViewSettingsGroups(url);
 
-    document->writeSessionConfig(configGroup, QSet<QString>() << "SkipEncoding" << "SkipUrl");
+    document->writeSessionConfig(configGroup, QSet<QString>() << QStringLiteral("SkipEncoding") << QStringLiteral("SkipUrl"));
     {
         LaTeXInfo *latexInfo = dynamic_cast<LaTeXInfo*>(textInfo);
         if(latexInfo) {
@@ -2407,7 +2407,7 @@ void Manager::saveDocumentAndViewSettings(KileDocument::TextInfo *textInfo)
         ++i;
     }
     // finally remove the config groups for the oldest documents that exceed MAX_NUMBER_OF_STORED_SETTINGS
-    configGroup = KSharedConfig::openConfig()->group("Session Settings");
+    configGroup = KSharedConfig::openConfig()->group(QStringLiteral("Session Settings"));
     QList<QUrl> urlList = QUrl::fromStringList(configGroup.readEntry("Saved Documents", QStringList()));
     urlList.removeAll(url);
     urlList.push_front(url);
@@ -2431,8 +2431,8 @@ KConfigGroup Manager::configGroupForDocumentSettings(KTextEditor::Document *doc)
 QString Manager::configGroupNameForDocumentSettings(const QUrl &url) const
 {
     QUrl url2 = url;
-    url2.setPassword("");
-    return "Document-Settings,URL=" + url2.url();
+    url2.setPassword(QStringLiteral(""));
+    return QStringLiteral("Document-Settings,URL=") + url2.url();
 }
 
 KConfigGroup Manager::configGroupForViewSettings(KTextEditor::Document *doc, int viewIndex) const
@@ -2443,8 +2443,8 @@ KConfigGroup Manager::configGroupForViewSettings(KTextEditor::Document *doc, int
 QString Manager::configGroupNameForViewSettings(const QUrl &url, int viewIndex) const
 {
     QUrl url2 = url;
-    url2.setPassword("");
-    return "View-Settings,View=" + QString::number(viewIndex) + ",URL=" + url2.url();
+    url2.setPassword(QStringLiteral(""));
+    return QStringLiteral("View-Settings,View=") + QString::number(viewIndex) + QStringLiteral(",URL=") + url2.url();
 }
 
 void Manager::deleteDocumentAndViewSettingsGroups(const QUrl &url)
@@ -2455,7 +2455,7 @@ void Manager::deleteDocumentAndViewSettingsGroups(const QUrl &url)
         if(KSharedConfig::openConfig()->hasGroup(groupName) // 'groupName' might have been deleted
            && (groupName.startsWith(QLatin1String("Document-Settings"))
                || groupName.startsWith(QLatin1String("View-Settings")))) {
-            int urlIndex = groupName.indexOf("URL=");
+            int urlIndex = groupName.indexOf(QStringLiteral("URL="));
             if(urlIndex >= 0 && groupName.mid(urlIndex + 4) == urlString) {
                 KSharedConfig::openConfig()->deleteGroup(groupName);
             }

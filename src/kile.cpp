@@ -177,7 +177,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
         return;
     }
 
-    QSplashScreen splashScreen(QPixmap(KileUtilities::locate(QStandardPaths::AppDataLocation, "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
+    QSplashScreen splashScreen(QPixmap(KileUtilities::locate(QStandardPaths::AppDataLocation, QStringLiteral("pics/kile_splash.png"))), Qt::WindowStaysOnTopHint);
     if(KileConfig::showSplashScreen()) {
         splashScreen.show();
         qApp->processEvents();
@@ -295,26 +295,26 @@ Kile::Kile(bool allowRestore, QWidget *parent)
         // Kile's configuration file, but this led to problems with the way of how shortcuts
         // are generally stored in kdelibs; we now delete the "Shortcuts" group if it
         // still present in Kile's configuration file.
-        if(m_config->hasGroup("Shortcuts")) {
-            KConfigGroup shortcutGroup = m_config->group("Shortcuts");
+        if(m_config->hasGroup(QStringLiteral("Shortcuts"))) {
+            KConfigGroup shortcutGroup = m_config->group(QStringLiteral("Shortcuts"));
             actionCollection()->readSettings(&shortcutGroup);
-            m_config->deleteGroup("Shortcuts");
+            m_config->deleteGroup(QStringLiteral("Shortcuts"));
         }
 
-        if(m_config->hasGroup("Complete")) {
-            KConfigGroup completionGroup = m_config->group("Complete");
-            completionGroup.deleteEntry("maxCwlFiles"); // in Kile 3.0 the UI has been changed so that this setting is no longer
+        if(m_config->hasGroup(QStringLiteral("Complete"))) {
+            KConfigGroup completionGroup = m_config->group(QStringLiteral("Complete"));
+            completionGroup.deleteEntry(QStringLiteral("maxCwlFiles")); // in Kile 3.0 the UI has been changed so that this setting is no longer
             // needed
         }
     }
     if(KileConfig::rCVersion() < 9) {
         // in Kile 3.0 beta 4, the user help was updated, some old config settings were no longer needed
-        if(m_config->hasGroup("Help")) {
-            KConfigGroup helpGroup = m_config->group("Help");
-            helpGroup.deleteEntry("location");
-            helpGroup.deleteEntry("texrefs");
-            helpGroup.deleteEntry("external");
-            helpGroup.deleteEntry("embedded");
+        if(m_config->hasGroup(QStringLiteral("Help"))) {
+            KConfigGroup helpGroup = m_config->group(QStringLiteral("Help"));
+            helpGroup.deleteEntry(QStringLiteral("location"));
+            helpGroup.deleteEntry(QStringLiteral("texrefs"));
+            helpGroup.deleteEntry(QStringLiteral("external"));
+            helpGroup.deleteEntry(QStringLiteral("embedded"));
         }
     }
 
@@ -324,7 +324,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 
     createToolActions(); // this creates the actions for the tools and user tags, which is required before 'activePartGUI' is called
 
-    setupGUI(KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save, "kileui.rc");
+    setupGUI(KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save, QStringLiteral("kileui.rc"));
     createShellGUI(true); // do not call guiFactory()->refreshActionProperties() after this! (bug 314580)
 
     m_userMenu = new KileMenu::UserMenu(this, this);
@@ -337,8 +337,8 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     {
         guiFactory()->addClient(viewManager()->viewerPart());
 
-        QMenu *documentViewerMenu = static_cast<QMenu*>(guiFactory()->container("menu_document_viewer", this));
-        QMenu *popup = static_cast<QMenu*>(guiFactory()->container("menu_okular_part_viewer", viewManager()->viewerPart()));
+        QMenu *documentViewerMenu = static_cast<QMenu*>(guiFactory()->container(QStringLiteral("menu_document_viewer"), this));
+        QMenu *popup = static_cast<QMenu*>(guiFactory()->container(QStringLiteral("menu_okular_part_viewer"), viewManager()->viewerPart()));
         if(documentViewerMenu && popup) {
             // we populate our menu with the actions from the part's menu
             documentViewerMenu->addActions(popup->actions());
@@ -354,7 +354,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     }
 
     resize(KileConfig::mainwindowWidth(), KileConfig::mainwindowHeight());
-    applyMainWindowSettings(m_config->group("KileMainWindow"));
+    applyMainWindowSettings(m_config->group(QStringLiteral("KileMainWindow")));
 
     restoreLastSelectedAction(); // don't call this inside 'setupTools' as it is not compatible with KParts switching!
     QList<int> sizes;
@@ -383,8 +383,8 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     // publish the D-Bus interfaces
     new MainAdaptor(this);
     QDBusConnection dbus = QDBusConnection::sessionBus();
-    dbus.registerObject("/main", this);
-    dbus.registerService("org.kde.kile"); // register under a constant name
+    dbus.registerObject(QStringLiteral("/main"), this);
+    dbus.registerService(QStringLiteral("org.kde.kile")); // register under a constant name
 
     m_lyxserver = new KileLyxServer(KileConfig::runLyxServer());
     connect(m_lyxserver, &KileLyxServer::insert, this, [this](const KileAction::TagData &data) { insertTag(data); });
@@ -424,7 +424,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     // finally, we check whether the system check assistant should be run, which is important for
     // version 3.0 regarding the newly introduced live preview feature
     const QString& lastVersionRunFor = KileConfig::systemCheckLastVersionRunForAtStartUp();
-    if(lastVersionRunFor.isEmpty() || compareVersionStrings(lastVersionRunFor, "2.9.91") < 0) {
+    if(lastVersionRunFor.isEmpty() || compareVersionStrings(lastVersionRunFor, QStringLiteral("2.9.91")) < 0) {
 #ifdef Q_OS_WIN
         // work around the problem that Sonnet's language auto-detection feature doesn't work
         // together with KatePart (as of 08 November 2019)
@@ -478,7 +478,7 @@ void Kile::setupSideBar()
     m_sideBar = new KileWidget::SideBar(m_horizontalSplitter);
 
     m_fileBrowserWidget = new KileWidget::FileBrowserWidget(m_extensions, m_sideBar);
-    m_sideBar->addPage(m_fileBrowserWidget, QIcon::fromTheme("document-open"), i18n("Open File"));
+    m_sideBar->addPage(m_fileBrowserWidget, QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open File"));
     connect(m_fileBrowserWidget, &KileWidget::FileBrowserWidget::fileSelected,
             docManager(), [this](const KFileItem& item) { docManager()->fileSelected(item); });
 
@@ -498,7 +498,7 @@ void Kile::setupProjectView()
 {
     KileWidget::ProjectView *projectView = new KileWidget::ProjectView(m_sideBar, this);
 // 	viewManager()->setProjectView(projectView);
-    m_sideBar->addPage(projectView, QIcon::fromTheme("relation"), i18n("Files and Projects"));
+    m_sideBar->addPage(projectView, QIcon::fromTheme(QStringLiteral("relation")), i18n("Files and Projects"));
     connect(projectView, QOverload<const KileProjectItem*>::of(&KileWidget::ProjectView::fileSelected),
             docManager(), QOverload<const KileProjectItem*>::of(&KileDocument::Manager::fileSelected));
 
@@ -563,7 +563,7 @@ void Kile::setupProjectView()
 void Kile::setupStructureView()
 {
     m_kwStructure = new KileWidget::StructureWidget(this, m_sideBar);
-    m_sideBar->addPage(m_kwStructure, QIcon::fromTheme("view-list-tree"), i18n("Structure"));
+    m_sideBar->addPage(m_kwStructure, QIcon::fromTheme(QStringLiteral("view-list-tree")), i18n("Structure"));
     m_kwStructure->setFocusPolicy(Qt::ClickFocus);
     connect(configurationManager(), &KileConfiguration::Manager::configChanged,
             m_kwStructure, &KileWidget::StructureWidget::configChanged);
@@ -586,7 +586,7 @@ void Kile::setupStructureView()
 void Kile::setupScriptsManagementView()
 {
     m_scriptsManagementWidget = new KileWidget::ScriptsManagement(this, m_sideBar);
-    m_sideBar->addPage(m_scriptsManagementWidget, QIcon::fromTheme("preferences-plugin-script"), i18n("Scripts"));
+    m_sideBar->addPage(m_scriptsManagementWidget, QIcon::fromTheme(QStringLiteral("preferences-plugin-script")), i18n("Scripts"));
 }
 
 void Kile::enableSymbolViewMFUS()
@@ -625,7 +625,7 @@ void Kile::disableSymbolViewMFUS()
 void Kile::setupSymbolViews()
 {
     m_toolBox = new QToolBox(m_sideBar);
-    m_sideBar->addPage(m_toolBox,QIcon::fromTheme("math0"),i18n("Symbols"));
+    m_sideBar->addPage(m_toolBox,QIcon::fromTheme(QStringLiteral("math0")), i18n("Symbols"));
 
     m_symbolViewMFUS = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::MFUS);
     m_toolBox->addItem(m_symbolViewMFUS,i18n("Most Frequently Used"));
@@ -634,52 +634,52 @@ void Kile::setupSymbolViews()
             this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
     m_symbolViewRelation = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Relation);
-    m_toolBox->addItem(m_symbolViewRelation,QIcon::fromTheme("math1"),i18n("Relation"));
+    m_toolBox->addItem(m_symbolViewRelation,QIcon::fromTheme(QStringLiteral("math1")), i18n("Relation"));
     connect(m_symbolViewRelation, &KileWidget::SymbolView::insertText,
             this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
     m_symbolViewOperators = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Operator);
-    m_toolBox->addItem(m_symbolViewOperators,QIcon::fromTheme("math2"),i18n("Operators"));
+    m_toolBox->addItem(m_symbolViewOperators,QIcon::fromTheme(QStringLiteral("math2")), i18n("Operators"));
     connect(m_symbolViewOperators, &KileWidget::SymbolView::insertText,
             this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
     m_symbolViewArrows = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Arrow);
-    m_toolBox->addItem(m_symbolViewArrows,QIcon::fromTheme("math3"),i18n("Arrows"));
+    m_toolBox->addItem(m_symbolViewArrows,QIcon::fromTheme(QStringLiteral("math3")), i18n("Arrows"));
     connect(m_symbolViewArrows, &KileWidget::SymbolView::insertText,
             this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
     m_symbolViewMiscMath = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::MiscMath);
-    m_toolBox->addItem(m_symbolViewMiscMath,QIcon::fromTheme("math4"),i18n("Miscellaneous Math"));
+    m_toolBox->addItem(m_symbolViewMiscMath,QIcon::fromTheme(QStringLiteral("math4")), i18n("Miscellaneous Math"));
     connect(m_symbolViewMiscMath, &KileWidget::SymbolView::insertText,
             this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
     m_symbolViewMiscText = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::MiscText);
-    m_toolBox->addItem(m_symbolViewMiscText,QIcon::fromTheme("math5"),i18n("Miscellaneous Text"));
+    m_toolBox->addItem(m_symbolViewMiscText,QIcon::fromTheme(QStringLiteral("math5")), i18n("Miscellaneous Text"));
     connect(m_symbolViewMiscText, &KileWidget::SymbolView::insertText,
             this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
     m_symbolViewDelimiters= new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Delimiters);
-    m_toolBox->addItem(m_symbolViewDelimiters,QIcon::fromTheme("math6"),i18n("Delimiters"));
+    m_toolBox->addItem(m_symbolViewDelimiters,QIcon::fromTheme(QStringLiteral("math6")), i18n("Delimiters"));
     connect(m_symbolViewDelimiters, &KileWidget::SymbolView::insertText,
             this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
     m_symbolViewGreek = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Greek);
-    m_toolBox->addItem(m_symbolViewGreek,QIcon::fromTheme("math7"),i18n("Greek"));
+    m_toolBox->addItem(m_symbolViewGreek,QIcon::fromTheme(QStringLiteral("math7")), i18n("Greek"));
     connect(m_symbolViewGreek, &KileWidget::SymbolView::insertText,
             this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
     m_symbolViewSpecial = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Special);
-    m_toolBox->addItem(m_symbolViewSpecial,QIcon::fromTheme("math8"),i18n("Special Characters"));
+    m_toolBox->addItem(m_symbolViewSpecial,QIcon::fromTheme(QStringLiteral("math8")), i18n("Special Characters"));
     connect(m_symbolViewSpecial, &KileWidget::SymbolView::insertText,
             this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
     m_symbolViewCyrillic = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Cyrillic);
-    m_toolBox->addItem(m_symbolViewCyrillic,QIcon::fromTheme("math10"),i18n("Cyrillic Characters"));
+    m_toolBox->addItem(m_symbolViewCyrillic,QIcon::fromTheme(QStringLiteral("math10")), i18n("Cyrillic Characters"));
     connect(m_symbolViewCyrillic, &KileWidget::SymbolView::insertText,
             this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
     m_symbolViewUser = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::User);
-    m_toolBox->addItem(m_symbolViewUser,QIcon::fromTheme("math9"),i18n("User Defined"));
+    m_toolBox->addItem(m_symbolViewUser,QIcon::fromTheme(QStringLiteral("math9")), i18n("User Defined"));
     connect(m_symbolViewUser, &KileWidget::SymbolView::insertText,
             this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
@@ -693,7 +693,7 @@ void Kile::setupSymbolViews()
 void Kile::setupCommandViewToolbox()
 {
     m_commandViewToolBox = new KileWidget::CommandViewToolBox(this, m_sideBar);
-    m_sideBar->addPage(m_commandViewToolBox, QIcon::fromTheme("texlion"), i18n("LaTeX"));
+    m_sideBar->addPage(m_commandViewToolBox, QIcon::fromTheme(QStringLiteral("texlion")), i18n("LaTeX"));
 
     connect(m_commandViewToolBox, &KileWidget::CommandViewToolBox::sendText,
             this, QOverload<const QString&>::of(&Kile::insertText));
@@ -704,7 +704,7 @@ void Kile::setupAbbreviationView()
     m_kileAbbrevView = new KileWidget::AbbreviationView(abbreviationManager(), m_sideBar);
     connect(abbreviationManager(), &KileAbbreviation::Manager::abbreviationsChanged,
             m_kileAbbrevView, &KileWidget::AbbreviationView::updateAbbreviations);
-    m_sideBar->addPage(m_kileAbbrevView, QIcon::fromTheme("complete3"), i18n("Abbreviation"));
+    m_sideBar->addPage(m_kileAbbrevView, QIcon::fromTheme(QStringLiteral("complete3")), i18n("Abbreviation"));
 
     connect(m_kileAbbrevView, &KileWidget::AbbreviationView::sendText,
             this, QOverload<const QString&>::of(&Kile::insertText));
@@ -735,21 +735,21 @@ void Kile::setupBottomBar()
     layout->addWidget(errorHandler()->outputWidget());
     layout->addWidget(horizontalSeparator);
     layout->addWidget(m_latexOutputErrorToolBar);
-    m_bottomBar->addPage(widget, QIcon::fromTheme("utilities-log-viewer"), i18n("Log and Messages"));
+    m_bottomBar->addPage(widget, QIcon::fromTheme(QStringLiteral("utilities-log-viewer")), i18n("Log and Messages"));
 
     m_outputWidget = new KileWidget::OutputView(this);
     m_outputWidget->setFocusPolicy(Qt::ClickFocus);
     m_outputWidget->setMinimumHeight(40);
     m_outputWidget->setReadOnly(true);
-    m_bottomBar->addPage(m_outputWidget, QIcon::fromTheme("output_win"), i18n("Output"));
+    m_bottomBar->addPage(m_outputWidget, QIcon::fromTheme(QStringLiteral("output_win")), i18n("Output"));
 
     m_texKonsole = new KileWidget::Konsole(this, this);
-    m_bottomBar->addPage(m_texKonsole, QIcon::fromTheme("utilities-terminal"),i18n("Konsole"));
+    m_bottomBar->addPage(m_texKonsole, QIcon::fromTheme(QStringLiteral("utilities-terminal")), i18n("Konsole"));
     connect(viewManager(), static_cast<void (KileView::Manager::*)(QWidget*)>(&KileView::Manager::currentViewChanged),
             m_texKonsole, static_cast<void (KileWidget::Konsole::*)(void)>(&KileWidget::Konsole::sync));
 
     m_previewWidget = new KileWidget::PreviewWidget(this, m_bottomBar);
-    m_bottomBar->addPage(m_previewWidget, QIcon::fromTheme ("document-preview"), i18n ("Preview"));
+    m_bottomBar->addPage(m_previewWidget, QIcon::fromTheme(QStringLiteral("document-preview")), i18n ("Preview"));
 
     m_bottomBar->setVisible(true);
     m_bottomBar->switchToTab(KileConfig::bottomBarIndex());
@@ -758,14 +758,14 @@ void Kile::setupBottomBar()
 
 void Kile::setupGraphicTools()
 {
-    KileConfig::setImagemagick(!(QStandardPaths::findExecutable("identify").isNull()));
+    KileConfig::setImagemagick(!(QStandardPaths::findExecutable(QStringLiteral("identify")).isNull()));
 }
 
 void Kile::setupPreviewTools()
 {
     // search for tools
-    bool dvipng = !(QStandardPaths::findExecutable("dvipng").isNull());
-    bool convert = !(QStandardPaths::findExecutable("convert").isNull());
+    bool dvipng = !(QStandardPaths::findExecutable(QStringLiteral("dvipng")).isNull());
+    bool convert = !(QStandardPaths::findExecutable(QStringLiteral("convert")).isNull());
 
     KileConfig::setDvipng(dvipng);
     KileConfig::setConvert(convert);
@@ -837,24 +837,24 @@ void Kile::setupActions()
 {
     QAction *act;
 
-    createAction(KStandardAction::New, "file_new", docManager(), [this]() { docManager()->fileNew(); });
-    createAction(KStandardAction::Open, "file_open", docManager(), [this]() { docManager()->fileOpen(); });
+    createAction(KStandardAction::New, QStringLiteral("file_new"), docManager(), [this]() { docManager()->fileNew(); });
+    createAction(KStandardAction::Open, QStringLiteral("file_open"), docManager(), [this]() { docManager()->fileOpen(); });
 
     m_actRecentFiles = KStandardAction::openRecent(docManager(), [this](const QUrl& url) { docManager()->fileOpen(url); }, this);
-    m_actRecentFiles->setObjectName("file_open_recent");
-    actionCollection()->addAction("file_open_recent", m_actRecentFiles);
+    m_actRecentFiles->setObjectName(QStringLiteral("file_open_recent"));
+    actionCollection()->addAction(QStringLiteral("file_open_recent"), m_actRecentFiles);
     connect(docManager(), &KileDocument::Manager::addToRecentFiles, this, &Kile::addRecentFile);
-    m_actRecentFiles->loadEntries(m_config->group("Recent Files"));
+    m_actRecentFiles->loadEntries(m_config->group(QStringLiteral("Recent Files")));
 
-    createAction(i18n("Save All"), "file_save_all", "document-save-all", docManager(), &KileDocument::Manager::fileSaveAll);
+    createAction(i18n("Save All"), QStringLiteral("file_save_all"), QStringLiteral("document-save-all"), docManager(), &KileDocument::Manager::fileSaveAll);
 
     createAction(i18n("Create Template From Document..."), "template_create", docManager(), &KileDocument::Manager::createTemplate);
     createAction(i18n("&Remove Template..."), "template_remove", docManager(), &KileDocument::Manager::removeTemplate);
-    createAction(KStandardAction::Close, "file_close", docManager(), [this]() { docManager()->fileClose();} );
+    createAction(KStandardAction::Close, QStringLiteral("file_close"), docManager(), [this]() { docManager()->fileClose();} );
     createAction(i18n("Close All"), "file_close_all", docManager(), &KileDocument::Manager::fileCloseAll);
     createAction(i18n("Close All Ot&hers"), "file_close_all_others", docManager(), [this]() { docManager()->fileCloseAllOthers(); });
     createAction(i18n("S&tatistics"), "Statistics", this, [this]() { showDocInfo(); });
-    createAction(i18nc("@action:inmenu", "&Open Containing Folder"), "open_containing_folder", "document-open-folder", this, [this]() { openContainingFolder(); });
+    createAction(i18nc("@action:inmenu", "&Open Containing Folder"), QStringLiteral("open_containing_folder"), QStringLiteral("document-open-folder"), this, [this]() { openContainingFolder(); });
     createAction(i18n("&ASCII"), "file_export_ascii", this, [this]() { convertToASCII(); });
     createAction(i18n("Latin-&1 (iso 8859-1)"), "file_export_latin1", this, [this]() { convertToEnc(); });
     createAction(i18n("Latin-&2 (iso 8859-2)"), "file_export_latin2", this, [this]() { convertToEnc(); });
@@ -864,62 +864,62 @@ void Kile::setupActions()
     createAction(i18n("Latin-&9 (iso 8859-9)"), "file_export_latin9", this, [this]() { convertToEnc(); });
     createAction(i18n("&Central European (cp-1250)"), "file_export_cp1250", this, [this]() { convertToEnc(); });
     createAction(i18n("&Western European (cp-1252)"), "file_export_cp1252", this, [this]() { convertToEnc(); });
-    createAction(KStandardAction::Quit, "file_quit", this, &Kile::close);
+    createAction(KStandardAction::Quit, QStringLiteral("file_quit"), this, &Kile::close);
 
-    createAction(i18n("Move Tab Left"), "move_view_tab_left", "arrow-left", viewManager(), [this]() { viewManager()->moveTabLeft(); });
-    createAction(i18n("Move Tab Right"), "move_view_tab_right", "arrow-right", viewManager(), [this]() { viewManager()->moveTabRight(); });
+    createAction(i18n("Move Tab Left"), QStringLiteral("move_view_tab_left"), QStringLiteral("arrow-left"), viewManager(), [this]() { viewManager()->moveTabLeft(); });
+    createAction(i18n("Move Tab Right"), QStringLiteral("move_view_tab_right"), QStringLiteral("arrow-right"), viewManager(), [this]() { viewManager()->moveTabRight(); });
 
-    createAction(i18n("Next section"), "edit_next_section", "nextsection", QKeySequence(Qt::ALT | Qt::Key_Down),
+    createAction(i18n("Next section"), QStringLiteral("edit_next_section"), QStringLiteral("nextsection"), QKeySequence(Qt::ALT | Qt::Key_Down),
                  m_edit, &KileDocument::EditorExtension::gotoNextSectioning);
-    createAction(i18n("Prev section"), "edit_prev_section", "prevsection", QKeySequence(Qt::ALT | Qt::Key_Up),
+    createAction(i18n("Prev section"), QStringLiteral("edit_prev_section"), QStringLiteral("prevsection"), QKeySequence(Qt::ALT | Qt::Key_Up),
                  m_edit, &KileDocument::EditorExtension::gotoPrevSectioning);
-    createAction(i18n("Next paragraph"), "edit_next_paragraph", "nextparagraph", QKeySequence(Qt::ALT | Qt::SHIFT | Qt::Key_Down),
+    createAction(i18n("Next paragraph"), QStringLiteral("edit_next_paragraph"), QStringLiteral("nextparagraph"), QKeySequence(Qt::ALT | Qt::SHIFT | Qt::Key_Down),
                  m_edit, [this]() { m_edit->gotoNextParagraph(); });
-    createAction(i18n("Prev paragraph"), "edit_prev_paragraph", "prevparagraph", QKeySequence(Qt::ALT | Qt::SHIFT | Qt::Key_Up),
+    createAction(i18n("Prev paragraph"), QStringLiteral("edit_prev_paragraph"), QStringLiteral("prevparagraph"), QKeySequence(Qt::ALT | Qt::SHIFT | Qt::Key_Up),
                  m_edit, [this]() { m_edit->gotoPrevParagraph(); });
 
-    createAction(i18n("Find &in Files..."), "FindInFiles", "filegrep", this, &Kile::findInFiles);
+    createAction(i18n("Find &in Files..."), QStringLiteral("FindInFiles"), QStringLiteral("filegrep"), this, &Kile::findInFiles);
 
-    createAction(i18n("Refresh Str&ucture"), "RefreshStructure", "refreshstructure", QKeySequence(Qt::Key_F12), this, &Kile::refreshStructure);
+    createAction(i18n("Refresh Str&ucture"), QStringLiteral("RefreshStructure"), QStringLiteral("refreshstructure"), QKeySequence(Qt::Key_F12), this, &Kile::refreshStructure);
 
     //project actions
-    createAction(i18n("&New Project..."), "project_new", "window-new", docManager(), &KileDocument::Manager::projectNew);
-    createAction(i18n("&Open Project..."), "project_open", "project-open", docManager(), [this]() { docManager()->projectOpen(); });
+    createAction(i18n("&New Project..."), QStringLiteral("project_new"), QStringLiteral("window-new"), docManager(), &KileDocument::Manager::projectNew);
+    createAction(i18n("&Open Project..."), QStringLiteral("project_open"), QStringLiteral("project-open"), docManager(), [this]() { docManager()->projectOpen(); });
 
     m_actRecentProjects = new KRecentFilesAction(i18n("Open &Recent Project"), actionCollection());
-    actionCollection()->addAction("project_openrecent", m_actRecentProjects);
+    actionCollection()->addAction(QStringLiteral("project_openrecent"), m_actRecentProjects);
     connect(m_actRecentProjects, &KRecentFilesAction::urlSelected, docManager(), [this](const QUrl& url) { docManager()->projectOpen(url); });
     connect(docManager(), &KileDocument::Manager::removeFromRecentProjects, this, &Kile::removeRecentProject);
     connect(docManager(), &KileDocument::Manager::addToRecentProjects, this, &Kile::addRecentProject);
-    m_actRecentProjects->loadEntries(m_config->group("Projects"));
+    m_actRecentProjects->loadEntries(m_config->group(QStringLiteral("Projects")));
 
-    createAction(i18n("A&dd Files to Project..."), "project_add", "project_add", docManager(), [this]() { m_docManager->projectAddFiles(); });
-    createAction(i18n("Refresh Project &Tree"), "project_buildtree", "project_rebuild", docManager(), [this]() { m_docManager->buildProjectTree(); });
-    createAction(i18n("&Archive"), "project_archive", "project_archive", this, [this]() { runArchiveTool(); });
-    createAction(i18n("Project &Options"), "project_options", "configure_project", docManager(), [this]() { m_docManager->projectOptions(); });
-    createAction(i18n("&Close Project"), "project_close", "project-development-close", docManager(), [this]() { m_docManager->projectClose(); });
+    createAction(i18n("A&dd Files to Project..."), QStringLiteral("project_add"), QStringLiteral("project_add"), docManager(), [this]() { m_docManager->projectAddFiles(); });
+    createAction(i18n("Refresh Project &Tree"), QStringLiteral("project_buildtree"), QStringLiteral("project_rebuild"), docManager(), [this]() { m_docManager->buildProjectTree(); });
+    createAction(i18n("&Archive"), QStringLiteral("project_archive"), QStringLiteral("project_archive"), this, [this]() { runArchiveTool(); });
+    createAction(i18n("Project &Options"), QStringLiteral("project_options"), QStringLiteral("configure_project"), docManager(), [this]() { m_docManager->projectOptions(); });
+    createAction(i18n("&Close Project"), QStringLiteral("project_close"), QStringLiteral("project-development-close"), docManager(), [this]() { m_docManager->projectClose(); });
 
     // new project actions (dani)
     createAction(i18n("&Show Projects..."), "project_show", docManager(), &KileDocument::Manager::projectShow);
-    createAction(i18n("Re&move Files From Project..."), "project_remove", "project_remove", docManager(), &KileDocument::Manager::projectRemoveFiles);
-    createAction(i18n("Show Project &Files..."), "project_showfiles", "project_show", docManager(), &KileDocument::Manager::projectShowFiles);
+    createAction(i18n("Re&move Files From Project..."), QStringLiteral("project_remove"), QStringLiteral("project_remove"), docManager(), &KileDocument::Manager::projectRemoveFiles);
+    createAction(i18n("Show Project &Files..."), QStringLiteral("project_showfiles"), QStringLiteral("project_show"), docManager(), &KileDocument::Manager::projectShowFiles);
     // tbraun
     createAction(i18n("Open All &Project Files"), "project_openallfiles", docManager(), [this]() { docManager()->projectOpenAllFiles(); });
-    createAction(i18n("Find in &Project..."), "project_findfiles", "projectgrep", this, &Kile::findInProjects);
+    createAction(i18n("Find in &Project..."), QStringLiteral("project_findfiles"), QStringLiteral("projectgrep"), this, &Kile::findInProjects);
 
     //build actions
-    act = createAction(i18n("Clean"), "CleanAll", "user-trash", this, [this]() { cleanAll(); });
+    act = createAction(i18n("Clean"), QStringLiteral("CleanAll"), QStringLiteral("user-trash"), this, [this]() { cleanAll(); });
 
     QList<QKeySequence> nextTabShorcuts;
     nextTabShorcuts.append(QKeySequence(Qt::ALT | Qt::Key_Right));
     nextTabShorcuts.append(KStandardShortcut::tabNext());
-    createAction(i18n("Next Document"), "gotoNextDocument", "go-next-view-page",
+    createAction(i18n("Next Document"), QStringLiteral("gotoNextDocument"), QStringLiteral("go-next-view-page"),
                  nextTabShorcuts, viewManager(), &KileView::Manager::gotoNextView);
 
     QList<QKeySequence> prevTabShorcuts;
     prevTabShorcuts.append(QKeySequence(Qt::ALT | Qt::Key_Left));
     prevTabShorcuts.append(KStandardShortcut::tabPrev());
-    createAction(i18n("Previous Document"), "gotoPrevDocument", "go-previous-view-page",
+    createAction(i18n("Previous Document"), QStringLiteral("gotoPrevDocument"), QStringLiteral("go-previous-view-page"),
                  prevTabShorcuts, viewManager(), &KileView::Manager::gotoPrevView);
 
     createAction(i18n("Focus Log/Messages View"), "focus_log", QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_M), this, &Kile::focusLog);
@@ -927,83 +927,108 @@ void Kile::setupActions()
     createAction(i18n("Focus Konsole View"), "focus_konsole", QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_K), this, &Kile::focusKonsole);
     createAction(i18n("Focus Editor View"), "focus_editor", QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_F), this, &Kile::focusEditor);
 
-    createAction(i18nc("@action: Starts the completion of the current LaTeX command", "Complete (La)TeX Command"), "edit_complete_word", "complete1",
+    createAction(i18nc("@action: Starts the completion of the current LaTeX command", "Complete (La)TeX Command"), QStringLiteral("edit_complete_word"), QStringLiteral("complete1"),
                  QKeySequence(Qt::SHIFT | Qt::CTRL | Qt::Key_Space), codeCompletionManager(), [this]() { codeCompletionManager()->startLaTeXCompletion(); });
-    createAction(i18nc("@action: Starts the input (and completion) of a LaTeX environment", "Complete LaTeX Environment"), "edit_complete_env", "complete2",
+    createAction(i18nc("@action: Starts the input (and completion) of a LaTeX environment", "Complete LaTeX Environment"), QStringLiteral("edit_complete_env"), QStringLiteral("complete2"),
                  QKeySequence(Qt::SHIFT | Qt::ALT | Qt::Key_Space), codeCompletionManager(), [this]() { codeCompletionManager()->startLaTeXEnvironment(); });
-    createAction(i18nc("@action: Starts the completion of the current abbreviation", "Complete Abbreviation"), "edit_complete_abbrev", "complete3",
+    createAction(i18nc("@action: Starts the completion of the current abbreviation", "Complete Abbreviation"), QStringLiteral("edit_complete_abbrev"), QStringLiteral("complete3"),
                  QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Space), codeCompletionManager(), [this]() { codeCompletionManager()->startAbbreviationCompletion(); });
 
-    createAction(i18n("Next Bullet"), "edit_next_bullet", "nextbullet", QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Right),
+    createAction(i18n("Next Bullet"), QStringLiteral("edit_next_bullet"), QStringLiteral("nextbullet"), QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Right),
                  m_edit, [this]() { m_edit->nextBullet(); });
-    createAction(i18n("Prev Bullet"), "edit_prev_bullet", "prevbullet", QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Left),
+    createAction(i18n("Prev Bullet"), QStringLiteral("edit_prev_bullet"), QStringLiteral("prevbullet"), QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Left),
                  m_edit, [this]() { m_edit->prevBullet(); });
 
 // advanced editor (dani)
-    createAction(i18n("Environment (inside)"), "edit_select_inside_env", "selenv_i", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_E)),
+    createAction(i18n("Environment (inside)"), QStringLiteral("edit_select_inside_env"), QStringLiteral("selenv_i"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_E)),
                  m_edit, &KileDocument::EditorExtension::selectEnvInside);
-    createAction(i18n("Environment (outside)"), "edit_select_outside_env", "selenv_o", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_F)),
+    createAction(i18n("Environment (outside)"), QStringLiteral("edit_select_outside_env"), QStringLiteral("selenv_o"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_F)),
                  m_edit, &KileDocument::EditorExtension::selectEnvOutside);
-    createAction(i18n("TeX Group (inside)"), "edit_select_inside_group", "selgroup_i", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_T)),
+    createAction(i18n("TeX Group (inside)"), QStringLiteral("edit_select_inside_group"), QStringLiteral("selgroup_i"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_T)),
                  m_edit, &KileDocument::EditorExtension::selectTexgroupInside);
-    createAction(i18n("TeX Group (outside)"), "edit_select_outside_group", "selgroup_o", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_U)),
+    createAction(i18n("TeX Group (outside)"), QStringLiteral("edit_select_outside_group"), QStringLiteral("selgroup_o"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_U)),
                  m_edit, &KileDocument::EditorExtension::selectTexgroupOutside);
-    createAction(i18n("Math Group"), "edit_select_mathgroup", "selmath", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_M)),
+    createAction(i18n("Math Group"), QStringLiteral("edit_select_mathgroup"), QStringLiteral("selmath"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_M)),
                  m_edit, [this]() { m_edit->selectMathgroup(); });
-    createAction(i18n("Paragraph"), "edit_select_paragraph", "selpar", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_P)),
+    createAction(i18n("Paragraph"), QStringLiteral("edit_select_paragraph"), QStringLiteral("selpar"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_P)),
                  m_edit, [this]() { m_edit->selectParagraph(); });
-    createAction(i18n("Line"), "edit_select_line", "selline", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_L)),
+    createAction(i18n("Line"), QStringLiteral("edit_select_line"), QStringLiteral("selline"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_L)),
                  m_edit, [this]() { m_edit->selectLine(); });
-    createAction(i18n("TeX Word"), "edit_select_word", "selword", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_W)),
+    createAction(i18n("TeX Word"), QStringLiteral("edit_select_word"), QStringLiteral("selword"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_S), QKeyCombination(Qt::Key_W)),
                  m_edit, [this]() { m_edit->selectWord(); });
 
-    createAction(i18n("Environment (inside)"), "edit_delete_inside_env", "delenv_i", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_E)),
+    createAction(i18n("Environment (inside)"), QStringLiteral("edit_delete_inside_env"), QStringLiteral("delenv_i"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_E)),
                  m_edit, &KileDocument::EditorExtension::deleteEnvInside);
-    createAction(i18n("Environment (outside)"), "edit_delete_outside_env", "delenv_o", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_F)),
+    createAction(i18n("Environment (outside)"), QStringLiteral("edit_delete_outside_env"), QStringLiteral("delenv_o"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_F)),
                  m_edit, &KileDocument::EditorExtension::deleteEnvOutside);
-    createAction(i18n("TeX Group (inside)"), "edit_delete_inside_group", "delgroup_i", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_T)),
+    createAction(i18n("TeX Group (inside)"), QStringLiteral("edit_delete_inside_group"), QStringLiteral("delgroup_i"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_T)),
                  m_edit, &KileDocument::EditorExtension::deleteTexgroupInside);
-    createAction(i18n("TeX Group (outside)"), "edit_delete_outside_group", "delgroup_o",QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_U)),
+    createAction(i18n("TeX Group (outside)"), QStringLiteral("edit_delete_outside_group"), QStringLiteral("delgroup_o"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_U)),
                  m_edit, &KileDocument::EditorExtension::deleteTexgroupInside);
-    createAction(i18n("Math Group"), "edit_delete_mathgroup", "delmath", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_M)),
+    createAction(i18n("Math Group"), QStringLiteral("edit_delete_mathgroup"), QStringLiteral("delmath"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_M)),
                  m_edit, [this]() { m_edit->deleteMathgroup(); });
-    createAction(i18n("Paragraph"), "edit_delete_paragraph", "delpar", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_P)),
+    createAction(i18n("Paragraph"), QStringLiteral("edit_delete_paragraph"), QStringLiteral("delpar"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_P)),
                  m_edit, [this]() { m_edit->deleteParagraph(); });
-    createAction(i18n("To End of Line"), "edit_delete_eol", "deleol", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_L)),
+    createAction(i18n("To End of Line"), QStringLiteral("edit_delete_eol"), QStringLiteral("deleol"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_L)),
                  m_edit, [this]() { m_edit->deleteEndOfLine(); });
-    createAction(i18n("TeX Word"), "edit_delete_word", "delword", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_W)),
+    createAction(i18n("TeX Word"), QStringLiteral("edit_delete_word"), QStringLiteral("delword"), 
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_T), QKeyCombination(Qt::Key_W)),
                  m_edit, [this]() { m_edit->deleteWord(); });
 
-    createAction(i18n("Go to Begin"), "edit_begin_env", "gotobeginenv", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_B)),
+    createAction(i18n("Go to Begin"), QStringLiteral("edit_begin_env"), QStringLiteral("gotobeginenv"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_B)),
                  m_edit, &KileDocument::EditorExtension::gotoBeginEnv);
-    createAction(i18n("Go to End"), "edit_end_env", "gotoendenv", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_E)),
+    createAction(i18n("Go to End"), QStringLiteral("edit_end_env"), QStringLiteral("gotoendenv"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_E)),
                  m_edit, &KileDocument::EditorExtension::gotoEndEnv);
-    createAction(i18n("Match"), "edit_match_env", "matchenv", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_M)),
+    createAction(i18n("Match"), QStringLiteral("edit_match_env"), QStringLiteral("matchenv"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_M)),
                  m_edit, &KileDocument::EditorExtension::matchEnv);
-    createAction(i18n("Close"), "edit_close_env", "closeenv", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_C)),
+    createAction(i18n("Close"), QStringLiteral("edit_close_env"), QStringLiteral("closeenv"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_C)),
                  m_edit, &KileDocument::EditorExtension::closeEnv);
-    createAction(i18n("Close All"), "edit_closeall_env", "closeallenv", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_A)),
+    createAction(i18n("Close All"), QStringLiteral("edit_closeall_env"), QStringLiteral("closeallenv"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_E), QKeyCombination(Qt::Key_A)),
                  m_edit, &KileDocument::EditorExtension::closeAllEnv);
 
-    createAction(i18n("Go to Begin"), "edit_begin_group", "gotobegingroup", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_G), QKeyCombination(Qt::Key_B)),
+    createAction(i18n("Go to Begin"), QStringLiteral("edit_begin_group"), QStringLiteral("gotobegingroup"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_G), QKeyCombination(Qt::Key_B)),
                  m_edit, &KileDocument::EditorExtension::gotoBeginTexgroup);
-    createAction(i18n("Go to End"), "edit_end_group", "gotoendgroup", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_G), QKeyCombination(Qt::Key_E)),
+    createAction(i18n("Go to End"), QStringLiteral("edit_end_group"), QStringLiteral("gotoendgroup"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_G), QKeyCombination(Qt::Key_E)),
                  m_edit, &KileDocument::EditorExtension::gotoEndTexgroup);
-    createAction(i18n("Match"), "edit_match_group", "matchgroup", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_G), QKeyCombination(Qt::Key_M)),
+    createAction(i18n("Match"), QStringLiteral("edit_match_group"), QStringLiteral("matchgroup"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_G), QKeyCombination(Qt::Key_M)),
                  m_edit, [this]() { m_edit->matchTexgroup(); });
-    createAction(i18n("Close"), "edit_close_group", "closegroup", QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_G), QKeyCombination(Qt::Key_C)),
+    createAction(i18n("Close"), QStringLiteral("edit_close_group"), QStringLiteral("closegroup"),
+                 QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_G), QKeyCombination(Qt::Key_C)),
                  m_edit, [this]() { m_edit->closeTexgroup(); });
 
-    createAction(i18n("Selection"), "quickpreview_selection", "preview_sel",
+    createAction(i18n("Selection"), QStringLiteral("quickpreview_selection"), QStringLiteral("preview_sel"),
                  QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_P), QKeyCombination(Qt::Key_S)),
                  this, &Kile::quickPreviewSelection);
-    createAction(i18n("Environment"), "quickpreview_environment", "preview_env",
+    createAction(i18n("Environment"), QStringLiteral("quickpreview_environment"), QStringLiteral("preview_env"),
                  QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_P), QKeyCombination(Qt::Key_E)),
                  this, &Kile::quickPreviewEnvironment);
-    createAction(i18n("Subdocument"), "quickpreview_subdocument", "preview_subdoc",
+    createAction(i18n("Subdocument"), QStringLiteral("quickpreview_subdocument"), QStringLiteral("preview_subdoc"),
                  QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_P), QKeyCombination(Qt::Key_D)),
                  this, &Kile::quickPreviewSubdocument);
-    createAction(i18n("Mathgroup"), "quickpreview_math", "preview_math",
+    createAction(i18n("Mathgroup"), QStringLiteral("quickpreview_math"), QStringLiteral("preview_math"),
                  QKeySequence(QKeyCombination(Qt::CTRL | Qt::ALT | Qt::Key_P), QKeyCombination(Qt::Key_M)),
                  this, &Kile::quickPreviewMathgroup);
 
@@ -1012,12 +1037,12 @@ void Kile::setupActions()
 
     m_bibTagActionMenu = new KActionMenu(i18n("&Bibliography"), actionCollection());
     m_bibTagActionMenu->setPopupMode(QToolButton::InstantPopup);
-    actionCollection()->addAction("menu_bibliography", m_bibTagActionMenu);
+    actionCollection()->addAction(QStringLiteral("menu_bibliography"), m_bibTagActionMenu);
 
     createAction(i18n("Clean"), "CleanBib", this, &Kile::cleanBib);
 
     m_bibTagSettings = new KSelectAction(i18n("&Settings"),actionCollection());
-    actionCollection()->addAction("settings_menu_bibliography", m_bibTagSettings);
+    actionCollection()->addAction(QStringLiteral("settings_menu_bibliography"), m_bibTagSettings);
 
     act = createAction(i18n("Settings for BibTeX"), "setting_bibtex", this, &Kile::rebuildBibliographyMenu);
     act->setCheckable(true);
@@ -1030,36 +1055,36 @@ void Kile::setupActions()
 
     rebuildBibliographyMenu();
 
-    createAction(i18n("Quick Start"), "wizard_document", "quickwizard", this, &Kile::quickDocument);
+    createAction(i18n("Quick Start"), QStringLiteral("wizard_document"), QStringLiteral("quickwizard"), this, &Kile::quickDocument);
     connect(docManager(), &KileDocument::Manager::startWizard, this, &Kile::quickDocument);
-    createAction(i18n("Tabular"), "wizard_tabular", "wizard_tabular", this, &Kile::quickTabular);
-    createAction(i18n("Array"), "wizard_array", "wizard_array", this, &Kile::quickArray);
-    createAction(i18n("Tabbing"), "wizard_tabbing", "wizard_tabbing", this, &Kile::quickTabbing);
-    createAction(i18n("Floats"), "wizard_float", "wizard_float", this, &Kile::quickFloat);
-    createAction(i18n("Math"), "wizard_mathenv", "wizard_math", this, &Kile::quickMathenv);
-    createAction(i18n("Postscript Tools"), "wizard_postscript", "wizard_pstools", this, &Kile::quickPostscript);
-    createAction(i18n("PDF Tools"), "wizard_pdf", "wizard_pdftools", this, &Kile::quickPdf);
+    createAction(i18n("Tabular"), QStringLiteral("wizard_tabular"), QStringLiteral("wizard_tabular"), this, &Kile::quickTabular);
+    createAction(i18n("Array"), QStringLiteral("wizard_array"), QStringLiteral("wizard_array"), this, &Kile::quickArray);
+    createAction(i18n("Tabbing"), QStringLiteral("wizard_tabbing"), QStringLiteral("wizard_tabbing"), this, &Kile::quickTabbing);
+    createAction(i18n("Floats"), QStringLiteral("wizard_float"), QStringLiteral("wizard_float"), this, &Kile::quickFloat);
+    createAction(i18n("Math"), QStringLiteral("wizard_mathenv"), QStringLiteral("wizard_math"), this, &Kile::quickMathenv);
+    createAction(i18n("Postscript Tools"), QStringLiteral("wizard_postscript"), QStringLiteral("wizard_pstools"), this, &Kile::quickPostscript);
+    createAction(i18n("PDF Tools"), QStringLiteral("wizard_pdf"), QStringLiteral("wizard_pdftools"), this, &Kile::quickPdf);
 
     ModeAction = new KToggleAction(i18n("Define Current Document as '&Master Document'"), actionCollection());
-    actionCollection()->addAction("Mode", ModeAction);
-    ModeAction->setIcon(QIcon::fromTheme("master"));
+    actionCollection()->addAction(QStringLiteral("Mode"), ModeAction);
+    ModeAction->setIcon(QIcon::fromTheme(QStringLiteral("master")));
     connect(ModeAction, &KToggleAction::triggered, this, &Kile::toggleMasterDocumentMode);
 
     KToggleAction *showDocumentViewer = new KToggleAction(i18n("Show Document Viewer"), actionCollection());
-    actionCollection()->addAction("ShowDocumentViewer", showDocumentViewer);
+    actionCollection()->addAction(QStringLiteral("ShowDocumentViewer"), showDocumentViewer);
     showDocumentViewer->setChecked(KileConfig::showDocumentViewer());
     connect(showDocumentViewer, &KToggleAction::toggled, viewManager(), &KileView::Manager::setDocumentViewerVisible);
     connect(viewManager(), &KileView::Manager::documentViewerWindowVisibilityChanged,
             showDocumentViewer, &KToggleAction::setChecked);
 
     KToggleAction *tact = new KToggleAction(i18n("Show S&ide Bar"), actionCollection());
-    actionCollection()->addAction("StructureView", tact);
+    actionCollection()->addAction(QStringLiteral("StructureView"), tact);
     tact->setChecked(KileConfig::sideBar());
     connect(tact, &KToggleAction::toggled, m_sideBar, &Kile::setVisible);
     connect(m_sideBar, &KileWidget::SideBar::visibilityChanged, this, &Kile::sideOrBottomBarChanged);
 
     m_actionMessageView = new KToggleAction(i18n("Show Mess&ages Bar"), actionCollection());
-    actionCollection()->addAction("MessageView", m_actionMessageView);
+    actionCollection()->addAction(QStringLiteral("MessageView"), m_actionMessageView);
     m_actionMessageView->setChecked(true);
     connect(m_actionMessageView, &KToggleAction::toggled, m_bottomBar, &Kile::setVisible);
     connect(m_bottomBar, &KileWidget::SideBar::visibilityChanged, this, &Kile::sideOrBottomBarChanged);
@@ -1071,8 +1096,8 @@ void Kile::setupActions()
     }
 
     WatchFileAction = new KToggleAction(i18n("Watch File Mode"), actionCollection());
-    actionCollection()->addAction("WatchFile", WatchFileAction);
-    WatchFileAction->setIcon(QIcon::fromTheme("watchfile"));
+    actionCollection()->addAction(QStringLiteral("WatchFile"), WatchFileAction);
+    WatchFileAction->setIcon(QIcon::fromTheme(QStringLiteral("watchfile")));
     connect(WatchFileAction, &KToggleAction::toggled, this, &Kile::toggleWatchFile);
     if(m_bWatchFile) {
         WatchFileAction->setChecked(true);
@@ -1100,7 +1125,7 @@ void Kile::setupActions()
     createAction(i18n("&About Editor Component"), "help_about_editor", this, &Kile::aboutEditorComponent);
 
     QAction *kileconfig = KStandardAction::preferences(this, &Kile::generalOptions, actionCollection());
-    kileconfig->setIcon(QIcon::fromTheme("configure-kile"));
+    kileconfig->setIcon(QIcon::fromTheme(QStringLiteral("configure-kile")));
 
     createAction(KStandardAction::KeyBindings, this, &Kile::configureKeys);
     createAction(KStandardAction::ConfigureToolbars, this, &Kile::configureToolbars);
@@ -1108,7 +1133,7 @@ void Kile::setupActions()
     createAction(i18n("&System Check..."), "settings_perform_check", this, &Kile::slotPerformCheck);
 
     m_userHelpActionMenu = new KActionMenu(i18n("User Help"), actionCollection());
-    actionCollection()->addAction("help_userhelp", m_userHelpActionMenu);
+    actionCollection()->addAction(QStringLiteral("help_userhelp"), m_userHelpActionMenu);
 
     m_pFullScreen = KStandardAction::fullScreen(this, &Kile::slotToggleFullScreen, this, actionCollection());
     m_actionShowMenuBar = KStandardAction::showMenubar(this,
@@ -1124,14 +1149,14 @@ void Kile::rebuildBibliographyMenu() {
     QString name;
 
     if( currentItem == i18n("BibTeX") ) { // avoid writing i18n'ed strings to config file
-        name = QString("bibtex");
+        name = QString(QStringLiteral("bibtex"));
     }
     else if ( currentItem == i18n("Biblatex") ) {
-        name = QString("biblatex");
+        name = QString(QStringLiteral("biblatex"));
     }
     else {
         KILE_DEBUG_MAIN << "wrong currentItem in bibliography settings menu";
-        name = QString("bibtex");
+        name = QString(QStringLiteral("bibtex"));
     }
 
     KileConfig::setBibliographyType(name);
@@ -1139,14 +1164,14 @@ void Kile::rebuildBibliographyMenu() {
 
     KileStdActions::setupBibTags(this, actionCollection(),m_bibTagActionMenu);
     m_bibTagActionMenu->addSeparator();
-    m_bibTagActionMenu->addAction(action("CleanBib"));
+    m_bibTagActionMenu->addAction(action(QStringLiteral("CleanBib")));
     m_bibTagActionMenu->addSeparator();
-    m_bibTagActionMenu->addAction(action("settings_menu_bibliography"));
+    m_bibTagActionMenu->addAction(action(QStringLiteral("settings_menu_bibliography")));
 }
 
 QAction* Kile::createToolAction(const QString& toolName)
 {
-    return createAction(toolName, "tool_" + toolName,
+    return createAction(toolName, QStringLiteral("tool_") + toolName,
                         KileTool::iconFor(toolName, m_config.data()), this, [this, toolName]() { runTool(toolName); });
 }
 
@@ -1154,7 +1179,7 @@ void Kile::createToolActions()
 {
     const QStringList tools = KileTool::toolList(m_config.data());
     for(const QString& toolName : tools) {
-        if(!actionCollection()->action("tool_" + toolName)) {
+        if(!actionCollection()->action(QStringLiteral("tool_") + toolName)) {
             KILE_DEBUG_MAIN << "Creating action for tool" << toolName;
             createToolAction(toolName);
         }
@@ -1205,23 +1230,23 @@ void Kile::setupTools()
         QString toolMenu = KileTool::menuFor(tools[i], m_config.data());
 
         KILE_DEBUG_MAIN << tools[i] << " is using group: " << grp << " and menu: "<< toolMenu;
-        if(toolMenu == "none") {
+        if (toolMenu == QStringLiteral("none")) {
             continue;
         }
 
-        if ( toolMenu == "Compile" ) {
+        if (toolMenu == QStringLiteral("Compile")) {
             pl = &m_listCompilerActions;
             pSelectAction = m_compilerActions;
         }
-        else if ( toolMenu == "View" ) {
+        else if (toolMenu == QStringLiteral("View")) {
             pl = &m_listViewerActions;
             pSelectAction = m_viewActions;
         }
-        else if ( toolMenu == "Convert" ) {
+        else if (toolMenu == QStringLiteral("Convert")) {
             pl = &m_listConverterActions;
             pSelectAction = m_convertActions;
         }
-        else if ( toolMenu == "Quick" ) {
+        else if (toolMenu == QStringLiteral("Quick")) {
             pl = &m_listQuickActions;
             pSelectAction = m_quickActions;
         }
@@ -1232,7 +1257,7 @@ void Kile::setupTools()
 
         KILE_DEBUG_MAIN << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << Qt::endl;
 
-        QAction *act = actionCollection()->action("tool_" + tools[i]);
+        QAction *act = actionCollection()->action(QStringLiteral("tool_") + tools[i]);
         if(!act) {
             KILE_DEBUG_MAIN << "no tool for " << tools[i];
             createToolAction(tools[i]);
@@ -1240,16 +1265,16 @@ void Kile::setupTools()
         pl->append(act);
 
         if(pSelectAction) {
-            pSelectAction->addAction(actionCollection()->action("tool_" + tools[i]));
+            pSelectAction->addAction(actionCollection()->action(QStringLiteral("tool_") + tools[i]));
         }
     }
 
     m_quickActions->addSeparator();
-    m_quickActions->addAction(action("quickpreview_selection"));
-    m_quickActions->addAction(action("quickpreview_environment"));
-    m_quickActions->addAction(action("quickpreview_subdocument"));
+    m_quickActions->addAction(action(QStringLiteral("quickpreview_selection")));
+    m_quickActions->addAction(action(QStringLiteral("quickpreview_environment")));
+    m_quickActions->addAction(action(QStringLiteral("quickpreview_subdocument")));
     m_quickActions->addSeparator();
-    m_quickActions->addAction(action("quickpreview_math"));
+    m_quickActions->addAction(action(QStringLiteral("quickpreview_math")));
 
     cleanUpActionList(m_listCompilerActions, tools);
     cleanUpActionList(m_listViewerActions, tools);
@@ -1281,10 +1306,10 @@ void Kile::initSelectActions() {
     actionCollection()->setShortcutsConfigurable(m_convertActions, false);
     actionCollection()->setShortcutsConfigurable(m_quickActions, false);
 
-    actionCollection()->addAction("list_compiler_select", m_compilerActions);
-    actionCollection()->addAction("list_convert_select", m_convertActions);
-    actionCollection()->addAction("list_view_select", m_viewActions);
-    actionCollection()->addAction("list_quick_select", m_quickActions);
+    actionCollection()->addAction(QStringLiteral("list_compiler_select"), m_compilerActions);
+    actionCollection()->addAction(QStringLiteral("list_convert_select"), m_convertActions);
+    actionCollection()->addAction(QStringLiteral("list_view_select"), m_viewActions);
+    actionCollection()->addAction(QStringLiteral("list_quick_select"), m_quickActions);
 }
 
 void Kile::saveLastSelectedAction() {
@@ -1295,19 +1320,19 @@ void Kile::saveLastSelectedAction() {
 
     const ToolbarSelectAction *pSelectAction = nullptr ;
 
-    KConfigGroup grp = m_config->group("ToolSelectAction");
+    KConfigGroup grp = m_config->group(QStringLiteral("ToolSelectAction"));
 
     for(const QString& action : list) {
-        if(action == "Compile") {
+        if (action == QStringLiteral("Compile")) {
             pSelectAction = m_compilerActions;
         }
-        else if(action == "View") {
+        else if (action == QStringLiteral("View")) {
             pSelectAction = m_viewActions;
         }
-        else if(action == "Convert") {
+        else if (action == QStringLiteral("Convert")) {
             pSelectAction = m_convertActions;
         }
-        else if(action == "Quick") {
+        else if (action == QStringLiteral("Quick")) {
             pSelectAction = m_quickActions;
         }
 
@@ -1325,22 +1350,22 @@ void Kile::restoreLastSelectedAction() {
     ToolbarSelectAction *pSelectAction = nullptr;
     int defaultAction = 0;
 
-    KConfigGroup grp = m_config->group("ToolSelectAction");
+    KConfigGroup grp = m_config->group(QStringLiteral("ToolSelectAction"));
 
     for(const QString& action : list) {
-        if(action == "Compile") {
+        if (action == QStringLiteral("Compile")) {
             pSelectAction = m_compilerActions;
             defaultAction = 9; // PDFLatex
         }
-        else if(action == "View") {
+        else if (action == QStringLiteral("View")) {
             pSelectAction = m_viewActions;
             defaultAction = 4; // ViewPDF
         }
-        else if(action == "Convert") {
+        else if (action == QStringLiteral("Convert")) {
             pSelectAction = m_convertActions;
             defaultAction = 0;
         }
-        else if(action == "Quick") {
+        else if (action == QStringLiteral("Quick")) {
             pSelectAction = m_quickActions;
             defaultAction = 0;
         }
@@ -1360,8 +1385,8 @@ void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
         if ( act != nullptr && !act->objectName().isEmpty() && !tools.contains(act->objectName().mid(5)) ) {
             const QList<QObject*> widgetList = act->associatedObjects();
             for (QObject *widget : widgetList) {
-                if (qobject_cast<QWidget*>(widget) == toolBar("toolsToolBar")) {
-                    toolBar("toolsToolBar")->removeAction(act);
+                if (qobject_cast<QWidget*>(widget) == toolBar(QStringLiteral("toolsToolBar"))) {
+                    toolBar(QStringLiteral("toolsToolBar"))->removeAction(act);
                     break;
                 }
             }
@@ -1451,7 +1476,7 @@ void Kile::runArchiveTool()
 
 void Kile::runArchiveTool(const QUrl &url)
 {
-    KileTool::Archive *tool = dynamic_cast<KileTool::Archive*>(m_manager->createTool("Archive", QString(), false));
+    KileTool::Archive *tool = dynamic_cast<KileTool::Archive*>(m_manager->createTool(QStringLiteral("Archive"), QString(), false));
     if(!tool) {
         KMessageBox::error(mainWindow(), i18n("It was impossible to create the \"Archive\" tool.\n\n"
                                               "Please check and repair your installation of Kile."),
@@ -1515,7 +1540,7 @@ void Kile::updateModeStatus()
     KILE_DEBUG_MAIN << "==Kile::updateModeStatus()==========";
     KileProject *project = docManager()->activeProject();
     QString shortName = m_masterDocumentFileName;
-    int pos = shortName.lastIndexOf('/');
+    int pos = shortName.lastIndexOf(QLatin1Char('/'));
     shortName.remove(0, pos + 1);
 
     if(project) {
@@ -1623,7 +1648,7 @@ bool Kile::queryClose()
         KileConfig::setLastDocument(view->document()->url().toLocalFile());
     }
     else {
-        KileConfig::setLastDocument("");
+        KileConfig::setLastDocument(QStringLiteral(""));
     }
 
     //don't close Kile if embedded viewers are present
@@ -1730,7 +1755,7 @@ void Kile::convertToASCII(KTextEditor::Document *doc)
 
     ConvertIO io(doc);
     ConvertEncToASCII conv = ConvertEncToASCII(doc->encoding(), &io);
-    doc->setEncoding("ISO 8859-1");
+    doc->setEncoding(QStringLiteral("ISO 8859-1"));
     conv.convert();
 }
 
@@ -1745,7 +1770,7 @@ void Kile::convertToEnc(KTextEditor::Document *doc)
 
     if(sender()) {
         ConvertIO io(doc);
-        QString name = QString(sender()->objectName()).section('_', -1);
+        QString name = QString(sender()->objectName()).section(QLatin1Char('_'), -1);
         ConvertASCIIToEnc conv = ConvertASCIIToEnc(name, &io);
         conv.convert();
         doc->setEncoding(ConvertMap::encodingNameFor(name));
@@ -1787,7 +1812,7 @@ void Kile::newCaption()
         }
     }
     else {
-        setWindowTitle("");
+        setWindowTitle(QStringLiteral(""));
     }
 }
 
@@ -1852,12 +1877,12 @@ bool Kile::resetPart()
 
 void Kile::updateUserDefinedMenus()
 {
-    m_buildMenuTopLevel = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_build", m_mainWindow));
-    m_buildMenuCompile  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_compile", m_mainWindow));
-    m_buildMenuConvert  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_convert", m_mainWindow));
-    m_buildMenuViewer  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_viewer", m_mainWindow));
-    m_buildMenuOther   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_other", m_mainWindow));
-    m_buildMenuQuickPreview   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("quickpreview", m_mainWindow));
+    m_buildMenuTopLevel = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container(QStringLiteral("menu_build"), m_mainWindow));
+    m_buildMenuCompile  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container(QStringLiteral("menu_compile"), m_mainWindow));
+    m_buildMenuConvert  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container(QStringLiteral("menu_convert"), m_mainWindow));
+    m_buildMenuViewer  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container(QStringLiteral("menu_viewer"), m_mainWindow));
+    m_buildMenuOther   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container(QStringLiteral("menu_other"), m_mainWindow));
+    m_buildMenuQuickPreview   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container(QStringLiteral("quickpreview"), m_mainWindow));
 
     m_userMenu->updateGUI();
 
@@ -1910,7 +1935,8 @@ void Kile::enableGUI(bool enable)
     }
 
     const QStringList menuList =
-        {"file", "edit", "view", "menu_build", "menu_project", "menu_latex", "wizard", "tools"};
+        {QStringLiteral("file"), QStringLiteral("edit"), QStringLiteral("view"), QStringLiteral("menu_build"),
+         QStringLiteral("menu_project"), QStringLiteral("menu_latex"), QStringLiteral("wizard"), QStringLiteral("tools")};
     for(const QString& entry : menuList) {
         QMenu *menu = dynamic_cast<QMenu*>(guiFactory()->container(entry, this));
         if(menu) {
@@ -1928,126 +1954,126 @@ void Kile::initMenu()
     QStringList projectlist,filelist,actionlist;
 
     projectlist
-            << "project_add" << "project_remove"
-            << "project_showfiles"
-            << "project_buildtree" << "project_options" << "project_findfiles"
-            << "project_archive" << "project_close" << "project_openallfiles"
+            << QStringLiteral("project_add") << QStringLiteral("project_remove")
+            << QStringLiteral("project_showfiles")
+            << QStringLiteral("project_buildtree") << QStringLiteral("project_options") << QStringLiteral("project_findfiles")
+            << QStringLiteral("project_archive") << QStringLiteral("project_close") << QStringLiteral("project_openallfiles")
             ;
 
     filelist
     // file
-            << "convert"
+            << QStringLiteral("convert")
             // edit
-            << "goto_menu" << "complete" << "bullet" << "select"
-            << "delete" << "environment" << "texgroup"
+            << QStringLiteral("goto_menu") << QStringLiteral("complete") << QStringLiteral("bullet") << QStringLiteral("select")
+            << QStringLiteral("delete") << QStringLiteral("environment") << QStringLiteral("texgroup")
             // build
-            << "quickpreview" << "menu_compile" << "menu_convert"
-            << "menu_viewers" << "menu_other"
+            << QStringLiteral("quickpreview") << QStringLiteral("menu_compile") << QStringLiteral("menu_convert")
+            << QStringLiteral("menu_viewers") << QStringLiteral("menu_other")
             // latex
-            << "menu_preamble" << "menu_lists" << "menu_sectioning" << "references"
-            << "menu_environment" << "menu_listenv" << "menu_tabularenv" << "menu_floatenv"
-            << "menu_code" << "menu_math" << "menu_mathenv" << "menu_mathamsenv"
-            << "menu_bibliography" << "menu_fontstyles" << "menu_spacing"
+            << QStringLiteral("menu_preamble") << QStringLiteral("menu_lists") << QStringLiteral("menu_sectioning") << QStringLiteral("references")
+            << QStringLiteral("menu_environment") << QStringLiteral("menu_listenv") << QStringLiteral("menu_tabularenv") << QStringLiteral("menu_floatenv")
+            << QStringLiteral("menu_code") << QStringLiteral("menu_math") << QStringLiteral("menu_mathenv") << QStringLiteral("menu_mathamsenv")
+            << QStringLiteral("menu_bibliography") << QStringLiteral("menu_fontstyles") << QStringLiteral("menu_spacing")
             ;
 
     actionlist
     // file
-            << "file_save_copy_as" << "file_save_all" << "template_create" << "Statistics" << "open_containing_folder"
-            << "file_close" << "file_close_all" << "file_close_all_others"
+            << QStringLiteral("file_save_copy_as") << QStringLiteral("file_save_all") << QStringLiteral("template_create") << QStringLiteral("Statistics") << QStringLiteral("open_containing_folder")
+            << QStringLiteral("file_close") << QStringLiteral("file_close_all") << QStringLiteral("file_close_all_others")
             // edit
-            << "RefreshStructure"
+            << QStringLiteral("RefreshStructure")
             // view
-            << "gotoPrevDocument" << "gotoNextDocument"
+            << QStringLiteral("gotoPrevDocument") << QStringLiteral("gotoNextDocument")
             // build
-            << "quickpreview_selection" << "quickpreview_environment"
-            << "quickpreview_subdocument" << "quickpreview_math"
-            << "WatchFile" << "CleanAll"
+            << QStringLiteral("quickpreview_selection") << QStringLiteral("quickpreview_environment")
+            << QStringLiteral("quickpreview_subdocument") << QStringLiteral("quickpreview_math")
+            << QStringLiteral("WatchFile") << QStringLiteral("CleanAll")
             // latex
-            << "tag_documentclass" << "tag_usepackage" << "tag_amspackages" << "tag_env_document"
-            << "tag_author" << "tag_title" << "tag_maketitle" << "tag_titlepage" << "tag_env_abstract"
-            << "tag_tableofcontents" << "tag_listoffigures" << "tag_listoftables"
-            << "tag_makeindex" << "tag_printindex" << "tag_makeglossary" << "tag_env_thebibliography"
-            << "tag_part" << "tag_chapter" << "tag_section" << "tag_subsection" << "tag_subsubsection"
-            << "tag_paragraph" << "tag_subparagraph" << "tag_label"
-            << "tag_ref" << "tag_pageref" << "tag_index" << "tag_footnote" << "tag_cite"
-            << "tag_center" << "tag_flushleft" << "tag_flushright"
-            << "tag_env_minipage" << "tag_quote" << "tag_quotation" << "tag_verse"
-            << "tag_env_itemize" << "tag_env_enumerate" << "tag_env_description" << "tag_item"
-            << "tag_env_tabular" << "tag_env_tabular*" << "tag_env_tabbing"
-            << "tag_multicolumn" << "tag_hline" << "tag_vline" << "tag_cline"
-            << "tag_figure" << "tag_table"
-            << "tag_verbatim" << "tag_env_verbatim*" << "tag_verb" << "tag_verb*"
-            << "tag_mathmode" << "tag_mathmode_latex" << "tag_equation" << "tag_subscript" << "tag_superscript"
-            << "tag_sqrt" << "tag_nroot" << "tag_left" << "tag_right" << "tag_leftright"
-            << "tag_bigl" << "tag_bigr" << "tag_Bigl" << "tag_Bigr"
-            << "tag_biggl" << "tag_biggr" << "tag_Biggl" << "tag_Biggr"
-            << "tag_text" << "tag_intertext" << "tag_boxed"
-            << "tag_frac" << "tag_dfrac" << "tag_tfrac"
-            << "tag_binom" << "tag_dbinom" << "tag_tbinom"
-            << "tag_xleftarrow" << "tag_xrightarrow"
-            << "tag_mathrm" << "tag_mathit" << "tag_mathbf" << "tag_mathsf"
-            << "tag_mathtt" << "tag_mathcal" << "tag_mathbb" << "tag_mathfrak"
-            << "tag_acute" << "tag_grave" << "tag_tilde" << "tag_bar" << "tag_vec"
-            << "tag_hat" << "tag_check" << "tag_breve" << "tag_dot" << "tag_ddot"
-            << "tag_space_small" << "tag_space_medium" << "tag_space_large"
-            << "tag_quad" << "tag_qquad" << "tag_enskip"
-            << "tag_env_math" << "tag_env_displaymath" << "tag_env_equation" << "tag_env_equation*"
-            << "tag_env_array"
-            << "tag_env_multline" << "tag_env_multline*" << "tag_env_split"
-            << "tag_env_gather" << "tag_env_gather*" << "tag_env_align" << "tag_env_align*"
-            << "tag_env_flalign" << "tag_env_flalign*" << "tag_env_alignat" << "tag_env_alignat*"
-            << "tag_env_aligned" << "tag_env_gathered" << "tag_env_alignedat" << "tag_env_cases"
-            << "tag_env_dmath" << "tag_env_dmath*" << "tag_env_dseries" << "tag_env_dseries*" << "tag_env_dgroup" << "tag_env_dgroup*"
-            << "tag_env_matrix" << "tag_env_pmatrix" << "tag_env_vmatrix"
-            << "tag_env_VVmatrix" << "tag_env_bmatrix" << "tag_env_BBmatrix"
+            << QStringLiteral("tag_documentclass") << QStringLiteral("tag_usepackage") << QStringLiteral("tag_amspackages") << QStringLiteral("tag_env_document")
+            << QStringLiteral("tag_author") << QStringLiteral("tag_title") << QStringLiteral("tag_maketitle") << QStringLiteral("tag_titlepage") << QStringLiteral("tag_env_abstract")
+            << QStringLiteral("tag_tableofcontents") << QStringLiteral("tag_listoffigures") << QStringLiteral("tag_listoftables")
+            << QStringLiteral("tag_makeindex") << QStringLiteral("tag_printindex") << QStringLiteral("tag_makeglossary") << QStringLiteral("tag_env_thebibliography")
+            << QStringLiteral("tag_part") << QStringLiteral("tag_chapter") << QStringLiteral("tag_section") << QStringLiteral("tag_subsection") << QStringLiteral("tag_subsubsection")
+            << QStringLiteral("tag_paragraph") << QStringLiteral("tag_subparagraph") << QStringLiteral("tag_label")
+            << QStringLiteral("tag_ref") << QStringLiteral("tag_pageref") << QStringLiteral("tag_index") << QStringLiteral("tag_footnote") << QStringLiteral("tag_cite")
+            << QStringLiteral("tag_center") << QStringLiteral("tag_flushleft") << QStringLiteral("tag_flushright")
+            << QStringLiteral("tag_env_minipage") << QStringLiteral("tag_quote") << QStringLiteral("tag_quotation") << QStringLiteral("tag_verse")
+            << QStringLiteral("tag_env_itemize") << QStringLiteral("tag_env_enumerate") << QStringLiteral("tag_env_description") << QStringLiteral("tag_item")
+            << QStringLiteral("tag_env_tabular") << QStringLiteral("tag_env_tabular*") << QStringLiteral("tag_env_tabbing")
+            << QStringLiteral("tag_multicolumn") << QStringLiteral("tag_hline") << QStringLiteral("tag_vline") << QStringLiteral("tag_cline")
+            << QStringLiteral("tag_figure") << QStringLiteral("tag_table")
+            << QStringLiteral("tag_verbatim") << QStringLiteral("tag_env_verbatim*") << QStringLiteral("tag_verb") << QStringLiteral("tag_verb*")
+            << QStringLiteral("tag_mathmode") << QStringLiteral("tag_mathmode_latex") << QStringLiteral("tag_equation") << QStringLiteral("tag_subscript") << QStringLiteral("tag_superscript")
+            << QStringLiteral("tag_sqrt") << QStringLiteral("tag_nroot") << QStringLiteral("tag_left") << QStringLiteral("tag_right") << QStringLiteral("tag_leftright")
+            << QStringLiteral("tag_bigl") << QStringLiteral("tag_bigr") << QStringLiteral("tag_Bigl") << QStringLiteral("tag_Bigr")
+            << QStringLiteral("tag_biggl") << QStringLiteral("tag_biggr") << QStringLiteral("tag_Biggl") << QStringLiteral("tag_Biggr")
+            << QStringLiteral("tag_text") << QStringLiteral("tag_intertext") << QStringLiteral("tag_boxed")
+            << QStringLiteral("tag_frac") << QStringLiteral("tag_dfrac") << QStringLiteral("tag_tfrac")
+            << QStringLiteral("tag_binom") << QStringLiteral("tag_dbinom") << QStringLiteral("tag_tbinom")
+            << QStringLiteral("tag_xleftarrow") << QStringLiteral("tag_xrightarrow")
+            << QStringLiteral("tag_mathrm") << QStringLiteral("tag_mathit") << QStringLiteral("tag_mathbf") << QStringLiteral("tag_mathsf")
+            << QStringLiteral("tag_mathtt") << QStringLiteral("tag_mathcal") << QStringLiteral("tag_mathbb") << QStringLiteral("tag_mathfrak")
+            << QStringLiteral("tag_acute") << QStringLiteral("tag_grave") << QStringLiteral("tag_tilde") << QStringLiteral("tag_bar") << QStringLiteral("tag_vec")
+            << QStringLiteral("tag_hat") << QStringLiteral("tag_check") << QStringLiteral("tag_breve") << QStringLiteral("tag_dot") << QStringLiteral("tag_ddot")
+            << QStringLiteral("tag_space_small") << QStringLiteral("tag_space_medium") << QStringLiteral("tag_space_large")
+            << QStringLiteral("tag_quad") << QStringLiteral("tag_qquad") << QStringLiteral("tag_enskip")
+            << QStringLiteral("tag_env_math") << QStringLiteral("tag_env_displaymath") << QStringLiteral("tag_env_equation") << QStringLiteral("tag_env_equation*")
+            << QStringLiteral("tag_env_array")
+            << QStringLiteral("tag_env_multline") << QStringLiteral("tag_env_multline*") << QStringLiteral("tag_env_split")
+            << QStringLiteral("tag_env_gather") << QStringLiteral("tag_env_gather*") << QStringLiteral("tag_env_align") << QStringLiteral("tag_env_align*")
+            << QStringLiteral("tag_env_flalign") << QStringLiteral("tag_env_flalign*") << QStringLiteral("tag_env_alignat") << QStringLiteral("tag_env_alignat*")
+            << QStringLiteral("tag_env_aligned") << QStringLiteral("tag_env_gathered") << QStringLiteral("tag_env_alignedat") << QStringLiteral("tag_env_cases")
+            << QStringLiteral("tag_env_dmath") << QStringLiteral("tag_env_dmath*") << QStringLiteral("tag_env_dseries") << QStringLiteral("tag_env_dseries*") << QStringLiteral("tag_env_dgroup") << QStringLiteral("tag_env_dgroup*")
+            << QStringLiteral("tag_env_matrix") << QStringLiteral("tag_env_pmatrix") << QStringLiteral("tag_env_vmatrix")
+            << QStringLiteral("tag_env_VVmatrix") << QStringLiteral("tag_env_bmatrix") << QStringLiteral("tag_env_BBmatrix")
             // bibliography stuff
-            << "menu_bibliography"
-            << "setting_bibtex" << "setting_biblatex"
-            << "tag_textit" << "tag_textsl" << "tag_textbf" << "tag_underline"
-            << "tag_texttt" << "tag_textsc" << "tag_emph" << "tag_strong"
-            << "tag_rmfamily" << "tag_sffamily" << "tag_ttfamily"
-            << "tag_mdseries" << "tag_bfseries" << "tag_upshape"
-            << "tag_itshape" << "tag_slshape" << "tag_scshape"
-            << "tag_newline" << "tag_newpage" << "tag_linebreak" << "tag_pagebreak"
-            << "tag_bigskip" << "tag_medskip" << "tag_smallskip"
-            << "tag_hspace" << "tag_hspace*" << "tag_vspace" << "tag_vspace*"
-            << "tag_hfill" << "tag_hrulefill" << "tag_dotfill" << "tag_vfill"
-            << "tag_includegraphics" << "tag_include" << "tag_input"
+            << QStringLiteral("menu_bibliography")
+            << QStringLiteral("setting_bibtex") << QStringLiteral("setting_biblatex")
+            << QStringLiteral("tag_textit") << QStringLiteral("tag_textsl") << QStringLiteral("tag_textbf") << QStringLiteral("tag_underline")
+            << QStringLiteral("tag_texttt") << QStringLiteral("tag_textsc") << QStringLiteral("tag_emph") << QStringLiteral("tag_strong")
+            << QStringLiteral("tag_rmfamily") << QStringLiteral("tag_sffamily") << QStringLiteral("tag_ttfamily")
+            << QStringLiteral("tag_mdseries") << QStringLiteral("tag_bfseries") << QStringLiteral("tag_upshape")
+            << QStringLiteral("tag_itshape") << QStringLiteral("tag_slshape") << QStringLiteral("tag_scshape")
+            << QStringLiteral("tag_newline") << QStringLiteral("tag_newpage") << QStringLiteral("tag_linebreak") << QStringLiteral("tag_pagebreak")
+            << QStringLiteral("tag_bigskip") << QStringLiteral("tag_medskip") << QStringLiteral("tag_smallskip")
+            << QStringLiteral("tag_hspace") << QStringLiteral("tag_hspace*") << QStringLiteral("tag_vspace") << QStringLiteral("tag_vspace*")
+            << QStringLiteral("tag_hfill") << QStringLiteral("tag_hrulefill") << QStringLiteral("tag_dotfill") << QStringLiteral("tag_vfill")
+            << QStringLiteral("tag_includegraphics") << QStringLiteral("tag_include") << QStringLiteral("tag_input")
             // wizard
-            << "wizard_tabular" << "wizard_array" << "wizard_tabbing"
-            << "wizard_float" << "wizard_mathenv"
-            << "wizard_usermenu" << "wizard_usermenu2"
+            << QStringLiteral("wizard_tabular") << QStringLiteral("wizard_array") << QStringLiteral("wizard_tabbing")
+            << QStringLiteral("wizard_float") << QStringLiteral("wizard_mathenv")
+            << QStringLiteral("wizard_usermenu") << QStringLiteral("wizard_usermenu2")
             // settings
-            << "Mode"
+            << QStringLiteral("Mode")
             // help
-            << "help_context"
+            << QStringLiteral("help_context")
             // action lists
-            << "structure_list" << "size_list" << "other_list"
-            << "left_list" << "right_list"
+            << QStringLiteral("structure_list") << QStringLiteral("size_list") << QStringLiteral("other_list")
+            << QStringLiteral("left_list") << QStringLiteral("right_list")
             // tool lists
-            << "list_compiler_select" << "list_convert_select" << "list_view_select" << "list_quick_select"
+            << QStringLiteral("list_compiler_select") << QStringLiteral("list_convert_select") << QStringLiteral("list_view_select") << QStringLiteral("list_quick_select")
             // user help
-            << "help_userhelp"
-            << "edit_next_bullet" << "edit_prev_bullet"
-            << "edit_next_section" << "edit_prev_section" << "edit_next_paragraph" << "edit_prev_paragraph"
+            << QStringLiteral("help_userhelp")
+            << QStringLiteral("edit_next_bullet") << QStringLiteral("edit_prev_bullet")
+            << QStringLiteral("edit_next_section") << QStringLiteral("edit_prev_section") << QStringLiteral("edit_next_paragraph") << QStringLiteral("edit_prev_paragraph")
 
-            << "edit_select_inside_env" << "edit_select_outside_env" << "edit_select_inside_group"
-            << "edit_select_outside_group" << "edit_select_mathgroup" << "edit_select_paragraph"
-            << "edit_select_line" << "edit_select_word"
+            << QStringLiteral("edit_select_inside_env") << QStringLiteral("edit_select_outside_env") << QStringLiteral("edit_select_inside_group")
+            << QStringLiteral("edit_select_outside_group") << QStringLiteral("edit_select_mathgroup") << QStringLiteral("edit_select_paragraph")
+            << QStringLiteral("edit_select_line") << QStringLiteral("edit_select_word")
 
-            << "edit_delete_inside_env" << "edit_delete_outside_env" << "edit_delete_inside_group"
-            << "edit_delete_outside_group" << "edit_delete_mathgroup" << "edit_delete_paragraph"
-            << "edit_delete_eol" << "edit_delete_word"
+            << QStringLiteral("edit_delete_inside_env") << QStringLiteral("edit_delete_outside_env") << QStringLiteral("edit_delete_inside_group")
+            << QStringLiteral("edit_delete_outside_group") << QStringLiteral("edit_delete_mathgroup") << QStringLiteral("edit_delete_paragraph")
+            << QStringLiteral("edit_delete_eol") << QStringLiteral("edit_delete_word")
 
-            << "edit_complete_word" << "edit_complete_env" << "edit_complete_abbrev"
+            << QStringLiteral("edit_complete_word") << QStringLiteral("edit_complete_env") << QStringLiteral("edit_complete_abbrev")
 
-            << "edit_begin_env" << "edit_end_env" << "edit_match_env" << "edit_close_env" << "edit_closeall_env"
+            << QStringLiteral("edit_begin_env") << QStringLiteral("edit_end_env") << QStringLiteral("edit_match_env") << QStringLiteral("edit_close_env") << QStringLiteral("edit_closeall_env")
 
-            << "edit_begin_group" << "edit_end_group" << "edit_match_group" << "edit_close_group"
+            << QStringLiteral("edit_begin_group") << QStringLiteral("edit_end_group") << QStringLiteral("edit_match_group") << QStringLiteral("edit_close_group")
 
-            << "file_export_ascii" << "file_export_latin1" << "file_export_latin2" << "file_export_latin3"
-            << "file_export_latin4" << "file_export_latin5" << "file_export_latin9" << "file_export_cp1250"
-            << "file_export_cp1252"
+            << QStringLiteral("file_export_ascii") << QStringLiteral("file_export_latin1") << QStringLiteral("file_export_latin2") << QStringLiteral("file_export_latin3")
+            << QStringLiteral("file_export_latin4") << QStringLiteral("file_export_latin5") << QStringLiteral("file_export_latin9") << QStringLiteral("file_export_cp1250")
+            << QStringLiteral("file_export_cp1252")
             ;
 
     setMenuItems(projectlist,m_dictMenuProject);
@@ -2078,7 +2104,7 @@ void Kile::updateMenu()
     }
 
     // project_show is only enabled, when more than 1 project is opened
-    QAction *a = actionCollection()->action("project_show");
+    QAction *a = actionCollection()->action(QStringLiteral("project_show"));
     if(a) {
         a->setEnabled(project_open && docManager()->projects().count() > 1);
     }
@@ -2103,7 +2129,7 @@ bool Kile::updateMenuActivationStatus(QMenu *menu, const QSet<QMenu*>& visited)
         qWarning() << "Recursive menu structure detected - aborting!";
         return true;
     }
-    if(menu->objectName() == "usermenu-submenu") {
+    if (menu->objectName() == QStringLiteral("usermenu-submenu")) {
         menu->setEnabled(true);
         return true;
     }
@@ -2207,7 +2233,7 @@ void Kile::insertTag(const QString& tagB, const QString& tagE, int dx, int dy)
 
 void Kile::insertAmsTag(const KileAction::TagData& data)
 {
-    insertTag(data, QStringList("amsmath"));
+    insertTag(data, QStringList(QStringLiteral("amsmath")));
 }
 
 void Kile::insertTag(const KileAction::TagData& data,const QList<Package> &pkgs) {
@@ -2225,7 +2251,7 @@ void Kile::insertTag(const KileAction::TagData& data,const QList<Package> &pkgs)
 
 void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 {
-    KILE_DEBUG_MAIN << "void Kile::insertTag(const KileAction::TagData& data,const QStringList " << pkgs.join(",") << ")" << Qt::endl;
+    KILE_DEBUG_MAIN << "void Kile::insertTag(const KileAction::TagData& data,const QStringList " << pkgs.join(QStringLiteral(",")) << ")" << Qt::endl;
     insertTag(data);
 
     KileDocument::TextInfo *docinfo = docManager()->textInfoFor(getCompileName());
@@ -2241,10 +2267,10 @@ void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 
         if(warnPkgs.count() > 0) {
             if(warnPkgs.count() == 1) {
-                errorHandler()->printMessage(KileTool::Error, i18n("You have to include the package %1.", warnPkgs.join(",")), i18n("Insert text"));
+                errorHandler()->printMessage(KileTool::Error, i18n("You have to include the package %1.", warnPkgs.join(QStringLiteral(","))), i18n("Insert text"));
             }
             else {
-                errorHandler()->printMessage(KileTool::Error, i18n("You have to include the packages %1.", warnPkgs.join(",")), i18n("Insert text"));
+                errorHandler()->printMessage(KileTool::Error, i18n("You have to include the packages %1.", warnPkgs.join(QStringLiteral(","))), i18n("Insert text"));
             }
         }
     }
@@ -2252,20 +2278,20 @@ void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 
 void Kile::insertText(const QString &text)
 {
-    if(text.indexOf("%C")>=0)
+    if(text.indexOf(QStringLiteral("%C")) >= 0)
         insertTag(KileAction::TagData(QString(), text, QString(), 0, 0));
     else
-        insertTag(KileAction::TagData(QString(), text, "%C", 0, 0));
+        insertTag(KileAction::TagData(QString(), text, QStringLiteral("%C"), 0, 0));
 }
 
 void Kile::insertText(const QString &text, const QStringList &pkgs)
 {
-    insertTag(KileAction::TagData(QString(), text, "%C", 0, 0), pkgs);
+    insertTag(KileAction::TagData(QString(), text, QStringLiteral("%C"), 0, 0), pkgs);
 }
 
 void Kile::insertText(const QString &text, const QList<Package> &pkgs)
 {
-    insertTag(KileAction::TagData(QString(), text, "%C", 0, 0), pkgs);
+    insertTag(KileAction::TagData(QString(), text, QStringLiteral("%C"), 0, 0), pkgs);
 }
 
 void Kile::quickDocument()
@@ -2300,17 +2326,17 @@ void Kile::quickTabulardialog(bool tabularenv)
 
     QString env;
     if(tabularenv) {
-        KConfigGroup group = m_config->group("Wizard");
+        KConfigGroup group = m_config->group(QStringLiteral("Wizard"));
         env = group.readEntry("TabularEnvironment", "tabular");
     } else {
-        env = "array";
+        env = QStringLiteral("array");
     }
 
     KileDialog::NewTabularDialog dlg(env, m_latexCommands, m_config.data(), this);
     if(dlg.exec()) {
         insertTag(dlg.tagData(), dlg.requiredPackages());
         if(tabularenv) {
-            KConfigGroup group = m_config->group("Wizard");
+            KConfigGroup group = m_config->group(QStringLiteral("Wizard"));
             group.writeEntry("TabularEnvironment", dlg.environment());
             m_config->sync();
         }
@@ -2434,18 +2460,18 @@ void Kile::readGUISettings()
 void Kile::transformOldUserTags()
 {
     KILE_DEBUG_MAIN << "Convert old user tags";
-    QString xmldir = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + "/usermenu/";
+    QString xmldir = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/usermenu/");
     // create dir if not existing
     QDir testDir(xmldir);
     if (!testDir.exists()) {
         testDir.mkpath(xmldir);
     }
 
-    KConfigGroup userGroup = m_config->group("User");
+    KConfigGroup userGroup = m_config->group(QStringLiteral("User"));
     int len = userGroup.readEntry("nUserTags", 0);
 
     if ( len > 0) {
-        QString usertagfile = "usertags.xml";
+        QString usertagfile = QStringLiteral("usertags.xml");
         QString  filename = xmldir + usertagfile;
         KILE_DEBUG_MAIN << "-convert user tags " << filename;
 
@@ -2464,17 +2490,17 @@ void Kile::transformOldUserTags()
         xml.writeStartElement("UserMenu");
 
         for (int i = 0; i < len; ++i) {
-            const QString tagNameConfigKey = "userTagName" + QString::number(i);
+            const QString tagNameConfigKey = QStringLiteral("userTagName") + QString::number(i);
             const QString tagname = userGroup.readEntry(tagNameConfigKey, i18n("No Name"));
-            const QString tagConfigKey = "userTag" + QString::number(i);
+            const QString tagConfigKey = QStringLiteral("userTag") + QString::number(i);
             QString tag = userGroup.readEntry(tagConfigKey, "");
-            tag = tag.replace('\n',"\\n");
+            tag = tag.replace(QLatin1Char('\n'), QStringLiteral("\\n"));
 
             xml.writeStartElement("menu");
             xml.writeAttribute("type", "text");
             xml.writeTextElement(KileMenu::UserMenuData::xmlMenuTagName(KileMenu::UserMenuData::XML_TITLE), tagname);
             xml.writeTextElement(KileMenu::UserMenuData::xmlMenuTagName(KileMenu::UserMenuData::XML_PLAINTEXT), tag);
-            xml.writeTextElement(KileMenu::UserMenuData::xmlMenuTagName(KileMenu::UserMenuData::XML_SHORTCUT), QString("Ctrl+Shift+%1").arg(i+1));
+            xml.writeTextElement(KileMenu::UserMenuData::xmlMenuTagName(KileMenu::UserMenuData::XML_SHORTCUT), QStringLiteral("Ctrl+Shift+%1").arg(i+1));
             xml.writeEndElement();
 
             userGroup.deleteEntry(tagNameConfigKey);
@@ -2492,17 +2518,17 @@ void Kile::transformOldUserTags()
 void Kile::transformOldUserSettings()
 {
     //delete old editor key
-    if(m_config->hasGroup("Editor")) {
-        m_config->deleteGroup("Editor");
+    if (m_config->hasGroup(QStringLiteral("Editor"))) {
+        m_config->deleteGroup(QStringLiteral("Editor"));
     }
 
     //convert user tools to new KileTool classes
-    KConfigGroup userGroup = m_config->group("User");
+    KConfigGroup userGroup = m_config->group(QStringLiteral("User"));
     userItem tempItem;
     int len = userGroup.readEntry("nUserTools", 0);
     for (int i=0; i< len; ++i) {
-        tempItem.name = userGroup.readEntry("userToolName" + QString::number(i), i18n("no name"));
-        tempItem.tag = userGroup.readEntry("userTool" + QString::number(i), "");
+        tempItem.name = userGroup.readEntry(QStringLiteral("userToolName") + QString::number(i), i18n("no name"));
+        tempItem.tag = userGroup.readEntry(QStringLiteral("userTool") + QString::number(i), QStringLiteral(""));
         m_listUserTools.append(tempItem);
     }
     if(len > 0) {
@@ -2510,12 +2536,12 @@ void Kile::transformOldUserSettings()
         userGroup.writeEntry("nUserTools", 0);
         for(int i = 0; i < len; ++i) {
             tempItem = m_listUserTools[i];
-            KConfigGroup toolsGroup = m_config->group("Tools");
+            KConfigGroup toolsGroup = m_config->group(QStringLiteral("Tools"));
             toolsGroup.writeEntry(tempItem.name, "Default");
 
-            KileTool::setGUIOptions(tempItem.name, "Other", "preferences-other", m_config.data());
+            KileTool::setGUIOptions(tempItem.name, QStringLiteral("Other"), QStringLiteral("preferences-other"), m_config.data());
 
-            KConfigGroup group = m_config->group(KileTool::groupFor(tempItem.name, "Default"));
+            KConfigGroup group = m_config->group(KileTool::groupFor(tempItem.name, QStringLiteral("Default")));
             QString bin = KIO::DesktopExecParser::executablePath(tempItem.tag);
             group.writeEntry("command", bin);
             group.writeEntry("options", tempItem.tag.mid(bin.length()));
@@ -2525,8 +2551,8 @@ void Kile::transformOldUserSettings()
             group.writeEntry("to", "");
 
             if(i < 10) {
-                QAction *toolAction = static_cast<QAction*>(actionCollection()->action("tool_" + tempItem.name));
-                actionCollection()->setDefaultShortcut(toolAction, QString("Alt+Shift+" + QString::number(i + 1))); //should be alt+shift+
+                QAction *toolAction = static_cast<QAction*>(actionCollection()->action(QStringLiteral("tool_") + tempItem.name));
+                actionCollection()->setDefaultShortcut(toolAction, QString(QStringLiteral("Alt+Shift+") + QString::number(i + 1))); //should be alt+shift+
             }
         }
     }
@@ -2534,20 +2560,20 @@ void Kile::transformOldUserSettings()
 
 void Kile::readRecentFileSettings()
 {
-    KConfigGroup group = m_config->group("FilesOpenOnStart");
+    KConfigGroup group = m_config->group(QStringLiteral("FilesOpenOnStart"));
     int n = group.readEntry("NoDOOS", 0);
     for (int i = 0; i < n; ++i) {
-        const QString urlString = group.readPathEntry("DocsOpenOnStart" + QString::number(i), "");
+        const QString urlString = group.readPathEntry(QStringLiteral("DocsOpenOnStart") + QString::number(i), QStringLiteral(""));
         if(urlString.isEmpty()) {
             continue;
         }
         m_listDocsOpenOnStart.append(urlString);
-        m_listEncodingsOfDocsOpenOnStart.append(group.readPathEntry("EncodingsOfDocsOpenOnStart" + QString::number(i), ""));
+        m_listEncodingsOfDocsOpenOnStart.append(group.readPathEntry(QStringLiteral("EncodingsOfDocsOpenOnStart") + QString::number(i), QStringLiteral("")));
     }
 
     n = group.readEntry("NoPOOS", 0);
     for(int i = 0; i < n; ++i) {
-        const QString urlString = group.readPathEntry("ProjectsOpenOnStart" + QString::number(i), "");
+        const QString urlString = group.readPathEntry(QStringLiteral("ProjectsOpenOnStart") + QString::number(i), QStringLiteral(""));
         if(!urlString.isEmpty()) {
             m_listProjectsOpenOnStart.append(urlString);
         }
@@ -2597,27 +2623,27 @@ void Kile::saveSettings()
     m_symbolViewMFUS->writeConfig();
     saveLastSelectedAction();
     // Store recent files
-    m_actRecentFiles->saveEntries(m_config->group("Recent Files"));
-    m_actRecentProjects->saveEntries(m_config->group("Projects"));
+    m_actRecentFiles->saveEntries(m_config->group(QStringLiteral("Recent Files")));
+    m_actRecentProjects->saveEntries(m_config->group(QStringLiteral("Projects")));
 
-    m_config->deleteGroup("FilesOpenOnStart");
+    m_config->deleteGroup(QStringLiteral("FilesOpenOnStart"));
     if (KileConfig::restore())
     {
-        KConfigGroup configGroup = m_config->group("FilesOpenOnStart");
+        KConfigGroup configGroup = m_config->group(QStringLiteral("FilesOpenOnStart"));
         KileConfig::setSingleFileMasterDocument(getMasterDocumentFileName());
         configGroup.writeEntry("NoDOOS", m_listDocsOpenOnStart.count());
         for (int i = 0; i < m_listDocsOpenOnStart.count(); ++i) {
-            configGroup.writePathEntry("DocsOpenOnStart" + QString::number(i), m_listDocsOpenOnStart[i]);
-            configGroup.writePathEntry("EncodingsOfDocsOpenOnStart" + QString::number(i), m_listEncodingsOfDocsOpenOnStart[i]);
+            configGroup.writePathEntry(QStringLiteral("DocsOpenOnStart") + QString::number(i), m_listDocsOpenOnStart[i]);
+            configGroup.writePathEntry(QStringLiteral("EncodingsOfDocsOpenOnStart") + QString::number(i), m_listEncodingsOfDocsOpenOnStart[i]);
         }
 
         configGroup.writeEntry("NoPOOS", m_listProjectsOpenOnStart.count());
         for (int i = 0; i < m_listProjectsOpenOnStart.count(); ++i) {
-            configGroup.writePathEntry("ProjectsOpenOnStart"+QString::number(i), m_listProjectsOpenOnStart[i]);
+            configGroup.writePathEntry(QStringLiteral("ProjectsOpenOnStart") + QString::number(i), m_listProjectsOpenOnStart[i]);
         }
     }
 
-    KConfigGroup configGroup = KSharedConfig::openConfig()->group("KileMainWindow");
+    KConfigGroup configGroup = KSharedConfig::openConfig()->group(QStringLiteral("KileMainWindow"));
     saveMainWindowSettings(configGroup);
 
     docManager()->writeConfig();
@@ -2865,14 +2891,14 @@ void Kile::configureKeys()
 void Kile::configureToolbars()
 {
     {
-        KConfigGroup configGroup = KSharedConfig::openConfig()->group("KileMainWindow");
+        KConfigGroup configGroup = KSharedConfig::openConfig()->group(QStringLiteral("KileMainWindow"));
         saveMainWindowSettings(configGroup);
     }
 
     KEditToolBar dlg(factory());
     connect(&dlg, &KEditToolBar::newToolBarConfig, this, [this] () {
         setUpdatesEnabled(false);
-        applyMainWindowSettings(m_config->group("KileMainWindow"));
+        applyMainWindowSettings(m_config->group(QStringLiteral("KileMainWindow")));
 
         updateUserDefinedMenus();
         setUpdatesEnabled(true);
@@ -2887,8 +2913,8 @@ void Kile::cleanBib()
     if ( ! view )
         return;
 
-    QRegExp reOptional( "(ALT|OPT)(\\w+)\\s*=\\s*(\\S.*)" );
-    QRegExp reNonEmptyEntry( ".*\\w.*" );
+    QRegExp reOptional(QStringLiteral("(ALT|OPT)(\\w+)\\s*=\\s*(\\S.*)"));
+    QRegExp reNonEmptyEntry(QStringLiteral(".*\\w.*"));
 
     QString s;
     int i = 0;
@@ -2903,7 +2929,7 @@ void Kile::cleanBib()
             view->document()->removeLine( i );
             view->document()->setModified(true);
             if(reNonEmptyEntry.indexIn(entry) >= 0) {
-                type.append(" = ");
+                type.append(QStringLiteral(" = "));
                 type.append(entry);
                 view->document()->insertLine(i, type);
                 ++i;
@@ -2916,10 +2942,10 @@ void Kile::cleanBib()
 
     for (i = 0; i < view->document()->lines(); ++i) {
         int j = i+1;
-        if(j < view->document()->lines() && view->document()->line(j).contains(QRegularExpression("^\\s*\\}\\s*$"))) {
+        if(j < view->document()->lines() && view->document()->line(j).contains(QRegularExpression(QStringLiteral("^\\s*\\}\\s*$")))) {
             s =  view->document()->line(i);
             view->document()->removeLine(i);
-            s.remove(QRegularExpression(",\\s*$"));
+            s.remove(QRegularExpression(QStringLiteral(",\\s*$")));
             view->document()->setModified(true);
             view->document()->insertLine(i, s);
         }
@@ -2936,7 +2962,7 @@ void Kile::includeGraphics()
 
     if ( dialog->exec() == QDialog::Accepted )
     {
-        insertTag(dialog->getTemplate(), "%C", 0,0);
+        insertTag(dialog->getTemplate(), QStringLiteral("%C"), 0,0);
         docManager()->projectAddFile( dialog->getFilename(),true );
     }
 
@@ -3039,8 +3065,8 @@ void Kile::updateStatusBarSelection(KTextEditor::View *view)
     }
     else {
         const QString text = view->blockSelection() ?
-                             i18nc("@info:status status bar label for block selection mode", "BLOCK") + ' ' :
-                             i18nc("@info:status status bar label for line selection mode", "LINE") + ' ';
+                             i18nc("@info:status status bar label for block selection mode", "BLOCK") + QLatin1Char(' '):
+                             i18nc("@info:status status bar label for line selection mode", "LINE") + QLatin1Char(' ');
         statusBar()->setSelectionMode(text);
     }
 }

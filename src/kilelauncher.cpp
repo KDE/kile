@@ -107,22 +107,22 @@ bool ProcessLauncher::launch()
     }
 
     QString msg;
-    QString out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
+    QString out = QStringLiteral("*****\n*****     ") + tool()->name() + i18n(" output: \n");
 
     if(m_cmd.isEmpty()) {
-        m_cmd = tool()->readEntry("command");
+        m_cmd = tool()->readEntry(QStringLiteral("command"));
         KILE_DEBUG_MAIN << "readEntry('command'): " << m_cmd;
     }
 
     if(m_options.isEmpty()) {
-        m_options = tool()->readEntry("options");
+        m_options = tool()->readEntry(QStringLiteral("options"));
         KILE_DEBUG_MAIN << "readEntry('option'):" << m_options;
     }
 
     if(m_changeTo && (!m_wd.isEmpty())) {
         m_proc->setWorkingDirectory(m_wd);
         KILE_DEBUG_MAIN << "changed to " << m_wd;
-        out += QString("*****     cd \"") + m_wd + QString("\"\n");
+        out += QStringLiteral("*****     cd \"") + m_wd + QStringLiteral("\"\n");
     }
 
     tool()->translate(m_cmd);
@@ -149,7 +149,7 @@ bool ProcessLauncher::launch()
 
     KILE_DEBUG_MAIN << "sent " << m_cmd << ' ' << arguments;
 
-    out += QString("*****     ") + m_cmd + ' ' + arguments.join(" ") + '\n';
+    out += QStringLiteral("*****     ") + m_cmd + QLatin1Char(' ') + arguments.join(QStringLiteral(" ")) + QLatin1Char('\n');
 
     QString src = tool()->source(false);
     QString trgt = tool()->target();
@@ -157,10 +157,10 @@ bool ProcessLauncher::launch()
         msg = src;
     }
     else {
-        msg = src + " => " + trgt;
+        msg = src + QStringLiteral(" => ") + trgt;
     }
 
-    msg += " (" + m_cmd + ')';
+    msg += QStringLiteral(" (") + m_cmd + QLatin1Char(')');
 
     Q_EMIT(message(Info, msg));
 
@@ -174,25 +174,25 @@ bool ProcessLauncher::launch()
         bibInputPaths = KileConfig::previewBibInputPaths();
     }
 
-    KILE_DEBUG_MAIN << "$PATH=" << tool()->manager()->info()->expandEnvironmentVars("$PATH");
-    KILE_DEBUG_MAIN << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + LIST_SEPARATOR + "$TEXINPUTS");
-    KILE_DEBUG_MAIN << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + LIST_SEPARATOR + "$BIBINPUTS");
-    KILE_DEBUG_MAIN << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + LIST_SEPARATOR + "$BSTINPUTS");
+    KILE_DEBUG_MAIN << "$PATH=" << tool()->manager()->info()->expandEnvironmentVars(QStringLiteral("$PATH"));
+    KILE_DEBUG_MAIN << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + LIST_SEPARATOR + QStringLiteral("$TEXINPUTS"));
+    KILE_DEBUG_MAIN << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + LIST_SEPARATOR + QStringLiteral("$BIBINPUTS"));
+    KILE_DEBUG_MAIN << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + LIST_SEPARATOR + QStringLiteral("$BSTINPUTS"));
     KILE_DEBUG_MAIN << "Tool name is "<< tool()->name();
 
-    m_proc->setEnv("PATH", tool()->manager()->info()->expandEnvironmentVars("$PATH"));
+    m_proc->setEnv(QStringLiteral("PATH"), tool()->manager()->info()->expandEnvironmentVars(QStringLiteral("$PATH")));
 
     if(!teXInputPaths.isEmpty()) {
-        m_proc->setEnv("TEXINPUTS", tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + LIST_SEPARATOR + "$TEXINPUTS"));
+        m_proc->setEnv(QStringLiteral("TEXINPUTS"), tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + LIST_SEPARATOR + QStringLiteral("$TEXINPUTS")));
     }
     if(!bibInputPaths.isEmpty()) {
-        m_proc->setEnv("BIBINPUTS", tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + LIST_SEPARATOR + "$BIBINPUTS"));
+        m_proc->setEnv(QStringLiteral("BIBINPUTS"), tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + LIST_SEPARATOR + QStringLiteral("$BIBINPUTS")));
     }
     if(!bstInputPaths.isEmpty()) {
-        m_proc->setEnv("BSTINPUTS", tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + LIST_SEPARATOR + "$BSTINPUTS"));
+        m_proc->setEnv(QStringLiteral("BSTINPUTS"), tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + LIST_SEPARATOR + QStringLiteral("$BSTINPUTS")));
     }
 
-    out += "*****\n";
+    out += QStringLiteral("*****\n");
     Q_EMIT(output(out));
 
     if(tool()->manager()->shouldBlock()) {
@@ -240,7 +240,7 @@ bool ProcessLauncher::selfCheck()
     }
 
 
-    QString exe = KIO::DesktopExecParser::executablePath(tool()->readEntry("command"));
+    QString exe = KIO::DesktopExecParser::executablePath(tool()->readEntry(QStringLiteral("command")));
     QString path = QStandardPaths::findExecutable(exe);
 
     if(path.isEmpty()) {
@@ -323,10 +323,10 @@ KonsoleLauncher::KonsoleLauncher() : ProcessLauncher()
 
 bool KonsoleLauncher::launch()
 {
-    QString cmd = tool()->readEntry("command");
-    QString noclose = (tool()->readEntry("close") == "no") ? "--noclose" : "";
-    setCommand("konsole");
-    setOptions(noclose + " -e " + cmd + ' ' + tool()->readEntry("options"));
+    QString cmd = tool()->readEntry(QStringLiteral("command"));
+    QString noclose = (tool()->readEntry(QStringLiteral("close")) == QStringLiteral("no")) ? QStringLiteral("--noclose") : QStringLiteral("");
+    setCommand(QStringLiteral("konsole"));
+    setOptions(noclose + QStringLiteral(" -e ") + cmd + QLatin1Char(' ') + tool()->readEntry(QStringLiteral("options")));
     if(QStandardPaths::findExecutable(KIO::DesktopExecParser::executablePath(cmd)).isEmpty()) {
         return false;
     }
@@ -358,12 +358,12 @@ bool DocumentViewerLauncher::launch()
         Q_EMIT(message(Error, i18n("Please disable the live preview before launching this tool")));
         return false;
     }
-    const QString fileName = tool()->paramDict()["%dir_target"] + '/' + tool()->paramDict()["%target"];
+    const QString fileName = tool()->paramDict()[QStringLiteral("%dir_target")] + QLatin1Char('/') + tool()->paramDict()[QStringLiteral("%target")];
     tool()->manager()->viewManager()->openInDocumentViewer(QUrl::fromLocalFile(fileName));
-    if(tool()->paramDict().contains("%sourceFileName")
-            && tool()->paramDict().contains("%sourceLine")) {
-        const QString sourceFileName = tool()->paramDict()["%sourceFileName"];
-        const QString lineString = tool()->paramDict()["%sourceLine"];
+    if (tool()->paramDict().contains(QStringLiteral("%sourceFileName"))
+            && tool()->paramDict().contains(QStringLiteral("%sourceLine"))) {
+        const QString sourceFileName = tool()->paramDict()[QStringLiteral("%sourceFileName")];
+        const QString lineString = tool()->paramDict()[QStringLiteral("%sourceLine")];
         tool()->manager()->viewManager()->showSourceLocationInDocumentViewer(sourceFileName, lineString.toInt(), 0);
     }
     Q_EMIT(done(Success));

@@ -178,19 +178,19 @@ void KileProjectItem::loadDocumentSettings(KTextEditor::Document *document)
     if(!configGroup.exists()) {
         return;
     }
-    document->readSessionConfig(configGroup, QSet<QString>() << "SkipUrl");
+    document->readSessionConfig(configGroup, QSet<QString>() << QStringLiteral("SkipUrl"));
 }
 
 void KileProjectItem::saveDocumentSettings(KTextEditor::Document *document)
 {
     KConfigGroup configGroup = m_project->configGroupForItemDocumentSettings(this);
-    document->writeSessionConfig(configGroup, QSet<QString>() << "SkipUrl");
+    document->writeSessionConfig(configGroup, QSet<QString>() << QStringLiteral("SkipUrl"));
 }
 
 void KileProjectItem::print(int level)
 {
     QString str;
-    str.fill('\t', level);
+    str.fill(QLatin1Char('\t'), level);
     KILE_DEBUG_MAIN << str << "+" << url().fileName();
 
     if (firstChild()) {
@@ -253,7 +253,7 @@ KileProject::KileProject(const QString& name, const QUrl &url, KileDocument::Ext
     init(url);
 
     //create the project file
-    KConfigGroup configGroup = m_config->group("General");
+    KConfigGroup configGroup = m_config->group(QStringLiteral("General"));
     configGroup.writeEntry("name", m_name);
     configGroup.writeEntry("kileprversion", KILE_PROJECTFILE_VERSION);
     configGroup.writeEntry("kileversion", QStringLiteral(KILE_VERSION_STRING));
@@ -310,16 +310,16 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
     // first we take all standard extensions
     QStringList standardExtList;
     if(type == KileProjectItem::Source) {
-        standardExtList = (m_extmanager->latexDocuments()).split(' ');
+        standardExtList = (m_extmanager->latexDocuments()).split(QLatin1Char(' '));
     }
     else if(type == KileProjectItem::Package) {
-        standardExtList = (m_extmanager->latexPackages()).split(' ');
+        standardExtList = (m_extmanager->latexPackages()).split(QLatin1Char(' '));
     }
     else if(type == KileProjectItem::Image) {
-        standardExtList = (m_extmanager->images()).split(' ');
+        standardExtList = (m_extmanager->images()).split(QLatin1Char(' '));
     }
     else if(type == KileProjectItem::Bibliography) {
-        standardExtList = (m_extmanager->bibtex()).split(' ');
+        standardExtList = (m_extmanager->bibtex()).split(QLatin1Char(' '));
     }
 
     // now we scan user-defined list and accept all extension,
@@ -329,10 +329,10 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
         QStringList userExtList;
 
         QStringList::ConstIterator it;
-        QStringList list = ext.split(' ');
+        QStringList list = ext.split(QLatin1Char(' '));
         for(it = list.constBegin(); it != list.constEnd(); ++it) {
             // some tiny extension checks
-            if((*it).length() < 2 || (*it)[0] != '.') {
+            if((*it).length() < 2 || (*it)[0] != QLatin1Char('.')) {
                 continue;
             }
 
@@ -357,15 +357,15 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
             }
         }
         if(userExtList.count() > 0) {
-            userExt = userExtList.join(" ");
+            userExt = userExtList.join(QStringLiteral(" "));
         }
     }
 
     // now we build a regular expression for all extensions
     // (used to search for a filename with a valid extension)
-    QString pattern = standardExtList.join("|");
-    pattern.replace('.', "\\.");
-    pattern = '('+ pattern +")$";
+    QString pattern = standardExtList.join(QStringLiteral("|"));
+    pattern.replace(QLatin1Char('.'), QStringLiteral("\\."));
+    pattern = QLatin1Char('(') + pattern + QStringLiteral(")$");
 
     // and save it
     m_reExtensions[type-1].setPattern(pattern);
@@ -388,7 +388,7 @@ const QString & KileProject::defaultGraphicExt() {
 
 void KileProject::setType(KileProjectItem *projectItem)
 {
-    if(projectItem->path().right(7) == ".kilepr") {
+    if (projectItem->path().right(7) == QStringLiteral(".kilepr")) {
         projectItem->setType(KileProjectItem::ProjectFile);
         return;
     }
@@ -409,16 +409,16 @@ void KileProject::setType(KileProjectItem *projectItem)
 
 void KileProject::readMakeIndexOptions()
 {
-    QString grp = KileTool::groupFor("MakeIndex", m_config);
+    QString grp = KileTool::groupFor(QStringLiteral("MakeIndex"), m_config);
 
     //get the default value
     KSharedConfig::Ptr cfg = KSharedConfig::openConfig();
-    KConfigGroup configGroup = cfg->group(KileTool::groupFor("MakeIndex", KileTool::configName("MakeIndex", cfg.data())));
-    QString deflt = configGroup.readEntry("options", "'%S'.idx");
+    KConfigGroup configGroup = cfg->group(KileTool::groupFor(QStringLiteral("MakeIndex"), KileTool::configName(QStringLiteral("MakeIndex"), cfg.data())));
+    QString deflt = configGroup.readEntry(QStringLiteral("options"), QStringLiteral("'%S'.idx"));
 
     if (useMakeIndexOptions() && !grp.isEmpty()) {
         KConfigGroup makeIndexGroup = m_config->group(grp);
-        QString val = makeIndexGroup.readEntry("options", deflt);
+        QString val = makeIndexGroup.readEntry(QStringLiteral("options"), deflt);
         if ( val.isEmpty() ) val = deflt;
         setMakeIndexOptions(val);
     }
@@ -430,9 +430,9 @@ void KileProject::readMakeIndexOptions()
 void KileProject::writeUseMakeIndexOptions()
 {
     if ( useMakeIndexOptions() )
-        KileTool::setConfigName("MakeIndex", "Default", m_config);
+        KileTool::setConfigName(QStringLiteral("MakeIndex"), QStringLiteral("Default"), m_config);
     else
-        KileTool::setConfigName("MakeIndex", "", m_config);
+        KileTool::setConfigName(QStringLiteral("MakeIndex"), QStringLiteral(""), m_config);
 }
 
 QString KileProject::addBaseURL(const QString &path)
@@ -446,7 +446,7 @@ QString KileProject::addBaseURL(const QString &path)
         return KileUtilities::canonicalUrl(QUrl::fromLocalFile(path)).toLocalFile();
     }
     else {
-        return  KileUtilities::canonicalUrl(QUrl::fromLocalFile(m_baseurl.adjusted(QUrl::StripTrailingSlash).toLocalFile() + '/' + path)).toLocalFile();
+        return  KileUtilities::canonicalUrl(QUrl::fromLocalFile(m_baseurl.adjusted(QUrl::StripTrailingSlash).toLocalFile() + QLatin1Char('/') + path)).toLocalFile();
     }
 }
 
@@ -464,19 +464,19 @@ QString KileProject::removeBaseURL(const QString &path)
 
 bool KileProject::appearsToBeValidProjectFile()
 {
-    if(!m_config->hasGroup("General")) {
+    if(!m_config->hasGroup(QStringLiteral("General"))) {
         return false;
     }
 
-    KConfigGroup generalGroup = m_config->group("General");
+    KConfigGroup generalGroup = m_config->group(QStringLiteral("General"));
     return generalGroup.hasKey("name") && generalGroup.hasKey("kileprversion") && generalGroup.hasKey("kileversion");
 }
 
 int KileProject::getProjectFileVersion()
 {
-    KConfigGroup generalGroup = m_config->group("General");
+    KConfigGroup generalGroup = m_config->group(QStringLiteral("General"));
 
-    return generalGroup.readEntry("kileprversion", 0);
+    return generalGroup.readEntry(QStringLiteral("kileprversion"), 0);
 }
 
 // WARNING: before calling this method, the project file must be of the current 'kileprversion'!
@@ -493,12 +493,12 @@ bool KileProject::load()
     m_guiConfig = new KConfig(getPathForGUISettingsProjectFile(m_projecturl), KConfig::SimpleConfig);
 
     //load general settings/options
-    KConfigGroup generalGroup = m_config->group("General");
-    m_name = generalGroup.readEntry("name", m_name);
+    KConfigGroup generalGroup = m_config->group(QStringLiteral("General"));
+    m_name = generalGroup.readEntry(QStringLiteral("name"), m_name);
 
-    m_defGraphicExt = generalGroup.readEntry("def_graphic_ext", QString());
+    m_defGraphicExt = generalGroup.readEntry(QStringLiteral("def_graphic_ext"), QString());
 
-    QString master = addBaseURL(generalGroup.readEntry("masterDocument", QString()));
+    QString master = addBaseURL(generalGroup.readEntry(QStringLiteral("masterDocument"), QString()));
     KILE_DEBUG_MAIN << "masterDoc == " << master;
     setMasterDocument(master);
 
@@ -507,9 +507,9 @@ bool KileProject::load()
     setExtensions(KileProjectItem::Image, generalGroup.readEntry("img_extensions",m_extmanager->images()));
     setExtensions(KileProjectItem::Bibliography, generalGroup.readEntry("bib_extensions", m_extmanager->bibtex()));
 
-    setQuickBuildConfig(KileTool::configName("QuickBuild", m_config));
+    setQuickBuildConfig(KileTool::configName(QStringLiteral("QuickBuild"), m_config));
 
-    if( KileTool::configName("MakeIndex",m_config).compare("Default") == 0) {
+    if (KileTool::configName(QStringLiteral("MakeIndex"), m_config).compare(QStringLiteral("Default")) == 0) {
         setUseMakeIndexOptions(true);
     }
     else {
@@ -525,14 +525,14 @@ bool KileProject::load()
     //retrieve all the project files and create and initialize project items for them
     for (const auto& group : groups) {
         if(m_config->hasGroup(group) // 'group' might have been deleted
-           && (group.left(5) == "item:")) {
+           && (group.left(5) == QStringLiteral("item:"))) {
             QString path = group.mid(5);
             if (QDir::isAbsolutePath(path)) {
                 projectUrl = QUrl::fromLocalFile(path);
             }
             else {
                 projectUrl = m_baseurl.adjusted(QUrl::StripTrailingSlash);
-                projectUrl.setPath(projectUrl.path() + '/' + path);
+                projectUrl.setPath(projectUrl.path() + QLatin1Char('/') + path);
             }
             projectItem = new KileProjectItem(this, KileUtilities::canonicalUrl(projectUrl));
             setType(projectItem);
@@ -546,10 +546,10 @@ bool KileProject::load()
     }
 
     // only call this after all items are created, otherwise setLastDocument doesn't accept the url
-    KConfigGroup guiGeneralGroup = m_guiConfig->group("General");
-    setLastDocument(QUrl::fromLocalFile(addBaseURL(guiGeneralGroup.readEntry("lastDocument", QString()))));
+    KConfigGroup guiGeneralGroup = m_guiConfig->group(QStringLiteral("General"));
+    setLastDocument(QUrl::fromLocalFile(addBaseURL(guiGeneralGroup.readEntry(QStringLiteral("lastDocument"), QString()))));
 
-    generalGroup = m_config->group("General");
+    generalGroup = m_config->group(QStringLiteral("General"));
 
     readBibliographyBackendSettings(generalGroup);
 
@@ -564,8 +564,8 @@ bool KileProject::save()
 {
     KILE_DEBUG_MAIN << "KileProject: saving..." << Qt::endl;
 
-    KConfigGroup generalGroup = m_config->group("General");
-    KConfigGroup guiGeneralGroup = m_guiConfig->group("General");
+    KConfigGroup generalGroup = m_config->group(QStringLiteral("General"));
+    KConfigGroup guiGeneralGroup = m_guiConfig->group(QStringLiteral("General"));
 
     generalGroup.writeEntry("name", m_name);
     generalGroup.writeEntry("kileprversion", KILE_PROJECTFILE_VERSION);
@@ -580,26 +580,26 @@ bool KileProject::save()
 
     KileTool::LivePreviewManager::writeLivePreviewStatusSettings(guiGeneralGroup, this);
 
-    writeConfigEntry("src_extensions",m_extmanager->latexDocuments(),KileProjectItem::Source);
-    writeConfigEntry("pkg_extensions",m_extmanager->latexPackages(),KileProjectItem::Package);
-    writeConfigEntry("img_extensions",m_extmanager->images(),KileProjectItem::Image);
-    writeConfigEntry("bib_extensions", m_extmanager->bibtex(), KileProjectItem::Bibliography);
+    writeConfigEntry(QStringLiteral("src_extensions"), m_extmanager->latexDocuments(), KileProjectItem::Source);
+    writeConfigEntry(QStringLiteral("pkg_extensions"), m_extmanager->latexPackages(), KileProjectItem::Package);
+    writeConfigEntry(QStringLiteral("img_extensions"), m_extmanager->images(), KileProjectItem::Image);
+    writeConfigEntry(QStringLiteral("bib_extensions"), m_extmanager->bibtex(), KileProjectItem::Bibliography);
     // only to avoid problems with older versions
-    generalGroup.writeEntry("src_extIsRegExp", false);
-    generalGroup.writeEntry("pkg_extIsRegExp", false);
-    generalGroup.writeEntry("img_extIsRegExp", false);
+    generalGroup.writeEntry(QStringLiteral("src_extIsRegExp"), false);
+    generalGroup.writeEntry(QStringLiteral("pkg_extIsRegExp"), false);
+    generalGroup.writeEntry(QStringLiteral("img_extIsRegExp"), false);
 
     for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
         (*it)->save();
     }
 
-    KileTool::setConfigName("QuickBuild", quickBuildConfig(), m_config);
+    KileTool::setConfigName(QStringLiteral("QuickBuild"), quickBuildConfig(), m_config);
 
     writeUseMakeIndexOptions();
     if(useMakeIndexOptions()) {
-        QString grp = KileTool::groupFor("MakeIndex", m_config);
+        QString grp = KileTool::groupFor(QStringLiteral("MakeIndex"), m_config);
         if(grp.isEmpty()) {
-            grp = "Default";
+            grp = QStringLiteral("Default");
         }
         KConfigGroup configGroup = m_config->group(grp);
         configGroup.writeEntry("options", makeIndexOptions());
@@ -615,35 +615,35 @@ bool KileProject::save()
 
 void KileProject::writeConfigEntry(const QString &key, const QString &standardExt, KileProjectItem::Type type)
 {
-    KConfigGroup generalGroup = m_config->group("General");
+    KConfigGroup generalGroup = m_config->group(QStringLiteral("General"));
     QString userExt = extensions(type);
     if(userExt.isEmpty()) {
         generalGroup.writeEntry(key, standardExt);
     }
     else {
-        generalGroup.writeEntry(key, QString(standardExt + ' ' + extensions(type)));
+        generalGroup.writeEntry(key, QString(standardExt + QLatin1Char(' ') + extensions(type)));
     }
 }
 
 KConfigGroup KileProject::configGroupForItem(KileProjectItem *projectItem, ConfigScope scope) const
 {
     KConfig* cfgObject = (scope == GUIFile ? m_guiConfig : m_config);
-    return cfgObject->group("item:" + projectItem->path());
+    return cfgObject->group(QStringLiteral("item:") + projectItem->path());
 }
 
 KConfigGroup KileProject::configGroupForItemDocumentSettings(KileProjectItem *projectItem) const
 {
-    return m_guiConfig->group("document-settings,item:" + projectItem->path());
+    return m_guiConfig->group(QStringLiteral("document-settings,item:") + projectItem->path());
 }
 
 KConfigGroup KileProject::configGroupForItemViewSettings(KileProjectItem *projectItem, int viewIndex) const
 {
-    return m_guiConfig->group("view-settings,view=" + QString::number(viewIndex) + ",item:" + projectItem->path());
+    return m_guiConfig->group(QStringLiteral("view-settings,view=") + QString::number(viewIndex) + QStringLiteral(",item:") + projectItem->path());
 }
 
 void KileProject::removeConfigGroupsForItem(KileProjectItem *projectItem)
 {
-    QString itemString = "item:" + projectItem->path();
+    QString itemString = QStringLiteral("item:") + projectItem->path();
     const QStringList groupList = m_config->groupList();
     for (const auto& groupName : groupList) {
         if(m_config->hasGroup(groupName) // 'groupName' might have been deleted
@@ -812,7 +812,7 @@ QString KileProject::findRelativePath(const QUrl &url)
     KILE_DEBUG_MAIN << "QString KileProject::findRelativePath(const QUrl " << url.path() << ")";
 
     if ( m_baseurl.toLocalFile() == url.toLocalFile() ) {
-        return "./";
+        return QStringLiteral("./");
     }
     const QString path = QDir(m_baseurl.path()).relativeFilePath(url.path());
     KILE_DEBUG_MAIN << "relPath is " << path;
@@ -889,7 +889,7 @@ QString KileProject::archiveFileList() const
     QString list;
     for(QList<KileProjectItem*>::const_iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
         if ((*it)->archive()) {
-            list.append(KShell::quoteArg((*it)->path()) + ' ');
+            list.append(KShell::quoteArg((*it)->path()) + QLatin1Char(' '));
         }
     }
     return list;
@@ -1011,9 +1011,9 @@ bool KileProject::migrateProjectFileToVersion3()
         return false;
     }
 
-    KConfigGroup configGroup = m_config->group("General");
-    configGroup.writeEntry("kileprversion", KILE_PROJECTFILE_VERSION);
-    configGroup.writeEntry("kileversion", QStringLiteral(KILE_VERSION_STRING));
+    KConfigGroup configGroup = m_config->group(QStringLiteral("General"));
+    configGroup.writeEntry(QStringLiteral("kileprversion"), KILE_PROJECTFILE_VERSION);
+    configGroup.writeEntry(QStringLiteral("kileversion"), QStringLiteral(KILE_VERSION_STRING));
 
     return m_config->sync();
 }

@@ -248,8 +248,8 @@ msgstr ""
 "correctament per a processar documents de LaTeX. També permet afinar la "
 "configuració de Kile, tenint en compte els resultats de les proves.</p><p>Es "
 "recomana executar este assistent abans d'utilitzar Kile per primera vegada.</"
-"p><p>Ara feu clic en «Següent» per a iniciar el procediment de les proves.</"
-"p>"
+"p><p>Ara cliqueu damunt «Següent» per a iniciar el procediment de les proves."
+"</p>"
 
 #: dialogs/configcheckerdialog.cpp:124
 #, kde-format
@@ -718,8 +718,8 @@ msgid ""
 "respective line in the editor."
 msgstr ""
 "Ací es llisten els resultats de l'execució de grep. Seleccioneu una "
-"combinació de nom de fitxer/número de línia clicant en l'element o amb el "
-"cursor per a mostrar la línia respectiva en l'editor."
+"combinació de nom de fitxer/número de línia clicant damunt de l'element o "
+"amb el cursor per a mostrar la línia respectiva en l'editor."
 
 #: dialogs/findfilesdialog.cpp:308
 #, kde-format
@@ -2210,7 +2210,7 @@ msgid ""
 "<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</"
 "i>"
 msgstr ""
-"<i>(Ha estat compilat sense la biblioteca pdf de libpoppler. No estaran "
+"<i>(Ha sigut compilat sense la biblioteca pdf de libpoppler. No estaran "
 "disponibles totes les tasques).</i>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:721
@@ -4347,7 +4347,7 @@ msgstr "Utilitza una drecera per a executar un script."
 #: dialogs/scriptshortcutdialog_base.ui:35
 #, kde-format
 msgid "Choose the type of the key sequence:"
-msgstr "Escolliu el tipus de la seqüència de tecles:"
+msgstr "Trieu el tipus de la seqüència de tecles:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbKeySequence)
 #: dialogs/scriptshortcutdialog_base.ui:79
@@ -4642,8 +4642,8 @@ msgid ""
 "Choose the border for the selected cells. When clicking on the button, the "
 "current border will be applied to the selected cells."
 msgstr ""
-"Seleccioneu el contorn per a les cel·les seleccionades. Clicant en el botó, "
-"el contorn actual s'aplicarà a les cel·les seleccionades."
+"Seleccioneu el contorn per a les cel·les seleccionades. Quan es clique "
+"damunt del botó, el contorn actual s'aplicarà a les cel·les seleccionades."
 
 #: dialogs/tabular/newtabulardialog.cpp:191
 #, kde-format
@@ -5654,7 +5654,7 @@ msgid ""
 "one, or click \"Cancel\" to save anyway."
 msgstr ""
 "El nom del fitxer conté caràcters no vàlids ($~ #).<br>Proporcioneu-ne un "
-"altre, o cliqueu «Cancel·la» per a guardar-lo igualment."
+"altre, o cliqueu damunt «Cancel·la» per a guardar-lo igualment."
 
 #: documentinfo.cpp:134
 #, kde-format
@@ -5663,7 +5663,7 @@ msgid ""
 "click \"Cancel\" to overwrite it."
 msgstr ""
 "Ja existix un fitxer amb el nom «%1».<br>Proporcioneu-ne un altre, o cliqueu "
-"«Cancel·la» per a sobreescriure'l."
+"damunt «Cancel·la» per a sobreescriure'l."
 
 #: documentinfo.cpp:157
 #, kde-format
@@ -5992,9 +5992,9 @@ msgid ""
 "brackets.</p>"
 msgstr ""
 "<p>Desplaceu el ratolí sobre les icones per a veure les ordres de LaTeX "
-"corresponents.<br/>Cliqueu en una imatge per a inserir l'ordre corresponent, "
-"de manera addicional prement «Maj» l'inserireu en mode matemàtic, prement "
-"«Ctrl» entre claus.</p>"
+"corresponents.<br/>Cliqueu damunt d'una imatge per a inserir l'ordre "
+"corresponent, de manera addicional prement «Majús» l'inserireu en mode "
+"matemàtic, prement «Ctrl» entre claus.</p>"
 
 #: kile.cpp:707 widgets/codecompletionconfigwidget.cpp:57
 #, kde-format
@@ -6464,7 +6464,7 @@ msgid ""
 "\n"
 "Please check and repair your installation of Kile."
 msgstr ""
-"Ha estat impossible crear l'eina «Arxiu».\n"
+"Ha sigut impossible crear l'eina «Arxiu».\n"
 "\n"
 "Comproveu i repareu esta instal·lació de Kile."
 
@@ -6917,13 +6917,13 @@ msgstr "Utilitza este nombre d'espais per a sagnar automàticament els entorns"
 #: kile.kcfg:214
 #, kde-format
 msgid "Click in editor to select from cursor"
-msgstr "Feu clic en l'editor per a seleccionar des del cursor"
+msgstr "Cliqueu damunt de l'editor per a seleccionar des del cursor"
 
 #. i18n: ectx: label, entry (envEventSearchModifier), group (Editor Ext)
 #: kile.kcfg:218
 #, kde-format
 msgid "Click in editor to search in viewer"
-msgstr "Feu clic en l'editor per a buscar en el visor"
+msgstr "Cliqueu damunt de l'editor per a buscar en el visor"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
 #: kile.kcfg:226
@@ -8742,7 +8742,7 @@ msgid ""
 msgstr ""
 "\\input{fitxer}\n"
 "L'ordre \\input fa que el fitxer indicat siga llegit i processat, tal com si "
-"el seu contingut haguera estat inserit en el fitxer actual en este punt."
+"el seu contingut haguera sigut inserit en el fitxer actual en este punt."
 
 #: kilestdactions.cpp:98 widgets/structurewidget.cpp:774
 #, kde-format

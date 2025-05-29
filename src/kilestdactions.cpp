@@ -90,10 +90,22 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
     (void) new KileAction::Tag(i18n("\"Medium\" Vertical Space - \\medskip"), i18n("\"Medium\" Vertical Space"), "medskip", QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_medskip","\\medskip ",QString(),9,0,i18n("The \\medskip command adds a 'medium' vertical space."));
 
     // includegraphics (dani)
-    (void) new KileAction::Tag(i18n("Image Insertion - \\includegraphics{file}"), i18n("Image Insertion"), "insert-image", QKeySequence("Alt+I, G"),receiver,SLOT(includeGraphics()), actionCollection,"tag_includegraphics",0L);
+    (void) new KileAction::Tag(i18n("Image Insertion - \\includegraphics{file}"), i18n("Image Insertion"), "insert-image",
+                               QKeySequence(QKeyCombination(Qt::ALT | Qt::Key_I), QKeyCombination(Qt::Key_G)),
+                               receiver, SLOT(includeGraphics()), actionCollection, "tag_includegraphics", nullptr);
     // two new shortcuts (dani)
-    (void) new KileAction::InputTag(ki, i18n("Customizable File Inclusion - \\include{file}"), i18n("Customizable File Inclusion"), "include-file", QKeySequence("Alt+I, F"), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_include", parentWidget, KileAction::KeepHistory | KileAction::ShowBrowseButton | KileAction::AddProjectFile, "\\include{%R","}",9,0, i18n("\\include{file}\nThe \\include command is used in conjunction with the \\includeonly command for selective inclusion of files."),i18n("Type or select a filename: "));
-    (void) new KileAction::InputTag(ki, i18n("File Inclusion - \\input{file}"), i18n("File Inclusion"), "input-file", QKeySequence("Alt+I, P"), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_input", parentWidget, KileAction::KeepHistory | KileAction::ShowBrowseButton | KileAction::AddProjectFile, "\\input{%R","}",7,0,i18n("\\input{file}\nThe \\input command causes the indicated file to be read and processed, exactly as if its contents had been inserted in the current file at that point."),i18n("Type or select a filename: "));
+    (void) new KileAction::InputTag(ki, i18n("Customizable File Inclusion - \\include{file}"), i18n("Customizable File Inclusion"), "include-file",
+                                    QKeySequence(QKeyCombination(Qt::ALT | Qt::Key_I), QKeyCombination(Qt::Key_F)),
+                                    receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, "tag_include", parentWidget,
+                                    KileAction::KeepHistory | KileAction::ShowBrowseButton | KileAction::AddProjectFile, "\\include{%R","}", 9, 0,
+                                    i18n("\\include{file}\nThe \\include command is used in conjunction with the \\includeonly command for selective inclusion of files."),
+                                    i18n("Type or select a filename: "));
+    (void) new KileAction::InputTag(ki, i18n("File Inclusion - \\input{file}"), i18n("File Inclusion"), "input-file",
+                                    QKeySequence(QKeyCombination(Qt::ALT | Qt::Key_I), QKeyCombination(Qt::Key_P)),
+                                    receiver, SLOT(insertTag(KileAction::TagData)), actionCollection, "tag_input", parentWidget,
+                                    KileAction::KeepHistory | KileAction::ShowBrowseButton | KileAction::AddProjectFile, "\\input{%R","}", 7, 0,
+                                    i18n("\\input{file}\nThe \\input command causes the indicated file to be read and processed, exactly as if its contents had been inserted in the current file at that point."),
+                                    i18n("Type or select a filename: "));
 
     ToolbarSelectAction *actionstructure_list = new ToolbarSelectAction(i18n("Sectioning"), actionCollection,false);
     actionCollection->addAction("structure_list", actionstructure_list);

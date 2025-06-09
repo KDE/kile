@@ -2,7 +2,7 @@
     "id": "org.kde.kile",
     "branch": "master",
     "runtime": "org.kde.Platform",
-    "runtime-version": "6.7",
+    "runtime-version": "6.9",
     "sdk": "org.kde.Sdk",
     "command": "kile",
     "tags": ["nightly"],
@@ -77,8 +77,8 @@
                             "sources": [
                                 {
                                     "type": "archive",
-                                    "url": "https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.bz2",
-                                    "sha256": "8681f175d4bdb26c52222665793eef08490d7758529330f98d3b29dd0735bccc"
+                                    "url": "https://github.com/boostorg/boost/releases/download/boost-1.86.0/boost-1.86.0-cmake.tar.xz",
+                                    "sha256": "2c5ec5edcdff47ff55e27ed9560b0a0b94b07bd07ed9928b476150e16b0efc57"
                                 }
                             ]
                         },
@@ -175,34 +175,6 @@
                     ]
                 },
                 {
-                    "name": "chmlib",
-                    "rm-configure": true,
-                    "sources": [
-                        {
-                            "type": "archive",
-                            "url": "http://www.jedrea.com/chmlib/chmlib-0.40.tar.bz2",
-                            "sha256": "3449d64b0cf71578b2c7e3ddc048d4af3661f44a83941ea074a7813f3a59ffa3",
-                            "x-checker-data": {
-                                "type": "anitya",
-                                "project-id": 17678,
-                                "stable-only": true,
-                                "url-template": "http://www.jedrea.com/chmlib/chmlib-$version.tar.bz2"
-                            }
-                        },
-                        {
-                            "type": "patch",
-                            "path": "chmlib-arm.patch"
-                        },
-                        {
-                            "type": "script",
-                            "dest-filename": "autogen.sh",
-                            "commands": [
-                                "AUTOMAKE=\"automake --foreign\" autoreconf -vfi"
-                            ]
-                        }
-                    ]
-                },
-                {
                     "name": "djvulibre",
                     "sources": [
                         {
@@ -229,8 +201,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://github.com/Orc/discount/archive/v2.2.7b.tar.gz",
-                            "sha256": "48343272aa93ae913187ff678b3e52efa722f133e1efcaddc20cf775e8a517ec",
+                            "url": "https://github.com/Orc/discount/archive/v3.0.0d.tar.gz",
+                            "sha256": "0ed8cc27ac5d46dc6a8beedd5e5673ac8b466a6474bdb7d35f37c815f670385f",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 12139,
@@ -256,6 +228,28 @@
                             }
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "name": "phonon",
+            "config-opts": [
+                "-DBUILD_TESTING=OFF",
+                "-DPHONON_BUILD_QT5=OFF",
+                "-DPHONON_BUILD_QT6=ON"
+            ],
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://download.kde.org/stable/phonon/4.12.0/phonon-4.12.0.tar.xz",
+                    "sha256": "3287ffe0fbcc2d4aa1363f9e15747302d0b080090fe76e5f211d809ecb43f39a",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 229047,
+                        "stable-only": true,
+                        "url-template": "https://download.kde.org/stable/phonon/$version/phonon-$version.tar.xz"
+                    }
                 }
             ]
         },

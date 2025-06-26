@@ -72,7 +72,7 @@ enum {
 
 class EditableItemDelegate : public QItemDelegate {
 public:
-    explicit EditableItemDelegate(QObject *parent = 0) : QItemDelegate(parent) {}
+    explicit EditableItemDelegate(QObject *parent = nullptr) : QItemDelegate(parent) {}
 
     virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex& index) const override
     {

@@ -288,7 +288,7 @@ QTreeWidget *CodeCompletionConfigWidget::getListview(QWidget *page)
             return m_listview[i];
         }
     }
-    return 0;
+    return nullptr;
 }
 
 QString CodeCompletionConfigWidget::getListname(QWidget *page)

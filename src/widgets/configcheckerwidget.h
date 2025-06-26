@@ -27,7 +27,7 @@ class ConfigCheckerWidget : public QWidget, public Ui::ConfigCheckerWidget
     Q_OBJECT
 
 public:
-    explicit ConfigCheckerWidget(QWidget *parent = 0);
+    explicit ConfigCheckerWidget(QWidget *parent = nullptr);
     ~ConfigCheckerWidget();
 
     QProgressBar* progressBar();

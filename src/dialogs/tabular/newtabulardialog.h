@@ -49,7 +49,7 @@ class NewTabularDialog : public Wizard {
     Q_OBJECT
 
 public:
-    NewTabularDialog(const QString &environment, KileDocument::LatexCommands *commands, KConfig *config, QWidget *parent = 0);
+    NewTabularDialog(const QString &environment, KileDocument::LatexCommands *commands, KConfig *config, QWidget *parent = nullptr);
     ~NewTabularDialog();
 
     const QStringList& requiredPackages() const;

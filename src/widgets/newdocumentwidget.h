@@ -23,7 +23,7 @@ class NewDocumentWidget : public QWidget, public Ui::NewDocumentWidget
     Q_OBJECT
 
 public:
-    explicit NewDocumentWidget(QWidget *parent = 0);
+    explicit NewDocumentWidget(QWidget *parent = nullptr);
     ~NewDocumentWidget();
 };
 

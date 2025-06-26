@@ -56,7 +56,7 @@ namespace KileDialog {
  */
 QString getText(const QString &caption, const QString &label,
                 const QString &value = QString(), QWidget *parent = nullptr,
-                QValidator *validator = 0,
+                QValidator *validator = nullptr,
                 const QString &mask = QString());
 }
 

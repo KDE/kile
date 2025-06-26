@@ -21,7 +21,7 @@ namespace KileScript {
 
 
 KileScriptView::KileScriptView(QObject *parent, KileDocument::EditorExtension *editor)
-    : QObject(parent), m_view(0), m_editor(editor)
+    : QObject(parent), m_view(nullptr), m_editor(editor)
 {
 }
 

@@ -143,7 +143,7 @@ void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= nullptr
 
     for(TextInfo *textInfo : std::as_const(m_textInfoList)) {
         if((textInfo != docinfo) && (textInfo->getDoc() == doc)) {
-            KMessageBox::information(0, i18n("The internal structure of Kile is corrupted (probably due to a bug in Kile). Please select Save All from the File menu and close Kile.\nThe Kile team apologizes for any inconvenience and would appreciate a bug report."));
+            KMessageBox::information(nullptr, i18n("The internal structure of Kile is corrupted (probably due to a bug in Kile). Please select Save All from the File menu and close Kile.\nThe Kile team apologizes for any inconvenience and would appreciate a bug report."));
             qWarning() << "docinfo " << textInfo << " url " << textInfo->url().fileName() << " has a wild pointer!!!";
         }
     }
@@ -1756,11 +1756,11 @@ void Manager::projectAddFiles(const QUrl &url)
 void Manager::projectAddFiles(KileProject *project,const QUrl &fileUrl)
 {
     KILE_DEBUG_MAIN << "==Kile::projectAddFiles()==========================";
-    if(project == 0) {
+    if (!project) {
         project = activeProject();
     }
 
-    if(project == 0) {
+    if (!project) {
         project = selectProject(i18n("Add Files to Project"));
     }
 
@@ -1847,7 +1847,7 @@ bool Manager::projectCloseAll()
 bool Manager::projectClose(const QUrl &url)
 {
     KILE_DEBUG_MAIN << "==Kile::projectClose==========================";
-    KileProject *project = 0;
+    KileProject *project = nullptr;
 
     if (url.isEmpty()) {
         project = activeProject();

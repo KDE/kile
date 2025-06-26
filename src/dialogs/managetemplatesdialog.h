@@ -37,8 +37,8 @@ struct Info;
 class ManageTemplatesDialog : public QDialog  {
     Q_OBJECT
 public:
-    ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QUrl &sourceURL, const QString &caption, QWidget *parent = 0, const char *name = 0);
-    ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QString &caption, QWidget *parent = 0, const char *name = 0);
+    ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QUrl &sourceURL, const QString &caption, QWidget *parent = nullptr, const char *name = nullptr);
+    ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QString &caption, QWidget *parent = nullptr, const char *name = nullptr);
     virtual ~ManageTemplatesDialog();
 
 public Q_SLOTS:

@@ -58,7 +58,7 @@ class Config : public KPageDialog
     Q_OBJECT
 
 public:
-    Config( KConfig *config, KileInfo *ki, QWidget* parent = 0);
+    Config( KConfig *config, KileInfo *ki, QWidget* parent = nullptr);
     ~Config();
 
     virtual void show();

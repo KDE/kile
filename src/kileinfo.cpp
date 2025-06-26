@@ -391,7 +391,7 @@ bool KileInfo::projectIsOpen(const QUrl &url)
 {
     const KileProject *project = docManager()->projectFor(url);
 
-    return project != 0 ;
+    return (project != nullptr);
 }
 
 

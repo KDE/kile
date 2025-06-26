@@ -29,8 +29,8 @@ public:
     };
 
 public:
-    explicit CategoryComboBox(QWidget *parent = 0);
-    explicit CategoryComboBox(bool rw, QWidget *parent = 0);
+    explicit CategoryComboBox(QWidget *parent = nullptr);
+    explicit CategoryComboBox(bool rw, QWidget *parent = nullptr);
 
     virtual ~CategoryComboBox();
 

@@ -152,7 +152,7 @@ void Base::prepareToRun()
         return;
     }
 
-    if ( m_launcher == 0 )
+    if (!m_launcher)
     {
         m_nPreparationResult = NoLauncherInstalled;
         m_bPrepared = false;

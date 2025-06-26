@@ -789,12 +789,12 @@ void PdfDialog::slotTaskChanged(int)
         else if (taskindex==PDF_PDFTK_FREE) {
             labeltext = i18n("Parameter:");
             s = i18n("All options for 'pdftk'");
-            m_PdfDialog.m_edParameter->setValidator(0);
+            m_PdfDialog.m_edParameter->setValidator(nullptr);
         }
         else { //if (taskindex==PDF_PDFPAGES_FREE) {
             labeltext = i18n("Parameter:");
             s = i18n("All options for 'pdfpages'");
-            m_PdfDialog.m_edParameter->setValidator(0);
+            m_PdfDialog.m_edParameter->setValidator(nullptr);
         }
         m_PdfDialog.m_lbParamInfo->setText(" (" + s + ')');
 

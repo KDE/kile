@@ -25,7 +25,7 @@ namespace KileMenu {
 
 class MenuentryDelegate : public QStyledItemDelegate {
 public:
-    MenuentryDelegate(QObject *parent=0) : QStyledItemDelegate(parent) {}
+    MenuentryDelegate(QObject *parent = nullptr) : QStyledItemDelegate(parent) {}
 
     virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex& index) const override;
 };

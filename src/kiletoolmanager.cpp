@@ -58,7 +58,7 @@ Base* Queue::tool() const
         return head()->tool();
     }
     else {
-        return 0;
+        return nullptr;
     }
 }
 

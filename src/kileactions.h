@@ -145,7 +145,8 @@ class InputDialog : public QDialog
     Q_OBJECT
 
 public:
-    InputDialog(const QString &caption, uint options, const QStringList& history, const QString &hint, const QString &alter, KileInfo *ki, QWidget *parent=0, const char *name=0);
+    InputDialog(const QString &caption, uint options, const QStringList& history, const QString &hint,
+                const QString &alter, KileInfo *ki, QWidget *parent = nullptr, const char *name = nullptr);
     ~InputDialog();
 
     bool useAlternative() {

@@ -35,7 +35,7 @@ namespace KileWidget {
 class ScriptsManagement : public QWidget {
     Q_OBJECT
 public:
-    explicit ScriptsManagement(KileInfo *kileInfo, QWidget *parent = 0, const char *name = 0, Qt::WindowFlags f = Qt::WindowFlags());
+    explicit ScriptsManagement(KileInfo *kileInfo, QWidget *parent = nullptr, const char *name = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
     ~ScriptsManagement();
 
 public:

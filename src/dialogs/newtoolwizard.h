@@ -24,7 +24,7 @@ class NewToolWizard : public KAssistantDialog, public Ui::NewToolWizardToolNameP
     Q_OBJECT
 
 public:
-    explicit NewToolWizard(QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags());
+    explicit NewToolWizard(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
 
     virtual QString customTool();
     virtual QString toolName();

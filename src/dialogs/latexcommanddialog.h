@@ -71,7 +71,7 @@ class LatexCommandsDialog : public QDialog
     Q_OBJECT
 
 public:
-    LatexCommandsDialog(KConfig *config, KileDocument::LatexCommands *commands, QWidget *parent = 0);
+    LatexCommandsDialog(KConfig *config, KileDocument::LatexCommands *commands, QWidget *parent = nullptr);
     ~LatexCommandsDialog() {}
 
     //enum EnvParameter { envName,envStarred,envEOL,envMath,envTab,envOption };

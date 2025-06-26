@@ -23,7 +23,7 @@ class ProcessToolConfigWidget : public QWidget, public Ui::ProcessToolConfigWidg
     Q_OBJECT
 
 public:
-    explicit ProcessToolConfigWidget(QWidget *parent = 0);
+    explicit ProcessToolConfigWidget(QWidget *parent = nullptr);
     ~ProcessToolConfigWidget();
 };
 

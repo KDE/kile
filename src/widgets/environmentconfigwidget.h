@@ -23,7 +23,7 @@ class KileWidgetEnvironmentConfig : public QWidget, public Ui::KileWidgetEnviron
     Q_OBJECT
 
 public:
-    explicit KileWidgetEnvironmentConfig(QWidget *parent = 0);
+    explicit KileWidgetEnvironmentConfig(QWidget *parent = nullptr);
     ~KileWidgetEnvironmentConfig();
 };
 

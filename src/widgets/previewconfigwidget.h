@@ -35,7 +35,7 @@ class KileWidgetPreviewConfig : public QWidget
 {
     Q_OBJECT
 public:
-    KileWidgetPreviewConfig(KConfig *config, KileTool::QuickPreview *preview, QWidget *parent = 0, const char *name = 0);
+    KileWidgetPreviewConfig(KConfig *config, KileTool::QuickPreview *preview, QWidget *parent = nullptr, const char *name = nullptr);
     ~KileWidgetPreviewConfig() {}
 
     void readConfig();

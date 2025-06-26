@@ -23,7 +23,7 @@ class QuickToolConfigWidget : public QWidget, public Ui::QuickToolConfigWidget
     Q_OBJECT
 
 public:
-    explicit QuickToolConfigWidget(QWidget *parent = 0);
+    explicit QuickToolConfigWidget(QWidget *parent = nullptr);
     ~QuickToolConfigWidget();
 
 public Q_SLOTS:

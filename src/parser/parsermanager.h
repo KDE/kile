@@ -43,7 +43,7 @@ class Manager : public QObject
     Q_OBJECT
 
 public:
-    explicit Manager(KileInfo *ki, QObject *parent = 0);
+    explicit Manager(KileInfo *ki, QObject *parent = nullptr);
     ~Manager();
 
     void parseDocument(KileDocument::TextInfo* textInfo);

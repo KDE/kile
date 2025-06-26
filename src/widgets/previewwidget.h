@@ -56,7 +56,7 @@ class PreviewWidget : public QScrollArea
     Q_OBJECT
 
 public:
-    explicit PreviewWidget(KileInfo *info, QWidget *parent = 0, const char *name = 0);
+    explicit PreviewWidget(KileInfo *info, QWidget *parent = nullptr, const char *name = nullptr);
     ~PreviewWidget();
 
     /**

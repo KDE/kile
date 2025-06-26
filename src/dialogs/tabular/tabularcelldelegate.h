@@ -28,7 +28,7 @@ namespace KileDialog {
 
 class TabularCellDelegate : public QStyledItemDelegate {
 public:
-    explicit TabularCellDelegate(QTableWidget *parent = 0);
+    explicit TabularCellDelegate(QTableWidget *parent = nullptr);
 
     virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 

@@ -23,7 +23,7 @@ class LaTeXToolConfigWidget : public QWidget, public Ui::LaTeXToolConfigWidget
     Q_OBJECT
 
 public:
-    explicit LaTeXToolConfigWidget(QWidget *parent = 0);
+    explicit LaTeXToolConfigWidget(QWidget *parent = nullptr);
     ~LaTeXToolConfigWidget();
 };
 

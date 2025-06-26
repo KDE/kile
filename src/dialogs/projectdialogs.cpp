@@ -177,7 +177,7 @@ void KileProjectDialogBase::setProject(KileProject *project, bool override)
 {
     m_project = project;
 
-    if ((!override) || (project == 0)) {
+    if ((!override) || (!project)) {
         return;
     }
 

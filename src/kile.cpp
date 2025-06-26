@@ -390,7 +390,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     connect(m_lyxserver, &KileLyxServer::insert, this, [this](const KileAction::TagData &data) { insertTag(data); });
 
     if(m_listUserTools.count() > 0) {
-        KMessageBox::information(0, i18n("You have defined some tools in the User menu. From now on these tools will be available from the Build->Other menu and can be configured in the configuration dialog (go to the Settings menu and choose Configure Kile). This has some advantages; your own tools can now be used in a QuickBuild command if you wish."), i18n("User Tools Detected"));
+        KMessageBox::information(nullptr, i18n("You have defined some tools in the User menu. From now on these tools will be available from the Build->Other menu and can be configured in the configuration dialog (go to the Settings menu and choose Configure Kile). This has some advantages; your own tools can now be used in a QuickBuild command if you wish."), i18n("User Tools Detected"));
         m_listUserTools.clear();
     }
 
@@ -1801,7 +1801,7 @@ void Kile::grepItemSelected(const QString &abs_filename, int line)
 
 void Kile::findInFiles()
 {
-    static QPointer<KileDialog::FindFilesDialog> dlg = 0;
+    static QPointer<KileDialog::FindFilesDialog> dlg = nullptr;
 
     if (!dlg) {
         KILE_DEBUG_MAIN << "grep guard: create findInFiles dlg" << Qt::endl;

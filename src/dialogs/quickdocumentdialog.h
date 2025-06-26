@@ -55,7 +55,7 @@ class QuickDocument : public Wizard
     Q_OBJECT
 
 public:
-    explicit QuickDocument(KConfig *, QWidget *parent = 0, const char *name = 0, const QString &caption = QString());
+    explicit QuickDocument(KConfig *, QWidget *parent = nullptr, const char *name = nullptr, const QString &caption = QString());
     ~QuickDocument();
 
     bool isStandardClass(const QString &classname);
@@ -207,7 +207,7 @@ class QuickDocumentInputDialog : public QDialog {
     Q_OBJECT
 public:
     explicit QuickDocumentInputDialog(const QStringList &list, int check = 0,
-                             QuickDocument *parent = 0, const char *name = 0);
+                             QuickDocument *parent = nullptr, const char *name = nullptr);
     ~QuickDocumentInputDialog();
 
     void getResults(QStringList &list);

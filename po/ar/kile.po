@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-30 00:43+0000\n"
-"PO-Revision-Date: 2025-03-23 13:57+0400\n"
+"PO-Revision-Date: 2025-06-28 17:21+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -5855,7 +5855,7 @@ msgstr "ابح&ث في الملفّات..."
 #: kile.cpp:883
 #, kde-format
 msgid "Refresh Str&ucture"
-msgstr "أنعش الب&نية"
+msgstr "حدّث الب&نية"
 
 #: kile.cpp:886
 #, kde-format
@@ -5880,7 +5880,7 @@ msgstr "أ&ضف ملفّات إلى المشروع..."
 #: kile.cpp:897 widgets/projectview.cpp:870
 #, kde-format
 msgid "Refresh Project &Tree"
-msgstr "أن&عش شجرة المشروع"
+msgstr "&حدّث شجرة المشروع"
 
 #: kile.cpp:898 widgets/projectview.cpp:872
 #, kde-format
@@ -6278,7 +6278,7 @@ msgstr "سطريّ"
 #: kile.cpp:3050
 #, kde-format
 msgid "Refreshing structure..."
-msgstr "ينعش البنية..."
+msgstr "يحدّث البنية..."
 
 #: kile.cpp:3068
 #, kde-format
@@ -7099,7 +7099,7 @@ msgstr "أأكتب فوق الملفّ؟"
 #: kiledocmanager.cpp:1279
 #, kde-format
 msgid "Refresh Project Tree"
-msgstr "أنعش شجرة المشروع"
+msgstr "حدّث شجرة المشروع"
 
 #: kiledocmanager.cpp:1287
 #, kde-format
@@ -7112,7 +7112,7 @@ msgstr ""
 #: kiledocmanager.cpp:1287
 #, kde-format
 msgid "Could Not Refresh Project Tree"
-msgstr "تعذّر إنعاش شجرة المشاريع"
+msgstr "تعذّر تحديث شجرة المشروع"
 
 #: kiledocmanager.cpp:1371 kiledocmanager.cpp:2130 kiledocmanager.cpp:2200
 #: kiledocmanager.cpp:2235
@@ -12075,7 +12075,7 @@ msgstr ""
 #: widgets/scriptsmanagementwidget.cpp:108
 #, kde-format
 msgid "Refresh List"
-msgstr "أنعش القائمة"
+msgstr "حدّث القائمة"
 
 #: widgets/scriptsmanagementwidget.cpp:119
 #, kde-format

@@ -95,6 +95,7 @@
     <p xml:lang="fi">Kile on KDE:n käyttäjäystävällinen TeX/LaTeX-muokkain. Kilellä saat kaikki LaTeXin toiminnot graafiseen käyttöliittymään, jonka vuorovaikutteisuus auttaa sinua näkemään muokkauksen tulokset.</p>
     <p xml:lang="fr">Kile est un éditeur TeX/LaTeX intuitif par KDE. Kile vous offre la possibilité d'utiliser toutes les fonctionnalités de LaTeX au sein d'une interface graphique et dispose de mécanismes d'aperçu interactifs qui vous permettent d'afficher les résultats de l'édition.</p>
     <p xml:lang="gl">Kile é un editor de TeX e LaTeX fácil de usar creado por KDE. Kile permítelle usar toda a funcionalidade de LaTeX nunha interface gráfica e ten un mecanismo de vista previa para ver rapidamente os resultados da edición.</p>
+    <p xml:lang="he">Kile הוא עורך TeX/LaTeX ידידותי למשתמש מבית KDE.‏ Kile מספק כלים להשתמש בכל היכולות של LaTeX בממשק גרפי ויש לו מנגנוני תצוגה מקדימה אינטראקטיבית כדי לראות את תוצאות העריכה באופן מיידי.</p>
     <p xml:lang="id">Kile adalah editor TeX/LaTeX yang mudah digunakan oleh KDE. Kile memberi Anda kemampuan untuk menggunakan semua fungsi LaTeX dalam antarmuka grafis dan memiliki mekanisme pratinjau interaktif untuk kesiapan melihat hasil pengeditan.</p>
     <p xml:lang="it">Kile è un editor TeX/LaTeX della comunità KDE facile da usare. Ti dà la possibilità di utilizzare tutte la funzionalità di LaTeX in un'interfaccia grafica e dispone di un meccanismo di anteprima interattiva per vedere prontamente i risultati della modifica.</p>
     <p xml:lang="ka">Kile მოსახერხებელი TeX/LaTeX-ის რედაქტორია KDE-სთვის. Kile გაძლევთ საშუალებას, LaTeX-ის სრული ფუნქციონალი გრაფიკული ინტერფეისიდან გამოიყენოთ და აქვს ინტერაქტიური გადახედვის მექანიზმები, რომ რედაქტირების შედეგები მაშინვე დაინახოთ.</p>
@@ -200,6 +201,7 @@
       <li xml:lang="fi">Täydennä (La)TeX-komennot automaattisesti</li>
       <li xml:lang="fr">Auto-complètement des balises (La)TeX</li>
       <li xml:lang="gl">Completación automática de ordes de (La)TeX.</li>
+      <li xml:lang="he">השלמה אוטומטית של פקודות ‎(La)TeX</li>
       <li xml:lang="ia">Auto-completion de commandos de (La)TeX</li>
       <li xml:lang="id">Penyelesaian otomatis perintah-perintah (La)TeX</li>
       <li xml:lang="ie">Automatic completion de comandes (La)TeX</li>
@@ -233,6 +235,7 @@
       <li xml:lang="fi">Aloita uusi tiedosto helposti mallipohjien ja opastettujen toimintojen avulla</li>
       <li xml:lang="fr">Modèles et assistants pour créer de nouveaux documents en très peu de temps</li>
       <li xml:lang="gl">Modelos e asistentes para facilitar o inicio de novos documentos.</li>
+      <li xml:lang="he">תבניות ואשפים מפחיתים את העבודה הנדרשת ליצירת מסמכים חדשים</li>
       <li xml:lang="id">Template dan asisten membuat pemulaian dokumen baru sangat sedikit bekerja</li>
       <li xml:lang="it">I modelli e le procedure guidate ti fanno iniziare i nuovi documenti con pochissimo lavoro</li>
       <li xml:lang="ka">ნიმუშები და ოსტატები ახალი დოკუმენტის დაწყებას უადვილესს ხდის</li>
@@ -264,6 +267,7 @@
       <li xml:lang="fi">Lisää vaivattomasti vakiotunnisteita ja -symboleja sekä määrittele (mielivaltainen määrä) omia tunnisteitasi</li>
       <li xml:lang="fr">Insertion facile de nombreuses balises et symboles standards avec la possibilité de définir des balises personnalisées</li>
       <li xml:lang="gl">Inserción fácil de moitas etiquetas e símbolos estándar, e a posibilidade de definir etiquetas de usuario.</li>
+      <li xml:lang="he">אפשר להוסיף תגיות וסימנים תקניים בקלות לצד האפשרות להגדרת (מספר שרירותי של) תגיות על ידי המשתמש</li>
       <li xml:lang="id">Penyisipan mudah banyak tag dan simbol standar dan opsi untuk menentukan (sebuah nomor semaunya) tag yang ditentukan pengguna</li>
       <li xml:lang="it">Inserimento semplice di molti tag standard e simboli, inoltre è possibile definire (un numero arbitrario di) tag definiti dall'utente</li>
       <li xml:lang="ka">ბევრი სტანდარტული ჭდეების და სიმბოლოების ადვილი ჩასმა და შესაძლებლობა (შემთხვევითი რაოდენობის) მომხმარებლის ჭდეებიც აღწეროთ</li>
@@ -295,6 +299,7 @@
       <li xml:lang="fi">Etsi molempiin suuntiin: napsauta DVI-katselinta ja siirry muokkaimessa vastaavalla LaTeX-riville tai siirry muokkaimesta vastaavalle kohtaa katselimessa</li>
       <li xml:lang="fr">Recherche inversée et en avant : cliquez sur l'afficheur DVI et passez directement à la ligne LaTeX correspondante dans l'éditeur ou passez de l'éditeur à la page correspondante dans l'afficheur</li>
       <li xml:lang="gl">Busca inversa e cara adiante: prema o visualizador de DVI e salte á liña correspondente de LaTeX no editor, ou salte do editor á páxina correspondente no visualizador.</li>
+      <li xml:lang="he">חיפוש הפוך וכלפי קדימה: אפשר ללחוץ על מציג ה־DVI ולקפוץ ישירות לשורת ה־LaTeX המתאימה בעורך או לדלג מהעורך לשורה המתאימה במציג</li>
       <li xml:lang="id">Pencarian mundur dan maju: klik di DVI viewer dan lompat ke baris LaTeX yang sesuai di editor, atau lompat dari editor ke halaman terkait di viewer</li>
       <li xml:lang="it">Ricerca in avanti e indietro: fai clic nel visore DVI per saltare alla riga LaTeX corrispondente nell'editor, oppure salta dalla riga dell'editor alla pagina corrispondente nel visore</li>
       <li xml:lang="ka">წინ და უკან ძებნა: დააწკაპუნეთ DVI დამთვალიერებელზე და გადადით შესაბამის LaTeX-ის ხაზზე რედაქტორში, ან გადადით შესაბამის გვერდზე რედაქტორიდან</li>
@@ -326,6 +331,7 @@
       <li xml:lang="fi">Löydä (ala-) luku helposti: Kile pitää niistä yllä luetteloa, jonka avulla voit siirtyä luvusta toiseen</li>
       <li xml:lang="fr">Il n'a jamais été aussi facile de trouver des chapitres ou des sections, Kile construit une liste de tous les chapitres, sections, etc. de vos documents. Vous pouvez utiliser cette liste pour aller directement à la section correspondante.</li>
       <li xml:lang="gl">Atopar capítulos ou seccións é moi doado, Kile constrúe unha lista de capítulos, etc. no documento. Podes usar a lista para saltar á sección correspondente.</li>
+      <li xml:lang="he">איתור פרק או סעיפים הוא קל מאוד, Kile מורכב ברשימה של כל הפרקים וכו׳ במסמך שלך. אפשר להשתמש ברשימה כדי לקפוץ לסעיף המתאים</li>
       <li xml:lang="id">Penemuan bab atau bagian sangat mudah, Kile menyusun daftar semua bab dll. di dokumen Anda. Anda dapat menggunakan daftar untuk melompat ke bagian yang sesuai</li>
       <li xml:lang="it">Trovare i capitoli o le sezioni è molto semplice: Kile costruisce un elenco di tutti i capitoli ecc. nel tuo documento, che puoi usare per saltare alla sezione corrispondente</li>
       <li xml:lang="ka">სექციების თავის პოვნა ძალიან ადვილია. Kile თავების და ა.შ. სრულ სიას ადგენს. თქვენს დოკუმენტში. ეს სია სასურველ სექციაზე გადასასვლელად შეგიძლიათ, გამოიყენოთ</li>

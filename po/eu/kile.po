@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-30 00:43+0000\n"
+"POT-Creation-Date: 2025-07-07 00:42+0000\n"
 "PO-Revision-Date: 2025-04-02 15:31+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -7592,17 +7592,17 @@ msgstr "Dokumentu ikustailea ez dago erabilgarri"
 msgid "Please disable the live preview before launching this tool"
 msgstr "Mesedez ezgaitu zuzeneko aurreikuspena tresna hau abiarazi aurretik"
 
-#: kilelyxserver.cpp:240
+#: kilelyxserver.cpp:241
 #, kde-format
 msgid "Cite"
 msgstr ""
 
-#: kilelyxserver.cpp:246
+#: kilelyxserver.cpp:247
 #, kde-format
 msgid "Add BibTeX database"
 msgstr ""
 
-#: kilelyxserver.cpp:251
+#: kilelyxserver.cpp:252
 #, kde-format
 msgid "Paste"
 msgstr "Itsatsi"

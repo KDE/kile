@@ -3025,7 +3025,7 @@ msgstr "ბიბლიოგრაფიის ფაილები"
 #: dialogs/projectdialogs.cpp:118
 #, kde-format
 msgid "Default Graphics Extension:"
-msgstr "ნაგულისხმები გრაფიკის გაფართოება:"
+msgstr "ნაგულისხმევი გრაფიკის გაფართოება:"
 
 #: dialogs/projectdialogs.cpp:120
 #, kde-format
@@ -3331,12 +3331,12 @@ msgstr "მიმდინარე პაეკეტის პარამე�
 #: dialogs/quickdocumentdialog.cpp:317
 #, kde-format
 msgid "&Reset to Defaults"
-msgstr "ნაგულისხმები პარამეტრების &დაყენება"
+msgstr "ნაგულისხმევი პარამეტრების &დაყენება"
 
 #: dialogs/quickdocumentdialog.cpp:319
 #, kde-format
 msgid "Reset to the default list of packages"
-msgstr "პაკეტების ნაგულისხმებ სიაზე დაბრუნება"
+msgstr "პაკეტების ნაგულისხმევ სიაზე დაბრუნება"
 
 #: dialogs/quickdocumentdialog.cpp:343
 #, kde-format
@@ -4213,7 +4213,7 @@ msgstr "&ჩასწორებადი"
 #: dialogs/quickdocumentdialog.cpp:1959 dialogs/quickdocumentdialog.cpp:2024
 #, kde-format
 msgid "De&fault value:"
-msgstr "&ნაგულისხმები მნიშნველობა:"
+msgstr "&ნაგულისხმევი მნიშნველობა:"
 
 #: dialogs/quickdocumentdialog.cpp:1961 dialogs/quickdocumentdialog.cpp:2026
 #, kde-format
@@ -11812,7 +11812,7 @@ msgstr ""
 #: widgets/graphicsconfigwidget.ui:29
 #, kde-format
 msgid "&Default resolution:"
-msgstr "ნაგულისხმები გარჩევა&დობა:"
+msgstr "ნაგულისხმევი გარჩევა&დობა:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolutionHelp)
 #: widgets/graphicsconfigwidget.ui:51

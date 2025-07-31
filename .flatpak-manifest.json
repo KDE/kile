@@ -12,7 +12,7 @@
     "finish-args": [
         "--share=ipc",
         "--socket=cups",
-        "--socket=x11",
+        "--socket=fallback-x11",
         "--socket=wayland",
         "--filesystem=host",
         "--env=PATH=/app/bin:/app/texlive/bin:/app/texlive/bin/x86_64-linux:/usr/bin/"

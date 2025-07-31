@@ -5,10 +5,16 @@
     "runtime-version": "6.9",
     "sdk": "org.kde.Sdk",
     "command": "kile",
-    "tags": ["nightly"],
+    "tags": [
+        "nightly"
+    ],
     "desktop-file-name-suffix": " (Nightly)",
     "finish-args": [
-        "--share=ipc", "--socket=cups", "--socket=x11", "--socket=wayland", "--filesystem=host",
+        "--share=ipc",
+        "--socket=cups",
+        "--socket=x11",
+        "--socket=wayland",
+        "--filesystem=host",
         "--env=PATH=/app/bin:/app/texlive/bin:/app/texlive/bin/x86_64-linux:/usr/bin/"
     ],
     "separate-locales": false,
@@ -59,7 +65,13 @@
                     "config-opts": [
                         "-DQT_MAJOR_VERSION=6"
                     ],
-                    "sources": [ { "type": "git", "url": "https://invent.kde.org/graphics/libkexiv2.git", "branch": "master" } ]
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "https://invent.kde.org/graphics/libkexiv2.git",
+                            "branch": "master"
+                        }
+                    ]
                 },
                 {
                     "name": "poppler",
@@ -75,7 +87,13 @@
                     ],
                     "buildsystem": "cmake-ninja",
                     "builddir": true,
-                    "sources": [ { "type": "git", "url": "git://anongit.freedesktop.org/poppler/poppler.git", "branch": "master" } ],
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "git://anongit.freedesktop.org/poppler/poppler.git",
+                            "branch": "master"
+                        }
+                    ],
                     "modules": [
                         {
                             "name": "boost",
@@ -100,25 +118,34 @@
                                 {
                                     "type": "git",
                                     "url": "https://github.com/uclouvain/openjpeg.git",
-                                    "tag": "v2.4.0",
+                                    "tag": "v2.5.3",
                                     "x-checker-data": {
                                         "type": "git",
                                         "tag-pattern": "^v([\\d.]+)$"
-                                    }
+                                    },
+                                    "commit": "210a8a5690d0da66f02d49420d7176a21ef409dc"
                                 }
                             ],
-                            "cleanup": [ "/bin", "/include", "/lib/openjpeg-*", "/lib/pkgconfig" ]
+                            "cleanup": [
+                                "/bin",
+                                "/include",
+                                "/lib/openjpeg-*",
+                                "/lib/pkgconfig"
+                            ]
                         }
                     ],
-                    "cleanup": [ "/include", "/lib/pkgconfig" ]
+                    "cleanup": [
+                        "/include",
+                        "/lib/pkgconfig"
+                    ]
                 },
                 {
                     "name": "libspectre",
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "http://libspectre.freedesktop.org/releases/libspectre-0.2.10.tar.gz",
-                            "sha256": "cf60b2a80f6bfc9a6b110e18f08309040ceaa755210bf94c465a969da7524d07",
+                            "url": "http://libspectre.freedesktop.org/releases/libspectre-0.2.12.tar.gz",
+                            "sha256": "55a7517cd3572bd2565df0cf450944a04d5273b279ebb369a895391957f0f960",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 1724,
@@ -130,10 +157,21 @@
                     "modules": [
                         {
                             "name": "ghostscript",
-                            "config-opts": [ "--disable-cups" ],
-                            "make-args": [ "so" ],
-                            "make-install-args": [ "soinstall" ],
-                            "cleanup": [ "/bin", "/share/man", "/share/ghostscript/9.20/doc/", "/share/ghostscript/9.20/examples" ],
+                            "config-opts": [
+                                "--disable-cups"
+                            ],
+                            "make-args": [
+                                "so"
+                            ],
+                            "make-install-args": [
+                                "soinstall"
+                            ],
+                            "cleanup": [
+                                "/bin",
+                                "/share/man",
+                                "/share/ghostscript/9.20/doc/",
+                                "/share/ghostscript/9.20/examples"
+                            ],
                             "rm-configure": true,
                             "sources": [
                                 {
@@ -165,7 +203,12 @@
                         "-DQT_MAJOR_VERSION=6"
                     ],
                     "buildsystem": "cmake-ninja",
-                    "sources": [ { "type": "git", "url": "https://invent.kde.org/graphics/kdegraphics-mobipocket" } ]
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "https://invent.kde.org/graphics/kdegraphics-mobipocket"
+                        }
+                    ]
                 },
                 {
                     "name": "libzip",
@@ -173,8 +216,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://libzip.org/download/libzip-1.8.0.tar.xz",
-                            "sha256": "f0763bda24ba947e80430be787c4b068d8b6aa6027a26a19923f0acfa3dac97e",
+                            "url": "https://libzip.org/download/libzip-1.11.4.tar.xz",
+                            "sha256": "8a247f57d1e3e6f6d11413b12a6f28a9d388de110adc0ec608d893180ed7097b",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 10649,
@@ -189,8 +232,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "http://downloads.sourceforge.net/djvu/djvulibre-3.5.28.tar.gz",
-                            "sha256": "fcd009ea7654fde5a83600eb80757bd3a76998e47d13c66b54c8db849f8f2edc",
+                            "url": "http://downloads.sourceforge.net/djvu/djvulibre-3.5.29.tar.gz",
+                            "sha256": "d3b4b03ae2bdca8516a36ef6eb27b777f0528c9eda26745d9962824a3fdfeccf",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 10159,
@@ -268,22 +311,22 @@
             "buildsystem": "cmake-ninja",
             "builddir": true,
             "sources": [
-                { 
+                {
                     "type": "git",
                     "url": "https://invent.kde.org/graphics/okular.git",
                     "branch": "master"
-                } 
+                }
             ]
         },
         {
             "name": "konsole",
             "buildsystem": "cmake-ninja",
             "sources": [
-                { 
+                {
                     "type": "git",
                     "url": "https://invent.kde.org/utilities/konsole.git",
                     "branch": "master"
-                } 
+                }
             ]
         },
         {
@@ -291,16 +334,17 @@
             "buildsystem": "cmake-ninja",
             "sources": [
                 {
-                  "type": "dir",
-                  "path": "."
+                    "type": "dir",
+                    "path": "."
                 }
-              ]
-        
+            ]
         },
         {
             "name": "texlive-mountpoint",
             "buildsystem": "simple",
-            "build-commands": [ "mkdir -p /app/texlive" ]
+            "build-commands": [
+                "mkdir -p /app/texlive"
+            ]
         }
     ]
 }

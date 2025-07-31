@@ -53,7 +53,7 @@
                                 "type": "anitya",
                                 "project-id": 769,
                                 "stable-only": true,
-                                "url-template": "https://github.com/Exiv2/exiv2/releases/download/v$version/exiv2-$version-Source.tar.gz"
+                                "url-template": "https://github.com/Exiv2/exiv2/archive/refs/tags/v$version.tar.gz"
                             }
                         }
                     ]

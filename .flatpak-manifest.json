@@ -18,7 +18,17 @@
             "version": "23.08"
         }
     },
-
+    "cleanup": [
+        "*.a",
+        "*.la",
+        "/include",
+        "/lib/cmake",
+        "/lib/pkgconfig",
+        "/lib/*/cmake",
+        "/lib/*/pkgconfig",
+        "/share/cmake",
+        "/share/pkgconfig"
+    ],
     "modules": [
         {
             "name": "okular-dependencies",

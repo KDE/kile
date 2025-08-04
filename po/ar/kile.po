@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-07 00:42+0000\n"
-"PO-Revision-Date: 2025-06-28 17:21+0400\n"
+"PO-Revision-Date: 2025-08-03 14:24+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -590,7 +590,7 @@ msgstr "اب&حث"
 #: dialogs/findfilesdialog.cpp:221
 #, kde-format
 msgid "&Clear"
-msgstr "ام&ح"
+msgstr "ام&حُ"
 
 #: dialogs/findfilesdialog.cpp:257
 #, kde-format
@@ -1637,7 +1637,7 @@ msgstr "أظهر كلّ القوالب"
 #: dialogs/managetemplatesdialog.cpp:131
 #, kde-format
 msgid "Clear Selection"
-msgstr "امح التّحديد"
+msgstr "امحُ التّحديد"
 
 #: dialogs/managetemplatesdialog.cpp:135
 #, kde-format
@@ -2108,7 +2108,7 @@ msgstr "لا يمكن للمُرشد العمل إذن لم توجد أيّ أد
 msgid ""
 "<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</"
 "i>"
-msgstr "<i>(مصرّف بدون مكتبة libpoppler لملفّات pdf. لا تتوفّر كلّ المهامّ.)</i>"
+msgstr "<i>(مصرّف دون مكتبة libpoppler لملفّات pdf. لا تتوفّر كلّ المهامّ.)</i>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:721
 #, kde-format
@@ -4329,17 +4329,17 @@ msgstr "لون النّصّ"
 #: dialogs/tabular/newtabulardialog.cpp:109
 #, kde-format
 msgid "Clear Text"
-msgstr "امح النّصّ"
+msgstr "امحُ النّصّ"
 
 #: dialogs/tabular/newtabulardialog.cpp:110
 #, kde-format
 msgid "Clear Attributes"
-msgstr "امح الصّفات"
+msgstr "امحُُ الصّفات"
 
 #: dialogs/tabular/newtabulardialog.cpp:111
 #, kde-format
 msgid "Clear All"
-msgstr "امح الكلّ"
+msgstr "امحُ الكلّ"
 
 #: dialogs/tabular/newtabulardialog.cpp:113
 #, kde-format

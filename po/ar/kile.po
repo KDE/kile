@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-07 00:42+0000\n"
-"PO-Revision-Date: 2025-08-03 14:24+0400\n"
+"PO-Revision-Date: 2025-08-04 19:37+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -57,7 +57,7 @@ msgid ""
 msgstr ""
 "لم توجد الأداة.\n"
 "لم يُضبط «كايل» كما ينبغي. توجّه إلى إعدادات->اضبط كايل->الأدوات وحلّ المشكلة "
-"أو ارجع إلى الإعدادات الافتراضيّة."
+"أو ارجع إلى الإعدادات المبدئيّة."
 
 #: configtester.cpp:269 configtester.cpp:464 dialogs/configcheckerdialog.cpp:80
 #, kde-format
@@ -133,7 +133,7 @@ msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
 "and forward search capabilities."
 msgstr ""
-"مدعم ، استخدم الضبط \"الحديث\" لـ (لا)تخ إلى للتميكن الآلي للبحث العكسي "
+"مدعم ، استخدم الضبط \"الحديث\" لـ (لا)تخ إلى للتميكن الآليّ للبحث العكسي "
 "والأمامي."
 
 #: configtester.cpp:526
@@ -155,7 +155,7 @@ msgid ""
 "enable inverse and forward search capabilities."
 msgstr ""
 "مدعوم ، استخدم التكوين \"الحديث\" لـ PDFlatex و Xelatex لإمكانيات البحث "
-"الآلي العكسي والأمامي."
+"الآليّ العكسي والأمامي."
 
 #: configtester.cpp:553
 #, kde-format
@@ -2277,7 +2277,7 @@ msgstr "انتهت بخطأ"
 #: dialogs/pdf-wizard/pdfdialog.cpp:1174
 #, kde-format
 msgid "Could not create the ViewPDF tool"
-msgstr "تعّّر إنشاء أداة ViewPDF"
+msgstr "تعّر إنشاء أداة ViewPDF"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1174
 #, kde-format
@@ -2873,7 +2873,7 @@ msgstr "(استخدم الإعدادات العموميّة)"
 #: dialogs/projectdialogs.cpp:97
 #, kde-format
 msgid "Default graphic extension to open when none specified by file name."
-msgstr "امتداد الرّسوم الافتراضيّ ليُفتحه إن لم يحدّد شيء باسم الملفّ."
+msgstr "امتداد الرّسوم المبدئيّ ليُفتحه إن لم يحدّد شيء باسم الملفّ."
 
 #: dialogs/projectdialogs.cpp:108
 #, kde-format
@@ -2898,7 +2898,7 @@ msgstr ""
 #: dialogs/projectdialogs.cpp:118
 #, kde-format
 msgid "Default Graphics Extension:"
-msgstr "امتداد الرّسوم الافتراضيّ:"
+msgstr "امتداد الرّسوم المبدئيّ:"
 
 #: dialogs/projectdialogs.cpp:120
 #, kde-format
@@ -3203,12 +3203,12 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:317
 #, kde-format
 msgid "&Reset to Defaults"
-msgstr "&صفّر إلى الافتراضيّات"
+msgstr "&صفّر إلى المبدئيّات"
 
 #: dialogs/quickdocumentdialog.cpp:319
 #, kde-format
 msgid "Reset to the default list of packages"
-msgstr "صفّر إلى قائمة الحزم الافتراضيّة"
+msgstr "صفّر إلى قائمة الحزم المبدئيّة"
 
 #: dialogs/quickdocumentdialog.cpp:343
 #, kde-format
@@ -4078,7 +4078,7 @@ msgstr "&قابل للتحرير"
 #: dialogs/quickdocumentdialog.cpp:1959 dialogs/quickdocumentdialog.cpp:2024
 #, kde-format
 msgid "De&fault value:"
-msgstr "القيمة الافترا&ضيّة:"
+msgstr "القيمة ال&مبدئيّة:"
 
 #: dialogs/quickdocumentdialog.cpp:1961 dialogs/quickdocumentdialog.cpp:2026
 #, kde-format
@@ -4484,7 +4484,7 @@ msgstr "يمحو نصّ الخلايا المحدّدة ويبقي الصّفا�
 msgid ""
 "Resets the attributes of the selected cells to the default values but keeps "
 "the text."
-msgstr "يصفّر صفات الخلايا المحدّدة إلى القيم الافتراضيّة ويبقي على النّصّ."
+msgstr "يصفّر صفات الخلايا المحدّدة إلى القيم المبدئيّة ويبقي على النّصّ."
 
 #: dialogs/tabular/newtabulardialog.cpp:195
 #, kde-format
@@ -5530,7 +5530,7 @@ msgstr "المربّعات السّيّئة"
 #: errorhandler.cpp:101
 #, kde-format
 msgid "View Log File"
-msgstr "اعرض ملفّ السّجلّ"
+msgstr "اعرض ملفّ السجل"
 
 #: errorhandler.cpp:106
 #, kde-format
@@ -5724,7 +5724,7 @@ msgstr "اختصار"
 #: kile.cpp:738
 #, kde-format
 msgid "Log and Messages"
-msgstr "السّجلّ والرّسائل"
+msgstr "السجل والرّسائل"
 
 #: kile.cpp:744
 #, kde-format
@@ -5941,7 +5941,7 @@ msgstr "المستند السّابق"
 #: kile.cpp:925
 #, kde-format
 msgid "Focus Log/Messages View"
-msgstr "ركّز على منظور السّجلّ/الرّسائل"
+msgstr "ركّز على منظور السجل/الرّسائل"
 
 #: kile.cpp:926
 #, kde-format
@@ -6564,7 +6564,7 @@ msgstr ""
 #: kile.kcfg:202
 #, kde-format
 msgid "Enable auto indentation of environments"
-msgstr "فعّل الإزاحة الآليّة للبيئات"
+msgstr "مكّن الإزاحة الآليّة للبيئات"
 
 #. i18n: ectx: label, entry (envIndentSpaces), group (Editor Ext)
 #: kile.kcfg:206
@@ -10576,7 +10576,7 @@ msgstr "Thorsten Lück"
 #: main.cpp:116
 #, kde-format
 msgid "Log Parsing"
-msgstr "تحليل السّجلّات"
+msgstr "تحليل السجلات"
 
 #: main.cpp:117
 #, kde-format
@@ -11180,7 +11180,7 @@ msgstr "إزاحة آليّة داخل البيئات"
 #: widgets/environmentconfigwidget.ui:66
 #, kde-format
 msgid "Enable auto indentation of environments."
-msgstr "فعّل الإزاحة الآليّة للبيئات"
+msgstr "مكّن الإزاحة الآليّة للبيئات"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_envIndentation)
 #: widgets/environmentconfigwidget.ui:69
@@ -11298,7 +11298,7 @@ msgstr ""
 #: widgets/graphicsconfigwidget.ui:29
 #, kde-format
 msgid "&Default resolution:"
-msgstr "الميز الافترا&ضيّ:"
+msgstr "الميز ال&مبدئيّ:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolutionHelp)
 #: widgets/graphicsconfigwidget.ui:51
@@ -11560,13 +11560,13 @@ msgstr "ضبط المعاينة الحيّة"
 #: widgets/livepreviewconfigwidget.ui:29
 #, kde-format
 msgid "Enable &live preview"
-msgstr "فعّل المعاينة ال&حيّة"
+msgstr "مكّن المعاينة ال&حيّة"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_previewEnabledForFreshlyOpenedDocuments)
 #: widgets/livepreviewconfigwidget.ui:41
 #, kde-format
 msgid "Enable live preview for newly-opened documents"
-msgstr "فعّل المعاينة الحيّة للمستندات المفتوحة حديثًا"
+msgstr "مكّن المعاينة الحيّة للمستندات المفتوحة حديثًا"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_compileBehaviorGroupBox)
 #: widgets/livepreviewconfigwidget.ui:48
@@ -11706,7 +11706,7 @@ msgstr "الأي&قونة:"
 #: widgets/maintoolconfigwidget.ui:651
 #, kde-format
 msgid "Restore Default Tools..."
-msgstr "استعد الأدوات الافتراضيّة..."
+msgstr "استعد الأدوات المبدئيّة..."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/newdocumentwidget.ui:38
@@ -12176,7 +12176,7 @@ msgstr ""
 #: widgets/structureviewconfigwidget.ui:52
 #, kde-format
 msgid "&Default value"
-msgstr "القيمة الافترا&ضيّة"
+msgstr "القيمة ال&مبدئيّة"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2_2)
 #: widgets/structureviewconfigwidget.ui:112

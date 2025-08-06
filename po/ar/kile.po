@@ -2070,7 +2070,7 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog.cpp:587
 #, kde-format
 msgid "A password is necessary to rearrange pages."
-msgstr "كلمة السّرّ مطلوبة لإعادة تنظيم الصّفحات."
+msgstr "كلمة السر مطلوبة لإعادة تنظيم الصّفحات."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:588
 #, kde-format
@@ -2267,7 +2267,7 @@ msgstr "حدث خطأ أثناء تنفيذ المهمّة."
 #: dialogs/pdf-wizard/pdfdialog.cpp:1157
 #, kde-format
 msgid "Finished with an error (wrong password)"
-msgstr "انتهت بخطأ (كلمة السّرّ خاطئة)"
+msgstr "انتهت بخطأ (كلمة السر خاطئة)"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1160
 #, kde-format
@@ -2359,7 +2359,7 @@ msgstr "لم تُعط كلمة سرّ."
 #: dialogs/pdf-wizard/pdfdialog.cpp:1759
 #, kde-format
 msgid "The password should be at least 6 characters long."
-msgstr "على كلمة السّرّ أن تكون بطول 6 محارف على الأقلّ."
+msgstr "على كلمة السر أن تكون بطول 6 محارف على الأقلّ."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
 #: dialogs/texdocumentationdialog.cpp:433
@@ -2390,7 +2390,7 @@ msgstr "الصّفحات"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:69
 #, kde-format
 msgid "Password:"
-msgstr "كلمة السّرّ:"
+msgstr "كلمة السر:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameterIcon)
 #. i18n: ectx: property (text), widget (QLabel, m_lbIconChosen)

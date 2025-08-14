@@ -133,7 +133,7 @@ msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
 "and forward search capabilities."
 msgstr ""
-"مدعم ، استخدم الضبط \"الحديث\" لـ (لا)تخ إلى للتميكن الآليّ للبحث العكسي "
+"مدعم، استخدم الضبط \"الحديث\" لـ (لا)تخ إلى للتميكن الآليّ للبحث العكسي "
 "والأمامي."
 
 #: configtester.cpp:526
@@ -141,7 +141,7 @@ msgstr ""
 msgid ""
 "Not supported, use the srcltx package to enable the inverse and forward "
 "search capabilities."
-msgstr "غير مدعوم ، استخدم حزمة SRCLTX لتمكين قدرات البحث العكسية والأمام."
+msgstr "غير مدعوم، استخدم حزمة SRCLTX لتمكين قدرات البحث العكسية والأمام."
 
 #: configtester.cpp:537
 #, kde-format
@@ -154,7 +154,7 @@ msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
 "enable inverse and forward search capabilities."
 msgstr ""
-"مدعوم ، استخدم ضبط \"الحديث\" لـ PDFlatex و Xelatex لإمكانيات البحث الآليّ "
+"مدعوم، استخدم ضبط \"الحديث\" لـ PDFlatex و Xelatex لإمكانيات البحث الآليّ "
 "العكسي والأمامي."
 
 #: configtester.cpp:553
@@ -3393,12 +3393,12 @@ msgstr "التباعد العادي، على الأقل 1/3 من السطر ال
 #: dialogs/quickdocumentdialog.cpp:693
 #, kde-format
 msgid "Normal spacing, at least 1/4 of the last line is free"
-msgstr "التباعد العادي ، ما لا يقل عن 1/4 من السطر الأخير يكون خاليًا"
+msgstr "التباعد العادي، ما لا يقل عن 1/4 من السطر الأخير يكون خاليًا"
 
 #: dialogs/quickdocumentdialog.cpp:694
 #, kde-format
 msgid "Normal spacing, no special provision for the last line"
-msgstr "التباعد الطبيعي ، لا يوجد قاعدة خاصة للسطر الأخير"
+msgstr "التباعد الطبيعي، لا يوجد قاعدة خاصة للسطر الأخير"
 
 #: dialogs/quickdocumentdialog.cpp:695
 #, kde-format
@@ -3418,7 +3418,7 @@ msgstr "التباعد 1/2 سطر، على الأقل 1/4 من السطر الأ
 #: dialogs/quickdocumentdialog.cpp:698
 #, kde-format
 msgid "Spacing 1/2 line, no special provision for the last line"
-msgstr "تباعد 1/2 خط ، لا يوجد قاعدة خاصة للسطر الأخير"
+msgstr "تباعد 1/2 خط، لا يوجد قاعدة خاصة للسطر الأخير"
 
 #: dialogs/quickdocumentdialog.cpp:699
 #, kde-format

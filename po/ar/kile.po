@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-07 00:42+0000\n"
-"PO-Revision-Date: 2025-08-09 22:57+0400\n"
+"PO-Revision-Date: 2025-08-23 09:11+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1654,7 +1654,7 @@ msgstr ""
 "مكان لديك نفاذ إليه."
 
 #: dialogs/managetemplatesdialog.cpp:175
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Please select the template that you want to remove.\n"
 "Note that you cannot delete templates marked with an asterisk (for which you "
@@ -1710,10 +1710,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "أنت على وشك استبدال القالب \"%1\"، أمتأكّد؟"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "&Remove Template..."
+#, kde-format
 msgid "Replace template"
-msgstr "أ&زل القالب..."
+msgstr "أ&زل قالب"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -2222,10 +2221,9 @@ msgid "pdftk"
 msgstr "pdftk"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:926
-#, fuzzy, kde-format
-#| msgid "Rearranging PDF file: "
+#, kde-format
 msgid "Rearranging PDF file: %1"
-msgstr "يعيد ترتيب ملفّ PDF:‏ "
+msgstr "يعيد ترتيب ملفّ بي دي اف:‏ %1"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:934 dialogs/pdf-wizard/pdfdialog.cpp:1046
 #: dialogs/postscriptdialog.cpp:216
@@ -2635,7 +2633,7 @@ msgstr "اسمح بالطّباعة فقط"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbAll)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:786
-#, fuzzy, kde-format
+#, kde-format
 msgid "Allow all features"
 msgstr "اسمح بكلّ المزايا"
 
@@ -2842,7 +2840,7 @@ msgid "Insert a short descriptive name of your project here."
 msgstr "أدخل هنا اسمًا قصيرًا يصف المشروع."
 
 #: dialogs/projectdialogs.cpp:65
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Insert a list (separated by spaces) of file extensions which should be "
 "treated also as files of the corresponding type in this project."
@@ -2929,7 +2927,7 @@ msgid "Create a new file and add it to this project"
 msgstr "أنشئ ملفًّا جديدًا وأضفه إلى هذا المشروع"
 
 #: dialogs/projectdialogs.cpp:239
-#, fuzzy, kde-format
+#, kde-format
 msgid "File&name (relative to where the project file is):"
 msgstr "اسم المل&فّ (نسبيّ إلى مكان ملفّ المشروع):"
 
@@ -2943,14 +2941,14 @@ msgstr ""
 "واختر قالبًا من القائمة التي ستظهر أدناه."
 
 #: dialogs/projectdialogs.cpp:336
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "You have not entered a project name. If you decide to proceed, the project "
 "name will be set to \"Untitled\".\n"
 "Do you want to create the project nevertheless?"
 msgstr ""
 "لم تُدخل اسمًا للمشروع. إن قرّرت الاستمرار فسيُضبط اسمه إلى \"غير معنون\".\n"
-"أتريد إنشاء المشروع"
+"أتريد إنشاء المشروع على كل حال؟"
 
 #: dialogs/projectdialogs.cpp:337
 #, kde-format
@@ -2994,8 +2992,7 @@ msgid "No File Name Given"
 msgstr "لم يُعط اسم للملفّ"
 
 #: dialogs/projectdialogs.cpp:374
-#, fuzzy, kde-format
-#| msgid "The project file already exists. Please select another name."
+#, kde-format
 msgid "The project file exists already. Please choose another name."
 msgstr "ملفّ المشروع موجود فعلًا. فضلًا اختر اسمًا آخر."
 
@@ -3005,11 +3002,10 @@ msgid "Project File Already Exists"
 msgstr "ملفّ المشروع موجود فعلًا."
 
 #: dialogs/projectdialogs.cpp:380
-#, fuzzy, kde-format
-#| msgid "The project file already exists. Please select another name."
+#, kde-format
 msgid ""
 "The GUI settings file exists already. Please choose another project name."
-msgstr "ملفّ المشروع موجود فعلًا. فضلًا اختر اسمًا آخر."
+msgstr "ملفّ إعداد الواجهة موجود فعلًا. فضلًا اختر اسمًا آخر."
 
 #: dialogs/projectdialogs.cpp:395 documentinfo.cpp:133
 #, kde-format
@@ -3186,9 +3182,9 @@ msgid "Add Op&tion..."
 msgstr "أضف &خيارًا..."
 
 #: dialogs/quickdocumentdialog.cpp:304
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add a new package option"
-msgstr "أضف خيار حزم "
+msgstr "أضف خيار حزم جديد"
 
 #: dialogs/quickdocumentdialog.cpp:309
 #, kde-format
@@ -3970,7 +3966,7 @@ msgstr "أتريد إزالة \"%1\" من قائمة أصناف المستندا
 #: dialogs/quickdocumentdialog.cpp:1716
 #, kde-format
 msgid "Remove Document Class"
-msgstr "إزالة صنف مستند"
+msgstr "أزل صنف مستند"
 
 #: dialogs/quickdocumentdialog.cpp:1766
 #, kde-format
@@ -3990,7 +3986,7 @@ msgstr "أتريد إزالة \"%1\" من قائمة أحجام الخطوط؟"
 #: dialogs/quickdocumentdialog.cpp:1786
 #, kde-format
 msgid "Remove Fontsize"
-msgstr "إزالة حجم خطّ"
+msgstr "أزل حجم خطّ"
 
 #: dialogs/quickdocumentdialog.cpp:1803
 #, kde-format
@@ -4003,7 +3999,7 @@ msgid "Please enter the &papersizes (comma-separated list):"
 msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:1823
-#, fuzzy, kde-format
+#, kde-format
 msgid "Do you want to remove \"%1\" from the papersize list?"
 msgstr "أتريد إزالة \"%1\" من قائمة مقاس الورق؟"
 
@@ -4141,7 +4137,7 @@ msgid "This package already exists."
 msgstr "هذه الحزمة موجودة فعلًا."
 
 #: dialogs/quickdocumentdialog.cpp:2342
-#, fuzzy, kde-format
+#, kde-format
 msgid "Could not identify the package name."
 msgstr "تعذّر تحديد اسم الحزمة."
 
@@ -4381,7 +4377,7 @@ msgid ""
 msgstr ""
 
 #: dialogs/tabular/newtabulardialog.cpp:174
-#, fuzzy, kde-format
+#, kde-format
 msgid "Optional parameter for the chosen environment."
 msgstr "معامل اختياريّ للبيئة المحدّدة."
 
@@ -4391,7 +4387,7 @@ msgid "Choose the number of table columns."
 msgstr "حدّد عدد أعمدة الجدول."
 
 #: dialogs/tabular/newtabulardialog.cpp:177
-#, fuzzy, kde-format
+#, kde-format
 msgid "The tabular will be centered."
 msgstr "ستُوسّط الجدولة."
 
@@ -4618,10 +4614,9 @@ msgid "No KDE service found for this file."
 msgstr "لم توجد خدمة كِيدِي لهذا الملفّ."
 
 #: dialogs/texdocumentationdialog.cpp:330
-#, fuzzy, kde-format
-#| msgid "Could not find template: %1"
+#, kde-format
 msgid "Could not find the documentation file '%1'"
-msgstr "تعذّر إيجاد القالب: %1"
+msgstr "تعذّر العثور على القالب: %1"
 
 #: dialogs/texdocumentationdialog.cpp:346
 #, kde-format
@@ -5328,10 +5323,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:913
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "امح النّصّ"
+msgstr "امحُ شجرة القائمة"
 
 #: dialogs/usermenu/usermenutree.cpp:930
 #, kde-format
@@ -5589,14 +5583,14 @@ msgid "No information about warnings or errors is available."
 msgstr "لا معلومات متوفّرة عن التّحذيرات أو الأخطاء."
 
 #: errorhandler.cpp:455 parser/latexoutputparser.cpp:664
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot open log file; did you run LaTeX?"
 msgstr "تعذّر فتح ملفّ السّجلّ، أشغّلت لاتخ؟"
 
 #: errorhandler.cpp:541
-#, fuzzy, kde-format
+#, kde-format
 msgid "No LaTeX warnings/errors detected."
-msgstr "لم تُكتشف تحذيرات/أخطاء لاتخ."
+msgstr "لم تُكتشف أي تحذيرات/أخطاء من لاتخ."
 
 #: kile.cpp:393
 #, kde-format
@@ -6954,10 +6948,9 @@ msgstr "صرّف المستندات بعد حفظها فقط"
 
 #. i18n: ectx: label, entry (livePreviewDefaultTool), group (LivePreview)
 #: kile.kcfg:636
-#, fuzzy, kde-format
-#| msgid "Enable &live preview"
+#, kde-format
 msgid "default livepreview tool."
-msgstr "فعّل المعاينة ال&حيّة"
+msgstr "أداة المعاينة الحية المبدئية"
 
 #: kileactions.cpp:336
 #, kde-format
@@ -6997,10 +6990,9 @@ msgid "Cannot open URL"
 msgstr ""
 
 #: kiledocmanager.cpp:524
-#, fuzzy, kde-format
-#| msgid "The template could not be removed."
+#, kde-format
 msgid "The URL \"%1\" couldn't be opened."
-msgstr "تعذّرت إزالة القالب."
+msgstr "تعذر فتح العنوان \"%1\"."
 
 #: kiledocmanager.cpp:663
 #, kde-format
@@ -7023,7 +7015,7 @@ msgid "Open/create a document first."
 msgstr "افتح/أنشئ مستندًا أوّلًا."
 
 #: kiledocmanager.cpp:736
-#, fuzzy, kde-format
+#, kde-format
 msgid "A template for this type of document cannot be created."
 msgstr "تعذّر إنشاء قالب لنوع المستندات هذا."
 
@@ -7061,19 +7053,18 @@ msgid "Any files (*)"
 msgstr "أيّ ملفّ (*)"
 
 #: kiledocmanager.cpp:928
-#, fuzzy, kde-format
-#| msgid "Print Compiled Document..."
+#, kde-format
 msgid "Save Compiled Document As..."
-msgstr "اطبع المستند المصرّف..."
+msgstr "احفظ المستند المصرّف كـ…"
 
 #: kiledocmanager.cpp:953
-#, fuzzy, kde-format
-#| msgid ""
-#| "The file %1 can not be added because it does not exist or is not readable"
+#, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
 "as it is a directory."
-msgstr "تعذّرت إضافة الملفّ %1 لأنّه غير موجود أو لا يمكن قراءته"
+msgstr ""
+"تعذّر فتح الملفّ %1 لأنّه\n"
+"لأنه دليل."
 
 #: kiledocmanager.cpp:954
 #, kde-format
@@ -7151,16 +7142,13 @@ msgid "Cannot Remove File From Project"
 msgstr "تعذّرت إزالة الملفّ من المشروع"
 
 #: kiledocmanager.cpp:1504
-#, fuzzy, kde-format
-#| msgid ""
-#| "The project you tried to open is already opened. If you wanted to reload "
-#| "the project, close the project before you re-open it."
+#, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
 "project, close the project before you re-open it.</p>"
 msgstr ""
-"المشروع الذي حاولت فتحه مفتوح فعلًا. إن أردت إعادة تحميل المشروع، فأغلقه قبل "
-"فتحه مجدّدًا."
+"<p>المشروع \"%1\" مفتوح فعلًا. </p><p>إن أردت إعادة تحميل المشروع، فأغلقه قبل "
+"فتحه مجدّدًا.</p>"
 
 #: kiledocmanager.cpp:1506
 #, kde-format
@@ -7176,10 +7164,9 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:1520
-#, fuzzy, kde-format
-#| msgid "Could Not Load Project File"
+#, kde-format
 msgid "Could Not Open Project"
-msgstr "تعذّر تحميل ملفّ المشروع"
+msgstr "تعذّر فتح ملفّ المشروع"
 
 #: kiledocmanager.cpp:1538
 #, fuzzy, kde-format
@@ -9885,7 +9872,7 @@ msgid "No bibliographies found."
 msgstr ""
 
 #: kilestdtools.cpp:786
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Unable to find %1 or %2; if you are trying to view some other HTML file, go "
 "to Settings->Configure Kile->Tools->ViewHTML->Advanced."
@@ -9970,7 +9957,7 @@ msgid ""
 msgstr ""
 
 #: kiletool.cpp:675
-#, fuzzy, kde-format
+#, kde-format
 msgid "No files have been chosen for archiving."
 msgstr "لم تحدّد ملفّات للأرشفة."
 
@@ -10287,10 +10274,9 @@ msgstr ""
 
 #. i18n: ectx: Menu (menu_mathbreqnenv)
 #: kileui.rc:425
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "breqn Math Environments"
-msgstr "بيئات الرّياضيّات"
+msgstr "بيئات الرّياضيّات breqn"
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:438
@@ -10354,8 +10340,7 @@ msgstr "م&ساعدة"
 
 #. i18n: ectx: Menu (help_tex)
 #: kileui.rc:533
-#, fuzzy, kde-format
-#| msgid "TeX Documentation"
+#, kde-format
 msgid "LaTeX Documentation"
 msgstr "توثيق تخ"
 
@@ -10397,7 +10382,7 @@ msgid "Show sorted list of opened documents"
 msgstr ""
 
 #: kileviewmanager.cpp:377
-#, fuzzy, kde-format
+#, kde-format
 msgid "Could not create an editor view."
 msgstr "تعذّر إنشاء منظور محرّر."
 
@@ -10442,10 +10427,9 @@ msgid "Recompile Live Preview"
 msgstr "أعد تصريف المعاينة الحيّة"
 
 #: livepreview.cpp:197
-#, fuzzy, kde-format
-#| msgid "Print Compiled Document..."
+#, kde-format
 msgid "Save Compiled Document..."
-msgstr "اطبع المستند المصرّف..."
+msgstr "احفظ المستند المصرّف..."
 
 #: livepreview.cpp:908
 #, kde-format
@@ -10487,11 +10471,10 @@ msgid "KDE Integrated LaTeX Environment"
 msgstr "بيئة لاتخ متكاملة لكِيدِي"
 
 #: main.cpp:104
-#, fuzzy, kde-format
-#| msgid "by the Kile Team (2003 - 2016)"
+#, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
-msgstr "صنعها فريق «كايل» (2003 - 2016)"
+msgstr "صنعها فريق «كايل» (2003 - %1)"
 
 #: main.cpp:107
 #, kde-format
@@ -10742,7 +10725,7 @@ msgid "Could not run '%1' for QuickPreview."
 msgstr ""
 
 #: quickpreview.cpp:321
-#, fuzzy, kde-format
+#, kde-format
 msgid "Could not determine the main document."
 msgstr "تعذّر تحديد المستند الرّئيس."
 
@@ -10762,12 +10745,12 @@ msgid "QuickPreview"
 msgstr ""
 
 #: scripting/kilescriptobject.cpp:42
-#, fuzzy, kde-format
+#, kde-format
 msgid "Script: information"
 msgstr "السّكربت: معلومات"
 
 #: scripting/kilescriptobject.cpp:48
-#, fuzzy, kde-format
+#, kde-format
 msgid "Script: sorry"
 msgstr "السّكربت: آسفون"
 
@@ -10777,12 +10760,12 @@ msgid "Script: error"
 msgstr "البرنامج النصي: خطأ"
 
 #: scripting/kilescriptobject.cpp:60
-#, fuzzy, kde-format
+#, kde-format
 msgid "Script: question"
 msgstr "السّكربت: سؤال"
 
 #: scripting/kilescriptobject.cpp:67
-#, fuzzy, kde-format
+#, kde-format
 msgid "Script: warning"
 msgstr "السّكربت: تحذير"
 
@@ -10885,18 +10868,14 @@ msgid "Execution of %1"
 msgstr ""
 
 #: templates.cpp:94
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not find a folder to save %1 to.\n"
-#| "Check whether you have a .kde folder with write permissions in your home "
-#| "folder."
+#, kde-format
 msgid ""
 "Could not find a folder to save %1 to.\n"
 "Check whether you have a folder named \".kde\" with write permissions in "
 "your home folder."
 msgstr ""
 "تعذّر إيجاد مجلّد لحفظ %1 فيه.\n"
-"تحقّق فيما إذا كان لديك مجلّد ‎.kde بصلاحيّات كتابة في مجلّد المنزل."
+"تحقّق فيما إذا كان لديك مجلّد \".kde\" بصلاحيّات كتابة في مجلّد المنزل."
 
 #: templates.cpp:166
 #, kde-format
@@ -11278,7 +11257,7 @@ msgstr "نظّف الملفّات آليًّا بعد إغلاق «كايل»"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_WatchFileForDocumentViewer)
 #: widgets/generalconfigwidget.ui:165
-#, fuzzy, kde-format
+#, kde-format
 msgid "Reload document automatically after changes"
 msgstr "أعد تحميل المستند آليًّا بعد التّعديلات"
 
@@ -11344,10 +11323,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_kilerefs)
 #: widgets/helpconfigwidget.ui:51
-#, fuzzy, kde-format
-#| msgid "LaTeX Reference"
+#, kde-format
 msgid "Use &Kile's LaTeX reference"
-msgstr "مرجع لاتخ"
+msgstr "استخدم مرجع لاتخ &كايل"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbConfigure)
 #: widgets/helpconfigwidget.ui:97
@@ -11594,10 +11572,9 @@ msgstr " مث"
 
 #. i18n: ectx: property (text), widget (QLabel, m_previewDefaultToolLabel)
 #: widgets/livepreviewconfigwidget.ui:104
-#, fuzzy, kde-format
-#| msgid "Enable &live preview"
+#, kde-format
 msgid "Set default live preview tool"
-msgstr "فعّل المعاينة ال&حيّة"
+msgstr "عيّن أداة المعاينة الحيّة"
 
 #: widgets/logwidget.cpp:369
 #, kde-format
@@ -11679,7 +11656,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckClose)
 #: widgets/maintoolconfigwidget.ui:511
-#, fuzzy, kde-format
+#, kde-format
 msgid "Close Konsole when tool is finished"
 msgstr "أغلق كونسول عند انتهاء الأداة"
 
@@ -11691,8 +11668,7 @@ msgstr "القائمة"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenu)
 #: widgets/maintoolconfigwidget.ui:557
-#, fuzzy, kde-format
-#| msgid "Add tool to Build &menu:"
+#, kde-format
 msgid "Add &tool to Build menu:"
 msgstr "أضف الأداة إلى &قائمة البناء:"
 
@@ -11813,7 +11789,7 @@ msgid "convert:"
 msgstr "حوّل:"
 
 #: widgets/previewconfigwidget.cpp:127
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show preview in bottom bar:"
 msgstr "أظهر معاينة في الشّريط السّفلي:"
 
@@ -12025,7 +12001,7 @@ msgstr "لأ&سفل"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ScriptingEnabled)
 #: widgets/scriptingconfigwidget.ui:33
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enable &scripting"
 msgstr "فعّل ال&سّكربتة"
 
@@ -12519,8 +12495,7 @@ msgid "Run in Konsole"
 msgstr ""
 
 #: widgets/toolconfigwidget.cpp:114
-#, fuzzy, kde-format
-#| msgid "Use document viewer"
+#, kde-format
 msgid "Use Document Viewer"
 msgstr "استخدم عارض المستندات"
 
@@ -12608,17 +12583,15 @@ msgstr "المكان"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbLaTeXMenuLocation)
 #: widgets/usermenuconfigwidget.ui:161
-#, fuzzy, kde-format
-#| msgid "Show the user menu in the LaTeX menu"
+#, kde-format
 msgid "Show &the user menu in the LaTeX menu"
-msgstr "أظهر قائمة المستخدم في قائمة لاتخ"
+msgstr "أظهر &قائمة المستخدم في قائمة لاتخ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbStandAloneMenuLocation)
 #: widgets/usermenuconfigwidget.ui:177
-#, fuzzy, kde-format
-#| msgid "Show the user menu in the menu bar"
+#, kde-format
 msgid "Show the &user menu in the menu bar"
-msgstr "أظهر قائمة المستخدم في شريط القوائم"
+msgstr "أظهر قائمة ال&مستخدم في شريط القوائم"
 
 #~ msgid "*.pdf|PDF Files"
 #~ msgstr "*.pdf|ملفّات PDF"

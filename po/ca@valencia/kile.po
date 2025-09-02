@@ -677,7 +677,7 @@ msgid ""
 "'center', Kile will search for '\\begin{center}', and in graphics mode with "
 "pattern '.*\\.png', Kile will search for all png files."
 msgstr ""
-"Seleccioneu un mode de busca. Per als primers modes, el patró de busca es "
+"Trieu un mode de busca. Per als primers modes, el patró de busca es "
 "construïx des de la plantilla editable, on «%s» és substituït pel patró "
 "proporcionat.<br><br>Hi ha modes addicionals predefinits per a entorns, "
 "gràfics, etiquetes, referències o fitxers d'entrada. Si el patró està buit, "
@@ -717,9 +717,9 @@ msgid ""
 "combination with a mouse click on the item or with the cursor to show the "
 "respective line in the editor."
 msgstr ""
-"Ací es llisten els resultats de l'execució de grep. Seleccioneu una "
-"combinació de nom de fitxer/número de línia clicant damunt de l'element o "
-"amb el cursor per a mostrar la línia respectiva en l'editor."
+"Ací es llisten els resultats de l'execució de grep. Trieu una combinació de "
+"nom de fitxer/número de línia clicant damunt de l'element o amb el cursor "
+"per a mostrar la línia respectiva en l'editor."
 
 #: dialogs/findfilesdialog.cpp:308
 #, kde-format
@@ -1604,7 +1604,7 @@ msgstr "no"
 #: dialogs/listselector.cpp:230
 #, kde-format
 msgid "Select Completion Files to Install Locally"
-msgstr "Seleccioneu els fitxers de compleció que s'han d'instal·lar localment"
+msgstr "Trieu els fitxers de compleció que s'han d'instal·lar localment"
 
 #: dialogs/listselector.cpp:230
 #, kde-format
@@ -1680,7 +1680,7 @@ msgstr "Icona:"
 #: dialogs/managetemplatesdialog.cpp:103
 #, kde-format
 msgid "Select..."
-msgstr "Selecciona…"
+msgstr "Tria…"
 
 #: dialogs/managetemplatesdialog.cpp:110 dialogs/managetemplatesdialog.cpp:166
 #, kde-format
@@ -1719,10 +1719,10 @@ msgid ""
 "if you do select such a template, a new template with the same name\n"
 "will be created in a location you have write access to."
 msgstr ""
-"Seleccioneu una plantilla existent si voleu sobreescriure-la amb\n"
+"Trieu una plantilla existent si voleu sobreescriure-la amb\n"
 "la plantilla nova.\n"
 "Cal tindre present que no podeu sobreescriure plantilles marcades\n"
-"amb un asterisc: si seleccioneu una d'estes plantilles, es crearà\n"
+"amb un asterisc: si trieu una d'estes plantilles, es crearà\n"
 "una plantilla nova amb el mateix nom en una ubicació on tingueu\n"
 "accés d'escriptura."
 
@@ -1733,7 +1733,7 @@ msgid ""
 "Note that you cannot delete templates marked with an asterisk (for which you "
 "lack the necessary deletion permissions)."
 msgstr ""
-"Seleccioneu la plantilla que voleu eliminar.\n"
+"Trieu la plantilla que voleu eliminar.\n"
 "Cal tindre present que no podeu suprimir plantilles marcades amb un asterisc "
 "(de les que heu perdut el permís de supressió necessari)."
 
@@ -1749,7 +1749,7 @@ msgstr ""
 #: dialogs/managetemplatesdialog.cpp:257
 #, kde-format
 msgid "Please choose an icon first."
-msgstr "Seleccioneu primer una icona."
+msgstr "Trieu primer una icona."
 
 #: dialogs/managetemplatesdialog.cpp:265
 #, kde-format
@@ -1758,7 +1758,7 @@ msgid ""
 "does not seem to exist. Please choose a new icon."
 msgstr ""
 "El fitxer d'icona: %1\n"
-"no pareix existir. Seleccioneu una icona nova."
+"no pareix existir. Trieu una icona nova."
 
 #: dialogs/managetemplatesdialog.cpp:273
 #, kde-format
@@ -1796,7 +1796,7 @@ msgstr "No s'ha pogut crear la plantilla."
 #: dialogs/managetemplatesdialog.cpp:310
 #, kde-format
 msgid "Please select a template that should be removed."
-msgstr "Seleccioneu la plantilla que s'ha d'eliminar."
+msgstr "Trieu la plantilla que s'ha d'eliminar."
 
 #: dialogs/managetemplatesdialog.cpp:319
 #, kde-format
@@ -1857,7 +1857,7 @@ msgstr "Utilitza &pics:"
 #: dialogs/tabular/newtabulardialog.cpp:173
 #, kde-format
 msgid "Choose an environment."
-msgstr "Seleccioneu un entorn."
+msgstr "Trieu un entorn."
 
 #: dialogs/mathenvironmentdialog.cpp:147
 #: dialogs/tabular/newtabulardialog.cpp:179
@@ -1869,12 +1869,12 @@ msgstr "Utilitza la versió preferida d'este entorn."
 #: dialogs/tabular/newtabulardialog.cpp:175
 #, kde-format
 msgid "Choose the number of table rows."
-msgstr "Seleccioneu el nombre de files de la taula."
+msgstr "Trieu el nombre de files de la taula."
 
 #: dialogs/mathenvironmentdialog.cpp:149
 #, kde-format
 msgid "Choose the number of table columns or alignment groups."
-msgstr "Seleccioneu el nombre de columnes de la taula o els grups d'alineació."
+msgstr "Trieu el nombre de columnes de la taula o els grups d'alineació."
 
 #: dialogs/mathenvironmentdialog.cpp:150
 #, kde-format
@@ -1884,7 +1884,7 @@ msgstr "Definix una ordre de LaTeX addicional per a separar grups d'alineació."
 #: dialogs/mathenvironmentdialog.cpp:151
 #, kde-format
 msgid "Choose one of some predefined tabulators."
-msgstr "Seleccioneu un dels tabuladors predefinits."
+msgstr "Trieu un dels tabuladors predefinits."
 
 #: dialogs/mathenvironmentdialog.cpp:152
 #, kde-format
@@ -1977,7 +1977,7 @@ msgid ""
 "cause your tool to behave just like\n"
 "the standard \"LaTeX\" tool."
 msgstr ""
-"Seleccioneu el &comportament predeterminat (classe) \n"
+"Trieu el &comportament predeterminat (classe) \n"
 "d'esta eina. Heretarà totes les propietats\n"
 "de l'eina sobre la qual està basada.\n"
 "\n"
@@ -2035,22 +2035,22 @@ msgstr "4 pàgines (apaïsat) --> 4 per full"
 #: dialogs/pdf-wizard/pdfdialog.cpp:136 dialogs/postscriptdialog.cpp:125
 #, kde-format
 msgid "Select Even Pages"
-msgstr "Selecciona les pàgines parelles"
+msgstr "Tria les pàgines parelles"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:137 dialogs/postscriptdialog.cpp:126
 #, kde-format
 msgid "Select Odd Pages"
-msgstr "Selecciona les pàgines senars"
+msgstr "Tria les pàgines senars"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:138 dialogs/postscriptdialog.cpp:127
 #, kde-format
 msgid "Select Even Pages (reverse order)"
-msgstr "Seleccioneu les pàgines parelles (ordre invers)"
+msgstr "Trieu les pàgines parelles (ordre invers)"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:139 dialogs/postscriptdialog.cpp:128
 #, kde-format
 msgid "Select Odd Pages (reverse order)"
-msgstr "Seleccioneu les pàgines senars (ordre invers)"
+msgstr "Trieu les pàgines senars (ordre invers)"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:140 dialogs/postscriptdialog.cpp:129
 #, kde-format
@@ -2065,7 +2065,7 @@ msgstr "Desencripta"
 #: dialogs/pdf-wizard/pdfdialog.cpp:142
 #, kde-format
 msgid "Select Pages"
-msgstr "Selecciona les pàgines"
+msgstr "Tria les pàgines"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:143
 #, kde-format
@@ -2610,7 +2610,7 @@ msgid ""
 "'Select pages' and 'Free Parameter' need some specific parameter, which you "
 "can enter here"
 msgstr ""
-"Les opcions «Selecciona les pàgines» i «Paràmetre lliure» necessiten alguns "
+"Les opcions «Tria les pàgines» i «Paràmetre lliure» necessiten alguns "
 "paràmetres específics, els quals podeu introduir ací"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbStamp)
@@ -2911,7 +2911,7 @@ msgstr "pstops necessita alguns paràmetres en este mode."
 #: dialogs/postscriptdialog.cpp:465
 #, kde-format
 msgid "You need to define an output file or select the viewer."
-msgstr "Heu de definir un fitxer d'eixida o seleccionar el visor."
+msgstr "Heu de definir un fitxer d'eixida o triar el visor."
 
 #: dialogs/postscriptdialog.cpp:472
 #, kde-format
@@ -2936,8 +2936,8 @@ msgid ""
 "Choose one of the 18 operations to convert a postscript file. The last four "
 "operations need specific parameters."
 msgstr ""
-"Seleccioneu una de les 18 operacions per a convertir un fitxer postscript. "
-"Les quatre últimes operacions necessiten paràmetres específics."
+"Trieu una de les 18 operacions per a convertir un fitxer postscript. Les "
+"quatre últimes operacions necessiten paràmetres específics."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbInfo)
 #: dialogs/postscriptdialog_base.ui:44
@@ -3093,7 +3093,7 @@ msgid ""
 "this option and select a template from the list that will appear below."
 msgstr ""
 "Si voleu que Kile cree un fitxer nou i l'afija al projecte, marqueu esta "
-"opció i seleccioneu una plantilla de la llista que apareixerà davall."
+"opció i trieu una plantilla de la llista que apareixerà davall."
 
 #: dialogs/projectdialogs.cpp:336
 #, kde-format
@@ -3151,7 +3151,7 @@ msgstr "No s'ha proporcionat cap nom de fitxer"
 #: dialogs/projectdialogs.cpp:374
 #, kde-format
 msgid "The project file exists already. Please choose another name."
-msgstr "El fitxer de projecte ja existix. Seleccioneu-ne un altre."
+msgstr "El fitxer de projecte ja existix. Trieu-ne un altre."
 
 #: dialogs/projectdialogs.cpp:374 dialogs/projectdialogs.cpp:380
 #, kde-format
@@ -3163,8 +3163,7 @@ msgstr "El fitxer de projecte ja existix"
 msgid ""
 "The GUI settings file exists already. Please choose another project name."
 msgstr ""
-"El fitxer de paràmetres de la IGU ja existix. Seleccioneu un altre nom de "
-"projecte."
+"El fitxer de paràmetres de la IGU ja existix. Trieu un altre nom de projecte."
 
 #: dialogs/projectdialogs.cpp:395 documentinfo.cpp:133
 #, kde-format
@@ -3191,8 +3190,8 @@ msgstr "(utilitza l'opció global)"
 #, kde-format
 msgid "Select the default master document. Leave empty for auto detection."
 msgstr ""
-"Seleccioneu el document mestre predeterminat. Deixeu-lo en blanc per a "
-"detecció automàtica."
+"Trieu el document mestre predeterminat. Deixeu-lo en blanc per a detecció "
+"automàtica."
 
 #: dialogs/projectdialogs.cpp:443
 #, kde-format
@@ -4208,7 +4207,7 @@ msgstr "&Descripció:"
 #: dialogs/quickdocumentdialog.cpp:1848 dialogs/quickdocumentdialog.cpp:1965
 #, kde-format
 msgid "&Select this option"
-msgstr "&Selecciona esta opció"
+msgstr "&Tria esta opció"
 
 #: dialogs/quickdocumentdialog.cpp:1877 dialogs/quickdocumentdialog.cpp:1999
 #, kde-format
@@ -4233,7 +4232,7 @@ msgstr "&Paquet:"
 #: dialogs/quickdocumentdialog.cpp:1934
 #, kde-format
 msgid "&Select this package"
-msgstr "&Selecciona este paquet"
+msgstr "&Tria este paquet"
 
 #: dialogs/quickdocumentdialog.cpp:1956
 #, kde-format
@@ -4570,7 +4569,7 @@ msgstr "Paràmetre opcional per a l'entorn seleccionat."
 #: dialogs/tabular/newtabulardialog.cpp:176
 #, kde-format
 msgid "Choose the number of table columns."
-msgstr "Seleccioneu el nombre de columnes de la taula."
+msgstr "Trieu el nombre de columnes de la taula."
 
 #: dialogs/tabular/newtabulardialog.cpp:177
 #, kde-format
@@ -4642,18 +4641,18 @@ msgid ""
 "Choose the border for the selected cells. When clicking on the button, the "
 "current border will be applied to the selected cells."
 msgstr ""
-"Seleccioneu el contorn per a les cel·les seleccionades. Quan es clique "
-"damunt del botó, el contorn actual s'aplicarà a les cel·les seleccionades."
+"Trieu el contorn per a les cel·les seleccionades. Quan es clique damunt del "
+"botó, el contorn actual s'aplicarà a les cel·les seleccionades."
 
 #: dialogs/tabular/newtabulardialog.cpp:191
 #, kde-format
 msgid "Choose a background color (needs color package)."
-msgstr "Seleccioneu un color de fons (és necessari el paquet de color)."
+msgstr "Trieu un color de fons (és necessari el paquet de color)."
 
 #: dialogs/tabular/newtabulardialog.cpp:192
 #, kde-format
 msgid "Choose a text color (needs color package)."
-msgstr "Seleccioneu un color del text (és necessari el paquet de color)."
+msgstr "Trieu un color del text (és necessari el paquet de color)."
 
 #: dialogs/tabular/newtabulardialog.cpp:193
 #, kde-format
@@ -4953,7 +4952,7 @@ msgstr ""
 #: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2109
 #, kde-format
 msgid "Select File"
-msgstr "Seleccioneu un fitxer"
+msgstr "Trieu un fitxer"
 
 #: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:300
 #: dialogs/usermenu/usermenutree.cpp:233 usermenu/usermenu.cpp:339
@@ -5123,7 +5122,7 @@ msgstr "Fitxers de menú d'usuari (*.xml)"
 #: widgets/usermenuconfigwidget.cpp:64
 #, kde-format
 msgid "Select Menu File"
-msgstr "Selecciona un fitxer de menú"
+msgstr "Tria un fitxer de menú"
 
 #: dialogs/usermenu/usermenudialog.cpp:392
 #, kde-format
@@ -5168,7 +5167,7 @@ msgstr "Tipus de menú"
 #: dialogs/usermenu/usermenudialog.cpp:569
 #, kde-format
 msgid "Please choose a menutype"
-msgstr "Seleccioneu un tipus de menú"
+msgstr "Trieu un tipus de menú"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbIcon)
 #: dialogs/usermenu/usermenudialog.cpp:981
@@ -5364,7 +5363,7 @@ msgstr "Nom del fitxer corresponent."
 #: dialogs/usermenu/usermenudialog_base.ui:482
 #, kde-format
 msgid "Choose an icon for this action."
-msgstr "Seleccioneu una icona per a esta acció."
+msgstr "Trieu una icona per a esta acció."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbIconDelete)
 #: dialogs/usermenu/usermenudialog_base.ui:515
@@ -5406,7 +5405,7 @@ msgstr "El paràmetre de la línia d'ordres per a un programa executable."
 #: dialogs/usermenu/usermenudialog_base.ui:621
 #, kde-format
 msgid "Choose or clear a shortcut for this action."
-msgstr "Seleccioneu o netegeu una drecera per a esta acció."
+msgstr "Trieu o netegeu una drecera per a esta acció."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbSelectInsertion)
 #: dialogs/usermenu/usermenudialog_base.ui:647
@@ -5877,7 +5876,7 @@ msgid ""
 msgstr ""
 "Heu definit algunes eines en el menú usuari. A partir d'ara, estes eines "
 "estaran disponibles des del menú «Construïx -> Altres» i es poden configurar "
-"en el diàleg de configuració (aneu fins al menú Configuració i seleccioneu "
+"en el diàleg de configuració (aneu fins al menú Configuració i trieu "
 "«Configura Kile…». Açò té alguns avantatges, ara les vostres pròpies eines "
 "es poden utilitzar en una ordre de construcció ràpida si voleu."
 
@@ -7347,7 +7346,7 @@ msgid ""
 "report."
 msgstr ""
 "L'estructura interna de Kile està corrompuda (probablement degut a un error "
-"en Kile). Seleccioneu Guarda tots des del menú Fitxer i tanqueu Kile.\n"
+"en Kile). Trieu Guarda tots des del menú Fitxer i tanqueu Kile.\n"
 "L'equip de Kile demana disculpes per les molèsties, i apreciaria molt un "
 "informe d'error."
 
@@ -7491,7 +7490,7 @@ msgstr "No s'ha pogut actualitzar l'arbre del projecte"
 #: kiledocmanager.cpp:2235
 #, kde-format
 msgid "Select Project"
-msgstr "Seleccioneu el projecte"
+msgstr "Trieu el projecte"
 
 #: kiledocmanager.cpp:1396 kiledocmanager.cpp:1411 kiledocmanager.cpp:1418
 #, kde-format
@@ -7719,7 +7718,7 @@ msgstr "Canvia de projecte"
 #: kiledocmanager.cpp:2101
 #, kde-format
 msgid "Select Files to Remove"
-msgstr "Seleccioneu els fitxers que s'han d'eliminar"
+msgstr "Trieu els fitxers que s'han d'eliminar"
 
 #: kiledocmanager.cpp:2112 kiledocmanager.cpp:2115
 #, kde-format
@@ -7929,7 +7928,7 @@ msgstr "Apega"
 #: kilestdactions.cpp:31
 #, kde-format
 msgid "Document Class Selection - \\documentclass{}"
-msgstr "Seleccioneu la classe del document - \\documentclass{}"
+msgstr "Trieu la classe del document - \\documentclass{}"
 
 #: kilestdactions.cpp:32
 #, kde-format
@@ -8720,7 +8719,7 @@ msgstr ""
 #: kilestdactions.cpp:102 kilestdactions.cpp:108
 #, kde-format
 msgid "Type or select a filename: "
-msgstr "Escriviu o seleccioneu un nom de fitxer: "
+msgstr "Escriviu o trieu un nom de fitxer: "
 
 #: kilestdactions.cpp:103
 #, kde-format
@@ -9493,12 +9492,12 @@ msgstr "Majúscules xicotetes"
 #: kilestdactions.cpp:231
 #, kde-format
 msgid "Bibliography Style Selection - \\bibliographystyle{}"
-msgstr "Seleccioneu l'estil de bibliografia - \\bibliographystyle{}"
+msgstr "Trieu l'estil de bibliografia - \\bibliographystyle{}"
 
 #: kilestdactions.cpp:231
 #, kde-format
 msgid "Bibliography Style Selection"
-msgstr "Seleccioneu l'estil de bibliografia"
+msgstr "Trieu l'estil de bibliografia"
 
 #: kilestdactions.cpp:231
 #, kde-format
@@ -10493,12 +10492,12 @@ msgstr ""
 #: kilestdtools.cpp:729
 #, kde-format
 msgid "Select Bibliography"
-msgstr "Seleccioneu la bibliografia"
+msgstr "Trieu la bibliografia"
 
 #: kilestdtools.cpp:729
 #, kde-format
 msgid "Select a bibliography"
-msgstr "Seleccioneu una bibliografia"
+msgstr "Trieu una bibliografia"
 
 #: kilestdtools.cpp:738
 #, kde-format
@@ -10699,7 +10698,7 @@ msgstr "&Pics"
 #: kileui.rc:72 widgets/structurewidget.cpp:780
 #, kde-format
 msgid "&Select"
-msgstr "&Selecciona"
+msgstr "&Tria"
 
 #. i18n: ectx: Menu (delete)
 #: kileui.rc:85
@@ -11463,7 +11462,7 @@ msgstr ""
 #: scripting/kilescriptobject.cpp:234 scripting/kilescriptobject.cpp:291
 #, kde-format
 msgid "Select File to Read"
-msgstr "Seleccioneu el fitxer que s'ha de llegir"
+msgstr "Trieu el fitxer que s'ha de llegir"
 
 #: scripting/kilescriptobject.cpp:250
 #, kde-format
@@ -12288,7 +12287,7 @@ msgstr "Oculta els a&visos de (La)TeX"
 #: widgets/maintoolconfigwidget.ui:60
 #, kde-format
 msgid "Select a tool"
-msgstr "Seleccioneu una eina"
+msgstr "Trieu una eina"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
 #: widgets/maintoolconfigwidget.ui:94
@@ -12307,7 +12306,7 @@ msgstr "Nova…"
 #: widgets/maintoolconfigwidget.ui:152
 #, kde-format
 msgid "Choose a configuration for the current tool"
-msgstr "Seleccioneu una configuració per a l'eina actual"
+msgstr "Trieu una configuració per a l'eina actual"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
 #: widgets/maintoolconfigwidget.ui:175
@@ -12385,7 +12384,7 @@ msgstr "Restaura les eines predeterminades…"
 #: widgets/newdocumentwidget.ui:38
 #, kde-format
 msgid "Please select the type of document you want to create:"
-msgstr "Seleccioneu el tipus de document que voleu crear:"
+msgstr "Trieu el tipus de document que voleu crear:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
 #: widgets/newdocumentwidget.ui:74
@@ -12397,7 +12396,7 @@ msgstr "Plantilla"
 #: widgets/newdocumentwidget.ui:80
 #, kde-format
 msgid "Please select the template that should be used:"
-msgstr "Seleccioneu la plantilla que s'ha d'utilitzar:"
+msgstr "Trieu la plantilla que s'ha d'utilitzar:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickStartWizardCheckBox)
 #: widgets/newdocumentwidget.ui:93
@@ -12413,7 +12412,7 @@ msgstr "Vista prèvia ràpida en una finestra separada"
 #: widgets/previewconfigwidget.cpp:58
 #, kde-format
 msgid "Select a configuration:"
-msgstr "Seleccioneu una configuració:"
+msgstr "Trieu una configuració:"
 
 #: widgets/previewconfigwidget.cpp:68
 #, kde-format
@@ -13296,7 +13295,7 @@ msgstr ""
 #: widgets/toolconfigwidget.cpp:353
 #, kde-format
 msgid "Choose a configuration for the tool %1"
-msgstr "Seleccioneu una configuració per a l'eina %1"
+msgstr "Trieu una configuració per a l'eina %1"
 
 #: widgets/toolconfigwidget.cpp:423
 #, kde-format

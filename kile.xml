@@ -33,7 +33,6 @@
     <comment xml:lang="ta">கைல் திட்டப்பணி</comment>
     <comment xml:lang="tr">Kile projesi</comment>
     <comment xml:lang="uk">проєкт Kile</comment>
-    <comment xml:lang="x_test">xxKile projectxx</comment>
     <comment xml:lang="zh_CN">Kile 工程</comment>
     <comment xml:lang="zh_TW">Kile 專案</comment>
     <glob pattern="*.kilepr"/>

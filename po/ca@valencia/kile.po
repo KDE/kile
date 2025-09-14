@@ -7433,7 +7433,7 @@ msgstr "Qualsevol fitxer (*)"
 #: kiledocmanager.cpp:928
 #, kde-format
 msgid "Save Compiled Document As..."
-msgstr "Guarda el document compilat com a…"
+msgstr "Anomena i guarda el document compilat…"
 
 #: kiledocmanager.cpp:953
 #, kde-format

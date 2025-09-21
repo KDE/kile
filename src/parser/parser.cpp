@@ -67,18 +67,18 @@ Parser::~Parser()
 
 QString Parser::processTextline(const QString &line, TodoResult &todo)
 {
-    static QRegularExpression reComments("[^\\\\](%.*$)");
+    static QRegularExpression reComments(QStringLiteral("[^\\\\](%.*$)"));
     QString s = line;
     todo.type = -1;
     if(!s.isEmpty()) {
         // remove comment lines
-        if(s[0] == '%') {
+        if(s[0] == QLatin1Char('%')) {
             searchTodoComment(s,0,todo);
             s.clear();
         }
         else {
             //remove escaped \ characters
-            s.replace("\\\\", "  ");
+            s.replace(QStringLiteral("\\\\"), QStringLiteral("  "));
 
             //remove comments
             const auto match = reComments.match(s);
@@ -93,7 +93,7 @@ QString Parser::processTextline(const QString &line, TodoResult &todo)
 
 void Parser::searchTodoComment(const QString &s, uint startpos, TodoResult &todo)
 {
-    static QRegularExpression reTodoComment("\\b(TODO|FIXME)\\b(:|\\s)?\\s*(.*)");
+    static QRegularExpression reTodoComment(QStringLiteral("\\b(TODO|FIXME)\\b(:|\\s)?\\s*(.*)"));
 
     auto match = reTodoComment.match(s, startpos);
     if (match.hasMatch()) {
@@ -109,17 +109,17 @@ void Parser::searchTodoComment(const QString &s, uint startpos, TodoResult &todo
 QString Parser::matchBracket(const QStringList& textLines, QChar obracket, int &l, int &pos)
 {
     QChar cbracket;
-    if(obracket == '{') {
-        cbracket = '}';
+    if (obracket == QLatin1Char('{')) {
+        cbracket = QLatin1Char('}');
     }
-    else if(obracket == '[') {
-        cbracket = ']';
+    else if (obracket == QLatin1Char('[')) {
+        cbracket = QLatin1Char(']');
     }
-    else if(obracket == '(') {
-        cbracket = ')';
+    else if (obracket == QLatin1Char('(')) {
+        cbracket = QLatin1Char(')');
     }
 
-    QString line, grab = "";
+    QString line, grab = QStringLiteral("");
     int count=0;
     ++pos;
 
@@ -128,7 +128,7 @@ QString Parser::matchBracket(const QStringList& textLines, QChar obracket, int &
         line = processTextline(textLines[l], todo);
         int len = line.length();
         for (int i = pos; i < len; ++i) {
-            if(line[i] == '\\' && (line[i+1] == obracket || line[i+1] == cbracket)) {
+            if (line[i] == QLatin1Char('\\') && (line[i+1] == obracket || line[i+1] == cbracket)) {
                 ++i;
             }
             else if(line[i] == obracket) {

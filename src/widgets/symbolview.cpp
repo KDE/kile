@@ -90,13 +90,13 @@ new symbol
 void SymbolView::extract(const QString& key, int& refCnt)
 {
     if (!key.isEmpty()) {
-        refCnt = key.section('%', 0, 0).toInt();
+        refCnt = key.section(QLatin1Char('%'), 0, 0).toInt();
     }
 }
 
 void SymbolView::extractPackageString(const QString&string, QList<Package> &packages)
 {
-    QRegularExpression rePkgs("^(?:\\[(.*)\\])?\\{(.*)\\}$$");
+    QRegularExpression rePkgs(QStringLiteral("^(?:\\[(.*)\\])?\\{(.*)\\}$$"));
     QStringList args,pkgs;
     Package pkg;
 
@@ -111,8 +111,8 @@ void SymbolView::extractPackageString(const QString&string, QList<Package> &pack
         return;
     }
 
-    args = match.captured(1).split(',');
-    pkgs = match.captured(2).split(',');
+    args = match.captured(1).split(QLatin1Char(','));
+    pkgs = match.captured(2).split(QLatin1Char(','));
 
     for(int i = 0 ; i < pkgs.count() && i < args.count() ; i++) {
         const QString packageName = pkgs.at(i);
@@ -131,7 +131,7 @@ void SymbolView::extract(const QString& key, Command &cmd)
     if (key.isEmpty()) {
         return;
     }
-    QStringList contents = key.split('%');
+    QStringList contents = key.split(QLatin1Char('%'));
 
     cmd.referenceCount = contents.at(0).toInt();
     cmd.latexCommand = contents.at(1);
@@ -147,47 +147,47 @@ void SymbolView::initPage(int page)
 {
     switch(page) {
     case MFUS:
-        fillWidget(MFUS_PREFIX);
+        fillWidget(QStringLiteral(MFUS_PREFIX));
         break;
 
     case Relation:
-        fillWidget("relation");
+        fillWidget(QStringLiteral("relation"));
         break;
 
     case Operator:
-        fillWidget("operators");
+        fillWidget(QStringLiteral("operators"));
         break;
 
     case Arrow:
-        fillWidget("arrows");
+        fillWidget(QStringLiteral("arrows"));
         break;
 
     case MiscMath:
-        fillWidget("misc-math");
+        fillWidget(QStringLiteral("misc-math"));
         break;
 
     case MiscText:
-        fillWidget("misc-text");
+        fillWidget(QStringLiteral("misc-text"));
         break;
 
     case Delimiters:
-        fillWidget("delimiters");
+        fillWidget(QStringLiteral("delimiters"));
         break;
 
     case Greek:
-        fillWidget("greek");
+        fillWidget(QStringLiteral("greek"));
         break;
 
     case Special:
-        fillWidget("special");
+        fillWidget(QStringLiteral("special"));
         break;
 
     case Cyrillic:
-        fillWidget("cyrillic");
+        fillWidget(QStringLiteral("cyrillic"));
         break;
 
     case User:
-        fillWidget("user");
+        fillWidget(QStringLiteral("user"));
         break;
 
     default:
@@ -201,8 +201,8 @@ QString SymbolView::getToolTip(const QString &key)
     Command cmd;
     extract(key, cmd);
 
-    QString label = "<p style='white-space:pre'>";
-    label += "<b>" + i18n("Command: %1", cmd.latexCommand.toHtmlEscaped()) + "</b>";
+    QString label = QStringLiteral("<p style='white-space:pre'>");
+    label += QStringLiteral("<b>") + i18n("Command: %1", cmd.latexCommand.toHtmlEscaped()) + QStringLiteral("</b>");
     if(!cmd.unicodeCommand.isEmpty()) {
         label += i18n("<br/>Unicode: %1", cmd.unicodeCommand.toHtmlEscaped());
     }
@@ -213,33 +213,33 @@ QString SymbolView::getToolTip(const QString &key)
         if(cmd.packages.count() == 1) {
             Package pkg = cmd.packages.at(0);
             if(!pkg.arguments.isEmpty()) {
-                packageString += '[' + pkg.arguments + ']' + pkg.name;
+                packageString += QLatin1Char('[') + pkg.arguments + QLatin1Char(']') + pkg.name;
             }
             else {
                 packageString += pkg.name;
             }
         }
         else {
-            packageString = "<ul>";
+            packageString = QStringLiteral("<ul>");
             for (int i = 0; i < cmd.packages.count() ; ++i) {
                 Package pkg = cmd.packages.at(i);
                 if(!pkg.arguments.isEmpty()) {
-                    packageString += "<li>[" + pkg.arguments + ']' + pkg.name + "</li>";
+                    packageString += QStringLiteral("<li>[") + pkg.arguments + QLatin1Char(']') + pkg.name + QStringLiteral("</li>");
                 }
                 else {
-                    packageString += "<li>" + pkg.name + "</li>";
+                    packageString += QStringLiteral("<li>") + pkg.name + QStringLiteral("</li>");
                 }
             }
-            packageString += "</ul>";
+            packageString += QStringLiteral("</ul>");
         }
-        label += "<br/>" + i18np("Required Package: %2", "Required Packages: %2", cmd.packages.count(), packageString);
+        label += QStringLiteral("<br/>") + i18np("Required Package: %2", "Required Packages: %2", cmd.packages.count(), packageString);
     }
 
     if(!cmd.comment.isEmpty()) {
-        label += "<br/><i>" + i18n("Comment: %1", cmd.comment.toHtmlEscaped())  + "</i>";
+        label += QStringLiteral("<br/><i>") + i18n("Comment: %1", cmd.comment.toHtmlEscaped())  + QStringLiteral("</i>");
     }
 
-    label += "</p>";
+    label += QStringLiteral("</p>");
     return label;
 }
 
@@ -270,10 +270,10 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
 
         if(math != bracket) {
             if(math) {
-                code_symbol = '$' + code_symbol + '$';
+                code_symbol = QLatin1Char('$') + code_symbol + QLatin1Char('$');
             }
             else if(bracket) {
-                code_symbol = '{' + code_symbol + '}';
+                code_symbol = QLatin1Char('{') + code_symbol + QLatin1Char('}');
             }
         }
         Q_EMIT(insertText(code_symbol, packages));
@@ -281,7 +281,7 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
         m_ki->focusEditor();
     }
 
-    KILE_DEBUG_MAIN << "math is " << math << ", bracket is " << bracket << " and item->data(Qt::UserRole).toString() is " << (item ? item->data(Qt::UserRole).toString() : "");
+    KILE_DEBUG_MAIN << "math is " << math << ", bracket is " << bracket << " and item->data(Qt::UserRole).toString() is " << (item ? item->data(Qt::UserRole).toString() : QString());
 }
 
 QString convertLatin1StringtoUTF8(const QString &string)
@@ -291,10 +291,10 @@ QString convertLatin1StringtoUTF8(const QString &string)
     }
 
     QVector<uint> stringAsIntVector;
-    const QStringList stringList = string.split(',', Qt::SkipEmptyParts);
+    const QStringList stringList = string.split(QLatin1Char(','), Qt::SkipEmptyParts);
 
     for (QString str : stringList) {
-        str.remove("U+");
+        str.remove(QStringLiteral("U+"));
         bool ok;
         int stringAsInt = str.toInt(&ok);
         if(!ok) {
@@ -315,12 +315,12 @@ void SymbolView::fillWidget(const QString& prefix)
     QString key;
 
     // find paths
-    if (prefix == MFUS_PREFIX) { // case: most frequently used symbols
-        KConfigGroup config = KSharedConfig::openConfig()->group(MFUS_GROUP);
-        QString configPaths = config.readEntry("paths");
-        QString configrefCnts = config.readEntry("counts");
-        paths = configPaths.split(',', Qt::SkipEmptyParts);
-        refCnts = configrefCnts.split(',', Qt::SkipEmptyParts);
+    if (prefix == QStringLiteral(MFUS_PREFIX)) { // case: most frequently used symbols
+        KConfigGroup config = KSharedConfig::openConfig()->group(QStringLiteral(MFUS_GROUP));
+        QString configPaths = config.readEntry(QStringLiteral("paths"));
+        QString configrefCnts = config.readEntry(QStringLiteral("counts"));
+        paths = configPaths.split(QLatin1Char(','), Qt::SkipEmptyParts);
+        refCnts = configrefCnts.split(QLatin1Char(','), Qt::SkipEmptyParts);
         KILE_DEBUG_MAIN << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts";
         if(paths.count() != refCnts.count()) {
             KILE_DEBUG_MAIN << "error in saved LRU list";
@@ -335,7 +335,7 @@ void SymbolView::fillWidget(const QString& prefix)
         for(const QString &dir : dirs) {
             const QStringList fileNames = QDir(dir).entryList(QStringList() << QStringLiteral("*.png"));
             for(const QString &file : fileNames) {
-                const QString path = dir + '/' + file;
+                const QString path = dir + QLatin1Char('/') + file;
                 if (!paths.contains(path)) {
                     paths.append(path);
                 }
@@ -343,7 +343,7 @@ void SymbolView::fillWidget(const QString& prefix)
         }
         paths.sort();
         for (int i = 0; i < paths.count(); i++) {
-            refCnts.append("1");
+            refCnts.append(QStringLiteral("1"));
         }
     }
 
@@ -352,12 +352,12 @@ void SymbolView::fillWidget(const QString& prefix)
         if (image.load(paths[i])) {
             item = new QListWidgetItem(this);
 
-            key = refCnts[i] + '%' + image.text("Command");
-            key += '%' + convertLatin1StringtoUTF8(image.text("CommandUnicode"));
-            key += '%' + image.text("UnicodePackages");
-            key += '%' + image.text("Packages");
-            key += '%' + convertLatin1StringtoUTF8(image.text("Comment"));
-            key += '%' + paths[i];
+            key = refCnts[i] + QLatin1Char('%') + image.text(QStringLiteral("Command"));
+            key += QLatin1Char('%') + convertLatin1StringtoUTF8(image.text(QStringLiteral("CommandUnicode")));
+            key += QLatin1Char('%') + image.text(QStringLiteral("UnicodePackages"));
+            key += QLatin1Char('%') + image.text(QStringLiteral("Packages"));
+            key += QLatin1Char('%') + convertLatin1StringtoUTF8(image.text(QStringLiteral("Comment")));
+            key += QLatin1Char('%') + paths[i];
 
             item->setData(Qt::UserRole, key);
             item->setToolTip(getToolTip(key));
@@ -385,11 +385,11 @@ void SymbolView::writeConfig()
 {
     Command cmd;
 
-    KConfigGroup grp = KSharedConfig::openConfig()->group(MFUS_GROUP);
+    KConfigGroup grp = KSharedConfig::openConfig()->group(QStringLiteral(MFUS_GROUP));
 
     if (KileConfig::clearMFUS()) {
-        grp.deleteEntry("paths");
-        grp.deleteEntry("counts");
+        grp.deleteEntry(QStringLiteral("paths"));
+        grp.deleteEntry(QStringLiteral("counts"));
     }
     else {
         QStringList paths;
@@ -401,8 +401,8 @@ void SymbolView::writeConfig()
             paths.append(cmd.path);
             KILE_DEBUG_MAIN << "path=" << paths.last() << ", count is " << refCnts.last();
         }
-        grp.writeEntry("paths", paths);
-        grp.writeEntry("counts", refCnts);
+        grp.writeEntry(QStringLiteral("paths"), paths);
+        grp.writeEntry(QStringLiteral("counts"), refCnts);
     }
 }
 
@@ -414,13 +414,13 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 
     QListWidgetItem *tmpItem = nullptr;
     bool found = false;
-    const QRegularExpression reCnt("^\\d+");
+    const QRegularExpression reCnt(QStringLiteral("^\\d+"));
 
     KILE_DEBUG_MAIN << "===void SymbolView::slotAddToList(const QIconViewItem *" << item << " )===";
 
     for(int i = 0; i < count(); ++i) {
         tmpItem = this->item(i);
-        if (item->data(Qt::UserRole).toString().section('%', 1) == tmpItem->data(Qt::UserRole).toString().section('%', 1)) {
+        if (item->data(Qt::UserRole).toString().section(QLatin1Char('%'), 1) == tmpItem->data(Qt::UserRole).toString().section(QLatin1Char('%'), 1)) {
             found = true;
             break;
         }

@@ -22,7 +22,7 @@
 KileWidgetGeneralConfig::KileWidgetGeneralConfig(QWidget *parent) : QWidget(parent)
 {
     setupUi(this);
-    m_defaultProjectLocationButton->setIcon(QIcon::fromTheme("folder-open"));
+    m_defaultProjectLocationButton->setIcon(QIcon::fromTheme(QStringLiteral("folder-open")));
 
     connect(m_defaultProjectLocationButton, SIGNAL(clicked()),
             this, SLOT(selectDefaultProjectLocation()));

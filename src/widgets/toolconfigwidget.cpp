@@ -73,11 +73,11 @@ ToolConfig::ToolConfig(KileTool::Manager *mngr, KileDialog::Config *configDialog
     connect(m_configWidget->m_cbConfig, SIGNAL(activated(int)), this, SLOT(switchConfig(int)));
 
     // 'm_cbMenu' also stores a mapping from English menu names to their translation
-    m_configWidget->m_cbMenu->addItem(i18n("Quick"), QVariant("Quick"));
-    m_configWidget->m_cbMenu->addItem(i18n("Compile"), QVariant("Compile"));
-    m_configWidget->m_cbMenu->addItem(i18n("Convert"), QVariant("Convert"));
-    m_configWidget->m_cbMenu->addItem(i18n("View"), QVariant("View"));
-    m_configWidget->m_cbMenu->addItem(i18n("Other"), QVariant("Other"));
+    m_configWidget->m_cbMenu->addItem(i18n("Quick"), QVariant(QStringLiteral("Quick")));
+    m_configWidget->m_cbMenu->addItem(i18n("Compile"), QVariant(QStringLiteral("Compile")));
+    m_configWidget->m_cbMenu->addItem(i18n("Convert"), QVariant(QStringLiteral("Convert")));
+    m_configWidget->m_cbMenu->addItem(i18n("View"), QVariant(QStringLiteral("View")));
+    m_configWidget->m_cbMenu->addItem(i18n("Other"), QVariant(QStringLiteral("Other")));
     connect(m_configWidget->m_cbMenu, SIGNAL(activated(int)), this, SLOT(setMenu(int)));
     connect(m_configWidget->m_pshbIcon, SIGNAL(clicked()), this, SLOT(selectIcon()));
 
@@ -116,7 +116,9 @@ void ToolConfig::setupAdvanced()
     connect(m_configWidget->m_cbType, SIGNAL(activated(int)), this, SLOT(switchType(int)));
     connect(m_configWidget->m_ckClose, SIGNAL(toggled(bool)), this, SLOT(setClose(bool)));
 
-    m_classes << "Compile" << "Convert" << "Archive" << KileTool::BibliographyCompile::ToolClass << "View" <<  "Sequence" << "LaTeX" << "ViewHTML" << "ViewBib" << "ForwardDVI" << "Base";
+    m_classes << QStringLiteral("Compile") << QStringLiteral("Convert") << QStringLiteral("Archive") << KileTool::BibliographyCompile::ToolClass
+              << QStringLiteral("View") <<  QStringLiteral("Sequence") << QStringLiteral("LaTeX") << QStringLiteral("ViewHTML")
+              << QStringLiteral("ViewBib") << QStringLiteral("ForwardDVI") << QStringLiteral("Base");
     m_configWidget->m_cbClass->addItems(m_classes);
     connect(m_configWidget->m_cbClass, SIGNAL(textActivated(QString)), this, SLOT(switchClass(QString)));
 
@@ -129,32 +131,32 @@ void ToolConfig::setupAdvanced()
 void ToolConfig::updateAdvanced()
 {
     bool enablekonsoleclose = false;
-    QString type = m_map["type"];
-    if(type == "Process") {
+    QString type = m_map[QStringLiteral("type")];
+    if (type == QStringLiteral("Process")) {
         m_configWidget->m_cbType->setCurrentIndex(0);
     }
-    else if(type == "Konsole") {
+    else if (type == QStringLiteral("Konsole")) {
         m_configWidget->m_cbType->setCurrentIndex(1);
         enablekonsoleclose = true;
     }
-    else if(type == "DocumentViewer") {
+    else if (type == QStringLiteral("DocumentViewer")) {
         m_configWidget->m_cbType->setCurrentIndex(2);
     }
-    else if(type == "Sequence") {
+    else if (type == QStringLiteral("Sequence")) {
         m_configWidget->m_cbType->setCurrentIndex(3);
     }
     m_configWidget->m_ckClose->setEnabled(enablekonsoleclose);
 
-    int index = m_classes.indexOf(m_map["class"]);
+    int index = m_classes.indexOf(m_map[QStringLiteral("class")]);
     if(index == -1) {
         index = m_classes.count() - 1;
     }
     m_configWidget->m_cbClass->setCurrentIndex(index);
-    m_configWidget->m_ckClose->setChecked(m_map["close"] == "yes");
-    m_configWidget->m_leSource->setText(m_map["from"]);
-    m_configWidget->m_leTarget->setText(m_map["to"]);
-    m_configWidget->m_leFile->setText(m_map["target"]);
-    m_configWidget->m_leRelDir->setText(m_map["relDir"]);
+    m_configWidget->m_ckClose->setChecked(m_map[QStringLiteral("close")] == QStringLiteral("yes"));
+    m_configWidget->m_leSource->setText(m_map[QStringLiteral("from")]);
+    m_configWidget->m_leTarget->setText(m_map[QStringLiteral("to")]);
+    m_configWidget->m_leFile->setText(m_map[QStringLiteral("target")]);
+    m_configWidget->m_leRelDir->setText(m_map[QStringLiteral("relDir")]);
 }
 
 void ToolConfig::setupGeneral()
@@ -184,36 +186,36 @@ void ToolConfig::setupGeneral()
 
 void ToolConfig::updateGeneral()
 {
-    QString type = m_map["type"];
+    QString type = m_map[QStringLiteral("type")];
 
     int basicPage = GBS_None;
     int extraPage = GES_None;
 
-    if(type == "Process" || type == "Konsole") {
+    if (type == QStringLiteral("Process") || type == QStringLiteral("Konsole")) {
         basicPage = GBS_Process;
     }
-    else if(type == "DocumentViewer") {
+    else if (type == QStringLiteral("DocumentViewer")) {
         basicPage = GBS_None;
     }
-    else if(type == "Sequence") {
+    else if (type == QStringLiteral("Sequence")) {
         basicPage = GBS_Sequence;
-        m_qtcw->updateSequence(m_map["sequence"]);
+        m_qtcw->updateSequence(m_map[QStringLiteral("sequence")]);
     }
     else {
         basicPage = GBS_Error;
     }
 
-    QString cls = m_map["class"];
-    if(cls == "LaTeX") {
+    QString cls = m_map[QStringLiteral("class")];
+    if (cls == QStringLiteral("LaTeX")) {
         extraPage = GES_LaTeX;
     }
 
-    m_ptcw->m_command->setText(m_map["command"]);
-    m_ptcw->m_options->setText(m_map["options"]);
+    m_ptcw->m_command->setText(m_map[QStringLiteral("command")]);
+    m_ptcw->m_options->setText(m_map[QStringLiteral("options")]);
 
-    m_LaTeXtcw->m_ckRootDoc->setChecked(m_map["checkForRoot"] == "yes");
-    m_LaTeXtcw->m_ckJump->setChecked(m_map["jumpToFirstError"] == "yes");
-    m_LaTeXtcw->m_ckAutoRun->setChecked(m_map["autoRun"] == "yes");
+    m_LaTeXtcw->m_ckRootDoc->setChecked(m_map[QStringLiteral("checkForRoot")] == QStringLiteral("yes"));
+    m_LaTeXtcw->m_ckJump->setChecked(m_map[QStringLiteral("jumpToFirstError")] == QStringLiteral("yes"));
+    m_LaTeXtcw->m_ckAutoRun->setChecked(m_map[QStringLiteral("autoRun")] == QStringLiteral("yes"));
 
     KILE_DEBUG_MAIN << "showing pages " << basicPage << " " << extraPage;
     m_configWidget->m_stackBasic->setCurrentIndex(basicPage);
@@ -261,7 +263,7 @@ void ToolConfig::updateToollist()
 void ToolConfig::setMenu(int index)
 {
     // internally, menu names are stored in English
-    m_map["menu"] = m_configWidget->m_cbMenu->itemData(index).toString();
+    m_map[QStringLiteral("menu")] = m_configWidget->m_cbMenu->itemData(index).toString();
 }
 
 void ToolConfig::writeConfig()
@@ -278,7 +280,7 @@ void ToolConfig::writeConfig()
 
 int ToolConfig::indexQuickBuild()
 {
-    QList<QListWidgetItem *> itemsList = m_configWidget->m_lstbTools->findItems("QuickBuild", Qt::MatchExactly);
+    QList<QListWidgetItem *> itemsList = m_configWidget->m_lstbTools->findItems(QStringLiteral("QuickBuild"), Qt::MatchExactly);
     if(itemsList.isEmpty()) {
         return 0;
     }
@@ -388,18 +390,18 @@ void ToolConfig::newTool()
         QString toolName = ntw->toolName();
         QString parentTool = ntw->parentTool();
 
-        writeStdConfig(toolName, "Default");
+        writeStdConfig(toolName, QStringLiteral("Default"));
         if(parentTool != ntw->customTool()) {
             //copy tool info
             KileTool::Config tempMap;
             m_manager->retrieveEntryMap(parentTool, tempMap, false, false);
-            KConfigGroup toolGroup = m_config->group(KileTool::groupFor(toolName, "Default"));
-            toolGroup.writeEntry("class", tempMap["class"]);
-            toolGroup.writeEntry("type", tempMap["type"]);
-            toolGroup.writeEntry("close", tempMap["close"]);
-            toolGroup.writeEntry("checkForRoot", tempMap["checkForRoot"]);
-            toolGroup.writeEntry("autoRun", tempMap["autoRun"]);
-            toolGroup.writeEntry("jumpToFirstError", tempMap["jumpToFirstError"]);
+            KConfigGroup toolGroup = m_config->group(KileTool::groupFor(toolName, QStringLiteral("Default")));
+            toolGroup.writeEntry(QStringLiteral("class"), tempMap[QStringLiteral("class")]);
+            toolGroup.writeEntry(QStringLiteral("type"), tempMap[QStringLiteral("type")]);
+            toolGroup.writeEntry(QStringLiteral("close"), tempMap[QStringLiteral("close")]);
+            toolGroup.writeEntry(QStringLiteral("checkForRoot"), tempMap[QStringLiteral("checkForRoot")]);
+            toolGroup.writeEntry(QStringLiteral("autoRun"), tempMap[QStringLiteral("autoRun")]);
+            toolGroup.writeEntry(QStringLiteral("jumpToFirstError"), tempMap[QStringLiteral("jumpToFirstError")]);
         }
 
         m_configWidget->m_lstbTools->blockSignals(true);
@@ -420,7 +422,7 @@ void ToolConfig::newConfig()
     //KILE_DEBUG_MAIN << "==ToolConfig::newConfig()=====================";
     writeConfig();
     bool ok;
-    QString cfg = QInputDialog::getText(this, i18n("New Configuration"), i18n("Enter new configuration name:"), QLineEdit::Normal, "", &ok);
+    QString cfg = QInputDialog::getText(this, i18n("New Configuration"), i18n("Enter new configuration name:"), QLineEdit::Normal, QString(), &ok);
     if (ok && (!cfg.isEmpty())) {
         //copy config
         KConfigGroup toolGroup = m_config->group(KileTool::groupFor(m_current, cfg));
@@ -436,12 +438,12 @@ void ToolConfig::newConfig()
 void ToolConfig::writeStdConfig(const QString & tool, const QString & cfg)
 {
     KConfigGroup toolGroup = m_config->group(KileTool::groupFor(tool, cfg));
-    toolGroup.writeEntry("class", "Compile");
-    toolGroup.writeEntry("type", "Process");
-    toolGroup.writeEntry("menu", "Compile");
-    toolGroup.writeEntry("close", "no");
+    toolGroup.writeEntry(QStringLiteral("class"), QStringLiteral("Compile"));
+    toolGroup.writeEntry(QStringLiteral("type"), QStringLiteral("Process"));
+    toolGroup.writeEntry(QStringLiteral("menu"), QStringLiteral("Compile"));
+    toolGroup.writeEntry(QStringLiteral("close"), QStringLiteral("no"));
 
-    m_config->group("Tools").writeEntry(tool, cfg);
+    m_config->group(QStringLiteral("Tools")).writeEntry(tool, cfg);
 }
 
 void ToolConfig::removeTool()
@@ -454,8 +456,8 @@ void ToolConfig::removeTool()
 // 				KILE_DEBUG_MAIN << "group " << KileTool::groupFor(m_current, cfgs[i]);
             m_config->deleteGroup(KileTool::groupFor(m_current, cfgs[i]));
         }
-        m_config->group("Tools").deleteEntry(m_current);
-        m_config->group("ToolsGUI").deleteEntry(m_current);
+        m_config->group(QStringLiteral("Tools")).deleteEntry(m_current);
+        m_config->group(QStringLiteral("ToolsGUI")).deleteEntry(m_current);
         m_config->sync();
 
         int index = m_configWidget->m_lstbTools->currentRow() - 1;
@@ -497,7 +499,7 @@ void ToolConfig::removeConfig()
 
 void ToolConfig::switchClass(const QString & cls)
 {
-    if(m_map["class"] != cls) {
+    if(m_map[QStringLiteral("class")] != cls) {
         setClass(cls);
         Q_EMIT(changed());
     }
@@ -507,66 +509,66 @@ void ToolConfig::switchType(int index)
 {
     switch (index) {
     case 0 :
-        m_map["type"] = "Process";
+        m_map[QStringLiteral("type")] = QStringLiteral("Process");
         break;
     case 1 :
-        m_map["type"] = "Konsole";
+        m_map[QStringLiteral("type")] = QStringLiteral("Konsole");
         break;
     case 2 :
-        m_map["type"] = "DocumentViewer";
+        m_map[QStringLiteral("type")] = QStringLiteral("DocumentViewer");
         break;
     case 3 :
-        m_map["type"] = "Sequence";
+        m_map[QStringLiteral("type")] = QStringLiteral("Sequence");
         break;
     default :
-        m_map["type"] = "Process";
+        m_map[QStringLiteral("type")] = QStringLiteral("Process");
         break;
     }
     Q_EMIT(changed());
 }
 
 void ToolConfig::setCommand(const QString & command) {
-    m_map["command"] = command.trimmed();
+    m_map[QStringLiteral("command")] = command.trimmed();
     validateToolStatus();
 }
 void ToolConfig::setOptions() {
-    m_map["options"] = m_ptcw->m_options->toPlainText().trimmed();
+    m_map[QStringLiteral("options")] = m_ptcw->m_options->toPlainText().trimmed();
 }
 void ToolConfig::setSequence(const QString & sequence) {
-    m_map["sequence"] = sequence.trimmed();
+    m_map[QStringLiteral("sequence")] = sequence.trimmed();
     validateToolStatus();
 }
 void ToolConfig::setClose(bool on) {
-    m_map["close"] = on ? "yes" : "no";
+    m_map[QStringLiteral("close")] = on ? QStringLiteral("yes") : QStringLiteral("no");
 }
 void ToolConfig::setTarget(const QString & trg) {
-    m_map["target"] = trg.trimmed();
+    m_map[QStringLiteral("target")] = trg.trimmed();
 }
 void ToolConfig::setRelDir(const QString & rd) {
-    m_map["relDir"] = rd.trimmed();
+    m_map[QStringLiteral("relDir")] = rd.trimmed();
 }
 void ToolConfig::setLaTeXCheckRoot(bool ck) {
-    m_map["checkForRoot"] = ck ? "yes" : "no";
+    m_map[QStringLiteral("checkForRoot")] = ck ? QStringLiteral("yes") : QStringLiteral("no");
 }
 void ToolConfig::setLaTeXJump(bool ck) {
-    m_map["jumpToFirstError"] = ck ? "yes" : "no";
+    m_map[QStringLiteral("jumpToFirstError")] = ck ? QStringLiteral("yes") : QStringLiteral("no");
 }
 void ToolConfig::setLaTeXAuto(bool ck) {
-    m_map["autoRun"] = ck ? "yes" : "no";
+    m_map[QStringLiteral("autoRun")] = ck ? QStringLiteral("yes") : QStringLiteral("no");
 }
 void ToolConfig::setRunLyxServer(bool ck)
 {
     //KILE_DEBUG_MAIN << "setRunLyxServer";
-    m_config->group("Tools").writeEntry("RunLyxServer", ck);
+    m_config->group(QStringLiteral("Tools")).writeEntry(QStringLiteral("RunLyxServer"), ck);
 }
 void ToolConfig::setFrom(const QString & from) {
-    m_map["from"] = from.trimmed();
+    m_map[QStringLiteral("from")] = from.trimmed();
 }
 void ToolConfig::setTo(const QString & to) {
-    m_map["to"] = to.trimmed();
+    m_map[QStringLiteral("to")] = to.trimmed();
 }
 void ToolConfig::setClass(const QString & cls) {
-    m_map["class"] = cls.trimmed();
+    m_map[QStringLiteral("class")] = cls.trimmed();
 }
 
 void ToolConfig::validateToolStatus()
@@ -577,8 +579,8 @@ void ToolConfig::validateToolStatus()
     int basicPage = m_configWidget->m_stackBasic->currentIndex();
     bool status = (basicPage == GBS_None)
                   || (basicPage == GBS_Error)
-                  || (basicPage == GBS_Process && !m_map["command"].isEmpty())
-                  || (basicPage == GBS_Sequence && !m_map["sequence"].isEmpty());
+                  || (basicPage == GBS_Process && !m_map[QStringLiteral("command")].isEmpty())
+                  || (basicPage == GBS_Sequence && !m_map[QStringLiteral("sequence")].isEmpty());
 
     // Mark invalid tool state with warning icon
     toolItem->setIcon(status ? QIcon() : QIcon::fromTheme(QStringLiteral("emblem-warning")));

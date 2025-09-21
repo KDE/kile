@@ -142,20 +142,20 @@ void ProjectViewItem::isrootChanged(bool isroot)
 {
     KILE_DEBUG_MAIN << "SLOT isrootChanged " << text(0) << " to " << isroot;
     if(isroot) {
-        setIcon(0, QIcon::fromTheme("masteritem"));
+        setIcon(0, QIcon::fromTheme(QStringLiteral("masteritem")));
     }
     else {
         if(m_projectItem && m_projectItem->type() == KileProjectItem::ProjectFile) {
-            setIcon(0, QIcon::fromTheme("kile"));
+            setIcon(0, QIcon::fromTheme(QStringLiteral("kile")));
         }
         else if(m_projectItem && m_projectItem->type() == KileProjectItem::Bibliography) {
-            setIcon(0, QIcon::fromTheme("viewbib"));
+            setIcon(0, QIcon::fromTheme(QStringLiteral("viewbib")));
         }
         else if(type() == KileType::ProjectItem) {
-            setIcon(0, QIcon::fromTheme("projectitem"));
+            setIcon(0, QIcon::fromTheme(QStringLiteral("projectitem")));
         }
         else {
-            setIcon(0, QIcon::fromTheme("file"));
+            setIcon(0, QIcon::fromTheme(QStringLiteral("file")));
         }
     }
 }
@@ -223,7 +223,7 @@ const QUrl &ProjectViewItem::url()
 
 void ProjectViewItem::setArchiveState(bool ar)
 {
-    setText(1, ar ? "*" : "");
+    setText(1, ar ? QStringLiteral("*") : QString());
 }
 
 void ProjectViewItem::setFolder(int folder)
@@ -274,7 +274,7 @@ void ProjectView::slotClicked(QTreeWidgetItem *item)
         }
         else if(itm->type() != KileType::Folder) {
             // don't open project configuration files (*.kilepr)
-            if(itm->url().toLocalFile().right(7) != ".kilepr") {
+            if(itm->url().toLocalFile().right(7) != QStringLiteral(".kilepr")) {
                 //determine mimeType and open file with preferred application
                 QMimeDatabase db;
                 QMimeType pMime = db.mimeTypeForUrl(itm->url());
@@ -333,11 +333,11 @@ void ProjectView::slotProjectItem(int id)
                 Q_EMIT(removeFromProject(item->projectItem()));
                 break;
             case KPV_ID_INCLUDE :
-                if(item->text(1) == "*") {
-                    item->setText(1, "");
+                if(item->text(1) == QStringLiteral("*")) {
+                    item->setText(1, QString());
                 }
                 else {
-                    item->setText(1, "*");
+                    item->setText(1, QStringLiteral("*"));
                 }
                 Q_EMIT(toggleArchive(item->projectItem()));
                 break;
@@ -515,7 +515,7 @@ void ProjectView::add(const KileProject *project)
     parent->setType(KileType::Project);
     parent->setURL(project->url());
     parent->setExpanded(true);
-    parent->setIcon(0, QIcon::fromTheme("relation"));
+    parent->setIcon(0, QIcon::fromTheme(QStringLiteral("relation")));
     makeTheConnection(parent);
 
     //ProjectViewItem *nonsrc = new ProjectViewItem(parent, i18n("non-source"));
@@ -618,26 +618,26 @@ ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem *pr
     case (KileProjectItem::Source):
         item = new ProjectViewItem(projvi, projitem);
         item->setType(KileType::ProjectItem);
-        item->setIcon(0, QIcon::fromTheme("projectitem"));
+        item->setIcon(0, QIcon::fromTheme(QStringLiteral("projectitem")));
         break;
     case (KileProjectItem::Package):
         parent = folder(projitem, projvi);
         item = new ProjectViewItem(parent, projitem);
         item->setType(KileType::ProjectItem);
-        item->setIcon(0, QIcon::fromTheme("projectitem"));
+        item->setIcon(0, QIcon::fromTheme(QStringLiteral("projectitem")));
         break;
     default:
         parent = folder(projitem, projvi);
         item = new ProjectViewItem(parent, projitem);
         item->setType(KileType::ProjectExtra);
         if(projitem->type() == KileProjectItem::ProjectFile) {
-            item->setIcon(0, QIcon::fromTheme("kile"));
+            item->setIcon(0, QIcon::fromTheme(QStringLiteral("kile")));
         }
         else if(projitem->type() == KileProjectItem::Bibliography) {
-            item->setIcon(0, QIcon::fromTheme("viewbib"));
+            item->setIcon(0, QIcon::fromTheme(QStringLiteral("viewbib")));
         }
         else {
-            item->setIcon(0, QIcon::fromTheme("file"));
+            item->setIcon(0, QIcon::fromTheme(QStringLiteral("file")));
         }
         break;
     }
@@ -805,7 +805,7 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
     }
 
     if(projectViewItem->type() == KileType::ProjectExtra && !isKilePrFile) {
-        QMenu *servicesMenu = popup.addMenu(QIcon::fromTheme("fork"), i18n("&Open With"));
+        QMenu *servicesMenu = popup.addMenu(QIcon::fromTheme(QStringLiteral("fork")), i18n("&Open With"));
         QMimeDatabase db;
         m_offerList = KApplicationTrader::queryByMimeType(db.mimeTypeForUrl(projectViewItem->url()).name());
         for (int i = 0; i < m_offerList.count(); ++i) {
@@ -823,10 +823,10 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 
     if (projectViewItem->type() == KileType::File || projectViewItem->type() == KileType::ProjectItem) {
         if(!m_ki->isOpen(projectViewItem->url())) {
-            popup.addAction(QIcon::fromTheme("document-open"), i18n("&Open"), this, [this] { slotProjectItem(KPV_ID_OPEN); });
+            popup.addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("&Open"), this, [this] { slotProjectItem(KPV_ID_OPEN); });
         }
         else {
-            popup.addAction(QIcon::fromTheme("document-save"), i18n("&Save"), this, [this] { slotProjectItem(KPV_ID_SAVE); });
+            popup.addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("&Save"), this, [this] { slotProjectItem(KPV_ID_SAVE); });
         }
         insertsep = true;
     }
@@ -836,7 +836,7 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
             if(insertsep) {
                 popup.addSeparator();
             }
-            popup.addAction(QIcon::fromTheme("project_add"), i18n("&Add to Project"), this, [this] { slotProjectItem(KPV_ID_ADD); });
+            popup.addAction(QIcon::fromTheme(QStringLiteral("project_add")), i18n("&Add to Project"), this, [this] { slotProjectItem(KPV_ID_ADD); });
             insertsep = true;
         }
     }
@@ -855,7 +855,7 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
             if(insertsep) {
                 popup.addSeparator();
             }
-            popup.addAction(QIcon::fromTheme("project_remove"),i18n("&Remove From Project"), this, [this] { slotProjectItem(KPV_ID_REMOVE); });
+            popup.addAction(QIcon::fromTheme(QStringLiteral("project_remove")),i18n("&Remove From Project"), this, [this] { slotProjectItem(KPV_ID_REMOVE); });
             insertsep = true;
         }
     }
@@ -867,8 +867,8 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
         popup.addSeparator();
         popup.addAction(i18n("Open All &Project Files"), this, [this] { slotProject(KPV_ID_OPENALLFILES); });
         popup.addSeparator();
-        popup.addAction(QIcon::fromTheme("view-refresh"),i18n("Refresh Project &Tree"), this, [this] { slotProject(KPV_ID_BUILDTREE); });
-        popup.addAction(QIcon::fromTheme("configure"), i18n("Project &Options"), this, [this] { slotProject(KPV_ID_OPTIONS); });
+        popup.addAction(QIcon::fromTheme(QStringLiteral("view-refresh")),i18n("Refresh Project &Tree"), this, [this] { slotProject(KPV_ID_BUILDTREE); });
+        popup.addAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Project &Options"), this, [this] { slotProject(KPV_ID_OPTIONS); });
         popup.addAction(i18n("&Archive"), this, [this] { slotProject(KPV_ID_ARCHIVE); });
         insertsep = true;
     }
@@ -879,10 +879,10 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
             popup.addSeparator();
         }
         if(projectViewItem->type() == KileType::Project) {
-            popup.addAction(QIcon::fromTheme("view-close"), i18n("&Close"), this, [this] { slotProject(KPV_ID_CLOSE); });
+            popup.addAction(QIcon::fromTheme(QStringLiteral("view-close")), i18n("&Close"), this, [this] { slotProject(KPV_ID_CLOSE); });
         }
         else {
-            popup.addAction(QIcon::fromTheme("view-close"), i18n("&Close"), this, [this] { slotProjectItem(KPV_ID_CLOSE); });
+            popup.addAction(QIcon::fromTheme(QStringLiteral("view-close")), i18n("&Close"), this, [this] { slotProjectItem(KPV_ID_CLOSE); });
         }
     }
 

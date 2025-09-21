@@ -83,20 +83,20 @@ bool LaTeXOutputParser::fileExists(const QString & name)
         }
     }
 
-    fi.setFile(path() + '/' + name);
+    fi.setFile(path() + QLatin1Char('/') + name);
     if(fi.exists() && !fi.isDir()) {
         return true;
     }
 
-    fi.setFile(path() + '/' + name + m_extensions->latexDocumentDefault());
+    fi.setFile(path() + QLatin1Char('/') + name + m_extensions->latexDocumentDefault());
     if(fi.exists() && !fi.isDir()) {
         return true;
     }
 
     // try to determine the LaTeX source file
-    QStringList extlist = m_extensions->latexDocuments().split(' ');
+    QStringList extlist = m_extensions->latexDocuments().split(QLatin1Char(' '));
     for(QStringList::Iterator it = extlist.begin(); it!=extlist.end(); ++it) {
-        fi.setFile(path() + '/' + name + (*it));
+        fi.setFile(path() + QLatin1Char('/') + name + (*it));
         if(fi.exists() && !fi.isDir()) {
             return true;
         }
@@ -130,7 +130,7 @@ void LaTeXOutputParser::updateFileStack(const QString &strLine, short& dwCookie)
     case Start :
     case FileNameHeuristic :
         //TeX is opening a file
-        if(strLine.startsWith(":<+ ")) {
+        if(strLine.startsWith(QStringLiteral(":<+ "))) {
 // 				qCDebug(LOG_KILE_PARSER) << "filename detected" << Qt::endl;
             //grab the filename, it might be a partial name (i.e. continued on the next line)
             strPartialFileName = strLine.mid(4).trimmed();
@@ -139,7 +139,7 @@ void LaTeXOutputParser::updateFileStack(const QString &strLine, short& dwCookie)
             dwCookie = FileName;
         }
         //TeX closed a file
-        else if(strLine.contains(":<-")) {
+        else if(strLine.contains(QStringLiteral(":<-"))) {
 // 				qCDebug(LOG_KILE_PARSER) << "\tpopping : " << m_stackFile.top().file() << Qt::endl;
             if(!m_stackFile.isEmpty()) {
                 m_stackFile.pop();
@@ -156,7 +156,7 @@ void LaTeXOutputParser::updateFileStack(const QString &strLine, short& dwCookie)
         //The partial filename was followed by '(', this means that TeX is signalling it is
         //opening the file. We are sure the filename is complete now. Don't call updateFileStackHeuristic
         //since we don't want the filename on the stack twice.
-        if(strLine.startsWith('(') || strLine.startsWith(QLatin1String("\\openout"))) {
+        if(strLine.startsWith(QLatin1Char('(')) || strLine.startsWith(QLatin1String("\\openout"))) {
             //push the filename on the stack and mark it as 'reliable'
             m_stackFile.push(LOFStackItem(strPartialFileName, true));
 // 				qCDebug(LOG_KILE_PARSER) << "\tpushed : " << strPartialFileName << Qt::endl;
@@ -165,7 +165,7 @@ void LaTeXOutputParser::updateFileStack(const QString &strLine, short& dwCookie)
         }
         //The partial filename was followed by an TeX error, meaning the file doesn't exist.
         //Don't push it on the stack, instead try to detect the error.
-        else if(strLine.startsWith('!')) {
+        else if(strLine.startsWith(QLatin1Char('!'))) {
 // 				qCDebug(LOG_KILE_PARSER) << "oops!" << Qt::endl;
             dwCookie = Start;
             strPartialFileName.clear();
@@ -198,7 +198,7 @@ void LaTeXOutputParser::updateFileStackHeuristic(const QString &strLine, short &
     int index = 0;
 
     // handle special case (bug fix for 101810)
-    if(expectFileName && strLine.length() > 0 && strLine[0] == ')') {
+    if(expectFileName && strLine.length() > 0 && strLine[0] == QLatin1Char(')')) {
         m_stackFile.push(LOFStackItem(strPartialFileName));
         expectFileName = false;
         dwCookie = Start;
@@ -217,7 +217,7 @@ void LaTeXOutputParser::updateFileStackHeuristic(const QString &strLine, short &
         */
 
         bool isLastChar = (i+1 == strLine.length());
-        bool nextIsTerminator = isLastChar ? false : (strLine[i+1].isSpace() || strLine[i+1] == ')');
+        bool nextIsTerminator = isLastChar ? false : (strLine[i+1].isSpace() || strLine[i+1] == QLatin1Char(')'));
 
         if(expectFileName && (isLastChar || nextIsTerminator)) {
             qCDebug(LOG_KILE_PARSER) << "Update the partial filename " << strPartialFileName;
@@ -255,7 +255,7 @@ void LaTeXOutputParser::updateFileStackHeuristic(const QString &strLine, short &
             }
         }
         //TeX is opening a file
-        else if(strLine[i] == '(') {
+        else if(strLine[i] == QLatin1Char('(')) {
             //we need to extract the filename
             expectFileName = true;
             strPartialFileName.clear();
@@ -265,7 +265,7 @@ void LaTeXOutputParser::updateFileStackHeuristic(const QString &strLine, short &
             index = i + 1;
         }
         //TeX is closing a file
-        else if(strLine[i] == ')') {
+        else if(strLine[i] == QLatin1Char(')')) {
             //qCDebug(LOG_KILE_PARSER) << "\tpopping : " << m_stackFile.top().file();
             //If this filename was pushed on the stack by the reliable ":<+-" method, don't pop
             //a ":<-" will follow. This helps in preventing unbalanced ')' from popping filenames
@@ -325,10 +325,10 @@ bool LaTeXOutputParser::detectError(const QString & strLine, short &dwCookie)
 
     bool found = false, flush = false;
 
-    static QRegularExpression reLaTeXError("^! LaTeX Error: (.*)$", QRegularExpression::CaseInsensitiveOption);
-    static QRegularExpression rePDFLaTeXError("^Error: pdflatex (.*)$", QRegularExpression::CaseInsensitiveOption);
-    static QRegularExpression reTeXError("^! (.*)\\.$");
-    static QRegularExpression reLineNumber("^l\\.([0-9]+)(.*)");
+    static QRegularExpression reLaTeXError(QStringLiteral("^! LaTeX Error: (.*)$"), QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression rePDFLaTeXError(QStringLiteral("^Error: pdflatex (.*)$"), QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reTeXError(QStringLiteral("^! (.*)\\.$"));
+    static QRegularExpression reLineNumber(QStringLiteral("^l\\.([0-9]+)(.*)"));
 
     QRegularExpressionMatch match;
 
@@ -351,13 +351,13 @@ bool LaTeXOutputParser::detectError(const QString & strLine, short &dwCookie)
         }
 
         if(found) {
-            dwCookie = strLine.endsWith('.') ? LineNumber : Error;
+            dwCookie = strLine.endsWith(QLatin1Char('.')) ? LineNumber : Error;
             m_currentItem.setOutputLine(GetCurrentOutputLine());
         }
         break;
     case Error :
         //qCDebug(LOG_KILE_PARSER) << "\tError (cont'd): " << strLine << Qt::endl;
-        if(strLine.endsWith('.')) {
+        if(strLine.endsWith(QLatin1Char('.'))) {
             dwCookie = LineNumber;
             m_currentItem.setMessage(m_currentItem.message() + strLine);
         }
@@ -410,9 +410,9 @@ bool LaTeXOutputParser::detectWarning(const QString & strLine, short &dwCookie)
     bool found = false, flush = false;
     QString warning;
 
-    static QRegularExpression reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package|Class) .*Warning.*?:(.*)", QRegularExpression::CaseInsensitiveOption);
-    static QRegularExpression reNoFile("No file (.*)");
-    static QRegularExpression reNoAsyFile("File .* does not exist."); // FIXME can be removed when https://sourceforge.net/p/asymptote/bugs/70/ has promoted to the users
+    static QRegularExpression reLaTeXWarning(QStringLiteral("^(((! )?(La|pdf)TeX)|Package|Class) .*Warning.*?:(.*)"), QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reNoFile(QStringLiteral("No file (.*)"));
+    static QRegularExpression reNoAsyFile(QStringLiteral("File .* does not exist.")); // FIXME can be removed when https://sourceforge.net/p/asymptote/bugs/70/ has promoted to the users
 
     switch(dwCookie) {
     //detect the beginning of a warning
@@ -479,8 +479,8 @@ bool LaTeXOutputParser::detectLaTeXLineNumber(QString & warning, short & dwCooki
 {
     //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::detectLaTeXLineNumber(" << warning.length() << ")================" << Qt::endl;
 
-    static QRegularExpression reLaTeXLineNumber("(.*) on input line ([0-9]+)\\.$", QRegularExpression::CaseInsensitiveOption);
-    static QRegularExpression reInternationalLaTeXLineNumber("(.*)([0-9]+)\\.$", QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reLaTeXLineNumber(QStringLiteral("(.*) on input line ([0-9]+)\\.$"), QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reInternationalLaTeXLineNumber(QStringLiteral("(.*)([0-9]+)\\.$"), QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch match;
     if((warning.indexOf(reLaTeXLineNumber, 0, &match) != -1) || (warning.indexOf(reInternationalLaTeXLineNumber, 0, &match) != -1)) {
         //qCDebug(LOG_KILE_PARSER) << "een" << Qt::endl;
@@ -499,7 +499,7 @@ bool LaTeXOutputParser::detectLaTeXLineNumber(QString & warning, short & dwCooki
         return true;
     }
 
-    if(warning.endsWith('.')) {
+    if(warning.endsWith(QLatin1Char('.'))) {
         //qCDebug(LOG_KILE_PARSER) << "twee" << Qt::endl;
         m_currentItem.setSourceLine(0);
         dwCookie = Start;
@@ -526,7 +526,7 @@ bool LaTeXOutputParser::detectBadBox(const QString & strLine, short & dwCookie)
     bool found = false, flush = false;
     QString badbox;
 
-    static QRegularExpression reBadBox("^(Over|Under)(full \\\\[hv]box .*)", QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reBadBox(QStringLiteral("^(Over|Under)(full \\\\[hv]box .*)"), QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch match;
 
     switch(dwCookie) {
@@ -566,11 +566,11 @@ bool LaTeXOutputParser::detectBadBoxLineNumber(QString & strLine, short & dwCook
 {
     //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::detectBadBoxLineNumber(" << strLine.length() << ")================" << Qt::endl;
 
-    static QRegularExpression reBadBoxLines("(.*) at lines ([0-9]+)--([0-9]+)", QRegularExpression::CaseInsensitiveOption);
-    static QRegularExpression reBadBoxLine("(.*) at line ([0-9]+)", QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reBadBoxLines(QStringLiteral("(.*) at lines ([0-9]+)--([0-9]+)"), QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reBadBoxLine(QStringLiteral("(.*) at line ([0-9]+)"), QRegularExpression::CaseInsensitiveOption);
     //Use the following only, if you know how to get the source line for it.
     // This is not simple, as TeX is not reporting it.
-    static QRegularExpression reBadBoxOutput("(.*)has occurred while \\\\output is active^", QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reBadBoxOutput(QStringLiteral("(.*)has occurred while \\\\output is active^"), QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch match;
 
     if(strLine.indexOf(reBadBoxLines, 0, &match) != -1) {
@@ -677,7 +677,7 @@ ParserOutput* LaTeXOutputParser::parse()
         sCookie = parseLine(s.trimmed(), sCookie);
         ++m_nOutputLines;
 
-        m_log += s + '\n';
+        m_log += s + QLatin1Char('\n');
     }
     f.close();
 
@@ -697,7 +697,7 @@ ParserOutput* LaTeXOutputParser::parse()
 void LaTeXOutputParser::updateInfoLists(const QString &texfilename, int selrow, int docrow)
 {
     // get a short name for the original tex file
-    QString filename = "./" + QFileInfo(texfilename).fileName();
+    QString filename = QStringLiteral("./") + QFileInfo(texfilename).fileName();
 // 	setSource(texfilename);
 
     //print detailed error info

@@ -124,7 +124,7 @@ void CommandViewToolBox::populateCommands(const QString& cwlFile)
 
     m_commandView->clear();
 
-    const QStringList wordlist = manager->readCWLFile("tex/" + cwlFile + ".cwl");
+    const QStringList wordlist = manager->readCWLFile(QStringLiteral("tex/") + cwlFile + QStringLiteral(".cwl"));
 
     for(const QString &string : wordlist) {
         m_commandView->addItem(string);

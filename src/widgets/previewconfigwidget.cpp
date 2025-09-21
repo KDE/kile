@@ -56,9 +56,9 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
     groupbox->setLayout(groupboxLayout);
 
     QLabel *label = new QLabel(i18n("Select a configuration:"), groupbox);
-    label->setObjectName("label");
+    label->setObjectName(QStringLiteral("label"));
     m_combobox = new KComboBox(false, groupbox);
-    m_combobox->setObjectName("combobox");
+    m_combobox->setObjectName(QStringLiteral("combobox"));
 
     groupboxLayout->addWidget(label, 0, 0);
     groupboxLayout->addWidget(m_combobox, 0, 2);
@@ -87,12 +87,12 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
     m_leDvipngResolution->setValidator(validator);
     resLabel->setBuddy(m_leDvipngResolution);
 
-    QString sep = "&nbsp;&nbsp;&nbsp;&nbsp;";
+    QString sep = QStringLiteral("&nbsp;&nbsp;&nbsp;&nbsp;");
     QString title = i18n("Kile supports three kinds of conversion to png images");
     QString tool1 = i18n("dvi --> png") + sep + i18n("(uses dvipng)");
     QString tool2 = i18n("dvi --> ps --> png") + sep + i18n("(uses dvips/convert)");
     QString tool3 = i18n("pdf --> png") + sep + i18n("(uses convert)");
-    QString description = QString("%1:<ul><li>%2<li>%3<li>%4</ul>").arg(title, tool1, tool2, tool3);
+    QString description = QStringLiteral("%1:<ul><li>%2<li>%3<li>%4</ul>").arg(title, tool1, tool2, tool3);
 
     QLabel *labelDescription = new QLabel(description, gbResolution);
     QLabel *labelDvipng = new QLabel(i18n("dvipng:"), gbResolution);
@@ -117,7 +117,7 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 
     m_gbPreview = new QGroupBox(i18n("Properties"), this);
     m_gbPreview->setFlat(false);
-    m_gbPreview->setObjectName("gbpreview");
+    m_gbPreview->setObjectName(QStringLiteral("gbpreview"));
     QGridLayout *previewLayout = new QGridLayout();
 //TODO PORT QT5 	previewLayout->setMargin(QDialog::marginHint());
 //TODO PORT QT5 	previewLayout->setSpacing(QDialog::spacingHint());
@@ -187,11 +187,11 @@ void KileWidgetPreviewConfig::writeConfig()
     int dpi = resolution.toInt(&ok);
     if(ok) {
         if(dpi < 30) {
-            resolution = "30";
+            resolution = QStringLiteral("30");
         }
         else {
             if(dpi > 1000) {
-                resolution = "1000";
+                resolution = QStringLiteral("1000");
             }
         }
         KileConfig::setDvipngResolution(resolution);
@@ -222,7 +222,7 @@ void KileWidgetPreviewConfig::setupSeparateWindow()
     // split them into group and combobox entry
     m_combobox->clear();
     for(int i = 0; i < tasklist.count(); ++i) {
-        QStringList list = tasklist[i].split('=');
+        QStringList list = tasklist[i].split(QLatin1Char('='));
         if (m_config->hasGroup(list[0])) {
             m_combobox->addItem(list[1]);
         }

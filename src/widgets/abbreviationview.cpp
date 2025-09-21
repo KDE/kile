@@ -68,7 +68,7 @@ void AbbreviationView::updateAbbreviations()
         std::pair<QString, bool> pair = i.value();
         QTreeWidgetItem *item = new QTreeWidgetItem();
         item->setText(ALVabbrev, i.key());
-        item->setText(ALVlocal, (pair.second) ? QString() : "*");
+        item->setText(ALVlocal, (pair.second) ? QString() : QStringLiteral("*"));
         item->setText(ALVexpansion, pair.first);
         itemList.push_back(item);
     }
@@ -99,7 +99,7 @@ void AbbreviationView::slotItemClicked(QTreeWidgetItem *item, int /* column */)
 {
     if(item) {
         QString s = item->text(AbbreviationView::ALVexpansion);
-        s.replace("%n","\n");
+        s.replace(QStringLiteral("%n"), QStringLiteral("\n"));
         Q_EMIT( sendText(s) );
     }
 }
@@ -172,7 +172,7 @@ void AbbreviationView::slotDeleteAbbreviation()
     QString abbreviationText = item->text(ALVabbrev);
     QString message = i18n("Delete the abbreviation '%1'?", abbreviationText);
     if(KMessageBox::questionTwoActions(this,
-                                  "<center>" + message + "</center>",
+                                  QStringLiteral("<center>") + message + QStringLiteral("</center>"),
                                   i18n("Delete Abbreviation"),
                                   KStandardGuiItem::del(),
                                   KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction) {

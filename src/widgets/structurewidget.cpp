@@ -165,7 +165,7 @@ void StructureView::init()
     if(m_docinfo) {
         m_root->setURL(m_docinfo->url());
         m_root->setExpanded(true);
-        m_root->setIcon(0, QIcon::fromTheme("contents"));
+        m_root->setIcon(0, QIcon::fromTheme(QStringLiteral("contents")));
         connect(m_docinfo, SIGNAL(foundItem(QString,uint,uint,int,int,uint,uint,QString,QString)),
                 this, SLOT(addItem(QString,uint,uint,int,int,uint,uint,QString,QString)));
     }
@@ -256,20 +256,20 @@ void StructureView::saveState()
         ++it;
     }
 
-    if(m_folders.contains("labels")) {
-        m_openByFolders["labels"] = m_folders["labels"]->isExpanded();
+    if(m_folders.contains(QStringLiteral("labels"))) {
+        m_openByFolders[QStringLiteral("labels")] = m_folders[QStringLiteral("labels")]->isExpanded();
     }
-    if(m_folders.contains("refs")) {
-        m_openByFolders["refs"] = m_folders["refs"]->isExpanded();
+    if(m_folders.contains(QStringLiteral("refs"))) {
+        m_openByFolders[QStringLiteral("refs")] = m_folders[QStringLiteral("refs")]->isExpanded();
     }
-    if(m_folders.contains("bibs")) {
-        m_openByFolders["bibs"] = m_folders["bibs"]->isExpanded();
+    if(m_folders.contains(QStringLiteral("bibs"))) {
+        m_openByFolders[QStringLiteral("bibs")] = m_folders[QStringLiteral("bibs")]->isExpanded();
     }
-    if(m_folders.contains("todo")) {
-        m_openByFolders["todo"] = m_folders["todo"]->isExpanded();
+    if(m_folders.contains(QStringLiteral("todo"))) {
+        m_openByFolders[QStringLiteral("todo")] = m_folders[QStringLiteral("todo")]->isExpanded();
     }
-    if(m_folders.contains("fixme")) {
-        m_openByFolders["fixme"] = m_folders["fixme"]->isExpanded();
+    if(m_folders.contains(QStringLiteral("fixme"))) {
+        m_openByFolders[QStringLiteral("fixme")] = m_folders[QStringLiteral("fixme")]->isExpanded();
     }
 }
 
@@ -278,31 +278,31 @@ bool StructureView::shouldBeOpen(StructureViewItem *item, const QString & folder
     if(!item->parent()) {
         return true;
     }
-    if(folder == "labels") {
-        if(m_openByFolders.contains("labels")) {
-            return m_openByFolders["labels"];
+    if (folder == QStringLiteral("labels")) {
+        if (m_openByFolders.contains(QStringLiteral("labels"))) {
+            return m_openByFolders[QStringLiteral("labels")];
         }
         else {
             return m_openStructureLabels;
         }
     }
-    else if(folder == "refs") {
-        if(m_openByFolders.contains("refs")) {
-            return m_openByFolders["refs"];
+    else if (folder == QStringLiteral("refs")) {
+        if (m_openByFolders.contains(QStringLiteral("refs"))) {
+            return m_openByFolders[QStringLiteral("refs")];
         }
         else {
             return m_openStructureReferences;
         }
     }
-    else if(folder == "bibs") {
-        if(m_openByFolders.contains("bibs")) {
-            return m_openByFolders["bibs"];
+    else if (folder == QStringLiteral("bibs")) {
+        if(m_openByFolders.contains(QStringLiteral("bibs"))) {
+            return m_openByFolders[QStringLiteral("bibs")];
         }
         else {
             return m_openStructureBibitems;
         }
     }
-    else if(folder=="todo" || folder=="fixme") {
+    else if (folder == QStringLiteral("todo") || folder == QStringLiteral("fixme")) {
         if(m_openByFolders.contains(folder)) {
             return m_openByFolders[folder];
         }
@@ -318,7 +318,7 @@ bool StructureView::shouldBeOpen(StructureViewItem *item, const QString & folder
         return m_openByLine[item->line()]; //TODO check surrounding lines as well
     }
     else {
-        return ((folder == "root") && level <= m_stack->level());
+        return ((folder == QStringLiteral("root")) && level <= m_stack->level());
     }
 }
 
@@ -328,25 +328,25 @@ StructureViewItem* StructureView::createFolder(const QString &folder)
     // add it as a top-level child
     m_root->insertChild(0, fldr);
     fldr->setExpanded(false);
-    if(folder == "labels") {
+    if (folder == QStringLiteral("labels")) {
         fldr->setText(0, i18n("Labels"));
-        fldr->setIcon(0, QIcon::fromTheme("label"));
+        fldr->setIcon(0, QIcon::fromTheme(QStringLiteral("label")));
     }
-    else if(folder == "bibs") {
+    else if (folder == QStringLiteral("bibs")) {
         fldr->setText(0, i18n("BibTeX References"));
-        fldr->setIcon(0, QIcon::fromTheme("viewbib"));
+        fldr->setIcon(0, QIcon::fromTheme(QStringLiteral("viewbib")));
     }
-    else if(folder == "refs") {
+    else if (folder == QStringLiteral("refs")) {
         fldr->setText(0, i18n("Undefined References"));
-        fldr->setIcon(0, QIcon::fromTheme("dialog-error"));
+        fldr->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-error")));
     }
-    else if(folder == "todo") {
+    else if (folder == QStringLiteral("todo")) {
         fldr->setText(0, i18n("TODO"));
-        fldr->setIcon(0, QIcon::fromTheme("bookmarks"));
+        fldr->setIcon(0, QIcon::fromTheme(QStringLiteral("bookmarks")));
     }
-    else if(folder == "fixme") {
+    else if (folder == QStringLiteral("fixme")) {
         fldr->setText(0, i18n("FIXME"));
-        fldr->setIcon(0, QIcon::fromTheme("bookmarks"));
+        fldr->setIcon(0, QIcon::fromTheme(QStringLiteral("bookmarks")));
     }
 
     m_folders[folder] = fldr;
@@ -374,7 +374,7 @@ StructureViewItem *StructureView::parentFor(int lev, const QString & fldr)
 {
     StructureViewItem *par = nullptr;
 
-    if(fldr == "root") {
+    if (fldr == QStringLiteral("root")) {
         switch(lev) {
         case KileStruct::Object:
         case KileStruct::File:
@@ -452,8 +452,8 @@ void StructureView::addItem(const QString &title, uint line, uint column, int ty
     }
     else if(type==KileStruct::Caption && m_lastFloat) {
         QString floattitle = m_lastFloat->title();
-        if(floattitle == "figure" || floattitle == "table") {
-            m_lastFloat->setTitle(floattitle+": "+title);
+        if (floattitle == QStringLiteral("figure") || floattitle == QStringLiteral("table")) {
+            m_lastFloat->setTitle(floattitle + QStringLiteral(": ") + title);
         }
     }
     else if(type == KileStruct::EndFloat) {
@@ -554,12 +554,12 @@ void StructureView::addItem(const QString &title, uint line, uint column, int ty
 void StructureView::showReferences(KileInfo *ki)
 {
     // remove old listview item for references, if it exists
-    if(m_folders.contains("refs")) {
-        StructureViewItem *refitem = m_folders["refs"];
+    if (m_folders.contains(QStringLiteral("refs"))) {
+        StructureViewItem *refitem = m_folders[QStringLiteral("refs")];
         m_root->removeChild(refitem);
         delete refitem;
 
-        m_folders.remove("refs");
+        m_folders.remove(QStringLiteral("refs"));
     }
 
     //KILE_DEBUG_MAIN << "==void StructureView::showReferences()========";
@@ -579,8 +579,8 @@ void StructureView::showReferences(KileInfo *ki)
     // now check if there are unsolved references
     for (QList<KileReferenceData>::const_iterator it = m_references.constBegin(); it!=m_references.constEnd(); ++it) {
         if(!labelmap.contains((*it).name())) {
-            StructureViewItem *refitem = folder("refs");
-            refitem->setExpanded(shouldBeOpen(refitem, "refs", 0));
+            StructureViewItem *refitem = folder(QStringLiteral("refs"));
+            refitem->setExpanded(shouldBeOpen(refitem, QStringLiteral("refs"), 0));
             new StructureViewItem(refitem, (*it).name(), m_docinfo->url(), (*it).line(), (*it).column(), KileStruct::Reference, KileStruct::NotSpecified, 0, 0);
         }
     }
@@ -646,7 +646,7 @@ void StructureWidget::slotDoubleClicked(QTreeWidgetItem * itm)
 {
     KILE_DEBUG_MAIN << "\tStructureWidget::slotDoubleClicked";
     StructureViewItem *item = dynamic_cast<StructureViewItem*>(itm);
-    static QRegularExpression suffix("\\.[\\d\\w]*$");
+    static QRegularExpression suffix(QStringLiteral("\\.[\\d\\w]*$"));
 
     if (!item) {
         return;
@@ -692,7 +692,7 @@ void StructureWidget::slotDoubleClicked(QTreeWidgetItem * itm)
                                                     i18n("No extension specified for graphic file.  Using .%1 from global Structure View settings.", extToAdd)),
                                                    i18n("File extension not specified"));
 
-                fname += '.' + extToAdd;
+                fname += QLatin1Char('.') + extToAdd;
 
             }
             else {
@@ -789,7 +789,7 @@ void StructureWidget::viewContextMenuEvent(StructureView *view, QContextMenuEven
 
         if(!QDir::isAbsolutePath(m_popupInfo)) {
             QString fn = m_ki->getCompileName();
-            m_popupInfo = QFileInfo(fn).path() + '/' + m_popupInfo;
+            m_popupInfo = QFileInfo(fn).path() + QLatin1Char('/') + m_popupInfo;
         }
 
         QFileInfo fi(m_popupInfo);
@@ -810,13 +810,13 @@ void StructureWidget::viewContextMenuEvent(StructureView *view, QContextMenuEven
 
     if(hasLabel) {
         popup.addSection(i18n("Insert Label"));
-        popup.addAction(i18n("As &reference"), this, [this] { Q_EMIT(sendText("\\ref{" + m_popupItem->label() + '}')); });
-        popup.addAction(i18n("As &page reference"), this, [this] { Q_EMIT(sendText("\\pageref{" + m_popupItem->label() + '}')); });
+        popup.addAction(i18n("As &reference"), this, [this] { Q_EMIT(sendText(QStringLiteral("\\ref{") + m_popupItem->label() + QLatin1Char('}'))); });
+        popup.addAction(i18n("As &page reference"), this, [this] { Q_EMIT(sendText(QStringLiteral("\\pageref{") + m_popupItem->label() + QLatin1Char('}'))); });
         popup.addAction(i18n("Only the &label"), this, [this] { Q_EMIT(sendText(m_popupItem->label())); });
         popup.addSeparator();
         popup.addSection(i18n("Copy Label to Clipboard"));
-        popup.addAction(i18n("As reference"), this, [this] { QApplication::clipboard()->setText("\\ref{" + m_popupItem->label() + '}'); });
-        popup.addAction(i18n("As page reference"), this, [this] { QApplication::clipboard()->setText("\\pageref{" + m_popupItem->label() + '}'); });
+        popup.addAction(i18n("As reference"), this, [this] { QApplication::clipboard()->setText(QStringLiteral("\\ref{") + m_popupItem->label() + QLatin1Char('}')); });
+        popup.addAction(i18n("As page reference"), this, [this] { QApplication::clipboard()->setText(QStringLiteral("\\pageref{") + m_popupItem->label() + QLatin1Char('}')); });
         popup.addAction(i18n("Only the label"), this, [this] { QApplication::clipboard()->setText(m_popupItem->label()); });
     }
 

@@ -59,8 +59,8 @@ ParserOutput* BibTeXParser::parse()
 
     qCDebug(LOG_KILE_PARSER);
 
-    static QRegularExpression reItem("^(\\s*)@([a-zA-Z]+)");
-    static QRegularExpression reSpecial("^string|preamble|comment$");
+    static QRegularExpression reItem(QStringLiteral("^(\\s*)@([a-zA-Z]+)"));
+    static QRegularExpression reSpecial(QStringLiteral("^string|preamble|comment$"));
 
     QString key;
     int col = 0, startcol, startline = 0;
@@ -87,7 +87,7 @@ ParserOutput* BibTeXParser::parse()
 
         qCDebug(LOG_KILE_PARSER) << "found: " << match.captured(2);
         //start looking for key
-        key = "";
+        key = QString();
         bool keystarted = false;
         int state = 0;
         startcol = match.captured(1).length();
@@ -109,7 +109,7 @@ ParserOutput* BibTeXParser::parse()
             }
 
             if(state == 0) {
-                if(s[col] == '{') {
+                if(s[col] == QLatin1Char('{')) {
                     state = 1;
                 }
                 else if(!s[col].isSpace()) {
@@ -117,11 +117,11 @@ ParserOutput* BibTeXParser::parse()
                 }
             }
             else if(state == 1) {
-                if(s[col] == ',') {
+                if(s[col] == QLatin1Char(',')) {
                     key = key.trimmed();
                     qCDebug(LOG_KILE_PARSER) << "found: " << key;
                     parserOutput->bibItems.append(key);
-                    parserOutput->structureViewItems.push_back(new StructureViewItem(key, startline+1, startcol, KileStruct::BibItem, 0, startline+1, startcol, "viewbib", match.captured(2).toLower()));
+                    parserOutput->structureViewItems.push_back(new StructureViewItem(key, startline+1, startcol, KileStruct::BibItem, 0, startline+1, startcol, QStringLiteral("viewbib"), match.captured(2).toLower()));
                     break;
                 }
                 else {

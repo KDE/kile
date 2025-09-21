@@ -60,14 +60,14 @@ QString NewToolWizard::parentTool()
 
 void NewToolWizard::nameChanged(const QString &name)
 {
-    static QRegularExpression reBracket("\\(|\\)|\\[|\\]");
+    static QRegularExpression reBracket(QStringLiteral("\\(|\\)|\\[|\\]"));
     bool ok = true;
 
     if(m_toolList.contains(name)) {
         m_lbWarning->setText(i18n( "Error: A tool by this name exists already." ));
         ok = false;
     }
-    else if(name.indexOf("/") != -1) {
+    else if(name.indexOf(QStringLiteral("/")) != -1) {
         m_lbWarning->setText(i18n( "Error: The name may not contain a slash '/'." ));
         ok = false;
     }
@@ -76,7 +76,7 @@ void NewToolWizard::nameChanged(const QString &name)
         ok = false;
     }
     else {
-        m_lbWarning->setText("");
+        m_lbWarning->setText(QString());
     }
     setValid(toolNamePage, ok);
 }

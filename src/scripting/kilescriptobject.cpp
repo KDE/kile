@@ -59,13 +59,13 @@ QString KileAlert::question(const QString &text, const QString &caption)
 {
     QString msgCaption = ( caption.isEmpty() ) ? i18n("Script: question") : caption;
     return ( KMessageBox::questionTwoActions(m_mainWindow, text, msgCaption, KStandardGuiItem::ok(), KStandardGuiItem::cancel())
-             == KMessageBox::PrimaryAction ) ? "yes" : "no";
+             == KMessageBox::PrimaryAction) ? QStringLiteral("yes") : QStringLiteral("no");
 }
 
 QString KileAlert::warning(const QString &text, const QString &caption)
 {
     QString msgCaption = ( caption.isEmpty() ) ? i18n("Script: warning") : caption;
-    return ( KMessageBox::warningContinueCancel(m_mainWindow,text,msgCaption) == KMessageBox::Continue ) ? "continue" : "cancel";
+    return (KMessageBox::warningContinueCancel(m_mainWindow,text,msgCaption) == KMessageBox::Continue) ? QStringLiteral("continue") : QStringLiteral("cancel");
 }
 
 ////////////////////////////////// KileInput object //////////////////////////////////////
@@ -88,7 +88,7 @@ QString KileInput::getText(const QString &caption, const QString &label)
 
 QString KileInput::getLatexCommand(const QString &caption, const QString &label)
 {
-    QRegularExpressionValidator validator(QRegularExpression("[A-Za-z]+"),this);
+    QRegularExpressionValidator validator(QRegularExpression(QStringLiteral("[A-Za-z]+")), this);
     QStringList list = checkCaptionAndLabel(caption, label);
     return KileDialog::getText(list[0], list[1], QString(), nullptr, &validator);
 }
@@ -132,42 +132,42 @@ KileWizard::KileWizard(QObject *parent, KileInfo *kileInfo, const QMap<QString,Q
 
 void KileWizard::tabular()
 {
-    triggerAction("wizard_tabular");
+    triggerAction(QStringLiteral("wizard_tabular"));
 }
 
 void KileWizard::array()
 {
-    triggerAction("wizard_array");
+    triggerAction(QStringLiteral("wizard_array"));
 }
 
 void KileWizard::tabbing()
 {
-    triggerAction("wizard_tabbing");
+    triggerAction(QStringLiteral("wizard_tabbing"));
 }
 
 void KileWizard::floatEnvironment()
 {
-    triggerAction("wizard_float");
+    triggerAction(QStringLiteral("wizard_float"));
 }
 
 void KileWizard::mathEnvironment()
 {
-    triggerAction("wizard_mathenv");
+    triggerAction(QStringLiteral("wizard_mathenv"));
 }
 
 void KileWizard::postscript()
 {
-    triggerAction("wizard_postscript");
+    triggerAction(QStringLiteral("wizard_postscript"));
 }
 
 void KileWizard::pdf()
 {
-    triggerAction("wizard_pdf");
+    triggerAction(QStringLiteral("wizard_pdf"));
 }
 
 bool KileWizard::triggerAction(const QString &name)
 {
-    if ( name=="wizard_postscript" || name=="wizard_pdf" ) {
+    if (name == QStringLiteral("wizard_postscript") || name == QStringLiteral("wizard_pdf")) {
         KTextEditor::View *view = m_kileInfo->viewManager()->currentTextView();
         if ( !view ) {
             return false;
@@ -206,23 +206,23 @@ QMap<QString, QVariant> KileFile::read(const QString& filename) const
 {
     QMap<QString,QVariant> result;
 //	result["status"] = QVariant();
-    result["message"] = QString();
-    result["text"] = QString();
+    result[QStringLiteral("message")] = QString();
+    result[QStringLiteral("text")] = QString();
 
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        result["message"] = i18n("File Handling Error: Unable to find the file '%1'", filename);
-        result["status"] = KileFile::ACCESS_FAILED;
+        result[QStringLiteral("message")] = i18n("File Handling Error: Unable to find the file '%1'", filename);
+        result[QStringLiteral("status")] = KileFile::ACCESS_FAILED;
         return result;
     }
 
     // read data
     QTextStream stream(&file);
     stream.setEncoding(QStringConverter::Utf8);
-    result["text"] = stream.readAll();
+    result[QStringLiteral("text")] = stream.readAll();
     file.close();
 
-    result["status"] = KileFile::ACCESS_OK;
+    result[QStringLiteral("status")] = KileFile::ACCESS_OK;
 
     return result;
 }
@@ -246,8 +246,8 @@ QMap<QString, QVariant> KileFile::write(const QString& filename, const QString& 
 
     QFile file(filename);
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        result["status"] = KileFile::ACCESS_FAILED;
-        result["message"] = i18n("File Handling Error: Unable to create the output file '%1'", filename);
+        result[QStringLiteral("status")] = KileFile::ACCESS_FAILED;
+        result[QStringLiteral("message")] = i18n("File Handling Error: Unable to create the output file '%1'", filename);
         return result;
     }
 
@@ -257,8 +257,8 @@ QMap<QString, QVariant> KileFile::write(const QString& filename, const QString& 
     while(bytesWritten < dataToWrite.size()) {
         qint64 bytesWrittenNow = file.write(dataToWrite.constData() + bytesWritten, dataToWrite.size() - bytesWritten);
         if(bytesWrittenNow < 0) {
-            result["status"] = KileFile::ACCESS_FAILED;
-            result["message"] = i18n("File Handling Error: Unable to write to the output file '%1'", filename);
+            result[QStringLiteral("status")] = KileFile::ACCESS_FAILED;
+            result[QStringLiteral("message")] = i18n("File Handling Error: Unable to write to the output file '%1'", filename);
             file.close();
             return result;
         }
@@ -266,8 +266,8 @@ QMap<QString, QVariant> KileFile::write(const QString& filename, const QString& 
     }
     file.close();
 
-    result["status"] = KileFile::ACCESS_OK;
-    result["message"] = QString();
+    result[QStringLiteral("status")] = KileFile::ACCESS_OK;
+    result[QStringLiteral("message")] = QString();
 
     return result;
 }
@@ -300,9 +300,9 @@ QString KileFile::getSaveFileName(const QUrl &url, const QString& filter)
 QMap<QString,QVariant> KileFile::actionCancelled() const
 {
     QMap<QString,QVariant> result;
-    result["status"] = KileFile::ACCESS_FAILED;
-    result["message"] = i18n("This action was canceled by the user.");
-    result["text"] = QString();
+    result[QStringLiteral("status")] = KileFile::ACCESS_FAILED;
+    result[QStringLiteral("message")] = i18n("This action was canceled by the user.");
+    result[QStringLiteral("text")] = QString();
     return result;
 }
 

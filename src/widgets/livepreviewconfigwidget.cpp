@@ -44,14 +44,14 @@ void KileWidgetLivePreviewConfig::readConfig()
 
     QString defaultToolName = KileConfig::livePreviewDefaultTool();
     if(defaultToolName.isEmpty()) {
-        defaultToolName = LIVEPREVIEW_DEFAULT_TOOL_NAME;
+        defaultToolName = QStringLiteral(LIVEPREVIEW_DEFAULT_TOOL_NAME);
     }
     KileTool::ToolConfigPair defaultTool = KileTool::ToolConfigPair::fromConfigStringRepresentation(defaultToolName);
 
     int currentIndex = 0;
     int defaultToolNameIndex = 0;
 
-    QList<KileTool::ToolConfigPair> toolList = KileTool::toolsWithConfigurationsBasedOnClass(m_config, "LaTeXLivePreview");
+    QList<KileTool::ToolConfigPair> toolList = KileTool::toolsWithConfigurationsBasedOnClass(m_config, QStringLiteral("LaTeXLivePreview"));
     std::sort(toolList.begin(), toolList.end());
     m_previewDefaultToolComboBox->clear();
     for(QList<KileTool::ToolConfigPair>::iterator i = toolList.begin(); i != toolList.end(); ++i) {
@@ -60,7 +60,7 @@ void KileWidgetLivePreviewConfig::readConfig()
         if(currentTool == defaultTool) {
             defaultToolNameIndex = currentIndex;
         }
-        m_previewDefaultToolComboBox->addItem(currentTool.userStringRepresentation().remove("LivePreview-"), QVariant::fromValue(currentTool));
+        m_previewDefaultToolComboBox->addItem(currentTool.userStringRepresentation().remove(QStringLiteral("LivePreview-")), QVariant::fromValue(currentTool));
         currentIndex++;
     }
     m_previewDefaultToolComboBox->setCurrentIndex(defaultToolNameIndex);

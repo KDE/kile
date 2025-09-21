@@ -72,10 +72,10 @@ BracketResult LaTeXParser::matchBracket(const QStringList& textLines, int &l, in
     BracketResult result;
     TodoResult todo;
 
-    if((getTextLine(textLines, l))[pos] == '[') {
-        result.option = Parser::matchBracket(textLines, '[', l, pos);
+    if ((getTextLine(textLines, l))[pos] == QLatin1Char('[')) {
+        result.option = Parser::matchBracket(textLines, QLatin1Char('['), l, pos);
         while(l < textLines.size()) {
-        int p = processTextline(getTextLine(textLines, l), todo).indexOf('{', pos);
+        int p = processTextline(getTextLine(textLines, l), todo).indexOf(QLatin1Char('{'), pos);
             if(p != -1) {
                 pos = p;
                 break;
@@ -87,10 +87,10 @@ BracketResult LaTeXParser::matchBracket(const QStringList& textLines, int &l, in
         }
     }
 
-    if((getTextLine(textLines, l))[pos] == '{') {
+    if ((getTextLine(textLines, l))[pos] == QLatin1Char('{')) {
         result.line = l;
         result.col = pos;
-        result.value = Parser::matchBracket(textLines, '{', l, pos);
+        result.value = Parser::matchBracket(textLines, QLatin1Char('{'), l, pos);
     }
 
     return result;
@@ -112,12 +112,12 @@ ParserOutput* LaTeXParser::parse()
     qCDebug(LOG_KILE_PARSER) << m_textLines;
 
     QMap<QString,KileStructData>::const_iterator it;
-    static QRegularExpression reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
-    static QRegularExpression reRoot("\\\\documentclass|\\\\documentstyle");
-    static QRegularExpression reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
-    static QRegularExpression reReNewCommand("\\\\renewcommand.*$");
-    static QRegularExpression reNumOfParams("\\s*\\[([1-9]+)\\]");
-    static QRegularExpression reNumOfOptParams("\\s*\\[([1-9]+)\\]\\s*\\[([^\\{]*)\\]"); // the quantifier * isn't used by mistake, because also emtpy optional brackets are correct.
+    static QRegularExpression reCommand(QStringLiteral("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)"));
+    static QRegularExpression reRoot(QStringLiteral("\\\\documentclass|\\\\documentstyle"));
+    static QRegularExpression reBD(QStringLiteral("\\\\begin\\s*\\{\\s*document\\s*\\}"));
+    static QRegularExpression reReNewCommand(QStringLiteral("\\\\renewcommand.*$"));
+    static QRegularExpression reNumOfParams(QStringLiteral("\\s*\\[([1-9]+)\\]"));
+    static QRegularExpression reNumOfOptParams(QStringLiteral("\\s*\\[([1-9]+)\\]\\s*\\[([^\\{]*)\\]")); // the quantifier * isn't used by mistake, because also emtpy optional brackets are correct.
 
     int bd = 0, tagLine = 0, tagCol = 0;
     int tagStartLine = 0, tagStartCol = 0;
@@ -141,7 +141,7 @@ ParserOutput* LaTeXParser::parse()
         bool fire = true; //whether or not we should emit a foundItem signal
         s = processTextline(getTextLine(m_textLines, i), todo);
         if(todo.type != -1 && m_showStructureTodo) {
-            QString folder = (todo.type == KileStruct::ToDo) ? "todo" : "fixme";
+            QString folder = (todo.type == KileStruct::ToDo) ? QStringLiteral("todo") : QStringLiteral("fixme");
             parserOutput->structureViewItems.push_back(new StructureViewItem(todo.comment, i+1, todo.colComment, todo.type, KileStruct::Object, i+1, todo.colTag, QString(), folder));
         }
 
@@ -163,17 +163,17 @@ ParserOutput* LaTeXParser::parse()
                 if(bd == 0) {
                     if(i - 1 >= 0) {
                         for(int j = 0; j <= i - 1; ++j) {
-                            parserOutput->preamble += getTextLine(m_textLines, j) + '\n';
+                            parserOutput->preamble += getTextLine(m_textLines, j) + QLatin1Char('\n');
                         }
                     }
                 }
                 else {
                     if(i - 1 >= 0) {
                         for(int j = 0; j <= i - 1; ++j) {
-                            parserOutput->preamble += getTextLine(m_textLines, j) + '\n';
+                            parserOutput->preamble += getTextLine(m_textLines, j) + QLatin1Char('\n');
                         }
                     }
-                    parserOutput->preamble += getTextLine(m_textLines, i).left(bd) + '\n';
+                    parserOutput->preamble += getTextLine(m_textLines, i).left(bd) + QLatin1Char('\n');
                 }
             }
 
@@ -229,7 +229,7 @@ ParserOutput* LaTeXParser::parse()
 
                     // remove trailing ./
                     if((*it).type & (KileStruct::Input | KileStruct::Graphics)) {
-                        if(m.left(2) == "./") {
+                        if(m.left(2) == QStringLiteral("./")) {
                             m = m.mid(2, m.length() - 2);
                         }
                     }
@@ -237,25 +237,25 @@ ParserOutput* LaTeXParser::parse()
                     // floating environments and beamer frames are passed
                     if ( (*it).type == KileStruct::BeginEnv )
                     {
-                        if ( m=="figure" || m=="figure*" || m=="table" || m=="table*" )
+                        if (m == QStringLiteral("figure") || m == QStringLiteral("figure*") || m == QStringLiteral("table") || m == QStringLiteral("table*"))
                         {
-                            it = m_dictStructLevel.constFind("\\begin{" + m +'}');
+                            it = m_dictStructLevel.constFind(QStringLiteral("\\begin{") + m + QLatin1Char('}'));
                         }
-                        else if(m == "asy") {
-                            it = m_dictStructLevel.constFind("\\begin{" + m +'}');
+                        else if (m == QStringLiteral("asy")) {
+                            it = m_dictStructLevel.constFind(QStringLiteral("\\begin{") + m + QLatin1Char('}'));
                             parserOutput->asyFigures.append(m);
                         }
-                        else if(m == "frame") {
+                        else if (m == QStringLiteral("frame")) {
                             const QString untitledFrameDisplayName = i18n("Frame");
-                            it = m_dictStructLevel.constFind("\\begin{frame}");
+                            it = m_dictStructLevel.constFind(QStringLiteral("\\begin{frame}"));
                             tagEnd = skipWS(s, tagEnd);
                             // the frame may have [fragile] modifier
-                            if(tagEnd + 1 < s.size() && s.at(tagEnd + 1) == '[') {
+                            if(tagEnd + 1 < s.size() && s.at(tagEnd + 1) == QLatin1Char('[')) {
                                 tagEnd++;
-                                Parser::matchBracket(m_textLines, '[', i, tagEnd);
+                                Parser::matchBracket(m_textLines, QLatin1Char('['), i, tagEnd);
                             }
                             tagEnd = skipWS(s, tagEnd);
-                            if(tagEnd + 1 < s.size() && s.at(tagEnd + 1) == '{') {
+                            if(tagEnd + 1 < s.size() && s.at(tagEnd + 1) == QLatin1Char('{')) {
                                 tagEnd++;
                                 result = matchBracket(m_textLines, i, tagEnd);
                                 m = result.value.trimmed();
@@ -267,11 +267,11 @@ ParserOutput* LaTeXParser::parse()
                                 m = untitledFrameDisplayName;
                             }
                         }
-                        else if(m=="block" || m=="exampleblock" || m=="alertblock") {
+                        else if (m == QStringLiteral("block") || m == QStringLiteral("exampleblock") || m == QStringLiteral("alertblock")) {
                             const QString untitledBlockDisplayName = i18n("Untitled Block");
-                            it = m_dictStructLevel.constFind("\\begin{block}");
+                            it = m_dictStructLevel.constFind(QStringLiteral("\\begin{block}"));
                             tagEnd = skipWS(s, tagEnd);
-                            if(tagEnd+1 < s.size() && s.at(tagEnd+1) == '{') {
+                            if(tagEnd+1 < s.size() && s.at(tagEnd+1) == QLatin1Char('{')) {
                                 tagEnd++;
                                 result = matchBracket(m_textLines, i, tagEnd);
                                 m = result.value.trimmed();
@@ -291,12 +291,12 @@ ParserOutput* LaTeXParser::parse()
                     // tell structure view that a floating environment or a beamer frame must be closed
                     else if ( (*it).type == KileStruct::EndEnv )
                     {
-                        if ( m=="figure" || m== "figure*" || m=="table" || m=="table*" || m=="asy")
+                        if (m == QStringLiteral("figure") || m == QStringLiteral("figure*") || m == QStringLiteral("table") || m == QStringLiteral("table*") || m == QStringLiteral("asy"))
                         {
-                            it = m_dictStructLevel.constFind("\\end{float}");
+                            it = m_dictStructLevel.constFind(QStringLiteral("\\end{float}"));
                         }
-                        else if(m == "frame") {
-                            it = m_dictStructLevel.constFind("\\end{frame}");
+                        else if (m == QStringLiteral("frame")) {
+                            it = m_dictStructLevel.constFind(QStringLiteral("\\end{frame}"));
                         }
                         else {
                             fireSuspended = true;          // only floats, no other environments
@@ -314,7 +314,7 @@ ParserOutput* LaTeXParser::parse()
                         parserOutput->labels.append(m);
                         // label entry as child of sectioning
                         if(m_showSectioningLabels) {
-                            parserOutput->structureViewItems.push_back(new StructureViewItem(m, tagLine, tagCol, KileStruct::Label, KileStruct::Object, tagStartLine, tagStartCol, "label", "root"));
+                            parserOutput->structureViewItems.push_back(new StructureViewItem(m, tagLine, tagCol, KileStruct::Label, KileStruct::Object, tagStartLine, tagStartCol, QStringLiteral("label"), QStringLiteral("root")));
                             fireSuspended = true;
                         }
                     }
@@ -342,7 +342,7 @@ ParserOutput* LaTeXParser::parse()
                     else  if((*it).type == KileStruct::Bibliography) {
                         qCDebug(LOG_KILE_PARSER) << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m;
 
-                        const QStringList bibs = m.split(',');
+                        const QStringList bibs = m.split(QLatin1Char(','));
 
                         // assure that all files have an extension
                         for(QString biblio : bibs) {
@@ -354,7 +354,7 @@ ParserOutput* LaTeXParser::parse()
                                 }
                             }
                             parserOutput->bibliography.append(biblio);
-                            if(biblio.left(2) == "./") {
+                            if (biblio.left(2) == QStringLiteral("./")) {
                                 biblio = biblio.mid(2, biblio.length() - 2);
                             }
                             parserOutput->deps.append(biblio);
@@ -371,7 +371,7 @@ ParserOutput* LaTeXParser::parse()
 
                     // update the package list
                     else if((*it).type == KileStruct::Package) {
-                        QStringList pckgs = m.split(',');
+                        QStringList pckgs = m.split(QLatin1Char(','));
                         for(int p = 0; p < pckgs.count(); ++p) {
                             QString package = pckgs[p].trimmed();
                             if(!package.isEmpty()) {
@@ -398,17 +398,17 @@ ParserOutput* LaTeXParser::parse()
                                 if (match.hasMatch()) {
                                     qCDebug(LOG_KILE_PARSER) << "Opt param is " << match.captured(2) << "%EOL";
                                     noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occur because then latex complains (and we don't macht them with reNumOfParams either)
-                                    optArg = '[' + match.captured(2) + ']';
+                                    optArg = QLatin1Char('[') + match.captured(2) + QLatin1Char(']');
                                 }
 
                                 for(int noo_index = 0; noo_index < noo; ++noo_index) {
-                                    mandArgs +=  '{' + s_bullet + '}';
+                                    mandArgs +=  QLatin1Char('{') + s_bullet + QLatin1Char('}');
                                 }
 
                             }
                             if(!optArg.isEmpty()) {
                                 if((*it).type == KileStruct::NewEnvironment) {
-                                    parserOutput->newCommands.append(QString("\\begin{%1}%2%3").arg(m, optArg, mandArgs));
+                                    parserOutput->newCommands.append(QStringLiteral("\\begin{%1}%2%3").arg(m, optArg, mandArgs));
                                 }
                                 else {
                                     parserOutput->newCommands.append(m + optArg + mandArgs);
@@ -416,8 +416,8 @@ ParserOutput* LaTeXParser::parse()
                             }
                         }
                         if((*it).type == KileStruct::NewEnvironment) {
-                            parserOutput->newCommands.append(QString("\\begin{%1}%3").arg(m, mandArgs));
-                            parserOutput->newCommands.append(QString("\\end{%1}").arg(m));
+                            parserOutput->newCommands.append(QStringLiteral("\\begin{%1}%3").arg(m, mandArgs));
+                            parserOutput->newCommands.append(QStringLiteral("\\end{%1}").arg(m));
                         }
                         else {
                             parserOutput->newCommands.append(m + mandArgs);

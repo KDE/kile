@@ -119,7 +119,7 @@ void FileBrowserWidget::setupToolbar()
     m_toolbar->addAction(m_dirOperator->action(KDirOperator::Forward));
 
     QAction *action = new QAction(this);
-    action->setIcon(QIcon::fromTheme("document-open"));
+    action->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     action->setText(i18n("Open selected"));
     connect(action, SIGNAL(triggered()), this, SLOT(emitFileSelectedSignal()));
     m_toolbar->addAction(action);
@@ -131,7 +131,7 @@ void FileBrowserWidget::setupToolbar()
     connect(showOnlyLaTexFilesAction, SIGNAL(triggered(bool)), this, SLOT(toggleShowLaTeXFilesOnly(bool)));
 
     // section for settings menu
-    KActionMenu *optionsMenu = new KActionMenu(QIcon::fromTheme("configure"), i18n("Options"), this);
+    KActionMenu *optionsMenu = new KActionMenu(QIcon::fromTheme(QStringLiteral("configure")), i18n("Options"), this);
     optionsMenu->setPopupMode(QToolButton::InstantPopup);
     optionsMenu->addAction(m_dirOperator->action(KDirOperator::ShortView));
     optionsMenu->addAction(m_dirOperator->action(KDirOperator::DetailedView));
@@ -152,10 +152,10 @@ void FileBrowserWidget::toggleShowLaTeXFilesOnly(bool filter)
     if(filter) {
         // FileBrowserWidget filter for sidebar
         QString filter =  m_extensions->latexDocuments()
-                          + ' ' + m_extensions->latexPackages()
-                          + ' ' + m_extensions->bibtex()
-                          + ' ' +  m_extensions->metapost();
-        filter.replace('.', "*.");
+                          + QLatin1Char(' ') + m_extensions->latexPackages()
+                          + QLatin1Char(' ') + m_extensions->bibtex()
+                          + QLatin1Char(' ') +  m_extensions->metapost();
+        filter.replace(QLatin1Char('.'), QStringLiteral("*."));
         m_dirOperator->setNameFilter(filter);
     }
     else {

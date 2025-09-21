@@ -43,13 +43,14 @@ void UserMenuData::clear()
 }
 
 // static list for xml menu attributes
-QStringList UserMenuData::xmlMenuAttrList = QStringList() << "text" << "file" << "program" << "separator" << "submenu";
+QStringList UserMenuData::xmlMenuAttrList = QStringList() << QStringLiteral("text") << QStringLiteral("file")
+                                            << QStringLiteral("program") << QStringLiteral("separator") << QStringLiteral("submenu");
 
 // static list for xml menu tags
-QStringList UserMenuData::xmlMenuTagList = QStringList() << "text" << "filename" << "parameter"
-        << "icon" << "shortcut"
-        << "needsSelection"     << "useContextMenu" << "replaceSelection"
-        << "selectInsertion"    << "insertOutput"   << "title";
+QStringList UserMenuData::xmlMenuTagList = QStringList() << QStringLiteral("text") << QStringLiteral("filename")
+                                           << QStringLiteral("parameter") << QStringLiteral("icon") << QStringLiteral("shortcut")
+                                           << QStringLiteral("needsSelection") << QStringLiteral("useContextMenu") << QStringLiteral("replaceSelection")
+                                           << QStringLiteral("selectInsertion") << QStringLiteral("insertOutput") << QStringLiteral("title");
 
 // static methods  for xml menu attributes
 UserMenuData::MenuType UserMenuData::xmlMenuType(const QString &name)

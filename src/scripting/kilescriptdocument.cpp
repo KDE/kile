@@ -42,7 +42,7 @@ void KileScriptDocument::setView(KTextEditor::View *view)
 
 void KileScriptDocument::insertText(const QString &s)
 {
-    QString cursorpos =  ( s.indexOf("%C") >= 0 ) ? QString() : "%C";
+    QString cursorpos = (s.indexOf(QStringLiteral("%C")) >= 0 ) ? QString() : QStringLiteral("%C");
     m_editor->insertTag(KileAction::TagData(QString(),s,cursorpos,0,0), m_view);
 }
 
@@ -564,64 +564,64 @@ void KileScriptDocument::gotoLine(int line)
 
 void KileScriptDocument::insertChapter()
 {
-    triggerAction("tag_chapter");
+    triggerAction(QStringLiteral("tag_chapter"));
 }
 
 void KileScriptDocument::insertSection()
 {
-    triggerAction("tag_section");
+    triggerAction(QStringLiteral("tag_section"));
 }
 
 void KileScriptDocument::insertSubsection()
 {
-    triggerAction("tag_subsection");
+    triggerAction(QStringLiteral("tag_subsection"));
 }
 
 void KileScriptDocument::insertSubsubsection()
 {
-    triggerAction("tag_subsubsection");
+    triggerAction(QStringLiteral("tag_subsubsection"));
 }
 
 void KileScriptDocument::insertParagraph()
 {
-    triggerAction("tag_paragraph");
+    triggerAction(QStringLiteral("tag_paragraph"));
 }
 
 void KileScriptDocument::insertSubparagraph()
 {
-    triggerAction("tag_subparagraph");
+    triggerAction(QStringLiteral("tag_subparagraph"));
 }
 
 ////////////////////////////////// insert reference tags  //////////////////////////////////////
 
 void KileScriptDocument::insertLabel()
 {
-    triggerAction("tag_label");
+    triggerAction(QStringLiteral("tag_label"));
 }
 
 void KileScriptDocument::insertReference()
 {
-    triggerAction("tag_ref");
+    triggerAction(QStringLiteral("tag_ref"));
 }
 
 void KileScriptDocument::insertPageref()
 {
-    triggerAction("tag_pageref");
+    triggerAction(QStringLiteral("tag_pageref"));
 }
 
 void KileScriptDocument::insertIndex()
 {
-    triggerAction("tag_index");
+    triggerAction(QStringLiteral("tag_index"));
 }
 
 void KileScriptDocument::insertFootnote()
 {
-    triggerAction("tag_footnote");
+    triggerAction(QStringLiteral("tag_footnote"));
 }
 
 void KileScriptDocument::insertCitation()
 {
-    triggerAction("tag_cite");
+    triggerAction(QStringLiteral("tag_cite"));
 }
 
 bool KileScriptDocument::triggerAction(const QString &name)
@@ -639,32 +639,32 @@ bool KileScriptDocument::triggerAction(const QString &name)
 
 void KileScriptDocument::comment()
 {
-    triggerSelectionAction("tools_comment");
+    triggerSelectionAction(QStringLiteral("tools_comment"));
 }
 
 void KileScriptDocument::uncomment()
 {
-    triggerSelectionAction("tools_uncomment");
+    triggerSelectionAction(QStringLiteral("tools_uncomment"));
 }
 
 void KileScriptDocument::uppercase()
 {
-    triggerSelectionAction("tools_uppercase");
+    triggerSelectionAction(QStringLiteral("tools_uppercase"));
 }
 
 void KileScriptDocument::lowercase()
 {
-    triggerSelectionAction("tools_lowercase");
+    triggerSelectionAction(QStringLiteral("tools_lowercase"));
 }
 
 void KileScriptDocument::capitalize()
 {
-    triggerSelectionAction("tools_capitalize");
+    triggerSelectionAction(QStringLiteral("tools_capitalize"));
 }
 
 void KileScriptDocument::joinLines()
 {
-    triggerSelectionAction("tools_join_lines");
+    triggerSelectionAction(QStringLiteral("tools_join_lines"));
 }
 
 bool KileScriptDocument::triggerSelectionAction(const QString &name)
@@ -713,7 +713,7 @@ void KileScriptDocument::editEnd()
 
 void KileScriptDocument::refreshStructure()
 {
-    triggerAction("refreshstructure");
+    triggerAction(QStringLiteral("refreshstructure"));
 }
 
 ////////////////////////////////// lists //////////////////////////////////////

@@ -105,7 +105,7 @@ static void cursorFromScriptValue(const QJSValue &obj, KTextEditor::Cursor &curs
 /** Conversion function from QtScript range to KTextEditor::Range */
 static QJSValue rangeToScriptValue(QJSEngine *engine, const KTextEditor::Range &range)
 {
-    QString code = QString("new Range(%1, %2, %3, %4);").arg(range.start().line())
+    QString code = QStringLiteral("new Range(%1, %2, %3, %4);").arg(range.start().line())
                    .arg(range.start().column())
                    .arg(range.end().line())
                    .arg(range.end().column());
@@ -248,10 +248,10 @@ void ScriptEnvironment::execute(const Script *script)
 
     // set global objects
     if(m_scriptView->view()) {
-        m_engine->globalObject().setProperty("view", m_engine->newQObject(m_scriptView));
-        m_engine->globalObject().setProperty("document", m_engine->newQObject(m_scriptDocument));
+        m_engine->globalObject().setProperty(QStringLiteral("view"), m_engine->newQObject(m_scriptView));
+        m_engine->globalObject().setProperty(QStringLiteral("document"), m_engine->newQObject(m_scriptDocument));
     }
-    m_engine->globalObject().setProperty("kile", m_engine->newQObject(m_kileScriptObject));
+    m_engine->globalObject().setProperty(QStringLiteral("kile"), m_engine->newQObject(m_kileScriptObject));
 
     // start engine
     m_engine->evaluate(script->getCode());
@@ -278,9 +278,9 @@ void ScriptEnvironment::execute(const Script *script)
     QTimer::singleShot(0, m_scriptView->view(), SLOT(setFocus()));
 
     // remove global objects
-    m_engine->globalObject().setProperty("view", QJSValue());
-    m_engine->globalObject().setProperty("document", QJSValue());
-    m_engine->globalObject().setProperty("kile", QJSValue());
+    m_engine->globalObject().setProperty(QStringLiteral("view"), QJSValue());
+    m_engine->globalObject().setProperty(QStringLiteral("document"), QJSValue());
+    m_engine->globalObject().setProperty(QStringLiteral("kile"), QJSValue());
 }
 
 // Executes script code in this environment.

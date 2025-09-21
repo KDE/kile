@@ -39,13 +39,13 @@ void QuickToolConfigWidget::updateSequence(const QString &sequence)
     connect(m_cbTools, SIGNAL(textActivated(QString)), this, SLOT(updateConfigs(QString)));
 
     m_sequence = sequence;
-    QStringList list = sequence.split(',', Qt::SkipEmptyParts);
+    QStringList list = sequence.split(QLatin1Char(','), Qt::SkipEmptyParts);
     QString tl, cfg;
     m_lstbSeq->clear();
     for(QStringList::iterator i = list.begin(); i != list.end(); ++i) {
         KileTool::extract(*i, tl, cfg);
         if(!cfg.isEmpty()) {
-            m_lstbSeq->addItem(tl + " (" + cfg + ')');
+            m_lstbSeq->addItem(tl + QStringLiteral(" (") + cfg + QLatin1Char(')'));
         }
         else {
             m_lstbSeq->addItem(tl);
@@ -118,7 +118,7 @@ void QuickToolConfigWidget::add()
 {
     QString entry = m_cbTools->currentText();
     if(m_cbConfigs->currentText() != m_currentDefaultConfig) {
-        entry += " (" + m_cbConfigs->currentText() + ')';
+        entry += QStringLiteral(" (") + m_cbConfigs->currentText() + QLatin1Char(')');
     }
 
     m_lstbSeq->addItem(entry);
@@ -131,9 +131,9 @@ void QuickToolConfigWidget::changed()
     QString sequence, tool, cfg;
     for(int i = 0; i < m_lstbSeq->count(); ++i) {
         KileTool::extract(m_lstbSeq->item(i)->text(), tool, cfg);
-        sequence += KileTool::format(tool, cfg) + ',';
+        sequence += KileTool::format(tool, cfg) + QLatin1Char(',');
     }
-    if(sequence.endsWith(',')) {
+    if(sequence.endsWith(QLatin1Char(','))) {
         sequence = sequence.left(sequence.length()-1);
     }
     m_sequence = sequence;

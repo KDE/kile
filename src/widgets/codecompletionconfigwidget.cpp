@@ -52,9 +52,9 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileErro
     setupUi(this);
 
     // add three pages: Tex/Latex, Dictionary, Abbreviation
-    addPage(m_tabWidget, TexPage, i18n("TeX/LaTeX"), "tex");
-    addPage(m_tabWidget, DictionaryPage, i18n("Dictionary"), "dictionary");
-    addPage(m_tabWidget, AbbreviationPage, i18n("Abbreviation"), "abbreviation");
+    addPage(m_tabWidget, TexPage, i18n("TeX/LaTeX"), QStringLiteral("tex"));
+    addPage(m_tabWidget, DictionaryPage, i18n("Dictionary"), QStringLiteral("dictionary"));
+    addPage(m_tabWidget, AbbreviationPage, i18n("Abbreviation"), QStringLiteral("abbreviation"));
 
     cb_setcursor->setWhatsThis(i18n("Try to place the cursor."));
     cb_setbullets->setWhatsThis(i18n("Insert bullets where the user must input data."));
@@ -182,8 +182,8 @@ void CodeCompletionConfigWidget::writeConfig()
 void CodeCompletionConfigWidget::setListviewEntries(CompletionPage page)
 {
     QString listname = m_dirname[page];
-    QString localdir = m_localCwlDir + listname + '/';
-    QString globaldir = m_globalCwlDir + listname + '/';
+    QString localdir = m_localCwlDir + listname + QLatin1Char('/');
+    QString globaldir = m_globalCwlDir + listname + QLatin1Char('/');
 
     // add data from config list into ListView widget
     m_listview[page]->setUpdatesEnabled(false);
@@ -193,12 +193,12 @@ void CodeCompletionConfigWidget::setListviewEntries(CompletionPage page)
 
         QTreeWidgetItem *item = new QTreeWidgetItem(m_listview[page], QStringList(basename));
         item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
-        if (QFileInfo::exists(localdir + basename + ".cwl")) {
-            item->setCheckState(0, curWord.at(0) == '1' ? Qt::Checked : Qt::Unchecked);
+        if (QFileInfo::exists(localdir + basename + QStringLiteral(".cwl"))) {
+            item->setCheckState(0, curWord.at(0) == QLatin1Char('1') ? Qt::Checked : Qt::Unchecked);
             item->setText(1, i18n("yes"));
         }
-        else if (QFileInfo::exists(globaldir + basename + ".cwl")) {
-            item->setCheckState(0, curWord.at(0) == '1' ? Qt::Checked : Qt::Unchecked);
+        else if (QFileInfo::exists(globaldir + basename + QStringLiteral(".cwl"))) {
+            item->setCheckState(0, curWord.at(0) == QLatin1Char('1') ? Qt::Checked : Qt::Unchecked);
             item->setText(1, i18n("no"));
         }
         else {
@@ -243,7 +243,7 @@ bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage page)
     int index = 0;
     QTreeWidgetItemIterator it(m_listview[page]);
     while (*it) {
-        QString s = ((*it)->checkState(0) == Qt::Checked) ? "1-" : "0-";
+        QString s = ((*it)->checkState(0) == Qt::Checked) ? QStringLiteral("1-") : QStringLiteral("0-");
         s += (*it)->text(0);
         newfiles.append(s);
 
@@ -389,7 +389,7 @@ void CodeCompletionConfigWidget::updateCompletionFilesTab(const QString& path)
 {
     int localLength = (path.startsWith(m_localCwlDir) ? m_localCwlDir.length() : m_globalCwlDir.length());
     // 'm_globalCwlDir' and 'm_localCwlDir' are guaranteed to end in '/' (see 'KileCodeCompletion::Manager::getCwlBaseDirs()')
-    QString dirname = path.mid(localLength, path.indexOf('/', localLength) - localLength);
+    QString dirname = path.mid(localLength, path.indexOf(QLatin1Char('/'), localLength) - localLength);
 
     int dirnameIdx = m_dirname.indexOf(dirname);
     if (dirnameIdx >= 0) {

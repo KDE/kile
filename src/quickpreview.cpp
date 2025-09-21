@@ -88,10 +88,10 @@ void QuickPreview::previewEnvironment(KTextEditor::Document *doc)
     QString text = m_ki->editorExtension()->getEnvironmentText(row, col, envname);
     if (!text.isEmpty()) {
         if(m_ki->latexCommands()->isMathModeEnv(envname)) {
-            text = '$' + text + '$';
+            text = QLatin1Char('$') + text + QLatin1Char('$');
         }
         else if (m_ki->latexCommands()->isDisplaymathModeEnv(envname)) {
-            text = "\\[" + text + "\\]";
+            text = QStringLiteral("\\[") + text + QStringLiteral("\\]");
         }
 
         if(KileConfig::envPreviewInWidget()) {
@@ -151,16 +151,16 @@ void QuickPreview::previewMathgroup(KTextEditor::Document *doc)
 void QuickPreview::getTaskList(QStringList &tasklist)
 {
     tasklist.clear();
-    tasklist << "Tool/ViewDVI/Okular="          + m_taskList[0]
-             << "Tool/ViewDVI/Document Viewer=" + m_taskList[1]
-             << "Tool/ViewPS/Okular="           + m_taskList[2]
-             << "Tool/ViewPS/Document Viewer="  + m_taskList[3]
-             << "Tool/ViewPDF/Okular="          + m_taskList[4]
-             << "Tool/ViewPDF/Document Viewer=" + m_taskList[5]
-             << "Tool/ViewPDF/Okular="          + m_taskList[6]
-             << "Tool/ViewPDF/Document Viewer=" + m_taskList[7]
-             << "Tool/ViewPDF/Okular="          + m_taskList[8]
-             << "Tool/ViewPDF/Document Viewer=" + m_taskList[9]
+    tasklist << QStringLiteral("Tool/ViewDVI/Okular=")          + m_taskList[0]
+             << QStringLiteral("Tool/ViewDVI/Document Viewer=") + m_taskList[1]
+             << QStringLiteral("Tool/ViewPS/Okular=")           + m_taskList[2]
+             << QStringLiteral("Tool/ViewPS/Document Viewer=")  + m_taskList[3]
+             << QStringLiteral("Tool/ViewPDF/Okular=")          + m_taskList[4]
+             << QStringLiteral("Tool/ViewPDF/Document Viewer=") + m_taskList[5]
+             << QStringLiteral("Tool/ViewPDF/Okular=")          + m_taskList[6]
+             << QStringLiteral("Tool/ViewPDF/Document Viewer=") + m_taskList[7]
+             << QStringLiteral("Tool/ViewPDF/Okular=")          + m_taskList[8]
+             << QStringLiteral("Tool/ViewPDF/Document Viewer=") + m_taskList[9]
              ;
 }
 
@@ -173,16 +173,16 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 {
     // define possible tools
     QMap <QString,QString> map;
-    map[m_taskList[0]]  = "PreviewLaTeX,,,ViewDVI,Okular,dvi";
-    map[m_taskList[1]]  = "PreviewLaTeX,,,ViewDVI,Document Viewer,dvi";
-    map[m_taskList[2]]  = "PreviewLaTeX,DVItoPS,Default,ViewPS,Okular,ps";
-    map[m_taskList[3]]  = "PreviewLaTeX,DVItoPS,Default,ViewPS,Document Viewer,ps";
-    map[m_taskList[4]]  = "PreviewPDFLaTeX,,,ViewPDF,Okular,pdf";
-    map[m_taskList[5]]  = "PreviewPDFLaTeX,,,ViewPDF,Document Viewer,pdf";
-    map[m_taskList[6]] = "PreviewXeLaTeX,,,ViewPDF,Okular,pdf";
-    map[m_taskList[7]] = "PreviewXeLaTeX,,,ViewPDF,Document Viewer,pdf";
-    map[m_taskList[8]] = "PreviewLuaLaTeX,,,ViewPDF,Okular,pdf";
-    map[m_taskList[9]] = "PreviewLuaLaTeX,,,ViewPDF,Document Viewer,pdf";
+    map[m_taskList[0]] = QStringLiteral("PreviewLaTeX,,,ViewDVI,Okular,dvi");
+    map[m_taskList[1]] = QStringLiteral("PreviewLaTeX,,,ViewDVI,Document Viewer,dvi");
+    map[m_taskList[2]] = QStringLiteral("PreviewLaTeX,DVItoPS,Default,ViewPS,Okular,ps");
+    map[m_taskList[3]] = QStringLiteral("PreviewLaTeX,DVItoPS,Default,ViewPS,Document Viewer,ps");
+    map[m_taskList[4]] = QStringLiteral("PreviewPDFLaTeX,,,ViewPDF,Okular,pdf");
+    map[m_taskList[5]] = QStringLiteral("PreviewPDFLaTeX,,,ViewPDF,Document Viewer,pdf");
+    map[m_taskList[6]] = QStringLiteral("PreviewXeLaTeX,,,ViewPDF,Okular,pdf");
+    map[m_taskList[7]] = QStringLiteral("PreviewXeLaTeX,,,ViewPDF,Document Viewer,pdf");
+    map[m_taskList[8]] = QStringLiteral("PreviewLuaLaTeX,,,ViewPDF,Okular,pdf");
+    map[m_taskList[9]] = QStringLiteral("PreviewLuaLaTeX,,,ViewPDF,Document Viewer,pdf");
 
     QString previewtask = KileConfig::previewTask();
     if(!map.contains(previewtask)) {
@@ -209,9 +209,9 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
     }
 
     delete m_tempDir;
-    m_tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') + "kile-preview");
+    m_tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') + QStringLiteral("kile-preview"));
     m_tempDir->setAutoRemove(true);
-    m_tempFile = QFileInfo(m_tempDir->path(), "preview.tex").absoluteFilePath();
+    m_tempFile = QFileInfo(m_tempDir->path(), QStringLiteral("preview.tex")).absoluteFilePath();
     KILE_DEBUG_MAIN << "\tdefine tempfile: " << m_tempFile << Qt::endl;
 
     // create the temporary file with preamble and text
@@ -220,13 +220,13 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
         return false;
     }
 
-    QStringList previewlist = spreviewlist.split(',', Qt::KeepEmptyParts);
+    QStringList previewlist = spreviewlist.split(QLatin1Char(','), Qt::KeepEmptyParts);
 
     // create preview tools
     KILE_DEBUG_MAIN << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << Qt::endl;
     KileTool::PreviewLaTeX *latex = dynamic_cast<KileTool::PreviewLaTeX*>(m_ki->toolManager()->createTool(previewlist[pvLatex], QString(), false));
     if(!latex) {
-        showError(i18n("Could not run '%1' for QuickPreview.", QString("LaTeX")));
+        showError(i18n("Could not run '%1' for QuickPreview.", QStringLiteral("LaTeX")));
         return false;
     }
 
@@ -235,7 +235,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
         KILE_DEBUG_MAIN << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << Qt::endl;
         dvips = m_ki->toolManager()->createTool(previewlist[pvDvips], previewlist[pvDvipsCfg]);
         if(!dvips) {
-            QString dvipstool = previewlist[pvDvips] + " (" + previewlist[pvDvipsCfg] + ')';
+            QString dvipstool = previewlist[pvDvips] + QStringLiteral(" (") + previewlist[pvDvipsCfg] + QLatin1Char(')');
             showError(i18n("Could not run '%1' for QuickPreview.",dvipstool));
             return false;
         }
@@ -243,7 +243,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 
     KileTool::Base *viewer = nullptr;
     if(!previewlist[pvViewer].isEmpty()) {
-        QString viewertool = previewlist[pvViewer] + " (" + previewlist[pvViewerCfg] + ')';
+        QString viewertool = previewlist[pvViewer] + QStringLiteral(" (") + previewlist[pvViewerCfg] + QLatin1Char(')');
         KILE_DEBUG_MAIN << "\tcreate viewer for QuickPreview: "  << viewertool << Qt::endl;
         viewer = m_ki->toolManager()->createTool(previewlist[pvViewer], previewlist[pvViewerCfg], false);
         if(!viewer) {
@@ -274,7 +274,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 
     // dvips
     if(dvips) {
-        dvips->setSource( filepath + "dvi" );
+        dvips->setSource(filepath + QStringLiteral("dvi"));
         dvips->setQuickie();
         connect(dvips, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
         m_ki->toolManager()->run(dvips);
@@ -353,7 +353,7 @@ int QuickPreview::createTempfile(const QString &text)
     bool begindocumentFound = false;
     while(!preamble.atEnd()) {
         QString textline = preamble.readLine();
-        if (textline.indexOf("\\begin{document}") >= 0) {
+        if (textline.indexOf(QStringLiteral("\\begin{document}")) >= 0) {
             begindocumentFound = true;
             break;
         }

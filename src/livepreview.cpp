@@ -84,7 +84,7 @@ public:
         }
         for(const KileProjectItem *item : items) {
             bool successful = true;
-            const QString itemRelativeDir = QFileInfo(tempCanonicalDir + '/' + item->path()).path();
+            const QString itemRelativeDir = QFileInfo(tempCanonicalDir + QLatin1Char('/') + item->path()).path();
             const QString itemAbsolutePath = QDir(itemRelativeDir).absolutePath();
             if(itemAbsolutePath.isEmpty()) {
                 successful = false;
@@ -115,7 +115,7 @@ private:
     QTemporaryDir *m_tempDir;
 
     void initTemporaryDirectory() {
-        m_tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') + "kile-livepreview");
+        m_tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') + QStringLiteral("kile-livepreview"));
     }
 
 public:
@@ -184,19 +184,19 @@ void LivePreviewManager::createActions(KActionCollection *ac)
 
     m_livePreviewToolActionGroup = new QActionGroup(ac);
 
-    m_previewForCurrentDocumentAction = new KToggleAction(QIcon::fromTheme("document-preview"), i18n("Live Preview for Current Document or Project"), this);
+    m_previewForCurrentDocumentAction = new KToggleAction(QIcon::fromTheme(QStringLiteral("document-preview")), i18n("Live Preview for Current Document or Project"), this);
     m_previewForCurrentDocumentAction->setChecked(true);
     connect(m_previewForCurrentDocumentAction, SIGNAL(triggered(bool)), this, SLOT(previewForCurrentDocumentActionTriggered(bool)));
-    ac->addAction("live_preview_for_current_document", m_previewForCurrentDocumentAction);
+    ac->addAction(QStringLiteral("live_preview_for_current_document"), m_previewForCurrentDocumentAction);
 
     m_recompileLivePreviewAction = new QAction(i18n("Recompile Live Preview"), this);
     connect(m_recompileLivePreviewAction, SIGNAL(triggered()), this, SLOT(recompileLivePreview()));
-    ac->addAction("live_preview_recompile", m_recompileLivePreviewAction);
+    ac->addAction(QStringLiteral("live_preview_recompile"), m_recompileLivePreviewAction);
 
     {
         QAction *action = new QAction(i18n("Save Compiled Document..."), this);
         connect(action, &QAction::triggered, m_ki->docManager(), &KileDocument::Manager::fileSaveCompiledDocument);
-        ac->addAction("file_save_compiled_document", action);
+        ac->addAction(QStringLiteral("file_save_compiled_document"), action);
         connect(this, &KileTool::LivePreviewManager::livePreviewSuccessful, action, [=]() { action->setEnabled(true); });
         connect(this, &KileTool::LivePreviewManager::livePreviewRunning, action, [=]() { action->setEnabled(false); });
         connect(this, &KileTool::LivePreviewManager::livePreviewStopped, action, [=]() { action->setEnabled(false); });
@@ -284,7 +284,7 @@ void LivePreviewManager::setLivePreviewToolActionsEnabled(bool b)
 
 void LivePreviewManager::buildLivePreviewMenu(KConfig *config)
 {
-    QMenu *menu = dynamic_cast<QMenu*>(m_ki->mainWindow()->guiFactory()->container("menu_livepreview", m_ki->mainWindow()));
+    QMenu *menu = dynamic_cast<QMenu*>(m_ki->mainWindow()->guiFactory()->container(QStringLiteral("menu_livepreview"), m_ki->mainWindow()));
     if(!menu) {
         KILE_DEBUG_MAIN << "live preview menu not found!!";
         return;
@@ -301,10 +301,10 @@ void LivePreviewManager::buildLivePreviewMenu(KConfig *config)
     menu->addAction(m_previewForCurrentDocumentAction);
     menu->addSeparator();
 
-    QList<ToolConfigPair> toolListConfig = toolsWithConfigurationsBasedOnClass(config, "LaTeXLivePreview");
+    QList<ToolConfigPair> toolListConfig = toolsWithConfigurationsBasedOnClass(config, QStringLiteral("LaTeXLivePreview"));
     std::sort(toolListConfig.begin(), toolListConfig.end());
     for(QList<ToolConfigPair>::iterator i = toolListConfig.begin(); i != toolListConfig.end(); ++i) {
-        const QString shortToolName = QString((*i).first).remove("LivePreview-");
+        const QString shortToolName = QString((*i).first).remove(QStringLiteral("LivePreview-"));
         QAction *action = new KToggleAction(ToolConfigPair::userStringRepresentation(shortToolName, (*i).second), this);
 
         m_livePreviewToolActionGroup->addAction(action);
@@ -445,7 +445,7 @@ void LivePreviewManager::readLivePreviewStatusSettings(KConfigGroup &configGroup
         // if nothing is set for this fallback to the configured global default, otherwise to the hardcoded default
         QString defaultToolName = KileConfig::livePreviewDefaultTool();
         if(defaultToolName.isEmpty()) {
-            defaultToolName = LIVEPREVIEW_DEFAULT_TOOL_NAME;
+            defaultToolName = QStringLiteral(LIVEPREVIEW_DEFAULT_TOOL_NAME);
         }
         KileTool::ToolConfigPair defaultTool = KileTool::ToolConfigPair::fromConfigStringRepresentation(defaultToolName);
         handler->setLivePreviewTool(defaultTool);
@@ -1034,7 +1034,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *latexInfo, KTex
     m_runningTextView = view;
     m_runningLaTeXInfo = latexInfo;
     m_runningProject = project;
-    m_runningPreviewFile = previewInformation->getTempDir() + '/' + latex->target();
+    m_runningPreviewFile = previewInformation->getTempDir() + QLatin1Char('/') + latex->target();
     m_runningTextHash.clear();
     if(masterDocumentSet) {
         fillTextHashForMasterDocument(m_runningTextHash);

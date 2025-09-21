@@ -154,7 +154,7 @@ void Manager::enableClear()
 
 bool Manager::queryContinue(const QString & question, const QString & caption /*= QString()*/)
 {
-    return (KMessageBox::warningContinueCancel(m_stack, question, caption, KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "showNotALaTeXRootDocumentWarning") == KMessageBox::Continue);
+    return (KMessageBox::warningContinueCancel(m_stack, question, caption, KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QStringLiteral("showNotALaTeXRootDocumentWarning")) == KMessageBox::Continue);
 }
 
 void Manager::run(Base *tool)
@@ -517,7 +517,7 @@ QStringList toolList(KConfig *config, bool menuOnly)
     const QStringList groups = config->groupList();
     QStringList tools;
 
-    QRegExp re = QRegExp("Tool/(.+)/.+");
+    QRegExp re = QRegExp(QStringLiteral("Tool/(.+)/.+"));
     QString name;
 
     for (const auto& group : groups) {
@@ -527,7 +527,7 @@ QStringList toolList(KConfig *config, bool menuOnly)
 
             if(!name.isEmpty()
                && group.endsWith(name)
-               && ((!menuOnly) || (menuFor(re.cap(1), config) != "none"))) {
+               && ((!menuOnly) || (menuFor(re.cap(1), config) != QStringLiteral("none")))) {
                 tools.append(re.cap(1));
             }
         }
@@ -543,7 +543,7 @@ QList<ToolConfigPair> toolsWithConfigurationsBasedOnClass(KConfig *config, const
 {
     const QStringList groups = config->groupList();
 
-    QRegExp re = QRegExp("Tool/(.+)/(.+)");
+    QRegExp re = QRegExp(QStringLiteral("Tool/(.+)/(.+)"));
     QList<ToolConfigPair> toReturn;
 
     for (const auto& group : groups) {
@@ -564,7 +564,7 @@ QList<ToolConfigPair> toolsWithConfigurationsBasedOnClass(KConfig *config, const
 
 QString configName(const QString & tool, KConfig *config)
 {
-    return config->group("Tools").readEntry(tool, QString());
+    return config->group(QStringLiteral("Tools")).readEntry(tool, QString());
 }
 
 void Manager::setConfigName(const QString &tool, const QString &name)
@@ -575,7 +575,7 @@ void Manager::setConfigName(const QString &tool, const QString &name)
 void setConfigName(const QString &tool, const QString &name, KConfig *config)
 {
     KILE_DEBUG_MAIN << "==KileTool::Manager::setConfigName(" << tool << "," << name << ")===============" << Qt::endl;
-    config->group("Tools").writeEntry(tool, name);
+    config->group(QStringLiteral("Tools")).writeEntry(tool, name);
 }
 
 QString groupFor(const QString &tool, KConfig *config)
@@ -585,14 +585,14 @@ QString groupFor(const QString &tool, KConfig *config)
 
 QString groupFor(const QString& tool, const QString& cfg /* = Default */ )
 {
-    QString group = "Tool/" + tool + '/' + cfg;
+    QString group = QStringLiteral("Tool/") + tool + QLatin1Char('/') + cfg;
     KILE_DEBUG_MAIN << "groupFor(const QString &" << tool << ", const QString & " << cfg << " ) = " << group;
     return group;
 }
 
 void extract(const QString &str, QString &tool, QString &cfg)
 {
-    static QRegExp re("([^\\(]*)\\((.*)\\)");
+    static QRegExp re(QStringLiteral("([^\\(]*)\\((.*)\\)"));
     QString lcl = str.trimmed();
     cfg.clear();
     if(re.exactMatch(lcl)) {
@@ -608,7 +608,7 @@ void extract(const QString &str, QString &tool, QString &cfg)
 QString format(const QString & tool, const QString &cfg)
 {
     if (!cfg.isEmpty()) {
-        return tool + '(' + cfg + ')';
+        return tool + QLatin1Char('(') + cfg + QLatin1Char(')');
     }
     else {
         return tool;
@@ -620,7 +620,7 @@ QStringList configNames(const QString &tool, KConfig *config)
     const QStringList groups = config->groupList();
     QStringList configs;
 
-    QRegExp re = QRegExp("Tool/"+ tool +"/(.+)");
+    QRegExp re = QRegExp(QStringLiteral("Tool/") + tool + QStringLiteral("/(.+)"));
 
     for (const auto& group : groups) {
         if(config->hasGroup(group) // 'group' might have been deleted
@@ -634,45 +634,45 @@ QStringList configNames(const QString &tool, KConfig *config)
 
 QString commandFor(const QString& toolName, const QString& configName, KConfig *config)
 {
-    return config->group(groupFor(toolName, configName)).readEntry("command", "");
+    return config->group(groupFor(toolName, configName)).readEntry(QStringLiteral("command"), QString());
 }
 
 QString menuFor(const QString &tool, KConfig *config)
 {
-    return config->group("ToolsGUI").readEntry(tool, "Other,application-x-executable").section(',', 0, 0);
+    return config->group(QStringLiteral("ToolsGUI")).readEntry(tool, QStringLiteral("Other,application-x-executable")).section(QLatin1Char(','), 0, 0);
 }
 
 QString iconFor(const QString &tool, KConfig *config)
 {
-    return config->group("ToolsGUI").readEntry(tool, "Other,application-x-executable").section(',', 1, 1);
+    return config->group(QStringLiteral("ToolsGUI")).readEntry(tool, QStringLiteral("Other,application-x-executable")).section(QLatin1Char(','), 1, 1);
 }
 
 void setGUIOptions(const QString &tool, const QString &menu, const QString &icon, KConfig *config)
 {
-    QString entry = menu + ',' + icon;
+    QString entry = menu + QLatin1Char(',') + icon;
 
-    config->group("ToolsGUI").writeEntry(tool, entry);
+    config->group(QStringLiteral("ToolsGUI")).writeEntry(tool, entry);
 }
 
 QString categoryFor(const QString &clss)
 {
-    if(clss == "Compile" || clss == "LaTeX") {
-        return "Compile";
+    if(clss == QStringLiteral("Compile") || clss == QStringLiteral("LaTeX")) {
+        return QStringLiteral("Compile");
     }
-    if(clss == "Convert") {
-        return "Convert";
+    if(clss == QStringLiteral("Convert")) {
+        return QStringLiteral("Convert");
     }
-    if(clss == "View" || clss == "ViewBib" || clss == "ViewHTML" || clss == "ForwardDVI") {
-        return "View";
+    if(clss == QStringLiteral("View") || clss == QStringLiteral("ViewBib") || clss == QStringLiteral("ViewHTML") || clss == QStringLiteral("ForwardDVI")) {
+        return QStringLiteral("View");
     }
-    if(clss == "Sequence") {
-        return "Sequence";
+    if(clss == QStringLiteral("Sequence")) {
+        return QStringLiteral("Sequence");
     }
-    if(clss == "Archive") {
-        return "Archive";
+    if(clss == QStringLiteral("Archive")) {
+        return QStringLiteral("Archive");
     }
 
-    return "Base";
+    return QStringLiteral("Base");
 }
 }
 
@@ -739,7 +739,7 @@ void KileTool::Manager::createActions(KActionCollection *ac)
     m_bibliographyBackendAutodetectAction->setStatusTip(i18n("Auto-detect the bibliography back end from LaTeX output"));
     m_bibliographyBackendSelectAction->setChecked(false);
 
-    ac->addAction("bibbackend_select", m_bibliographyBackendSelectAction);
+    ac->addAction(QStringLiteral("bibbackend_select"), m_bibliographyBackendSelectAction);
 
     m_bibliographyBackendResetAutodetectedAction = new QAction(i18n("Reset Auto-Detected Back End"), this);
     m_bibliographyBackendResetAutodetectedAction->setEnabled(false);

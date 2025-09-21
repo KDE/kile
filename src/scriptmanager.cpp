@@ -44,7 +44,7 @@ Manager::Manager(KileInfo *kileInfo, KConfig *config, KActionCollection *actionC
     setObjectName(name);
 
     // create a local scripts directory if it doesn't exist yet
-    m_localScriptDir = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + "/scripts/";
+    m_localScriptDir = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/scripts/");
     QDir testDir(m_localScriptDir);
     if (!testDir.exists()) {
         testDir.mkpath(m_localScriptDir);
@@ -89,10 +89,10 @@ void Manager::executeScript(const Script *script)
 
     // compatibility check
     QString code = script->getCode();
-    QRegularExpression endOfLineExp("(\r\n)|\n|\r");
+    QRegularExpression endOfLineExp(QStringLiteral("(\r\n)|\n|\r"));
     int i = code.indexOf(endOfLineExp);
     QString firstLine = (i >= 0 ? code.left(i) : code);
-    QRegExp requiredVersionTagExp("(kile-version:\\s*)(\\d+\\.\\d+(.\\d+)?)");
+    QRegExp requiredVersionTagExp(QStringLiteral("(kile-version:\\s*)(\\d+\\.\\d+(.\\d+)?)"));
     if(requiredVersionTagExp.indexIn(firstLine) != -1) {
         QString requiredKileVersion = requiredVersionTagExp.cap(2);
         if(compareVersionStrings(requiredKileVersion, QLatin1StringView(KILE_VERSION_STRING)) > 0) {
@@ -142,8 +142,8 @@ void Manager::scanScriptDirectories()
     deleteScripts();
     populateDirWatch();
 
-    KConfigGroup configGroup = m_config->group("Scripts");
-    const QList<unsigned int> idList = configGroup.readEntry("IDs", QList<unsigned int>());
+    KConfigGroup configGroup = m_config->group(QStringLiteral("Scripts"));
+    const QList<unsigned int> idList = configGroup.readEntry(QStringLiteral("IDs"), QList<unsigned int>());
     unsigned int maxID = 0;
     QMap<QString, unsigned int> pathIDMap;
     QMap<unsigned int, bool> takenIDMap;
@@ -152,7 +152,7 @@ void Manager::scanScriptDirectories()
         // for example, if HOME=/home/michel/, KConfigGroup::readPathEntry will return /home/michel//.local/share/kile/scripts/test.js,
         // resulting in the path /home/michel/.local/share/kile/scripts/test.js not being found;
         // we have used QDir:cleanPath to work around this
-        QString fileName = QDir::cleanPath(configGroup.readPathEntry("Script" + QString::number(i), QString()));
+        QString fileName = QDir::cleanPath(configGroup.readPathEntry(QStringLiteral("Script") + QString::number(i), QString()));
         if(!fileName.isEmpty()) {
             unsigned int id = i;
             pathIDMap[fileName] = id;
@@ -165,7 +165,7 @@ void Manager::scanScriptDirectories()
     QSet<QString> scriptFileNamesSet;
     {
         QSet<QString> canonicalScriptFileNamesSet;
-        const QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "scripts/", QStandardPaths::LocateDirectory);
+        const QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("scripts/"), QStandardPaths::LocateDirectory);
         for(const QString &dir : dirs) {
             QDirIterator it(dir, QStringList() << QStringLiteral("*.js"), QDir::Files | QDir::Readable, QDirIterator::Subdirectories);
             while(it.hasNext()) {
@@ -244,13 +244,13 @@ void Manager::registerScript(const QString& fileName, QMap<QString, unsigned int
     m_idScriptMap[id] = script;
 
     // start with setting up the key sequence
-    KConfigGroup configGroup = m_config->group("Scripts");
+    KConfigGroup configGroup = m_config->group(QStringLiteral("Scripts"));
 
     int sequenceType = 0;
     QString editorKeySequence = QString();
-    QString seq = configGroup.readEntry("Script" + QString::number(id) + "KeySequence");
+    QString seq = configGroup.readEntry(QStringLiteral("Script") + QString::number(id) + QStringLiteral("KeySequence"));
     if(!seq.isEmpty()) {
-        QRegExp re("(\\d+)-(.*)");
+        QRegExp re(QStringLiteral("(\\d+)-(.*)"));
         if(re.exactMatch(seq))  {
             sequenceType = re.cap(1).toInt();
             if(sequenceType<Script::KEY_SEQUENCE || sequenceType>Script::KEY_SHORTCUT) {
@@ -269,7 +269,7 @@ void Manager::registerScript(const QString& fileName, QMap<QString, unsigned int
     ScriptExecutionAction *action = new ScriptExecutionAction(id, this, m_actionCollection);
 
     // add to action collection
-    m_actionCollection->addAction("script" + QString::number(id) + "_execution", action);
+    m_actionCollection->addAction(QStringLiteral("script") + QString::number(id) + QStringLiteral("_execution"), action);
     m_actionCollection->setDefaultShortcut(action, QString());
     script->setActionObject(action);
 
@@ -292,15 +292,15 @@ void Manager::writeConfig()
     if(!KileConfig::scriptingEnabled()) {
         return;
     }
-    m_config->deleteGroup("Scripts");
+    m_config->deleteGroup(QStringLiteral("Scripts"));
     writeIDs();
 
     // write the key sequences
-    KConfigGroup configGroup = m_config->group("Scripts");
+    KConfigGroup configGroup = m_config->group(QStringLiteral("Scripts"));
     for(const Script *script : std::as_const(m_jScriptList)) {
         QString seq = script->getKeySequence();
-        QString sequenceEntry = (seq.isEmpty()) ? seq : QString("%1-%2").arg(QString::number(script->getSequenceType()), seq);
-        configGroup.writeEntry("Script" + QString::number(script->getID()) + "KeySequence", sequenceEntry);
+        QString sequenceEntry = (seq.isEmpty()) ? seq : QStringLiteral("%1-%2").arg(QString::number(script->getSequenceType()), seq);
+        configGroup.writeEntry(QStringLiteral("Script") + QString::number(script->getID()) + QStringLiteral("KeySequence"), sequenceEntry);
     }
 }
 
@@ -372,7 +372,7 @@ void Manager::removeEditorKeySequence(Script* script)
 
 void Manager::populateDirWatch()
 {
-    const QStringList jScriptDirectories = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "scripts/", QStandardPaths::LocateDirectory);
+    const QStringList jScriptDirectories = KileUtilities::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("scripts/"), QStandardPaths::LocateDirectory);
     for(const QString& dir : jScriptDirectories) {
         // FIXME: future KDE versions could support the recursive
         //        watching of directories out of the box.
@@ -408,20 +408,20 @@ unsigned int Manager::findFreeID(const QMap<unsigned int, bool>& takenIDMap, uns
 
 void Manager::writeIDs()
 {
-    KConfigGroup configGroup = m_config->group("Scripts");
+    KConfigGroup configGroup = m_config->group(QStringLiteral("Scripts"));
     //delete old entries
-    QList<unsigned int> idList = configGroup.readEntry("IDs", QList<unsigned int>());
+    QList<unsigned int> idList = configGroup.readEntry(QStringLiteral("IDs"), QList<unsigned int>());
     for(const int i : std::as_const(idList)) {
-        configGroup.deleteEntry("Script" + QString::number(i));
+        configGroup.deleteEntry(QStringLiteral("Script") + QString::number(i));
     }
     //write new ones
     idList.clear();
     for(QMap<unsigned int, Script*>::iterator i = m_idScriptMap.begin(); i != m_idScriptMap.end(); ++i) {
         unsigned int id = i.key();
         idList.push_back(id);
-        configGroup.writePathEntry("Script" + QString::number(id), (*i)->getFileName());
+        configGroup.writePathEntry(QStringLiteral("Script") + QString::number(id), (*i)->getFileName());
     }
-    configGroup.writeEntry("IDs", idList);
+    configGroup.writeEntry(QStringLiteral("IDs"), idList);
 }
 
 void Manager::addDirectoryToDirWatch(const QString& dir)
@@ -435,7 +435,7 @@ void Manager::addDirectoryToDirWatch(const QString& dir)
     QDir qDir(dir);
     const QStringList list = qDir.entryList(QDir::Dirs);
     for(const QString& subdir : list) {
-        if(subdir != "." && subdir != "..") {
+        if (subdir != QStringLiteral(".") && subdir != QStringLiteral("..")) {
             addDirectoryToDirWatch(qDir.filePath(subdir));
         }
     }
@@ -444,25 +444,25 @@ void Manager::addDirectoryToDirWatch(const QString& dir)
 void Manager::readEnginePlugin()
 {
     // TODO error message and disable scripting if not found
-    QString pluginUrl = KileUtilities::locate(QStandardPaths::AppDataLocation, "script-plugins/cursor-range.js");
+    QString pluginUrl = KileUtilities::locate(QStandardPaths::AppDataLocation, QStringLiteral("script-plugins/cursor-range.js"));
     m_enginePlugin = Script::readFile(pluginUrl);
 }
 
 void Manager::initScriptActions()
 {
     QStringList m_scriptActionList = QStringList()
-                                     << "tag_chapter" << "tag_section" << "tag_subsection"
-                                     << "tag_subsubsection" << "tag_paragraph" << "tag_subparagraph"
+                                     << QStringLiteral("tag_chapter") << QStringLiteral("tag_section") << QStringLiteral("tag_subsection")
+                                     << QStringLiteral("tag_subsubsection") << QStringLiteral("tag_paragraph") << QStringLiteral("tag_subparagraph")
 
-                                     << "tag_label" << "tag_ref" << "tag_pageref"
-                                     << "tag_index" << "tag_footnote" << "tag_cite"
+                                     << QStringLiteral("tag_label") << QStringLiteral("tag_ref") << QStringLiteral("tag_pageref")
+                                     << QStringLiteral("tag_index") << QStringLiteral("tag_footnote") << QStringLiteral("tag_cite")
 
-                                     << "tools_comment" << "tools_uncomment" << "tools_uppercase"
-                                     << "tools_lowercase" << "tools_capitalize" << "tools_join_lines"
+                                     << QStringLiteral("tools_comment") << QStringLiteral("tools_uncomment") << QStringLiteral("tools_uppercase")
+                                     << QStringLiteral("tools_lowercase") << QStringLiteral("tools_capitalize") << QStringLiteral("tools_join_lines")
 
-                                     << "wizard_tabular" << "wizard_array" << "wizard_tabbing"
-                                     << "wizard_float" << "wizard_mathenv"
-                                     << "wizard_postscript" << "wizard_pdf"
+                                     << QStringLiteral("wizard_tabular") << QStringLiteral("wizard_array") << QStringLiteral("wizard_tabbing")
+                                     << QStringLiteral("wizard_float") << QStringLiteral("wizard_mathenv")
+                                     << QStringLiteral("wizard_postscript") << QStringLiteral("wizard_pdf")
                                      ;
 
 

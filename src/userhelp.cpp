@@ -57,13 +57,13 @@ void UserHelp::readConfig(QStringList& menuList, QList<QUrl>& fileList)
 
     // first read all entries
     KConfig *config = m_manager->config();
-    KConfigGroup configGroup = config->group("UserHelp");
-    int entries = configGroup.readEntry("entries", int(0));
+    KConfigGroup configGroup = config->group(QStringLiteral("UserHelp"));
+    int entries = configGroup.readEntry(QStringLiteral("entries"), int(0));
     for(int i = 0; i < entries; ++i) {
-        QString menu = configGroup.readEntry(QString("menu%1").arg(i));
+        QString menu = configGroup.readEntry(QStringLiteral("menu%1").arg(i));
         menuList << menu;
-        if(!menu.isEmpty() && menu != "-") {
-            fileList << configGroup.readEntry(QString("file%1").arg(i), QUrl());
+        if (!menu.isEmpty() && menu != QStringLiteral("-")) {
+            fileList << configGroup.readEntry(QStringLiteral("file%1").arg(i), QUrl());
         }
         else {
             fileList << QUrl();
@@ -78,16 +78,16 @@ void UserHelp::writeConfig(const QStringList& menuList, const QList<QUrl>& fileL
 
     // first delete old entries
     KConfig *config = m_manager->config();
-    config->deleteGroup("UserHelp");
+    config->deleteGroup(QStringLiteral("UserHelp"));
 
     // then write new entries
-    KConfigGroup configGroup = config->group("UserHelp");
-    configGroup.writeEntry("entries", entries);
+    KConfigGroup configGroup = config->group(QStringLiteral("UserHelp"));
+    configGroup.writeEntry(QStringLiteral("entries"), entries);
     for(int i = 0; i < entries; ++i) {
         QString menu = menuList[i];
-        configGroup.writeEntry(QString("menu%1").arg(i), menu);
-        if(menu != "-") {
-            configGroup.writeEntry(QString("file%1").arg(i), fileList[i]);
+        configGroup.writeEntry(QStringLiteral("menu%1").arg(i), menu);
+        if (menu != QStringLiteral("-")) {
+            configGroup.writeEntry(QStringLiteral("file%1").arg(i), fileList[i]);
         }
     }
 }
@@ -106,7 +106,7 @@ void UserHelp::setupUserHelpMenu()
     for(QStringList::iterator i = menuList.begin(); i != menuList.end(); ++i) {
         QString menu = *i;
         // first look, if this entry is a separator
-        if(menu == "-" ) {
+        if (menu == QStringLiteral("-")) {
             QAction *action = m_userHelpActionMenu->addSeparator();
             m_actionList.append(action);
         }
@@ -116,12 +116,12 @@ void UserHelp::setupUserHelpMenu()
             // some file types have an icon
             QFileInfo fi(url.fileName());
             QString ext = fi.suffix();
-            if(ext == "htm") {
-                ext = "html";
+            if (ext == QStringLiteral("htm")) {
+                ext = QStringLiteral("html");
             }
             KileAction::VariantSelection *action = new KileAction::VariantSelection(menu, QVariant::fromValue(url), this);
-            if(!url.isLocalFile() ||  ext == "html" || ext == "dvi" || ext == "ps" || ext == "pdf") {
-                QString icon = (!url.isLocalFile()) ? "viewhtml" : QString("view" + ext);
+            if (!url.isLocalFile() ||  ext == QStringLiteral("html") || ext == QStringLiteral("dvi") || ext == QStringLiteral("ps") || ext == QStringLiteral("pdf")) {
+                QString icon = (!url.isLocalFile()) ? QStringLiteral("viewhtml") : QStringLiteral("view") + ext;
                 action->setIcon(QIcon::fromTheme(icon));
             }
             connect(action, SIGNAL(triggered(QUrl)), this, SLOT(slotUserHelpActivated(QUrl)));
@@ -159,23 +159,23 @@ void UserHelp::slotUserHelpActivated(const QUrl &url)
     QString type;
     if(local) {
         QString ext = fi.suffix();
-        if(ext == "dvi") {
-            type = "ViewDVI";
+        if (ext == QStringLiteral("dvi")) {
+            type = QStringLiteral("ViewDVI");
         }
-        else if(ext == "ps") {
-            type = "ViewPS";
+        else if (ext == QStringLiteral("ps")) {
+            type = QStringLiteral("ViewPS");
         }
-        else if(ext == "pdf") {
-            type = "ViewPDF";
+        else if (ext == QStringLiteral("pdf")) {
+            type = QStringLiteral("ViewPDF");
         }
-        else if(ext == "html" || ext == "htm") {
-            type = "ViewHTML";
+        else if (ext == QStringLiteral("html") || ext == QStringLiteral("htm")) {
+            type = QStringLiteral("ViewHTML");
         }
     }
 
     KileTool::Base *tool = nullptr;
-    if(!type.isEmpty() && type != "ViewHTML") {
-        tool = m_manager->createTool(type, "Okular", false);
+    if (!type.isEmpty() && type != QStringLiteral("ViewHTML")) {
+        tool = m_manager->createTool(type, QStringLiteral("Okular"), false);
     }
     if(tool) {
         tool->setFlags(0);

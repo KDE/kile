@@ -82,7 +82,7 @@ QString Base::source(bool absolute /* = true */) const
 
     QString src = m_source;
     if (absolute) {
-        src = m_basedir + '/' + src;
+        src = m_basedir + QLatin1Char('/') + src;
     }
 
     return src;
@@ -100,7 +100,7 @@ void Base::translate(QString &str, bool quoteForShell)
         it.next();
         QString value;
         // the file names in %AFL are quoted already
-        if(quoteForShell && it.key() != "%AFL") {
+        if(quoteForShell && it.key() != QStringLiteral("%AFL")) {
             value = KShell::quoteArg(it.value());
         }
         else {
@@ -167,10 +167,10 @@ void Base::prepareToRun()
     }
 
     //fill in the dictionary
-    addDict("%options", m_options);
+    addDict(QStringLiteral("%options"), m_options);
 
     m_resolution = KileConfig::dvipngResolution() ;
-    addDict("%res",m_resolution);
+    addDict(QStringLiteral("%res"), m_resolution);
 
     m_bPrepared = true;
     m_nPreparationResult = Running;
@@ -297,7 +297,7 @@ void Base::setSource(const QString &source, const QString& workingDir)
     if(!from().isEmpty()) {
         QString src = source;
         if(info.suffix().length() > 0) {
-            src.replace(QRegularExpression(info.suffix() + '$'), from());
+            src.replace(QRegularExpression(info.suffix() + QLatin1Char('$')), from());
         }
         info.setFile(src);
     }
@@ -310,9 +310,9 @@ void Base::setSource(const QString &source, const QString& workingDir)
     m_source = info.fileName();
     m_S = info.completeBaseName();
 
-    addDict("%dir_base", m_basedir);
-    addDict("%source", m_source);
-    addDict("%S",m_S);
+    addDict(QStringLiteral("%dir_base"), m_basedir);
+    addDict(QStringLiteral("%source"), m_source);
+    addDict(QStringLiteral("%S"), m_S);
 
     KILE_DEBUG_MAIN << "===KileTool::Base::setSource()==============";
     KILE_DEBUG_MAIN << "using " << source;
@@ -364,20 +364,20 @@ bool Base::determineTarget()
     //if the target is not set previously, use the source filename
     if(m_target.isEmpty()) {
         //test for explicit override
-        if (!readEntry("target").isEmpty()) {
+        if (!readEntry(QStringLiteral("target")).isEmpty()) {
             KILE_DEBUG_MAIN << "USING target SETTING";
-            m_target = readEntry("target");
+            m_target = readEntry(QStringLiteral("target"));
         }
         else if ( to().length() > 0) {
-            m_target = S() + '.' + to();
+            m_target = S() + QLatin1Char('.') + to();
         }
         else {
             m_target = source(false);
         }
     }
 
-    if(m_relativedir.isEmpty() && (!readEntry("relDir").isEmpty())) {
-        m_relativedir = readEntry("relDir");
+    if(m_relativedir.isEmpty() && (!readEntry(QStringLiteral("relDir")).isEmpty())) {
+        m_relativedir = readEntry(QStringLiteral("relDir"));
     }
 
     QUrl url;
@@ -391,7 +391,7 @@ bool Base::determineTarget()
         url = QUrl::fromLocalFile(m_basedir);
     }
     url = url.adjusted(QUrl::StripTrailingSlash);
-    url.setPath(QDir::cleanPath(url.path() + '/' + m_relativedir));
+    url.setPath(QDir::cleanPath(url.path() + QLatin1Char('/') + m_relativedir));
     m_targetdir = url.toLocalFile();
 
     setTarget(m_target);
@@ -419,7 +419,7 @@ bool Base::checkTarget()
         return false;
     }
 
-    info.setFile(m_targetdir + '/' + m_target);
+    info.setFile(m_targetdir + QLatin1Char('/') + m_target);
 
     if((flags() & NeedTargetExists) && (!info.exists())) {
         sendMessage(Error, msg(NeedTargetExists).subs(m_targetdir).subs(m_target).toString());
@@ -437,13 +437,13 @@ bool Base::checkTarget()
 void Base::setTarget(const QString &target)
 {
     m_target = target;
-    addDict("%target", m_target);
+    addDict(QStringLiteral("%target"), m_target);
 }
 
 void Base::setTargetDir(const QString &target)
 {
     m_targetdir = target;
-    addDict("%dir_target", m_targetdir);
+    addDict(QStringLiteral("%dir_target"), m_targetdir);
 }
 
 void Base::setTargetPath(const QString &target)
@@ -476,10 +476,10 @@ bool Base::finish(int result)
     }
 
     if ( result == Aborted )
-        sendMessage(Error, "Aborted");
+        sendMessage(Error, QStringLiteral("Aborted"));
 
     if ( result == Success )
-        sendMessage(Info,"Done!");
+        sendMessage(Info, QStringLiteral("Done!"));
 
     KILE_DEBUG_MAIN << "\temitting done(KileTool::Base*, int) " << name();
     Q_EMIT(done(this, result, m_childToolSpawned));
@@ -530,17 +530,17 @@ bool Base::installLauncher()
         return true;
     }
 
-    QString type = readEntry("type");
+    QString type = readEntry(QStringLiteral("type"));
     KILE_DEBUG_MAIN << "installing launcher of type " << type;
     Launcher *lr = nullptr;
 
-    if ( type == "Process" ) {
+    if (type == QStringLiteral("Process")) {
         lr = new ProcessLauncher();
     }
-    else if ( type == "Konsole" ) {
+    else if (type == QStringLiteral("Konsole")) {
         lr = new KonsoleLauncher();
     }
-    else if ( type == "DocumentViewer" ) {
+    else if (type == QStringLiteral("DocumentViewer")) {
         lr = new DocumentViewerLauncher();
     }
 
@@ -631,7 +631,7 @@ bool Compile::checkSource()
     bool isRoot = true;
     KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
     if (docinfo) {
-        isRoot = (readEntry("checkForRoot") == "yes") ? docinfo->isLaTeXRoot() : true;
+        isRoot = (readEntry(QStringLiteral("checkForRoot")) == QStringLiteral("yes")) ? docinfo->isLaTeXRoot() : true;
     }
 
     if (!isRoot)
@@ -699,7 +699,7 @@ void Archive::setSource(const QString &source, const QString& workingDir)
     Base::setSource(m_project->url().toLocalFile());
     m_fileList = m_project->archiveFileList();
 
-    addDict("%AFL", m_fileList);
+    addDict(QStringLiteral("%AFL"), m_fileList);
 
     KILE_DEBUG_MAIN << "===KileTool::Archive::setSource("<< source << ")==============";
     KILE_DEBUG_MAIN << "m_fileList="<<m_fileList<< Qt::endl;
@@ -718,7 +718,7 @@ Convert::~Convert()
 bool Convert::determineSource()
 {
     bool  br = Base::determineSource();
-    setSource(baseDir() + '/' + S() + '.' + from());
+    setSource(baseDir() + QLatin1Char('/') + S() + QLatin1Char('.') + from());
     return br;
 }
 
@@ -776,7 +776,7 @@ bool Sequence::requestSaveAll()
 
 void Sequence::setupSequenceTools()
 {
-    QStringList toolNameList = readEntry("sequence").split(',');
+    QStringList toolNameList = readEntry(QStringLiteral("sequence")).split(QLatin1Char(','));
     QString tl, cfg;
     for(QStringList::iterator i = toolNameList.begin(); i != toolNameList.end(); ++i) {
         QString fullToolSpec = (*i).trimmed();

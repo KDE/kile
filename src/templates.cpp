@@ -69,11 +69,11 @@ bool Manager::copyAppData(const QUrl &src, const QString& subdir, const QString&
 {
     //let saveLocation find and create the appropriate place to
     //store the templates (usually $HOME/.kde/share/apps/kile/templates)
-    QString dir = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + '/' + subdir;
+    QString dir = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + QLatin1Char('/') + subdir;
 
     QUrl targetURL = QUrl::fromUserInput(dir);
     targetURL = targetURL.adjusted(QUrl::StripTrailingSlash);
-    targetURL.setPath(targetURL.path() + '/' + fileName);
+    targetURL.setPath(targetURL.path() + QLatin1Char('/') + fileName);
 
     //if a directory is found
     if (!dir.isNull()) {
@@ -127,7 +127,8 @@ bool Manager::add(const QUrl &templateSourceURL, KileDocument::Type type, const 
     KileDocument::Extensions *extensions = m_kileInfo->extensions();
     QString extension = extensions->defaultExtensionForDocumentType(type);
 
-    return copyAppData(templateSourceURL, "templates", "template_" + name + extension) && copyAppData(icon, "pics", "type_" + name + extension + ".kileicon");
+    return copyAppData(templateSourceURL, QStringLiteral("templates"), QStringLiteral("template_") + name + extension)
+      && copyAppData(icon, QStringLiteral("pics"), QStringLiteral("type_") + name + extension + QStringLiteral(".kileicon"));
 }
 
 bool Manager::remove(Info ti) {
@@ -136,20 +137,20 @@ bool Manager::remove(Info ti) {
 
 void Manager::scanForTemplates() {
     KILE_DEBUG_MAIN << "===scanForTemplates()===================";
-    QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "templates", QStandardPaths::LocateDirectory);
+    QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("templates"), QStandardPaths::LocateDirectory);
     QDir templates;
     KileTemplate::Info ti;
     const KileDocument::Extensions *extensions = m_kileInfo->extensions();
 
     m_TemplateList.clear();
     for(QStringList::iterator i = dirs.begin(); i != dirs.end(); ++i) {
-        templates = QDir(*i, "template_*");
+        templates = QDir(*i, QStringLiteral("template_*"));
         for (uint j = 0; j < templates.count(); ++j) {
-            ti.path = templates.path() + '/' + templates[j];
+            ti.path = templates.path() + QLatin1Char('/') + templates[j];
             QFileInfo fileInfo(ti.path);
             ti.name = fileInfo.completeBaseName().mid(9); //remove "template_", do it this way to avoid problems with user input!
             ti.type = extensions->determineDocumentType(QUrl::fromUserInput(ti.path));
-            ti.icon = KileUtilities::locate(QStandardPaths::AppDataLocation, "pics/type_" + ti.name + extensions->defaultExtensionForDocumentType(ti.type) + ".kileicon");
+            ti.icon = KileUtilities::locate(QStandardPaths::AppDataLocation, QStringLiteral("pics/type_") + ti.name + extensions->defaultExtensionForDocumentType(ti.type) + QStringLiteral(".kileicon"));
             if (m_TemplateList.contains(ti)) {
                 KILE_DEBUG_MAIN << "\tignoring: " << ti.path;
             }
@@ -262,7 +263,7 @@ void TemplateIconView::searchLaTeXClassFiles()
 
     m_output.clear();
 
-    QString command = "kpsewhich -format=tex scrartcl.cls beamer.cls prosper.cls HA-prosper.sty";
+    QString command = QStringLiteral("kpsewhich -format=tex scrartcl.cls beamer.cls prosper.cls HA-prosper.sty");
 
     delete m_proc;
 
@@ -308,7 +309,7 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
         return;
     }
 
-    QString emptyIcon = KileUtilities::locate(QStandardPaths::AppDataLocation, "pics/" + QString(DEFAULT_EMPTY_ICON) + ".png" );
+    QString emptyIcon = KileUtilities::locate(QStandardPaths::AppDataLocation, QStringLiteral("pics/") + QStringLiteral(DEFAULT_EMPTY_ICON) + QStringLiteral(".png"));
 
     KileTemplate::Info emptyDocumentInfo;
     emptyDocumentInfo.name = KileTemplate::Manager::defaultEmptyTemplateCaption();
@@ -320,32 +321,32 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
     if(type == KileDocument::LaTeX) {
         // disable non standard templates
         QMap<QString,bool> map;
-        map["Scrartcl"] = false;
-        map["Scrbook"]  = false;
-        map["Scrreprt"] = false;
-        map["Scrlttr2"] = false;
-        map["Beamer"]   = false;
-        map["Prosper"]  = false;
-        map["HA-prosper"] = false;
+        map[QStringLiteral("Scrartcl")] = false;
+        map[QStringLiteral("Scrbook")]  = false;
+        map[QStringLiteral("Scrreprt")] = false;
+        map[QStringLiteral("Scrlttr2")] = false;
+        map[QStringLiteral("Beamer")]   = false;
+        map[QStringLiteral("Prosper")]  = false;
+        map[QStringLiteral("HA-prosper")] = false;
 
         // split search results and look, which class files are present
-        QStringList list = m_output.split('\n');
+        QStringList list = m_output.split(QLatin1Char('\n'));
         for(QStringList::Iterator it=list.begin(); it!=list.end(); ++it) {
             QString filename = QFileInfo(*it).fileName();
-            if(filename=="scrartcl.cls") {
-                map["Scrartcl"] = true;
-                map["Scrbook"]  = true;
-                map["Scrreprt"] = true;
-                map["Scrlttr2"] = true;
+            if (filename == QStringLiteral("scrartcl.cls")) {
+                map[QStringLiteral("Scrartcl")] = true;
+                map[QStringLiteral("Scrbook")]  = true;
+                map[QStringLiteral("Scrreprt")] = true;
+                map[QStringLiteral("Scrlttr2")] = true;
             }
-            else if(filename=="beamer.cls") {
-                map["Beamer"] = true;
+            else if (filename == QStringLiteral("beamer.cls")) {
+                map[QStringLiteral("Beamer")] = true;
             }
-            else if(filename=="prosper.cls") {
-                map["Prosper"] = true;
+            else if (filename == QStringLiteral("prosper.cls")) {
+                map[QStringLiteral("Prosper")] = true;
             }
-            else if(filename=="HA-prosper.sty") {
-                map["HA-prosper"] = true;
+            else if (filename == QStringLiteral("HA-prosper.sty")) {
+                map[QStringLiteral("HA-prosper")] = true;
             }
         }
 

@@ -26,8 +26,8 @@ namespace KileDocument
 
 LatexCommands::LatexCommands(KConfig *config, KileInfo *info) : m_config(config), m_ki(info)
 {
-    m_envGroupName = "Latex Environments";
-    m_cmdGroupName = "Latex Commands";
+    m_envGroupName = QStringLiteral("Latex Environments");
+    m_cmdGroupName = QStringLiteral("Latex Commands");
 
     LatexCommands::resetCommands();
 }
@@ -47,53 +47,53 @@ void LatexCommands::resetCommands()
     QStringList envlist;
     envlist
     // list environments
-            << "itemize,+,l,*,,,,,"
-            << "enumerate,+,l,*,,,,,"
-            << "description,+,l,*,,,,,"
-            << "Bitemize,+,l,,,,,,"
-            << "Benumerate,+,l,,,,,,"
-            << "Bdescription,+,l,,,,,,"
-            << "labeling,+,l,,,,,[ ],{ }"
+            << QStringLiteral("itemize,+,l,*,,,,,")
+            << QStringLiteral("enumerate,+,l,*,,,,,")
+            << QStringLiteral("description,+,l,*,,,,,")
+            << QStringLiteral("Bitemize,+,l,,,,,,")
+            << QStringLiteral("Benumerate,+,l,,,,,,")
+            << QStringLiteral("Bdescription,+,l,,,,,,")
+            << QStringLiteral("labeling,+,l,,,,,[ ],{ }")
             // tabular environments
-            << "tabular,+,t,*,\\\\,,&,[tcb],"
-            << "tabularx,+,t,,\\\\,,&,,{w}"
-            << "tabbing,+,t,,\\\\,,\\>,,"
-            << "longtable,+,t,,\\\\,,&,[tcb],"
-            << "ltxtable,+,t,,\\\\,,&,[tcb],{w}"
-            << "supertabular,+,t,*,\\\\,,&,,"
-            << "mpsupertabular,+,t,*,\\\\,,&,,"
-            << "xtabular,+,t,*,\\\\,,&,,"
-            << "mpxtabular,+,t,*,\\\\,,&,,"
+            << QStringLiteral("tabular,+,t,*,\\\\,,&,[tcb],")
+            << QStringLiteral("tabularx,+,t,,\\\\,,&,,{w}")
+            << QStringLiteral("tabbing,+,t,,\\\\,,\\>,,")
+            << QStringLiteral("longtable,+,t,,\\\\,,&,[tcb],")
+            << QStringLiteral("ltxtable,+,t,,\\\\,,&,[tcb],{w}")
+            << QStringLiteral("supertabular,+,t,*,\\\\,,&,,")
+            << QStringLiteral("mpsupertabular,+,t,*,\\\\,,&,,")
+            << QStringLiteral("xtabular,+,t,*,\\\\,,&,,")
+            << QStringLiteral("mpxtabular,+,t,*,\\\\,,&,,")
             // math environments
-            << "displaymath,+,m,,,,,,"
-            << "equation,+,m,*,,,,,"
-            << "eqnarray,+,m,*,\\\\,,&=&,,"
-            << "array,+,m,,\\\\,$,&,[tcb],"
-            << "matrix,+,m,,\\\\,$,&,,"
-            << "pmatrix,+,m,,\\\\,$,&,,"
-            << "bmatrix,+,m,,\\\\,$,&,,"
-            << "Bmatrix,+,m,,\\\\,$,&,,"
-            << "vmatrix,+,m,,\\\\,$,&,,"
-            << "Vmatrix,+,m,,\\\\,$,&,,"
-            // amsmath environments
-            << "multline,+,a,*,\\\\,,,,"
-            << "gather,+,a,*,\\\\,,,,"
-            << "split,+,a,,\\\\,$$,,,"          // needs surrounding environment
-            << "align,+,a,*,\\\\,,&=,,"
-            << "flalign,+,a,*,\\\\,,&=,,"
-            << "alignat,+,a,*,\\\\,,&=,,{n}"
-            << "aligned,+,a,,\\\\,$,&=,[tcb],"
-            << "gathered,+,a,,\\\\,$,,[tcb],"
-            << "alignedat,+,a,,\\\\,$,&=,[tcb],{n}"
+            << QStringLiteral("displaymath,+,m,,,,,,")
+            << QStringLiteral("equation,+,m,*,,,,,")
+            << QStringLiteral("eqnarray,+,m,*,\\\\,,&=&,,")
+            << QStringLiteral("array,+,m,,\\\\,$,&,[tcb],")
+            << QStringLiteral("matrix,+,m,,\\\\,$,&,,")
+            << QStringLiteral("pmatrix,+,m,,\\\\,$,&,,")
+            << QStringLiteral("bmatrix,+,m,,\\\\,$,&,,")
+            << QStringLiteral("Bmatrix,+,m,,\\\\,$,&,,")
+            << QStringLiteral("vmatrix,+,m,,\\\\,$,&,,")
+            << QStringLiteral("Vmatrix,+,m,,\\\\,$,&,,")
+            // QStringLiteral(amsmath environments
+            << QStringLiteral("multline,+,a,*,\\\\,,,,")
+            << QStringLiteral("gather,+,a,*,\\\\,,,,")
+            << QStringLiteral("split,+,a,,\\\\,$$,,,")          // needs surrounding environment
+            << QStringLiteral("align,+,a,*,\\\\,,&=,,")
+            << QStringLiteral("flalign,+,a,*,\\\\,,&=,,")
+            << QStringLiteral("alignat,+,a,*,\\\\,,&=,,{n}")
+            << QStringLiteral("aligned,+,a,,\\\\,$,&=,[tcb],")
+            << QStringLiteral("gathered,+,a,,\\\\,$,,[tcb],")
+            << QStringLiteral("alignedat,+,a,,\\\\,$,&=,[tcb],{n}")
             //<< "xalignat,+,a,*,\\\\,,&=,,{n}"   // obsolet
             //<< "xxalignat,+,a,*,\\\\,,&=,,{n}"  // obsolet
-            << "cases,+,a,,\\\\,$,&,,"
+            << QStringLiteral("cases,+,a,,\\\\,$,&,,")
             // verbatim environments
-            << "verbatim,+,v,*,,,,,"
-            << "boxedverbatim,+,v,,,,,,"
-            << "Bverbatim,+,v,,,,,[ ],"
-            << "Lverbatim,+,v,,,,,[ ],"
-            << "lstlisting,+,v,,,,,[ ],"
+            << QStringLiteral("verbatim,+,v,*,,,,,")
+            << QStringLiteral("boxedverbatim,+,v,,,,,,")
+            << QStringLiteral("Bverbatim,+,v,,,,,[ ],")
+            << QStringLiteral("Lverbatim,+,v,,,,,[ ],")
+            << QStringLiteral("lstlisting,+,v,,,,,[ ],")
             ;
 
     // description of the fields for commands
@@ -106,27 +106,27 @@ void LatexCommands::resetCommands()
     QStringList cmdlist;
     cmdlist
     // Labels
-            << "\\label,+,L,,,{ }"
+            << QStringLiteral("\\label,+,L,,,{ }")
             // References
-            << "\\ref,+,R,,,{ }"
-            << "\\pageref,+,R,,,{ }"
-            << "\\vref,+,R,,,{ }"
-            << "\\vpageref,+,R,,[ ],{ }"
-            << "\\fref,+,R,,,{ }"
-            << "\\Fref,+,R,,,{ }"
-            << "\\eqref,+,R,,,{ }"
-            << "\\autoref,+,R,,,{ }"
+            << QStringLiteral("\\ref,+,R,,,{ }")
+            << QStringLiteral("\\pageref,+,R,,,{ }")
+            << QStringLiteral("\\vref,+,R,,,{ }")
+            << QStringLiteral("\\vpageref,+,R,,[ ],{ }")
+            << QStringLiteral("\\fref,+,R,,,{ }")
+            << QStringLiteral("\\Fref,+,R,,,{ }")
+            << QStringLiteral("\\eqref,+,R,,,{ }")
+            << QStringLiteral("\\autoref,+,R,,,{ }")
             // Bibliographies
-            << "\\bibliography,+,B,,,{ }"
-            << "\\addbibresource,+,B,*,[ ],{ }"
-            << "\\addglobalbib,+,B,*,[ ],{ }"
-            << "\\addsectionbib,+,B,*,[ ],{ }"
+            << QStringLiteral("\\bibliography,+,B,,,{ }")
+            << QStringLiteral("\\addbibresource,+,B,*,[ ],{ }")
+            << QStringLiteral("\\addglobalbib,+,B,*,[ ],{ }")
+            << QStringLiteral("\\addsectionbib,+,B,*,[ ],{ }")
             // Citations
-            << "\\cite,+,C,,,{ }"
+            << QStringLiteral("\\cite,+,C,,,{ }")
             // Includes
-            << "\\include,+,I,,,{ }"
-            << "\\input,+,I,,,{ }"
-            << "\\Input,+,I,,,{ }"
+            << QStringLiteral("\\include,+,I,,,{ }")
+            << QStringLiteral("\\input,+,I,,,{ }")
+            << QStringLiteral("\\Input,+,I,,,{ }")
             ;
 
     // first clear the dictionary
@@ -159,16 +159,16 @@ void LatexCommands::addUserCommands(const QString &name, QStringList &list)
     int nrOfDefinedCommands = group.readEntry("Number of Commands", 0);
 
     for(int i = 0; i < nrOfDefinedCommands; ++i) {
-        const QString commandKey = "Command" + QString::number(i);
-        const QString parametersKey = "Parameters" + QString::number(i);
+        const QString commandKey = QStringLiteral("Command") + QString::number(i);
+        const QString parametersKey = QStringLiteral("Parameters") + QString::number(i);
 
         if(!group.hasKey(commandKey) || !group.hasKey(parametersKey)) {
             KILE_DEBUG_MAIN << "\tEntry" << i << "is invalid!";
         }
         const QString command = group.readEntry(commandKey);
         const QString parameters = group.readEntry(parametersKey);
-        list << command + ",-," + parameters;
-        KILE_DEBUG_MAIN << "\tAdding: " <<  command + " --> " + parameters;
+        list << command + QStringLiteral(",-,") + parameters;
+        KILE_DEBUG_MAIN << "\tAdding: " <<  command << " --> " << parameters;
     }
 }
 
@@ -179,12 +179,12 @@ void LatexCommands::insert(const QStringList &list)
     // now insert new entries, if they have the right number of attributes
     QStringList::ConstIterator it;
     for(it = list.begin(); it!=list.end(); ++it) {
-        int pos = (*it).indexOf(',');
+        int pos = (*it).indexOf(QLatin1Char(','));
         if(pos >= 0)  {
             QString key = (*it).left(pos);
             QString value = (*it).right( (*it).length()-pos-1 );
-            QStringList valuelist = value.split(',', Qt::KeepEmptyParts);
-            int attributes = ( key.at(0)=='\\' ) ? MaxCmdAttr : MaxEnvAttr;
+            QStringList valuelist = value.split(QLatin1Char(','), Qt::KeepEmptyParts);
+            int attributes = (key.at(0) == QLatin1Char('\\')) ? MaxCmdAttr : MaxEnvAttr;
             if(valuelist.count() == attributes) {
                 m_latexCommands[key] = value;
             }
@@ -204,7 +204,7 @@ void LatexCommands::insert(const QStringList &list)
 
 QString LatexCommands::getValue(const QString &name)
 {
-    QString key = (name.indexOf('*',-1) >= 0) ? name.left(name.length()-1) : name;
+    QString key = (name.indexOf(QLatin1Char('*'), -1) >= 0) ? name.left(name.length()-1) : name;
     return (m_latexCommands.contains(key)) ? m_latexCommands[key] : QString();
 }
 
@@ -217,8 +217,8 @@ QString LatexCommands::getAttrAt(const QString &name, int index)
     if(index < 0) {
         return QString();
     }
-    int attributes = (name.at(0) == '\\') ? MaxCmdAttr : MaxEnvAttr;
-    QStringList list = getValue(name).split(',', Qt::KeepEmptyParts);
+    int attributes = (name.at(0) == QLatin1Char('\\')) ? MaxCmdAttr : MaxEnvAttr;
+    QStringList list = getValue(name).split(QLatin1Char(','), Qt::KeepEmptyParts);
     return (index < attributes && list.count() == attributes) ? list[index] : QString();
 }
 
@@ -226,14 +226,14 @@ QString LatexCommands::getAttrAt(const QString &name, int index)
 
 bool LatexCommands::isUserDefined(const QString &name)
 {
-    return ( getValue(name).at(0) == '-' );
+    return (getValue(name).at(0) == QLatin1Char('-'));
 }
 
 // check for a special environment type
 
 bool LatexCommands::isType(const QString &name, QChar ch)
 {
-    if(name.indexOf('*', -1) >= 0) {
+    if(name.indexOf(QLatin1Char('*'), -1) >= 0) {
         QString envname = name.left(name.length() - 1);
         QString value = getValue(envname);
         return (value.length() >= 3 && value.at(2) == ch && isStarredEnv(envname));
@@ -253,38 +253,38 @@ QChar LatexCommands::getAttrChar(CmdAttribute attr)
     QChar ch;
     switch(attr) {
     case CmdAttrAmsmath:
-        ch = 'a';
+        ch = QLatin1Char('a');
         break;
     case CmdAttrMath:
-        ch = 'm';
+        ch = QLatin1Char('m');
         break;
     case CmdAttrList:
-        ch = 'l';
+        ch = QLatin1Char('l');
         break;
     case CmdAttrVerbatim:
-        ch = 'v';
+        ch = QLatin1Char('v');
         break;
     case CmdAttrTabular:
-        ch = 't';
+        ch = QLatin1Char('t');
         break;
     case CmdAttrLabel:
-        ch = 'L';
+        ch = QLatin1Char('L');
         break;
     case CmdAttrReference:
-        ch = 'R';
+        ch = QLatin1Char('R');
         break;
     case CmdAttrCitations:
-        ch = 'C';
+        ch = QLatin1Char('C');
         break;
     case CmdAttrIncludes:
-        ch = 'I';
+        ch = QLatin1Char('I');
         break;
     case CmdAttrBibliographies:
-        ch = 'B';
+        ch = QLatin1Char('B');
         break;
     default:
         KILE_DEBUG_MAIN << "\tLatexCommands error: unknown type of env/cmd: code " << attr;
-        return '?';
+        return QLatin1Char('?');
     }
 
     return ch;
@@ -345,29 +345,29 @@ bool LatexCommands::isMathEnv(const QString &name)
     }
 
     QChar ch = value.at(2);
-    return (ch == 'm' || ch == 'a');
+    return (ch == QLatin1Char('m') || ch == QLatin1Char('a'));
 }
 
 // check for some special attributes
 
 bool LatexCommands::isStarredEnv(const QString &name)
 {
-    return (getAttrAt(name, 2) == "*");
+    return (getAttrAt(name, 2) == QStringLiteral("*"));
 }
 
 bool LatexCommands::isCrEnv(const QString &name)
 {
-    return (getAttrAt(name, 3) == "\\\\");
+    return (getAttrAt(name, 3) == QStringLiteral("\\\\"));
 }
 
 bool LatexCommands::isMathModeEnv(const QString &name)
 {
-    return (getAttrAt(name, 4) == "$");
+    return (getAttrAt(name, 4) == QStringLiteral("$"));
 }
 
 bool LatexCommands::isDisplaymathModeEnv(const QString &name)
 {
-    return (getAttrAt(name, 4) == "$$");
+    return (getAttrAt(name, 4) == QStringLiteral("$$"));
 }
 
 bool LatexCommands::needsMathMode(const QString &name)
@@ -378,7 +378,7 @@ bool LatexCommands::needsMathMode(const QString &name)
 QString LatexCommands::getTabulator(const QString &name)
 {
     QString tab = getAttrAt(name, 5);
-    return (tab.indexOf('&') >= 0) ? tab : QString();
+    return (tab.indexOf(QLatin1Char('&')) >= 0) ? tab : QString();
 }
 
 //////////////////// environments and commands ////////////////////
@@ -405,7 +405,7 @@ void LatexCommands::commandList(QStringList &list, uint attr, bool userdefined)
         if(!userdefined) {
             list.append(it.key());
         }
-        else if(it.value().at(0) == '-') {
+        else if(it.value().at(0) == QLatin1Char('-')) {
             list.append(it.key());
         }
     }
@@ -415,10 +415,10 @@ void LatexCommands::commandList(QStringList &list, uint attr, bool userdefined)
 
 bool LatexCommands::commandAttributes(const QString &name, LatexCmdAttributes &attr)
 {
-    int attributes = (name.at(0) == '\\') ? MaxCmdAttr : MaxEnvAttr;
+    int attributes = (name.at(0) == QLatin1Char('\\')) ? MaxCmdAttr : MaxEnvAttr;
 
     // split attribute list
-    QStringList list = getValue(name).split(',', Qt::KeepEmptyParts);
+    QStringList list = getValue(name).split(QLatin1Char(','), Qt::KeepEmptyParts);
 
     // check number of attributes
     if(list.count() != attributes) {
@@ -426,7 +426,7 @@ bool LatexCommands::commandAttributes(const QString &name, LatexCmdAttributes &a
     }
 
     // check for a standard environment/command
-    attr.standard = (list[0] == "+");
+    attr.standard = (list[0] == QStringLiteral("+"));
 
     // most important: type of environment or command
     attr.type = getCharAttr(list[1].at(0));
@@ -435,13 +435,13 @@ bool LatexCommands::commandAttributes(const QString &name, LatexCmdAttributes &a
     }
 
     // all environments/commands have starred attribute
-    attr.starred = (list[2] == "*");
+    attr.starred = (list[2] == QStringLiteral("*"));
 
     // next attributes differ for environments and commands
     if(attributes == MaxEnvAttr) {
-        attr.cr = (list[3] == "\\\\");
-        attr.mathmode = (list[4] == "$");
-        attr.displaymathmode = (list[4] == "$$");
+        attr.cr = (list[3] == QStringLiteral("\\\\"));
+        attr.mathmode = (list[4] == QStringLiteral("$"));
+        attr.displaymathmode = (list[4] == QStringLiteral("$$"));
         attr.tabulator = list[5];
         attr.option = list[6];
         attr.parameter = list[7];
@@ -464,41 +464,41 @@ QString LatexCommands::configString(const LatexCmdAttributes &attr,bool env)
 {
     // most important: type of environment or command
     QChar ch = getAttrChar(attr.type);
-    if(ch == '?') {
+    if(ch == QLatin1Char('?')) {
         return QString();
     }
-    QString s = ch + QString(',');
+    QString s = ch + QLatin1Char(',');
 
     // all environments/commands have starred attribute
     if(attr.starred) {
-        s += "*,";
+        s += QStringLiteral("*,");
     }
     else {
-        s += ',';
+        s += QLatin1Char(',');
     }
 
     // next attributes are only valid for environments
     if(env) {
         if(attr.cr) {
-            s += "\\\\,";
+            s += QStringLiteral("\\\\,");
         }
         else {
-            s += ',';
+            s += QLatin1Char(',');
         }
         if(attr.mathmode) {
-            s += "$,";
+            s += QStringLiteral("$,");
         }
         else if(attr.displaymathmode) {
-            s += "$$";
+            s += QStringLiteral("$$");
         }
         else {
-            s += ',';
+            s += QLatin1Char(',');
         }
-        s += attr.tabulator + ',';
+        s += attr.tabulator + QLatin1Char(',');
     }
 
     // option and parameter are for both types again
-    s += attr.option + ',';
+    s += attr.option + QLatin1Char(',');
     s += attr.parameter;
 
     return s;    // s.left(s.length()-1);

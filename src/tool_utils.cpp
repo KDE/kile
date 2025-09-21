@@ -35,16 +35,16 @@ bool ToolConfigPair::operator<(const ToolConfigPair& p2) const
         return (firstCompare < 0);
     }
 
-    if(second.isEmpty() || second == DEFAULT_TOOL_CONFIGURATION) {
-        if(p2.second.isEmpty() || p2.second == DEFAULT_TOOL_CONFIGURATION) {
+    if (second.isEmpty() || second == QStringLiteral(DEFAULT_TOOL_CONFIGURATION)) {
+        if (p2.second.isEmpty() || p2.second == QStringLiteral(DEFAULT_TOOL_CONFIGURATION)) {
             return false;
         }
         else {
             return true;
         }
     }
-    if(p2.second.isEmpty() || p2.second == DEFAULT_TOOL_CONFIGURATION) {
-        if(second.isEmpty() || second == DEFAULT_TOOL_CONFIGURATION) {
+    if (p2.second.isEmpty() || p2.second == QStringLiteral(DEFAULT_TOOL_CONFIGURATION)) {
+        if (second.isEmpty() || second == QStringLiteral(DEFAULT_TOOL_CONFIGURATION)) {
             return true;
         }
         else {
@@ -57,34 +57,34 @@ bool ToolConfigPair::operator<(const ToolConfigPair& p2) const
 
 QString ToolConfigPair::userStringRepresentation(const QString& toolName, const QString& toolConfig)
 {
-    return (toolConfig == DEFAULT_TOOL_CONFIGURATION)
+    return (toolConfig == QStringLiteral(DEFAULT_TOOL_CONFIGURATION))
            ? toolName : i18nc("<tool name> - <configuration>", "%1 - %2", toolName, toolConfig);
 }
 
 QString ToolConfigPair::configStringRepresentation(const QString& toolName, const QString& toolConfig)
 {
     QString configString = toolConfig;
-    if(configString == DEFAULT_TOOL_CONFIGURATION) {
+    if(configString == QStringLiteral(DEFAULT_TOOL_CONFIGURATION)) {
         configString.clear();
     }
     if(toolName.isEmpty() && configString.isEmpty()) {
-        return "";
+        return QString();
     }
     if(configString.isEmpty()) {
         return toolName;
     }
-    return toolName + '/' + configString;
+    return toolName + QLatin1Char('/') + configString;
 }
 
 ToolConfigPair ToolConfigPair::fromConfigStringRepresentation(const QString& s)
 {
-    const int separatorIndex = s.indexOf('/');
+    const int separatorIndex = s.indexOf(QLatin1Char('/'));
     if(separatorIndex < 0) { // for example, is 's' is empty
-        return ToolConfigPair(s, DEFAULT_TOOL_CONFIGURATION);
+        return ToolConfigPair(s, QStringLiteral(DEFAULT_TOOL_CONFIGURATION));
     }
     QString configString = s.mid(separatorIndex + 1);
     if(configString.isEmpty()) {
-        configString = DEFAULT_TOOL_CONFIGURATION;
+        configString = QStringLiteral(DEFAULT_TOOL_CONFIGURATION);
     }
     return ToolConfigPair(s.left(separatorIndex), configString);
 }

@@ -122,9 +122,9 @@ Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *p
     setObjectName(name);
     createViewerPart(actionCollection);
 
-    m_showCursorPositionInViewerAction = new QAction(QIcon::fromTheme("go-jump-symbolic"), i18n("Show Cursor Position in Viewer"), this);
+    m_showCursorPositionInViewerAction = new QAction(QIcon::fromTheme(QStringLiteral("go-jump-symbolic")), i18n("Show Cursor Position in Viewer"), this);
     connect(m_showCursorPositionInViewerAction, &QAction::triggered, this, &KileView::Manager::showCursorPositionInDocumentViewer);
-    actionCollection->addAction("show_cursor_position_in_document_viewer", m_showCursorPositionInViewerAction);
+    actionCollection->addAction(QStringLiteral("show_cursor_position_in_document_viewer"), m_showCursorPositionInViewerAction);
 
     m_synchronizeViewWithCursorAction = new KToggleAction(i18n("Synchronize Cursor Position with Viewer"), this);
     connect(m_synchronizeViewWithCursorAction, &KToggleAction::toggled, this, &KileView::Manager::synchronizeViewWithCursorActionToggled);
@@ -132,7 +132,7 @@ Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *p
     this, [=] () {
         m_showCursorPositionInViewerAction->setEnabled(!m_synchronizeViewWithCursorAction->isChecked());
     });
-    actionCollection->addAction("synchronize_cursor_with_document_viewer", m_synchronizeViewWithCursorAction);
+    actionCollection->addAction(QStringLiteral("synchronize_cursor_with_document_viewer"), m_synchronizeViewWithCursorAction);
 
     m_cursorPositionChangedTimer = new QTimer(this);
     m_cursorPositionChangedTimer->setSingleShot(true);
@@ -178,15 +178,15 @@ void Manager::createViewerControlToolBar()
 void Manager::setClient(KXMLGUIClient *client)
 {
     m_client = client;
-    if(nullptr == m_client->actionCollection()->action("popup_pasteaslatex")) {
+    if(nullptr == m_client->actionCollection()->action(QStringLiteral("popup_pasteaslatex"))) {
         m_pasteAsLaTeXAction = new QAction(i18n("Paste as LaTe&X"), this);
         connect(m_pasteAsLaTeXAction, &QAction::triggered, this, &Manager::pasteAsLaTeX);
     }
-    if(nullptr == m_client->actionCollection()->action("popup_converttolatex")) {
+    if(nullptr == m_client->actionCollection()->action(QStringLiteral("popup_converttolatex"))) {
         m_convertToLaTeXAction = new QAction(i18n("Convert Selection to &LaTeX"), this);
         connect(m_convertToLaTeXAction, &QAction::triggered, this, &Manager::convertSelectionToLaTeX);
     }
-    if(nullptr == m_client->actionCollection()->action("popup_quickpreview")) {
+    if(nullptr == m_client->actionCollection()->action(QStringLiteral("popup_quickpreview"))) {
         m_quickPreviewAction = new QAction(this);
         connect(m_quickPreviewAction, &QAction::triggered, this, &Manager::quickPreviewPopup);
     }
@@ -250,7 +250,7 @@ QWidget * Manager::createTabs(QWidget *parent)
 
     // quick menu for all open documents
     m_documentListButton = new QToolButton(parent);
-    m_documentListButton->setIcon(QIcon::fromTheme("format-list-unordered"));
+    m_documentListButton->setIcon(QIcon::fromTheme(QStringLiteral("format-list-unordered")));
     m_documentListButton->setMenu(new QMenu(parent));
     m_documentListButton->setPopupMode(QToolButton::InstantPopup);
     m_documentListButton->setAutoRaise(true);
@@ -409,11 +409,11 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
     installContextMenu(view);
 
     // delete the 'Configure Editor...' action
-    delete view->actionCollection()->action("set_confdlg");
+    delete view->actionCollection()->action(QStringLiteral("set_confdlg"));
     // delete the "save as with encoding" action as it's too technical for Kile
     // also, there is currently no way to preset the desired extension in the save-as dialog
     // (the functionality is still available via Tools/Encoding + save)
-    delete view->actionCollection()->action("file_save_as_with_encoding");
+    delete view->actionCollection()->action(QStringLiteral("file_save_as_with_encoding"));
 
     // use Kile's save and save-as functions instead of the text editor's
     QAction *action = view->actionCollection()->action(KStandardAction::name(KStandardAction::Save));
@@ -434,7 +434,7 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
     }
 
     // use Kile's smart-new-line feature
-    action = view->actionCollection()->action("smart_newline");
+    action = view->actionCollection()->action(QStringLiteral("smart_newline"));
     if(action) {
         disconnect(action, &QAction::triggered, nullptr, nullptr);
         connect(action, &QAction::triggered, [=]() {
@@ -516,13 +516,13 @@ void Manager::tabContext(const QPoint &pos)
     tabMenu.addSection(m_ki->getShortName(view->document()));
 
     // 'action1' can become null if it belongs to a view that has been closed, for example
-    QPointer<QAction> action1 = m_ki->mainWindow()->action("move_view_tab_left");
+    QPointer<QAction> action1 = m_ki->mainWindow()->action(QStringLiteral("move_view_tab_left"));
     if(action1) {
         action1->setData(QVariant::fromValue(view));
         tabMenu.addAction(action1);
     }
 
-    QPointer<QAction> action2 = m_ki->mainWindow()->action("move_view_tab_right");
+    QPointer<QAction> action2 = m_ki->mainWindow()->action(QStringLiteral("move_view_tab_right"));
     if(action2) {
         action2->setData(QVariant::fromValue(view));
         tabMenu.addAction(action2);
@@ -545,20 +545,20 @@ void Manager::tabContext(const QPoint &pos)
         tabMenu.addAction(action4);
     }
 
-    QPointer<QAction> action5 = view->action("file_save_copy_as");
+    QPointer<QAction> action5 = view->action(QStringLiteral("file_save_copy_as"));
     if(action5) {
         tabMenu.addAction(action5);
     }
 
     tabMenu.addSeparator();
 
-    QPointer<QAction> action6 = m_ki->mainWindow()->action("file_close");
+    QPointer<QAction> action6 = m_ki->mainWindow()->action(QStringLiteral("file_close"));
     if(action6) {
         action6->setData(QVariant::fromValue(view));
         tabMenu.addAction(action6);
     }
 
-    QPointer<QAction> action7 = m_ki->mainWindow()->action("file_close_all_others");
+    QPointer<QAction> action7 = m_ki->mainWindow()->action(QStringLiteral("file_close_all_others"));
     if(action7) {
         action7->setData(QVariant::fromValue(view));
         tabMenu.addAction(action7);
@@ -805,19 +805,19 @@ void Manager::reflectDocumentModificationStatus(KTextEditor::Document *doc,
 {
     QIcon icon;
     if(reason == KTextEditor::Document::OnDiskUnmodified && isModified) { //nothing
-        icon = QIcon::fromTheme("modified"); // This icon is taken from Kate. Therefore
+        icon = QIcon::fromTheme(QStringLiteral("modified")); // This icon is taken from Kate. Therefore
         // our thanks go to the authors of Kate.
     }
     else if(reason == KTextEditor::Document::OnDiskModified
             || reason == KTextEditor::Document::OnDiskCreated) { //dirty file
-        icon = QIcon::fromTheme("emblem-warning"); // This icon is taken from Kate. Therefore
+        icon = QIcon::fromTheme(QStringLiteral("emblem-warning")); // This icon is taken from Kate. Therefore
         // our thanks go to the authors of Kate.
     }
     else if(reason == KTextEditor::Document::OnDiskDeleted) { //file deleted
-        icon = QIcon::fromTheme("emblem-warning");
+        icon = QIcon::fromTheme(QStringLiteral("emblem-warning"));
     }
     else if(m_ki->extensions()->isScriptFile(doc->url())) {
-        icon = QIcon::fromTheme("js");
+        icon = QIcon::fromTheme(QStringLiteral("js"));
     }
     else {
         icon = QIcon::fromTheme(KIO::iconNameForUrl(doc->url()));
@@ -1108,7 +1108,7 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
     m_viewerPart = nullptr;
 
     const KPluginMetaData okularPart(QStringLiteral(OKULAR_LIBRARY_NAME));
-    const QVariantList args {"ViewerWidget", "ConfigFileName=kile-livepreview-okularpartrc"};
+    const QVariantList args {QStringLiteral("ViewerWidget"), QStringLiteral("ConfigFileName=kile-livepreview-okularpartrc")};
 
     auto result = KPluginFactory::instantiatePlugin<KParts::ReadOnlyPart>(okularPart, nullptr, args);
     if(!result) {
@@ -1128,12 +1128,12 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
         viewerInterface->setShowSourceLocationsGraphically(true);
         connect(m_viewerPart, SIGNAL(openSourceReference(QString,int,int)), this, SLOT(handleActivatedSourceReference(QString,int,int)));
 
-        QAction *paPrintCompiledDocument = actionCollection->addAction(KStandardAction::Print, "print_compiled_document", m_viewerPart, SLOT(slotPrint()));
+        QAction *paPrintCompiledDocument = actionCollection->addAction(KStandardAction::Print, QStringLiteral("print_compiled_document"), m_viewerPart, SLOT(slotPrint()));
         paPrintCompiledDocument->setText(i18n("Print Compiled Document..."));
         paPrintCompiledDocument->setShortcut(QKeySequence());
         paPrintCompiledDocument->setEnabled(false);
         connect(m_viewerPart, SIGNAL(enablePrintAction(bool)), paPrintCompiledDocument, SLOT(setEnabled(bool)));
-        QAction *printPreviewAction = m_viewerPart->actionCollection()->action("file_print_preview");
+        QAction *printPreviewAction = m_viewerPart->actionCollection()->action(QStringLiteral("file_print_preview"));
         if(printPreviewAction) {
             printPreviewAction->setText(i18n("Print Preview For Compiled Document..."));
         }
@@ -1157,7 +1157,7 @@ void Manager::setupViewerPart(QSplitter *splitter)
         connect(m_viewerPartWindow, &KileView::DocumentViewerWindow::visibilityChanged, this, &Manager::documentViewerWindowVisibilityChanged);
 
         m_viewerPartWindow->setWindowTitle(i18n("Document Viewer"));
-        m_viewerPartWindow->applyMainWindowSettings(KSharedConfig::openConfig()->group("KileDocumentViewerWindow"));
+        m_viewerPartWindow->applyMainWindowSettings(KSharedConfig::openConfig()->group(QStringLiteral("KileDocumentViewerWindow")));
     }
     else {
         if(m_viewerPart->widget()->parent() && m_viewerPart->widget()->parent() != m_viewerPartWindow) { // nothing to be done
@@ -1174,7 +1174,7 @@ void Manager::destroyDocumentViewerWindow()
         return;
     }
 
-    KConfigGroup group(KSharedConfig::openConfig(), "KileDocumentViewerWindow");
+    KConfigGroup group(KSharedConfig::openConfig(), QStringLiteral("KileDocumentViewerWindow"));
     m_viewerPartWindow->saveMainWindowSettings(group);
     // we don't want it to influence the document viewer visibility setting as
     // this is a forced close

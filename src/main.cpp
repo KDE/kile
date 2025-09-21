@@ -57,7 +57,7 @@ QString readDataFromStdin()
     fileData = qstdin.readAll();
     qstdin.close();
 
-    QTemporaryDir *tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') +  "kile-stdin");
+    QTemporaryDir *tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') + QStringLiteral("kile-stdin"));
     QString tempFileName = QFileInfo(tempDir->path(), i18n("StandardInput.tex")).absoluteFilePath();
     KILE_DEBUG_MAIN << "tempFile is " << tempFileName;
 
@@ -98,19 +98,19 @@ int main(int argc, char **argv)
     app.setApplicationName(QStringLiteral("kile"));
     KLocalizedString::setApplicationDomain("kile");
 
-    KAboutData aboutData("kile", i18n("Kile"), QLatin1StringView(KILE_VERSION_STRING),
+    KAboutData aboutData(QStringLiteral("kile"), i18n("Kile"), QLatin1StringView(KILE_VERSION_STRING),
                          i18n("KDE Integrated LaTeX Environment"),
                          KAboutLicense::GPL,
-                         i18nc("the parameter is the last copyright year", "by the Kile Team (2003 - %1)", KILE_LAST_COPYRIGHT_YEAR),
+                         i18nc("the parameter is the last copyright year", "by the Kile Team (2003 - %1)", QStringLiteral(KILE_LAST_COPYRIGHT_YEAR)),
                          QString(),
                          QStringLiteral("https://kile.sourceforge.io"));
-    aboutData.addAuthor(i18n("Michel Ludwig"), i18n("Project Management/Developer"), "michel.ludwig@kdemail.net");
-    aboutData.addAuthor(i18n("Holger Danielsson"), i18n("Developer"), "holger.danielsson@versanet.de");
-    aboutData.addAuthor(i18n("Thomas Braun"), i18n("Former Developer"), "thomas.braun@virtuell-zuhause.de");
-    aboutData.addAuthor(i18n("Jeroen Wijnhout"), i18n("Former Maintainer/Developer"),"Jeroen.Wijnhout@kdemail.net");
+    aboutData.addAuthor(i18n("Michel Ludwig"), i18n("Project Management/Developer"), QStringLiteral("michel.ludwig@kdemail.net"));
+    aboutData.addAuthor(i18n("Holger Danielsson"), i18n("Developer"), QStringLiteral("holger.danielsson@versanet.de"));
+    aboutData.addAuthor(i18n("Thomas Braun"), i18n("Former Developer"), QStringLiteral("thomas.braun@virtuell-zuhause.de"));
+    aboutData.addAuthor(i18n("Jeroen Wijnhout"), i18n("Former Maintainer/Developer"), QStringLiteral("Jeroen.Wijnhout@kdemail.net"));
     aboutData.addAuthor(i18n("Brachet Pascal"));
 
-    aboutData.addCredit(i18n("Andrius Štikonas"), i18n("Migration from Subversion to Git"), "andrius@stikonas.eu");
+    aboutData.addCredit(i18n("Andrius Štikonas"), i18n("Migration from Subversion to Git"), QStringLiteral("andrius@stikonas.eu"));
     aboutData.addCredit(i18n("Simon Martin"), i18n("KConfig XT, Various Improvements and Bug-Fixing"));
     aboutData.addCredit(i18n("Roland Schulz"), i18n("KatePart Integration"));
     aboutData.addCredit(i18n("Thorsten Lück"), i18n("Log Parsing"));
@@ -137,7 +137,7 @@ int main(int argc, char **argv)
     parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("line"), i18n("Jump to line"), QLatin1String("line")));
     parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("new"), i18n("Start a new Kile mainwindow")));
 //TODO KF5 VERIFY THAT '-' STILL WORKS
-    parser.addPositionalArgument("urls", i18n("Files to open / specify '-' to read from standard input"), QLatin1String("[urls...]"));
+    parser.addPositionalArgument(QStringLiteral("urls"), i18n("Files to open / specify '-' to read from standard input"), QLatin1String("[urls...]"));
 
     parser.process(app);
     aboutData.processCommandLine(&parser);
@@ -150,14 +150,14 @@ int main(int argc, char **argv)
         QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
 
         if(interface) {
-            running = interface->isServiceRegistered("org.kde.kile");
+            running = interface->isServiceRegistered(QStringLiteral("org.kde.kile"));
         }
         else {
             KILE_WARNING_MAIN << "no DBUS interface found!";
         }
     }
 
-    if(!running  || parser.isSet("new")) {
+    if(!running  || parser.isSet(QStringLiteral("new"))) {
         bool restore = (parser.positionalArguments().count() == 0);
 
         Kile *kile = new Kile(restore);
@@ -176,7 +176,7 @@ int main(int argc, char **argv)
 
         const QList<QString> argumentList = parser.positionalArguments();
         for(const QString& argument : argumentList) {
-            if(argument == "-") {
+            if (argument == QStringLiteral("-")) {
                 kile->openDocument(readDataFromStdin());
             }
             else {
@@ -191,39 +191,39 @@ int main(int argc, char **argv)
             }
         }
 
-        if(parser.isSet("line")) {
-            QString line = parser.value("line");
+        if(parser.isSet(QStringLiteral("line"))) {
+            QString line = parser.value(QStringLiteral("line"));
             kile->setLine(line);
         }
 
         return app.exec();
     }
     else {
-        auto interface = std::make_unique<QDBusInterface>("org.kde.kile", "/main", "org.kde.kile.main");
+        auto interface = std::make_unique<QDBusInterface>(QStringLiteral("org.kde.kile"), QStringLiteral("/main"), QStringLiteral("org.kde.kile.main"));
 
         const QList<QString> arguments = parser.positionalArguments();
         for (const QString &argument : arguments) {
             if(argument == QLatin1Char('-')) {
-                interface->call("openDocument", readDataFromStdin());
+                interface->call(QStringLiteral("openDocument"), readDataFromStdin());
             }
             else {
                 const QUrl url = QUrl::fromUserInput(argument, QDir::currentPath(), QUrl::AssumeLocalFile);
 
                 if(isProject(url)) {
-                    interface->call("openProject", url.url());
+                    interface->call(QStringLiteral("openProject"), url.url());
                 }
                 else {
-                    interface->call("openDocument", url.url());
+                    interface->call(QStringLiteral("openDocument"), url.url());
                 }
             }
         }
 
-        if(parser.isSet("line")) {
-            QString line = parser.value("line");
-            interface->call("setLine", line);
+        if(parser.isSet(QStringLiteral("line"))) {
+            QString line = parser.value(QStringLiteral("line"));
+            interface->call(QStringLiteral("setLine"), line);
         }
 
-        interface->call("setActive");
+        interface->call(QStringLiteral("setActive"));
     }
 
     return EXIT_SUCCESS;

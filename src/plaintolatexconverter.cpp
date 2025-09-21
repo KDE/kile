@@ -23,15 +23,15 @@ PlainToLaTeXConverter::PlainToLaTeXConverter()
 {
     // Fill the replacement map
     //TODO Do it only once!
-    m_replaceMap.insert('$', "\\$");
-    m_replaceMap.insert('%', "\\%");
-    m_replaceMap.insert('^', "\\^");
-    m_replaceMap.insert('&', "\\&");
-    m_replaceMap.insert('_', "\\_");
-    m_replaceMap.insert('#', "\\#");
-    m_replaceMap.insert('{', "\\{");
-    m_replaceMap.insert('}', "\\}");
-    m_replaceMap.insert('~', "$\\sim$");
+    m_replaceMap.insert(QLatin1Char('$'), QStringLiteral("\\$"));
+    m_replaceMap.insert(QLatin1Char('%'), QStringLiteral("\\%"));
+    m_replaceMap.insert(QLatin1Char('^'), QStringLiteral("\\^"));
+    m_replaceMap.insert(QLatin1Char('&'), QStringLiteral("\\&"));
+    m_replaceMap.insert(QLatin1Char('_'), QStringLiteral("\\_"));
+    m_replaceMap.insert(QLatin1Char('#'), QStringLiteral("\\#"));
+    m_replaceMap.insert(QLatin1Char('{'), QStringLiteral("\\{"));
+    m_replaceMap.insert(QLatin1Char('}'), QStringLiteral("\\}"));
+    m_replaceMap.insert(QLatin1Char('~'), QStringLiteral("$\\sim$"));
 }
 
 PlainToLaTeXConverter::~PlainToLaTeXConverter() {}

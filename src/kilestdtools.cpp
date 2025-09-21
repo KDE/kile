@@ -45,7 +45,7 @@ namespace KileTool
 Factory::Factory(Manager *mngr, KConfig *config, KActionCollection *actionCollection)
     : m_manager(mngr), m_config(config), m_actionCollection(actionCollection)
 {
-    m_standardToolConfigurationFileName = KileUtilities::locate(QStandardPaths::AppDataLocation, "kilestdtools.rc");
+    m_standardToolConfigurationFileName = KileUtilities::locate(QStandardPaths::AppDataLocation, QStringLiteral("kilestdtools.rc"));
 }
 
 Factory::~Factory()
@@ -61,43 +61,43 @@ Base* Factory::create(const QString& toolName, const QString& config, bool prepa
         KConfigGroup configGroup = m_config->group(groupFor(toolName, m_config));
         QString toolClass = configGroup.readEntry("class", QString());
 
-        if(toolClass == "LaTeX") {
+        if(toolClass == QStringLiteral("LaTeX")) {
             tool = new LaTeX(toolName, m_manager, prepare);
         }
-        else if(toolClass == "LaTeXpreview") {
+        else if(toolClass == QStringLiteral("LaTeXpreview")) {
             tool = new PreviewLaTeX(toolName, m_manager, prepare);
         }
-        else if(toolClass == "LaTeXLivePreview") {
+        else if(toolClass == QStringLiteral("LaTeXLivePreview")) {
             tool = new LivePreviewLaTeX(toolName, m_manager, prepare);
         }
-        else if(toolClass == "ForwardDVI") {
+        else if(toolClass == QStringLiteral("ForwardDVI")) {
             tool = new ForwardDVI(toolName, m_manager, prepare);
         }
-        else if(toolClass == "ViewHTML") {
+        else if(toolClass == QStringLiteral("ViewHTML")) {
             tool = new ViewHTML(toolName, m_manager, prepare);
         }
-        else if(toolClass == "ViewBib") {
+        else if(toolClass == QStringLiteral("ViewBib")) {
             tool = new ViewBib(toolName, m_manager, prepare);
         }
-        else if(toolClass == "Base") {
+        else if(toolClass == QStringLiteral("Base")) {
             tool = new Base(toolName, m_manager, prepare);
         }
-        else if(toolClass == "Compile") {
+        else if(toolClass == QStringLiteral("Compile")) {
             tool = new Compile(toolName, m_manager, prepare);
         }
         else if (BibliographyCompile::ToolClass == toolClass) {
             tool = new BibliographyCompile(toolName, m_manager, prepare);
         }
-        else if(toolClass == "Convert") {
+        else if(toolClass == QStringLiteral("Convert")) {
             tool = new Convert(toolName, m_manager, prepare);
         }
-        else if(toolClass == "Archive") {
+        else if(toolClass == QStringLiteral("Archive")) {
             tool = new Archive(toolName, m_manager, prepare);
         }
-        else if(toolClass == "View") {
+        else if(toolClass == QStringLiteral("View")) {
             tool = new View(toolName, m_manager, prepare);
         }
-        else if(toolClass == "Sequence") {
+        else if(toolClass == QStringLiteral("Sequence")) {
             tool = new Sequence(toolName, m_manager, prepare);
         }
     }
@@ -137,7 +137,7 @@ void Factory::resetToolConfigurations()
     // now we copy all the "Tool/" groups, the "Tools", and "ToolsGUI" groups over
     const QList<QString> groupConfigList = stdToolConfig.groupList();
     for (const QString& groupName : groupConfigList) {
-        if(groupName != SHORTCUTS_GROUP_NAME) {
+        if(groupName != QStringLiteral(SHORTCUTS_GROUP_NAME)) {
             KConfigGroup configGroup = stdToolConfig.group(groupName);
             m_config->deleteGroup(groupName);
             KConfigGroup newGroup = m_config->group(groupName);
@@ -253,7 +253,7 @@ bool LaTeX::updateBibs(bool checkOnlyBibDependencies)
             dependencies.append(fileinfo.fileName());
         }
         if (!dependencies.empty()) {
-            return needsUpdate(targetDir() + '/' + S() + ".bbl",
+            return needsUpdate(targetDir() + QLatin1Char('/') + S() + QStringLiteral(".bbl"),
                                KileUtilities::lastModifiedFile(dependencies, fileinfo.absolutePath()));
         }
     }
@@ -266,8 +266,8 @@ bool LaTeX::updateIndex()
     KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
     if(docinfo) {
         QStringList pckgs = manager()->info()->allPackages(docinfo);
-        if(pckgs.contains("makeidx") || pckgs.contains("imakeidx") || pckgs.contains("splitidx")) {
-            return needsUpdate(targetDir() + '/' + S() + ".ind", manager()->info()->lastModifiedFile(docinfo));
+        if(pckgs.contains(QStringLiteral("makeidx")) || pckgs.contains(QStringLiteral("imakeidx")) || pckgs.contains(QStringLiteral("splitidx"))) {
+            return needsUpdate(targetDir() + QLatin1Char('/') + S() + QStringLiteral(".ind"), manager()->info()->lastModifiedFile(docinfo));
         }
     }
 
@@ -281,7 +281,7 @@ bool LaTeX::updateAsy()
         QStringList pckgs = manager()->info()->allPackages(docinfo);
         // As asymptote doesn't properly notify the user when it needs to be rerun, we run
         // it every time LaTeX is run (but only for m_reRun == 0 if LaTeX has to be rerun).
-        if(pckgs.contains("asymptote")) {
+        if(pckgs.contains(QStringLiteral("asymptote"))) {
             return true;
         }
     }
@@ -300,7 +300,7 @@ bool LaTeX::finish(int r)
 
     // in case the compilation failed, we try to parse the log file in order to detect
     // errors reported by LaTeX
-    QString log = targetDir() + '/' + S() + ".log";
+    QString log = targetDir() + QLatin1Char('/') + S() + QStringLiteral(".log");
     manager()->parserManager()->parseOutput(this, log, source());
 
     return true;
@@ -317,7 +317,7 @@ void LaTeX::latexOutputParserResultInstalled()
 
     checqCriticals();
 
-    if(readEntry("autoRun") == "yes") {
+    if(readEntry(QStringLiteral("autoRun")) == QStringLiteral("yes")) {
         checkAutoRun();
     }
 
@@ -335,7 +335,7 @@ void LaTeX::checqCriticals()
                             "%1, %2, %3", es, ws, bs));
 
     // jump to first error
-    if(!isPartOfLivePreview() && m_nErrors > 0 && (readEntry("jumpToFirstError") == "yes")) {
+    if(!isPartOfLivePreview() && m_nErrors > 0 && (readEntry(QStringLiteral("jumpToFirstError")) == QStringLiteral("yes"))) {
         connect(this, SIGNAL(jumpToFirstError()), manager(), SIGNAL(jumpToFirstError()));
         Q_EMIT(jumpToFirstError());
     }
@@ -400,7 +400,7 @@ ToolConfigPair LaTeX::determineBibliographyBackend(const QString& hint)
     }
 
     // this tool must always be available
-    const ToolConfigPair defaultBibTool = ToolConfigPair(QString("BibTeX"), DEFAULT_TOOL_CONFIGURATION);
+    const ToolConfigPair defaultBibTool = ToolConfigPair(QStringLiteral("BibTeX"), QStringLiteral(DEFAULT_TOOL_CONFIGURATION));
 
     // if no tool has been detected, the default is BibTeX
     return bibTool.isValid() ? bibTool : defaultBibTool;
@@ -428,7 +428,7 @@ void LaTeX::checkAutoRun()
         // the messages we are looking for are the last ones (most likely the very last one), so go from end to beginning
         for(int i = sz-1; i >= 0; --i) {
             if (m_latexOutputInfoList[i].type() == LatexOutputInfo::itmWarning
-                    && m_latexOutputInfoList[i].message().contains("Rerun", Qt::CaseInsensitive)) {
+                    && m_latexOutputInfoList[i].message().contains(QStringLiteral("Rerun"), Qt::CaseInsensitive)) {
                 // the message could be a message from Biblatex like this:
                 // Package biblatex Warning: The following entry could not be found
                 // (biblatex)                in the database:
@@ -438,7 +438,7 @@ void LaTeX::checkAutoRun()
                 //
                 // our strategy: if the warning message contains "(biblatex)", Biblatex only
                 // suggests to check the source files first, but not to recompile yet
-                if (!m_latexOutputInfoList[i].message().contains("(biblatex)", Qt::CaseInsensitive)) {
+                if (!m_latexOutputInfoList[i].message().contains(QStringLiteral("(biblatex)"), Qt::CaseInsensitive)) {
                     reRunWarningFound = true;
                     break;
                 }
@@ -448,7 +448,7 @@ void LaTeX::checkAutoRun()
         // Please (re)run Biber on the file:
         // or
         // Please (re)run Bibtex on the file:
-        QRegExp biblatexBackendMessage = QRegExp(".*Please \\(re\\)run ([A-Za-z]+) on the file", Qt::CaseInsensitive);
+        QRegExp biblatexBackendMessage = QRegExp(QStringLiteral(".*Please \\(re\\)run ([A-Za-z]+) on the file"), Qt::CaseInsensitive);
         for(int i = sz-1; i >= 0; --i) { // same here, start from the end
             if (m_latexOutputInfoList[i].type() == LatexOutputInfo::itmWarning
                     && biblatexBackendMessage.indexIn(m_latexOutputInfoList[i].message()) != -1) {
@@ -461,7 +461,7 @@ void LaTeX::checkAutoRun()
         // we look for messages like "LaTeX Warning: Citation `A' on page 234 undefined on input line 12345."
         // In that case we probably need to (re)run the bibtool.
         if (bibToolInLaTexOutput.isEmpty()) {
-            QRegExp citationUndefinedMessage = QRegExp("Citation `(.+)' on page (\\d+) undefined on input line (\\d+)",
+            QRegExp citationUndefinedMessage = QRegExp(QStringLiteral("Citation `(.+)' on page (\\d+) undefined on input line (\\d+)"),
                                                Qt::CaseInsensitive);
             for(int i = 0; i < sz; ++i) {
                 if (m_latexOutputInfoList[i].type() == LatexOutputInfo::itmWarning
@@ -510,7 +510,7 @@ void LaTeX::checkAutoRun()
         ToolConfigPair bibTool = determineBibliographyBackend(bibToolInLaTexOutput);
         Base *tool = manager()->createTool(bibTool.first, bibTool.second);
         if(tool) {
-            configureBibTeX(tool, targetDir() + '/' + S() + '.' + tool->from());
+            configureBibTeX(tool, targetDir() + QLatin1Char('/') + S() + QLatin1Char('.') + tool->from());
             // e.g. for LivePreview, it is necessary that the paths are copied to child processes
             tool->copyPaths(this);
             runChildNext(tool);
@@ -519,10 +519,10 @@ void LaTeX::checkAutoRun()
 
     if(index) {
         KILE_DEBUG_MAIN << "need to run MakeIndex";
-        Base *tool = manager()->createTool("MakeIndex", QString());
+        Base *tool = manager()->createTool(QStringLiteral("MakeIndex"), QString());
         if(tool) {
             KILE_DEBUG_MAIN << targetDir() << S() << tool->from();
-            configureMakeIndex(tool, targetDir() + '/' + S() + '.' + tool->from());
+            configureMakeIndex(tool, targetDir() + QLatin1Char('/') + S() + QLatin1Char('.') + tool->from());
             // e.g. for LivePreview, it is necessary that the paths are copied to child processes
             tool->copyPaths(this);
             runChildNext(tool);
@@ -533,10 +533,10 @@ void LaTeX::checkAutoRun()
         KILE_DEBUG_MAIN << "need to run asymptote";
         int sz = manager()->info()->allAsyFigures().size();
         for(int i = sz -1; i >= 0; --i) {
-            Base *tool = manager()->createTool("Asymptote", QString());
+            Base *tool = manager()->createTool(QStringLiteral("Asymptote"), QString());
 
             if(tool) {
-                configureAsymptote(tool, targetDir() + '/' + S() + '-' + QString::number(i + 1) + '.' + tool->from());
+                configureAsymptote(tool, targetDir() + QLatin1Char('/') + S() + QLatin1Char('-') + QString::number(i + 1) + QLatin1Char('.') + tool->from());
                 // e.g. for LivePreview, it is necessary that the paths are copied to child processes
                 tool->copyPaths(this);
                 runChildNext(tool);
@@ -566,7 +566,7 @@ bool PreviewLaTeX::finish(int r)
         return Compile::finish(r);
     }
 
-    QString log = targetDir() + '/' + S() + ".log";
+    QString log = targetDir() + QLatin1Char('/') + S() + QStringLiteral(".log");
     manager()->parserManager()->parseOutput(this, log, source(), m_filename, m_selrow, m_docrow);
 
     return true;
@@ -639,12 +639,12 @@ bool ForwardDVI::checkPrereqs ()
 {
     KProcess okularVersionTester;
     okularVersionTester.setOutputChannelMode(KProcess::MergedChannels);
-    okularVersionTester.setProgram("okular", QStringList("--version"));
+    okularVersionTester.setProgram(QStringLiteral("okular"), QStringList(QStringLiteral("--version")));
     okularVersionTester.start();
 
     if (okularVersionTester.waitForFinished()) {
-        QString output = okularVersionTester.readAll();
-        static const QRegularExpression regExp("Okular: (\\d+).(\\d+).(\\d+)");
+        QString output = QString::fromLatin1(okularVersionTester.readAll());
+        static const QRegularExpression regExp(QStringLiteral("Okular: (\\d+).(\\d+).(\\d+)"));
         const auto match = regExp.match(output);
         if(output.contains(regExp)) {
             int majorVersion = match.captured(1).toInt();
@@ -682,21 +682,23 @@ bool ForwardDVI::determineTarget()
 
     QString filepath = doc->url().toLocalFile();
     QString texfile = QDir(baseDir()).relativeFilePath(filepath);
-    QString relativeTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para + 1) + ' ' + texfile; // space added, for files starting with numbers
-    QString absoluteTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para + 1) + filepath;
+    QString relativeTarget = QStringLiteral("file:") + targetDir() + QLatin1Char('/') + target() + QStringLiteral("#src:")
+                             + QString::number(para + 1) + QLatin1Char(' ') + texfile; // space added, for files starting with numbers
+    QString absoluteTarget = QStringLiteral("file:") + targetDir() + QLatin1Char('/') + target() + QStringLiteral("#src:")
+                             + QString::number(para + 1) + filepath;
 
-    if(readEntry("type") == "DocumentViewer") {
-        addDict("%dir_target", targetDir());
-        addDict("%target", target());
-        addDict("%sourceFileName", filepath);
-        addDict("%sourceLine", QString::number(para + 1));
+    if(readEntry(QStringLiteral("type")) == QStringLiteral("DocumentViewer")) {
+        addDict(QStringLiteral("%dir_target"), targetDir());
+        addDict(QStringLiteral("%target"), target());
+        addDict(QStringLiteral("%sourceFileName"), filepath);
+        addDict(QStringLiteral("%sourceLine"), QString::number(para + 1));
     }
     else {
-        addDict("%dir_target", QString());
-        addDict("%target", relativeTarget);
+        addDict(QStringLiteral("%dir_target"), QString());
+        addDict(QStringLiteral("%target"), relativeTarget);
     }
 
-    addDict("%absolute_target", absoluteTarget);
+    addDict(QStringLiteral("%absolute_target"), absoluteTarget);
     KILE_DEBUG_MAIN << "==KileTool::ForwardDVI::determineTarget()=============\n";
     KILE_DEBUG_MAIN << "\tusing  (absolute)" << absoluteTarget;
     KILE_DEBUG_MAIN << "\tusing  (relative)" << relativeTarget;
@@ -740,7 +742,7 @@ bool ViewBib::determineSource()
             }
         }
         KILE_DEBUG_MAIN << "filename before: " << info.path();
-        setSource(manager()->info()->checkOtherPaths(info.path(),bib + ".bib",KileInfo::bibinputs));
+        setSource(manager()->info()->checkOtherPaths(info.path(), bib + QStringLiteral(".bib"), KileInfo::bibinputs));
     }
     else if(info.exists()) { //active doc is a bib file
         KILE_DEBUG_MAIN << "filename before: " << info.path();
@@ -761,8 +763,8 @@ bool ViewHTML::determineTarget()
 {
     if (target().isNull()) {
         //setRelativeBaseDir(S());
-        QString dir = readEntry("relDir");
-        QString trg = readEntry("target");
+        QString dir = readEntry(QStringLiteral("relDir"));
+        QString trg = readEntry(QStringLiteral("target"));
 
         if(!dir.isEmpty()) {
             translate(dir);
@@ -776,8 +778,8 @@ bool ViewHTML::determineTarget()
 
         //auto-detect the file to view
         if(dir.isEmpty() && trg.isEmpty()) {
-            QFileInfo file1 = QFileInfo(baseDir() + '/' + S() + QLatin1String("/index.html"));
-            QFileInfo file2 = QFileInfo(baseDir() + '/' + S() + QLatin1String(".html"));
+            QFileInfo file1 = QFileInfo(baseDir() + QLatin1Char('/') + S() + QLatin1String("/index.html"));
+            QFileInfo file2 = QFileInfo(baseDir() + QLatin1Char('/') + S() + QLatin1String(".html"));
 
             bool read1 = file1.isReadable();
             bool read2 = file2.isReadable();
@@ -795,7 +797,7 @@ bool ViewHTML::determineTarget()
 
             if(read1) {
                 dir = S();
-                trg = "index.html";
+                trg = QStringLiteral("index.html");
             }
             else if(read2) {
                 dir = QLatin1String(".");
@@ -818,7 +820,7 @@ bool ViewHTML::determineTarget()
  * BibliographyCompile
  */
 
-const QString KileTool::BibliographyCompile::ToolClass = "Bibliography";
+const QString KileTool::BibliographyCompile::ToolClass = QStringLiteral("Bibliography");
 
 KileTool::BibliographyCompile::BibliographyCompile(const QString& name, KileTool::Manager* manager, bool prepare)
     : Compile(name, manager, prepare)

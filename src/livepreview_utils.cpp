@@ -20,7 +20,7 @@ namespace KileTool {
 LivePreviewUserStatusHandler::LivePreviewUserStatusHandler()
     : m_userSpecifiedLivePreviewStatus(false),
       m_livePreviewEnabled(true),
-      m_livePreviewTool(LIVEPREVIEW_DEFAULT_TOOL_NAME, DEFAULT_TOOL_CONFIGURATION)
+      m_livePreviewTool(QStringLiteral(LIVEPREVIEW_DEFAULT_TOOL_NAME), QStringLiteral(DEFAULT_TOOL_CONFIGURATION))
 {
     // if something is configured, use that as global default
     QString defaultToolName = KileConfig::livePreviewDefaultTool();

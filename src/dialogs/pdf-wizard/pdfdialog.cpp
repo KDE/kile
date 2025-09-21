@@ -291,12 +291,12 @@ void PdfDialog::pdfParser(const QString &filename)
     }
 
     // read creation date and modification date
-    m_PdfDialog.m_lbCreationDate->setText(QLocale().toString(doc->date("CreationDate")));
-    m_PdfDialog.m_lbModDate->setText(QLocale().toString(doc->date("ModDate")));
+    m_PdfDialog.m_lbCreationDate->setText(QLocale().toString(doc->date(QStringLiteral("CreationDate"))));
+    m_PdfDialog.m_lbModDate->setText(QLocale().toString(doc->date(QStringLiteral("ModDate"))));
 
     // read PDF version
     Poppler::Document::PdfVersion pdfVersion = doc->getPdfVersion();
-    m_PdfDialog.m_lbFormat->setText( QString("PDF version %1.%2").arg(pdfVersion.major).arg(pdfVersion.minor) );
+    m_PdfDialog.m_lbFormat->setText( QStringLiteral("PDF version %1.%2").arg(pdfVersion.major).arg(pdfVersion.minor) );
 
     // read permissions
     for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {

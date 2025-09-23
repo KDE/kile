@@ -606,7 +606,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guimenuitem
->Configurar &kile;...</guimenuitem
+>Configurar &kile;…</guimenuitem
 ><guilabel
 >LaTeX</guilabel
 ></menuchoice
@@ -1354,7 +1354,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 > <guimenuitem
 >Herramientas</guimenuitem
 ><guilabel
@@ -1561,7 +1561,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 > <guimenuitem
 >Preferencias</guimenuitem
 ><guilabel
@@ -1678,7 +1678,7 @@
 ><guimenu
 >Archivo</guimenu
 ><guimenuitem
->Eliminar plantilla...</guimenuitem
+>Eliminar plantilla…</guimenuitem
 ></menuchoice
 >;</para
 ></step>
@@ -2463,7 +2463,7 @@
 
 		<para
 >&kile; también ofrece órdenes especiales para los grupos de &latex;, que están definidas por llaves <userinput
->{...}</userinput
+>{…}</userinput
 >. En el submenú <menuchoice
 ><guimenu
 >Editar</guimenu
@@ -2605,7 +2605,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 ><guimenuitem
 >LaTeX</guimenuitem
 ></menuchoice
@@ -2667,7 +2667,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 ><guimenuitem
 >LaTeX</guimenuitem
 ></menuchoice
@@ -2703,7 +2703,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guimenuitem
->Configurar Kile...</guimenuitem
+>Configurar Kile…</guimenuitem
 ></menuchoice
 >.</para>
 
@@ -2724,7 +2724,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 > <guimenuitem
 >LaTeX</guimenuitem
 ><guilabel
@@ -2822,7 +2822,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 > <guimenuitem
 >Kile</guimenuitem
 ><guilabel
@@ -2923,7 +2923,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 > <guimenuitem
 >Kile</guimenuitem
 > <guilabel
@@ -2943,7 +2943,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 > <guimenuitem
 >Kile</guimenuitem
 ><guilabel
@@ -3028,7 +3028,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 > <guimenuitem
 >Kile</guimenuitem
 ><guilabel
@@ -3069,7 +3069,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 > <guimenuitem
 >Editor</guimenuitem
 ><guimenuitem
@@ -3163,7 +3163,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 > <guimenuitem
 >LaTeX</guimenuitem
 ><guilabel
@@ -4510,7 +4510,7 @@
 			<listitem>
 				<para
 ><userinput
->\begin{neededpkgs}[argumentos-paquetes]{paquetes} ... \end{neededpkgs}</userinput
+>\begin{neededpkgs}[argumentos-paquetes]{paquetes} … \end{neededpkgs}</userinput
 >: Tiene el mismo efecto que la anterior, pero para todas las órdenes encerradas. </para>
 			</listitem>
 		</itemizedlist>
@@ -4605,7 +4605,7 @@
 
 <programlisting
 >\begin{thebibliography}{50}
-        \bibitem{Simpson} Homer J. Simpson. \textsl{Mmmmm...donuts}. Evergreen Terrace Printing Co.,
+        \bibitem{Simpson} Homer J. Simpson. \textsl{Mmmmm…donuts}. Evergreen Terrace Printing Co.,
                           Springfield, SomewhereUSA, 1998
 \end{thebibliography}</programlisting>
 
@@ -4647,7 +4647,7 @@
 
 		<para
 ><computeroutput
->[1] Homer J. Simpson. Mmmmm...donuts. Evergreen Terrace Printing Co., Springfield, AlgúnLugarEE.UU., 1998.</computeroutput
+>[1] Homer J. Simpson. Mmmmm…donuts. Evergreen Terrace Printing Co., Springfield, AlgúnLugarEE.UU., 1998.</computeroutput
 ></para>
 
 		<para
@@ -4721,7 +4721,7 @@
 ><guimenu
 >Preferencias</guimenu
 > <guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 ><guisubmenu
 >Herramientas</guisubmenu
 > <guilabel
@@ -4847,7 +4847,7 @@
 ><guimenu
 >Preferencias</guimenu
 > <guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 ><guisubmenu
 >Herramientas</guisubmenu
 ><guilabel
@@ -4887,7 +4887,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 > <guimenuitem
 >Herramientas</guimenuitem
 ><guilabel
@@ -5802,7 +5802,7 @@
 ><guimenu
 >Proyecto</guimenu
 ><guimenuitem
->Nuevo proyecto...</guimenuitem
+>Nuevo proyecto…</guimenuitem
 ></menuchoice
 >.</para>
 		<screenshot>
@@ -5943,7 +5943,7 @@
 >Puede también pulsar con el botón derecho del ratón en el nombre del proyecto en la vista de <guilabel
 >Archivos y proyectos</guilabel
 >, y seleccionar <guilabel
->Añadir archivos...</guilabel
+>Añadir archivos…</guilabel
 > para mostrar el diálogo de selección de archivos.</para>
 
 		<screenshot>
@@ -6071,7 +6071,7 @@
 > de la barra de herramientas vertical, pulse con el botón derecho del ratón en el título del proyecto y seleccione <guimenuitem
 >Cerrar</guimenuitem
 >. Esto cerrará su proyecto y todos los archivos asociados con su proyecto y también añadirá el nombre del proyecto que acaba de cerrar a <guisubmenu
->Abrir un proyecto reciente...</guisubmenu
+>Abrir un proyecto reciente…</guisubmenu
 > en el menú <guimenu
 >Proyecto</guimenu
 >.</para>
@@ -6095,7 +6095,7 @@
 ><guimenu
 >Preferencias</guimenu
 > <guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 ><guimenuitem
 >Editor</guimenuitem
 ></menuchoice
@@ -6562,7 +6562,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 > <guimenuitem
 >Kile</guimenuitem
 ><guilabel
@@ -6652,7 +6652,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 > <guimenuitem
 >Kile</guimenuitem
 ><guilabel

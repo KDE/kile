@@ -185,7 +185,7 @@
 ><guilabel
 >Texto:</guilabel
 >&nbsp; &kile; le otorga la capacidad de crear sus propias etiquetas. Una etiqueta es similar a un atajo de teclado que lanza algún comando o escribe textos utilizados con frecuencia, &eg; Joe Sixpack suele utilizar con frecuencia la frase <userinput
->Hola, he sido incluido...</userinput
+>Hola, he sido incluido…</userinput
 >. Esta etiqueta se incluirá en la posición actual del cursor, cuando se llame a esta acción (consultar arriba). Los metacaracteres también están disponibles (consulte <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
 </listitem>
 

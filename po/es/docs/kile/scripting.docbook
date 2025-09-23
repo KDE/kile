@@ -16,7 +16,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guisubmenu
->Configurar Kile...</guisubmenu
+>Configurar Kile…</guisubmenu
 > <guimenuitem
 >Kile</guimenuitem
 ><guilabel
@@ -1308,7 +1308,7 @@ void view.setCursorPosition(<parameter
 > es <literal
 >false</literal
 >, se seleccionará el texto del entorno, además de las etiquetas &latex; de apertura y cierre <userinput
->\begin{...}...\end{...}</userinput
+>\begin{…}…\end{…}</userinput
 >; en caso contrario, solo se seleccionará el texto interior, pero no las etiquetas de apertura y cierre. Si no se pasa ningún parámetro, <parameter
 >interior</parameter
 > se establece a <literal
@@ -2204,7 +2204,7 @@ bool document.isSpace(<parameter
 > es <literal
 >false</literal
 >, se devolverá el texto del entorno incluyendo a las etiquetas &latex; de apertura y cierre <userinput
->\begin{...}...\end{...}</userinput
+>\begin{…}…\end{…}</userinput
 >, en caso contrario, las etiquetas no se incluyen en el texto devuelto. Si no se indica ningún parámetro, <parameter
 >interior</parameter
 > se establece a <literal
@@ -2232,7 +2232,7 @@ bool document.isSpace(<parameter
 > es <literal
 >false</literal
 >, se devolverá el intervalo que incluye a las etiquetas &latex; de apertura y cierre <userinput
->\begin{...}...\end{...}</userinput
+>\begin{…}…\end{…}</userinput
 >, en caso contrario no se incluyen las etiquetas. Si no se indica ningún parámetro, <parameter
 >interior</parameter
 > se establece a <literal
@@ -2278,7 +2278,7 @@ bool document.isSpace(<parameter
 > es <literal
 >false</literal
 >, se eliminará el texto del entorno incluyendo a las etiquetas &latex; de apertura y cierre <userinput
->\begin{...}...\end{...}</userinput
+>\begin{…}…\end{…}</userinput
 >, en caso contrario las etiquetas no se eliminan. Si no se indica ningún parámetro, <parameter
 >interior</parameter
 > se establece a <literal
@@ -2352,7 +2352,7 @@ bool document.isSpace(<parameter
 > es <literal
 >false</literal
 >, se devolverá el texto de este grupo &latex; incluyendo los corchetes de apertura y cierre <userinput
->{...}</userinput
+>{…}</userinput
 >, sino sin ellos. Si no se indica ningún parámetro, <parameter
 >interior</parameter
 > se establece a <literal
@@ -2380,7 +2380,7 @@ bool document.isSpace(<parameter
 > es <literal
 >false</literal
 >, se devolverá el intervalo que incluye los corchetes de apertura y cierre <userinput
->{...}</userinput
+>{…}</userinput
 >, sino sin ellos. Si no se indica ningún parámetro, <parameter
 >interior</parameter
 > se establece a <literal
@@ -2412,7 +2412,7 @@ bool document.isSpace(<parameter
 > es <literal
 >false</literal
 >, se eliminará el texto de este grupo &latex; incluyendo los corchetes de apertura y cierre <userinput
->{...}</userinput
+>{…}</userinput
 >, sino sin ellos. Si no se indica ningún parámetro, <parameter
 >interior</parameter
 > se establece a <literal
@@ -3985,7 +3985,7 @@ int document.nextNonSpaceColumn(<parameter
 >Escribe el texto indicado en un archivo. Se utiliza de la siguiente forma </para
 ><para
 >Ejemplo: <function
->var res = kile.file.write(«ruta/al/archivo.txt»,«Algún texto...»);</function
+>var res = kile.file.write(«ruta/al/archivo.txt»,«Algún texto…»);</function
 > </para
 ><para
 >El valor retornado <userinput
@@ -4113,9 +4113,9 @@ int document.nextNonSpaceColumn(<parameter
 
 <para
 >Reemplaza el entorno &latex; circundante con otro, donde la posición relativa del cursor no se cambiará. Por ejemplo, se puede cambiar <userinput
->\begin{abc}...\end{abc}</userinput
+>\begin{abc}…\end{abc}</userinput
 > por <userinput
->\begin{xyz}...\end{xyz}</userinput
+>\begin{xyz}…\end{xyz}</userinput
 >.</para>
 
 <programlisting

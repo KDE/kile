@@ -81,6 +81,7 @@
     <p>
       Kile is a user-friendly TeX/LaTeX editor by KDE. Kile gives you the ability to use all the functionality of LaTeX in a graphical interface and has interactive preview mechanisms to readily see the results of editing.
     </p>
+    <p xml:lang="ar">كايل هو محرر تخ/لاتخ سهل الاستخدام من كِيدي. يتيح لك كايل إمكانية استخدام جميع وظائف لاتخ في واجهة رسومية، ويحتوي على آليات معاينة تفاعلية لرؤية نتائج التحرير بسهولة.</p>
     <p xml:lang="ca">El Kile és un editor TeX/LaTeX fàcil d'emprar fet per la comunitat KDE. El Kile proporciona la possibilitat d'usar totes les funcionalitats del LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per a veure immediatament els resultats de l'edició.</p>
     <p xml:lang="ca-valencia">Kile és un editor TeX/LaTeX fàcil d'emprar fet per la comunitat KDE. Kile proporciona la possibilitat d'utilitzar totes les característiques de LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per a veure immediatament els resultats de l'edició.</p>
     <p xml:lang="de">Kile ist ein benutzerfreundlicher TeX/LaTeX-Editor von KDE. Kile gibt Ihnen die Möglichkeit, die gesamte Funktionalität von LaTeX in einer grafischen Oberfläche zu nutzen und verfügt über interaktive Vorschaumechanismen, um die Ergebnisse der Bearbeitung zu sehen.</p>
@@ -279,6 +280,7 @@
       <li xml:lang="zh-TW">輕易插入許多標準標籤與符號，並且提供定義不限數量使用者定義標籤的選項</li>
       <li>Inverse and forward search: click in the DVI viewer and jump to the corresponding LaTeX line in the editor, or jump from the editor
           to the corresponding page in the viewer</li>
+      <li xml:lang="ar">البحث العكسي والأمامي: انقر في عارض DVI وانتقل إلى سطر لاتخ المقابل في المحرر، أو انتقل من المحرر إلى الصفحة المقابلة في العارض.</li>
       <li xml:lang="ca">Cerca directa i inversa: cliqueu en el visualitzador de DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent en el visualitzador</li>
       <li xml:lang="ca-valencia">Busca directa i inversa: cliqueu damunt del visor de DVI i salteu fins a la línia LaTeX corresponent de l'editor, o salteu des de l'editor fins a la pàgina corresponent en el visor</li>
       <li xml:lang="de">Rückwärts- und Vorwärtssuche: Klicken Sie in den DVI-Betrachter und springen Sie zu der entsprechenden LaTeX-Zeile im Editor, oder springen Sie vom Editor zu der entsprechenden Seite im Betrachter</li>
@@ -310,6 +312,7 @@
       <li xml:lang="zh-TW">反向與順向搜尋：點擊 DVI 檢視器並在編輯器中跳到對應的 LaTeX 行號，或是從編輯器讓檢視器跳到對應的頁面</li>
       <li>Finding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to
           jump to the corresponding section</li>
+      <li xml:lang="ar">من السهل جدًا العثور على الفصول أو الأقسام، حيث يقوم كايل بإنشاء قائمة بجميع الفصول وما إلى ذلك في المستند الخاص بك. يمكنك استخدام القائمة للانتقال إلى القسم المقابل.</li>
       <li xml:lang="ca">La cerca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per a saltar a la secció corresponent</li>
       <li xml:lang="ca-valencia">La busca de capítols o seccions és molt senzilla, Kile construïx una llista de tots els capítols, etc. en el document. Podeu utilitzar la llista per a saltar fins a la secció corresponent</li>
       <li xml:lang="de">Das Auffinden von Kapiteln oder Abschnitten ist sehr einfach, Kile erstellt eine Liste mit allen Kapitel usw. in Ihrem Dokument. Sie können die Liste benutzen, um zu dem entsprechenden Abschnitt zu gehen</li>
@@ -372,6 +375,7 @@
       <li xml:lang="zh-CN">将相互关联的文档集合在同一工程之下进行管理</li>
       <li xml:lang="zh-TW">將應該一起的文件收集成為專案</li>
       <li>Easy insertion of citations and references when using projects</li>
+      <li xml:lang="ar">سهولة إدراج الاقتباسات والمراجع عند استخدام المشاريع</li>
       <li xml:lang="ca">Inserció fàcil de cites i referències en usar projectes</li>
       <li xml:lang="ca-valencia">Inserció fàcil de cites i referències en utilitzar projectes</li>
       <li xml:lang="de">Einfaches Einfügen von Zitaten und Referenzen bei der Verwendung von Projekten</li>
@@ -532,6 +536,7 @@
   <screenshots>
     <screenshot type="default">
       <caption>Document editing in Kile</caption>
+      <caption xml:lang="ar">تحرير المستندات في كايل</caption>
       <caption xml:lang="ca">Edició d'un document al Kile</caption>
       <caption xml:lang="ca-valencia">Editeu un document a Kile</caption>
       <caption xml:lang="cs">Vytváření dokumentu v Kile</caption>

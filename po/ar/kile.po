@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-07 00:42+0000\n"
+"POT-Creation-Date: 2025-09-29 00:43+0000\n"
 "PO-Revision-Date: 2025-09-27 18:06+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -360,7 +360,7 @@ msgstr "كايل"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLatexConfig)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetEnvironmentConfig)
-#: dialogs/configurationdialog.cpp:69 kile.cpp:696 kile.cpp:1084
+#: dialogs/configurationdialog.cpp:69 kile.cpp:696 kile.cpp:1109
 #: kileinfo.cpp:355 widgets/environmentconfigwidget.ui:20
 #: widgets/latexconfigwidget.ui:14
 #, kde-format
@@ -541,7 +541,7 @@ msgstr "الأمر[]"
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
-#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:1000
+#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:1025
 #, kde-format
 msgid "Environment"
 msgstr "البيئة"
@@ -551,13 +551,13 @@ msgstr "البيئة"
 msgid "Image"
 msgstr "صورة"
 
-#: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:140
-#: kilestdactions.cpp:141 usermenu/usermenu.cpp:909
+#: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:281
+#: kilestdactions.cpp:284 usermenu/usermenu.cpp:909
 #, kde-format
 msgid "Label"
 msgstr "لصيقة"
 
-#: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:146
+#: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:296
 #: usermenu/usermenu.cpp:914
 #, kde-format
 msgid "Reference"
@@ -736,13 +736,13 @@ msgid "Table Environment"
 msgstr "بيئة جدول"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbFigure)
-#: dialogs/floatdialog_base.ui:35 kilestdactions.cpp:64
+#: dialogs/floatdialog_base.ui:35 kilestdactions.cpp:115
 #, kde-format
 msgid "Figure"
 msgstr "شكل"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbTable)
-#: dialogs/floatdialog_base.ui:45 kilestdactions.cpp:59
+#: dialogs/floatdialog_base.ui:45 kilestdactions.cpp:108
 #, kde-format
 msgid "Table"
 msgstr "جدول"
@@ -779,7 +779,7 @@ msgstr "صفحة أخرى"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbCenter)
 #: dialogs/floatdialog_base.ui:116 dialogs/tabular/newtabulardialog.cpp:159
-#: kilestdactions.cpp:47
+#: kilestdactions.cpp:66
 #, kde-format
 msgid "Center"
 msgstr "الوسط"
@@ -808,57 +808,57 @@ msgstr "اللصيقة:"
 msgid "Include Graphics"
 msgstr "ضمّن الرّسوم"
 
-#: dialogs/includegraphicsdialog.cpp:418
+#: dialogs/includegraphicsdialog.cpp:426
 #, kde-format
 msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
 msgstr "الرسومات ( *.png *.jpg *.pdf *.ps *.eps)"
 
-#: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
+#: dialogs/includegraphicsdialog.cpp:427 dialogs/includegraphicsdialog.cpp:434
 #, kde-format
 msgid "PNG Files (*.png)"
 msgstr "ملفات PNG (*.png)"
 
-#: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
+#: dialogs/includegraphicsdialog.cpp:428 dialogs/includegraphicsdialog.cpp:435
 #, kde-format
 msgid "JPG Files (*.jpg)"
 msgstr "ملفات JPG (*.jpg)"
 
-#: dialogs/includegraphicsdialog.cpp:421
+#: dialogs/includegraphicsdialog.cpp:429
 #, kde-format
 msgid "PDF Files (*.pdf)"
 msgstr "ملفات PDF (*.pdf)"
 
-#: dialogs/includegraphicsdialog.cpp:422
+#: dialogs/includegraphicsdialog.cpp:430
 #, kde-format
 msgid "Postscript Files (*.eps *ps)"
 msgstr "ملفات بوستسكريبت ( *.eps *ps)"
 
-#: dialogs/includegraphicsdialog.cpp:425
+#: dialogs/includegraphicsdialog.cpp:433
 #, kde-format
 msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
 msgstr "الرسومات ( *.png *.jpg *.eps.gz *.eps)"
 
-#: dialogs/includegraphicsdialog.cpp:428
+#: dialogs/includegraphicsdialog.cpp:436
 #, kde-format
 msgid "Zipped EPS Files (*.eps.gz)"
 msgstr "ملفات EPS المضغوطة (*.eps.gz)"
 
-#: dialogs/includegraphicsdialog.cpp:429
+#: dialogs/includegraphicsdialog.cpp:437
 #, kde-format
 msgid "EPS Files (*.eps)"
 msgstr "ملفات EPS (*.eps)"
 
-#: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
+#: dialogs/includegraphicsdialog.cpp:439 kileextensions.cpp:123
 #, kde-format
 msgid "All Files (*)"
 msgstr "كلّ الملفّات (*)"
 
-#: dialogs/includegraphicsdialog.cpp:621
+#: dialogs/includegraphicsdialog.cpp:629
 #, kde-format
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr "عليك تضمين حزمة wrapfig لاستخدام خيارات لفّ النّصّ"
 
-#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3241
+#: dialogs/includegraphicsdialog.cpp:629 editorextension.cpp:3241
 #, kde-format
 msgid "Missing Package"
 msgstr "حزمة ناقصة"
@@ -1289,7 +1289,7 @@ msgstr "رياضيات AMS"
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1039 kilestdactions.cpp:464 kileui.rc:583
+#: kile.cpp:1064 kilestdactions.cpp:855 kileui.rc:583
 #, kde-format
 msgid "Math"
 msgstr "رياضيات"
@@ -1299,12 +1299,12 @@ msgstr "رياضيات"
 msgid "Lists"
 msgstr "قوائم"
 
-#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1035 kilestdactions.cpp:80
+#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1060 kilestdactions.cpp:155
 #, kde-format
 msgid "Tabular"
 msgstr "جدولي"
 
-#: dialogs/latexcommanddialog.cpp:392 kilestdactions.cpp:54
+#: dialogs/latexcommanddialog.cpp:392 kilestdactions.cpp:91
 #, kde-format
 msgid "Verbatim"
 msgstr "حَرفي"
@@ -1334,13 +1334,13 @@ msgstr "الاقتباسات"
 msgid "Includes"
 msgstr "يشمل"
 
-#: dialogs/latexcommanddialog.cpp:623 kile.cpp:1090
+#: dialogs/latexcommanddialog.cpp:623 kile.cpp:1115
 #, kde-format
 msgid "LaTeX Environments"
 msgstr "بيئات لاتخ"
 
 #: dialogs/latexcommanddialog.cpp:627 dialogs/latexcommanddialog.cpp:699
-#: kile.cpp:1087
+#: kile.cpp:1112
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "أوامر لاتخ"
@@ -1553,8 +1553,8 @@ msgid "Manage the local completion files in the file manager"
 msgstr "أدر ملفّات الإكمال المحليّة في مدير الملفّات"
 
 #: dialogs/listselector.cpp:210 dialogs/listselector.cpp:263
-#: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:939 dialogs/postscriptdialog.cpp:219
+#: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:284
+#: dialogs/pdf-wizard/pdfdialog.cpp:940 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:198
 #: widgets/codecompletionconfigwidget.cpp:355
 #, kde-format
@@ -1562,8 +1562,8 @@ msgid "yes"
 msgstr "نعم"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbEncryption)
-#: dialogs/listselector.cpp:214 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:939
+#: dialogs/listselector.cpp:214 dialogs/pdf-wizard/pdfdialog.cpp:284
+#: dialogs/pdf-wizard/pdfdialog.cpp:940
 #: dialogs/pdf-wizard/pdfdialog_base.ui:518 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:202
 #: widgets/codecompletionconfigwidget.cpp:358
@@ -1959,8 +1959,8 @@ msgstr "اكتب اسمًا قصيرًا يصف الأ&داة:"
 msgid "PDF Wizard"
 msgstr "مُرشد PDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:721
-#: dialogs/pdf-wizard/pdfdialog.cpp:846
+#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:722
+#: dialogs/pdf-wizard/pdfdialog.cpp:847
 #, kde-format
 msgid "Re&arrange"
 msgstr "إعادة &الترتيب"
@@ -2060,23 +2060,23 @@ msgstr "pdftk: اختَر الوسيط"
 msgid "pdfpages: Choose Parameter"
 msgstr "pdfpages: اختَر الوسيط"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:398
+#: dialogs/pdf-wizard/pdfdialog.cpp:399
 #, kde-format
 msgctxt "%1 is the number of pages"
 msgid "%1 (encrypted)"
 msgstr "%1 (معماة)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:406
+#: dialogs/pdf-wizard/pdfdialog.cpp:407
 #, kde-format
 msgid "Error: unknown number of pages"
 msgstr "خطأ: عدد الصّفحات مجهول"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:419
+#: dialogs/pdf-wizard/pdfdialog.cpp:420
 #, kde-format
 msgid "PDFTK-Password"
 msgstr "كلمة سِر PDFTK"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:420
+#: dialogs/pdf-wizard/pdfdialog.cpp:421
 #, kde-format
 msgid ""
 "This PDF file is encrypted and 'pdftk' cannot open it.\n"
@@ -2087,60 +2087,60 @@ msgstr ""
 "الرجاء إدخال كلمة السر لملف بي دي إف هذا\n"
 " أو اتركه فارِغًا لتجربة أسلوب آخر: "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:566
+#: dialogs/pdf-wizard/pdfdialog.cpp:567
 #, kde-format
 msgid "A password is necessary to set or change the current settings."
 msgstr "كلمة سِر ضرورية لضبط أو تغيير الإعدادات الحالية."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:570
+#: dialogs/pdf-wizard/pdfdialog.cpp:571
 #, kde-format
 msgid "The permissions of this document can be changed with <i>pdftk</i>."
 msgstr "يمكن تغيير صلاحيّات هذا المستند ب‍<i>pdftk</i>."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:571
+#: dialogs/pdf-wizard/pdfdialog.cpp:572
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no permission can be changed."
 msgstr "<i>pdftk</i> غير متوفر، فلا يُمكِن تغيير أي إذن."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:575
+#: dialogs/pdf-wizard/pdfdialog.cpp:576
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no property can be changed."
 msgstr "<i>pdftk</i> غير متوفر، فلا يُمكِن تغيير أي خاصية."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:578
+#: dialogs/pdf-wizard/pdfdialog.cpp:579
 #, kde-format
 msgid "The properties of this document can be changed with <i>pdftk</i>."
 msgstr "يمكن تغيير خصائص هذا المستند ب‍<i>pdftk</i>."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:586
+#: dialogs/pdf-wizard/pdfdialog.cpp:587
 #, kde-format
 msgid "This input file is encrypted, so only <i>pdftk</i> works."
 msgstr "ملف الإدخال هذا مُعَمَّى، لذا يعمل <i>pdftk</i> فقط."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:587
+#: dialogs/pdf-wizard/pdfdialog.cpp:588
 #, kde-format
 msgid "A password is necessary to rearrange pages."
 msgstr "كلمة السر مطلوبة لإعادة تنظيم الصّفحات."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:588
+#: dialogs/pdf-wizard/pdfdialog.cpp:589
 #, kde-format
 msgid "This input file is encrypted, but <i>pdftk</i> is not installed."
 msgstr "ملفّ الدّخل معمّى، ولكن <i>pdftk</i> غير مثبّتة."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:592
+#: dialogs/pdf-wizard/pdfdialog.cpp:593
 #, kde-format
 msgid ""
 "This wizard will use <i>pdftk</i> and the LaTeX package <i>pdfpages</i>."
 msgstr "سيستخدم هذا المُرشد <i>pdftk</i> وحزمة لاتخ <i>pdfpages</i>."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:593
+#: dialogs/pdf-wizard/pdfdialog.cpp:594
 #, kde-format
 msgid ""
 "This wizard will only use <i>pdftk</i> (<i>pdfpages.sty</i> is not "
 "installed)."
 msgstr "سيستخدم هذا المُرشد <i>pdftk</i> فقط(<i>pdfpages.sty</i> ليست مثبّتة)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:596
+#: dialogs/pdf-wizard/pdfdialog.cpp:597
 #, kde-format
 msgid ""
 "This wizard will only use the LaTeX package <i>pdfpages</i> (<i>pdftk</i> "
@@ -2148,36 +2148,36 @@ msgid ""
 msgstr ""
 "سيستخدم هذا المُرشد حزمة لاتخ <i>pdfpages</i> فقط (<i>pdftk</i> لم توجد)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:597
+#: dialogs/pdf-wizard/pdfdialog.cpp:598
 #, kde-format
 msgid "This wizard can't work, because no tool was found (see help section)."
 msgstr "لا يمكن للمُرشد العمل إذن لم توجد أيّ أداة (طالع قسم المساعدة)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:602
+#: dialogs/pdf-wizard/pdfdialog.cpp:603
 #, kde-format
 msgid ""
 "<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</"
 "i>"
 msgstr "<i>(مصرّف دون مكتبة libpoppler لملفّات pdf. لا تتوفّر كلّ المهامّ.)</i>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:721
+#: dialogs/pdf-wizard/pdfdialog.cpp:722
 #, kde-format
 msgid "&Update"
 msgstr "&حدّث"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: dialogs/pdf-wizard/pdfdialog.cpp:784 dialogs/pdf-wizard/pdfdialog_base.ui:55
+#: dialogs/pdf-wizard/pdfdialog.cpp:785 dialogs/pdf-wizard/pdfdialog_base.ui:55
 #, kde-format
 msgid "Pages:"
 msgstr "الصّفحات:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:785
+#: dialogs/pdf-wizard/pdfdialog.cpp:786
 #, kde-format
 msgid "Comma separated page list: 1,4-7,9"
 msgstr "قائمة الصّفحات مفصولة بفواصل: ‎1,4-7,9"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameter)
-#: dialogs/pdf-wizard/pdfdialog.cpp:790 dialogs/pdf-wizard/pdfdialog.cpp:795
+#: dialogs/pdf-wizard/pdfdialog.cpp:791 dialogs/pdf-wizard/pdfdialog.cpp:796
 #: dialogs/pdf-wizard/pdfdialog_base.ui:274 dialogs/postscriptdialog.cpp:503
 #: dialogs/postscriptdialog_base.ui:147
 #: dialogs/tabular/newtabulardialog.cpp:132
@@ -2186,17 +2186,17 @@ msgstr "قائمة الصّفحات مفصولة بفواصل: ‎1,4-7,9"
 msgid "Parameter:"
 msgstr "المعامل:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:791
+#: dialogs/pdf-wizard/pdfdialog.cpp:792
 #, kde-format
 msgid "All options for 'pdftk'"
 msgstr "كلّ خيارات 'pdftk'"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:796
+#: dialogs/pdf-wizard/pdfdialog.cpp:797
 #, kde-format
 msgid "All options for 'pdfpages'"
 msgstr "كلّ خيارات 'pdfpages'"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:818
+#: dialogs/pdf-wizard/pdfdialog.cpp:819
 #, kde-format
 msgid ""
 "Applies a PDF watermark to the background of a single input PDF. Pdftk uses "
@@ -2208,7 +2208,7 @@ msgstr ""
 "الأولى فقط من خلفية بي دي إف ويُطبِّقها على كل صفحة من مُدخل بي دي إف. تُقاس "
 "وتُدار هذه الصفحة حَسب الحاجة لتناسب صفحة المُدخل."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:823
+#: dialogs/pdf-wizard/pdfdialog.cpp:824
 #, kde-format
 msgid ""
 "Applies a foreground stamp on top of the input PDF document's pages. Pdftk "
@@ -2221,12 +2221,12 @@ msgstr ""
 "الصفحة حَسب الحاجة لتناسب صفحة المُدخل. يَعمل هذا أفضل إن كانت لصفحة طابع بي دي "
 "إف خلفية شفافة."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:843
+#: dialogs/pdf-wizard/pdfdialog.cpp:844
 #, kde-format
 msgid "&Apply"
 msgstr "&طبّق"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:861
+#: dialogs/pdf-wizard/pdfdialog.cpp:862
 #, kde-format
 msgid ""
 "Failed to create a temporary directory.\n"
@@ -2237,7 +2237,7 @@ msgstr ""
 "\n"
 "لا يُمكِن استعمال هذا المُرشد."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:889
+#: dialogs/pdf-wizard/pdfdialog.cpp:890
 #, kde-format
 msgid ""
 "<center>PDF-Wizard</center><br>This wizard uses 'pdftk' and the LaTeX "
@@ -2266,7 +2266,7 @@ msgstr ""
 "المُحتوى مُعَمَّى، لكن المفتاح معروف. يجب أن ترى ذلك كطلب مُؤَدَب لكن ثابت لاحترام "
 "أماني المُؤلِف.</p>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:906
+#: dialogs/pdf-wizard/pdfdialog.cpp:907
 #, kde-format
 msgid ""
 "<p><i>Information: </i>This version of Kile was compiled without libpoppler "
@@ -2276,169 +2276,169 @@ msgstr ""
 "<p><i>معلومة: </i>إصدارة «كايل» هذه صُرّفت دون مكتبة libpoppler. ضبط الخصائص "
 "والصّلاحيّات وتعديلها وإزالتها غير ممكن.</p>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:910 dialogs/pdf-wizard/pdfdialog.cpp:1698
-#: dialogs/pdf-wizard/pdfdialog.cpp:1768 kile.cpp:1041
+#: dialogs/pdf-wizard/pdfdialog.cpp:911 dialogs/pdf-wizard/pdfdialog.cpp:1699
+#: dialogs/pdf-wizard/pdfdialog.cpp:1769 kile.cpp:1066
 #, kde-format
 msgid "PDF Tools"
 msgstr "أدوات PDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:925
+#: dialogs/pdf-wizard/pdfdialog.cpp:926
 #, kde-format
 msgid "LaTeX with 'pdfpages' package"
 msgstr "لاتخ بحزمة 'pdfpages'"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:925
+#: dialogs/pdf-wizard/pdfdialog.cpp:926
 #, kde-format
 msgid "pdftk"
 msgstr "pdftk"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:926
+#: dialogs/pdf-wizard/pdfdialog.cpp:927
 #, kde-format
 msgid "Rearranging PDF file: %1"
 msgstr "يعيد ترتيب ملفّ بي دي اف:‏ %1"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:934 dialogs/pdf-wizard/pdfdialog.cpp:1046
+#: dialogs/pdf-wizard/pdfdialog.cpp:935 dialogs/pdf-wizard/pdfdialog.cpp:1047
 #: dialogs/postscriptdialog.cpp:216
 #, kde-format
 msgid "***** tool:        "
 msgstr "***** أداة:        "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:935 dialogs/pdf-wizard/pdfdialog.cpp:1047
+#: dialogs/pdf-wizard/pdfdialog.cpp:936 dialogs/pdf-wizard/pdfdialog.cpp:1048
 #: dialogs/postscriptdialog.cpp:217
 #, kde-format
 msgid "***** input file:  "
 msgstr "***** الملفّ الدّخل:  "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:936 dialogs/postscriptdialog.cpp:218
+#: dialogs/pdf-wizard/pdfdialog.cpp:937 dialogs/postscriptdialog.cpp:218
 #, kde-format
 msgid "***** output file: "
 msgstr "***** ملفّ الخرج: "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:937 dialogs/pdf-wizard/pdfdialog.cpp:1048
+#: dialogs/pdf-wizard/pdfdialog.cpp:938 dialogs/pdf-wizard/pdfdialog.cpp:1049
 #, kde-format
 msgid "***** param:       "
 msgstr "***** معامل:       "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:938
+#: dialogs/pdf-wizard/pdfdialog.cpp:939
 #, kde-format
 msgid "***** command:     "
 msgstr "***** أمر:     "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:939 dialogs/postscriptdialog.cpp:219
+#: dialogs/pdf-wizard/pdfdialog.cpp:940 dialogs/postscriptdialog.cpp:219
 #, kde-format
 msgid "***** viewer:      "
 msgstr "***** العارض:      "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1101
+#: dialogs/pdf-wizard/pdfdialog.cpp:1102
 #, kde-format
 msgid "An error occurred while executing the task."
 msgstr "حدث خطأ أثناء تنفيذ المهمّة."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1157
+#: dialogs/pdf-wizard/pdfdialog.cpp:1158
 #, kde-format
 msgid "Finished with an error (wrong password)"
 msgstr "انتهت بخطأ (كلمة السر خاطئة)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1160
+#: dialogs/pdf-wizard/pdfdialog.cpp:1161
 #, kde-format
 msgid "Finished with an error"
 msgstr "انتهت بخطأ"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1174
+#: dialogs/pdf-wizard/pdfdialog.cpp:1175
 #, kde-format
 msgid "Could not create the ViewPDF tool"
 msgstr "تعّر إنشاء أداة ViewPDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1174
+#: dialogs/pdf-wizard/pdfdialog.cpp:1175
 #, kde-format
 msgid "ViewPDF"
 msgstr "اعرض بي دي إف"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1614
+#: dialogs/pdf-wizard/pdfdialog.cpp:1615
 #, kde-format
 msgid "The utility needs some parameters in this mode."
 msgstr "الأداة تحتاج بعض الوسائط في هذا الوَضع."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1632
+#: dialogs/pdf-wizard/pdfdialog.cpp:1633
 #, kde-format
 msgid "Illegal page list 'from-to': %1 is bigger than %2."
 msgstr "قائمة صفحات 'من-إلى' غير قانونية: %1 أكبر من %2."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1636 dialogs/pdf-wizard/pdfdialog.cpp:1643
+#: dialogs/pdf-wizard/pdfdialog.cpp:1637 dialogs/pdf-wizard/pdfdialog.cpp:1644
 #, kde-format
 msgid "Illegal pagenumber: %1."
 msgstr "رقم الصفحة غير قانوني: %1."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1656
+#: dialogs/pdf-wizard/pdfdialog.cpp:1657
 #, kde-format
 msgid "You need to define a PDF file as foreground stamp."
 msgstr "أنت تحتاج إلى تعريف مُلف بي دي إف كطابع مُقدَّم."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1657
+#: dialogs/pdf-wizard/pdfdialog.cpp:1658
 #, kde-format
 msgid "You need to define a PDF file as background watermark."
 msgstr "أنت تحتاج إلى تعريف مُلف بي دي إف كعلامة مائية للخلفية."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1664
+#: dialogs/pdf-wizard/pdfdialog.cpp:1665
 #, kde-format
 msgid ""
 "Unknown file format: only '.pdf' is accepted as image file in this mode."
 msgstr "نسق الملفّ مجهول: '‎.pdf' هو فقط النّسق المقبول كملفّ صورة لهذا الوضع."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1669
+#: dialogs/pdf-wizard/pdfdialog.cpp:1670
 #, kde-format
 msgid "The given file doesn't exist."
 msgstr "الملفّ المُعطى غير موجود."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1682
+#: dialogs/pdf-wizard/pdfdialog.cpp:1683
 #, kde-format
 msgid "You need to define an output file."
 msgstr "عليك تعريف ملفّ خرج."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1689
+#: dialogs/pdf-wizard/pdfdialog.cpp:1690
 #, kde-format
 msgid "Unknown file format: only '.pdf' is accepted as output file."
 msgstr "نسق الملفّ مجهول: '‎.pdf' هو فقط النّسق المقبول كملفّ خرج."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1695 dialogs/postscriptdialog.cpp:477
+#: dialogs/pdf-wizard/pdfdialog.cpp:1696 dialogs/postscriptdialog.cpp:477
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
 msgstr "الملفّ بالاسم \"%1\" موجود فعلًا. أمتأكّد من الكتابة عليه؟"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1730 dialogs/postscriptdialog.cpp:435
+#: dialogs/pdf-wizard/pdfdialog.cpp:1731 dialogs/postscriptdialog.cpp:435
 #, kde-format
 msgid "No input file is given."
 msgstr "لا يُعط ملفّ دخل."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1737
+#: dialogs/pdf-wizard/pdfdialog.cpp:1738
 #, kde-format
 msgid "Unknown file format: only '.pdf' are accepted for input files."
 msgstr "نسق الملفّ مجهول: '‎.pdf' هي فقط النُّسق المقبولة لملفّات الدّخل."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1742 dialogs/postscriptdialog.cpp:447
+#: dialogs/pdf-wizard/pdfdialog.cpp:1743 dialogs/postscriptdialog.cpp:447
 #, kde-format
 msgid "This input file does not exist."
 msgstr "ملفّ الدّخل هذا غير موجود."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1754
+#: dialogs/pdf-wizard/pdfdialog.cpp:1755
 #, kde-format
 msgid "No password is given."
 msgstr "لم تُعط كلمة سرّ."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1759
+#: dialogs/pdf-wizard/pdfdialog.cpp:1760
 #, kde-format
 msgid "The password should be at least 6 characters long."
 msgstr "على كلمة السر أن تكون بطول 6 محارف على الأقلّ."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
-#: dialogs/texdocumentationdialog.cpp:433
+#: dialogs/pdf-wizard/pdfdialog.cpp:1769 dialogs/postscriptdialog.cpp:517
+#: dialogs/texdocumentationdialog.cpp:432
 #, kde-format
 msgid "<center>"
 msgstr "<توسيط>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1768 dialogs/postscriptdialog.cpp:517
-#: dialogs/texdocumentationdialog.cpp:434
+#: dialogs/pdf-wizard/pdfdialog.cpp:1769 dialogs/postscriptdialog.cpp:517
+#: dialogs/texdocumentationdialog.cpp:433
 #, kde-format
 msgid "</center>"
 msgstr "</توسيط>"
@@ -2850,7 +2850,7 @@ msgstr "نسق الملفّ مجهول: '‎.ps' هو فقط النّسق الم
 msgid "Copies:"
 msgstr "النُّسخ:"
 
-#: dialogs/postscriptdialog.cpp:517 kile.cpp:1040
+#: dialogs/postscriptdialog.cpp:517 kile.cpp:1065
 #, kde-format
 msgid "Postscript Tools"
 msgstr "أدوات بوستسكريبت"
@@ -3197,7 +3197,7 @@ msgid "E&ncoding:"
 msgstr "ال&تّرميز:"
 
 #: dialogs/quickdocumentdialog.cpp:221 dialogs/quickdocumentdialog.cpp:277
-#: kilestdactions.cpp:57
+#: kilestdactions.cpp:103
 #, kde-format
 msgid "Description"
 msgstr "الوصف"
@@ -4343,7 +4343,7 @@ msgid "Tabular Environments"
 msgstr "بيئات الجدولات"
 
 #: dialogs/tabular/newtabulardialog.cpp:81
-#: dialogs/tabular/tabularheaderitem.cpp:37 kilestdactions.cpp:48
+#: dialogs/tabular/tabularheaderitem.cpp:37 kilestdactions.cpp:70
 #, kde-format
 msgid "Align Left"
 msgstr "حاذِ يسارًا"
@@ -4355,22 +4355,22 @@ msgid "Align Center"
 msgstr "حاذِ وسطًا"
 
 #: dialogs/tabular/newtabulardialog.cpp:83
-#: dialogs/tabular/tabularheaderitem.cpp:39 kilestdactions.cpp:49
+#: dialogs/tabular/tabularheaderitem.cpp:39 kilestdactions.cpp:74
 #, kde-format
 msgid "Align Right"
 msgstr "حاذِ يمينًا"
 
-#: dialogs/tabular/newtabulardialog.cpp:85 kilestdactions.cpp:214
+#: dialogs/tabular/newtabulardialog.cpp:85 kilestdactions.cpp:439
 #, kde-format
 msgid "Bold"
 msgstr "ثخين"
 
-#: dialogs/tabular/newtabulardialog.cpp:86 kilestdactions.cpp:217
+#: dialogs/tabular/newtabulardialog.cpp:86 kilestdactions.cpp:446
 #, kde-format
 msgid "Italic"
 msgstr "مائل"
 
-#: dialogs/tabular/newtabulardialog.cpp:87 kilestdactions.cpp:148
+#: dialogs/tabular/newtabulardialog.cpp:87 kilestdactions.cpp:298
 #, kde-format
 msgid "Underline"
 msgstr "مسطّر"
@@ -4641,13 +4641,13 @@ msgstr "لا محتوى لإدراجه في الجدول فالحافظة فار
 msgid "Empty Clipboard"
 msgstr "الحافظة فارغة"
 
-#: dialogs/texdocumentationdialog.cpp:58 kile.cpp:1096
+#: dialogs/texdocumentationdialog.cpp:58 kile.cpp:1121
 #, kde-format
 msgid "Documentation Browser"
 msgstr "متصفّح التّوثيق"
 
-#: dialogs/texdocumentationdialog.cpp:67 dialogs/texdocumentationdialog.cpp:383
-#: kilestdactions.cpp:43
+#: dialogs/texdocumentationdialog.cpp:67 dialogs/texdocumentationdialog.cpp:382
+#: kilestdactions.cpp:53
 #, kde-format
 msgid "Table of Contents"
 msgstr "جدول المحتويات"
@@ -4686,37 +4686,37 @@ msgstr "أعد ضبط القائمة إلى جميع ملفات التوثيق �
 msgid "Cancel &Search"
 msgstr "ألغِ البح&ث"
 
-#: dialogs/texdocumentationdialog.cpp:138
+#: dialogs/texdocumentationdialog.cpp:137
 #, kde-format
 msgid "Could not read 'texdoctk.dat'."
 msgstr "تعذّرت قراءة 'texdoctk.dat'."
 
-#: dialogs/texdocumentationdialog.cpp:298
+#: dialogs/texdocumentationdialog.cpp:297
 #, kde-format
 msgid "No KDE service found for this file."
 msgstr "لم توجد خدمة كِيدِي لهذا الملفّ."
 
-#: dialogs/texdocumentationdialog.cpp:330
+#: dialogs/texdocumentationdialog.cpp:329
 #, kde-format
 msgid "Could not find the documentation file '%1'"
 msgstr "تعذّر العثور على القالب: %1"
 
-#: dialogs/texdocumentationdialog.cpp:346
+#: dialogs/texdocumentationdialog.cpp:345
 #, kde-format
 msgid "No keyword given."
 msgstr "لم تُعط كلمة مفتاحيّة."
 
-#: dialogs/texdocumentationdialog.cpp:372
+#: dialogs/texdocumentationdialog.cpp:371
 #, kde-format
 msgid "Search results for keyword '%1'"
 msgstr "نتائج البحث عن الكلمة المفتاحيّة '%1'"
 
-#: dialogs/texdocumentationdialog.cpp:375
+#: dialogs/texdocumentationdialog.cpp:374
 #, kde-format
 msgid "No documents found for keyword '%1'."
 msgstr "لم توجد مستندات للكلمة المفتاحيّة '%1'."
 
-#: dialogs/texdocumentationdialog.cpp:433
+#: dialogs/texdocumentationdialog.cpp:432
 #, kde-format
 msgid ""
 "Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'."
@@ -4725,12 +4725,12 @@ msgstr ""
 "لا يمكن تحديد مسارات بحث TexLive/teTeX أو ملف 'texdoctk.dat'.<br/>للأسف، لا "
 "يستطيع كايل إظهار أي معلومات مفيدة."
 
-#: dialogs/texdocumentationdialog.cpp:434
+#: dialogs/texdocumentationdialog.cpp:433
 #, kde-format
 msgid "TexDoc Dialog"
 msgstr "حوار توثيق تخ"
 
-#: dialogs/texdocumentationdialog.cpp:446
+#: dialogs/texdocumentationdialog.cpp:445
 #, kde-format
 msgid ""
 "Could not determine the installation path of your TeX distribution or find "
@@ -4746,7 +4746,7 @@ msgid "Configure User Help"
 msgstr "ضبط مساعدة المستخدمة"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbUserHelp)
-#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1110
+#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1135
 #: widgets/helpconfigwidget.ui:86
 #, kde-format
 msgid "User Help"
@@ -5891,7 +5891,7 @@ msgstr "أنشئ قالبًا من المستند..."
 msgid "&Remove Template..."
 msgstr "أ&زل القالب..."
 
-#: kile.cpp:854 kile.cpp:985
+#: kile.cpp:854 kile.cpp:1005
 #, kde-format
 msgid "Close All"
 msgstr "أغلق الكلّ"
@@ -6062,7 +6062,7 @@ msgstr "افتح كلّ ملفّات المشروع"
 msgid "Find in &Project..."
 msgstr "ابحث في الم&شروع..."
 
-#: kile.cpp:911 kile.cpp:1017 kile.cpp:2168 kiledocmanager.cpp:1963
+#: kile.cpp:911 kile.cpp:1042 kile.cpp:2194 kiledocmanager.cpp:1963
 #: kiledocmanager.cpp:1973
 #, kde-format
 msgid "Clean"
@@ -6126,198 +6126,198 @@ msgstr "النقطة التالية"
 msgid "Prev Bullet"
 msgstr "النقطة السابقة"
 
-#: kile.cpp:943 kile.cpp:960
+#: kile.cpp:943 kile.cpp:968
 #, kde-format
 msgid "Environment (inside)"
 msgstr "البيئة (في الداخل)"
 
-#: kile.cpp:945 kile.cpp:962
+#: kile.cpp:946 kile.cpp:971
 #, kde-format
 msgid "Environment (outside)"
 msgstr "البيئة (في الخارج)"
 
-#: kile.cpp:947 kile.cpp:964
+#: kile.cpp:949 kile.cpp:974
 #, kde-format
 msgid "TeX Group (inside)"
 msgstr "مجموعة تخ (في الداخل)"
 
-#: kile.cpp:949 kile.cpp:966
+#: kile.cpp:952 kile.cpp:977
 #, kde-format
 msgid "TeX Group (outside)"
 msgstr "مجموعة تخ (في الخارج)"
 
-#: kile.cpp:951 kile.cpp:968
+#: kile.cpp:955 kile.cpp:980
 #, kde-format
 msgid "Math Group"
 msgstr "مجموعة رياضيات"
 
-#: kile.cpp:953 kile.cpp:970
+#: kile.cpp:958 kile.cpp:983
 #, kde-format
 msgid "Paragraph"
 msgstr "الفقرة"
 
-#: kile.cpp:955
+#: kile.cpp:961
 #, kde-format
 msgid "Line"
 msgstr "الخط"
 
-#: kile.cpp:957 kile.cpp:974
+#: kile.cpp:964 kile.cpp:989
 #, kde-format
 msgid "TeX Word"
 msgstr "كلمة تخ"
 
-#: kile.cpp:972
+#: kile.cpp:986
 #, kde-format
 msgid "To End of Line"
 msgstr "إلى نهاية السطر"
 
-#: kile.cpp:977 kile.cpp:988
+#: kile.cpp:993 kile.cpp:1009
 #, kde-format
 msgid "Go to Begin"
 msgstr "انتقل إلى البداية"
 
-#: kile.cpp:979 kile.cpp:990
+#: kile.cpp:996 kile.cpp:1012
 #, kde-format
 msgid "Go to End"
 msgstr "انتقل إلى النهاية"
 
-#: kile.cpp:981 kile.cpp:992
+#: kile.cpp:999 kile.cpp:1015
 #, kde-format
 msgid "Match"
 msgstr "طابق"
 
-#: kile.cpp:983 kile.cpp:994
+#: kile.cpp:1002 kile.cpp:1018
 #, kde-format
 msgid "Close"
 msgstr "أغلق"
 
-#: kile.cpp:997
+#: kile.cpp:1022
 #, kde-format
 msgid "Selection"
 msgstr "التحديد"
 
-#: kile.cpp:1003
+#: kile.cpp:1028
 #, kde-format
 msgid "Subdocument"
 msgstr "مستند فرعي"
 
-#: kile.cpp:1006
+#: kile.cpp:1031
 #, kde-format
 msgid "Mathgroup"
 msgstr "مجموعة الرياضيات"
 
-#: kile.cpp:1013
+#: kile.cpp:1038
 #, kde-format
 msgid "&Bibliography"
 msgstr "&ثبَت مراجع"
 
 #. i18n: ectx: Menu (settings)
-#: kile.cpp:1019 kileui.rc:517
+#: kile.cpp:1044 kileui.rc:517
 #, kde-format
 msgid "&Settings"
 msgstr "إ&عدادات"
 
-#: kile.cpp:1022
+#: kile.cpp:1047
 #, kde-format
 msgid "Settings for BibTeX"
 msgstr "إعدادات لـ BibTeX"
 
-#: kile.cpp:1026
+#: kile.cpp:1051
 #, kde-format
 msgid "Settings for Biblatex"
 msgstr "إعدادات لـ Biblatex"
 
-#: kile.cpp:1033 kile.cpp:2273
+#: kile.cpp:1058 kile.cpp:2299
 #, kde-format
 msgid "Quick Start"
 msgstr "بدء سريع"
 
-#: kile.cpp:1036 kilestdactions.cpp:397
+#: kile.cpp:1061 kilestdactions.cpp:714
 #, kde-format
 msgid "Array"
 msgstr "مصفوفة"
 
-#: kile.cpp:1037 kile.cpp:2325 kilestdactions.cpp:79
+#: kile.cpp:1062 kile.cpp:2351 kilestdactions.cpp:151
 #, kde-format
 msgid "Tabbing"
 msgstr "ترقيم"
 
-#: kile.cpp:1038
+#: kile.cpp:1063
 #, kde-format
 msgid "Floats"
 msgstr "الطفويات"
 
-#: kile.cpp:1043
+#: kile.cpp:1068
 #, kde-format
 msgid "Define Current Document as '&Master Document'"
 msgstr "عرِّف المستند الحالي كـ «المستند ا&لرئيسي»"
 
-#: kile.cpp:1048
+#: kile.cpp:1073
 #, kde-format
 msgid "Show Document Viewer"
 msgstr "أظهر عارض المستندات"
 
-#: kile.cpp:1055
+#: kile.cpp:1080
 #, kde-format
 msgid "Show S&ide Bar"
 msgstr "أظهر الشّريط ال&جانبيّ"
 
-#: kile.cpp:1061
+#: kile.cpp:1086
 #, kde-format
 msgid "Show Mess&ages Bar"
 msgstr "أظهر شريط ال&رّسائل"
 
-#: kile.cpp:1073
+#: kile.cpp:1098
 #, kde-format
 msgid "Watch File Mode"
 msgstr "وضع مراقبة الملف"
 
-#: kile.cpp:1093
+#: kile.cpp:1118
 #, kde-format
 msgid "Context Help"
 msgstr "مساعدة سياقيّة"
 
-#: kile.cpp:1100
+#: kile.cpp:1125
 #, kde-format
 msgid "&About Editor Component"
 msgstr "&عن مكوّن المحرّر"
 
-#: kile.cpp:1108
+#: kile.cpp:1133
 #, kde-format
 msgid "&System Check..."
 msgstr "فحص النّ&ظام..."
 
-#: kile.cpp:1126 kileinfo.cpp:357
+#: kile.cpp:1151 kileinfo.cpp:357
 #, kde-format
 msgid "BibTeX"
 msgstr "بب تخ"
 
-#: kile.cpp:1129
+#: kile.cpp:1154
 #, kde-format
 msgid "Biblatex"
 msgstr "ببل تخ"
 
-#: kile.cpp:1274 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1299 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "Compile"
 msgstr "صرّف"
 
-#: kile.cpp:1275 widgets/toolconfigwidget.cpp:79
+#: kile.cpp:1300 widgets/toolconfigwidget.cpp:79
 #, kde-format
 msgid "View"
 msgstr "اعرض"
 
-#: kile.cpp:1276 widgets/toolconfigwidget.cpp:78
+#: kile.cpp:1301 widgets/toolconfigwidget.cpp:78
 #, kde-format
 msgid "Convert"
 msgstr "حوّل"
 
-#: kile.cpp:1277 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1302 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Quick"
 msgstr "سريع"
 
-#: kile.cpp:1456
+#: kile.cpp:1481
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6328,108 +6328,108 @@ msgstr ""
 "\n"
 "افحص ثبيت كايل وأصلحه."
 
-#: kile.cpp:1458
+#: kile.cpp:1483
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr "تعذّر إنشاء أداة الأرشفة"
 
-#: kile.cpp:1523
+#: kile.cpp:1548
 #, kde-format
 msgid "Project: %1"
 msgstr "المشروع: %1"
 
-#: kile.cpp:1526
+#: kile.cpp:1551
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "المشروع: %1 (المستند الرئيسي: %2)"
 
-#: kile.cpp:1531
+#: kile.cpp:1556
 #, kde-format
 msgid "Normal mode"
 msgstr "الوضع العاديّ"
 
-#: kile.cpp:1534
+#: kile.cpp:1559
 #, kde-format
 msgid "Master document: %1"
 msgstr "مستند رئيس: %1"
 
-#: kile.cpp:1539 kile.cpp:2682
+#: kile.cpp:1564 kile.cpp:2708
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "عرِّف المستند الحالي كـ «المستند الرئيسي»"
 
-#: kile.cpp:1543 kile.cpp:2672
+#: kile.cpp:1568 kile.cpp:2698
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "الوضع العادي (المستند الرئيسي الحالي: %1)"
 
-#: kile.cpp:1783
+#: kile.cpp:1808
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr "%1 [للقراءة فقط]"
 
-#: kile.cpp:2161
+#: kile.cpp:2187
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "لا مستند نشط أو أنّه لم يُحفظ."
 
-#: kile.cpp:2244
+#: kile.cpp:2270
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "عليك تضمين الحزمة %1."
 
-#: kile.cpp:2244 kile.cpp:2247
+#: kile.cpp:2270 kile.cpp:2273
 #, kde-format
 msgid "Insert text"
 msgstr "أدرج نصاً"
 
-#: kile.cpp:2247
+#: kile.cpp:2273
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "عليك تضمين الحزم %1."
 
-#: kile.cpp:2468
+#: kile.cpp:2494
 #, kde-format
 msgid "No Name"
 msgstr "بلا اسم"
 
-#: kile.cpp:2504
+#: kile.cpp:2530
 #, kde-format
 msgid "no name"
 msgstr "بلا اسم"
 
-#: kile.cpp:2700
+#: kile.cpp:2726
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr "لكي تعرِّف المستند الحالي كمستند رئيسي، يجب حفظه أولاً."
 
-#: kile.cpp:3042
+#: kile.cpp:3068
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "كتليّ"
 
-#: kile.cpp:3043
+#: kile.cpp:3069
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "سطريّ"
 
-#: kile.cpp:3050
+#: kile.cpp:3076
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "يحدّث البنية..."
 
-#: kile.cpp:3068
+#: kile.cpp:3094
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr "سيُخفي هذا شريط القوائم بالكامل. يمكنك إظهاره مجدّدًا بضغط %1."
 
-#: kile.cpp:3071
+#: kile.cpp:3097
 #, kde-format
 msgid "Hide menu bar"
 msgstr "أخفِ شريط القوائم"
@@ -7717,7 +7717,7 @@ msgstr "ألصق"
 msgid "Document Class Selection - \\documentclass{}"
 msgstr "اختيار صنف المستند - \\documentclass{}"
 
-#: kilestdactions.cpp:32
+#: kilestdactions.cpp:34
 #, kde-format
 msgid ""
 "\\documentclass[options]{class}\n"
@@ -7748,17 +7748,17 @@ msgstr ""
 "onecolumn, twocolumn -- عمود واحد أو عمودان؛ مبدئي هو عمود واحد\n"
 "oneside, twoside -- يختار تخطيط أحادي أو ثنائي الجانب.\n"
 
-#: kilestdactions.cpp:36
+#: kilestdactions.cpp:38
 #, kde-format
 msgid "Package Import - \\usepackage{}"
 msgstr "استيراد الحزمة - \\usepackage{}"
 
-#: kilestdactions.cpp:36
+#: kilestdactions.cpp:38
 #, kde-format
 msgid "Package Import"
 msgstr "استيراد الحزمة"
 
-#: kilestdactions.cpp:37
+#: kilestdactions.cpp:41
 #, kde-format
 msgid ""
 "Any options given in the \\documentclass command that are unknown by the "
@@ -7768,27 +7768,27 @@ msgstr ""
 "أي خيارات مُعطاة في الأمر \\documentclass غير معروفة لصنف المستند المختار\n"
 "تُمرر إلى الحزم المُحملة باستخدام \\usepackage."
 
-#: kilestdactions.cpp:40
+#: kilestdactions.cpp:44
 #, kde-format
 msgid "AMS Packages"
 msgstr "حزم AMS"
 
-#: kilestdactions.cpp:40
+#: kilestdactions.cpp:44
 #, kde-format
 msgid "The principal American Mathematical Society packages"
 msgstr "الحزم الرئيسية لجمعية الرياضيات الأمريكية"
 
-#: kilestdactions.cpp:41
+#: kilestdactions.cpp:45
 #, kde-format
 msgid "Start Document Body - \\begin{document}"
 msgstr "ابدأ جسم المستند - \\begin{document}"
 
-#: kilestdactions.cpp:41
+#: kilestdactions.cpp:45
 #, kde-format
 msgid "Start Document Body"
 msgstr "ابدأ جسم المستند"
 
-#: kilestdactions.cpp:41
+#: kilestdactions.cpp:48
 #, kde-format
 msgid ""
 "Text is allowed only between \\begin{document} and \\end{document}.\n"
@@ -7797,17 +7797,17 @@ msgstr ""
 "النص مسموح به فقط بين \\begin{document} و \\end{document}.\n"
 "قد يحتوي 'الديباجة' (قبل \\begin{document} ) على إعلانات فقط."
 
-#: kilestdactions.cpp:42
+#: kilestdactions.cpp:49
 #, kde-format
 msgid "Generate Title - \\maketitle"
 msgstr "ولد العنوان - \\maketitle"
 
-#: kilestdactions.cpp:42
+#: kilestdactions.cpp:49
 #, kde-format
 msgid "Generate Title"
 msgstr "ولد العنوان"
 
-#: kilestdactions.cpp:42
+#: kilestdactions.cpp:52
 #, kde-format
 msgid ""
 "This command generates a title on a separate title page\n"
@@ -7817,27 +7817,27 @@ msgstr ""
 "هذا الأمر يولد عنوانًا على صفحة عنوان منفصلة\n"
 "- باستثناء صنف المقالة، حيث يذهب العنوان عادة في أعلى الصفحة الأولى."
 
-#: kilestdactions.cpp:43
+#: kilestdactions.cpp:53
 #, kde-format
 msgid "Table of Contents - \\tableofcontents"
 msgstr "جدول المحتويات - \\tableofcontents"
 
-#: kilestdactions.cpp:43
+#: kilestdactions.cpp:56
 #, kde-format
 msgid "Put this command where you want the table of contents to go"
 msgstr "ضع هذا الأمر حيث تريد أن يذهب جدول المحتويات"
 
-#: kilestdactions.cpp:44
+#: kilestdactions.cpp:57
 #, kde-format
 msgid "Title Definition - \\title{}"
 msgstr "تعريف العنوان - \\title{}"
 
-#: kilestdactions.cpp:44
+#: kilestdactions.cpp:57
 #, kde-format
 msgid "Title Definition"
 msgstr "تعريف العنوان"
 
-#: kilestdactions.cpp:44
+#: kilestdactions.cpp:60
 #, kde-format
 msgid ""
 "\\title{text}\n"
@@ -7848,17 +7848,17 @@ msgstr ""
 "الأمر \\title يصرّح بأن النص هو العنوان.\n"
 "استخدم \\\\ لإخبار لاتخ بموضع بدء سطر جديد في عنوان طويل."
 
-#: kilestdactions.cpp:45
+#: kilestdactions.cpp:61
 #, kde-format
 msgid "Author Definition - \\author{}"
 msgstr "تعريف المؤلف - \\author{}"
 
-#: kilestdactions.cpp:45
+#: kilestdactions.cpp:61
 #, kde-format
 msgid "Author Definition"
 msgstr "تعريف المؤلف"
 
-#: kilestdactions.cpp:45
+#: kilestdactions.cpp:64
 #, kde-format
 msgid ""
 "\\author{names}\n"
@@ -7869,37 +7869,37 @@ msgstr ""
 "يُعلن الأمر \\author عن المؤلف (المؤلفين)، حيث names هي قائمة من المؤلفين "
 "مفصولة بأوامر \\and."
 
-#: kilestdactions.cpp:47
+#: kilestdactions.cpp:66
 #, kde-format
 msgid "Center - \\begin{center}"
 msgstr "توسيط - \\begin{center}"
 
-#: kilestdactions.cpp:47 kilestdactions.cpp:48 kilestdactions.cpp:49
+#: kilestdactions.cpp:69 kilestdactions.cpp:73 kilestdactions.cpp:77
 #, kde-format
 msgid "Each line must be terminated with the string \\\\."
 msgstr "يجب أن ينهي كل سطر بالسلسلة \\\\."
 
-#: kilestdactions.cpp:48
+#: kilestdactions.cpp:70
 #, kde-format
 msgid "Align Left - \\begin{flushleft}"
 msgstr "محاذاة لليسار - \\begin{flushleft}"
 
-#: kilestdactions.cpp:49
+#: kilestdactions.cpp:74
 #, kde-format
 msgid "Align Right - \\begin{flushright}"
 msgstr "محاذاة لليمين - \\begin{flushright}"
 
-#: kilestdactions.cpp:50
+#: kilestdactions.cpp:78
 #, kde-format
 msgid "Quote - \\begin{quote}"
 msgstr "اقتباس - \\begin{quote}"
 
-#: kilestdactions.cpp:50
+#: kilestdactions.cpp:78
 #, kde-format
 msgid "Quote"
 msgstr "اقتباس"
 
-#: kilestdactions.cpp:50
+#: kilestdactions.cpp:81
 #, kde-format
 msgid ""
 "The text is justified at both margins.\n"
@@ -7908,17 +7908,17 @@ msgstr ""
 "النص مبرر عند كلا الهامشين.\n"
 "يؤدي ترك سطر فارغ بين النص إلى إنتاج فقرة جديدة."
 
-#: kilestdactions.cpp:51
+#: kilestdactions.cpp:82
 #, kde-format
 msgid "Quotation - \\begin{quotation}"
 msgstr "اقتباس - \\begin{quotation}"
 
-#: kilestdactions.cpp:51
+#: kilestdactions.cpp:82
 #, kde-format
 msgid "Quotation"
 msgstr "تنصيص"
 
-#: kilestdactions.cpp:51
+#: kilestdactions.cpp:85
 #, kde-format
 msgid ""
 "The text is justified at both margins and there is paragraph indentation.\n"
@@ -7927,17 +7927,17 @@ msgstr ""
 "النص مبرر عند كلا الهامشين وهناك مسافة بادئة للفقرة.\n"
 "يؤدي ترك سطر فارغ بين النص إلى إنتاج فقرة جديدة."
 
-#: kilestdactions.cpp:52
+#: kilestdactions.cpp:86
 #, kde-format
 msgid "Verse - \\begin{verse}"
 msgstr "شعر - \\begin{verse}"
 
-#: kilestdactions.cpp:52
+#: kilestdactions.cpp:86
 #, kde-format
 msgid "Verse"
 msgstr "شعر"
 
-#: kilestdactions.cpp:52
+#: kilestdactions.cpp:89
 #, kde-format
 msgid ""
 "The verse environment is designed for poetry.\n"
@@ -7947,27 +7947,27 @@ msgstr ""
 "صمم بيئة الشعر للشعر.\n"
 "افصل أسطر كل مقطع بـ \\\\، واستخدم سطرًا فارغًا واحدًا أو أكثر لفصل المقاطع."
 
-#: kilestdactions.cpp:54
+#: kilestdactions.cpp:91
 #, kde-format
 msgid "Verbatim - \\begin{verbatim}"
 msgstr "حرفي - \\begin{verbatim}"
 
-#: kilestdactions.cpp:54
+#: kilestdactions.cpp:94
 #, kde-format
 msgid "Environment that gets LaTeX to print exactly what you type in."
 msgstr "بيئة تجعل لاتخ يطبع بالضبط ما تكتبه."
 
-#: kilestdactions.cpp:55
+#: kilestdactions.cpp:95
 #, kde-format
 msgid "Bulleted List - \\begin{itemize}"
 msgstr "قائمة نقطية - \\begin{itemize}"
 
-#: kilestdactions.cpp:55
+#: kilestdactions.cpp:95
 #, kde-format
 msgid "Bulleted List"
 msgstr "قائمة نقطية"
 
-#: kilestdactions.cpp:55
+#: kilestdactions.cpp:98
 #, kde-format
 msgid ""
 "The itemize environment produces a 'bulleted' list.\n"
@@ -7976,17 +7976,17 @@ msgstr ""
 "تنتج بيئة itemize قائمة 'نقطية'.\n"
 "يبدأ كل عنصر من قائمة مُنقطة بأمر \\item."
 
-#: kilestdactions.cpp:56
+#: kilestdactions.cpp:99
 #, kde-format
 msgid "Enumeration - \\begin{enumerate}"
 msgstr "تعداد - \\begin{enumerate}"
 
-#: kilestdactions.cpp:56
+#: kilestdactions.cpp:99
 #, kde-format
 msgid "Enumeration"
 msgstr "عناصر مجموعة"
 
-#: kilestdactions.cpp:56
+#: kilestdactions.cpp:102
 #, kde-format
 msgid ""
 "The enumerate environment produces a numbered list.\n"
@@ -7995,12 +7995,12 @@ msgstr ""
 "تنتج بيئة enumerate قائمة مرقمة.\n"
 "يبدأ كل عنصر من قائمة مُعدَّدة بأمر \\item."
 
-#: kilestdactions.cpp:57
+#: kilestdactions.cpp:103
 #, kde-format
 msgid "Description - \\begin{description}"
 msgstr "وصف - \\begin{description}"
 
-#: kilestdactions.cpp:57
+#: kilestdactions.cpp:106
 #, kde-format
 msgid ""
 "The description environment is used to make labeled lists.\n"
@@ -8011,12 +8011,12 @@ msgstr ""
 "يبدأ كل عنصر من القائمة بأمر \\item[label].\n"
 "'لصيقة' هي بخط عريض ومحاذى لليمين."
 
-#: kilestdactions.cpp:59
+#: kilestdactions.cpp:108
 #, kde-format
 msgid "Table - \\begin{table}"
 msgstr "جدول - \\begin{table}"
 
-#: kilestdactions.cpp:60
+#: kilestdactions.cpp:111
 #, kde-format
 msgid ""
 "\\begin{table}[placement]\n"
@@ -8050,12 +8050,12 @@ msgstr ""
 "يتكون جسم الجدول من أي نص أو أوامر لاتخ، إلخ، ترغب فيه.\n"
 "يسمح لك الأمر \\caption بوضع عنوان لجدولك."
 
-#: kilestdactions.cpp:64
+#: kilestdactions.cpp:115
 #, kde-format
 msgid "Figure - \\begin{figure}"
 msgstr "شكل - \\begin{figure}"
 
-#: kilestdactions.cpp:65
+#: kilestdactions.cpp:118
 #, kde-format
 msgid ""
 "\\begin{figure}[placement]\n"
@@ -8089,17 +8089,17 @@ msgstr ""
 "يتكون جسم الشكل من أي نص أو أوامر لاتخ، إلخ، ترغب فيه.\n"
 "يسمح لك الأمر \\caption بوضع عنوان لشكلك."
 
-#: kilestdactions.cpp:69
+#: kilestdactions.cpp:122
 #, kde-format
 msgid "Title Page - \\begin{titlepage}"
 msgstr "صفحة العنوان - \\begin{titlepage}"
 
-#: kilestdactions.cpp:69
+#: kilestdactions.cpp:122
 #, kde-format
 msgid "Title Page"
 msgstr "صفحة العنوان"
 
-#: kilestdactions.cpp:70
+#: kilestdactions.cpp:125
 #, kde-format
 msgid ""
 "\\begin{titlepage}\n"
@@ -8114,92 +8114,92 @@ msgstr ""
 "تنشئ بيئة titlepage صفحة عنوان، أي صفحة لا تحتوي على رقم صفحة مطبوع أو "
 "ترويسة."
 
-#: kilestdactions.cpp:72
+#: kilestdactions.cpp:127
 #, kde-format
 msgid "Italics - \\textit{}"
 msgstr "مائل - \\textit{}"
 
-#: kilestdactions.cpp:72
+#: kilestdactions.cpp:127
 #, kde-format
 msgid "Italics"
 msgstr "مائل"
 
-#: kilestdactions.cpp:72
+#: kilestdactions.cpp:129
 #, kde-format
 msgid "\\textit{italic text}"
 msgstr "\\textit{نص مائل}"
 
-#: kilestdactions.cpp:73
+#: kilestdactions.cpp:130
 #, kde-format
 msgid "Slanted - \\textsl{}"
 msgstr "مائل - \\textsl{}"
 
-#: kilestdactions.cpp:73 kilestdactions.cpp:218
+#: kilestdactions.cpp:130 kilestdactions.cpp:449
 #, kde-format
 msgid "Slanted"
 msgstr "مائل"
 
-#: kilestdactions.cpp:73
+#: kilestdactions.cpp:133
 #, kde-format
 msgid "\\textsl{slanted text}"
 msgstr "\\textsl{نص مائل}"
 
-#: kilestdactions.cpp:74
+#: kilestdactions.cpp:134
 #, kde-format
 msgid "Boldface - \\textbf{}"
 msgstr "عريض - \\textbf{}"
 
-#: kilestdactions.cpp:74
+#: kilestdactions.cpp:134
 #, kde-format
 msgid "Boldface"
 msgstr "عريض"
 
-#: kilestdactions.cpp:74
+#: kilestdactions.cpp:137
 #, kde-format
 msgid "\\textbf{boldface text}"
 msgstr "\\textbf{نص عريض}"
 
-#: kilestdactions.cpp:75
+#: kilestdactions.cpp:138
 #, kde-format
 msgid "Typewriter - \\texttt{}"
 msgstr "آلة كاتبة - \\texttt{}"
 
-#: kilestdactions.cpp:75
+#: kilestdactions.cpp:138
 #, kde-format
 msgid "Typewriter"
 msgstr "كتابة"
 
-#: kilestdactions.cpp:75
+#: kilestdactions.cpp:141
 #, kde-format
 msgid "\\texttt{typewriter text}"
 msgstr "\\texttt{نص آلة كاتبة}"
 
-#: kilestdactions.cpp:76
+#: kilestdactions.cpp:142
 #, kde-format
 msgid "Small Caps - \\textsc{}"
 msgstr "أحرف صغيرة كبيرة - \\textsc{}"
 
-#: kilestdactions.cpp:76
+#: kilestdactions.cpp:142
 #, kde-format
 msgid "Small Caps"
 msgstr "حروف كبيرة مصغرة"
 
-#: kilestdactions.cpp:76
+#: kilestdactions.cpp:145
 #, kde-format
 msgid "\\textsc{small caps text}"
 msgstr "\\textsc{نص بأحرف صغيرة كبيرة}"
 
-#: kilestdactions.cpp:77
+#: kilestdactions.cpp:149
 #, kde-format
 msgid "\\item[label] Hello!"
 msgstr "\\item[لصيقة] مرحبًا!"
 
-#: kilestdactions.cpp:79
+#: kilestdactions.cpp:151
 #, kde-format
 msgid "Tabbing - \\begin{tabbing}"
 msgstr "جدولة - \\begin{tabbing}"
 
-#: kilestdactions.cpp:79
+#: kilestdactions.cpp:154
 #, kde-format
 msgid ""
 "The tabbing environment provides a way to align text in columns.\n"
@@ -8246,12 +8246,12 @@ msgstr ""
 "\\a  في بيئة tabbing، لا تنتج الأوامر \\= و \\' و \\` علامات تشكيل كالمعتاد. "
 "بدلاً من ذلك، تستخدم الأوامر \\a= و \\a' و \\a`."
 
-#: kilestdactions.cpp:80
+#: kilestdactions.cpp:155
 #, kde-format
 msgid "Tabular - \\begin{tabular}"
 msgstr "جدولي - \\begin{tabular}"
 
-#: kilestdactions.cpp:80
+#: kilestdactions.cpp:158
 #, kde-format
 msgid ""
 "\\begin{tabular}[pos]{cols}\n"
@@ -8292,17 +8292,17 @@ msgstr ""
 "وانتهاءً في العمود j.\n"
 "يرسم الأمر \\vline خطًا عموديًا يمتد بالارتفاع والعمق الكاملين لصفه."
 
-#: kilestdactions.cpp:81
+#: kilestdactions.cpp:159
 #, kde-format
 msgid "Multicolumn Cells - \\multicolumn"
 msgstr "خلايا متعددة الأعمدة - \\multicolumn"
 
-#: kilestdactions.cpp:81
+#: kilestdactions.cpp:159
 #, kde-format
 msgid "Multicolumn Cells"
 msgstr "خلايا متعددة الأعمدة"
 
-#: kilestdactions.cpp:81
+#: kilestdactions.cpp:162
 #, kde-format
 msgid ""
 "\\multicolumn{cols}{pos}{text}\n"
@@ -8316,49 +8316,49 @@ msgstr ""
 "pos يحدد تنسيق الإدخال: c للتوسيط، l للمحاذاة لليسار، r للمحاذاة لليمين.\n"
 "text يحدد ما هو النص الذي سيشكل الإدخال."
 
-#: kilestdactions.cpp:82
+#: kilestdactions.cpp:163
 #, kde-format
 msgid "Horizontal Line - \\hline"
 msgstr "خط أفقي - \\hline"
 
-#: kilestdactions.cpp:82
+#: kilestdactions.cpp:163
 #, kde-format
 msgid "Horizontal Line"
 msgstr "خط أفقي"
 
-#: kilestdactions.cpp:82
+#: kilestdactions.cpp:166
 #, kde-format
 msgid "The \\hline command draws a horizontal line the width of the table."
 msgstr "يرسم الأمر \\hline خطًا أفقيًا بعرض الجدول."
 
-#: kilestdactions.cpp:83
+#: kilestdactions.cpp:167
 #, kde-format
 msgid "Vertical Line - \\vline"
 msgstr "خط عمودي - \\vline"
 
-#: kilestdactions.cpp:83
+#: kilestdactions.cpp:167
 #, kde-format
 msgid "Vertical Line"
 msgstr "خط رأسي"
 
-#: kilestdactions.cpp:83
+#: kilestdactions.cpp:170
 #, kde-format
 msgid ""
 "The \\vline command draws a vertical line extending the full height and "
 "depth of its row."
 msgstr "يرسم الأمر \\vline خطًا عموديًا يمتد بالارتفاع والعمق الكاملين لصفه."
 
-#: kilestdactions.cpp:84
+#: kilestdactions.cpp:171
 #, kde-format
 msgid "Horizontal Line Across Columns - \\cline{m-n}"
 msgstr "خط أفقي عبر الأعمدة - \\cline{m-n}"
 
-#: kilestdactions.cpp:84
+#: kilestdactions.cpp:171
 #, kde-format
 msgid "Horizontal Line Across Columns"
 msgstr "خط أفقي عبر الأعمدة"
 
-#: kilestdactions.cpp:84
+#: kilestdactions.cpp:174
 #, kde-format
 msgid ""
 "The \\cline{i-j} command draws horizontal lines across the columns "
@@ -8367,106 +8367,106 @@ msgstr ""
 "يرسم الأمر \\cline{i-j} خطوطًا أفقية عبر الأعمدة المحددة، بدءًا من العمود i "
 "وانتهاءً في العمود j،"
 
-#: kilestdactions.cpp:86
+#: kilestdactions.cpp:176
 #, kde-format
 msgid "New Page - \\newpage"
 msgstr "صفحة جديدة - \\newpage"
 
-#: kilestdactions.cpp:86
+#: kilestdactions.cpp:176
 #, kde-format
 msgid "New Page"
 msgstr "صفحة جديدة"
 
-#: kilestdactions.cpp:86
+#: kilestdactions.cpp:179
 #, kde-format
 msgid "The \\newpage command ends the current page"
 msgstr "ينهي الأمر \\newpage الصفحة الحالية"
 
-#: kilestdactions.cpp:87
+#: kilestdactions.cpp:180
 #, kde-format
 msgid "Line Break - \\linebreak"
 msgstr "فاصل سطر - \\linebreak"
 
-#: kilestdactions.cpp:87
+#: kilestdactions.cpp:180
 #, kde-format
 msgid "Line Break"
 msgstr "كاسر أسطر"
 
-#: kilestdactions.cpp:87
+#: kilestdactions.cpp:183
 #, kde-format
 msgid ""
 "The \\linebreak command tells LaTeX to break the current line at the point "
 "of the command."
 msgstr "يخبر الأمر \\linebreak لاتخ أن يكسر السطر الحالي عند نقطة الأمر."
 
-#: kilestdactions.cpp:88
+#: kilestdactions.cpp:184
 #, kde-format
 msgid "Page Break - \\pagebreak"
 msgstr "فاصل صفحة - \\pagebreak"
 
-#: kilestdactions.cpp:88
+#: kilestdactions.cpp:184
 #, kde-format
 msgid "Page Break"
 msgstr "فاصل صفحات"
 
-#: kilestdactions.cpp:88
+#: kilestdactions.cpp:187
 #, kde-format
 msgid ""
 "The \\pagebreak command tells LaTeX to break the current page at the point "
 "of the command."
 msgstr "يخبر الأمر \\pagebreak لاتخ أن يكسر الصفحة الحالية عند نقطة الأمر."
 
-#: kilestdactions.cpp:89
+#: kilestdactions.cpp:188
 #, kde-format
 msgid "\"Big\" Vertical Space - \\bigskip"
 msgstr "مسافة عمودية \"كبيرة\" - \\bigskip"
 
-#: kilestdactions.cpp:89
+#: kilestdactions.cpp:188
 #, kde-format
 msgid "\"Big\" Vertical Space"
 msgstr "مسافة عمودية \"كبيرة\""
 
-#: kilestdactions.cpp:89
+#: kilestdactions.cpp:191
 #, kde-format
 msgid "The \\bigskip command adds a 'big' vertical space."
 msgstr "يضيف الأمر \\bigskip مسافة عمودية 'كبيرة'."
 
-#: kilestdactions.cpp:90
+#: kilestdactions.cpp:192
 #, kde-format
 msgid "\"Medium\" Vertical Space - \\medskip"
 msgstr "مسافة عمودية \"متوسطة\" - \\medskip"
 
-#: kilestdactions.cpp:90
+#: kilestdactions.cpp:192
 #, kde-format
 msgid "\"Medium\" Vertical Space"
 msgstr "مسافة عمودية \"متوسطة\""
 
-#: kilestdactions.cpp:90
+#: kilestdactions.cpp:195
 #, kde-format
 msgid "The \\medskip command adds a 'medium' vertical space."
 msgstr "يضيف الأمر \\medskip مسافة عمودية 'متوسطة'."
 
-#: kilestdactions.cpp:93
+#: kilestdactions.cpp:198
 #, kde-format
 msgid "Image Insertion - \\includegraphics{file}"
 msgstr "إدراج صورة - \\includegraphics{ملف}"
 
-#: kilestdactions.cpp:93
+#: kilestdactions.cpp:198
 #, kde-format
 msgid "Image Insertion"
 msgstr "إدراج صورة"
 
-#: kilestdactions.cpp:97
+#: kilestdactions.cpp:202
 #, kde-format
 msgid "Customizable File Inclusion - \\include{file}"
 msgstr "تضمين ملف قابل للتخصيص - \\include{ملف}"
 
-#: kilestdactions.cpp:97
+#: kilestdactions.cpp:202
 #, kde-format
 msgid "Customizable File Inclusion"
 msgstr "تضمين ملف قابل للتخصيص"
 
-#: kilestdactions.cpp:101
+#: kilestdactions.cpp:206
 #, kde-format
 msgid ""
 "\\include{file}\n"
@@ -8477,22 +8477,22 @@ msgstr ""
 "يستخدم الأمر \\include بالاقتران مع الأمر \\includeonly للتضمين الانتقائي "
 "للملفات."
 
-#: kilestdactions.cpp:102 kilestdactions.cpp:108
+#: kilestdactions.cpp:207 kilestdactions.cpp:213
 #, kde-format
 msgid "Type or select a filename: "
 msgstr "اكتب أو اختر اسم ملف: "
 
-#: kilestdactions.cpp:103
+#: kilestdactions.cpp:208
 #, kde-format
 msgid "File Inclusion - \\input{file}"
 msgstr "تضمين ملف - \\input{ملف}"
 
-#: kilestdactions.cpp:103
+#: kilestdactions.cpp:208
 #, kde-format
 msgid "File Inclusion"
 msgstr "تضمين ملف"
 
-#: kilestdactions.cpp:107
+#: kilestdactions.cpp:212
 #, kde-format
 msgid ""
 "\\input{file}\n"
@@ -8504,12 +8504,12 @@ msgstr ""
 "يتسبب الأمر \\input في قراءة الملف المشار إليه ومعالجته، تمامًا كما لو كانت "
 "محتوياته قد أدرجت في الملف الحالي عند تلك النقطة."
 
-#: kilestdactions.cpp:110 widgets/structurewidget.cpp:774
+#: kilestdactions.cpp:215 widgets/structurewidget.cpp:774
 #, kde-format
 msgid "Sectioning"
 msgstr "تقسيم إلى أقسام"
 
-#: kilestdactions.cpp:112
+#: kilestdactions.cpp:220
 #, kde-format
 msgid ""
 "\\part{title}\n"
@@ -8519,19 +8519,19 @@ msgstr ""
 "\\part{عنوان}\n"
 "\\part*{عنوان} : لا تدرج رقمًا ولا تنشئ إدخالًا في جدول المحتويات\n"
 
-#: kilestdactions.cpp:112
+#: kilestdactions.cpp:221
 #, kde-format
 msgid "&Part"
 msgstr "&جزء"
 
-#: kilestdactions.cpp:112 kilestdactions.cpp:114 kilestdactions.cpp:115
-#: kilestdactions.cpp:116 kilestdactions.cpp:117 kilestdactions.cpp:119
-#: kilestdactions.cpp:120
+#: kilestdactions.cpp:221 kilestdactions.cpp:226 kilestdactions.cpp:230
+#: kilestdactions.cpp:234 kilestdactions.cpp:238 kilestdactions.cpp:243
+#: kilestdactions.cpp:247
 #, kde-format
 msgid "No &numbering"
 msgstr "لا &ترقيم"
 
-#: kilestdactions.cpp:114
+#: kilestdactions.cpp:226
 #, kde-format
 msgid ""
 "\\chapter{title}\n"
@@ -8543,12 +8543,12 @@ msgstr ""
 "\\chapter*{عنوان} : لا تدرج رقمًا ولا تنشئ إدخالًا في جدول المحتويات\n"
 "فقط لمستند صنف 'report' و 'book'."
 
-#: kilestdactions.cpp:114
+#: kilestdactions.cpp:226
 #, kde-format
 msgid "C&hapter"
 msgstr "&فصل"
 
-#: kilestdactions.cpp:115
+#: kilestdactions.cpp:230
 #, kde-format
 msgid ""
 "\\section{title}\n"
@@ -8558,12 +8558,12 @@ msgstr ""
 "\\section{عنوان}\n"
 "\\section*{عنوان} : لا تدرج رقمًا ولا تنشئ إدخالًا في جدول المحتويات"
 
-#: kilestdactions.cpp:115
+#: kilestdactions.cpp:230
 #, kde-format
 msgid "&Section"
 msgstr "ال&قسم"
 
-#: kilestdactions.cpp:116
+#: kilestdactions.cpp:234
 #, kde-format
 msgid ""
 "\\subsection{title}\n"
@@ -8573,12 +8573,12 @@ msgstr ""
 "\\subsection{عنوان}\n"
 "\\subsection*{عنوان} : لا تدرج رقمًا ولا تنشئ إدخالًا في جدول المحتويات"
 
-#: kilestdactions.cpp:116
+#: kilestdactions.cpp:234
 #, kde-format
 msgid "&Subsection"
 msgstr "&قسم الفرعي"
 
-#: kilestdactions.cpp:117
+#: kilestdactions.cpp:238
 #, kde-format
 msgid ""
 "\\subsubsection{title}\n"
@@ -8588,12 +8588,12 @@ msgstr ""
 "\\subsubsection{عنوان}\n"
 "\\subsubsection*{عنوان} : لا تدرج رقمًا ولا تنشئ إدخالًا في جدول المحتويات"
 
-#: kilestdactions.cpp:117
+#: kilestdactions.cpp:238
 #, kde-format
 msgid "&Subsubsection"
 msgstr "&قسم فرعي فرعي"
 
-#: kilestdactions.cpp:119
+#: kilestdactions.cpp:243
 #, kde-format
 msgid ""
 "\\paragraph{title}\n"
@@ -8603,12 +8603,12 @@ msgstr ""
 "\\paragraph{عنوان}\n"
 "\\paragraph*{عنوان} : لا تدرج رقمًا ولا تنشئ إدخالًا في جدول المحتويات"
 
-#: kilestdactions.cpp:119
+#: kilestdactions.cpp:243
 #, kde-format
 msgid "&Paragraph"
 msgstr "&فقرة"
 
-#: kilestdactions.cpp:120
+#: kilestdactions.cpp:247
 #, kde-format
 msgid ""
 "\\subparagraph{title}\n"
@@ -8618,88 +8618,88 @@ msgstr ""
 "\\subparagraph{عنوان}\n"
 "\\subparagraph*{عنوان} : لا تدرج رقمًا ولا تنشئ إدخالًا في جدول المحتويات"
 
-#: kilestdactions.cpp:120
+#: kilestdactions.cpp:247
 #, kde-format
 msgid "&Subparagraph"
 msgstr "فقرة الفر&عية"
 
-#: kilestdactions.cpp:122
+#: kilestdactions.cpp:249
 #, kde-format
 msgid "Size"
 msgstr "الحجم"
 
-#: kilestdactions.cpp:124
+#: kilestdactions.cpp:251
 #, kde-format
 msgid "tiny"
 msgstr "ضئيل"
 
-#: kilestdactions.cpp:125
+#: kilestdactions.cpp:253
 #, kde-format
 msgid "scriptsize"
 msgstr "حجم خط صغير"
 
-#: kilestdactions.cpp:126
+#: kilestdactions.cpp:255
 #, kde-format
 msgid "footnotesize"
 msgstr "حجم خط الحاشية"
 
-#: kilestdactions.cpp:127
+#: kilestdactions.cpp:257
 #, kde-format
 msgid "small"
 msgstr "صغير"
 
-#: kilestdactions.cpp:129
+#: kilestdactions.cpp:260
 #, kde-format
 msgid "normalsize"
 msgstr "الحجم العادي"
 
-#: kilestdactions.cpp:131
+#: kilestdactions.cpp:263
 #, kde-format
 msgid "large"
 msgstr "كبير 1"
 
-#: kilestdactions.cpp:132
+#: kilestdactions.cpp:265
 #, kde-format
 msgid "Large"
 msgstr "كبير 2"
 
-#: kilestdactions.cpp:133
+#: kilestdactions.cpp:267
 #, kde-format
 msgid "LARGE"
 msgstr "كبير 3"
 
-#: kilestdactions.cpp:134
+#: kilestdactions.cpp:269
 #, kde-format
 msgid "huge"
 msgstr "ضخم 1"
 
-#: kilestdactions.cpp:135
+#: kilestdactions.cpp:271
 #, kde-format
 msgid "Huge"
 msgstr "ضخم 2"
 
-#: kilestdactions.cpp:137 widgets/projectview.cpp:481
+#: kilestdactions.cpp:274 widgets/projectview.cpp:481
 #: widgets/toolconfigwidget.cpp:80
 #, kde-format
 msgid "Other"
 msgstr "أخرى"
 
-#: kilestdactions.cpp:139
+#: kilestdactions.cpp:278
 #, kde-format
 msgid "\\label{key}"
 msgstr "\\label{مفتاح}"
 
-#: kilestdactions.cpp:143
+#: kilestdactions.cpp:288
 #, kde-format
 msgid "\\index{word}"
 msgstr "\\index{كلمة}"
 
-#: kilestdactions.cpp:144
+#: kilestdactions.cpp:291
 #, kde-format
 msgid "\\footnote{text}"
 msgstr "\\footnote{نص}"
 
-#: kilestdactions.cpp:146
+#: kilestdactions.cpp:296
 #, kde-format
 msgid ""
 "This command generates an in-text citation to the reference associated with "
@@ -8709,27 +8709,27 @@ msgstr ""
 "يولد هذا الأمر اقتباسًا داخل النص للمرجع المرتبط بإدخال ref في ملف bib\n"
 "تستطيع فتح ملف bib باستخدام كايل لترى جميع المراجع المتاحة"
 
-#: kilestdactions.cpp:148
+#: kilestdactions.cpp:298
 #, kde-format
 msgid "Underline - \\underline{}"
 msgstr "تسطير - \\underline{}"
 
-#: kilestdactions.cpp:151
+#: kilestdactions.cpp:303
 #, kde-format
 msgid "Smart Tabulator"
 msgstr "مُجَدْوِل ذكي"
 
-#: kilestdactions.cpp:158
+#: kilestdactions.cpp:310
 #, kde-format
 msgid "Abstract - \\begin{abstract}"
 msgstr "ملخص - \\begin{abstract}"
 
-#: kilestdactions.cpp:158
+#: kilestdactions.cpp:310
 #, kde-format
 msgid "Abstract"
 msgstr "خلاصة"
 
-#: kilestdactions.cpp:158
+#: kilestdactions.cpp:313
 #, kde-format
 msgid ""
 "\\begin{abstract}\n"
@@ -8743,17 +8743,17 @@ msgstr ""
 "\\end{abstract}\n"
 "تنشئ بيئة abstract صفحة عنوان، أي صفحة لا تحتوي على رقم صفحة مطبوع أو ترويسة."
 
-#: kilestdactions.cpp:160
+#: kilestdactions.cpp:315
 #, kde-format
 msgid "Tabular* - \\begin{tabular*}"
 msgstr "جدولي* - \\begin{tabular*}"
 
-#: kilestdactions.cpp:160
+#: kilestdactions.cpp:315
 #, kde-format
 msgid "Tabular*"
 msgstr "مجدول*"
 
-#: kilestdactions.cpp:160
+#: kilestdactions.cpp:318
 #, kde-format
 msgid ""
 "\\begin{tabular*}{width}[pos]{cols}\n"
@@ -8771,17 +8771,17 @@ msgstr ""
 "هذه نسخة موسعة من بيئة tabular مع وسيط إضافي للعرض. يجب أن يكون هناك مسافة "
 "مطاطية بين الأعمدة يمكن أن تتمدد لملء العرض المحدد."
 
-#: kilestdactions.cpp:162
+#: kilestdactions.cpp:320
 #, kde-format
 msgid "Minipage - \\begin{minipage}"
 msgstr "صفحة مصغرة - \\begin{minipage}"
 
-#: kilestdactions.cpp:162
+#: kilestdactions.cpp:320
 #, kde-format
 msgid "Minipage"
 msgstr "صفحة مصغرة"
 
-#: kilestdactions.cpp:162
+#: kilestdactions.cpp:323
 #, kde-format
 msgid ""
 "The minipage environment is similar to a \\parbox command. It takes the same "
@@ -8791,92 +8791,92 @@ msgstr ""
 "تشبه بيئة minipage أمر \\parbox. تأخذ نفس الوسيط الاختياري للموضع ووسيط "
 "العرض الإلزامي. تستطيع استخدام بيئات أخرى لإنشاء الفقرات داخل minipage."
 
-#: kilestdactions.cpp:165
+#: kilestdactions.cpp:326
 #, kde-format
 msgid "Table of Figures - \\listoffigures"
 msgstr "جدول الأشكال - \\listoffigures"
 
-#: kilestdactions.cpp:165
+#: kilestdactions.cpp:326
 #, kde-format
 msgid "Table of Figures"
 msgstr "جدول الأشكال"
 
-#: kilestdactions.cpp:165
+#: kilestdactions.cpp:329
 #, kde-format
 msgid "Put this command where you want the list of figures to go."
 msgstr "ضع هذا الأمر حيث تريد أن تذهب قائمة الأشكال."
 
-#: kilestdactions.cpp:167
+#: kilestdactions.cpp:331
 #, kde-format
 msgid "Table of Tables - \\listoftables"
 msgstr "جدول الجداول - \\listoftables"
 
-#: kilestdactions.cpp:167
+#: kilestdactions.cpp:331
 #, kde-format
 msgid "Table of Tables"
 msgstr "جدول الجداول"
 
-#: kilestdactions.cpp:167
+#: kilestdactions.cpp:334
 #, kde-format
 msgid "Put this command where you want the list of tables to go."
 msgstr "ضع هذا الأمر حيث تريد أن تذهب قائمة الجداول."
 
-#: kilestdactions.cpp:169
+#: kilestdactions.cpp:336
 #, kde-format
 msgid "Generate Index - \\makeindex"
 msgstr "ولد الفهرس - \\makeindex"
 
-#: kilestdactions.cpp:169
+#: kilestdactions.cpp:336
 #, kde-format
 msgid "Generate Index"
 msgstr "ولد الفهرس"
 
-#: kilestdactions.cpp:169
+#: kilestdactions.cpp:339
 #, kde-format
 msgid "Put this command when you want to generate the raw index."
 msgstr "ضع هذا الأمر عندما تريد توليد الفهرس الخام."
 
-#: kilestdactions.cpp:171
+#: kilestdactions.cpp:341
 #, kde-format
 msgid "Print Index - \\printindex"
 msgstr "اطبع الفهرس - \\printindex"
 
-#: kilestdactions.cpp:171
+#: kilestdactions.cpp:341
 #, kde-format
 msgid "Print Index"
 msgstr "اطبع الفهرس"
 
-#: kilestdactions.cpp:171
+#: kilestdactions.cpp:344
 #, kde-format
 msgid "Put this command when you want to print the formatted index."
 msgstr "ضع هذا الأمر عندما تريد طباعة الفهرس المنسق."
 
-#: kilestdactions.cpp:173
+#: kilestdactions.cpp:346
 #, kde-format
 msgid "Glossary - \\makeglossary"
 msgstr "مسرد - \\makeglossary"
 
-#: kilestdactions.cpp:173
+#: kilestdactions.cpp:346
 #, kde-format
 msgid "Glossary"
 msgstr "مُسرَد"
 
-#: kilestdactions.cpp:173
+#: kilestdactions.cpp:349
 #, kde-format
 msgid "Put this command when you want to print a glossary."
 msgstr "ضع هذا الأمر عندما تريد طباعة مسرد."
 
-#: kilestdactions.cpp:175
+#: kilestdactions.cpp:351
 #, kde-format
 msgid "Bibliography - \\begin{thebibliography}"
 msgstr "ببليوغرافيا - \\begin{thebibliography}"
 
-#: kilestdactions.cpp:175 widgets/projectview.cpp:477
+#: kilestdactions.cpp:351 widgets/projectview.cpp:477
 #, kde-format
 msgid "Bibliography"
 msgstr "ثبَت مراجع"
 
-#: kilestdactions.cpp:175
+#: kilestdactions.cpp:354
 #, kde-format
 msgid ""
 "\\begin{thebibliography}{widest-label}\n"
@@ -8897,17 +8897,17 @@ msgstr ""
 "\\bibitem\n"
 "\\bibitem : حدد عنصر ببليوغرافيا"
 
-#: kilestdactions.cpp:178
+#: kilestdactions.cpp:357
 #, kde-format
 msgid "Verbatim (show spaces) - \\begin{verbatim*}"
 msgstr "حرفي (أظهر المسافات) - \\begin{verbatim*}"
 
-#: kilestdactions.cpp:178
+#: kilestdactions.cpp:357
 #, kde-format
 msgid "Verbatim (show spaces)"
 msgstr "حرفي (أظهر المسافات)"
 
-#: kilestdactions.cpp:178
+#: kilestdactions.cpp:360
 #, kde-format
 msgid ""
 "Environment that gets LaTeX to print exactly what you type in. In this "
@@ -8915,67 +8915,67 @@ msgid ""
 msgstr ""
 "بيئة تجعل لاتخ يطبع بالضبط ما تكتبه. في هذا النوع، تطبع المسافات بطريقة خاصة."
 
-#: kilestdactions.cpp:180
+#: kilestdactions.cpp:362
 #, kde-format
 msgid "Embedded Code - \\verb||"
 msgstr "شفرة مضمنة - \\verb||"
 
-#: kilestdactions.cpp:180
+#: kilestdactions.cpp:362
 #, kde-format
 msgid "Embedded Code"
 msgstr "شفرة مضمنة"
 
-#: kilestdactions.cpp:180
+#: kilestdactions.cpp:364
 #, kde-format
 msgid "Macro form of the verbatim environment."
 msgstr "شكل الماكرو لبيئة verbatim."
 
-#: kilestdactions.cpp:182
+#: kilestdactions.cpp:366
 #, kde-format
 msgid "Embedded Code (show spaces) - \\verb*||"
 msgstr "شفرة مضمنة (أظهر المسافات) - \\verb*||"
 
-#: kilestdactions.cpp:182
+#: kilestdactions.cpp:366
 #, kde-format
 msgid "Embedded Code (show spaces)"
 msgstr "شفرة مضمنة (أظهر المسافات)"
 
-#: kilestdactions.cpp:182
+#: kilestdactions.cpp:368
 #, kde-format
 msgid "Macro form of the verbatim* environment."
 msgstr "شكل الماكرو لبيئة verbatim*."
 
-#: kilestdactions.cpp:185
+#: kilestdactions.cpp:371
 #, kde-format
 msgid "\"Small\" Vertical Space - \\smallskip"
 msgstr "مسافة عمودية \"صغيرة\" - \\smallskip"
 
-#: kilestdactions.cpp:185
+#: kilestdactions.cpp:371
 #, kde-format
 msgid "\"Small\" Vertical Space"
 msgstr "مسافة عمودية \"صغيرة\""
 
-#: kilestdactions.cpp:185
+#: kilestdactions.cpp:373
 #, kde-format
 msgid "The \\smallskip command adds a 'small' vertical space."
 msgstr "يضيف الأمر \\smallskip مسافة عمودية 'صغيرة'."
 
-#: kilestdactions.cpp:187
+#: kilestdactions.cpp:375
 #, kde-format
 msgid "\\enskip"
 msgstr "\\enskip"
 
-#: kilestdactions.cpp:189
+#: kilestdactions.cpp:378
 #, kde-format
 msgid "Horizontal Variable Space - \\hfill"
 msgstr "مسافة أفقية متغيرة - \\hfill"
 
-#: kilestdactions.cpp:189
+#: kilestdactions.cpp:378
 #, kde-format
 msgid "Horizontal Variable Space"
 msgstr "مسافة أفقية متغيرة"
 
-#: kilestdactions.cpp:189
+#: kilestdactions.cpp:381
 #, kde-format
 msgid ""
 "The \\hfill fill command produces a \"rubber length\" which can stretch or "
@@ -8984,34 +8984,34 @@ msgstr ""
 "يُنتج أمر الملء \\hfill \"طول مطاطي\" يمكن أن يتمدد أو ينكمش أفقيًا. سيمتلئ "
 "بالمسافات."
 
-#: kilestdactions.cpp:191
+#: kilestdactions.cpp:383
 #, kde-format
 msgid "Horizontal Dots - \\dotfill"
 msgstr "نقاط أفقية - \\dotfill"
 
-#: kilestdactions.cpp:191
+#: kilestdactions.cpp:383
 #, kde-format
 msgid "Horizontal Dots"
 msgstr "نقاط أفقية"
 
-#: kilestdactions.cpp:191
+#: kilestdactions.cpp:386
 #, kde-format
 msgid ""
 "The \\dotfill command produces a \"rubber length\" that produces dots "
 "instead of just spaces."
 msgstr "يُنتج الأمر \\dotfill \"طول مطاطي\" ينتج نقاطًا بدلاً من مجرد مسافات."
 
-#: kilestdactions.cpp:193
+#: kilestdactions.cpp:388
 #, kde-format
 msgid "Horizontal Rule - \\hrulefill"
 msgstr "قاعدة أفقية - \\hrulefill"
 
-#: kilestdactions.cpp:193
+#: kilestdactions.cpp:388
 #, kde-format
 msgid "Horizontal Rule"
 msgstr "مسطرة أفقية"
 
-#: kilestdactions.cpp:193
+#: kilestdactions.cpp:391
 #, kde-format
 msgid ""
 "The \\hrulefill fill command produces a \"rubber length\" which can stretch "
@@ -9020,34 +9020,34 @@ msgstr ""
 "يُنتج أمر الملء \\hrulefill \"طول مطاطي\" يمكن أن يتمدد أو ينكمش أفقيًا. "
 "سيمتلئ بقاعدة أفقية."
 
-#: kilestdactions.cpp:195
+#: kilestdactions.cpp:393
 #, kde-format
 msgid "Vertical Variable Space - \\vfill"
 msgstr "مسافة عمودية متغيرة - \\vfill"
 
-#: kilestdactions.cpp:195
+#: kilestdactions.cpp:393
 #, kde-format
 msgid "Vertical Variable Space"
 msgstr "مسافة عمودية متغيرة"
 
-#: kilestdactions.cpp:195
+#: kilestdactions.cpp:396
 #, kde-format
 msgid ""
 "The \\vfill fill command produces a \"rubber length\" which can stretch or "
 "shrink vertically."
 msgstr "يُنتج أمر الملء \\vfill \"طول مطاطي\" يمكن أن يتمدد أو ينكمش عموديًا."
 
-#: kilestdactions.cpp:197
+#: kilestdactions.cpp:398
 #, kde-format
 msgid "Horizontal Space - \\hspace{}"
 msgstr "مسافة أفقية - \\hspace{}"
 
-#: kilestdactions.cpp:197
+#: kilestdactions.cpp:398
 #, kde-format
 msgid "Horizontal Space"
 msgstr "مسافة أفقية"
 
-#: kilestdactions.cpp:197
+#: kilestdactions.cpp:401
 #, kde-format
 msgid ""
 "The \\hspace command adds horizontal space. The length of the space can be "
@@ -9059,17 +9059,17 @@ msgstr ""
 "يفهمها لاتخ، أي نقاط، بوصات، إلخ. تستطيع إضافة مسافة سلبية وكذلك إيجابية "
 "باستخدام أمر \\hspace. إضافة مسافة سلبية تشبه الرجوع للخلف."
 
-#: kilestdactions.cpp:199
+#: kilestdactions.cpp:403
 #, kde-format
 msgid "Horizontal Space (forced) - \\hspace*{}"
 msgstr "مسافة أفقية (مفروضة) - \\hspace*{}"
 
-#: kilestdactions.cpp:199
+#: kilestdactions.cpp:403
 #, kde-format
 msgid "Horizontal Space (forced)"
 msgstr "مسافة أفقية (مفروضة)"
 
-#: kilestdactions.cpp:199
+#: kilestdactions.cpp:406
 #, kde-format
 msgid ""
 "The \\hspace* command adds horizontal space like the \\hspace command. LaTeX "
@@ -9081,17 +9081,17 @@ msgstr ""
 "الأفقية التي تأتي في نهاية السطر. إذا لا تريد أن يزيل لاتخ هذه المسافة، أدرج "
 "الوسيط الاختياري *. عندها لا تزال المسافة أبدًا."
 
-#: kilestdactions.cpp:201
+#: kilestdactions.cpp:408
 #, kde-format
 msgid "Vertical Space - \\vspace{}"
 msgstr "مسافة عمودية - \\vspace{}"
 
-#: kilestdactions.cpp:201
+#: kilestdactions.cpp:408
 #, kde-format
 msgid "Vertical Space"
 msgstr "مسافة عمودية"
 
-#: kilestdactions.cpp:201
+#: kilestdactions.cpp:411
 #, kde-format
 msgid ""
 "The \\vspace command adds vertical space. The length of the space can be "
@@ -9102,17 +9102,17 @@ msgstr ""
 "يفهمها لاتخ، أي نقاط، بوصات، إلخ. تستطيع إضافة مسافة سلبية وكذلك إيجابية "
 "باستخدام أمر \\vspace."
 
-#: kilestdactions.cpp:203
+#: kilestdactions.cpp:413
 #, kde-format
 msgid "Vertical Space (forced) - \\vspace*{}"
 msgstr "مسافة عمودية (مفروضة) - \\vspace*{}"
 
-#: kilestdactions.cpp:203
+#: kilestdactions.cpp:413
 #, kde-format
 msgid "Vertical Space (forced)"
 msgstr "مسافة عمودية (مفروضة)"
 
-#: kilestdactions.cpp:203
+#: kilestdactions.cpp:416
 #, kde-format
 msgid ""
 "The \\vspace* command adds vertical space like the \\vspace command. LaTeX "
@@ -9124,122 +9124,122 @@ msgstr ""
 "العمودية التي تأتي في نهاية الصفحة. إذا لا تريد أن يزيل لاتخ هذه المسافة، "
 "أدرج الوسيط الاختياري *. عندها لا تزال المسافة أبدًا."
 
-#: kilestdactions.cpp:206
+#: kilestdactions.cpp:419
 #, kde-format
 msgid "Emphasized - \\emph{}"
 msgstr "مؤكد - \\emph{}"
 
-#: kilestdactions.cpp:206
+#: kilestdactions.cpp:419
 #, kde-format
 msgid "Emphasized"
 msgstr "مؤكد"
 
-#: kilestdactions.cpp:206
+#: kilestdactions.cpp:421
 #, kde-format
 msgid "\\emph{emphasized text}"
 msgstr "\\emph{نص مؤكد}"
 
-#: kilestdactions.cpp:207
+#: kilestdactions.cpp:422
 #, kde-format
 msgid "Strong - \\strong{}"
 msgstr "قوي - \\strong{}"
 
-#: kilestdactions.cpp:207
+#: kilestdactions.cpp:422
 #, kde-format
 msgid "Strong"
 msgstr "قوي"
 
-#: kilestdactions.cpp:207
+#: kilestdactions.cpp:424
 #, kde-format
 msgid "\\strong{text}"
 msgstr "\\strong{نص}"
 
-#: kilestdactions.cpp:209
+#: kilestdactions.cpp:426
 #, kde-format
 msgid "Roman - \\rmfamily"
 msgstr "روماني - \\rmfamily"
 
-#: kilestdactions.cpp:209
+#: kilestdactions.cpp:426
 #, kde-format
 msgid "Roman"
 msgstr "لاتيني"
 
-#: kilestdactions.cpp:210
+#: kilestdactions.cpp:429
 #, kde-format
 msgid "Sans Serif - \\sffamily"
 msgstr "سانس سيرف - \\sffamily"
 
-#: kilestdactions.cpp:210
+#: kilestdactions.cpp:429
 #, kde-format
 msgid "Sans Serif"
 msgstr "غير مُذيل"
 
-#: kilestdactions.cpp:211
+#: kilestdactions.cpp:432
 #, kde-format
 msgid "Monospace - \\ttfamily"
 msgstr "مسافة واحدة - \\ttfamily"
 
-#: kilestdactions.cpp:211
+#: kilestdactions.cpp:432
 #, kde-format
 msgid "Monospace"
 msgstr "Monospace"
 
-#: kilestdactions.cpp:213
+#: kilestdactions.cpp:436
 #, kde-format
 msgid "Medium - \\mdseries"
 msgstr "متوسط - \\mdseries"
 
-#: kilestdactions.cpp:213
+#: kilestdactions.cpp:436
 #, kde-format
 msgid "Medium"
 msgstr "متوسط"
 
-#: kilestdactions.cpp:214
+#: kilestdactions.cpp:439
 #, kde-format
 msgid "Bold - \\bfseries"
 msgstr "عريض - \\bfseries"
 
-#: kilestdactions.cpp:216
+#: kilestdactions.cpp:443
 #, kde-format
 msgid "Upright - \\upshape"
 msgstr "قائم - \\upshape"
 
-#: kilestdactions.cpp:216
+#: kilestdactions.cpp:443
 #, kde-format
 msgid "Upright"
 msgstr "قائم"
 
-#: kilestdactions.cpp:217
+#: kilestdactions.cpp:446
 #, kde-format
 msgid "Italic - \\itshape"
 msgstr "مائل - \\itshape"
 
-#: kilestdactions.cpp:218
+#: kilestdactions.cpp:449
 #, kde-format
 msgid "Slanted - \\slshape"
 msgstr "مائل - \\slshape"
 
-#: kilestdactions.cpp:219
+#: kilestdactions.cpp:452
 #, kde-format
 msgid "Smallcaps - \\scshape"
 msgstr "أحرف صغيرة كبيرة - \\scshape"
 
-#: kilestdactions.cpp:219
+#: kilestdactions.cpp:452
 #, kde-format
 msgid "Smallcaps"
 msgstr "أحرف صغيرة كبيرة"
 
-#: kilestdactions.cpp:231
+#: kilestdactions.cpp:466
 #, kde-format
 msgid "Bibliography Style Selection - \\bibliographystyle{}"
 msgstr "اختيار نمط الببليوغرافيا - \\bibliographystyle{}"
 
-#: kilestdactions.cpp:231
+#: kilestdactions.cpp:466
 #, kde-format
 msgid "Bibliography Style Selection"
 msgstr "اختيار نمط الببليوغرافيا"
 
-#: kilestdactions.cpp:231
+#: kilestdactions.cpp:469
 #, kde-format
 msgid ""
 "The argument to \\bibliographystyle refers to a file style.bst, which "
@@ -9259,17 +9259,17 @@ msgstr ""
 "unsrt : مثل plain، ولكن الإدخالات بترتيب الاقتباس.\n"
 "abbrv  : مثل plain، ولكن لصائق أكثر إحكامًا."
 
-#: kilestdactions.cpp:232 kilestdactions.cpp:240
+#: kilestdactions.cpp:470 kilestdactions.cpp:484
 #, kde-format
 msgid "Bibliography Generation - \\bibliography{}"
 msgstr "توليد الببليوغرافيا - \\bibliography{}"
 
-#: kilestdactions.cpp:232 kilestdactions.cpp:240
+#: kilestdactions.cpp:470 kilestdactions.cpp:484
 #, kde-format
 msgid "Bibliography Generation"
 msgstr "توليد الببليوغرافيا"
 
-#: kilestdactions.cpp:232 kilestdactions.cpp:240
+#: kilestdactions.cpp:473 kilestdactions.cpp:487
 #, kde-format
 msgid ""
 "The argument to \\bibliography refers to the bib file (without extension)\n"
@@ -9280,287 +9280,287 @@ msgstr ""
 "الذي يجب أن يحتوي على قاعدة بياناتك بتنسيق بيخ تخ.\n"
 "كايل يدخل آلي اسم الأساس لملف تخ"
 
-#: kilestdactions.cpp:239
+#: kilestdactions.cpp:480
 #, kde-format
 msgid "Load Biblatex Package - \\usepackage{biblatex}"
 msgstr "حمل حزمة بيخ لاتخ - \\usepackage{biblatex}"
 
-#: kilestdactions.cpp:239
+#: kilestdactions.cpp:480
 #, kde-format
 msgid "Load Biblatex Package"
 msgstr "حمل حزمة بيخ لاتخ"
 
-#: kilestdactions.cpp:239
+#: kilestdactions.cpp:483
 #, kde-format
 msgid "This includes the package biblatex"
 msgstr "هذا يضم حزمة biblatex"
 
-#: kilestdactions.cpp:241
+#: kilestdactions.cpp:488
 #, kde-format
 msgid "Print Bibliography"
 msgstr "اطبع الببليوغرافيا"
 
-#: kilestdactions.cpp:241
+#: kilestdactions.cpp:491
 #, kde-format
 msgid "Prints the complete bibliography"
 msgstr "يطبع الببليوغرافيا الكاملة"
 
-#: kilestdactions.cpp:242
+#: kilestdactions.cpp:492
 #, kde-format
 msgid "Print Bibliography by Section"
 msgstr "اطبع الببليوغرافيا حسب القسم"
 
-#: kilestdactions.cpp:242
+#: kilestdactions.cpp:495
 #, kde-format
 msgid "Print the bibliography for each section"
 msgstr "اطبع الببليوغرافيا لكل قسم"
 
-#: kilestdactions.cpp:243
+#: kilestdactions.cpp:496
 #, kde-format
 msgid "Print List of Shorthands"
 msgstr "اطبع قائمة الاختصارات"
 
-#: kilestdactions.cpp:342
+#: kilestdactions.cpp:597
 #, kde-format
 msgid "ALT.... : you have the choice between these two fields\n"
 msgstr "ALT.... : لديك الخيار بين هذين الحقلين\n"
 
-#: kilestdactions.cpp:343
+#: kilestdactions.cpp:598
 #, kde-format
 msgid "OPT.... : optional fields (use the 'Clean' command to remove them)"
 msgstr "OPT.... : حقول اختيارية (استخدم الأمر 'تنظيف' لإزالتها)"
 
-#: kilestdactions.cpp:344
+#: kilestdactions.cpp:599
 #, kde-format
 msgid "Bib fields - %1\n"
 msgstr "حقول بيخ - %1\n"
 
-#: kilestdactions.cpp:359
+#: kilestdactions.cpp:614
 #, kde-format
 msgid "\\mathrm{}"
 msgstr "\\mathrm{}"
 
-#: kilestdactions.cpp:360
+#: kilestdactions.cpp:616
 #, kde-format
 msgid "\\mathit{}"
 msgstr "\\mathit{}"
 
-#: kilestdactions.cpp:361
+#: kilestdactions.cpp:618
 #, kde-format
 msgid "\\mathbf{}"
 msgstr "\\mathbf{}"
 
-#: kilestdactions.cpp:362
+#: kilestdactions.cpp:620
 #, kde-format
 msgid "\\mathsf{}"
 msgstr "\\mathsf{}"
 
-#: kilestdactions.cpp:363
+#: kilestdactions.cpp:622
 #, kde-format
 msgid "\\mathtt{}"
 msgstr "\\mathtt{}"
 
-#: kilestdactions.cpp:364
+#: kilestdactions.cpp:624
 #, kde-format
 msgid "\\mathcal{}"
 msgstr "\\mathcal{}"
 
-#: kilestdactions.cpp:365
+#: kilestdactions.cpp:626
 #, kde-format
 msgid "\\mathbb{}"
 msgstr "\\mathbb{}"
 
-#: kilestdactions.cpp:366
+#: kilestdactions.cpp:628
 #, kde-format
 msgid "\\mathfrak{}"
 msgstr "\\mathfrak{}"
 
-#: kilestdactions.cpp:368
+#: kilestdactions.cpp:631
 #, kde-format
 msgid "\\acute{}"
 msgstr "\\acute{}"
 
-#: kilestdactions.cpp:369
+#: kilestdactions.cpp:634
 #, kde-format
 msgid "\\grave{}"
 msgstr "\\grave{}"
 
-#: kilestdactions.cpp:370
+#: kilestdactions.cpp:637
 #, kde-format
 msgid "\\tilde{}"
 msgstr "\\tilde{}"
 
-#: kilestdactions.cpp:371
+#: kilestdactions.cpp:640
 #, kde-format
 msgid "\\bar{}"
 msgstr "\\bar{}"
 
-#: kilestdactions.cpp:372
+#: kilestdactions.cpp:643
 #, kde-format
 msgid "\\vec{}"
 msgstr "\\vec{}"
 
-#: kilestdactions.cpp:373
+#: kilestdactions.cpp:646
 #, kde-format
 msgid "\\hat{}"
 msgstr "\\hat{}"
 
-#: kilestdactions.cpp:374
+#: kilestdactions.cpp:649
 #, kde-format
 msgid "\\check{}"
 msgstr "\\check{}"
 
-#: kilestdactions.cpp:375
+#: kilestdactions.cpp:652
 #, kde-format
 msgid "\\breve{}"
 msgstr "\\breve{}"
 
-#: kilestdactions.cpp:376
+#: kilestdactions.cpp:655
 #, kde-format
 msgid "\\dot{}"
 msgstr "\\dot{}"
 
-#: kilestdactions.cpp:377
+#: kilestdactions.cpp:658
 #, kde-format
 msgid "\\ddot{}"
 msgstr "\\ddot{}"
 
-#: kilestdactions.cpp:379
+#: kilestdactions.cpp:662
 #, kde-format
 msgid "Small Space"
 msgstr "مسافة صغيرة"
 
-#: kilestdactions.cpp:380
+#: kilestdactions.cpp:665
 #, kde-format
 msgid "Medium Space"
 msgstr "مسافة متوسطة"
 
-#: kilestdactions.cpp:381
+#: kilestdactions.cpp:668
 #, kde-format
 msgid "Large Space"
 msgstr "مسافة كبيرة"
 
-#: kilestdactions.cpp:382
+#: kilestdactions.cpp:671
 #, kde-format
 msgid "\\quad"
 msgstr "\\quad"
 
-#: kilestdactions.cpp:383
+#: kilestdactions.cpp:674
 #, kde-format
 msgid "\\qquad"
 msgstr "\\qquad"
 
-#: kilestdactions.cpp:385
+#: kilestdactions.cpp:678
 #, kde-format
 msgid "Math Mode - $...$"
 msgstr "نمط الرياضيات - $...$"
 
-#: kilestdactions.cpp:385 kilestdactions.cpp:386
+#: kilestdactions.cpp:678 kilestdactions.cpp:681
 #, kde-format
 msgid "Math Mode"
 msgstr "نمط الرياضيات"
 
-#: kilestdactions.cpp:386
+#: kilestdactions.cpp:681
 #, kde-format
 msgid "Math Mode - \\(...\\)"
 msgstr "نمط الرياضيات - \\(...\\)"
 
-#: kilestdactions.cpp:387
+#: kilestdactions.cpp:684
 #, kde-format
 msgid "Displaymath Mode - \\[...\\]"
 msgstr "نمط عرض الرياضيات - \\[...\\]"
 
-#: kilestdactions.cpp:387
+#: kilestdactions.cpp:684
 #, kde-format
 msgid "Displaymath Mode"
 msgstr "نمط عرض الرياضيات"
 
-#: kilestdactions.cpp:388
+#: kilestdactions.cpp:687
 #, kde-format
 msgid "Equation - \\begin{equation}"
 msgstr "معادلة - \\begin{equation}"
 
-#: kilestdactions.cpp:388
+#: kilestdactions.cpp:687
 #, kde-format
 msgid "Equation"
 msgstr "معادلة رياضية"
 
-#: kilestdactions.cpp:389
+#: kilestdactions.cpp:690
 #, kde-format
 msgid "Subscript - _{}"
 msgstr "رمز سفلي - _{}"
 
-#: kilestdactions.cpp:389
+#: kilestdactions.cpp:690
 #, kde-format
 msgid "Subscript"
 msgstr "منخفض"
 
-#: kilestdactions.cpp:390
+#: kilestdactions.cpp:693
 #, kde-format
 msgid "Superscript - ^{}"
 msgstr "مرتفع - ^{}"
 
-#: kilestdactions.cpp:390
+#: kilestdactions.cpp:693
 #, kde-format
 msgid "Superscript"
 msgstr "مرتفع"
 
-#: kilestdactions.cpp:391
+#: kilestdactions.cpp:696
 #, kde-format
 msgid "Normal Fraction - \\frac{}{}"
 msgstr "كسر عادي - \\frac{}{}"
 
-#: kilestdactions.cpp:391
+#: kilestdactions.cpp:696
 #, kde-format
 msgid "Normal Fraction"
 msgstr "كسر عادي"
 
-#: kilestdactions.cpp:392
+#: kilestdactions.cpp:699
 #, kde-format
 msgid "Displaystyle Fraction - \\dfrac{}{}"
 msgstr "كسر بأسلوب العرض - \\dfrac{}{}"
 
-#: kilestdactions.cpp:392
+#: kilestdactions.cpp:699
 #, kde-format
 msgid "Displaystyle Fraction"
 msgstr "كسر بأسلوب العرض"
 
-#: kilestdactions.cpp:393
+#: kilestdactions.cpp:702
 #, kde-format
 msgid "Textstyle Fraction - \\tfrac{}{}"
 msgstr "كسر بأسلوب النص - \\tfrac{}{}"
 
-#: kilestdactions.cpp:393
+#: kilestdactions.cpp:702
 #, kde-format
 msgid "Textstyle Fraction"
 msgstr "كسر بأسلوب النص"
 
-#: kilestdactions.cpp:394
+#: kilestdactions.cpp:705
 #, kde-format
 msgid "Square Root - \\sqrt{}"
 msgstr "جذر تربيعي - \\sqrt{}"
 
-#: kilestdactions.cpp:394
+#: kilestdactions.cpp:705
 #, kde-format
 msgid "Square Root"
 msgstr "جذر تربيعي"
 
-#: kilestdactions.cpp:395
+#: kilestdactions.cpp:708
 #, kde-format
 msgid "\\left"
 msgstr "\\left"
 
-#: kilestdactions.cpp:396
+#: kilestdactions.cpp:711
 #, kde-format
 msgid "\\right"
 msgstr "\\right"
 
-#: kilestdactions.cpp:397
+#: kilestdactions.cpp:714
 #, kde-format
 msgid "Array - \\begin{array}"
 msgstr "مصفوفة - \\begin{array}"
 
-#: kilestdactions.cpp:398
+#: kilestdactions.cpp:717
 #, kde-format
 msgid ""
 "\\begin{array}{col1col2...coln}\n"
@@ -9582,577 +9582,577 @@ msgstr ""
 "     l -- للمحاذاة لليسار \n"
 "     r -- للمحاذاة لليمين\n"
 
-#: kilestdactions.cpp:401
+#: kilestdactions.cpp:720
 #, kde-format
 msgid "Left Delimiter"
 msgstr "محدِّد يساري"
 
-#: kilestdactions.cpp:403
+#: kilestdactions.cpp:722
 #, kde-format
 msgid "left ("
 msgstr "( اليسار"
 
-#: kilestdactions.cpp:404
+#: kilestdactions.cpp:725
 #, kde-format
 msgid "left ["
 msgstr "[ اليسار"
 
-#: kilestdactions.cpp:405
+#: kilestdactions.cpp:728
 #, kde-format
 msgid "left {"
 msgstr "{ اليسار"
 
-#: kilestdactions.cpp:406
+#: kilestdactions.cpp:731
 #, kde-format
 msgid "left &lt;"
 msgstr "يسار &lt;"
 
-#: kilestdactions.cpp:408
+#: kilestdactions.cpp:735
 #, kde-format
 msgid "left )"
 msgstr ") اليسار"
 
-#: kilestdactions.cpp:409
+#: kilestdactions.cpp:738
 #, kde-format
 msgid "left ]"
 msgstr "] اليسار"
 
-#: kilestdactions.cpp:410
+#: kilestdactions.cpp:741
 #, kde-format
 msgid "left }"
 msgstr "} اليسار"
 
-#: kilestdactions.cpp:411
+#: kilestdactions.cpp:744
 #, kde-format
 msgid "left &gt;"
 msgstr "يسار &gt;"
 
-#: kilestdactions.cpp:413
+#: kilestdactions.cpp:748
 #, kde-format
 msgid "left ."
 msgstr ". يسار"
 
-#: kilestdactions.cpp:415
+#: kilestdactions.cpp:752
 #, kde-format
 msgid "Right Delimiter"
 msgstr "محدِّد يميني"
 
-#: kilestdactions.cpp:417
+#: kilestdactions.cpp:754
 #, kde-format
 msgid "right )"
 msgstr ") اليمين"
 
-#: kilestdactions.cpp:418
+#: kilestdactions.cpp:757
 #, kde-format
 msgid "right ]"
 msgstr "] اليمين"
 
-#: kilestdactions.cpp:419
+#: kilestdactions.cpp:760
 #, kde-format
 msgid "right }"
 msgstr "} اليمين"
 
-#: kilestdactions.cpp:420
+#: kilestdactions.cpp:763
 #, kde-format
 msgid "right &gt;"
 msgstr "يمين &gt;"
 
-#: kilestdactions.cpp:422
+#: kilestdactions.cpp:767
 #, kde-format
 msgid "right ("
 msgstr "( اليمين"
 
-#: kilestdactions.cpp:423
+#: kilestdactions.cpp:770
 #, kde-format
 msgid "right ["
 msgstr "[ اليمين"
 
-#: kilestdactions.cpp:424
+#: kilestdactions.cpp:773
 #, kde-format
 msgid "right {"
 msgstr "{ اليمين"
 
-#: kilestdactions.cpp:425
+#: kilestdactions.cpp:776
 #, kde-format
 msgid "right &lt;"
 msgstr "يمين &lt;"
 
-#: kilestdactions.cpp:427
+#: kilestdactions.cpp:780
 #, kde-format
 msgid "right ."
 msgstr ". اليمين"
 
-#: kilestdactions.cpp:432
+#: kilestdactions.cpp:787
 #, kde-format
 msgid "Normal Binomial - \\binom{}{}"
 msgstr "ذو حدين عادي - \\binom{}{}"
 
-#: kilestdactions.cpp:432
+#: kilestdactions.cpp:787
 #, kde-format
 msgid "Normal Binomial"
 msgstr "ذو حدين عادي"
 
-#: kilestdactions.cpp:434
+#: kilestdactions.cpp:791
 #, kde-format
 msgid "Displaystyle Binomial - \\dbinom{}{}"
 msgstr "ذو حدين بأسلوب العرض - \\dbinom{}{}"
 
-#: kilestdactions.cpp:434
+#: kilestdactions.cpp:791
 #, kde-format
 msgid "Displaystyle Binomial"
 msgstr "ذو حدين بأسلوب العرض"
 
-#: kilestdactions.cpp:436
+#: kilestdactions.cpp:795
 #, kde-format
 msgid "Textstyle Binomial - \\tbinom{}{}"
 msgstr "ذو حدين بأسلوب النص - \\tbinom{}{}"
 
-#: kilestdactions.cpp:436
+#: kilestdactions.cpp:795
 #, kde-format
 msgid "Textstyle Binomial"
 msgstr "ذو حدين بأسلوب النص"
 
-#: kilestdactions.cpp:438
+#: kilestdactions.cpp:799
 #, kde-format
 msgid "N-th Root - \\sqrt[]{}"
 msgstr "الجذر النوني - \\sqrt[]{}"
 
-#: kilestdactions.cpp:438
+#: kilestdactions.cpp:799
 #, kde-format
 msgid "N-th Root"
 msgstr "الجذر النوني"
 
-#: kilestdactions.cpp:440
+#: kilestdactions.cpp:803
 #, kde-format
 msgid "Left-Right () - \\left(..\\right)"
 msgstr "يسار-يمين () - \\left(..\\right)"
 
-#: kilestdactions.cpp:440
+#: kilestdactions.cpp:803
 #, kde-format
 msgid "Left-Right ()"
 msgstr "يسار-يمين ()"
 
-#: kilestdactions.cpp:442
+#: kilestdactions.cpp:807
 #, kde-format
 msgid "Extendable Left Arrow - \\xleftarrow{}"
 msgstr "سهم يساري قابل للإطالة - \\xleftarrow{}"
 
-#: kilestdactions.cpp:442
+#: kilestdactions.cpp:807
 #, kde-format
 msgid "Extendable Left Arrow"
 msgstr "سهم يساري قابل للإطالة"
 
-#: kilestdactions.cpp:444
+#: kilestdactions.cpp:811
 #, kde-format
 msgid "Extendable Right Arrow - \\xrightarrow{}"
 msgstr "سهم يميني قابل للإطالة - \\xrightarrow{}"
 
-#: kilestdactions.cpp:444
+#: kilestdactions.cpp:811
 #, kde-format
 msgid "Extendable Right Arrow"
 msgstr "سهم يميني قابل للإطالة"
 
-#: kilestdactions.cpp:446
+#: kilestdactions.cpp:815
 #, kde-format
 msgid "Boxed Formula - \\boxed{}"
 msgstr "صيغة مؤطرة - \\boxed{}"
 
-#: kilestdactions.cpp:446
+#: kilestdactions.cpp:815
 #, kde-format
 msgid "Boxed Formula"
 msgstr "صيغة مؤطرة"
 
-#: kilestdactions.cpp:448
+#: kilestdactions.cpp:819
 #, kde-format
 msgid "bigl - \\bigl"
 msgstr "bigl - \\bigl"
 
-#: kilestdactions.cpp:448
+#: kilestdactions.cpp:819
 #, kde-format
 msgid "bigl"
 msgstr "bigl"
 
-#: kilestdactions.cpp:449
+#: kilestdactions.cpp:822
 #, kde-format
 msgid "Bigl - \\Bigl"
 msgstr "Bigl - \\Bigl"
 
-#: kilestdactions.cpp:449
+#: kilestdactions.cpp:822
 #, kde-format
 msgid "Bigl"
 msgstr "Bigl"
 
-#: kilestdactions.cpp:450
+#: kilestdactions.cpp:825
 #, kde-format
 msgid "biggl - \\biggl"
 msgstr "biggl - \\biggl"
 
-#: kilestdactions.cpp:450
+#: kilestdactions.cpp:825
 #, kde-format
 msgid "biggl"
 msgstr "biggl"
 
-#: kilestdactions.cpp:451
+#: kilestdactions.cpp:828
 #, kde-format
 msgid "Biggl - \\Biggl"
 msgstr "Biggl - \\Biggl"
 
-#: kilestdactions.cpp:451
+#: kilestdactions.cpp:828
 #, kde-format
 msgid "Biggl"
 msgstr "Biggl"
 
-#: kilestdactions.cpp:453
+#: kilestdactions.cpp:832
 #, kde-format
 msgid "bigr - \\bigr"
 msgstr "bigr - \\bigr"
 
-#: kilestdactions.cpp:453
+#: kilestdactions.cpp:832
 #, kde-format
 msgid "bigr"
 msgstr "bigr"
 
-#: kilestdactions.cpp:454
+#: kilestdactions.cpp:835
 #, kde-format
 msgid "Bigr - \\Bigr"
 msgstr "Bigr - \\Bigr"
 
-#: kilestdactions.cpp:454
+#: kilestdactions.cpp:835
 #, kde-format
 msgid "Bigr"
 msgstr "Bigr"
 
-#: kilestdactions.cpp:455
+#: kilestdactions.cpp:838
 #, kde-format
 msgid "biggr - \\biggr"
 msgstr "biggr - \\biggr"
 
-#: kilestdactions.cpp:455
+#: kilestdactions.cpp:838
 #, kde-format
 msgid "biggr"
 msgstr "biggr"
 
-#: kilestdactions.cpp:456
+#: kilestdactions.cpp:841
 #, kde-format
 msgid "Biggr - \\Biggr"
 msgstr "Biggr - \\Biggr"
 
-#: kilestdactions.cpp:456
+#: kilestdactions.cpp:841
 #, kde-format
 msgid "Biggr"
 msgstr "Biggr"
 
-#: kilestdactions.cpp:459
+#: kilestdactions.cpp:846
 #, kde-format
 msgid "Text in Mathmode - \\text{}"
 msgstr "نص في نمط الرياضيات - \\text{}"
 
-#: kilestdactions.cpp:459
+#: kilestdactions.cpp:846
 #, kde-format
 msgid "Text in Mathmode"
 msgstr "نص في نمط الرياضيات"
 
-#: kilestdactions.cpp:461
+#: kilestdactions.cpp:850
 #, kde-format
 msgid "Intertext - \\intertext{}"
 msgstr "نص بيني - \\intertext{}"
 
-#: kilestdactions.cpp:461
+#: kilestdactions.cpp:850
 #, kde-format
 msgid "Intertext"
 msgstr "نص بيني"
 
-#: kilestdactions.cpp:464
+#: kilestdactions.cpp:855
 #, kde-format
 msgid "Math - \\begin{math}"
 msgstr "رياضيات - \\begin{math}"
 
-#: kilestdactions.cpp:466
+#: kilestdactions.cpp:859
 #, kde-format
 msgid "Displaymath - \\begin{displaymath}"
 msgstr "عرض الرياضيات - \\begin{displaymath}"
 
-#: kilestdactions.cpp:466
+#: kilestdactions.cpp:859
 #, kde-format
 msgid "Displaymath"
 msgstr "عرض الرياضيات"
 
-#: kilestdactions.cpp:468
+#: kilestdactions.cpp:863
 #, kde-format
 msgid "Equation (not numbered) - \\begin{equation*}"
 msgstr "معادلة (غير مرقمة) - \\begin{equation*}"
 
-#: kilestdactions.cpp:468
+#: kilestdactions.cpp:863
 #, kde-format
 msgid "Equation (not numbered)"
 msgstr "معادلة (غير مرقمة)"
 
-#: kilestdactions.cpp:471
+#: kilestdactions.cpp:868
 #, kde-format
 msgid "Multline - \\begin{multline}"
 msgstr "متعدد الأسطر - \\begin{multline}"
 
-#: kilestdactions.cpp:471
+#: kilestdactions.cpp:868
 #, kde-format
 msgid "Multline"
 msgstr "متعدد الأسطر"
 
-#: kilestdactions.cpp:472
+#: kilestdactions.cpp:871
 #, kde-format
 msgid "Multline* - \\begin{multline*}"
 msgstr "متعدد الأسطر* - \\begin{multline*}"
 
-#: kilestdactions.cpp:472
+#: kilestdactions.cpp:871
 #, kde-format
 msgid "Multline*"
 msgstr "متعدد الأسطر*"
 
-#: kilestdactions.cpp:474
+#: kilestdactions.cpp:875
 #, kde-format
 msgid "Split - \\begin{split}"
 msgstr "تقسيم - \\begin{split}"
 
-#: kilestdactions.cpp:474
+#: kilestdactions.cpp:875
 #, kde-format
 msgid "Split"
 msgstr "اقسم"
 
-#: kilestdactions.cpp:476
+#: kilestdactions.cpp:879
 #, kde-format
 msgid "Gather - \\begin{gather}"
 msgstr "تجميع - \\begin{gather}"
 
-#: kilestdactions.cpp:476
+#: kilestdactions.cpp:879
 #, kde-format
 msgid "Gather"
 msgstr "تجميعة"
 
-#: kilestdactions.cpp:477
+#: kilestdactions.cpp:882
 #, kde-format
 msgid "Gather* - \\begin{gather*}"
 msgstr "تجميع* - \\begin{gather*}"
 
-#: kilestdactions.cpp:477
+#: kilestdactions.cpp:882
 #, kde-format
 msgid "Gather*"
 msgstr "تجميعة*"
 
-#: kilestdactions.cpp:479
+#: kilestdactions.cpp:886
 #, kde-format
 msgid "Align - \\begin{align}"
 msgstr "محاذاة - \\begin{align}"
 
-#: kilestdactions.cpp:479
+#: kilestdactions.cpp:886
 #, kde-format
 msgid "Align"
 msgstr "حاذِ"
 
-#: kilestdactions.cpp:480
+#: kilestdactions.cpp:889
 #, kde-format
 msgid "Align* - \\begin{align*}"
 msgstr "محاذاة* - \\begin{align*}"
 
-#: kilestdactions.cpp:480
+#: kilestdactions.cpp:889
 #, kde-format
 msgid "Align*"
 msgstr "حاذِ*"
 
-#: kilestdactions.cpp:482
+#: kilestdactions.cpp:893
 #, kde-format
 msgid "Flalign - \\begin{flalign}"
 msgstr "محاذاة كاملة - \\begin{flalign}"
 
-#: kilestdactions.cpp:482
+#: kilestdactions.cpp:893
 #, kde-format
 msgid "Flalign"
 msgstr "محاذاة كاملة"
 
-#: kilestdactions.cpp:483
+#: kilestdactions.cpp:896
 #, kde-format
 msgid "Flalign* - \\begin{flalign*}"
 msgstr "محاذاة كاملة* - \\begin{flalign*}"
 
-#: kilestdactions.cpp:483
+#: kilestdactions.cpp:896
 #, kde-format
 msgid "Flalign*"
 msgstr "محاذاة كاملة*"
 
-#: kilestdactions.cpp:485
+#: kilestdactions.cpp:900
 #, kde-format
 msgid "Alignat - \\begin{alignat}"
 msgstr "محاذاة عند - \\begin{alignat}"
 
-#: kilestdactions.cpp:485
+#: kilestdactions.cpp:900
 #, kde-format
 msgid "Alignat"
 msgstr "محاذاة عند"
 
-#: kilestdactions.cpp:486
+#: kilestdactions.cpp:903
 #, kde-format
 msgid "Alignat* - \\begin{alignat*}"
 msgstr "محاذاة عند* - \\begin{alignat*}"
 
-#: kilestdactions.cpp:486
+#: kilestdactions.cpp:903
 #, kde-format
 msgid "Alignat*"
 msgstr "محاذاة عند*"
 
-#: kilestdactions.cpp:488
+#: kilestdactions.cpp:907
 #, kde-format
 msgid "Aligned - \\begin{aligned}"
 msgstr "مُحاذَى - \\begin{aligned}"
 
-#: kilestdactions.cpp:488
+#: kilestdactions.cpp:907
 #, kde-format
 msgid "Aligned"
 msgstr "محاذي"
 
-#: kilestdactions.cpp:489
+#: kilestdactions.cpp:910
 #, kde-format
 msgid "Gathered - \\begin{gathered}"
 msgstr "مُجَمَّع - \\begin{gathered}"
 
-#: kilestdactions.cpp:489
+#: kilestdactions.cpp:910
 #, kde-format
 msgid "Gathered"
 msgstr "مُجَمَّع"
 
-#: kilestdactions.cpp:490
+#: kilestdactions.cpp:913
 #, kde-format
 msgid "Alignedat - \\begin{alignedat}"
 msgstr "مُحاذَى عند - \\begin{alignedat}"
 
-#: kilestdactions.cpp:490
+#: kilestdactions.cpp:913
 #, kde-format
 msgid "Alignedat"
 msgstr "مُحاذَى عند"
 
-#: kilestdactions.cpp:492
+#: kilestdactions.cpp:917
 #, kde-format
 msgid "Cases - \\begin{cases}"
 msgstr "حالات - \\begin{cases}"
 
-#: kilestdactions.cpp:492
+#: kilestdactions.cpp:917
 #, kde-format
 msgid "Cases"
 msgstr "حالات"
 
-#: kilestdactions.cpp:494
+#: kilestdactions.cpp:921
 #, kde-format
 msgid "matrix - \\begin{matrix}"
 msgstr "مصفوفة - \\begin{matrix}"
 
-#: kilestdactions.cpp:494
+#: kilestdactions.cpp:921
 #, kde-format
 msgid "matrix"
 msgstr "مصفوفة"
 
-#: kilestdactions.cpp:495
+#: kilestdactions.cpp:924
 #, kde-format
 msgid "pmatrix - \\begin{pmatrix}"
 msgstr "مصفوفة بقوسين - \\begin{pmatrix}"
 
-#: kilestdactions.cpp:495
+#: kilestdactions.cpp:924
 #, kde-format
 msgid "pmatrix"
 msgstr "مصفوفة بقوسين"
 
-#: kilestdactions.cpp:496
+#: kilestdactions.cpp:927
 #, kde-format
 msgid "vmatrix - \\begin{vmatrix}"
 msgstr "مصفوفة بخطوط عمودية - \\begin{vmatrix}"
 
-#: kilestdactions.cpp:496
+#: kilestdactions.cpp:927
 #, kde-format
 msgid "vmatrix"
 msgstr "مصفوفة بخطوط عمودية"
 
-#: kilestdactions.cpp:497
+#: kilestdactions.cpp:930
 #, kde-format
 msgid "Vmatrix - \\begin{Vmatrix}"
 msgstr "مصفوفة بخطوط عمودية مزدوجة - \\begin{Vmatrix}"
 
-#: kilestdactions.cpp:497
+#: kilestdactions.cpp:930
 #, kde-format
 msgid "Vmatrix"
 msgstr "مصفوفة بخطوط عمودية مزدوجة"
 
-#: kilestdactions.cpp:498
+#: kilestdactions.cpp:933
 #, kde-format
 msgid "bmatrix - \\begin{bmatrix}"
 msgstr "مصفوفة بأقواس مربعة - \\begin{bmatrix}"
 
-#: kilestdactions.cpp:498
+#: kilestdactions.cpp:933
 #, kde-format
 msgid "bmatrix"
 msgstr "مصفوفة بأقواس مربعة"
 
-#: kilestdactions.cpp:499
+#: kilestdactions.cpp:936
 #, kde-format
 msgid "Bmatrix - \\begin{Bmatrix}"
 msgstr "مصفوفة بأقواس معقوفة - \\begin{Bmatrix}"
 
-#: kilestdactions.cpp:499
+#: kilestdactions.cpp:936
 #, kde-format
 msgid "Bmatrix"
 msgstr "مصفوفة بأقواس معقوفة"
 
-#: kilestdactions.cpp:502
+#: kilestdactions.cpp:941
 #, kde-format
 msgid "dmath - \\begin{dmath}"
 msgstr "dmath - \\begin{dmath}"
 
-#: kilestdactions.cpp:502
+#: kilestdactions.cpp:941
 #, kde-format
 msgid "dmath"
 msgstr "dmath"
 
-#: kilestdactions.cpp:503
+#: kilestdactions.cpp:944
 #, kde-format
 msgid "dmath* - \\begin{dmath*}"
 msgstr "dmath* - \\begin{dmath*}"
 
-#: kilestdactions.cpp:503
+#: kilestdactions.cpp:944
 #, kde-format
 msgid "dmath*"
 msgstr "dmath*"
 
-#: kilestdactions.cpp:505
+#: kilestdactions.cpp:948
 #, kde-format
 msgid "dseries - \\begin{dseries}"
 msgstr "dseries - \\begin{dseries}"
 
-#: kilestdactions.cpp:505
+#: kilestdactions.cpp:948
 #, kde-format
 msgid "dseries"
 msgstr "dseries"
 
-#: kilestdactions.cpp:506
+#: kilestdactions.cpp:951
 #, kde-format
 msgid "dseries* - \\begin{dseries*}"
 msgstr "dseries* - \\begin{dseries*}"
 
-#: kilestdactions.cpp:506
+#: kilestdactions.cpp:951
 #, kde-format
 msgid "dseries*"
 msgstr "dseries*"
 
-#: kilestdactions.cpp:508
+#: kilestdactions.cpp:955
 #, kde-format
 msgid "dgroup - \\begin{dgroup}"
 msgstr "dgroup - \\begin{dgroup}"
 
-#: kilestdactions.cpp:508
+#: kilestdactions.cpp:955
 #, kde-format
 msgid "dgroup"
 msgstr "dgroup"
 
-#: kilestdactions.cpp:509
+#: kilestdactions.cpp:958
 #, kde-format
 msgid "dgroup* - \\begin{dgroup*}"
 msgstr "dgroup* - \\begin{dgroup*}"
 
-#: kilestdactions.cpp:509
+#: kilestdactions.cpp:958
 #, kde-format
 msgid "dgroup*"
 msgstr "dgroup*"
@@ -10230,27 +10230,27 @@ msgstr ""
 "إصدار أوكلار %1.%2.%3 قديم جدًا لا يدعم خاصية ForwardDVI. اِرجِع إلى تحديث "
 "أوكلار للإصدار 0.8.6 أو أحدث"
 
-#: kilestdtools.cpp:729
+#: kilestdtools.cpp:731
 #, kde-format
 msgid "Select Bibliography"
 msgstr "اِختَر المراجع"
 
-#: kilestdtools.cpp:729
+#: kilestdtools.cpp:731
 #, kde-format
 msgid "Select a bibliography"
 msgstr "اِختَر مرجعًا"
 
-#: kilestdtools.cpp:738
+#: kilestdtools.cpp:740
 #, kde-format
 msgid "No bibliography selected."
 msgstr "لا يوجد مرجع مُختار."
 
-#: kilestdtools.cpp:750
+#: kilestdtools.cpp:752
 #, kde-format
 msgid "No bibliographies found."
 msgstr "لم نَجِد أي مراجع."
 
-#: kilestdtools.cpp:786
+#: kilestdtools.cpp:788
 #, kde-format
 msgid ""
 "Unable to find %1 or %2; if you are trying to view some other HTML file, go "
@@ -11265,17 +11265,17 @@ msgstr ""
 "تعذّر إيجاد مجلّد لحفظ %1 فيه.\n"
 "تحقّق فيما إذا كان لديك مجلّد \".kde\" بصلاحيّات كتابة في مجلّد المنزل."
 
-#: templates.cpp:166
+#: templates.cpp:167
 #, kde-format
 msgid "Empty File"
 msgstr "ملفّ فارغ"
 
-#: templates.cpp:171
+#: templates.cpp:172
 #, kde-format
 msgid "Empty LaTeX File"
 msgstr "ملفّ لاتخ فارغ"
 
-#: templates.cpp:176
+#: templates.cpp:177
 #, kde-format
 msgid "Empty BibTeX File"
 msgstr "ملف بب تخ فارغ"
@@ -12953,12 +12953,12 @@ msgstr "استخدم عارض المستندات"
 msgid "Run Sequence of Tools"
 msgstr "شغِّل تسلسل الأدوات"
 
-#: widgets/toolconfigwidget.cpp:162
+#: widgets/toolconfigwidget.cpp:164
 #, kde-format
 msgid "Use the \"Advanced\" tab to configure this tool."
 msgstr "استخدم لسان \"متقدّم\" لضبط هذه الأداة."
 
-#: widgets/toolconfigwidget.cpp:173
+#: widgets/toolconfigwidget.cpp:175
 #, kde-format
 msgid ""
 "Unknown tool type; your configuration data is malformed.\n"
@@ -12967,7 +12967,7 @@ msgstr ""
 "نوع أداة غير معروف؛ بيانات الضبط لديك فاسدة.\n"
 "ربما تكون فكرة جيدة أن استعِدّ الإعدادات المبدئية."
 
-#: widgets/toolconfigwidget.cpp:227
+#: widgets/toolconfigwidget.cpp:229
 #, kde-format
 msgid ""
 "All your tool settings will be overwritten with the default settings.\n"
@@ -12976,37 +12976,37 @@ msgstr ""
 "كل إعدادات أدواتك سيكتُب عليها بالإعدادات المبدئية.\n"
 "أأنت متأكد أنك تريد المتابعة؟"
 
-#: widgets/toolconfigwidget.cpp:353
+#: widgets/toolconfigwidget.cpp:355
 #, kde-format
 msgid "Choose a configuration for the tool %1"
 msgstr "اختر ضبطًا للأداة %1"
 
-#: widgets/toolconfigwidget.cpp:423
+#: widgets/toolconfigwidget.cpp:425
 #, kde-format
 msgid "New Configuration"
 msgstr "ضبط جديد"
 
-#: widgets/toolconfigwidget.cpp:423
+#: widgets/toolconfigwidget.cpp:425
 #, kde-format
 msgid "Enter new configuration name:"
 msgstr "أدخل اسم الضّبط الجديد:"
 
-#: widgets/toolconfigwidget.cpp:450
+#: widgets/toolconfigwidget.cpp:452
 #, kde-format
 msgid "Are you sure you want to remove the tool %1?"
 msgstr "أمتأكّد من إزالة الأداة %1؟"
 
-#: widgets/toolconfigwidget.cpp:480
+#: widgets/toolconfigwidget.cpp:482
 #, kde-format
 msgid "Are you sure that you want to remove this configuration?"
 msgstr "أمتأكّد من إزالة هذا الضّبط؟"
 
-#: widgets/toolconfigwidget.cpp:494
+#: widgets/toolconfigwidget.cpp:496
 #, kde-format
 msgid "You need at least one configuration for each tool."
 msgstr "أنت تحتاج على الأقل لضبط واحد لكل أداة."
 
-#: widgets/toolconfigwidget.cpp:494
+#: widgets/toolconfigwidget.cpp:496
 #, kde-format
 msgid "Cannot Remove Configuration"
 msgstr "لا أستطيع إزالة الضبط"

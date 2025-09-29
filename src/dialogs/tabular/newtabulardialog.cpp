@@ -609,7 +609,7 @@ void NewTabularDialog::slotAccepted()
     }
 
     QHashIterator<QString, QString> itColorName(properties.colorNames());
-    QString colorNames = QStringLiteral("");
+    QString colorNames = QString();
     while(itColorName.hasNext()) {
         itColorName.next();
         colorNames += QStringLiteral("\\definecolor{") + itColorName.value() + QStringLiteral("}{rgb}{");
@@ -730,8 +730,8 @@ void NewTabularDialog::slotEnvironmentChanged(const QString &environment)
 
         // option
         if(attr.option.indexOf(QLatin1Char('[')) == 0) {
-            QStringList optionlist = attr.option.split(QStringLiteral(""));
-            optionlist.removeAll(QStringLiteral(""));
+            QStringList optionlist = attr.option.split(QString());
+            optionlist.removeAll(QString());
             if(optionlist.count() > 2) {
                 // ok, let's enable it
                 m_cmbParameter->setEnabled(true);

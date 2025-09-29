@@ -2381,7 +2381,7 @@ void Manager::saveDocumentAndViewSettings(KileDocument::TextInfo *textInfo)
     KConfigGroup configGroup = configGroupForDocumentSettings(document);
 
     QUrl url = document->url();
-    url.setPassword(QStringLiteral("")); // we don't want the password to appear in the configuration file
+    url.setPassword(QString()); // we don't want the password to appear in the configuration file
     deleteDocumentAndViewSettingsGroups(url);
 
     document->writeSessionConfig(configGroup, QSet<QString>() << QStringLiteral("SkipEncoding") << QStringLiteral("SkipUrl"));
@@ -2431,7 +2431,7 @@ KConfigGroup Manager::configGroupForDocumentSettings(KTextEditor::Document *doc)
 QString Manager::configGroupNameForDocumentSettings(const QUrl &url) const
 {
     QUrl url2 = url;
-    url2.setPassword(QStringLiteral(""));
+    url2.setPassword(QString());
     return QStringLiteral("Document-Settings,URL=") + url2.url();
 }
 
@@ -2443,7 +2443,7 @@ KConfigGroup Manager::configGroupForViewSettings(KTextEditor::Document *doc, int
 QString Manager::configGroupNameForViewSettings(const QUrl &url, int viewIndex) const
 {
     QUrl url2 = url;
-    url2.setPassword(QStringLiteral(""));
+    url2.setPassword(QString());
     return QStringLiteral("View-Settings,View=") + QString::number(viewIndex) + QStringLiteral(",URL=") + url2.url();
 }
 

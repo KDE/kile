@@ -324,7 +324,7 @@ KonsoleLauncher::KonsoleLauncher() : ProcessLauncher()
 bool KonsoleLauncher::launch()
 {
     QString cmd = tool()->readEntry(QStringLiteral("command"));
-    QString noclose = (tool()->readEntry(QStringLiteral("close")) == QStringLiteral("no")) ? QStringLiteral("--noclose") : QStringLiteral("");
+    QString noclose = (tool()->readEntry(QStringLiteral("close")) == QStringLiteral("no")) ? QStringLiteral("--noclose") : QString();
     setCommand(QStringLiteral("konsole"));
     setOptions(noclose + QStringLiteral(" -e ") + cmd + QLatin1Char(' ') + tool()->readEntry(QStringLiteral("options")));
     if(QStandardPaths::findExecutable(KIO::DesktopExecParser::executablePath(cmd)).isEmpty()) {

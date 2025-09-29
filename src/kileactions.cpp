@@ -191,7 +191,7 @@ void InputTag::emitData()
         td.tagBegin.replace(QStringLiteral("%R"), dlg->tag());
         td.tagEnd.replace(QStringLiteral("%R"), dlg->tag());
 
-        QString alt = dlg->useAlternative() ? QStringLiteral("*") : QStringLiteral("");
+        QString alt = dlg->useAlternative() ? QStringLiteral("*") : QString();
         td.tagBegin.replace(QStringLiteral("%A"), alt);
         td.tagEnd.replace(QStringLiteral("%A"), alt);
 

@@ -630,7 +630,7 @@ void PdfDialog::updateTasks()
 
     if ( (m_pdfpages && !m_encrypted) || m_pdftk ) {
         if ( group > 0 ) {
-            m_cbTask->addCategoryItem(QStringLiteral(""));
+            m_cbTask->addCategoryItem(QString());
         }
         m_cbTask->addItem( m_tasklist[PDF_EVEN] );                   // 6   PDF_EVEN
         m_cbTask->addItem( m_tasklist[PDF_ODD] );                    // 7   PDF_ODD
@@ -640,27 +640,27 @@ void PdfDialog::updateTasks()
         if (m_encrypted) {
             m_cbTask->addItem( m_tasklist[PDF_DECRYPT] );             // 11  PDF_DECRYPT
         }
-        m_cbTask->addCategoryItem(QStringLiteral(""));
+        m_cbTask->addCategoryItem(QString());
         m_cbTask->addItem( m_tasklist[PDF_SELECT] );                 // 12  PDF_SELECT
         m_cbTask->addItem( m_tasklist[PDF_DELETE] );                 // 13  PDF_DELETE
         group = 2;
     }
 
     if (m_pdftk) {
-        m_cbTask->addCategoryItem(QStringLiteral(""));
+        m_cbTask->addCategoryItem(QString());
         m_cbTask->addItem( m_tasklist[PDF_PDFTK_BACKGROUND] );       // 14  PDF_PDFTK_BACKGROUND
         if ( ! m_pagesize.isNull() ) {
             m_cbTask->addItem( m_tasklist[PDF_PDFTK_BGCOLOR] );       // 15  PDF_PDFTK_BGCOLOR
         }
         m_cbTask->addItem( m_tasklist[PDF_PDFTK_STAMP] );            // 16  PDF_PDFTK_STAMP
-        m_cbTask->addCategoryItem(QStringLiteral(""));
+        m_cbTask->addCategoryItem(QString());
         m_cbTask->addItem( m_tasklist[PDF_PDFTK_FREE] );             // 17  PDF_PDFTK_FREE
         group = 3;
     }
 
     if (m_pdfpages && !m_encrypted) {
         if ( group < 3 ) {
-            m_cbTask->addCategoryItem(QStringLiteral(""));
+            m_cbTask->addCategoryItem(QString());
         }
         m_cbTask->addItem( m_tasklist[PDF_PDFPAGES_FREE] );          // 17  PDF_PDFPAGES_FREE
     }
@@ -1059,7 +1059,7 @@ void PdfDialog::executeScript(const QString &command, const QString &dir, int sc
     }
 
     m_scriptmode = scriptmode;
-    m_outputtext = QStringLiteral("");
+    m_outputtext = QString();
 
     m_proc = new KProcess();
     if (!dir.isEmpty()) {

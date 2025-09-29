@@ -823,8 +823,8 @@ void QuickDocument::setSelectedClassOptions(const QString &selectedoptions)
     QStringList list = selectedoptions.split(QLatin1Char(','));
     uint nlist = list.count();
 
-    m_currentFontsize  = (nlist >= 1) ? list[0] : QStringLiteral("");
-    m_currentPapersize = (nlist >= 2) ? list[1] : QStringLiteral("");
+    m_currentFontsize  = (nlist >= 1) ? list[0] : QString();
+    m_currentPapersize = (nlist >= 2) ? list[1] : QString();
 
     m_currentSelectedOptions.clear();
     for (uint i = 0; i < nlist; ++i) {
@@ -951,7 +951,7 @@ void QuickDocument::fillCombobox(KileWidget::CategoryComboBox *combo, const QStr
             combo->addItem(list[i]);
         }
         else {
-            combo->addCategoryItem(QStringLiteral(""));
+            combo->addCategoryItem(QString());
         }
 
         // should this entry be selected?
@@ -1065,99 +1065,99 @@ void QuickDocument::initPackages()
     cli = insertTreeWidget(m_lvPackages, QStringLiteral("babel"), i18n("Adds language specific support"));
     cli->setExpanded(true);
     cli->setCheckState(0, Qt::Checked);
-    insertTreeWidget(cli, QStringLiteral("acadian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("afrikaans"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("american"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("australian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("austrian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("bahasa"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("basque"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("brazil"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("brazilian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("breton"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("british"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("bulgarian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("canadian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("canadien"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("catalan"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("croatian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("czech"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("danish"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("dutch"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("english"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("esperanto"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("estonian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("finnish"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("francais"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("frenchb"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("french"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("galician"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("german"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("germanb"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("greek"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("polutonikogreek"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("hebrew"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("hungarian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("icelandic"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("interlingua"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("irish"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("italian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("latin"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("lowersorbian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("magyar"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("naustrian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("newzealand"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("ngerman"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("norsk"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("samin"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("nynorsk"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("polish"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("portuges"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("portuguese"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("romanian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("russian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("scottish"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("serbian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("slovak"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("slovene"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("spanish"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("swedish"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("turkish"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("ukrainian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("uppersorbian"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("welsh"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("UKenglish"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("USenglish"), QStringLiteral(""));
+    insertTreeWidget(cli, QStringLiteral("acadian"), QString());
+    insertTreeWidget(cli, QStringLiteral("afrikaans"), QString());
+    insertTreeWidget(cli, QStringLiteral("american"), QString());
+    insertTreeWidget(cli, QStringLiteral("australian"), QString());
+    insertTreeWidget(cli, QStringLiteral("austrian"), QString());
+    insertTreeWidget(cli, QStringLiteral("bahasa"), QString());
+    insertTreeWidget(cli, QStringLiteral("basque"), QString());
+    insertTreeWidget(cli, QStringLiteral("brazil"), QString());
+    insertTreeWidget(cli, QStringLiteral("brazilian"), QString());
+    insertTreeWidget(cli, QStringLiteral("breton"), QString());
+    insertTreeWidget(cli, QStringLiteral("british"), QString());
+    insertTreeWidget(cli, QStringLiteral("bulgarian"), QString());
+    insertTreeWidget(cli, QStringLiteral("canadian"), QString());
+    insertTreeWidget(cli, QStringLiteral("canadien"), QString());
+    insertTreeWidget(cli, QStringLiteral("catalan"), QString());
+    insertTreeWidget(cli, QStringLiteral("croatian"), QString());
+    insertTreeWidget(cli, QStringLiteral("czech"), QString());
+    insertTreeWidget(cli, QStringLiteral("danish"), QString());
+    insertTreeWidget(cli, QStringLiteral("dutch"), QString());
+    insertTreeWidget(cli, QStringLiteral("english"), QString());
+    insertTreeWidget(cli, QStringLiteral("esperanto"), QString());
+    insertTreeWidget(cli, QStringLiteral("estonian"), QString());
+    insertTreeWidget(cli, QStringLiteral("finnish"), QString());
+    insertTreeWidget(cli, QStringLiteral("francais"), QString());
+    insertTreeWidget(cli, QStringLiteral("frenchb"), QString());
+    insertTreeWidget(cli, QStringLiteral("french"), QString());
+    insertTreeWidget(cli, QStringLiteral("galician"), QString());
+    insertTreeWidget(cli, QStringLiteral("german"), QString());
+    insertTreeWidget(cli, QStringLiteral("germanb"), QString());
+    insertTreeWidget(cli, QStringLiteral("greek"), QString());
+    insertTreeWidget(cli, QStringLiteral("polutonikogreek"), QString());
+    insertTreeWidget(cli, QStringLiteral("hebrew"), QString());
+    insertTreeWidget(cli, QStringLiteral("hungarian"), QString());
+    insertTreeWidget(cli, QStringLiteral("icelandic"), QString());
+    insertTreeWidget(cli, QStringLiteral("interlingua"), QString());
+    insertTreeWidget(cli, QStringLiteral("irish"), QString());
+    insertTreeWidget(cli, QStringLiteral("italian"), QString());
+    insertTreeWidget(cli, QStringLiteral("latin"), QString());
+    insertTreeWidget(cli, QStringLiteral("lowersorbian"), QString());
+    insertTreeWidget(cli, QStringLiteral("magyar"), QString());
+    insertTreeWidget(cli, QStringLiteral("naustrian"), QString());
+    insertTreeWidget(cli, QStringLiteral("newzealand"), QString());
+    insertTreeWidget(cli, QStringLiteral("ngerman"), QString());
+    insertTreeWidget(cli, QStringLiteral("norsk"), QString());
+    insertTreeWidget(cli, QStringLiteral("samin"), QString());
+    insertTreeWidget(cli, QStringLiteral("nynorsk"), QString());
+    insertTreeWidget(cli, QStringLiteral("polish"), QString());
+    insertTreeWidget(cli, QStringLiteral("portuges"), QString());
+    insertTreeWidget(cli, QStringLiteral("portuguese"), QString());
+    insertTreeWidget(cli, QStringLiteral("romanian"), QString());
+    insertTreeWidget(cli, QStringLiteral("russian"), QString());
+    insertTreeWidget(cli, QStringLiteral("scottish"), QString());
+    insertTreeWidget(cli, QStringLiteral("serbian"), QString());
+    insertTreeWidget(cli, QStringLiteral("slovak"), QString());
+    insertTreeWidget(cli, QStringLiteral("slovene"), QString());
+    insertTreeWidget(cli, QStringLiteral("spanish"), QString());
+    insertTreeWidget(cli, QStringLiteral("swedish"), QString());
+    insertTreeWidget(cli, QStringLiteral("turkish"), QString());
+    insertTreeWidget(cli, QStringLiteral("ukrainian"), QString());
+    insertTreeWidget(cli, QStringLiteral("uppersorbian"), QString());
+    insertTreeWidget(cli, QStringLiteral("welsh"), QString());
+    insertTreeWidget(cli, QStringLiteral("UKenglish"), QString());
+    insertTreeWidget(cli, QStringLiteral("USenglish"), QString());
 
     cli = insertTreeWidget(m_lvPackages, QStringLiteral("fontenc"), i18n("Use a font encoding scheme"));
     cli->setExpanded(true);
     cli->setCheckState(0, Qt::Checked);
-    insertTreeWidget(cli, QStringLiteral("HE8"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("IL2"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("LCH"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("LCY"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("LGR"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("LHE"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("LIT"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("LO1"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("LY1"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("MTT"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("OML"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("OMS"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("OT1"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("OT2"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("OT4"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("PD1"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("PU"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("QX"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("T1"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("T2A"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("T2B"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("T2C"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("T5"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("TS1"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("UT1"), QStringLiteral(""));
-    insertTreeWidget(cli, QStringLiteral("X2"), QStringLiteral(""));
+    insertTreeWidget(cli, QStringLiteral("HE8"), QString());
+    insertTreeWidget(cli, QStringLiteral("IL2"), QString());
+    insertTreeWidget(cli, QStringLiteral("LCH"), QString());
+    insertTreeWidget(cli, QStringLiteral("LCY"), QString());
+    insertTreeWidget(cli, QStringLiteral("LGR"), QString());
+    insertTreeWidget(cli, QStringLiteral("LHE"), QString());
+    insertTreeWidget(cli, QStringLiteral("LIT"), QString());
+    insertTreeWidget(cli, QStringLiteral("LO1"), QString());
+    insertTreeWidget(cli, QStringLiteral("LY1"), QString());
+    insertTreeWidget(cli, QStringLiteral("MTT"), QString());
+    insertTreeWidget(cli, QStringLiteral("OML"), QString());
+    insertTreeWidget(cli, QStringLiteral("OMS"), QString());
+    insertTreeWidget(cli, QStringLiteral("OT1"), QString());
+    insertTreeWidget(cli, QStringLiteral("OT2"), QString());
+    insertTreeWidget(cli, QStringLiteral("OT4"), QString());
+    insertTreeWidget(cli, QStringLiteral("PD1"), QString());
+    insertTreeWidget(cli, QStringLiteral("PU"), QString());
+    insertTreeWidget(cli, QStringLiteral("QX"), QString());
+    insertTreeWidget(cli, QStringLiteral("T1"), QString());
+    insertTreeWidget(cli, QStringLiteral("T2A"), QString());
+    insertTreeWidget(cli, QStringLiteral("T2B"), QString());
+    insertTreeWidget(cli, QStringLiteral("T2C"), QString());
+    insertTreeWidget(cli, QStringLiteral("T5"), QString());
+    insertTreeWidget(cli, QStringLiteral("TS1"), QString());
+    insertTreeWidget(cli, QStringLiteral("UT1"), QString());
+    insertTreeWidget(cli, QStringLiteral("X2"), QString());
 
     cli = insertTreeWidget(m_lvPackages, QStringLiteral("graphicx"), i18n("Support for including graphics"));
     cli->setExpanded(true);
@@ -1314,7 +1314,7 @@ QTreeWidgetItem* QuickDocument::insertTreeWidget(QTreeWidget *treeWidget,
         const QString &entry,
         const QString &description)
 {
-    QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget, QStringList() << entry << QStringLiteral("") << description);
+    QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget, QStringList() << entry << QString() << description);
     item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
     item->setCheckState(0, Qt::Unchecked);
 
@@ -1325,7 +1325,7 @@ QTreeWidgetItem* QuickDocument::insertTreeWidget(QTreeWidgetItem *parent,
         const QString &entry,
         const QString &description)
 {
-    QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList() << entry << QStringLiteral("") << description);
+    QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList() << entry << QString() << description);
     item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
     item->setCheckState(0, Qt::Unchecked);
 
@@ -1338,7 +1338,7 @@ QTreeWidgetItem* QuickDocument::insertEditableTreeWidget(QTreeWidgetItem *parent
         const QString &value,
         const QString &defaultvalue)
 {
-    QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList() << entry << QStringLiteral("") << description);
+    QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList() << entry << QString() << description);
     item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
     item->setCheckState(0, Qt::Unchecked);
 
@@ -1671,14 +1671,14 @@ void QuickDocument::slotDocumentClassAdd()
         QStringList classlist;
         if (list[5].isEmpty()) {            // no base class
             QString useFontsizes = (list[6] == QStringLiteral("true"))
-                                   ? QStringLiteral("10pt,11pt,12pt") : QStringLiteral("");
+                                   ? QStringLiteral("10pt,11pt,12pt") : QString();
             QString usePapersizes = (list[7] == QStringLiteral("true"))
-                                    ? QStringLiteral("a4paper,a5paper,b5paper,executivepaper,legalpaper,letterpaper") : QStringLiteral("");
+                                    ? QStringLiteral("a4paper,a5paper,b5paper,executivepaper,legalpaper,letterpaper") : QString();
             KILE_DEBUG_MAIN << "\tadd document class: " << classname
                             << " fontsize=" << list[6] << " papersize=" << list[7];
 
             // set default entries for the documentClass-dictionary
-            classlist <<  useFontsizes << usePapersizes << QStringLiteral("") << QStringLiteral("");
+            classlist <<  useFontsizes << usePapersizes << QString() << QString();
         }
         else {                              // based on a standard class
             // first get the first four parameters
@@ -1936,7 +1936,7 @@ void QuickDocument::slotPackageAdd()
 
     if (inputDialog(list, qd_CheckNotEmpty | qd_CheckPackage)) {
         KILE_DEBUG_MAIN << "\tadd package: " << list[3] << " (" << list[5] << ") checked=" << list[6];
-        QTreeWidgetItem *cli = new QTreeWidgetItem(m_lvPackages, QStringList() << list[3] << QStringLiteral("") << list[5]);
+        QTreeWidgetItem *cli = new QTreeWidgetItem(m_lvPackages, QStringList() << list[3] << QString() << list[5]);
         cli->setFlags(cli->flags() | Qt::ItemIsUserCheckable);
         cli->setCheckState(0, list[6] == QStringLiteral("true") ? Qt::Checked : Qt::Unchecked);
     }
@@ -1972,7 +1972,7 @@ void QuickDocument::slotPackageAddOption()
         if (list[4] == QStringLiteral("true")) {
             cli = insertEditableTreeWidget(cur, list[3], list[10], list[8], list[6]);
         } else {
-            cli = new QTreeWidgetItem(cur, QStringList() << list[3] << QStringLiteral("") << list[10]);
+            cli = new QTreeWidgetItem(cur, QStringList() << list[3] << QString() << list[10]);
             cli->setFlags(cli->flags() | Qt::ItemIsUserCheckable);
             cli->setCheckState(0, Qt::Unchecked);
         }

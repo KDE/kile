@@ -432,7 +432,7 @@ void KileProject::writeUseMakeIndexOptions()
     if ( useMakeIndexOptions() )
         KileTool::setConfigName(QStringLiteral("MakeIndex"), QStringLiteral("Default"), m_config);
     else
-        KileTool::setConfigName(QStringLiteral("MakeIndex"), QStringLiteral(""), m_config);
+        KileTool::setConfigName(QStringLiteral("MakeIndex"), QString(), m_config);
 }
 
 QString KileProject::addBaseURL(const QString &path)

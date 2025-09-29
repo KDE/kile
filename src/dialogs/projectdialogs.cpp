@@ -93,7 +93,7 @@ KileProjectDialogBase::KileProjectDialogBase(const QString &caption, KileDocumen
         const QString extName = extension.mid(1); // all characters right of "."
         m_defaultGraphicsExtensionCombo->addItem(extension, extName);
     }
-    m_defaultGraphicsExtensionCombo->addItem(i18n("(use global settings)"), QStringLiteral(""));
+    m_defaultGraphicsExtensionCombo->addItem(i18n("(use global settings)"), QString());
     const QString whatsThisTextDefaultGraphicsExtension = i18n("Default graphic extension to open when none specified by file name.");
     m_defaultGraphicsExtensionCombo->setWhatsThis(whatsThisTextDefaultGraphicsExtension);
 
@@ -567,7 +567,7 @@ void KileProjectOptionsDialog::onAccepted()
     }
 
     if (m_QuickBuildCheckbox->currentText() == m_toolDefaultString) {
-        m_project->setQuickBuildConfig(QStringLiteral(""));
+        m_project->setQuickBuildConfig(QString());
     }
     else {
         m_project->setQuickBuildConfig(m_QuickBuildCheckbox->currentText());

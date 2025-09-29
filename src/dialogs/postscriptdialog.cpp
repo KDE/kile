@@ -262,7 +262,7 @@ QString PostscriptDialog::buildTempfile()
 {
     // build command
     m_program = QStringLiteral("pstops");          // default
-    m_param = QStringLiteral("");
+    m_param = QString();
 
     switch (m_PostscriptDialog.m_cbTask->currentIndex()) {
     case PS_A5_EMPTY:

@@ -254,7 +254,7 @@ bool TexDocDialog::eventFilter(QObject *o, QEvent *e)
 QString TexDocDialog::searchFile(const QString &docfilename, const QString &listofpaths, const QString &subdir)
 {
     const QStringList pathlist  = listofpaths.split(LIST_SEPARATOR);
-    const QString extensions[] = {QStringLiteral(""), QStringLiteral(".gz"), QStringLiteral(".bz2")};
+    const QString extensions[] = {QString(), QStringLiteral(".gz"), QStringLiteral(".bz2")};
 
     QString filename;
     for(const QString& itp : pathlist) {

@@ -466,7 +466,7 @@ void IncludeGraphics::onUrlSelected(const QUrl &url)
         KILE_DEBUG_MAIN << "   filename: '" << url.toLocalFile() << "'";
 
         m_widget.infolabel->setText(QStringLiteral("---"));
-        m_widget.edit_bb->setText(QStringLiteral(""));
+        m_widget.edit_bb->setText(QString());
         m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     }
 }

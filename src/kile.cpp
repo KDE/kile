@@ -1648,7 +1648,7 @@ bool Kile::queryClose()
         KileConfig::setLastDocument(view->document()->url().toLocalFile());
     }
     else {
-        KileConfig::setLastDocument(QStringLiteral(""));
+        KileConfig::setLastDocument(QString());
     }
 
     //don't close Kile if embedded viewers are present
@@ -1812,7 +1812,7 @@ void Kile::newCaption()
         }
     }
     else {
-        setWindowTitle(QStringLiteral(""));
+        setWindowTitle(QString());
     }
 }
 
@@ -2528,7 +2528,7 @@ void Kile::transformOldUserSettings()
     int len = userGroup.readEntry("nUserTools", 0);
     for (int i=0; i< len; ++i) {
         tempItem.name = userGroup.readEntry(QStringLiteral("userToolName") + QString::number(i), i18n("no name"));
-        tempItem.tag = userGroup.readEntry(QStringLiteral("userTool") + QString::number(i), QStringLiteral(""));
+        tempItem.tag = userGroup.readEntry(QStringLiteral("userTool") + QString::number(i), QString());
         m_listUserTools.append(tempItem);
     }
     if(len > 0) {
@@ -2563,17 +2563,17 @@ void Kile::readRecentFileSettings()
     KConfigGroup group = m_config->group(QStringLiteral("FilesOpenOnStart"));
     int n = group.readEntry("NoDOOS", 0);
     for (int i = 0; i < n; ++i) {
-        const QString urlString = group.readPathEntry(QStringLiteral("DocsOpenOnStart") + QString::number(i), QStringLiteral(""));
+        const QString urlString = group.readPathEntry(QStringLiteral("DocsOpenOnStart") + QString::number(i), QString());
         if(urlString.isEmpty()) {
             continue;
         }
         m_listDocsOpenOnStart.append(urlString);
-        m_listEncodingsOfDocsOpenOnStart.append(group.readPathEntry(QStringLiteral("EncodingsOfDocsOpenOnStart") + QString::number(i), QStringLiteral("")));
+        m_listEncodingsOfDocsOpenOnStart.append(group.readPathEntry(QStringLiteral("EncodingsOfDocsOpenOnStart") + QString::number(i), QString()));
     }
 
     n = group.readEntry("NoPOOS", 0);
     for(int i = 0; i < n; ++i) {
-        const QString urlString = group.readPathEntry(QStringLiteral("ProjectsOpenOnStart") + QString::number(i), QStringLiteral(""));
+        const QString urlString = group.readPathEntry(QStringLiteral("ProjectsOpenOnStart") + QString::number(i), QString());
         if(!urlString.isEmpty()) {
             m_listProjectsOpenOnStart.append(urlString);
         }

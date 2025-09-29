@@ -119,7 +119,7 @@ QString Parser::matchBracket(const QStringList& textLines, QChar obracket, int &
         cbracket = QLatin1Char(')');
     }
 
-    QString line, grab = QStringLiteral("");
+    QString line, grab = QString();
     int count=0;
     ++pos;
 

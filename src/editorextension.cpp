@@ -1391,9 +1391,9 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 
         if(isValidBackslash(doc, env.row, env.col)) {
             // index 0 is the fullmatch, 1 first cap and so on
-            QString cap2 = (foundRanges[2].isValid() ? doc->text(foundRanges[2]) : QStringLiteral(""));
-            QString cap3 = (foundRanges[3].isValid() ? doc->text(foundRanges[3]) : QStringLiteral(""));
-            QString cap4 = (foundRanges[4].isValid() ? doc->text(foundRanges[4]) : QStringLiteral(""));
+            QString cap2 = (foundRanges[2].isValid() ? doc->text(foundRanges[2]) : QString());
+            QString cap3 = (foundRanges[3].isValid() ? doc->text(foundRanges[3]) : QString());
+            QString cap4 = (foundRanges[4].isValid() ? doc->text(foundRanges[4]) : QString());
             EnvTag found_env = (cap2 == QStringLiteral("begin") || cap4 == QStringLiteral("\\[")) ? EnvBegin : EnvEnd;
             if(found_env == wrong_env) {
                 ++envcount;

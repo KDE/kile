@@ -395,7 +395,7 @@ UserHelpAddDialog::UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent)
     m_leHelpFile->setReadOnly(false);
     m_leHelpFile->setClearButtonEnabled(true);
     grid->addWidget(m_leHelpFile, 1, 1);
-    m_pbChooseFile = new QPushButton(QStringLiteral(""), group);
+    m_pbChooseFile = new QPushButton(QString(), group);
     m_pbChooseFile->setObjectName(QStringLiteral("filechooser_button"));
     m_pbChooseFile->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     int buttonSize = m_leHelpFile->sizeHint().height();

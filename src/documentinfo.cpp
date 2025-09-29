@@ -570,7 +570,7 @@ QString TextInfo::matchBracket(QChar obracket, int &l, int &pos)
         cbracket = QLatin1Char(')');
     }
 
-    QString line, grab = QStringLiteral("");
+    QString line, grab = QString();
     int count=0;
     ++pos;
 

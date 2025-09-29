@@ -134,7 +134,7 @@ ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)
     m_progressBar->setFormat(i18nc("%p is the percent value, % is the percent sign", "%p%"));
     vboxLayout->addWidget(m_progressBar);
     vboxLayout->addStretch();
-    m_runningTestsPageWidgetItem = addPage(runningTestsWidget, QStringLiteral(""));
+    m_runningTestsPageWidgetItem = addPage(runningTestsWidget, QString());
 
     QWidget *testResultsWidget = new QWidget(this);
     vboxLayout = new QVBoxLayout();

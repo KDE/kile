@@ -134,7 +134,7 @@ QString TabularCell::toLaTeX( TabularProperties &properties ) const
     }
 
     /* content */
-    QString content = QStringLiteral("");
+    QString content = QString();
     QString incontent = text().trimmed();
     if(incontent.isEmpty()) {
         incontent = properties.bullet();

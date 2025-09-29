@@ -674,7 +674,7 @@ KTextEditor::View * Manager::switchToTextView(KTextEditor::Document *doc, bool r
     KTextEditor::View *view = nullptr;
     if(doc) {
         if(doc->views().count() > 0) {
-            view = doc->views().first();
+            view = doc->views().constFirst();
             if(view) {
                 switchToTextView(view, requestFocus);
             }

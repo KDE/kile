@@ -1242,7 +1242,7 @@ bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingprojec
 
         //FIXME: use signal/slot
         if( doc->views().count() > 0) {
-            m_ki->viewManager()->removeView(doc->views().first());
+            m_ki->viewManager()->removeView(doc->views().constFirst());
         }
         //remove the decorations
 
@@ -1373,7 +1373,7 @@ KileProject* Manager::selectProject(const QString& caption)
             if(!dlg->hasSelection()) {
                 return nullptr;
             }
-            name = dlg->selectedItems().first();
+            name = dlg->selectedItems().constFirst();
         }
         delete dlg;
     }
@@ -2216,7 +2216,7 @@ KileProjectItem* Manager::selectProjectFileItem(const QString &label)
     KileListSelector *dlg  = new KileListSelector(filelist, i18n("Project Files"), label, true, m_ki->mainWindow());
     if(dlg->exec()) {
         if(dlg->hasSelection()) {
-            QString name = dlg->selectedItems().first();
+            QString name = dlg->selectedItems().constFirst();
             if(map.contains(name)) {
                 item = map[name];
             }

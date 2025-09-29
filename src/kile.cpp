@@ -1461,7 +1461,7 @@ void Kile::setCursor(const QUrl &url, int parag, int index)
 {
     KTextEditor::Document *doc = docManager()->docFor(url);
     if(doc) {
-        KTextEditor::View *view = static_cast<KTextEditor::View*>(doc->views().first());
+        KTextEditor::View *view = static_cast<KTextEditor::View*>(doc->views().constFirst());
         if(view) {
             view->setCursorPosition(KTextEditor::Cursor(parag, index));
             focusTextView(view);

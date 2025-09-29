@@ -730,7 +730,7 @@ bool ViewBib::determineSource()
             bool bib_selected = false;
             KileListSelector *dlg = new KileListSelector(bibs, i18n("Select Bibliography"),i18n("Select a bibliography"));
             if (dlg->exec() && dlg->hasSelection()) {
-                bib = dlg->selectedItems().first();
+                bib = dlg->selectedItems().constFirst();
                 bib_selected = true;
                 KILE_DEBUG_MAIN << "Bibliography selected : " << bib;
             }

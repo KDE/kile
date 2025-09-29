@@ -167,10 +167,10 @@ public Q_SLOTS:
     void selectParagraph(KTextEditor::View *view = nullptr, bool wholeLines = true);
     void selectLine(KTextEditor::View *view = nullptr);
     void selectLines(int from, int to, KTextEditor::View *view = nullptr);
-    void selectWord(SelectMode mode = smTex, KTextEditor::View *view = nullptr);
+    void selectWord(KileDocument::EditorExtension::SelectMode mode = smTex, KTextEditor::View *view = nullptr);
     void deleteParagraph(KTextEditor::View *view = nullptr);
     void deleteEndOfLine(KTextEditor::View *view = nullptr);
-    void deleteWord(SelectMode mode = smTex, KTextEditor::View *view = nullptr);
+    void deleteWord(KileDocument::EditorExtension::SelectMode mode = smTex, KTextEditor::View *view = nullptr);
 
     void selectMathgroup(KTextEditor::View *view = nullptr);
     void deleteMathgroup(KTextEditor::View *view = nullptr);

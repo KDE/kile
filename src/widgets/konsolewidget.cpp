@@ -97,7 +97,7 @@ void Konsole::sync()
     KTextEditor::View *view = nullptr;
 
     if(doc) {
-        view = doc->views().first();
+        view = doc->views().constFirst();
     }
 
     if(view) {

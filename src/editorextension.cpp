@@ -629,7 +629,7 @@ bool EditorExtension::isOpeningMathTagPosition(KTextEditor::Document *doc, uint 
         return false;
     }
 
-    QChar id = reg.cap(0)[1];
+    QChar id = reg.cap(0).at(1);
     QString envname = reg.cap(1);
 
     mathdata.row = row;
@@ -665,7 +665,7 @@ bool EditorExtension::isClosingMathTagPosition(KTextEditor::Document *doc, uint 
         return false;
     }
 
-    QChar id = reg.cap(0)[1];
+    QChar id = reg.cap(0).at(1);
     QString envname = reg.cap(1);
 
     mathdata.row = row;

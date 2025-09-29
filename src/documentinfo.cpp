@@ -1022,7 +1022,7 @@ BracketResult LaTeXInfo::matchBracket(int &l, int &pos)
     BracketResult result;
     TodoResult todo;
 
-    if(m_doc->line(l)[pos] == QLatin1Char('[')) {
+    if (m_doc->line(l).at(pos) == QLatin1Char('[')) {
         result.option = TextInfo::matchBracket(QLatin1Char('['), l, pos);
         while(l < m_doc->lines()) {
             int p = getTextline(l, todo).indexOf(QLatin1Char('{'), pos);
@@ -1037,7 +1037,7 @@ BracketResult LaTeXInfo::matchBracket(int &l, int &pos)
         }
     }
 
-    if(m_doc->line(l)[pos] == QLatin1Char('{')) {
+    if (m_doc->line(l).at(pos) == QLatin1Char('{')) {
         result.line = l;
         result.col = pos;
         result.value  = TextInfo::matchBracket(QLatin1Char('{'), l, pos);

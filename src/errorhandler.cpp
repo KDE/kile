@@ -486,7 +486,7 @@ void KileErrorHandler::jumpToProblem(const OutputInfo& info)
 
         KTextEditor::Document *doc = m_ki->docManager()->docFor(QUrl::fromLocalFile(file));
         if(doc) {
-            KTextEditor::View* view = doc->views().first();
+            KTextEditor::View* view = doc->views().constFirst();
             if(view) {
                 view->setCursorPosition(KTextEditor::Cursor(line, 0));
             }

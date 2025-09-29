@@ -131,7 +131,7 @@ bool ConvertMap::load()
             //parse the line
             auto match = reMap.match(stream.readLine());
             if(match.hasMatch()) {
-                addPair(match.captured(1)[0], match.captured(2));
+                addPair(match.captured(1).at(0), match.captured(2));
             }
         }
         qf.close();

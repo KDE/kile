@@ -1,12 +1,12 @@
-# Alexander Hunziker <alex.hunziker@rega-sense.ch>, 2003.
-# Ingolf Jandt <i.jandt@web.de>, 2003.
-# Thomas Diehl <thd@kde.org>, 2003, 2004.
-# Dominik Grafenhofer <devel@grafenhofer.at>, 2005, 2006.
-# Thomas Reitelbach <tr@erdfunkstelle.de>, 2005, 2006, 2010.
-# Frederik Schwarzer <schwarzer@kde.org>, 2007, 2010, 2011, 2012, 2015, 2016, 2018, 2022.
-# Burkhard Lück <lueck@hube-lueck.de>, 2008, 2009, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
-# Panagiotis Papadopoulos <pano_90@gmx.net>, 2010.
-# Christian Herzberg <mailchrisch@gmail.com>, 2010.
+# SPDX-FileCopyrightText: 2003 Alexander Hunziker <alex.hunziker@rega-sense.ch>
+# SPDX-FileCopyrightText: 2003 Ingolf Jandt <i.jandt@web.de>
+# SPDX-FileCopyrightText: 2003, 2004 Thomas Diehl <thd@kde.org>
+# SPDX-FileCopyrightText: 2005, 2006 Dominik Grafenhofer <devel@grafenhofer.at>
+# SPDX-FileCopyrightText: 2005, 2006, 2010 Thomas Reitelbach <tr@erdfunkstelle.de>
+# SPDX-FileCopyrightText: 2007, 2010, 2011, 2012, 2015, 2016, 2018, 2022 Frederik Schwarzer <schwarzer@kde.org>
+# SPDX-FileCopyrightText: 2008, 2009, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021 Burkhard Lück <lueck@hube-lueck.de>
+# SPDX-FileCopyrightText: 2010 Panagiotis Papadopoulos <pano_90@gmx.net>
+# SPDX-FileCopyrightText: 2010 Christian Herzberg <mailchrisch@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"

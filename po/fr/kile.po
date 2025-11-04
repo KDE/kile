@@ -1002,7 +1002,7 @@ msgstr "Boîte englobante :"
 #: dialogs/includegraphicsdialog_base.ui:158
 #, kde-format
 msgid "Use bounding box"
-msgstr "Utiliser une boîte englobante"
+msgstr "Utiliser une boite englobante"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/includegraphicsdialog_base.ui:165
@@ -3138,7 +3138,7 @@ msgid ""
 msgstr ""
 "Sélectionnez cette option si vous voulez que Kile crée un nouveau fichier et "
 "l'ajoute au projet. Sélectionnez un modèle de fichier dans la liste qui "
-"apparaîtra en bas de la fenêtre."
+"apparaitra en bas de la fenêtre."
 
 #: dialogs/projectdialogs.cpp:336
 #, kde-format
@@ -3453,13 +3453,13 @@ msgstr ""
 #, kde-format
 msgid "Marks \"overfull hboxes\" on the output with black boxes"
 msgstr ""
-"Entourer de noir les « dépassements de boîtes horizontales » dans la sortie"
+"Entourer de noir les « dépassements de boites horizontales » dans la sortie"
 
 #: dialogs/quickdocumentdialog.cpp:650
 #, kde-format
 msgid "No special marks for \"overfull hboxes\" on the output"
 msgstr ""
-"Ne rien faire de particulier pour les « dépassements de boîtes "
+"Ne rien faire de particulier pour les « dépassements de boites "
 "horizontales » dans la sortie"
 
 #: dialogs/quickdocumentdialog.cpp:651
@@ -3866,7 +3866,7 @@ msgstr "Placer le texte au centre des transparents"
 msgid "Headlines, footlines, and sidebars are replaced by gray rectangles"
 msgstr ""
 "Les en-têtes, les pieds-de-pages et les notes latérales sont remplacées par "
-"des boîtes grises"
+"des boites grises"
 
 #: dialogs/quickdocumentdialog.cpp:765
 #, kde-format
@@ -5001,7 +5001,7 @@ msgstr "Le nom du fichier local d'aide ou une adresse WEB valable."
 #: dialogs/userhelpdialog.cpp:413
 #, kde-format
 msgid "Start a file dialog to choose a local help file."
-msgstr "Lance une boîte de dialogue pour choisir un fichier local d'aide."
+msgstr "Lance une boite de dialogue pour choisir un fichier local d'aide."
 
 #: dialogs/userhelpdialog.cpp:432
 #, kde-format
@@ -5129,7 +5129,7 @@ msgid ""
 "this</i> feature of most widgets.</p>"
 msgstr ""
 "<p>Vous pouvez créer, modifier et installer un menu défini par "
-"l'utilisateur, qui apparaîtra dans le menu de Kile. Pour créer ou modifier "
+"l'utilisateur, qui apparaitra dans le menu de Kile. Pour créer ou modifier "
 "ce menu, utilisez les six boutons sur le côté gauche. D'autres actions "
 "possibles sont disponibles dans le menu contextuel des éléments de menu déjà "
 "existants.</p> <p>Comme un menu classique, trois différents types d'éléments "
@@ -5855,7 +5855,7 @@ msgstr "avertissements"
 #: errorhandler.cpp:80
 #, kde-format
 msgid "BadBoxes"
-msgstr "boîtes erronées"
+msgstr "boites erronées"
 
 #: errorhandler.cpp:101
 #, kde-format
@@ -5885,12 +5885,12 @@ msgstr "Avertissements LaTeX suivants"
 #: errorhandler.cpp:122
 #, kde-format
 msgid "Previous LaTeX BadBox"
-msgstr "Erreur LaTeX de remplissage de boîte"
+msgstr "Erreur LaTeX de remplissage de boite"
 
 #: errorhandler.cpp:126
 #, kde-format
 msgid "Next LaTeX BadBox"
-msgstr "Erreur LaTeX de remplissage de boîte suivante"
+msgstr "Erreur LaTeX de remplissage de boite suivante"
 
 #: errorhandler.cpp:316
 #, kde-format
@@ -7015,7 +7015,7 @@ msgstr "Centrer les graphiques."
 #, kde-format
 msgid "Insert the bounding box as an option for the includegraphics command."
 msgstr ""
-"Insère la boîte englobante comme option de la commande includegraphics."
+"Insère la boite englobante comme option de la commande includegraphics."
 
 #. i18n: ectx: label, entry (igGraphicspath), group (IncludeGraphics)
 #: kile.kcfg:248
@@ -7108,7 +7108,7 @@ msgstr "Si ImageMagick est installé ou pas"
 #: kile.kcfg:304
 #, kde-format
 msgid "Try to determine the bounding box from the picture."
-msgstr "Essayer de déterminer la taille de la boîte d'après l'image"
+msgstr "Essayer de déterminer la taille de la boite d'après l'image"
 
 #. i18n: ectx: label, entry (resolution), group (IncludeGraphics)
 #: kile.kcfg:308
@@ -9145,7 +9145,7 @@ msgstr "Liste des figures"
 #, kde-format
 msgid "Put this command where you want the list of figures to go."
 msgstr ""
-"Insérez cette commande à l'endroit où vous souhaitez voir apparaître la "
+"Insérez cette commande à l'endroit où vous souhaitez voir apparaitre la "
 "liste des figures."
 
 #: kilestdactions.cpp:331
@@ -9162,7 +9162,7 @@ msgstr "Liste des tableaux"
 #, kde-format
 msgid "Put this command where you want the list of tables to go."
 msgstr ""
-"Insérez cette commande à l'endroit où vous souhaitez voir apparaître la "
+"Insérez cette commande à l'endroit où vous souhaitez voir apparaitre la "
 "liste des tableaux."
 
 #: kilestdactions.cpp:336
@@ -9179,7 +9179,7 @@ msgstr "Générer l'index"
 #, kde-format
 msgid "Put this command when you want to generate the raw index."
 msgstr ""
-"Insérez cette commande à l'endroit où vous voulez voir apparaître l'index "
+"Insérez cette commande à l'endroit où vous voulez voir apparaitre l'index "
 "brut."
 
 #: kilestdactions.cpp:341
@@ -9196,7 +9196,7 @@ msgstr "Afficher l'index"
 #, kde-format
 msgid "Put this command when you want to print the formatted index."
 msgstr ""
-"Insérez cette commande à l'endroit où vous voulez voir apparaître l'index "
+"Insérez cette commande à l'endroit où vous voulez voir apparaitre l'index "
 "mis en forme."
 
 #: kilestdactions.cpp:346
@@ -9213,7 +9213,7 @@ msgstr "Glossaire"
 #, kde-format
 msgid "Put this command when you want to print a glossary."
 msgstr ""
-"Insérez cette commande à l'endroit où vous souhaitez voir apparaître le "
+"Insérez cette commande à l'endroit où vous souhaitez voir apparaitre le "
 "glossaire."
 
 #: kilestdactions.cpp:351
@@ -9610,7 +9610,7 @@ msgstr ""
 "L'argument à la suite de \\bibliographystyle désigne le fichier « .bst » qui "
 "définit le style de la bibliographie, c'est-à-dire la manière dont les "
 "citations bibliographiques dans le texte et la bibliographie elle-même "
-"apparaîtront.\n"
+"apparaitront.\n"
 "Par défaut, BibTeX est livré avec les styles suivants :\n"
 "alpha : la bibliographie est classée par ordre alphabétique. Les citations "
 "bibliographiques sont constituées du nom de l'auteur et de l'année de "
@@ -10952,7 +10952,7 @@ msgstr "Parenthèses"
 #: kileui.rc:323
 #, kde-format
 msgid "AMS Text and Boxes"
-msgstr "Texte et boîtes AMS"
+msgstr "Texte et boites AMS"
 
 #. i18n: ectx: Menu (menu_mathfrac)
 #: kileui.rc:329
@@ -12372,7 +12372,7 @@ msgstr "Définir l'outil par défaut pour l'aperçu en direct."
 #: widgets/logwidget.cpp:369
 #, kde-format
 msgid "Hide &Bad Boxes"
-msgstr "Masquer les &boîtes erronées"
+msgstr "Masquer les &boites erronées"
 
 #: widgets/logwidget.cpp:375
 #, kde-format
@@ -12988,7 +12988,7 @@ msgstr "Environnements LaTeX :"
 #: widgets/statisticswidget.cpp:93
 #, kde-format
 msgid "Total strings:"
-msgstr "Nombre total de chaînes :"
+msgstr "Nombre total de chaines :"
 
 #: widgets/statusbar.cpp:70
 #, kde-format

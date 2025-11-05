@@ -7,7 +7,7 @@
 >Configuration</title>
 
 <para
->&kile; prend en charge un menu configurable par l'utilisateur, qui apparaîtra comme une partie du menu de &kile;. Ce menu peut être configuré à partir de la boîte de dialogue de configuration de &kile; avec <menuchoice
+>&kile; prend en charge un menu configurable par l'utilisateur, qui apparaitra comme une partie du menu de &kile;. Ce menu peut être configuré à partir de la boite de dialogue de configuration de &kile; avec <menuchoice
 ><guimenu
 >Configuration</guimenu
 ><guisubmenu
@@ -39,7 +39,7 @@
 <para
 >soit le menu <guimenu
 >Menu utilisateur</guimenu
-> apparaîtra dans la barre de menu principale entre les menus <guimenu
+> apparaitra dans la barre de menu principale entre les menus <guimenu
 >LaTeX </guimenu
 >, <guimenu
 >Assistant</guimenu
@@ -66,7 +66,7 @@
 
 <listitem>
 <para
->ou les deux éléments apparaîtront en bas du menu <guilabel
+>ou les deux éléments apparaitront en bas du menu <guilabel
 >LaTeX</guilabel
 >.</para>
 
@@ -410,7 +410,7 @@
 <para
 ><userinput
 >%R</userinput
-> : appellera une boîte de dialogue de référence pour choisir un label précédemment défini. Ceci peut être utilisé pour faire référence à un label prédéfini, que vous pouvez choisir dans une liste déroulante (voir aussi <menuchoice
+> : appellera une boite de dialogue de référence pour choisir un label précédemment défini. Ceci peut être utilisé pour faire référence à un label prédéfini, que vous pouvez choisir dans une liste déroulante (voir aussi <menuchoice
 ><guimenu
 >LaTeX</guimenu
 ><guimenuitem
@@ -447,7 +447,7 @@
 <para
 ><userinput
 >%T</userinput
-> : appellera une boîte de dialogue de citation pour choisir une citation précédemment définie. Tout comme lorsqu'on utilise <menuchoice
+> : appellera une boite de dialogue de citation pour choisir une citation précédemment définie. Tout comme lorsqu'on utilise <menuchoice
 ><guimenu
 >LaTeX</guimenu
 ><guimenuitem
@@ -455,7 +455,7 @@
 ><guimenuitem
 >cite</guimenuitem
 ></menuchoice
->, une liste contenant toutes les clés de citation apparaît.</para>
+>, une liste contenant toutes les clés de citation apparait.</para>
 
 	<screenshot>
 		<screeninfo
@@ -602,9 +602,9 @@
 >Fichiers de définition de menu</title>
 
 <para
->Vous pouvez installer différents menus à chaud pour différentes tâches. Lorsque vous appelez l'assistant de menu utilisateur, le fichier de définition du menu actuel est chargé. Si vous le modifiez et fermez la boîte de dialogue avec <guibutton
+>Vous pouvez installer différents menus à chaud pour différentes tâches. Lorsque vous appelez l'assistant de menu utilisateur, le fichier de définition du menu actuel est chargé. Si vous le modifiez et fermez la boite de dialogue avec <guibutton
 >Ok</guibutton
->, vos modifications seront enregistrées et installées comme le nouveau menu utilisateur. Fermer la boîte de dialogue avec <guibutton
+>, vos modifications seront enregistrées et installées comme le nouveau menu utilisateur. Fermer la boite de dialogue avec <guibutton
 >Annuler</guibutton
 > annulera tous les changements.</para>
 

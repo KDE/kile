@@ -12,7 +12,7 @@
 >, largement connu sous le nom de &javascript;. Vous trouverez beaucoup de tutoriels, fournissant des informations sur les objets (variables), fonctions et propriétés gérés par &javascript;.</para>
 
 <para
->La prise en charge des scripts peut être activée dans la boîte de configuration de &kile; : <menuchoice
+>La prise en charge des scripts peut être activée dans la boite de configuration de &kile; : <menuchoice
 ><guimenu
 >Configuration</guimenu
 ><guisubmenu
@@ -38,7 +38,7 @@
 </para>
 
 <para
->Si la prise en charge des scripts est activée, un panneau supplémentaire dédié aux scripts apparaît dans le panneau latéral, où les scripts peuvent être gérés :  <screenshot>
+>Si la prise en charge des scripts est activée, un panneau supplémentaire dédié aux scripts apparait dans le panneau latéral, où les scripts peuvent être gérés :  <screenshot>
 	<screeninfo
 >Panneau dédié aux scripts dans le panneau latéral</screeninfo>
 	<mediaobject>
@@ -138,14 +138,14 @@
 > dans le panel de gestion des scripts.</para>
 <screenshot>
 	<screeninfo
->Scripts : boîte de dialogue pour la configuration de séquences</screeninfo>
+>Scripts : boite de dialogue pour la configuration de séquences</screeninfo>
 	<mediaobject>
 	<imageobject>
 	<imagedata fileref="scripting-configure.png" format="PNG"/>
 	</imageobject>
 	<textobject>
 		<phrase
->Scripts : boîte de dialogue pour la configuration de séquences</phrase>
+>Scripts : boite de dialogue pour la configuration de séquences</phrase>
 	</textobject>
 	</mediaobject>
 </screenshot>
@@ -468,7 +468,7 @@
 ></term>
 <listitem
 ><para
->Renvoie le curseur comme une chaîne de caractères sous la forme <literal
+>Renvoie le curseur comme une chaine de caractères sous la forme <literal
 >Cursor(ligne, colonne)</literal
 >. </para
 ></listitem>
@@ -866,7 +866,7 @@
 ></term>
 <listitem
 ><para
->Renvoie la plage comme une chaîne de caractères de la forme<literal
+>Renvoie la plage comme une chaine de caractères de la forme<literal
 >Range(Cursor(ligne, colonne) - Cursor(ligne, colonne))</literal
 >. </para
 ></listitem>
@@ -1121,7 +1121,7 @@ void view.setCursorPosition(<parameter
 ></term>
 <listitem
 ><para
->Renvoie le texte sélectionné. Si aucun texte n'est sélectionné, la chaîne de caractères vide est renvoyée. </para
+>Renvoie le texte sélectionné. Si aucun texte n'est sélectionné, la chaine de caractères vide est renvoyée. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -1582,7 +1582,7 @@ bool document.removeText(<parameter
 ></term>
 <listitem
 ><para
->Renvoie la totalité du contenu du document dans une seule chaîne de caractères. Les nouvelles lignes sont indiqué par le caractère de nouvelle ligne <literal
+>Renvoie la totalité du contenu du document dans une seule chaine de caractères. Les nouvelles lignes sont indiqué par le caractère de nouvelle ligne <literal
 >\n</literal
 >. </para
 ></listitem>
@@ -1674,7 +1674,7 @@ String document.text(<parameter
 ></term>
 <listitem
 ><para
->Renvoie le texte de la ligne courante comme une chaîne de caractères. </para
+>Renvoie le texte de la ligne courante comme une chaine de caractères. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -1692,7 +1692,7 @@ String document.text(<parameter
 ></term>
 <listitem
 ><para
->Renvoie le texte de la ligne donnée comme une chaîne de caractères. La chaîne de caractères vide est renvoyée si la ligne demandée est en dehors de la plage. </para
+>Renvoie le texte de la ligne donnée comme une chaine de caractères. La chaine de caractères vide est renvoyée si la ligne demandée est en dehors de la plage. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -1737,7 +1737,7 @@ String document.text(<parameter
 ><synopsis
 >bool document.insertLine(<parameter
 >String <replaceable
->chaîne</replaceable
+>chaine</replaceable
 ></parameter
 >);
 </synopsis
@@ -1763,7 +1763,7 @@ String document.text(<parameter
 ></parameter
 >, <parameter
 >String <replaceable
->chaîne</replaceable
+>chaine</replaceable
 ></parameter
 >);
 </synopsis
@@ -1917,7 +1917,7 @@ bool document.truncate(<parameter
 ></term>
 <listitem
 ><para
->Renvoie le mot à la position du curseur courant. Si aucun mot n'est trouvé à la position du curseur, la chaîne de caractères vide est retournée. </para
+>Renvoie le mot à la position du curseur courant. Si aucun mot n'est trouvé à la position du curseur, la chaine de caractères vide est retournée. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -1944,7 +1944,7 @@ String document.wordAt(<parameter
 ></term>
 <listitem
 ><para
->Renvoie le mot à la position spécifiée du curseur. Si aucun mot n'est trouvé à cette position, la chaîne de caractère vide est retournée. </para
+>Renvoie le mot à la position spécifiée du curseur. Si aucun mot n'est trouvé à cette position, la chaine de caractère vide est retournée. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -1976,7 +1976,7 @@ String document.wordAt(<parameter
 ></term>
 <listitem
 ><para
->Renvoie la commande &latex; à la position courante du curseur. Si aucune commande n'est trouvée à la position du curseur, la chaîne vide est retournée. </para
+>Renvoie la commande &latex; à la position courante du curseur. Si aucune commande n'est trouvée à la position du curseur, la chaine vide est retournée. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -2003,7 +2003,7 @@ String document.latexCommandAt(<parameter
 ></term>
 <listitem
 ><para
->Renvoie la commande &latex; à la position donnée du curseur. Si aucune commande n'est trouvée à cette position du curseur, la chaîne vide est retournée. </para
+>Renvoie la commande &latex; à la position donnée du curseur. Si aucune commande n'est trouvée à cette position du curseur, la chaine vide est retournée. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -2068,7 +2068,7 @@ String document.charAt(<parameter
 ><para
 >Renvoie le premier caractère différent d'un espace blanc de la <parameter
 >ligne</parameter
-> donnée. Le premier caractère est à la colonne 0. Si la ligne est vide ou ne contient que des espaces blancs, la chaîne de caractère vide est retournée. </para
+> donnée. Le premier caractère est à la colonne 0. Si la ligne est vide ou ne contient que des espaces blancs, la chaine de caractère vide est retournée. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -2088,7 +2088,7 @@ String document.charAt(<parameter
 ><para
 >Renvoie le dernier caractère différent d'un espace blanc de la <parameter
 >ligne</parameter
-> donnée. Si la ligne est vide ou ne contient que des espaces blancs, la chaîne de caractère vide est retournée. </para
+> donnée. Si la ligne est vide ou ne contient que des espaces blancs, la chaine de caractère vide est retournée. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -2209,7 +2209,7 @@ bool document.isSpace(<parameter
 >inside</parameter
 > est mis à <literal
 >faux</literal
->. Si aucun environnement n'est trouvé, la chaîne vide est retournée. </para
+>. Si aucun environnement n'est trouvé, la chaine vide est retournée. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -2255,7 +2255,7 @@ bool document.isSpace(<parameter
 ></term>
 <listitem
 ><para
->Renvoie le nom de l'environnement &latex; englobant ou une chaîne vide de caractères. </para
+>Renvoie le nom de l'environnement &latex; englobant ou une chaine vide de caractères. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -2357,7 +2357,7 @@ bool document.isSpace(<parameter
 >dedans</parameter
 > est mis à <literal
 >faux</literal
->. La chaîne vide est retournée, si aucun groupe &latex; englobant n'est trouvé à la position courante du curseur. </para
+>. La chaine vide est retournée, si aucun groupe &latex; englobant n'est trouvé à la position courante du curseur. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -2449,7 +2449,7 @@ bool document.isSpace(<parameter
 ></term>
 <listitem
 ><para
->Renvoie le texte du groupe mathématique &latex; englobant. La chaîne de caractère vide est retournée, si aucun groupe mathématique &latex; englobant n'est trouvé à la position courante du curseur. </para
+>Renvoie le texte du groupe mathématique &latex; englobant. La chaine de caractère vide est retournée, si aucun groupe mathématique &latex; englobant n'est trouvé à la position courante du curseur. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -2940,7 +2940,7 @@ int document.nextNonSpaceColumn(<parameter
 ><guimenuitem
 >section</guimenuitem
 ></menuchoice
->, une boîte de dialogue apparaîtra, où vous pourrez choisir le titre et une étiquette optionnelle pour cette commande de sectionnement. <screenshot>
+>, une boite de dialogue apparaitra, où vous pourrez choisir le titre et une étiquette optionnelle pour cette commande de sectionnement. <screenshot>
 	<screeninfo
 >Boîte de dialogue : insérez une commande de chapitre</screeninfo>
 	<mediaobject>
@@ -3065,7 +3065,7 @@ int document.nextNonSpaceColumn(<parameter
 ><guimenuitem
 >ref</guimenuitem
 ></menuchoice
->, une boîte de dialogue apparaîtra, où vous pourrez choisir un des labels déjà définis dans une liste déroulante. <screenshot>
+>, une boite de dialogue apparaitra, où vous pourrez choisir un des labels déjà définis dans une liste déroulante. <screenshot>
 	<screeninfo
 >Boîte de dialogue : insérez une commande de référence</screeninfo>
 	<mediaobject>
@@ -3311,7 +3311,7 @@ int document.nextNonSpaceColumn(<parameter
 ><para
 >Renvoie tous les labels définis comme un <literal
 >StringList</literal
->, qui peuvent être utilisés dans &javascript; comme tableau de chaînes de caractères. </para
+>, qui peuvent être utilisés dans &javascript; comme tableau de chaines de caractères. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -3327,7 +3327,7 @@ int document.nextNonSpaceColumn(<parameter
 ><para
 >Renvoie tous les éléments « bib » comme un <literal
 >StringList</literal
->, qui peuvent être utilisés dans &javascript; comme tableau de chaînes de caractères. </para
+>, qui peuvent être utilisés dans &javascript; comme tableau de chaines de caractères. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -3356,7 +3356,7 @@ int document.nextNonSpaceColumn(<parameter
 <para
 >L'objet global (variable) <userinput
 >kile</userinput
-> est utilisé pour gérer des opérations de haut niveau avec le monde extérieur, des messages en entrée et des interfaces de boîtes de dialogue. Ces appels API sont divisés en sous objet pour structurer cette partie de l'API du langage de scripts. Conceptuellement <userinput
+> est utilisé pour gérer des opérations de haut niveau avec le monde extérieur, des messages en entrée et des interfaces de boites de dialogue. Ces appels API sont divisés en sous objet pour structurer cette partie de l'API du langage de scripts. Conceptuellement <userinput
 >kile</userinput
 > est un peu comme <userinput
 >fenêtre</userinput
@@ -3365,7 +3365,7 @@ int document.nextNonSpaceColumn(<parameter
 ><para
 ><literal
 >kile.alert</literal
->: &nbsp; boîtes de messages</para
+>: &nbsp; boites de messages</para
 ></listitem>
 <listitem
 ><para
@@ -3416,13 +3416,13 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Afficher un boîte de dialogue d'<emphasis
+>Afficher un boite de dialogue d'<emphasis
 >Informations</emphasis
 >. <parameter
 >texte</parameter
-> est un message de type chaîne de caractères et <parameter
+> est un message de type chaine de caractères et <parameter
 >titre</parameter
-> le titre de la boîte de messages. Le titre par défaut est le nom du script. </para
+> le titre de la boite de messages. Le titre par défaut est le nom du script. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -3444,13 +3444,13 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Afficher un boîte de dialogue d'<emphasis
+>Afficher un boite de dialogue d'<emphasis
 >Excuses</emphasis
 >. <parameter
 >texte</parameter
-> est un message de type chaîne de caractères et <parameter
+> est un message de type chaine de caractères et <parameter
 >titre</parameter
-> est le titre de la boîte de messages. Le titre par défaut est le nom du script. </para
+> est le titre de la boite de messages. Le titre par défaut est le nom du script. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -3472,13 +3472,13 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Afficher une boîte de dialogue d'<emphasis
+>Afficher une boite de dialogue d'<emphasis
 >Erreur</emphasis
 >. <parameter
 >texte</parameter
-> est un message de type chaîne de caractères et <parameter
+> est un message de type chaine de caractères et <parameter
 >titre</parameter
-> est le titre de la boîte de messages. Le titre par défaut est le nom du script. </para
+> est le titre de la boite de messages. Le titre par défaut est le nom du script. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -3500,13 +3500,13 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Afficher une boîte de dialogue <emphasis
+>Afficher une boite de dialogue <emphasis
 >Question</emphasis
 >. <parameter
 >texte</parameter
-> est un message de type chaîne de caractères et <parameter
+> est un message de type chaine de caractères et <parameter
 >titre</parameter
-> est le titre de la boîte de messages. Le titre par défaut est le nom du script. La chaîne retournée est soit <literal
+> est le titre de la boite de messages. Le titre par défaut est le nom du script. La chaine retournée est soit <literal
 >Oui</literal
 > soit <literal
 >Non</literal
@@ -3532,13 +3532,13 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Afficher une boîte de dialogue d'<emphasis
+>Afficher une boite de dialogue d'<emphasis
 >Alerte</emphasis
 >. <parameter
 >texte</parameter
-> est un message de type chaîne de caractères et <parameter
+> est un message de type chaine de caractères et <parameter
 >titre</parameter
-> est le titre de la boîte de messages. Le titre par défaut est le nom du script. La chaîne retournée est soit <literal
+> est le titre de la boite de messages. Le titre par défaut est le nom du script. La chaine retournée est soit <literal
 >Continuer</literal
 > soit <literal
 >Annuler</literal
@@ -3580,7 +3580,7 @@ int document.nextNonSpaceColumn(<parameter
 >étiquette</parameter
 > est le texte apparaissant comme étiquette de la liste et <parameter
 >liste</parameter
-> est la chaîne de caractères insérée dans la liste. </para
+> est la chaine de caractères insérée dans la liste. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -3612,7 +3612,7 @@ int document.nextNonSpaceColumn(<parameter
 >étiquette</parameter
 > est le texte apparaissant comme étiquette de la liste et <parameter
 >liste</parameter
-> est la chaîne de caractères insérée dans la liste. </para
+> est la chaine de caractères insérée dans la liste. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -3634,7 +3634,7 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Fonction pour saisir une chaîne de caractères par l'utilisateur. <parameter
+>Fonction pour saisir une chaine de caractères par l'utilisateur. <parameter
 >légende</parameter
 > est le texte affiché dans la barre de titre et <parameter
 >étiquette</parameter
@@ -3698,7 +3698,7 @@ int document.nextNonSpaceColumn(<parameter
 >légende</parameter
 > est le texte affiché dans la barre de titre et <parameter
 >étiquette</parameter
-> est le texte apparaissant comme étiquette de la boîte à sélection multiple. <parameter
+> est le texte apparaissant comme étiquette de la boite à sélection multiple. <parameter
 >min</parameter
 > et <parameter
 >max</parameter
@@ -3740,7 +3740,7 @@ int document.nextNonSpaceColumn(<parameter
 >légende</parameter
 > est le texte affiché dans la barre de titre et <parameter
 >étiquette</parameter
-> est le texte apparaissant comme étiquette de la boîte de sélections multiples. <parameter
+> est le texte apparaissant comme étiquette de la boite de sélections multiples. <parameter
 >min</parameter
 > et <parameter
 >max</parameter
@@ -3884,7 +3884,7 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Renvoie une chaîne de caractères pouvant être utilisée comme titre des boîtes d'alerte. Cela ressemble à <userinput
+>Renvoie une chaine de caractères pouvant être utilisée comme titre des boites d'alerte. Cela ressemble à <userinput
 >Script: scriptname.js</userinput
 >. </para
 ></listitem>
@@ -3960,7 +3960,7 @@ int document.nextNonSpaceColumn(<parameter
 ><para
 >Tout comme <literal
 >read(nom-fichier)</literal
->, mais sans qu'un nom de fichier ne soit fourni. Une boîte de dialogue apparaîtra pour sélectionner le fichier à lire. </para
+>, mais sans qu'un nom de fichier ne soit fourni. Une boite de dialogue apparaitra pour sélectionner le fichier à lire. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -4016,7 +4016,7 @@ int document.nextNonSpaceColumn(<parameter
 ><para
 >Tout comme <literal
 >write(nom-fichier,texte)</literal
->, mais sans qu'aucun nom de fichier ne soit fourni. Une boîte de dialogue apparaîtra pour choisir un nom de fichier. </para
+>, mais sans qu'aucun nom de fichier ne soit fourni. Une boite de dialogue apparaitra pour choisir un nom de fichier. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -4038,7 +4038,7 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Crée une boîte de dialogue de sélection de fichier et renvoie le nom du ficher sélectionné ou une chaîne vide si aucun fichier n'est choisi. Veuillez noter qu'avec cette méthode, l'utilisateur doit sélectionner un nom de fichier existant. </para
+>Crée une boite de dialogue de sélection de fichier et renvoie le nom du ficher sélectionné ou une chaine vide si aucun fichier n'est choisi. Veuillez noter qu'avec cette méthode, l'utilisateur doit sélectionner un nom de fichier existant. </para
 ><para
 >Paramètres : </para
 ><para>
@@ -4047,7 +4047,7 @@ int document.nextNonSpaceColumn(<parameter
 ><para
 ><guilabel
 >Dossier-Départ : </guilabel
->&nbsp; Dossier de base pour la boîte de dialogue d'ouverture de fichier.</para
+>&nbsp; Dossier de base pour la boite de dialogue d'ouverture de fichier.</para
 ></listitem>
 <listitem
 ><para
@@ -4062,7 +4062,7 @@ int document.nextNonSpaceColumn(<parameter
 >filtre</literal
 >, tous les fichiers seront affichés. Si en plus <literal
 >Dossier-Départ</literal
-> est omis, la boîte de dialogue prendra le dossier du document courant comme point de départ. </para
+> est omis, la boite de dialogue prendra le dossier du document courant comme point de départ. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -4084,7 +4084,7 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Crée une boîte de dialogue de sélection de fichier et renvoie le nom du ficher sélectionné ou une chaîne vide si aucun fichier n'est choisi. Veuillez noter qu'avec cette méthode, l'utilisateur n'a besoin de sélectionner un nom de fichier existant. Veuillez consulter <literal
+>Crée une boite de dialogue de sélection de fichier et renvoie le nom du ficher sélectionné ou une chaine vide si aucun fichier n'est choisi. Veuillez noter qu'avec cette méthode, l'utilisateur n'a besoin de sélectionner un nom de fichier existant. Veuillez consulter <literal
 >getOpenFileName()</literal
 > pour plus d'explications concernant ces paramètres. </para
 ></listitem>

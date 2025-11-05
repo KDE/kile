@@ -1416,7 +1416,7 @@
 >Démarrer un nouveau document</title>
 
 	<para
->Lorsque vous cliquez sur le bouton de la barre d'outils pour démarrer un nouveau document, une boîte de dialogue apparaît, vous demandant le type de modèle que vous souhaitez utiliser pour rédiger votre document. Les choix par défaut sont : </para>
+>Lorsque vous cliquez sur le bouton de la barre d'outils pour démarrer un nouveau document, une boite de dialogue apparait, vous demandant le type de modèle que vous souhaitez utiliser pour rédiger votre document. Les choix par défaut sont : </para>
 
 	<itemizedlist>
 		<listitem
@@ -1539,13 +1539,13 @@
 ><para
 ><userinput
 >$$AUTHOR$$</userinput
-> : cette chaîne sera remplacée par la variable auteur.</para
+> : cette chaine sera remplacée par la variable auteur.</para
 ></listitem>
 				<listitem
 ><para
 ><userinput
 >$$DOCUMENTCLASSOPTIONS$$</userinput
-> : cette chaîne sera remplacée par la variable des options de documentclass. Typiquement, ceci s'utilise de la façon suivante : <userinput
+> : cette chaine sera remplacée par la variable des options de documentclass. Typiquement, ceci s'utilise de la façon suivante : <userinput
 >\documentclass[$$DOCUMENTCLASSOPTIONS$$]{article}</userinput
 >.</para
 ></listitem>
@@ -1555,7 +1555,7 @@
 >$$INPUTENCODING$$</userinput
 > : si la variable d'encodage est positionnée sur, disons, <userinput
 >latin1</userinput
->, cette chaîne est remplacée par <userinput
+>, cette chaine est remplacée par <userinput
 >\input[latin1]{inputenc}</userinput
 >.</para
 ></listitem>
@@ -1646,7 +1646,7 @@
 ></step>
 				<step
 ><para
->une boîte de dialogue apparaîtra, listant tous les modèles. Choisissez celui que vous souhaitez enlever,</para
+>une boite de dialogue apparaitra, listant tous les modèles. Choisissez celui que vous souhaitez enlever,</para
 ></step>
 				<step
 ><para
@@ -2728,7 +2728,7 @@
 >&Ctrl;&Maj;<keycap
 >Espace</keycap
 ></keycombo
->. &kile; lit d'abord les lettres à partir de la position actuelle du curseur vers la gauche, et s'arrête au premier caractère qui n'est pas une lettre ou au premier backslash. Si le motif commence par un backslash, &kile; entrera en mode de complètement pour les commandes &tex; ou &latex;. Sinon, il entrera en mode dictionnaire normal, dans lequel vous ne trouverez aucune commande &latex;. En fonction du mode choisi, une boîte de complètement sera ouverte. Vous verrez toutes les commandes ou les mots dont le début correspond au motif actuel. Vous pouvez naviguer avec les touches du curseur dans cette liste et choisir un élément avec &Enter; ou double-cliquer avec la souris.</para>
+>. &kile; lit d'abord les lettres à partir de la position actuelle du curseur vers la gauche, et s'arrête au premier caractère qui n'est pas une lettre ou au premier backslash. Si le motif commence par un backslash, &kile; entrera en mode de complètement pour les commandes &tex; ou &latex;. Sinon, il entrera en mode dictionnaire normal, dans lequel vous ne trouverez aucune commande &latex;. En fonction du mode choisi, une boite de complètement sera ouverte. Vous verrez toutes les commandes ou les mots dont le début correspond au motif actuel. Vous pouvez naviguer avec les touches du curseur dans cette liste et choisir un élément avec &Enter; ou double-cliquer avec la souris.</para>
 
 		<screenshot>
 			<screeninfo
@@ -2748,7 +2748,7 @@
 >Lorsque vous appuyez sur &Correction;, la dernière lettre de votre motif est effacée, et la liste de complètement devrait augmenter. En revanche, si vous saisissez une nouvelle lettre, le motif est étendu et les mots visibles dans la liste devraient être moins nombreux.</para>
 
 		<para
->Si vous décidez de ne pas utiliser les suggestions de cette liste, faites-la disparaître avec &Esc;.</para>
+>Si vous décidez de ne pas utiliser les suggestions de cette liste, faites-la disparaitre avec &Esc;.</para>
 
 		<para
 >Vous verrez que toutes les commandes sont écrites avec une courte description de leurs paramètres. Ces descriptions disparaissent bien évidemment lorsque vous choisissez une commande. Vous pouvez également si vous le souhaitez laisser &kile; insérer des puces à ces endroits, de façon à pouvoir y aller facilement avec <menuchoice
@@ -2897,7 +2897,7 @@
 >Abréviations</title>
 
 		<para
->&kile; gère les listes d'abréviations définies par l'utilisateur, qui sont remplacées à la demande par une chaîne de caractères plus longue. Regardez <menuchoice
+>&kile; gère les listes d'abréviations définies par l'utilisateur, qui sont remplacées à la demande par une chaine de caractères plus longue. Regardez <menuchoice
 ><guimenu
 >Configuration</guimenu
 ><guisubmenu
@@ -2930,7 +2930,7 @@
 ></keycombo
 >, et la lettre <userinput
 >L</userinput
-> sera remplacée par la chaîne <userinput
+> sera remplacée par la chaine <userinput
 >\LaTeX</userinput
 >.</para>
 
@@ -2979,7 +2979,7 @@
 >Commandes &latex;</title>
 
 			<para
->Vous pouvez également activer le mode de complètement automatique pour les commandes &latex;. Lorsqu'un certain seuil de lettres (trois par défaut) est atteint, une fenêtre surgissante affiche une liste de toutes les commandes &latex; correspondantes. Vous pouvez choisir une de ces commandes, ou ignorer la fenêtre et saisir d'autres lettres. Ces éléments de la boîte de complètement changeront en permanence pour correspondre au mot saisi.</para>
+>Vous pouvez également activer le mode de complètement automatique pour les commandes &latex;. Lorsqu'un certain seuil de lettres (trois par défaut) est atteint, une fenêtre surgissante affiche une liste de toutes les commandes &latex; correspondantes. Vous pouvez choisir une de ces commandes, ou ignorer la fenêtre et saisir d'autres lettres. Ces éléments de la boite de complètement changeront en permanence pour correspondre au mot saisi.</para>
 
 			<para
 >Allez dans <menuchoice
@@ -3035,7 +3035,7 @@
 ><guilabel
 >Complètement automatique</guilabel
 ></menuchoice
->. Dans cette boîte de dialogue, vous pouvez configurer si le complètement automatique des mots doit être activé. Il y a également un mode de complètement automatique dans lequel une boîte de complètement surgit lorsqu'un certain seuil est atteint.</para>
+>. Dans cette boite de dialogue, vous pouvez configurer si le complètement automatique des mots doit être activé. Il y a également un mode de complètement automatique dans lequel une boite de complètement surgit lorsqu'un certain seuil est atteint.</para>
 
 		</sect2>
 
@@ -3070,7 +3070,7 @@
 <chapter id="wizard">
 
 	<title
->Assistants et boîtes de dialogue</title>
+>Assistants et boites de dialogue</title>
 
 	<sect1 id="wizard_quickstart">
 
@@ -3088,7 +3088,7 @@
 >Insertion d'images</title>
 
 		<para
->La boîte de dialogue <guilabel
+>La boite de dialogue <guilabel
 >Insérer une image</guilabel
 > permet l'insertion d'images le plus simplement possible. Elle peut être obtenue par le menu <menuchoice
 ><guimenu
@@ -3172,7 +3172,7 @@
 
 		<step
 ><para
->si vous choisissez soit une largeur soit une hauteur, l'image sera mise à l'échelle en conservant les proportions. Si vous donnez deux valeurs pour la largeur et la hauteur en même temps, elle sera mise à l'échelle avec des facteurs différents, chose que vous ne souhaitez probablement pas. Consultez les informations en haut de la boîte de dialogue pour connaître la taille d'origine de l'image.</para
+>si vous choisissez soit une largeur soit une hauteur, l'image sera mise à l'échelle en conservant les proportions. Si vous donnez deux valeurs pour la largeur et la hauteur en même temps, elle sera mise à l'échelle avec des facteurs différents, chose que vous ne souhaitez probablement pas. Consultez les informations en haut de la boite de dialogue pour connaître la taille d'origine de l'image.</para
 ></step>
 
 		<step
@@ -3182,14 +3182,14 @@
 
 		<step
 ><para
->les informations sur la boîte englobante sont réglées automatiquement lorsque vous choisissez une image. Ces informations ne sont nécessaires que si vous travaillez avec &latex; classique et des images <foreignphrase
+>les informations sur la boite englobante sont réglées automatiquement lorsque vous choisissez une image. Ces informations ne sont nécessaires que si vous travaillez avec &latex; classique et des images <foreignphrase
 >bitmap</foreignphrase
 >. Voyez la discussion à propos des <link linkend="build_epsgraphics"
 >graphiques EPS</link
 >. </para>
 
 		<para
->Si &latex; a besoin d'une boîte englobante et que vous ne souhaitez pas générer un fichier bb, &kile; gère cette option. D'un autre côté, &pdflatex; donnera une alerte lorsque vous voudrez inclure une image png ou jpg avec cette option. Cette case à cocher active ou désactive la boîte englobante.</para
+>Si &latex; a besoin d'une boite englobante et que vous ne souhaitez pas générer un fichier bb, &kile; gère cette option. D'un autre côté, &pdflatex; donnera une alerte lorsque vous voudrez inclure une image png ou jpg avec cette option. Cette case à cocher active ou désactive la boite englobante.</para
 ></step>
 
 		<step
@@ -3265,7 +3265,7 @@
 ><guimenuitem
 >Matrice</guimenuitem
 ></menuchoice
-> de &kile;. Vous aurez alors un formulaire de saisie en forme de matrice, que vous pouvez facilement remplir. Cette boîte de dialogue offre également des options de typographie pour le contenu du tableau.</para>
+> de &kile;. Vous aurez alors un formulaire de saisie en forme de matrice, que vous pouvez facilement remplir. Cette boite de dialogue offre également des options de typographie pour le contenu du tableau.</para>
 
 		<screenshot>
 			<screeninfo
@@ -3282,7 +3282,7 @@
 		</screenshot>
 
 		<para
->En utilisant la barre d'outils en haut de la boîte de dialogue, vous pouvez régler <userinput
+>En utilisant la barre d'outils en haut de la boite de dialogue, vous pouvez régler <userinput
 >l'alignement</userinput
 > d'une cellule, définir un <userinput
 >style de police</userinput
@@ -3296,7 +3296,7 @@
 >couleurs</userinput
 > du texte et de l'arrière-plan. Tout à droite se trouve un bouton <guilabel
 >Coller</guilabel
->. Avec ce bouton, vous pouvez insérer un tableau depuis le presse-papiers dans la boîte de dialogue, ce qui vous permet de copier / coller des tableaux depuis un tableur par exemple. </para>
+>. Avec ce bouton, vous pouvez insérer un tableau depuis le presse-papiers dans la boite de dialogue, ce qui vous permet de copier / coller des tableaux depuis un tableur par exemple. </para>
 
 		<para
 >Vous pouvez choisir en dessous le nombre de lignes et de colonnes, et vous pouvez améliorer d'autres éléments de votre tableau : </para>
@@ -3349,7 +3349,7 @@
 ><guimenuitem
 >Tabulation</guimenuitem
 ></menuchoice
-> affichera une boîte de dialogue plus simple pour configurer rapidement un environnement tabulation. Elle vous permet de régler facilement le nombre de lignes et de colonnes, ainsi que l'espacement nécessaire.</para>
+> affichera une boite de dialogue plus simple pour configurer rapidement un environnement tabulation. Elle vous permet de régler facilement le nombre de lignes et de colonnes, ainsi que l'espacement nécessaire.</para>
 	</sect1>
 
 	<sect1 id="wizard_float">
@@ -3859,7 +3859,7 @@
 ><command
 >pdftk</command
 >, qui est un excellent outil en ligne de commandes pour la manipulation de documents « PDF » au quotidien (voir <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit"
->La boîte à outils « PDF »</ulink
+>La boite à outils « PDF »</ulink
 >).</para
 ></listitem>
 		</itemizedlist>
@@ -4143,7 +4143,7 @@
 >Choisir les pages</term>
 			<listitem
 ><para
->Ajoutez une liste de pages séparées par des virgules, ou une plage de pages, &pex; 1,4-7,9. Seules ces pages apparaîtront dans le PDF résultant.</para
+>Ajoutez une liste de pages séparées par des virgules, ou une plage de pages, &pex; 1,4-7,9. Seules ces pages apparaitront dans le PDF résultant.</para
 ></listitem>
 			</varlistentry>
 
@@ -4307,7 +4307,7 @@
 >Statistiques du document</title>
 
 		<para
->La boîte de dialogue des statistiques dans <menuchoice
+>La boite de dialogue des statistiques dans <menuchoice
 ><guimenu
 >Fichier</guimenu
 ><guimenuitem
@@ -4318,7 +4318,7 @@
 		<para
 >Les statistiques obtenues peuvent être copiées dans le presse-papiers sous forme de texte ou comme tableau &latex; joliment formaté </para>
 		<para
->Lorsque vous sélectionnez un texte et ouvrez la boîte de dialogue des statistiques, vous obtenez les statistiques pour le texte actuellement sélectionné. Si vous ouvrez la boîte de dialogue sans sélectionner de texte, les statistiques affichées concernent tous les fichiers ouverts. Si vous souhaitez obtenir les statistiques pour le projet entier, vous pouvez utiliser <menuchoice
+>Lorsque vous sélectionnez un texte et ouvrez la boite de dialogue des statistiques, vous obtenez les statistiques pour le texte actuellement sélectionné. Si vous ouvrez la boite de dialogue sans sélectionner de texte, les statistiques affichées concernent tous les fichiers ouverts. Si vous souhaitez obtenir les statistiques pour le projet entier, vous pouvez utiliser <menuchoice
 ><guimenu
 >Projet</guimenu
 ><guisubmenu
@@ -4531,7 +4531,7 @@
 		<para
 >L'option <userinput
 >[label]</userinput
-> vous permet d'ajouter votre propre système de labels pour les éléments de la bibliographie. Si aucun label n'est défini, les éléments apparaîtront dans l'ordre numérique : [1], [2], [3], &etc;</para>
+> vous permet d'ajouter votre propre système de labels pour les éléments de la bibliographie. Si aucun label n'est défini, les éléments apparaitront dans l'ordre numérique : [1], [2], [3], &etc;</para>
 
 		<para
 >L'argument <userinput
@@ -5181,7 +5181,7 @@
 ><para
 >JPG est un format <emphasis
 >avec pertes</emphasis
->, qui compresse mieux les fichiers que le format PNG, au prix d'une baisse de qualité dans les détails de l'image. C'est la plupart du temps négligeable pour les photos, mais peut entraîner une mauvaise qualité d'image pour les diagrammes, les dessins, et peut même faire disparaître directement les lignes fines. Dans ce cas, utilisez EPS ou PNG.</para
+>, qui compresse mieux les fichiers que le format PNG, au prix d'une baisse de qualité dans les détails de l'image. C'est la plupart du temps négligeable pour les photos, mais peut entraîner une mauvaise qualité d'image pour les diagrammes, les dessins, et peut même faire disparaitre directement les lignes fines. Dans ce cas, utilisez EPS ou PNG.</para
 ></listitem>
 		</itemizedlist>
 
@@ -5275,11 +5275,11 @@
 		<itemizedlist>
 		<listitem
 ><para
->les informations sont déjà renseignées dans la boîte de dialogue, et &latex; n'aura plus à les retrouver plus tard, </para
+>les informations sont déjà renseignées dans la boite de dialogue, et &latex; n'aura plus à les retrouver plus tard, </para
 ></listitem>
 		<listitem
 ><para
->encore plus important, les largeur et hauteur de l'image peuvent être calculées, lorsque la résolution est connue. Ces informations sont affichées vers le haut de la boîte de dialogue, et peuvent vous aider lorsque vous voulez changer l'échelle des graphiques.</para
+>encore plus important, les largeur et hauteur de l'image peuvent être calculées, lorsque la résolution est connue. Ces informations sont affichées vers le haut de la boite de dialogue, et peuvent vous aider lorsque vous voulez changer l'échelle des graphiques.</para
 ></listitem>
 		<listitem
 ><para
@@ -5809,7 +5809,7 @@
 		  </listitem>
 		  <listitem>
 		    <para
->Lorsque vous remplissez la boîte <guilabel
+>Lorsque vous remplissez la boite <guilabel
 >nom de fichier</guilabel
 >, vous devez inclure un emplacement relatif depuis lequel le fichier de projet <filename role="extension"
 >.kilepr</filename
@@ -5892,7 +5892,7 @@
 >Fichiers et projets</guilabel
 >, et choisissez <guilabel
 >Ajouter au projet</guilabel
->. Si vous avez ouvert plusieurs projets, une boîte de dialogue apparaîtra, dans laquelle vous pouvez spécifier le projet auquel le fichier doit être ajouté.</para>
+>. Si vous avez ouvert plusieurs projets, une boite de dialogue apparaitra, dans laquelle vous pouvez spécifier le projet auquel le fichier doit être ajouté.</para>
 		<!-- duplicated see next para
 		<para
 >If you have multiple files to be added to a project, you can select the
@@ -5908,7 +5908,7 @@
 >Fichiers et projets...</guilabel
 >, et choisir <guilabel
 >Ajouter des fichiers...</guilabel
-> afin de faire apparaître la boîte de dialogue de sélection de fichiers.</para>
+> afin de faire apparaitre la boite de dialogue de sélection de fichiers.</para>
 
 		<screenshot>
 			<screeninfo
@@ -6645,7 +6645,7 @@
 		<para
 >En appuyant sur le bouton <guibutton
 >Ajouter</guibutton
->, une autre boîte de dialogue s'ouvrira, dans laquelle vous pouvez modifier le nom de l'élément de menu, et choisir le fichier ou l'&URL; web correspondante. Le second bouton à droite du champ texte lance &konqueror;, qui peut être utilisé pour déterminer l'&URL; correcte.</para>
+>, une autre boite de dialogue s'ouvrira, dans laquelle vous pouvez modifier le nom de l'élément de menu, et choisir le fichier ou l'&URL; web correspondante. Le second bouton à droite du champ texte lance &konqueror;, qui peut être utilisé pour déterminer l'&URL; correcte.</para>
 
 		<screenshot>
 			<screeninfo
@@ -6662,7 +6662,7 @@
 		</screenshot>
 
 		<para
->Après avoir terminé la configuration, tous les éléments apparaîtront dans le menu <guimenu
+>Après avoir terminé la configuration, tous les éléments apparaitront dans le menu <guimenu
 >Aide</guimenu
 > de &kile; comme élément de menu spécial <guimenu
 >Aide utilisateur</guimenu
@@ -6695,7 +6695,7 @@
 >&kile; est un éditeur de code source &latex; / &tex; facile d'utilisation et libre. Il fonctionne sur les systèmes sur lesquels l'environnement de bureau KDE est installé. &kde; est disponible pour plusieurs architectures incluant &Linux; et d'autres systèmes de type Unix.</para>
 
 	<para
->De nombreux remerciements vont à ceux qui s'efforcent à continuer le projet &kile;, et à ceux qui sacrifient de nombreuses heures de leur temps à développer des outils que nous pouvons tous utiliser sous la licence &GNU;. Des informations à jour à propos des contributeurs peuvent être trouvées dans la boîte de dialogue <guimenuitem
+>De nombreux remerciements vont à ceux qui s'efforcent à continuer le projet &kile;, et à ceux qui sacrifient de nombreuses heures de leur temps à développer des outils que nous pouvons tous utiliser sous la licence &GNU;. Des informations à jour à propos des contributeurs peuvent être trouvées dans la boite de dialogue <guimenuitem
 >À propos de &kile;</guimenuitem
 > depuis le menu <guimenu
 >Aide</guimenu

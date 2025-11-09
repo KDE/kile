@@ -283,7 +283,7 @@ void NewLatexCommand::getParameter(QString &name, KileDocument::LatexCmdAttribut
     attr.type = m_cmdType;
     attr.starred = m_chStarred->isChecked();
 
-    // read all atributes attributes
+    // read all attributes
     if(m_useMathOrTab) {
         attr.cr = m_chEndofline->isChecked();
         attr.mathmode = m_chMath->isChecked();

@@ -3195,7 +3195,7 @@ bool EditorExtension::insertLatexFromUnicode(unsigned short rep, KTextEditor::Vi
     }
 }
 
-// If allowed, inserts texString at current cursor postition. Startlingly similar to insertDoubleQuotes.
+// If allowed, inserts texString at current cursor position. Startlingly similar to insertDoubleQuotes.
 bool EditorExtension::insertSpecialCharacter(const QString& texString, KTextEditor::View *view, const QString& dep)
 {
     // stop if special character replacement is disabled

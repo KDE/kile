@@ -647,7 +647,7 @@ ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem *pr
     makeTheConnection(item, projitem->getInfo());
 
     projvi->sortChildren(0, Qt::AscendingOrder);
-    // seems to be necessary to get a correct refreh (Qt 4.4.3)
+    // seems to be necessary to get a correct refresh (Qt 4.4.3)
     bool expanded = projvi->isExpanded();
     projvi->setExpanded(!expanded);
     projvi->setExpanded(expanded);
@@ -699,7 +699,7 @@ void ProjectView::refreshProjectTree(const KileProject *project)
     }
 
     parent->sortChildren(0, Qt::AscendingOrder);
-    // seems to be necessary to get a correct refreh (Qt 4.4.3)
+    // seems to be necessary to get a correct refresh (Qt 4.4.3)
     bool expanded = parent->isExpanded();
     parent->setExpanded(!expanded);
     parent->setExpanded(expanded);

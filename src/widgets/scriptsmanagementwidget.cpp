@@ -240,7 +240,7 @@ void ScriptsManagement::configureSelectedKeySequence() {
     QTimer::singleShot(0, this, SLOT(update()));
 }
 
-void ScriptsManagement::removeSelectedKeySequence()  // <--------------------- seq oder shortcut
+void ScriptsManagement::removeSelectedKeySequence()  // <--------------------- seq or shortcut
 {
     QList<QTreeWidgetItem*> selectedItems = m_treeWidget->selectedItems();
     if(selectedItems.isEmpty()) {

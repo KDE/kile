@@ -31,7 +31,7 @@ Run the given tool with a specific configuration as second parameter; returns th
 
 The following Lyx commands are understood by Kile.
 
-Insert the citations $Name1, Name2, ... at the current cursor postion; the citation command is hard coded to '\cite':
+Insert the citations $Name1, Name2, ... at the current cursor position; the citation command is hard coded to '\cite':
 	:citation-insert:$Name1,$Name2
 
 Insert the command \bibliography with the files named $myBib1, $myBib2, ... at the current cursor position:

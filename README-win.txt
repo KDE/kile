@@ -19,7 +19,7 @@ Vista: 1. Right click Computer -> Properties
        2. Click Advanced System Settings.
        3. Click Environment Variables button
        4. Find the PATH entry and double-click it.
-       5. Add your LaTeX path to the start.  ie, add "C:\Program Files\MikTex 2.7\miktex\bin;" ot something similar to the start of the line (without the quotes)
+       5. Add your LaTeX path to the start.  ie, add "C:\Program Files\MikTex 2.7\miktex\bin;" or something similar to the start of the line (without the quotes)
        6. Add other PATHs as appropriate.  If it's not already, you may want to add your KDEROOT\bin directory also (for example, "C:\kderoot\bin;")
 
 XP: 1. Right click My Computer -> Properties

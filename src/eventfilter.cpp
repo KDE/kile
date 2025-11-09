@@ -51,7 +51,7 @@ void LaTeXEventFilter::readConfig()
     m_bCompleteEnvironment = KileConfig::completeEnvironment();
 }
 
-// querying the caps lock state directly is currrently not supported by Qt
+// querying the caps lock state directly is currently not supported by Qt
 bool LaTeXEventFilter::isCapsLockEnabled()
 {
     return m_modifierKeyInfo->isKeyLatched(Qt::Key_CapsLock)

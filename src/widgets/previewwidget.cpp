@@ -1,7 +1,7 @@
 /*****************************************************************************
 *   Copyright (C) 2006 by Mathias Soeken (msoeken@informatik.uni-bremen.de)  *
-*                        (orginal version of this preview)                   *
-*             (C) 2011-2019 by Michel Ludwig (michel.ludwig@kdemail.net)          *
+*                        (original version of this preview)                  *
+*             (C) 2011-2019 by Michel Ludwig (michel.ludwig@kdemail.net)     *
 ******************************************************************************/
 
 // dani/2006:
@@ -184,7 +184,7 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
     pngConverter->setSource(m_info->quickPreview()->getPreviewFile(extension));
 
     // First, we have to disconnect the old done() signal, because this is
-    // passed immediately to the toolmanager, whichs destroys the tool. This
+    // passed immediately to the toolmanager, which destroys the tool. This
     // means, that all connections, which are done later, will never been called.
     disconnect(pngConverter, SIGNAL(done(KileTool::Base*,int,bool)), m_info->toolManager(), SLOT(done(KileTool::Base*,int)));
 

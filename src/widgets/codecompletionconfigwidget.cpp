@@ -301,7 +301,7 @@ QString CodeCompletionConfigWidget::getListname(QWidget *page)
     return QString();
 }
 
-//////////////////// shwo tabpages ////////////////////
+//////////////////// show tabpages ////////////////////
 
 void CodeCompletionConfigWidget::showPage(QWidget *page)
 {

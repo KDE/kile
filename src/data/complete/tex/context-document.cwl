@@ -120,7 +120,7 @@
 \defineoverlay[names][command]
 # \definepagebreak
 \definepalet[name][name]
-\definepapersize[name][dimenstions]
+\definepapersize[name][dimensions]
 \defineparagraphs[name][options and settings]
 \defineprofile[names][names]
 \defineprogram[name][text][text]

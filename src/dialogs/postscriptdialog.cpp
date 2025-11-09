@@ -333,7 +333,7 @@ QString PostscriptDialog::buildTempfile()
     // create a temporary file
     QTemporaryFile temp;
 //code was 	temp.setSuffix(".sh");
-//Add to constructor and adapt if necessay: QDir::tempPath() + QLatin1String("/myapp_XXXXXX") + QLatin1String(".sh")
+//Add to constructor and adapt if necessary: QDir::tempPath() + QLatin1String("/myapp_XXXXXX") + QLatin1String(".sh")
     temp.setAutoRemove(false);
     if(!temp.open()) {
         KILE_DEBUG_MAIN << "Could not create tempfile in QString PostscriptDialog::buildTempfile()" ;

@@ -43,7 +43,7 @@ class LivePreviewManager : public QObject
     Q_OBJECT
 
 public:
-    // has to be instatiated after the view manager only!
+    // has to be instantiated after the view manager only!
     LivePreviewManager(KileInfo *ki, KActionCollection *ac);
     ~LivePreviewManager();
 

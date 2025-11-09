@@ -345,7 +345,7 @@ void UserHelpDialog::updateButton()
             }
         }
     }
-    // don't allow two continuous spearators
+    // don't allow two continuous separators
     if(m_menulistbox->currentItem() && m_menulistbox->currentItem()->text() == QStringLiteral("-")) {
         sep_state = false;
     }

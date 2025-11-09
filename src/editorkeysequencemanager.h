@@ -101,7 +101,7 @@ public:
     /**
      * Convenience method. Adds a key sequence-to-action map to this
      * manager, removing any existing mappings.
-     * @warning This method overrides any exising mappings !
+     * @warning This method overrides any existing mappings !
      **/
     void addActionMap(const QMap<QString, Action*>& map);
 

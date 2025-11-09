@@ -155,7 +155,7 @@ void SideBar::shrink()
         setFixedWidth(m_tabBar->sizeHint().width());
     }
 
-    // deselect the currect tab
+    // deselect the current tab
     m_tabBar->setTab(currentIndex, false);
 
     Q_EMIT visibilityChanged(false);

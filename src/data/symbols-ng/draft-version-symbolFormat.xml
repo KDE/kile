@@ -18,7 +18,7 @@
 	<symbolGroupName>math</symbolGroupName>
 
 	<!-- Define the preamble of the latex document, the default preamble should work for all cases
-	     Note: Using \usepackage{} in <additional> will _not_ result in the symbol being dependend on the package-->
+	     Note: Using \usepackage{} in <additional> will _not_ result in the symbol being dependent on the package-->
 	<preamble>
 		<class>article</class>
 		<arguments>10pt</arguments>

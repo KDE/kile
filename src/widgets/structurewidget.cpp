@@ -242,7 +242,7 @@ void StructureView::saveState()
     while(*it) {
         item = dynamic_cast<StructureViewItem*>(*it);
         if(item && item->child(0)) {
-            //we don't accept duplicate entries in the map, remove this item alltogether
+            //we don't accept duplicate entries in the map, remove this item altogether
             //and rely on the openByLine map instead
             if(m_openByTitle.contains(item->title())) {
                 m_openByTitle.remove(item->title());

@@ -831,7 +831,7 @@ void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuDa
         // create temporary file
         QTemporaryFile tempfile;
 //code was 		tempfile.setSuffix(".txt");
-//Add to constructor and adapt if necessay: QDir::tempPath() + QLatin1String("/myapp_XXXXXX") + QLatin1String(".txt")
+//Add to constructor and adapt if necessary: QDir::tempPath() + QLatin1String("/myapp_XXXXXX") + QLatin1String(".txt")
         tempfile.setAutoRemove(false);
 
         if ( !tempfile.open() ) {
@@ -847,7 +847,7 @@ void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuDa
         stream << view->selectionText() << QStringLiteral("\n");
         tempfile.close();
 
-        // update comamndline with temporary filename of selection
+        // update commandline with temporary filename of selection
         cmdline.replace(QStringLiteral("%M"), selfile);
     }
 

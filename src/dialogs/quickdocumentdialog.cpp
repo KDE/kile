@@ -884,9 +884,9 @@ QString QuickDocument::getClassOptions()
     return options;
 }
 
-// Some changes were made in the listview: add, edit oder delete entries.
+// Some changes were made in the listview: add, edit or delete entries.
 // This means that the defaultOptions-dictionary, the selectedOptions-dictionary
-// and the list of all options may be                                                                     . So the documentClass-dictionary,
+// and the list of all options may be. So the documentClass-dictionary,
 // the defaultOptions-dictionary and the selectedOptions-dictionary must be updated.
 void QuickDocument::updateClassOptions()
 {
@@ -2137,7 +2137,7 @@ void QuickDocument::slotEnableButtons()
     m_btnClassOptionsEdit->setEnabled(enable);
     m_btnClassOptionsDelete->setEnabled(enable);
 
-    // packeges
+    // packages
     if (m_lvPackages->selectedItems().count() > 0 && m_lvPackages->selectedItems()[0]->text(0) != QStringLiteral("hyperref")) {
         m_btnPackagesEdit->setEnabled(true);
         m_btnPackagesDelete->setEnabled(true);
@@ -2155,7 +2155,7 @@ void QuickDocument::slotEnableButtons()
 
 ////////////////////////////// input dialog //////////////////////////////
 
-// A variable input dialog, whose widgets are determind by the entries of a stringlist.
+// A variable input dialog, whose widgets are determined by the entries of a stringlist.
 // Entry 1 is always the label for the main lineedit, entry 2 the main lineedit. All
 // other objects are optionale and their return values are not checked.
 //  0 :   caption    (input:  always)

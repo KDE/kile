@@ -117,7 +117,7 @@ ParserOutput* LaTeXParser::parse()
     static QRegularExpression reBD(QStringLiteral("\\\\begin\\s*\\{\\s*document\\s*\\}"));
     static QRegularExpression reReNewCommand(QStringLiteral("\\\\renewcommand.*$"));
     static QRegularExpression reNumOfParams(QStringLiteral("\\s*\\[([1-9]+)\\]"));
-    static QRegularExpression reNumOfOptParams(QStringLiteral("\\s*\\[([1-9]+)\\]\\s*\\[([^\\{]*)\\]")); // the quantifier * isn't used by mistake, because also emtpy optional brackets are correct.
+    static QRegularExpression reNumOfOptParams(QStringLiteral("\\s*\\[([1-9]+)\\]\\s*\\[([^\\{]*)\\]")); // the quantifier * isn't used by mistake, because also empty optional brackets are correct.
 
     int bd = 0, tagLine = 0, tagCol = 0;
     int tagStartLine = 0, tagStartCol = 0;

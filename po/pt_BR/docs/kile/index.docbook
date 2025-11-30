@@ -1359,9 +1359,13 @@
 >.</para>
 
 		<para
->Para executar uma busca direta, posicione o cursor em uma linha do código-fonte e clique em <guilabel
->Busca direta</guilabel
-> para saltar para a posição associada na janela do visualizador &DVI; ou PDF.</para>
+>Para executar uma pesquisa para frente, posicione o cursor em uma linha do código-fonte e clique com o botão <mousebutton
+>esquerdo</mousebutton
+> do mouse enquanto pressiona &Shift;, ou clique em <guilabel
+>Avançar DVI</guilabel
+>/<guilabel
+>Avançar PDF</guilabel
+> para ir para a posição associada na janela do visualizador de &DVI; ou PDF.</para>
 	</sect1>
 
 	<sect1 id="quick_inverse">
@@ -1646,9 +1650,7 @@
 >Um modelo pode ser criado a partir de qualquer arquivo &latex;. Se estiver procurando uma maneira fácil de configurar um modelo, procure na Internet um que você goste e siga os mesmos passos indicados em <xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
 
 			<para
->Por exemplo, você pode querer criar um poster completo em A0. Esses posters são normalmente vistos em conferências científicas e o &latex; o ajudará a criar um poster bonito e interessante. Você poderá obter um modelo para os posters em A0 na <ulink url="http://www.stats.ox.ac.uk/~marchini/a0poster.html"
->página pessoal de Jonathan Marchini</ulink
->, mas existem muito mais disponíveis. Lembre-se de que precisará do pacote <filename
+>Por exemplo, você pode querer criar um poster completo em A0. Esses posters são normalmente vistos em conferências científicas e o &latex; o ajudará a criar um poster bonito e interessante. Lembre-se de que precisará do pacote <filename
 >a0poster</filename
 >, que normalmente não é incluído em uma distribuição normal do padrão &tex;. Baixe ele <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/"
 >neste local</ulink

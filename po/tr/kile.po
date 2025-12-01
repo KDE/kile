@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:52+0000\n"
-"PO-Revision-Date: 2025-10-03 10:10+0300\n"
+"PO-Revision-Date: 2025-11-30 21:25+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4094,7 +4094,7 @@ msgstr "Standart &sayfa boyutlarını kullan"
 #: dialogs/quickdocumentdialog.cpp:1715
 #, kde-format
 msgid "Do you want to remove \"%1\" from the document class list?"
-msgstr "“%1” belge sınıfı listesinden silinsin mi?"
+msgstr "“%1”, belge sınıfı listesinden silinsin mi?"
 
 #: dialogs/quickdocumentdialog.cpp:1716
 #, kde-format
@@ -4104,22 +4104,22 @@ msgstr "Belge Sınıfını Kaldır"
 #: dialogs/quickdocumentdialog.cpp:1766
 #, kde-format
 msgid "Add Fontsize"
-msgstr "Yazıtipi Boyutu Ekle"
+msgstr "Yazıtipi Puntosu Ekle"
 
 #: dialogs/quickdocumentdialog.cpp:1768
 #, kde-format
 msgid "Please enter the &fontsizes (comma-separated list):"
-msgstr "Lüt&fen yazıtipi boyutlarını girin (virgülle ayırarak):"
+msgstr "Lüt&fen yazıtipi puntolarını girin (virgülle ayırarak):"
 
 #: dialogs/quickdocumentdialog.cpp:1786
 #, kde-format
 msgid "Do you want to remove \"%1\" from the fontsize list?"
-msgstr "“%1” yazıtipi boyutu listesinden silinsin mi?"
+msgstr "“%1”, yazıtipi puntosu listesinden silinsin mi?"
 
 #: dialogs/quickdocumentdialog.cpp:1786
 #, kde-format
 msgid "Remove Fontsize"
-msgstr "Yazıtipi Boyutunu Kaldır"
+msgstr "Yazıtipi Puntosunu Kaldır"
 
 #: dialogs/quickdocumentdialog.cpp:1803
 #, kde-format

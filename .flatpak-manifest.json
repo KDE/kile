@@ -79,7 +79,7 @@
                     "sources": [
                         {
                             "type": "git",
-                            "url": "git://anongit.freedesktop.org/poppler/poppler.git",
+                            "url": "https://gitlab.freedesktop.org/poppler/poppler.git",
                             "branch": "master"
                         }
                     ],

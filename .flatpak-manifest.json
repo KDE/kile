@@ -161,20 +161,20 @@
                             "cleanup": [
                                 "/bin",
                                 "/share/man",
-                                "/share/ghostscript/9.20/doc/",
-                                "/share/ghostscript/9.20/examples"
+                                "/share/ghostscript/*/doc/",
+                                "/share/ghostscript/*/examples"
                             ],
                             "rm-configure": true,
                             "sources": [
                                 {
                                     "type": "archive",
-                                    "url": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9550/ghostscript-9.55.0.tar.gz",
-                                    "sha256": "31e2064be67e15b478a8da007d96d6cd4d2bee253e5be220703a225f7f79a70b",
+                                    "url": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10060/ghostscript-10.06.0.tar.gz",
+                                    "sha256": "5bd6da34794928cc7e616f288e32bd0be7f9a5ca2d3c206a0af2c19a4e3a318f",
                                     "x-checker-data": {
                                         "type": "anitya",
                                         "project-id": 1157,
                                         "stable-only": true,
-                                        "url-template": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs$major$minor$patch/ghostscript-$version.tar.gz"
+                                        "url-template": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${major}0${minor}${patch}/ghostscript-${version}.tar.gz"
                                     }
                                 },
                                 {

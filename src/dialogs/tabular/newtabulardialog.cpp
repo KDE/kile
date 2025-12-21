@@ -265,7 +265,7 @@ QAction * NewTabularDialog::addAction(const QIcon &icon, const QString &text, QO
     return action;
 }
 
-void NewTabularDialog::alignItems(int alignment)
+void NewTabularDialog::alignItems(const Qt::Alignment alignment)
 {
     QList<int> checkColumns;
 
@@ -825,7 +825,7 @@ void NewTabularDialog::slotHeaderCustomContextMenuRequested(const QPoint &pos)
     popup->exec(m_Table->horizontalHeader()->mapToGlobal(pos));
 }
 
-void NewTabularDialog::slotAlignColumn(int alignment)
+void NewTabularDialog::slotAlignColumn(const Qt::Alignment alignment)
 {
     TabularHeaderItem *headerItem = static_cast<TabularHeaderItem*>(sender());
 

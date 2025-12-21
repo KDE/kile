@@ -59,7 +59,7 @@ private:
     void initEnvironments();
     QAction * addAction(const QIcon &icon, const QString &text, const char *method, QObject *parent = nullptr);
     QAction * addAction(const QIcon &icon, const QString &text, QObject *receiver, const char *method, QObject *parent = nullptr);
-    void alignItems(int alignment);
+    void alignItems(const Qt::Alignment alignment);
     bool checkForColumnAlignment(int column);
     QIcon generateColorIcon(bool background) const;
     bool canJoin() const;
@@ -73,7 +73,7 @@ private Q_SLOTS:
     void slotEnvironmentChanged(const QString &environment);
     void slotItemSelectionChanged();
     void slotHeaderCustomContextMenuRequested(const QPoint &pos);
-    void slotAlignColumn(int alignment);
+    void slotAlignColumn(const Qt::Alignment alignment);
     void slotAlignLeft();
     void slotAlignCenter();
     void slotAlignRight();

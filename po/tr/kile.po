@@ -15,15 +15,15 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:52+0000\n"
-"PO-Revision-Date: 2025-11-30 21:25+0300\n"
-"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
+"PO-Revision-Date: 2025-12-23 11:55+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7810,7 +7810,7 @@ msgstr "Atıf"
 #: kilelyxserver.cpp:247
 #, kde-format
 msgid "Add BibTeX database"
-msgstr "BibTeX veritabanı ekle"
+msgstr "BibTeX veri tabanı ekle"
 
 #: kilelyxserver.cpp:252
 #, kde-format
@@ -9420,7 +9420,7 @@ msgid ""
 "Kile inserts automatically the base name of the TeX file"
 msgstr ""
 "\\bibliography komutu bib dosyasına (uzantısız) atıfta bulunur.\n"
-"Veritabanınızın BibTeX biçiminde bu bib dosyasında bulunması gerekir.\n"
+"Veri tabanınızın BibTeX biçiminde bu bib dosyasında bulunması gerekir.\n"
 "Kile, kendiliğinden TeX dosyasının adını ekler"
 
 #: kilestdactions.cpp:480
@@ -10509,7 +10509,7 @@ msgstr "Çıkıldı"
 #: kiletoolmanager.cpp:483
 #, kde-format
 msgid "Cannot find the tool \"%1\" in the configuration database."
-msgstr "Yapılandırma veritabanında “%1” aracı bulunamıyor."
+msgstr "Yapılandırma veri tabanında “%1” aracı bulunamıyor."
 
 #: kiletoolmanager.cpp:728
 #, kde-format

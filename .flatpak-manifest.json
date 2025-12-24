@@ -200,6 +200,10 @@
                                     }
                                 },
                                 {
+                                    "type": "patch",
+                                    "path": "ghostscript-gcc15.patch"
+                                },
+                                {
                                     "type": "script",
                                     "dest-filename": "autogen.sh",
                                     "commands": [

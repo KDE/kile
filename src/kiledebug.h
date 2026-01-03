@@ -16,9 +16,9 @@
 
 #include <QLoggingCategory>
 
-Q_DECLARE_LOGGING_CATEGORY(LOG_KILE_MAIN)
-Q_DECLARE_LOGGING_CATEGORY(LOG_KILE_PARSER)
-Q_DECLARE_LOGGING_CATEGORY(LOG_KILE_CODECOMPLETION)
+#include "kile_main_debug.h"
+#include "kile_parser_debug.h"
+#include "kile_codecompletion_debug.h"
 
 #define KILE_DEBUG_MAIN qCDebug(LOG_KILE_MAIN)
 #define KILE_WARNING_MAIN qCWarning(LOG_KILE_MAIN)

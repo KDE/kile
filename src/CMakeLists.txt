@@ -202,6 +202,10 @@ ecm_add_app_icon(ICONS_SOURCES ICONS ${ICON_FILES})
 # add the resource file containing the ui files
 qt_add_resources(kile_SRCS kile.qrc)
 
+ecm_qt_declare_logging_category(kile_SRCS HEADER kile_main_debug.h IDENTIFIER LOG_KILE_MAIN CATEGORY_NAME org.kde.kile.main EXPORT KILE DESCRIPTION "Kile" DEFAULT_SEVERITY Warning)
+ecm_qt_declare_logging_category(kile_SRCS HEADER kile_parser_debug.h IDENTIFIER LOG_KILE_PARSER CATEGORY_NAME org.kde.kile.parser EXPORT KILE DESCRIPTION "Kile (Parser)" DEFAULT_SEVERITY Warning)
+ecm_qt_declare_logging_category(kile_SRCS HEADER kile_codecompletion_debug.h IDENTIFIER LOG_KILE_CODECOMPLETION CATEGORY_NAME org.kde.kile.codecompletion EXPORT KILE DESCRIPTION "Kile (Code completion)" DEFAULT_SEVERITY Warning)
+
 add_executable(kile ${kile_SRCS})
 target_sources(kile PRIVATE ${ICONS_SOURCES})
 
@@ -266,7 +270,6 @@ install(FILES org.kde.kile.main.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR})
 install(FILES org.kde.kile.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kile.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES data/bibtexentries.rc data/biblatexentries.rc DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile)
-install(FILES data/kile.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 install(FILES data/org.kde.kile.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
@@ -277,3 +280,9 @@ else(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	install (FILES data/kilestdtools.rc
            DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile)
 endif(CMAKE_SYSTEM_NAME MATCHES "Windows")
+
+ecm_qt_install_logging_categories(
+    EXPORT KILE
+    FILE kile.categories
+    DESTINATION "${KDE_INSTALL_LOGGINGCATEGORIESDIR}"
+)

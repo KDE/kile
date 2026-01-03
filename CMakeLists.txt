@@ -17,6 +17,7 @@ include(ECMInstallIcons)
 include(ECMSetupVersion)
 include(ECMMarkNonGuiExecutable)
 include(ECMGenerateHeaders)
+include(ECMQtDeclareLoggingCategory)
 
 include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)

@@ -433,11 +433,9 @@ void Manager::addDirectoryToDirWatch(const QString& dir)
         m_jScriptDirWatch->addDir(dir,  KDirWatch::WatchDirOnly);
     }
     QDir qDir(dir);
-    const QStringList list = qDir.entryList(QDir::Dirs);
+    const QStringList list = qDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     for(const QString& subdir : list) {
-        if (subdir != QStringLiteral(".") && subdir != QStringLiteral("..")) {
-            addDirectoryToDirWatch(qDir.filePath(subdir));
-        }
+        addDirectoryToDirWatch(qDir.filePath(subdir));
     }
 }
 

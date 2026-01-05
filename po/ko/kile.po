@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:52+0000\n"
+"POT-Creation-Date: 2026-01-05 00:43+0000\n"
 "PO-Revision-Date: 2025-04-06 23:09+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -354,7 +354,7 @@ msgstr ""
 msgid "Configure"
 msgstr "설정"
 
-#: dialogs/configurationdialog.cpp:68 main.cpp:101
+#: dialogs/configurationdialog.cpp:68 main.cpp:97
 #, kde-format
 msgid "Kile"
 msgstr "Kile"
@@ -10851,148 +10851,148 @@ msgstr "하위 디렉터리 구조를 만들 수 없음"
 msgid "LivePreview"
 msgstr "즉시 미리 보기"
 
-#: main.cpp:61
+#: main.cpp:57
 #, kde-format
 msgid "StandardInput.tex"
 msgstr "표준 입력.tex"
 
-#: main.cpp:102
+#: main.cpp:98
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
 msgstr "KDE 통합 LaTeX 환경"
 
-#: main.cpp:104
+#: main.cpp:100
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
 msgstr "개발: Kile 팀 (2003 - %1)"
 
-#: main.cpp:107
+#: main.cpp:103
 #, kde-format
 msgid "Michel Ludwig"
 msgstr "Michel Ludwig"
 
-#: main.cpp:107
+#: main.cpp:103
 #, kde-format
 msgid "Project Management/Developer"
 msgstr "프로젝트 관리 및 개발자"
 
-#: main.cpp:108
+#: main.cpp:104
 #, kde-format
 msgid "Holger Danielsson"
 msgstr "Holger Danielsson"
 
-#: main.cpp:108
+#: main.cpp:104
 #, kde-format
 msgid "Developer"
 msgstr "개발자"
 
-#: main.cpp:109
+#: main.cpp:105
 #, kde-format
 msgid "Thomas Braun"
 msgstr "Thomas Braun"
 
-#: main.cpp:109
+#: main.cpp:105
 #, kde-format
 msgid "Former Developer"
 msgstr "이전 개발자"
 
-#: main.cpp:110
+#: main.cpp:106
 #, kde-format
 msgid "Jeroen Wijnhout"
 msgstr "Jeroen Wijnhout"
 
-#: main.cpp:110
+#: main.cpp:106
 #, kde-format
 msgid "Former Maintainer/Developer"
 msgstr "이전 관리자 및 개발자"
 
-#: main.cpp:111
+#: main.cpp:107
 #, kde-format
 msgid "Brachet Pascal"
 msgstr "Brachet Pascal"
 
-#: main.cpp:113
+#: main.cpp:109
 #, kde-format
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:113
+#: main.cpp:109
 #, kde-format
 msgid "Migration from Subversion to Git"
 msgstr "Subversion에서 Git으로 이전"
 
-#: main.cpp:114
+#: main.cpp:110
 #, kde-format
 msgid "Simon Martin"
 msgstr "Simon Martin"
 
-#: main.cpp:114
+#: main.cpp:110
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
 msgstr "KConfig XT, 다양한 개선과 버그 수정"
 
-#: main.cpp:115
+#: main.cpp:111
 #, kde-format
 msgid "Roland Schulz"
 msgstr "Roland Schulz"
 
-#: main.cpp:115
+#: main.cpp:111
 #, kde-format
 msgid "KatePart Integration"
 msgstr "KatePart 통합"
 
-#: main.cpp:116
+#: main.cpp:112
 #, kde-format
 msgid "Thorsten Lück"
 msgstr "Thorsten Lück"
 
-#: main.cpp:116
+#: main.cpp:112
 #, kde-format
 msgid "Log Parsing"
 msgstr "로그 처리"
 
-#: main.cpp:117
+#: main.cpp:113
 #, kde-format
 msgid "Jan-Marek Glogowski"
 msgstr "Jan-Marek Glogowski"
 
-#: main.cpp:117
+#: main.cpp:113
 #, kde-format
 msgid "Find-in-Files Dialog"
 msgstr "파일에서 찾기 대화 상자"
 
-#: main.cpp:118
+#: main.cpp:114
 #, kde-format
 msgid "Jonathan Pechta"
 msgstr "Jonathan Pechta"
 
-#: main.cpp:118 main.cpp:119
+#: main.cpp:114 main.cpp:115
 #, kde-format
 msgid "Documentation"
 msgstr "문서화"
 
-#: main.cpp:119
+#: main.cpp:115
 #, kde-format
 msgid "Federico Zenith"
 msgstr "Federico Zenith"
 
-#: main.cpp:137
+#: main.cpp:133
 #, kde-format
 msgid "Jump to line"
 msgstr "줄로 이동"
 
-#: main.cpp:138
+#: main.cpp:134
 #, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "새 Kile 주 창 열기"
 
-#: main.cpp:140
+#: main.cpp:136
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr "열 파일, '-'를 입력하면 표준 입력에서 읽음"
 
-#: main.cpp:171
+#: main.cpp:167
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -11004,7 +11004,7 @@ msgstr ""
 "\n"
 "Kile을 실행하기 전에 Okular 라이브러리를 설치하십시오."
 
-#: main.cpp:173
+#: main.cpp:169
 #, kde-format
 msgid "Okular library not found"
 msgstr "Okular 라이브러리를 찾을 수 없음"
@@ -11258,7 +11258,7 @@ msgstr "스크립트를 시작할 수 없음: 보기가 없음"
 msgid "Script Error"
 msgstr "스크립트 오류"
 
-#: scriptmanager.cpp:491
+#: scriptmanager.cpp:489
 #, kde-format
 msgid "Execution of %1"
 msgstr "%1 실행"

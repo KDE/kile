@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:52+0000\n"
+"POT-Creation-Date: 2026-01-05 00:43+0000\n"
 "PO-Revision-Date: 2024-08-04 16:59+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -325,7 +325,7 @@ msgstr ""
 msgid "Configure"
 msgstr "Configurar"
 
-#: dialogs/configurationdialog.cpp:68 main.cpp:101
+#: dialogs/configurationdialog.cpp:68 main.cpp:97
 #, kde-format
 msgid "Kile"
 msgstr "Kile"
@@ -10389,148 +10389,148 @@ msgstr "Ne successat crear li expression regulari"
 msgid "LivePreview"
 msgstr ""
 
-#: main.cpp:61
+#: main.cpp:57
 #, kde-format
 msgid "StandardInput.tex"
 msgstr ""
 
-#: main.cpp:102
+#: main.cpp:98
 #, fuzzy, kde-format
 msgid "KDE Integrated LaTeX Environment"
 msgstr "Integrat ambiente de developation"
 
-#: main.cpp:104
+#: main.cpp:100
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
 msgstr ""
 
-#: main.cpp:107
+#: main.cpp:103
 #, kde-format
 msgid "Michel Ludwig"
 msgstr "Michel Ludwig"
 
-#: main.cpp:107
+#: main.cpp:103
 #, fuzzy, kde-format
 msgid "Project Management/Developer"
 msgstr "Administration de projectes"
 
-#: main.cpp:108
+#: main.cpp:104
 #, fuzzy, kde-format
 msgid "Holger Danielsson"
 msgstr "Holger Freyther"
 
-#: main.cpp:108
+#: main.cpp:104
 #, fuzzy, kde-format
 msgid "Developer"
 msgstr "Developator"
 
-#: main.cpp:109
+#: main.cpp:105
 #, fuzzy, kde-format
 msgid "Thomas Braun"
 msgstr "Lothar Braun"
 
-#: main.cpp:109
+#: main.cpp:105
 #, fuzzy, kde-format
 msgid "Former Developer"
 msgstr "Developator"
 
-#: main.cpp:110
+#: main.cpp:106
 #, kde-format
 msgid "Jeroen Wijnhout"
 msgstr "Jeroen Wijnhout"
 
-#: main.cpp:110
+#: main.cpp:106
 #, fuzzy, kde-format
 msgid "Former Maintainer/Developer"
 msgstr "Anteyan mantenetor"
 
-#: main.cpp:111
+#: main.cpp:107
 #, fuzzy, kde-format
 msgid "Brachet Pascal"
 msgstr "Pascal"
 
-#: main.cpp:113
+#: main.cpp:109
 #, fuzzy, kde-format
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:113
+#: main.cpp:109
 #, kde-format
 msgid "Migration from Subversion to Git"
 msgstr ""
 
-#: main.cpp:114
+#: main.cpp:110
 #, fuzzy, kde-format
 msgid "Simon Martin"
 msgstr "Simon MARTIN<br /><br />(li filtre accelerat de Danny Kukawka )"
 
-#: main.cpp:114
+#: main.cpp:110
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
 msgstr ""
 
-#: main.cpp:115
+#: main.cpp:111
 #, fuzzy, kde-format
 msgid "Roland Schulz"
 msgstr "Roland Pabel"
 
-#: main.cpp:115
+#: main.cpp:111
 #, fuzzy, kde-format
 msgid "KatePart Integration"
 msgstr "Semantic integration"
 
-#: main.cpp:116
+#: main.cpp:112
 #, kde-format
 msgid "Thorsten Lück"
 msgstr "Thorsten Lück"
 
-#: main.cpp:116
+#: main.cpp:112
 #, fuzzy, kde-format
 msgid "Log Parsing"
 msgstr "Analisante li structura de fólderes..."
 
-#: main.cpp:117
+#: main.cpp:113
 #, fuzzy, kde-format
 msgid "Jan-Marek Glogowski"
 msgstr "Jan Fritz"
 
-#: main.cpp:117
+#: main.cpp:113
 #, fuzzy, kde-format
 msgid "Find-in-Files Dialog"
 msgstr "Trovar in files"
 
-#: main.cpp:118
+#: main.cpp:114
 #, fuzzy, kde-format
 msgid "Jonathan Pechta"
 msgstr "Jonathan Riddell"
 
-#: main.cpp:118 main.cpp:119
+#: main.cpp:114 main.cpp:115
 #, fuzzy, kde-format
 msgid "Documentation"
 msgstr "Documentation"
 
-#: main.cpp:119
+#: main.cpp:115
 #, kde-format
 msgid "Federico Zenith"
 msgstr "Federico Zenith"
 
-#: main.cpp:137
+#: main.cpp:133
 #, fuzzy, kde-format
 msgid "Jump to line"
 msgstr "_Ear a"
 
-#: main.cpp:138
+#: main.cpp:134
 #, fuzzy, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "Ne successat lansar un nov instantie de «%s»"
 
-#: main.cpp:140
+#: main.cpp:136
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr ""
 
-#: main.cpp:171
+#: main.cpp:167
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -10539,7 +10539,7 @@ msgid ""
 "Please install the Okular library before running Kile."
 msgstr ""
 
-#: main.cpp:173
+#: main.cpp:169
 #, fuzzy, kde-format
 msgid "Okular library not found"
 msgstr "Okular"
@@ -10791,7 +10791,7 @@ msgstr ""
 msgid "Script Error"
 msgstr "Errore de scripte"
 
-#: scriptmanager.cpp:491
+#: scriptmanager.cpp:489
 #, fuzzy, kde-format
 msgid "Execution of %1"
 msgstr "Punctu de execution"

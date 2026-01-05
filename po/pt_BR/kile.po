@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:52+0000\n"
+"POT-Creation-Date: 2026-01-05 00:43+0000\n"
 "PO-Revision-Date: 2025-08-28 08:53-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -380,7 +380,7 @@ msgstr ""
 msgid "Configure"
 msgstr "Configurar"
 
-#: dialogs/configurationdialog.cpp:68 main.cpp:101
+#: dialogs/configurationdialog.cpp:68 main.cpp:97
 #, kde-format
 msgid "Kile"
 msgstr "Kile"
@@ -11077,148 +11077,148 @@ msgstr "Falha ao criar a estrutura de subpastas"
 msgid "LivePreview"
 msgstr "Visualização direta"
 
-#: main.cpp:61
+#: main.cpp:57
 #, kde-format
 msgid "StandardInput.tex"
 msgstr "Entradapadrao.tex"
 
-#: main.cpp:102
+#: main.cpp:98
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
 msgstr "Ambiente Integrado LaTeX do KDE"
 
-#: main.cpp:104
+#: main.cpp:100
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
 msgstr "pela equipe do Kile (2003 - %1)"
 
-#: main.cpp:107
+#: main.cpp:103
 #, kde-format
 msgid "Michel Ludwig"
 msgstr "Michel Ludwig"
 
-#: main.cpp:107
+#: main.cpp:103
 #, kde-format
 msgid "Project Management/Developer"
 msgstr "Desenvolvedor/gerenciador do projeto"
 
-#: main.cpp:108
+#: main.cpp:104
 #, kde-format
 msgid "Holger Danielsson"
 msgstr "Holger Danielsson"
 
-#: main.cpp:108
+#: main.cpp:104
 #, kde-format
 msgid "Developer"
 msgstr "Desenvolvedor"
 
-#: main.cpp:109
+#: main.cpp:105
 #, kde-format
 msgid "Thomas Braun"
 msgstr "Thomas Braun"
 
-#: main.cpp:109
+#: main.cpp:105
 #, kde-format
 msgid "Former Developer"
 msgstr "Antigo desenvolvedor"
 
-#: main.cpp:110
+#: main.cpp:106
 #, kde-format
 msgid "Jeroen Wijnhout"
 msgstr "Jeroen Wijnhout"
 
-#: main.cpp:110
+#: main.cpp:106
 #, kde-format
 msgid "Former Maintainer/Developer"
 msgstr "Mantenedor/desenvolvedor original do projeto"
 
-#: main.cpp:111
+#: main.cpp:107
 #, kde-format
 msgid "Brachet Pascal"
 msgstr "Brachet Pascal"
 
-#: main.cpp:113
+#: main.cpp:109
 #, kde-format
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:113
+#: main.cpp:109
 #, kde-format
 msgid "Migration from Subversion to Git"
 msgstr "Migração do Subversion para o Git"
 
-#: main.cpp:114
+#: main.cpp:110
 #, kde-format
 msgid "Simon Martin"
 msgstr "Simon Martin"
 
-#: main.cpp:114
+#: main.cpp:110
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
 msgstr "KConfig XT, vários melhoramentos e correções de erros"
 
-#: main.cpp:115
+#: main.cpp:111
 #, kde-format
 msgid "Roland Schulz"
 msgstr "Roland Schulz"
 
-#: main.cpp:115
+#: main.cpp:111
 #, kde-format
 msgid "KatePart Integration"
 msgstr "Integração com a KatePart"
 
-#: main.cpp:116
+#: main.cpp:112
 #, kde-format
 msgid "Thorsten Lück"
 msgstr "Thorsten Lück"
 
-#: main.cpp:116
+#: main.cpp:112
 #, kde-format
 msgid "Log Parsing"
 msgstr "Análise do Log"
 
-#: main.cpp:117
+#: main.cpp:113
 #, kde-format
 msgid "Jan-Marek Glogowski"
 msgstr "Jan-Marek Glogowski"
 
-#: main.cpp:117
+#: main.cpp:113
 #, kde-format
 msgid "Find-in-Files Dialog"
 msgstr "Caixa de diálogo para procurar nos arquivos"
 
-#: main.cpp:118
+#: main.cpp:114
 #, kde-format
 msgid "Jonathan Pechta"
 msgstr "Jonathan Pechta"
 
-#: main.cpp:118 main.cpp:119
+#: main.cpp:114 main.cpp:115
 #, kde-format
 msgid "Documentation"
 msgstr "Documentação"
 
-#: main.cpp:119
+#: main.cpp:115
 #, kde-format
 msgid "Federico Zenith"
 msgstr "Federico Zenith"
 
-#: main.cpp:137
+#: main.cpp:133
 #, kde-format
 msgid "Jump to line"
 msgstr "Pular para a linha"
 
-#: main.cpp:138
+#: main.cpp:134
 #, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "Iniciar uma nova janela principal do Kile"
 
-#: main.cpp:140
+#: main.cpp:136
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr "Arquivos a abrir / indique '-' para ler da saída padrão"
 
-#: main.cpp:171
+#: main.cpp:167
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -11231,7 +11231,7 @@ msgstr ""
 "\n"
 "Por favor, instale a biblioteca do Okular antes de executar o Kile."
 
-#: main.cpp:173
+#: main.cpp:169
 #, kde-format
 msgid "Okular library not found"
 msgstr "Biblioteca do Okular não encontrada"
@@ -11491,7 +11491,7 @@ msgstr "Não é possível iniciar o programa: sem janela disponível"
 msgid "Script Error"
 msgstr "Erro do programa"
 
-#: scriptmanager.cpp:491
+#: scriptmanager.cpp:489
 #, kde-format
 msgid "Execution of %1"
 msgstr "Execução de %1"

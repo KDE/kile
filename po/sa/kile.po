@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:52+0000\n"
+"POT-Creation-Date: 2026-01-05 00:43+0000\n"
 "PO-Revision-Date: 2024-12-25 19:37+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -356,7 +356,7 @@ msgstr ""
 msgid "Configure"
 msgstr "विन्यस्तं कुर्वन्तु"
 
-#: dialogs/configurationdialog.cpp:68 main.cpp:101
+#: dialogs/configurationdialog.cpp:68 main.cpp:97
 #, kde-format
 msgid "Kile"
 msgstr "किम्‌"
@@ -10878,148 +10878,148 @@ msgstr "उपनिर्देशिकासंरचनायाः नि�
 msgid "LivePreview"
 msgstr "LivePreview"
 
-#: main.cpp:61
+#: main.cpp:57
 #, kde-format
 msgid "StandardInput.tex"
 msgstr "StandardInput.text"
 
-#: main.cpp:102
+#: main.cpp:98
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
 msgstr "KDE एकीकृत LaTeX वातावरणम्"
 
-#: main.cpp:104
+#: main.cpp:100
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
 msgstr "किले दलेन (२००३ - %1)"
 
-#: main.cpp:107
+#: main.cpp:103
 #, kde-format
 msgid "Michel Ludwig"
 msgstr "मिशेल लुड्विग्"
 
-#: main.cpp:107
+#: main.cpp:103
 #, kde-format
 msgid "Project Management/Developer"
 msgstr "परियोजना प्रबन्धन/विकासक"
 
-#: main.cpp:108
+#: main.cpp:104
 #, kde-format
 msgid "Holger Danielsson"
 msgstr "होल्गर डेनियल्सन"
 
-#: main.cpp:108
+#: main.cpp:104
 #, kde-format
 msgid "Developer"
 msgstr "विकासकः"
 
-#: main.cpp:109
+#: main.cpp:105
 #, kde-format
 msgid "Thomas Braun"
 msgstr "थॉमस ब्राउन"
 
-#: main.cpp:109
+#: main.cpp:105
 #, kde-format
 msgid "Former Developer"
 msgstr "पूर्व विकासक"
 
-#: main.cpp:110
+#: main.cpp:106
 #, kde-format
 msgid "Jeroen Wijnhout"
 msgstr "जेरोएन् विज्नहाउट्"
 
-#: main.cpp:110
+#: main.cpp:106
 #, kde-format
 msgid "Former Maintainer/Developer"
 msgstr "पूर्व परिपालक/विकासक"
 
-#: main.cpp:111
+#: main.cpp:107
 #, kde-format
 msgid "Brachet Pascal"
 msgstr "ब्रचेट् पास्कल"
 
-#: main.cpp:113
+#: main.cpp:109
 #, kde-format
 msgid "Andrius Štikonas"
 msgstr "आन्द्रियः ष्टिकोनसः"
 
-#: main.cpp:113
+#: main.cpp:109
 #, kde-format
 msgid "Migration from Subversion to Git"
 msgstr "Subversion तः Git - मध्ये प्रवासः"
 
-#: main.cpp:114
+#: main.cpp:110
 #, kde-format
 msgid "Simon Martin"
 msgstr "सिमोन मार्टिन्"
 
-#: main.cpp:114
+#: main.cpp:110
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
 msgstr "KConfig XT, विभिन्नानि सुधारणानि तथा दोषनिराकरणम्"
 
-#: main.cpp:115
+#: main.cpp:111
 #, kde-format
 msgid "Roland Schulz"
 msgstr "रोलाण्ड शुल्ट्ज"
 
-#: main.cpp:115
+#: main.cpp:111
 #, kde-format
 msgid "KatePart Integration"
 msgstr "केटपार्ट एकीकरण"
 
-#: main.cpp:116
+#: main.cpp:112
 #, kde-format
 msgid "Thorsten Lück"
 msgstr "थोर्स्टेन लुक्"
 
-#: main.cpp:116
+#: main.cpp:112
 #, kde-format
 msgid "Log Parsing"
 msgstr "लॉग पार्सिंग्"
 
-#: main.cpp:117
+#: main.cpp:113
 #, kde-format
 msgid "Jan-Marek Glogowski"
 msgstr "जन-मारेक ग्लोगोव्स्की"
 
-#: main.cpp:117
+#: main.cpp:113
 #, kde-format
 msgid "Find-in-Files Dialog"
 msgstr "Find-in-Files संवादः"
 
-#: main.cpp:118
+#: main.cpp:114
 #, kde-format
 msgid "Jonathan Pechta"
 msgstr "जोनाथन पेचटा"
 
-#: main.cpp:118 main.cpp:119
+#: main.cpp:114 main.cpp:115
 #, kde-format
 msgid "Documentation"
 msgstr "दस्तावेजीकरणम्"
 
-#: main.cpp:119
+#: main.cpp:115
 #, kde-format
 msgid "Federico Zenith"
 msgstr "फेडेरिको जेनिथ"
 
-#: main.cpp:137
+#: main.cpp:133
 #, kde-format
 msgid "Jump to line"
 msgstr "रेखां प्रति कूदन्तु"
 
-#: main.cpp:138
+#: main.cpp:134
 #, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "एकं नूतनं किले मुख्यविण्डो आरभत"
 
-#: main.cpp:140
+#: main.cpp:136
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr "सञ्चिकाः उद्घाटयितुं / मानकनिवेशात् पठितुं '-' निर्दिष्टुं"
 
-#: main.cpp:171
+#: main.cpp:167
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -11031,7 +11031,7 @@ msgstr ""
 "\n"
 "कृपया Kile चालयितुं पूर्वं Okular पुस्तकालयं संस्थापयन्तु ।"
 
-#: main.cpp:173
+#: main.cpp:169
 #, kde-format
 msgid "Okular library not found"
 msgstr "ओकुलर पुस्तकालयः न प्राप्तः"
@@ -11285,7 +11285,7 @@ msgstr "स्क्रिप्ट् आरभ्यतुं न शक्य
 msgid "Script Error"
 msgstr "स्क्रिप्ट् त्रुटिः"
 
-#: scriptmanager.cpp:491
+#: scriptmanager.cpp:489
 #, kde-format
 msgid "Execution of %1"
 msgstr "%1 इत्यस्य निष्पादनम्"

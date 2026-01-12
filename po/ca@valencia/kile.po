@@ -661,7 +661,7 @@ msgid ""
 "Enter the file name pattern of the files to search here. You may give "
 "several patterns separated by commas."
 msgstr ""
-"Introduïu ací el patró de nom de fitxer dels fitxers que es buscaran. Podeu "
+"Introduïu ací el patró del nom de fitxer dels fitxers que es buscaran. Podeu "
 "indicar diversos patrons separats per comes."
 
 # skip-rule: t-pu_sp
@@ -1631,13 +1631,13 @@ msgid ""
 "An error occurred while removing the file \"%1\".\n"
 "Please check the file permissions."
 msgstr ""
-"Ha ocorregut un error en eliminar el fitxer «%1».\n"
+"Ha ocorregut un error mentre s'eliminava el fitxer «%1».\n"
 "Reviseu els permisos del fitxer."
 
 #: dialogs/listselector.cpp:245
 #, kde-format
 msgid "Remove Error"
-msgstr "S'ha produït un error en eliminar"
+msgstr "S'ha produït un error mentre s'eliminava"
 
 #: dialogs/listselector.cpp:256
 #, kde-format
@@ -1651,7 +1651,7 @@ msgstr ""
 #: dialogs/listselector.cpp:257
 #, kde-format
 msgid "Copy Error"
-msgstr "S'ha produït un error en copiar"
+msgstr "S'ha produït un error mentre es copiava"
 
 #: dialogs/listselector.cpp:280
 #, kde-format
@@ -1791,7 +1791,7 @@ msgstr "Substituïx la plantilla"
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
 msgid "Failed to create the template."
-msgstr "No s'ha pogut crear la plantilla."
+msgstr "Ha fallat mentre es creava la plantilla."
 
 #: dialogs/managetemplatesdialog.cpp:310
 #, kde-format
@@ -2289,7 +2289,7 @@ msgid ""
 "\n"
 "This wizard cannot be used."
 msgstr ""
-"No s'ha pogut crear un directori temporal.\n"
+"Ha fallat mentre es creava un directori temporal.\n"
 "\n"
 "No es pot utilitzar este assistent."
 
@@ -2392,7 +2392,7 @@ msgstr "***** visor:      "
 #: dialogs/pdf-wizard/pdfdialog.cpp:1102
 #, kde-format
 msgid "An error occurred while executing the task."
-msgstr "S'ha produït un error en executar la tasca."
+msgstr "S'ha produït un error mentre s'executava la tasca."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1158
 #, kde-format
@@ -2888,7 +2888,7 @@ msgstr "Reorganitza el fitxer PS: %1"
 #: dialogs/postscriptdialog.cpp:255
 #, kde-format
 msgid "An error occurred while rearranging the file."
-msgstr "Ha ocorregut un error en reorganitzar el fitxer."
+msgstr "Ha ocorregut un error mentre es reorganitzava el fitxer."
 
 #: dialogs/postscriptdialog.cpp:442
 #, kde-format
@@ -4689,8 +4689,8 @@ msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
 "the new size?"
 msgstr ""
-"En establir la mida nova per a la taula se suprimirà el contingut. Segur que "
-"voleu establir la mida nova?"
+"Mentre s'establix la mida nova per a la taula se suprimirà el contingut. "
+"Segur que voleu establir la mida nova?"
 
 #: dialogs/tabular/newtabulardialog.cpp:654
 #: dialogs/tabular/newtabulardialog.cpp:676
@@ -5686,7 +5686,7 @@ msgstr "Tots els documents guardats en el disc."
 #: editorcommands.cpp:40
 #, kde-format
 msgid "Saving of all documents failed."
-msgstr "No s'han pogut guardar tots els documents."
+msgstr "Ha fallat mentre es guardaven tots els documents."
 
 #: editorcommands.cpp:45
 #, kde-format
@@ -5696,7 +5696,7 @@ msgstr "Document guardat en el disc."
 #: editorcommands.cpp:46
 #, kde-format
 msgid "Saving document failed."
-msgstr "No s'ha pogut guardar el document."
+msgstr "Ha fallat mentre es guardava el document."
 
 #: editorcommands.cpp:60
 #, kde-format
@@ -7848,8 +7848,7 @@ msgstr "No s'ha pogut fer l'execució, diagnòstics:"
 #, kde-format
 msgid "An error occurred while parsing the options given to the tool."
 msgstr ""
-"S'ha produït un error en l'anàlisi sintàctica de les opcions indicades a "
-"l'eina."
+"S'ha produït un error durant l'anàlisi de les opcions indicades a l'eina."
 
 #: kilelauncher.cpp:238
 #, kde-format
@@ -7888,7 +7887,7 @@ msgstr "ha finalitzat de manera abrupta"
 #: kilelauncher.cpp:307
 #, kde-format
 msgid "failed to start"
-msgstr "ha fallat en iniciar"
+msgstr "ha fallat mentre s'iniciava"
 
 #: kilelauncher.cpp:310
 #, kde-format
@@ -11111,7 +11110,7 @@ msgstr ""
 #: livepreview.cpp:944
 #, kde-format
 msgid "Failed to create the subdirectory structure"
-msgstr "No s'ha pogut crear l'estructura de subdirectoris"
+msgstr "Ha fallat mentre es creava l'estructura de subdirectoris"
 
 #: livepreview.cpp:1404
 #, kde-format
@@ -11456,7 +11455,7 @@ msgstr "Script «%1.js»"
 #, kde-format
 msgid "File Handling Error: Unable to find the file '%1'"
 msgstr ""
-"S'ha produït un error en la gestió del fitxer: No s'ha pogut trobar el "
+"S'ha produït un error durant la gestió del fitxer: No s'ha pogut trobar el "
 "fitxer «%1»"
 
 #: scripting/kilescriptobject.cpp:234 scripting/kilescriptobject.cpp:291
@@ -11468,15 +11467,15 @@ msgstr "Trieu el fitxer que s'ha de llegir"
 #, kde-format
 msgid "File Handling Error: Unable to create the output file '%1'"
 msgstr ""
-"S'ha produït un error en la gestió del fitxer: No s'ha pogut crear el fitxer "
-"d'eixida «%1»"
+"S'ha produït un error durant la gestió del fitxer: No s'ha pogut crear el "
+"fitxer d'eixida «%1»"
 
 #: scripting/kilescriptobject.cpp:261
 #, kde-format
 msgid "File Handling Error: Unable to write to the output file '%1'"
 msgstr ""
-"S'ha produït un error en la gestió del fitxer: No s'ha pogut escriure en el "
-"fitxer d'eixida «%1»"
+"S'ha produït un error durant la gestió del fitxer: No s'ha pogut escriure en "
+"el fitxer d'eixida «%1»"
 
 #: scripting/kilescriptobject.cpp:279 scripting/kilescriptobject.cpp:297
 #, kde-format

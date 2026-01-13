@@ -172,7 +172,8 @@
                         {
                             "name": "ghostscript",
                             "config-opts": [
-                                "--disable-cups"
+                                "--disable-cups",
+                                "--without-tesseract"
                             ],
                             "make-args": [
                                 "so"
@@ -180,13 +181,13 @@
                             "make-install-args": [
                                 "soinstall"
                             ],
+                            "post-install": [
+                                "mv -f ${FLATPAK_DEST}/bin/{gsc,gs} "
+                            ],
                             "cleanup": [
-                                "/bin",
-                                "/share/man",
                                 "/share/ghostscript/*/doc/",
                                 "/share/ghostscript/*/examples"
                             ],
-                            "rm-configure": true,
                             "sources": [
                                 {
                                     "type": "archive",
@@ -196,19 +197,8 @@
                                         "type": "anitya",
                                         "project-id": 1157,
                                         "stable-only": true,
-                                        "url-template": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${major}0${minor}${patch}/ghostscript-${version}.tar.gz"
+                                        "url-template": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${major}0$minor$patch/ghostscript-$version.tar.gz"
                                     }
-                                },
-                                {
-                                    "type": "patch",
-                                    "path": "ghostscript-gcc15.patch"
-                                },
-                                {
-                                    "type": "script",
-                                    "dest-filename": "autogen.sh",
-                                    "commands": [
-                                        "AUTOMAKE=\"automake --foreign\" autoreconf -vfi"
-                                    ]
                                 }
                             ]
                         }

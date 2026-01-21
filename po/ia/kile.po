@@ -1,14 +1,14 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2013, 2020, 2021, 2022, 2023, 2024, 2025 G.Sora <g.sora@tiscali.it>
+# SPDX-FileCopyrightText: 2013, 2020, 2021, 2022, 2023, 2024, 2025, 2026 G.Sora <g.sora@tiscali.it>
 # giovanni <g.sora@tiscali.it>, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-05 00:43+0000\n"
-"PO-Revision-Date: 2025-04-16 11:48+0200\n"
+"PO-Revision-Date: 2026-01-20 11:54+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -239,7 +239,7 @@ msgstr "Verificante si le systena es configurate correctemente..."
 #, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: dialogs/configcheckerdialog.cpp:148
 #, kde-format
@@ -2156,7 +2156,7 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog.cpp:1769 kile.cpp:1066
 #, kde-format
 msgid "PDF Tools"
-msgstr ""
+msgstr "Instrumentos de PDF"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:926
 #, kde-format
@@ -2166,7 +2166,7 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog.cpp:926
 #, kde-format
 msgid "pdftk"
-msgstr ""
+msgstr "pdftk"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:927
 #, kde-format
@@ -2491,7 +2491,7 @@ msgstr "Formato:"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:501
 #, kde-format
 msgid "1.4"
-msgstr ""
+msgstr "1.4"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:508
@@ -3118,7 +3118,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:302
 #, kde-format
 msgid "Add Op&tion..."
-msgstr ""
+msgstr "Adde Op&tion..."
 
 #: dialogs/quickdocumentdialog.cpp:304
 #, kde-format
@@ -3950,7 +3950,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:1842 dialogs/quickdocumentdialog.cpp:1954
 #, kde-format
 msgid "Add Option"
-msgstr ""
+msgstr "Adde Option"
 
 #: dialogs/quickdocumentdialog.cpp:1844 dialogs/quickdocumentdialog.cpp:1879
 #, kde-format
@@ -4239,7 +4239,7 @@ msgstr "Sublinea"
 #: dialogs/tabular/newtabulardialog.cpp:89
 #, kde-format
 msgid "Join Cells"
-msgstr ""
+msgstr "Uni cellas"
 
 #: dialogs/tabular/newtabulardialog.cpp:90
 #, kde-format
@@ -5144,12 +5144,12 @@ msgstr ""
 #: dialogs/usermenu/usermenuitem.h:26
 #, kde-format
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: dialogs/usermenu/usermenuitem.h:27
 #, kde-format
 msgid "  >"
-msgstr ""
+msgstr "  >"
 
 #: dialogs/usermenu/usermenutree.cpp:166
 #, kde-format
@@ -5509,7 +5509,7 @@ msgstr ""
 #, kde-format
 msgctxt "Result of the compilation w.r.t. number of errors/warnings/badboxes"
 msgid "%1  %2  %3"
-msgstr ""
+msgstr "%1  %2  %3"
 
 #: errorhandler.cpp:405
 #, kde-format
@@ -11031,7 +11031,7 @@ msgstr ""
 #: widgets/configcheckerwidget.ui:45
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_grpResults)
 #: widgets/configcheckerwidget.ui:58
@@ -12014,7 +12014,7 @@ msgstr ""
 #: widgets/statisticswidget.cpp:83
 #, kde-format
 msgid "Strings"
-msgstr ""
+msgstr "Catenas"
 
 #: widgets/statisticswidget.cpp:90
 #, kde-format

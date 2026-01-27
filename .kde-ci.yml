@@ -23,4 +23,5 @@ Dependencies:
 
 Options:
   test-before-installing: True
+  enable-lsan: True
   require-passing-tests-on: [ 'Linux', 'FreeBSD', 'Windows' ]

@@ -10640,7 +10640,7 @@ msgstr ""
 #: kiletoolmanager.cpp:728
 #, kde-format
 msgid "&Stop"
-msgstr "A&tura"
+msgstr "&Para"
 
 #: kiletoolmanager.cpp:737
 #, kde-format

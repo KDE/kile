@@ -575,6 +575,11 @@ void ToolConfig::validateToolStatus()
 {
     QListWidgetItem *toolItem = m_configWidget->m_lstbTools->currentItem();
 
+    if(toolItem == nullptr) {
+        qWarning() <<  "toolItem is nullptr, exiting validateToolStatus()";
+        return;
+    }
+
     // Current tool status
     int basicPage = m_configWidget->m_stackBasic->currentIndex();
     bool status = (basicPage == GBS_None)

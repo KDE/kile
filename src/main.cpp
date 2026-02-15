@@ -216,7 +216,7 @@ int main(int argc, char **argv)
 
         if(parser.isSet(QStringLiteral("line"))) {
             QString line = parser.value(QStringLiteral("line"));
-            interface->call(QStringLiteral("setLine"), line);
+            interface->call(QStringLiteral("setLine"), line, QStringLiteral(""));
         }
 
         interface->call(QStringLiteral("setActive"));

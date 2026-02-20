@@ -769,28 +769,24 @@ msgid "Include Graphics"
 msgstr "Cuir Grafaic San Áireamh"
 
 #: dialogs/includegraphicsdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
-msgstr "*.png *.jpg *.eps.gz *.eps|Grafaic\n"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:427 dialogs/includegraphicsdialog.cpp:434
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "PNG Files (*.png)"
-msgstr "Gach Comhad"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:428 dialogs/includegraphicsdialog.cpp:435
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "JPG Files (*.jpg)"
-msgstr "Gach Comhad"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:429
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "PDF Files (*.pdf)"
-msgstr "Gach Comhad"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:430
 #, kde-format
@@ -798,10 +794,9 @@ msgid "Postscript Files (*.eps *ps)"
 msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:433
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
-msgstr "*.png *.jpg *.eps.gz *.eps|Grafaic\n"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:436
 #, kde-format
@@ -809,16 +804,14 @@ msgid "Zipped EPS Files (*.eps.gz)"
 msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:437
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "EPS Files (*.eps)"
-msgstr "Gach Comhad"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:439 kileextensions.cpp:123
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "All Files (*)"
-msgstr "Gach Comhad"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:629
 #, kde-format
@@ -856,10 +849,9 @@ msgstr "Aschur:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_center)
 #: dialogs/includegraphicsdialog_base.ui:60
-#, fuzzy, kde-format
-#| msgid "Structure"
+#, kde-format
 msgid "Center picture"
-msgstr "Struchtúr"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/includegraphicsdialog_base.ui:70
@@ -937,10 +929,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_clip)
 #: dialogs/includegraphicsdialog_base.ui:195
-#, fuzzy, kde-format
-#| msgid "Trim image"
+#, kde-format
 msgid "Trim Image"
-msgstr "Bearr an íomhá"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: dialogs/includegraphicsdialog_base.ui:207
@@ -1090,10 +1081,9 @@ msgstr "Laistigh (I/i)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_wrapfloat)
 #: dialogs/includegraphicsdialog_base.ui:506
-#, fuzzy, kde-format
-#| msgid "Configure"
+#, kde-format
 msgid "Float figure"
-msgstr "Cumraigh"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: dialogs/includegraphicsdialog_base.ui:516
@@ -1462,9 +1452,6 @@ msgid "1 item found."
 msgid_plural "%1 items found."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
 
 #: dialogs/listselector.cpp:151
 #, kde-format
@@ -1492,10 +1479,9 @@ msgid "Add all the selected files"
 msgstr "Cuir na comhaid roghnaithe go léir leis"
 
 #: dialogs/listselector.cpp:173
-#, fuzzy, kde-format
-#| msgid "Install custom files..."
+#, kde-format
 msgid "Install custom files"
-msgstr "Suiteáil comhaid shaincheaptha..."
+msgstr ""
 
 #: dialogs/listselector.cpp:174
 #, kde-format
@@ -1503,10 +1489,9 @@ msgid "Install your own completion files"
 msgstr "Suiteáil do chuid comhad comhlánaithe féin"
 
 #: dialogs/listselector.cpp:175
-#, fuzzy, kde-format
-#| msgid "Manage custom files..."
+#, kde-format
 msgid "Manage custom files"
-msgstr "Bainistigh comhaid shaincheaptha..."
+msgstr ""
 
 #: dialogs/listselector.cpp:176
 #, kde-format
@@ -1538,10 +1523,9 @@ msgid "Select Completion Files to Install Locally"
 msgstr "Roghnaigh Comhaid Chomhlánaithe le Suiteáil go Logánta"
 
 #: dialogs/listselector.cpp:230
-#, fuzzy, kde-format
-#| msgid "*.cwl|Completion files (*.cwl)"
+#, kde-format
 msgid "Completion files (*.cwl)"
-msgstr "*.cwl|Comhaid chomhlánaithe (*.cwl)"
+msgstr ""
 
 #: dialogs/listselector.cpp:240
 #, kde-format
@@ -1705,10 +1689,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "Tá tú ar tí teimpléad \"%1\" a fhorscríobh; an bhfuil tú cinnte?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "Bain Teimpléad"
+msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -1896,10 +1879,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbName)
 #: dialogs/newtoolwizard_toolname_page.ui:19
-#, fuzzy, kde-format
-#| msgid "Insert a short descriptive name of your project here."
+#, kde-format
 msgid "Type a short descriptive name for the &tool:"
-msgstr "Déan cur síos ar do thionscadal anseo."
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:70
 #, kde-format
@@ -2213,10 +2195,9 @@ msgid "pdftk"
 msgstr "pdftk"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:927
-#, fuzzy, kde-format
-#| msgid "rearrange ps file: "
+#, kde-format
 msgid "Rearranging PDF file: %1"
-msgstr "atheagraigh comhad PS: "
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:935 dialogs/pdf-wizard/pdfdialog.cpp:1047
 #: dialogs/postscriptdialog.cpp:216
@@ -2585,17 +2566,15 @@ msgstr "Priontáil:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:619
-#, fuzzy, kde-format
-#| msgid "Center the graphics."
+#, kde-format
 msgid "Copy text or graphics:"
-msgstr "Láraigh an ghrafaic."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:629
-#, fuzzy, kde-format
-#| msgid "Modification date:"
+#, kde-format
 msgid "Modify contents:"
-msgstr "Athraithe:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:639
@@ -2631,10 +2610,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbAll)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:786
-#, fuzzy, kde-format
-#| msgid "Show all the templates"
+#, kde-format
 msgid "Allow all features"
-msgstr "Taispeáin na teimpléid go léir"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:60
 #, kde-format
@@ -2647,16 +2625,14 @@ msgid "Neither 'pstops' nor 'psselect' found."
 msgstr ""
 
 #: dialogs/postscriptdialog.cpp:100
-#, fuzzy, kde-format
-#| msgid "File not found"
+#, kde-format
 msgid "'pstops' not found."
-msgstr "Comhad gan aimsiú"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "File not found"
+#, kde-format
 msgid "'psselect' not found."
-msgstr "Comhad gan aimsiú"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:114
 #, kde-format
@@ -2739,10 +2715,9 @@ msgid "Could not create a temporary file."
 msgstr "Ní féidir comhad sealadach a chruthú."
 
 #: dialogs/postscriptdialog.cpp:208
-#, fuzzy, kde-format
-#| msgid "rearrange ps file: "
+#, kde-format
 msgid "rearrange ps file: %1"
-msgstr "atheagraigh comhad PS: "
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:255
 #, kde-format
@@ -2891,10 +2866,9 @@ msgid "Image Files"
 msgstr "Comhaid Íomhá"
 
 #: dialogs/projectdialogs.cpp:111
-#, fuzzy, kde-format
-#| msgid "Bibliographies"
+#, kde-format
 msgid "Bibliography Files"
-msgstr "Leabharliostaí"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:118
 #, kde-format
@@ -2972,16 +2946,14 @@ msgid "Empty Location"
 msgstr "Suíomh Folamh"
 
 #: dialogs/projectdialogs.cpp:356
-#, fuzzy, kde-format
-#| msgid "Please enter the folder where the project file should be saved to."
+#, kde-format
 msgid "Please enter an absolute path to the project folder."
-msgstr "Cuir isteach ainm an fhillteáin ina sábhálfar an tionscadal."
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:356
-#, fuzzy, kde-format
-#| msgid "Invalid extension"
+#, kde-format
 msgid "Invalid Location"
-msgstr "Iarmhír neamhbhailí"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:361
 #, kde-format
@@ -2990,20 +2962,14 @@ msgid ""
 msgstr "Cuir isteach ainm an chomhaid is mian leat cur leis an tionscadal seo."
 
 #: dialogs/projectdialogs.cpp:361
-#, fuzzy, kde-format
-#| msgid "No Project Name Given"
+#, kde-format
 msgid "No File Name Given"
-msgstr "Níor sonraíodh ainm an tionscadail"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:374
-#, fuzzy, kde-format
-#| msgid ""
-#| "The project file already exists, please select another name. Delete the "
-#| "existing project file if your intention was to overwrite it."
+#, kde-format
 msgid "The project file exists already. Please choose another name."
 msgstr ""
-"Tá comhad an tionscadail ann cheana; roghnaigh ainm eile, nó scrios an "
-"comhad atá ann má tá tú ag iarraidh scríobh air."
 
 #: dialogs/projectdialogs.cpp:374 dialogs/projectdialogs.cpp:380
 #, kde-format
@@ -3011,15 +2977,10 @@ msgid "Project File Already Exists"
 msgstr "Tá an comhad tionscadail ann cheana"
 
 #: dialogs/projectdialogs.cpp:380
-#, fuzzy, kde-format
-#| msgid ""
-#| "The project file already exists, please select another name. Delete the "
-#| "existing project file if your intention was to overwrite it."
+#, kde-format
 msgid ""
 "The GUI settings file exists already. Please choose another project name."
 msgstr ""
-"Tá comhad an tionscadail ann cheana; roghnaigh ainm eile, nó scrios an "
-"comhad atá ann má tá tú ag iarraidh scríobh air."
 
 #: dialogs/projectdialogs.cpp:395 documentinfo.cpp:133
 #, kde-format
@@ -3070,21 +3031,18 @@ msgid "&MakeIndex options"
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:599
-#, fuzzy, kde-format
-#| msgid "Could not create the project folder, check your permissions."
+#, kde-format
 msgid ""
 "<p>Could not create the project folder \"\n"
 "%1\"</p>.<p>Please check whether you have write permissions.</p>"
-msgstr "Níorbh fhéidir fillteán an tionscadail a chruthú; an bhfuil cead agat?"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:606
-#, fuzzy, kde-format
-#| msgid "The project folder is not writable, check your permissions."
+#, kde-format
 msgid ""
 "<p>The project folder \"(%1)\" is not writable.</p><p>Please check the "
 "permissions of the project folder.</p>"
 msgstr ""
-"Ní féidir scríobh i bhfillteán an tionscadail; féach an bhfuil cead agat."
 
 #: dialogs/quickdocumentdialog.cpp:105
 #, kde-format
@@ -4150,10 +4108,9 @@ msgid "This name is not allowed for a document class."
 msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:2328
-#, fuzzy, kde-format
-#| msgid "This document class already exists."
+#, kde-format
 msgid "This document class option already exists."
-msgstr "Tá an aicme cháipéise seo ann cheana."
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:2334
 #, kde-format
@@ -4161,10 +4118,9 @@ msgid "This package already exists."
 msgstr "Tá an pacáiste seo ann cheana."
 
 #: dialogs/quickdocumentdialog.cpp:2342
-#, fuzzy, kde-format
-#| msgid "You have to include the package %1."
+#, kde-format
 msgid "Could not identify the package name."
-msgstr "Ní mór duit pacáiste %1 a chur san áireamh."
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:2346
 #, kde-format
@@ -4274,10 +4230,9 @@ msgstr "Staitisticí do thionscadal Gan Teideal"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/tabbingdialog_base.ui:29
-#, fuzzy, kde-format
-#| msgid "Num of &columns:"
+#, kde-format
 msgid "Number of &columns:"
-msgstr "Líon na g&colún:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/tabbingdialog_base.ui:63
@@ -4622,10 +4577,9 @@ msgid "Reset list to all available documentation files."
 msgstr ""
 
 #: dialogs/texdocumentationdialog.cpp:91
-#, fuzzy, kde-format
-#| msgid "&Search"
+#, kde-format
 msgid "Cancel &Search"
-msgstr "&Cuardaigh"
+msgstr ""
 
 #: dialogs/texdocumentationdialog.cpp:137
 #, kde-format
@@ -4638,10 +4592,9 @@ msgid "No KDE service found for this file."
 msgstr ""
 
 #: dialogs/texdocumentationdialog.cpp:329
-#, fuzzy, kde-format
-#| msgid "Could not find template: %1"
+#, kde-format
 msgid "Could not find the documentation file '%1'"
-msgstr "Ní féidir an teimpléad a aimsiú: %1"
+msgstr ""
 
 #: dialogs/texdocumentationdialog.cpp:345
 #, kde-format
@@ -4918,10 +4871,9 @@ msgstr ""
 "An bhfuil fonn ort scríobh air?"
 
 #: dialogs/usermenu/usermenudialog.cpp:399
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "Forscríobh an Comhad?"
+msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:413
 #, kde-format
@@ -4976,10 +4928,9 @@ msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbDelete)
 #: dialogs/usermenu/usermenudialog_base.ui:110
-#, fuzzy, kde-format
-#| msgid "Move the selected item down."
+#, kde-format
 msgid "Delete the selected item."
-msgstr "Bog an mhír roghnaithe síos."
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbDown)
 #: dialogs/usermenu/usermenudialog_base.ui:120
@@ -5013,10 +4964,9 @@ msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbUp)
 #: dialogs/usermenu/usermenudialog_base.ui:166
-#, fuzzy, kde-format
-#| msgid "Move the selected item down."
+#, kde-format
 msgid "Move the selected item up."
-msgstr "Bog an mhír roghnaithe síos."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbUp)
 #: dialogs/usermenu/usermenudialog_base.ui:169
@@ -5027,10 +4977,9 @@ msgstr "Aníos"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/usermenu/usermenudialog_base.ui:197
 #: widgets/usermenuconfigwidget.ui:29
-#, fuzzy, kde-format
-#| msgid "Save Menu File"
+#, kde-format
 msgid "Menu File"
-msgstr "Sábháil Comhad Roghchláir"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInstall)
 #: dialogs/usermenu/usermenudialog_base.ui:221
@@ -5129,17 +5078,15 @@ msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbIcon)
 #: dialogs/usermenu/usermenudialog_base.ui:482
-#, fuzzy, kde-format
-#| msgid "Please choose an icon first."
+#, kde-format
 msgid "Choose an icon for this action."
-msgstr "Roghnaigh deilbhín ar dtús."
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbIconDelete)
 #: dialogs/usermenu/usermenudialog_base.ui:515
-#, fuzzy, kde-format
-#| msgid "Remove the current package option"
+#, kde-format
 msgid "Remove the icon for this action."
-msgstr "Bain an rogha reatha phacáiste"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbMenuentryType)
 #: dialogs/usermenu/usermenudialog_base.ui:559
@@ -5155,10 +5102,9 @@ msgstr "Athraigh"
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, m_leMenuEntry)
 #: dialogs/usermenu/usermenudialog_base.ui:571
-#, fuzzy, kde-format
-#| msgid "Move the selected item down."
+#, kde-format
 msgid "The label of the selected menu item."
-msgstr "Bog an mhír roghnaithe síos."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenuEntry)
 #: dialogs/usermenu/usermenudialog_base.ui:584
@@ -5180,10 +5126,9 @@ msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbSelectInsertion)
 #: dialogs/usermenu/usermenudialog_base.ui:647
-#, fuzzy, kde-format
-#| msgid "Select inserted text"
+#, kde-format
 msgid "Select, if inserted text should be selected."
-msgstr "Roghnaigh téacs ionsáite"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbSelectInsertion)
 #: dialogs/usermenu/usermenudialog_base.ui:650
@@ -5205,17 +5150,15 @@ msgstr "Ionadaigh an téacs roghnaithe"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbNeedsSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:673
-#, fuzzy, kde-format
-#| msgid "Select inserted text"
+#, kde-format
 msgid "Select, if the action needs selected text. "
-msgstr "Roghnaigh téacs ionsáite"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbNeedsSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:676
-#, fuzzy, kde-format
-#| msgid "Replace selected text"
+#, kde-format
 msgid "Needs selected text"
-msgstr "Ionadaigh an téacs roghnaithe"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbInsertOutput)
 #: dialogs/usermenu/usermenudialog_base.ui:699
@@ -5358,10 +5301,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:913
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "Glan Téacs"
+msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:930
 #, kde-format
@@ -6353,17 +6295,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SvShowLabels), group (Structure)
 #: kile.kcfg:57
-#, fuzzy, kde-format
-#| msgid "The \\newpage command ends the current page"
+#, kde-format
 msgid "Show label commands in the structure view"
-msgstr "Cuireann an t-ordú \\newpage deireadh leis an leathanach reatha"
+msgstr ""
 
 #. i18n: ectx: label, entry (SvShowReferences), group (Structure)
 #: kile.kcfg:61
-#, fuzzy, kde-format
-#| msgid "Show undefined references"
+#, kde-format
 msgid "Show undefined references in the structure view"
-msgstr "Taispeáin tagairtí gan sainmhíniú"
+msgstr ""
 
 #. i18n: ectx: label, entry (SvShowBibitems), group (Structure)
 #: kile.kcfg:65
@@ -6445,10 +6385,9 @@ msgstr "Cé acu a rithfear, nó nach rithfear, freastalaí Lyx."
 
 #. i18n: ectx: label, entry (TeXPaths), group (Tools)
 #: kile.kcfg:121
-#, fuzzy, kde-format
-#| msgid "Environment Variables"
+#, kde-format
 msgid "Holds the TEXINPUTS environment variable."
-msgstr "Athróga Timpeallachta"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TeXPaths), group (Tools)
 #: kile.kcfg:122
@@ -6535,10 +6474,9 @@ msgstr "Airde an bhunbarra."
 
 #. i18n: ectx: label, entry (BottomBarIndex), group (Show)
 #: kile.kcfg:156
-#, fuzzy, kde-format
-#| msgid "Height of the bottom bar."
+#, kde-format
 msgid "Which tab of the bottom bar to show."
-msgstr "Airde an bhunbarra."
+msgstr ""
 
 #. i18n: ectx: label, entry (SideBarSize), group (Show)
 #: kile.kcfg:160
@@ -6560,10 +6498,9 @@ msgstr "Cé acu a thaispeánfar, nó nach dtaispeánfar, an t-amharcán cáipéi
 
 #. i18n: ectx: label, entry (ShowDocumentViewerInExternalWindow), group (Show)
 #: kile.kcfg:172
-#, fuzzy, kde-format
-#| msgid "Whether to show the document viewer."
+#, kde-format
 msgid "Whether to show the document viewer in a separate external window."
-msgstr "Cé acu a thaispeánfar, nó nach dtaispeánfar, an t-amharcán cáipéise."
+msgstr ""
 
 #. i18n: ectx: label, entry (HideProblemBadBox), group (Show)
 #: kile.kcfg:176
@@ -6589,10 +6526,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ShowSplashScreen), group (Show)
 #: kile.kcfg:188
-#, fuzzy, kde-format
-#| msgid "Whether to show the side bar."
+#, kde-format
 msgid "Whether to show the splash screen on startup."
-msgstr "Cé acu a thaispeánfar, nó nach dtaispeánfar, an barra taoibh."
+msgstr ""
 
 #. i18n: ectx: label, entry (SystemCheckLastVersionRunForAtStartUp), group (Show)
 #: kile.kcfg:192
@@ -6608,10 +6544,9 @@ msgstr "Críochnú uathoibríoch de \\begin{timp} le \\end{timp}."
 
 #. i18n: ectx: label, entry (envIndentation), group (Editor Ext)
 #: kile.kcfg:202
-#, fuzzy, kde-format
-#| msgid "Enables multicolumn environments"
+#, kde-format
 msgid "Enable auto indentation of environments"
-msgstr "Cumasaigh timpeallachtaí il-cholúin"
+msgstr ""
 
 #. i18n: ectx: label, entry (envIndentSpaces), group (Editor Ext)
 #: kile.kcfg:206
@@ -6675,10 +6610,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (igFigure), group (IncludeGraphics)
 #: kile.kcfg:252
-#, fuzzy, kde-format
-#| msgid "Use wrapfigure environment"
+#, kde-format
 msgid "Embed the graphics in a figure environment."
-msgstr "Úsáid an timpeallacht 'wrapfigure'"
+msgstr ""
 
 #. i18n: ectx: label, entry (igTop), group (IncludeGraphics)
 #: kile.kcfg:256
@@ -6712,10 +6646,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (igWrapFigure), group (IncludeGraphics)
 #: kile.kcfg:276
-#, fuzzy, kde-format
-#| msgid "Use wrapfigure environment"
+#, kde-format
 msgid "Enable the wrapfigure environment."
-msgstr "Úsáid an timpeallacht 'wrapfigure'"
+msgstr ""
 
 #. i18n: ectx: label, entry (igWrapRight), group (IncludeGraphics)
 #: kile.kcfg:280
@@ -6791,10 +6724,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (CleanUpFileExtensions), group (Files)
 #: kile.kcfg:332
-#, fuzzy, kde-format
-#| msgid "The file %1 does not exist."
+#, kde-format
 msgid "The file extensions to clean on exit."
-msgstr "Níl comhad %1 ann."
+msgstr ""
 
 #. i18n: ectx: label, entry (showLaTeXFilesOnly), group (Files)
 #: kile.kcfg:344
@@ -6804,10 +6736,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (Author), group (User)
 #: kile.kcfg:354
-#, fuzzy, kde-format
-#| msgid "Template Variables"
+#, kde-format
 msgid "The Author template variable."
-msgstr "Athróga Teimpléid"
+msgstr ""
 
 #. i18n: ectx: label, entry (DocumentClassOptions), group (User)
 #: kile.kcfg:358
@@ -6837,19 +6768,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (WatchFileForDocumentViewer), group (User)
 #: kile.kcfg:376
-#, fuzzy, kde-format
-#| msgid "Whether to show the document viewer."
+#, kde-format
 msgid "Whether the watch-file mode is enabled for the document viewer"
-msgstr "Cé acu a thaispeánfar, nó nach dtaispeánfar, an t-amharcán cáipéise."
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowFullPathInWindowTitle), group (User)
 #: kile.kcfg:380
-#, fuzzy, kde-format
-#| msgid "Whether to show Bad Box warnings in the LogMsg view."
+#, kde-format
 msgid "Whether to show the full path of file names in the window title."
 msgstr ""
-"Cé acu a thaispeánfear rabhaidh faoi Dhrochbhoscaí san amharc LogMsg, nó "
-"nach dtaispeánfar."
 
 #. i18n: ectx: label, entry (dvipng), group (QuickPreview)
 #: kile.kcfg:448
@@ -6865,24 +6792,21 @@ msgstr "Cé acu atá Convert suiteáilte, nó nach bhfuil."
 
 #. i18n: ectx: label, entry (envPreviewInWidget), group (QuickPreview)
 #: kile.kcfg:460
-#, fuzzy, kde-format
-#| msgid "Show preview in bottom bar:"
+#, kde-format
 msgid "Show preview of environments in bottom bar."
-msgstr "Taispeáin réamhamharc sa bhunbharra:"
+msgstr ""
 
 #. i18n: ectx: label, entry (selPreviewInWidget), group (QuickPreview)
 #: kile.kcfg:464
-#, fuzzy, kde-format
-#| msgid "Show preview in bottom bar:"
+#, kde-format
 msgid "Show preview of selected text in bottom bar."
-msgstr "Taispeáin réamhamharc sa bhunbharra:"
+msgstr ""
 
 #. i18n: ectx: label, entry (mathgroupPreviewInWidget), group (QuickPreview)
 #: kile.kcfg:468
-#, fuzzy, kde-format
-#| msgid "Show preview in bottom bar:"
+#, kde-format
 msgid "Show preview of mathgroups in bottom bar."
-msgstr "Taispeáin réamhamharc sa bhunbharra:"
+msgstr ""
 
 #. i18n: ectx: label, entry (envPreviewTool), group (QuickPreview)
 #: kile.kcfg:472
@@ -6904,17 +6828,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (previewPaneBackgroundColor), group (QuickPreview)
 #: kile.kcfg:484
-#, fuzzy, kde-format
-#| msgid "The background of the slide is always white"
+#, kde-format
 msgid "The background color of the quick preview pane."
-msgstr "Tá cúlra an tsleamhnáin bán i gcónaí"
+msgstr ""
 
 #. i18n: ectx: label, entry (ScriptingEnabled), group (Scripting)
 #: kile.kcfg:564
-#, fuzzy, kde-format
-#| msgid "Enable &scripting"
+#, kde-format
 msgid "Enable the scripting support."
-msgstr "Cumasaigh &scriptiú"
+msgstr ""
 
 #. i18n: ectx: label, entry (TimeLimitEnabled), group (Scripting)
 #: kile.kcfg:568
@@ -6950,10 +6872,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (displayMFUS), group (MostUsedSymbols)
 #: kile.kcfg:592
-#, fuzzy, kde-format
-#| msgid "Most Frequently Used"
+#, kde-format
 msgid "Display the Most Frequently Used Symbols view."
-msgstr "Úsáidte Is Minice"
+msgstr ""
 
 #. i18n: ectx: label, entry (clearMFUS), group (MostUsedSymbols)
 #: kile.kcfg:596
@@ -6963,10 +6884,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (symbolViewUTF8), group (MostUsedSymbols)
 #: kile.kcfg:600
-#, fuzzy, kde-format
-#| msgid "Insert UTF-8 characters instead of the command"
+#, kde-format
 msgid "Should UTF-8 characters instead of commands be inserted"
-msgstr "Ionsáigh carachtair UTF-8 in ionad an ordaithe"
+msgstr ""
 
 #. i18n: ectx: label, entry (userMenuFile), group (UserMenu)
 #: kile.kcfg:606
@@ -7016,10 +6936,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (livePreviewDefaultTool), group (LivePreview)
 #: kile.kcfg:636
-#, fuzzy, kde-format
-#| msgid "Live Preview"
+#, kde-format
 msgid "default livepreview tool."
-msgstr "Réamhamharc Beo"
+msgstr ""
 
 #: kileactions.cpp:336
 #, kde-format
@@ -7059,10 +6978,9 @@ msgid "Cannot open URL"
 msgstr ""
 
 #: kiledocmanager.cpp:524
-#, fuzzy, kde-format
-#| msgid "The template could not be removed."
+#, kde-format
 msgid "The URL \"%1\" couldn't be opened."
-msgstr "Níorbh fhéidir an teimpléad a bhaint."
+msgstr ""
 
 #: kiledocmanager.cpp:663
 #, kde-format
@@ -7117,16 +7035,14 @@ msgid "Saving"
 msgstr "Á Shábháil"
 
 #: kiledocmanager.cpp:926
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "Any files (*)"
-msgstr "Gach Comhad"
+msgstr ""
 
 #: kiledocmanager.cpp:928
-#, fuzzy, kde-format
-#| msgid "Create Template From Document..."
+#, kde-format
 msgid "Save Compiled Document As..."
-msgstr "Cruthaigh Teimpléad Ó Cháipéis..."
+msgstr ""
 
 #: kiledocmanager.cpp:953
 #, kde-format
@@ -7210,13 +7126,11 @@ msgid "Cannot Remove File From Project"
 msgstr "Níorbh fhéidir comhad a bhaint ón tionscadal"
 
 #: kiledocmanager.cpp:1504
-#, fuzzy, kde-format
-#| msgid "The project folder is not writable, check your permissions."
+#, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
 "project, close the project before you re-open it.</p>"
 msgstr ""
-"Ní féidir scríobh i bhfillteán an tionscadail; féach an bhfuil cead agat."
 
 #: kiledocmanager.cpp:1506
 #, kde-format
@@ -7232,10 +7146,9 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:1520
-#, fuzzy, kde-format
-#| msgid "Could Not Close Project"
+#, kde-format
 msgid "Could Not Open Project"
-msgstr "Ní féidir an tionscadal a dhúnadh"
+msgstr ""
 
 #: kiledocmanager.cpp:1538
 #, kde-format
@@ -7245,10 +7158,9 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:1540
-#, fuzzy, kde-format
-#| msgid "Open Project"
+#, kde-format
 msgid "Impossible to Open Project File"
-msgstr "Oscail Tionscadal"
+msgstr ""
 
 #: kiledocmanager.cpp:1550
 #, kde-format
@@ -7258,10 +7170,9 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:1552
-#, fuzzy, kde-format
-#| msgid "Open Project"
+#, kde-format
 msgid "Impossible to Open Project"
-msgstr "Oscail Tionscadal"
+msgstr ""
 
 #: kiledocmanager.cpp:1562
 #, kde-format
@@ -7284,10 +7195,9 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:1574
-#, fuzzy, kde-format
-#| msgid "Could Not Load Project File"
+#, kde-format
 msgid "Could Not Update Project File"
-msgstr "Ní féidir an comhad tionscadail a luchtú"
+msgstr ""
 
 #: kiledocmanager.cpp:1674
 #, kde-format
@@ -7471,10 +7381,9 @@ msgid "Kile Project Files"
 msgstr "Comhaid Tionscadail Kile"
 
 #: kileextensions.cpp:108
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "* |All Files"
-msgstr "*|Gach Comhad"
+msgstr ""
 
 #: kilehelp.cpp:101
 #, kde-format
@@ -9160,10 +9069,9 @@ msgid "Math Mode"
 msgstr "Mód Matamaiticiúil"
 
 #: kilestdactions.cpp:681
-#, fuzzy, kde-format
-#| msgid "Math Mode - $...$"
+#, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr "Mód Matamaiticiúil - $...$"
+msgstr ""
 
 #: kilestdactions.cpp:684
 #, kde-format
@@ -9555,10 +9463,9 @@ msgid "Intertext"
 msgstr "Idirthéacs"
 
 #: kilestdactions.cpp:855
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "Math - \\begin{math}"
-msgstr "Bailigh - \\begin{gather}"
+msgstr ""
 
 #: kilestdactions.cpp:859
 #, kde-format
@@ -9791,10 +9698,9 @@ msgid "Bmatrix"
 msgstr "Bmatrix"
 
 #: kilestdactions.cpp:941
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "dmath - \\begin{dmath}"
-msgstr "Bailigh - \\begin{gather}"
+msgstr ""
 
 #: kilestdactions.cpp:941
 #, kde-format
@@ -9802,10 +9708,9 @@ msgid "dmath"
 msgstr ""
 
 #: kilestdactions.cpp:944
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dmath* - \\begin{dmath*}"
-msgstr "Bailigh* - \\begin{gather*}"
+msgstr ""
 
 #: kilestdactions.cpp:944
 #, kde-format
@@ -9813,10 +9718,9 @@ msgid "dmath*"
 msgstr ""
 
 #: kilestdactions.cpp:948
-#, fuzzy, kde-format
-#| msgid "Cases - \\begin{cases}"
+#, kde-format
 msgid "dseries - \\begin{dseries}"
-msgstr "Cásanna - \\begin{cases}"
+msgstr ""
 
 #: kilestdactions.cpp:948
 #, kde-format
@@ -9824,10 +9728,9 @@ msgid "dseries"
 msgstr ""
 
 #: kilestdactions.cpp:951
-#, fuzzy, kde-format
-#| msgid "Verse - \\begin{verse}"
+#, kde-format
 msgid "dseries* - \\begin{dseries*}"
-msgstr "Véarsa - \\begin{verse}"
+msgstr ""
 
 #: kilestdactions.cpp:951
 #, kde-format
@@ -9835,28 +9738,24 @@ msgid "dseries*"
 msgstr ""
 
 #: kilestdactions.cpp:955
-#, fuzzy, kde-format
-#| msgid "Figure - \\begin{figure}"
+#, kde-format
 msgid "dgroup - \\begin{dgroup}"
-msgstr "Léaráid - \\begin{figure}"
+msgstr ""
 
 #: kilestdactions.cpp:955
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup"
-msgstr "Grúpa Matamaiticiúil"
+msgstr ""
 
 #: kilestdactions.cpp:958
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dgroup* - \\begin{dgroup*}"
-msgstr "Bailigh* - \\begin{gather*}"
+msgstr ""
 
 #: kilestdactions.cpp:958
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup*"
-msgstr "Grúpa Matamaiticiúil"
+msgstr ""
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330
@@ -10140,10 +10039,9 @@ msgstr "Grúpa Te&X"
 
 #. i18n: ectx: Menu (selection)
 #: kileui.rc:118
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "&Selection"
-msgstr "Roghnú"
+msgstr ""
 
 #. i18n: ectx: Menu (view)
 #. i18n: ectx: Menu (menu_viewer)
@@ -10162,10 +10060,9 @@ msgstr ""
 
 #. i18n: ectx: Menu (go)
 #: kileui.rc:131
-#, fuzzy, kde-format
-#| msgid "&Go to"
+#, kde-format
 msgid "&Go"
-msgstr "Téigh &go"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_build)
 #: kileui.rc:145
@@ -10247,17 +10144,15 @@ msgstr "Timpeallacht &Táblach"
 
 #. i18n: ectx: Menu (menu_floatenv)
 #: kileui.rc:282
-#, fuzzy, kde-format
-#| msgid "&Align Environments"
+#, kde-format
 msgid "&Floating Environment"
-msgstr "Timpeallachtaí &Ailínithe"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_code)
 #: kileui.rc:286
-#, fuzzy, kde-format
-#| msgid "&Environment"
+#, kde-format
 msgid "&Code Environment"
-msgstr "&Timpeallacht"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_math)
 #: kileui.rc:294
@@ -10291,24 +10186,21 @@ msgstr "Slonn Déthéarmach AMS"
 
 #. i18n: ectx: Menu (menu_mathcommands)
 #: kileui.rc:339
-#, fuzzy, kde-format
-#| msgid "Arrows"
+#, kde-format
 msgid "AMS Arrows"
-msgstr "Saigheada"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_mathfontstyles)
 #: kileui.rc:344
-#, fuzzy, kde-format
-#| msgid "&Font Styles"
+#, kde-format
 msgid "Math &Font Styles"
-msgstr "&Stíleanna Cló"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_mathaccents)
 #: kileui.rc:354
-#, fuzzy, kde-format
-#| msgid "Math &Spaces"
+#, kde-format
 msgid "Math &Accents"
-msgstr "&Spásanna Matamaiticiúla"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_mathspaces)
 #: kileui.rc:366
@@ -10354,10 +10246,9 @@ msgstr "Timpeallachtaí &Maitríse"
 
 #. i18n: ectx: Menu (menu_mathbreqnenv)
 #: kileui.rc:425
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "breqn Math Environments"
-msgstr "Timpeallachtaí Matamaitice"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:438
@@ -10379,10 +10270,9 @@ msgstr "Sraith Cló"
 
 #. i18n: ectx: Menu (menu_fontshape)
 #: kileui.rc:457
-#, fuzzy, kde-format
-#| msgid "Font Series"
+#, kde-format
 msgid "Font Shape"
-msgstr "Sraith Cló"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_spacing)
 #: kileui.rc:464
@@ -10422,10 +10312,9 @@ msgstr "&Cabhair"
 
 #. i18n: ectx: Menu (help_tex)
 #: kileui.rc:533
-#, fuzzy, kde-format
-#| msgid "TeX Documentation"
+#, kde-format
 msgid "LaTeX Documentation"
-msgstr "Doiciméadú TeX"
+msgstr ""
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #: kileui.rc:548
@@ -10510,10 +10399,9 @@ msgid "Recompile Live Preview"
 msgstr "Atiomsaigh an Réamhamharc Beo"
 
 #: livepreview.cpp:197
-#, fuzzy, kde-format
-#| msgid "Create Template From Document..."
+#, kde-format
 msgid "Save Compiled Document..."
-msgstr "Cruthaigh Teimpléad Ó Cháipéis..."
+msgstr ""
 
 #: livepreview.cpp:908
 #, kde-format
@@ -10555,11 +10443,10 @@ msgid "KDE Integrated LaTeX Environment"
 msgstr "Timpeallacht LaTeX chomhtháite KDE"
 
 #: main.cpp:100
-#, fuzzy, kde-format
-#| msgid "by the Kile Team (2003 - 2013)"
+#, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
-msgstr "le Foireann Kile (2003 - 2013)"
+msgstr ""
 
 #: main.cpp:103
 #, kde-format
@@ -10696,10 +10583,9 @@ msgid ""
 msgstr ""
 
 #: main.cpp:169
-#, fuzzy, kde-format
-#| msgid "Okular could not be found"
+#, kde-format
 msgid "Okular library not found"
-msgstr "Níorbh fhéidir Okular a aimsiú"
+msgstr ""
 
 #: parser/latexparser.cpp:221 parser/latexparser.cpp:249
 #, kde-format
@@ -11021,10 +10907,9 @@ msgstr "Scrios Giorrúchán"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetAppearanceConfig)
 #: widgets/appearanceconfigwidget.ui:14
-#, fuzzy, kde-format
-#| msgid "LaTeX Configuration"
+#, kde-format
 msgid "Appearance Configuration"
-msgstr "Cumraíocht LaTeX"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFullPathInWindowTitle)
 #: widgets/appearanceconfigwidget.ui:29
@@ -11125,10 +11010,9 @@ msgstr "Comhlánú"
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_autocomplete)
 #: widgets/codecompletionconfigwidget.ui:23
-#, fuzzy, kde-format
-#| msgid "Auto completion for LaTeX markup"
+#, kde-format
 msgid "Auto completion for &LaTeX markup"
-msgstr "Comhlánaigh marcáil LaTeX go huathoibríoch"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/codecompletionconfigwidget.ui:37
@@ -11144,10 +11028,9 @@ msgstr "litreacha"
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_autocompleteabbrev)
 #: widgets/codecompletionconfigwidget.ui:82
-#, fuzzy, kde-format
-#| msgid "Auto completion for abbreviations"
+#, kde-format
 msgid "A&uto completion for abbreviations"
-msgstr "Comhlánaigh giorrúcháin go huathoibríoch"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_addFileButton)
 #: widgets/codecompletionconfigwidget.ui:133
@@ -11198,10 +11081,9 @@ msgstr "Dún timpeallachtaí"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ConfigCheckerWidget)
 #: widgets/configcheckerwidget.ui:26
-#, fuzzy, kde-format
-#| msgid "System Check"
+#, kde-format
 msgid "Performing System Check"
-msgstr "Seiceáil an Córas"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbChecking)
 #: widgets/configcheckerwidget.ui:32
@@ -11235,17 +11117,15 @@ msgstr "Críochnú uathoibríoch de \\begin{timp} le \\end{timp}"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_bgGraphics)
 #: widgets/environmentconfigwidget.ui:57
-#, fuzzy, kde-format
-#| msgid "Multi &Line Environments"
+#, kde-format
 msgid "Automatic Indentation Inside Environments"
-msgstr "Timpeallachtaí Il-&Líne"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_envIndentation)
 #: widgets/environmentconfigwidget.ui:66
-#, fuzzy, kde-format
-#| msgid "Enables multicolumn environments"
+#, kde-format
 msgid "Enable auto indentation of environments."
-msgstr "Cumasaigh timpeallachtaí il-cholúin"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_envIndentation)
 #: widgets/environmentconfigwidget.ui:69
@@ -11267,10 +11147,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbNumSpaces)
 #: widgets/environmentconfigwidget.ui:88
-#, fuzzy, kde-format
-#| msgid "Number of spaces:"
+#, kde-format
 msgid "&Number of spaces:"
-msgstr "Líon na spásanna:"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_envIndentNumSpaces)
 #: widgets/environmentconfigwidget.ui:129
@@ -11284,10 +11163,9 @@ msgid "Open selected"
 msgstr "Oscail roghnaithe"
 
 #: widgets/filebrowserwidget.cpp:128
-#, fuzzy, kde-format
-#| msgid "Show Project Files"
+#, kde-format
 msgid "Show LaTeX Files Only"
-msgstr "Taispeáin Comhaid an Tionscadail"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/filebrowserwidget.cpp:134 widgets/structureviewconfigwidget.ui:128
@@ -11297,10 +11175,9 @@ msgstr "Roghanna"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2_2)
 #: widgets/generalconfigwidget.ui:43
-#, fuzzy, kde-format
-#| msgid "Default resolution:"
+#, kde-format
 msgid "&Default project location:"
-msgstr "Taifeach réamhshocraithe:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Restore)
 #: widgets/generalconfigwidget.ui:64
@@ -11316,24 +11193,21 @@ msgstr "Athróga Teimpléid"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: widgets/generalconfigwidget.ui:92
-#, fuzzy, kde-format
-#| msgid "Author:"
+#, kde-format
 msgid "A&uthor:"
-msgstr "Údar:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: widgets/generalconfigwidget.ui:105
-#, fuzzy, kde-format
-#| msgid "&Document class options:"
+#, kde-format
 msgid "Document c&lass options:"
-msgstr "Roghanna &documentclass:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: widgets/generalconfigwidget.ui:118
-#, fuzzy, kde-format
-#| msgid "Input &encoding:"
+#, kde-format
 msgid "I&nput encoding:"
-msgstr "Io&nchódú ionchurtha:"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox4)
 #: widgets/generalconfigwidget.ui:134
@@ -11367,10 +11241,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolution)
 #: widgets/graphicsconfigwidget.ui:29
-#, fuzzy, kde-format
-#| msgid "Default resolution:"
+#, kde-format
 msgid "&Default resolution:"
-msgstr "Taifeach réamhshocraithe:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolutionHelp)
 #: widgets/graphicsconfigwidget.ui:51
@@ -11380,10 +11253,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlBbox)
 #: widgets/graphicsconfigwidget.ui:61
-#, fuzzy, kde-format
-#| msgid "Bounding box:"
+#, kde-format
 msgid "Bo&unding box:"
-msgstr "Bosca teorantach:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_boundingbox)
 #: widgets/graphicsconfigwidget.ui:80
@@ -11393,10 +11265,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlBBoxHelp)
 #: widgets/graphicsconfigwidget.ui:93
-#, fuzzy, kde-format
-#| msgid "You have to include the package %1 to use %2."
+#, kde-format
 msgid "(you have to install the ImageMagick package to use this option)"
-msgstr "Ní mór duit pacáiste %1 a chur san áireamh chun %2 a úsáid."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlImageMagick)
 #: widgets/graphicsconfigwidget.ui:103
@@ -11412,17 +11283,15 @@ msgstr "Cabhair Chomhthéacsíogair"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_latex2erefs)
 #: widgets/helpconfigwidget.ui:41
-#, fuzzy, kde-format
-#| msgid "LaTeX Reference"
+#, kde-format
 msgid "&Use the LaTeX2e unofficial reference manual"
-msgstr "Tagairt LaTeX"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_kilerefs)
 #: widgets/helpconfigwidget.ui:51
-#, fuzzy, kde-format
-#| msgid "LaTeX Reference"
+#, kde-format
 msgid "Use &Kile's LaTeX reference"
-msgstr "Tagairt LaTeX"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbConfigure)
 #: widgets/helpconfigwidget.ui:97
@@ -11466,10 +11335,9 @@ msgid "Meta + Ctrl"
 msgstr ""
 
 #: widgets/latexconfigwidget.cpp:42
-#, fuzzy, kde-format
-#| msgid "Command"
+#, kde-format
 msgid "Cmd"
-msgstr "Ordú"
+msgstr ""
 
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format
@@ -11553,17 +11421,15 @@ msgstr "Athróga Timpeallachta"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlPath)
 #: widgets/latexconfigwidget.ui:201
-#, fuzzy, kde-format
-#| msgid "TEXINPUTS:"
+#, kde-format
 msgid "TE&XINPUTS:"
-msgstr "TEXINPUTS:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_bibinputpath)
 #: widgets/latexconfigwidget.ui:220
-#, fuzzy, kde-format
-#| msgid "BIBINPUTS:"
+#, kde-format
 msgid "BIBINP&UTS:"
-msgstr "BIBINPUTS:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_bstinputpath)
 #: widgets/latexconfigwidget.ui:239
@@ -11634,10 +11500,9 @@ msgstr "Cumraíocht Réamhamhairc Bheo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_livePreviewEnabled)
 #: widgets/livepreviewconfigwidget.ui:29
-#, fuzzy, kde-format
-#| msgid "Live Preview"
+#, kde-format
 msgid "Enable &live preview"
-msgstr "Réamhamharc Beo"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_previewEnabledForFreshlyOpenedDocuments)
 #: widgets/livepreviewconfigwidget.ui:41
@@ -11647,10 +11512,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_compileBehaviorGroupBox)
 #: widgets/livepreviewconfigwidget.ui:48
-#, fuzzy, kde-format
-#| msgid "Completion"
+#, kde-format
 msgid "Compilation Behavior"
-msgstr "Comhlánú"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_compileDocumentOnSaveRadioButton)
 #: widgets/livepreviewconfigwidget.ui:54
@@ -11672,10 +11536,9 @@ msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, m_previewDefaultToolLabel)
 #: widgets/livepreviewconfigwidget.ui:104
-#, fuzzy, kde-format
-#| msgid "Live Preview"
+#, kde-format
 msgid "Set default live preview tool"
-msgstr "Réamhamharc Beo"
+msgstr ""
 
 #: widgets/logwidget.cpp:369
 #, kde-format
@@ -11695,10 +11558,9 @@ msgstr "Roghnaigh uirlis"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
 #: widgets/maintoolconfigwidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Show input files"
+#, kde-format
 msgid "Show hidden tools"
-msgstr "Taispeáin inchomhaid"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)
@@ -11715,10 +11577,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
 #: widgets/maintoolconfigwidget.ui:175
-#, fuzzy, kde-format
-#| msgid "Select:"
+#, kde-format
 msgid "Se&lect:"
-msgstr "Roghnaigh:"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
 #: widgets/maintoolconfigwidget.ui:331
@@ -11734,17 +11595,15 @@ msgstr "A&icme:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbSource)
 #: widgets/maintoolconfigwidget.ui:411
-#, fuzzy, kde-format
-#| msgid "Error in extension"
+#, kde-format
 msgid "Source e&xtension:"
-msgstr "Earráid in iarmhír"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbTarget)
 #: widgets/maintoolconfigwidget.ui:434
-#, fuzzy, kde-format
-#| msgid "Invalid extension"
+#, kde-format
 msgid "Tar&get extension:"
-msgstr "Iarmhír neamhbhailí"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/maintoolconfigwidget.ui:457
@@ -11790,10 +11649,9 @@ msgstr "Fill ar na hUirlisí Réamhshocraithe..."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/newdocumentwidget.ui:38
-#, fuzzy, kde-format
-#| msgid "Please enter the new document &class:"
+#, kde-format
 msgid "Please select the type of document you want to create:"
-msgstr "&Cuir an aicme nua cháipéise isteach:"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
 #: widgets/newdocumentwidget.ui:74
@@ -11803,10 +11661,9 @@ msgstr "Teimpléad"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: widgets/newdocumentwidget.ui:80
-#, fuzzy, kde-format
-#| msgid "Please select a template that should be removed."
+#, kde-format
 msgid "Please select the template that should be used:"
-msgstr "Roghnaigh an teimpléad ba mhaith leat baint."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickStartWizardCheckBox)
 #: widgets/newdocumentwidget.ui:93
@@ -12012,22 +11869,19 @@ msgid "Include in Archive"
 msgstr "Cuir i gCartlann"
 
 #: widgets/projectview.cpp:468
-#, fuzzy, kde-format
-#| msgid "Project Files"
+#, kde-format
 msgid "Project File"
-msgstr "Comhaid an Tionscadail"
+msgstr ""
 
 #: widgets/projectview.cpp:471
-#, fuzzy, kde-format
-#| msgid "&Packages"
+#, kde-format
 msgid "Packages"
-msgstr "&Pacáistí"
+msgstr ""
 
 #: widgets/projectview.cpp:474
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "Images"
-msgstr "Íomhá"
+msgstr ""
 
 #: widgets/projectview.cpp:808
 #, kde-format
@@ -12259,10 +12113,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: widgets/structureviewconfigwidget.ui:52
-#, fuzzy, kde-format
-#| msgid "Default &value"
+#, kde-format
 msgid "&Default value"
-msgstr "Lu&ach réamhshocraithe"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2_2)
 #: widgets/structureviewconfigwidget.ui:112
@@ -12279,10 +12132,9 @@ msgstr "Taispeáin &lipéid"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenLabels)
 #: widgets/structureviewconfigwidget.ui:144
-#, fuzzy, kde-format
-#| msgid "Open selected"
+#, kde-format
 msgid "&Open labels item"
-msgstr "Oscail roghnaithe"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowReferences)
 #: widgets/structureviewconfigwidget.ui:151
@@ -12292,17 +12144,15 @@ msgstr "Taispeáin tagairtí gan sainmhíniú"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenReferences)
 #: widgets/structureviewconfigwidget.ui:158
-#, fuzzy, kde-format
-#| msgid "As reference"
+#, kde-format
 msgid "Open references item"
-msgstr "Mar thagairt"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowBibitems)
 #: widgets/structureviewconfigwidget.ui:165
-#, fuzzy, kde-format
-#| msgid "Show abbreviations"
+#, kde-format
 msgid "Show bibitems"
-msgstr "Taispeáin giorrúcháin"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenBibitems)
 #: widgets/structureviewconfigwidget.ui:172
@@ -12342,10 +12192,9 @@ msgstr "Taispeáin inchomhaid"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowSectioningLabels)
 #: widgets/structureviewconfigwidget.ui:217
-#, fuzzy, kde-format
-#| msgid "Next section"
+#, kde-format
 msgid "No extra section for labels"
-msgstr "An chéad rannán eile"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/structureviewconfigwidget.ui:229
@@ -12564,24 +12413,21 @@ msgstr "Nóta: %1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: widgets/symbolviewconfigwidget.ui:28
-#, fuzzy, kde-format
-#| msgid "Most Frequently Used"
+#, kde-format
 msgid "Most Frequently Used Symbols"
-msgstr "Úsáidte Is Minice"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayMFUS)
 #: widgets/symbolviewconfigwidget.ui:37
-#, fuzzy, kde-format
-#| msgid "Displaymath Mode"
+#, kde-format
 msgid "Display the vie&w"
-msgstr "Mód Matamaiticiúil Ar Taispeáint"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/symbolviewconfigwidget.ui:46
-#, fuzzy, kde-format
-#| msgid "Number of cols:"
+#, kde-format
 msgid "Number of symbols to show"
-msgstr "Líon na gcolún:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_clearMFUS)
 #: widgets/symbolviewconfigwidget.ui:84
@@ -12612,10 +12458,9 @@ msgid "Run in Konsole"
 msgstr "Rith i Konsole"
 
 #: widgets/toolconfigwidget.cpp:114
-#, fuzzy, kde-format
-#| msgid "Use document viewer"
+#, kde-format
 msgid "Use Document Viewer"
-msgstr "Úsáid an t-amharcán cáipéise"
+msgstr ""
 
 #: widgets/toolconfigwidget.cpp:115
 #, kde-format
@@ -12683,10 +12528,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/usermenuconfigwidget.ui:40
-#, fuzzy, kde-format
-#| msgid "Install custom files..."
+#, kde-format
 msgid "Installed menu file:"
-msgstr "Suiteáil comhaid shaincheaptha..."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_usermenuFile)
 #: widgets/usermenuconfigwidget.ui:69
@@ -12711,341 +12555,3 @@ msgstr ""
 #, kde-format
 msgid "Show the &user menu in the menu bar"
 msgstr ""
-
-#~ msgid "*.pdf|PDF Files"
-#~ msgstr "*.pdf|Comhaid PDF"
-
-#~ msgid "Smart New Line"
-#~ msgstr "Líne Nua Chliste"
-
-#~ msgid "TeX Guide"
-#~ msgstr "Lámhleabhar TeX"
-
-#~ msgid "LaTeX Command"
-#~ msgstr "Ordú LaTeX"
-
-#~ msgid "LaTeX Subject"
-#~ msgstr "Ábhar LaTeX"
-
-#~ msgid "LaTeX Env"
-#~ msgstr "Timpeallacht LaTeX"
-
-#~ msgid "LaTeX Reference"
-#~ msgstr "Tagairt LaTeX"
-
-#~ msgid "Location of the TeX documentation."
-#~ msgstr "Suíomh an doiciméadaithe TeX."
-
-#, fuzzy
-#~| msgid "Use your system's &TeX documentation   (older version)"
-#~ msgid ""
-#~ "Use the system's TeX reference for the contextual help (older version)."
-#~ msgstr "Úsáid an doiciméadú &TeX ar do chóras   (leagan níos sine)"
-
-#~ msgid "Location of Documentation Files"
-#~ msgstr "Suíomh na gComhad Doiciméadaithe"
-
-#~ msgid "&Location of TeX documentation:"
-#~ msgstr "&Suíomh an doiciméadaithe TeX:"
-
-#~ msgid "Information"
-#~ msgstr "Eolas"
-
-#, fuzzy
-#~| msgid "Use your system's TeX&Live documentation"
-#~ msgid "&Use your system's TeXLive documentation"
-#~ msgstr "Úsáid an doiciméadú TeX&Live ar do chóras"
-
-#~ msgid "Use your system's &TeX documentation   (older version)"
-#~ msgstr "Úsáid an doiciméadú &TeX ar do chóras   (leagan níos sine)"
-
-#, fuzzy
-#~| msgid "Use document viewer"
-#~ msgid "Use &embedded viewer"
-#~ msgstr "Úsáid an t-amharcán cáipéise"
-
-#~ msgid "Show help file in a &separate window"
-#~ msgstr "Tai&speáin an comhad cabhrach i bhfuinneog ar leith"
-
-#~ msgid "Could not read the style file."
-#~ msgstr "Ní féidir comhad stíle a léamh."
-
-#~ msgid "Could not find '%1'"
-#~ msgstr "Níorbh fhéidir '%1' a aimsiú"
-
-#~ msgid ""
-#~ "Sorry, but you do not have the necessary permissions to remove the "
-#~ "selected template."
-#~ msgstr "Níl cead agat an teimpléad roghnaithe a bhaint."
-
-#~ msgid "'environment'"
-#~ msgstr "'timpeallacht'"
-
-#~ msgid "'command'"
-#~ msgstr "'ordú'"
-
-#~ msgid "Error in extension"
-#~ msgstr "Earráid in iarmhír"
-
-#~ msgid "LaTeX commands"
-#~ msgstr "Orduithe LaTeX"
-
-#~ msgid "St&ate:"
-#~ msgstr "St&aid:"
-
-#~ msgid "Could not find the %1 library."
-#~ msgstr "Ní féidir an leabharlann %1 a aimsiú."
-
-#~ msgid "Could not create component %1 from the library %2."
-#~ msgstr "Níorbh fhéidir comhpháirt %1 a chruthú ón leabharlann %2."
-
-#~ msgid "LaTeX ---> DVI"
-#~ msgstr "LaTeX ---> DVI"
-
-#~ msgid "LaTeX ---> PS"
-#~ msgstr "LaTeX ---> PS"
-
-#~ msgid "PDFLaTeX ---> PDF"
-#~ msgstr "PDFLaTeX ---> PDF"
-
-#~ msgid "XeLaTeX ---> PDF"
-#~ msgstr "XeLaTeX ---> PDF"
-
-#~ msgid "LuaLaTeX ---> PDF"
-#~ msgstr "LuaLaTeX ---> PDF"
-
-#~ msgid "&Library:"
-#~ msgstr "&Leabharlann:"
-
-#, fuzzy
-#~| msgid "&Library:"
-#~ msgid "Library c&lass:"
-#~ msgstr "&Leabharlann:"
-
-#~ msgid "&Options:"
-#~ msgstr "&Roghanna:"
-
-#~ msgid "Run Embedded in Kile"
-#~ msgstr "Rith Leabaithe i Kile"
-
-#~ msgid "Use HTML Viewer"
-#~ msgstr "Úsáid Amharcán HTML"
-
-#~ msgid "Normal Mode"
-#~ msgstr "Gnáthmhód"
-
-#~ msgid "projectfile"
-#~ msgstr "comhad tionscadail"
-
-#~ msgid "packages"
-#~ msgstr "pacáistí"
-
-#~ msgid "images"
-#~ msgstr "íomhánna"
-
-#~ msgid "other"
-#~ msgstr "eile"
-
-#~ msgid ""
-#~ "*.kilepr|Kile Project Files\n"
-#~ "*|All Files"
-#~ msgstr ""
-#~ "*.kilepr|Comhaid Tionscadail Kile\n"
-#~ "*|Gach Comhad"
-
-#~ msgid "&Overwrite"
-#~ msgstr "F&orscríobh"
-
-#~ msgid "Automatic save."
-#~ msgstr "Sábháil uathoibríoch."
-
-#~ msgid "Autosave"
-#~ msgstr "Uathshábháil"
-
-#~ msgid "Autosave Options"
-#~ msgstr "Roghanna Uathshábhála"
-
-#~ msgid "Auto&save"
-#~ msgstr "Uath&shábháil"
-
-#~ msgid "No graphics file was given. Proceed any way?"
-#~ msgstr "Níor sonraíodh comhad grafaice.  Lean ar aghaidh mar sin féin?"
-
-#~ msgid "The graphics file does not exist. Proceed any way?"
-#~ msgstr "Níl an comhad grafaice ann. Téigh ar aghaidh mar sin féin?"
-
-#~ msgid "Num of &rows:"
-#~ msgstr "Líon na &rónna:"
-
-#~ msgid "*.png *.jpg *.pdf|Graphics\n"
-#~ msgstr "*.png *.jpg *.pdf|Grafaic\n"
-
-#~ msgid "Empty strings are not allowed."
-#~ msgstr "Ní cheadaítear teaghráin fholmha."
-
-#~ msgid "Files to open"
-#~ msgstr "Comhaid le hoscailt"
-
-#~ msgid "line"
-#~ msgstr "líne"
-
-#~ msgid "Unicode command: "
-#~ msgstr "Ordú Unicode: "
-
-#~ msgid "Packages: "
-#~ msgstr "Pacáistí: "
-
-#~ msgid " from Project settings"
-#~ msgstr " ó shocruithe an Tionscadail"
-
-#~ msgid "Value:"
-#~ msgstr "Luach:"
-
-#~ msgid "User Tags"
-#~ msgstr "Clibeanna Úsáideora"
-
-#~ msgid "Edit User Tags..."
-#~ msgstr "Cuir Clibeanna Úsáideora in Eagar..."
-
-#~ msgid "&Save Results..."
-#~ msgstr "&Sábháil na Torthaí..."
-
-#~ msgid "Tests finished abruptly..."
-#~ msgstr "Tástálacha críochnaithe go tobann..."
-
-#~ msgid ""
-#~ "You cannot open pdf documents with Adobe Reader because acroread could "
-#~ "not be found in your path.  <br>If Adobe Reader is your default pdf "
-#~ "viewer, try setting ViewPDF to System Default.  Alternatively, you could "
-#~ "use Okular."
-#~ msgstr ""
-#~ "Ní féidir leat cáipéisí PDF a oscailt toisc nár aimsíodh acroread i do "
-#~ "PATH. <br>Más é Adobe Reader an t-amharcán PDF réamhshocraithe ar do "
-#~ "chóras, bain triail as 'Réamhshocrú an Chóras' mar ViewPDF. Is é sin, ó "
-#~ "úsáíd Okular."
-
-#~ msgid ""
-#~ "You cannot open pdf documents with Adobe Reader, but you could use Okular."
-#~ msgstr ""
-#~ "Ní féidir leat cáipéisí PDF a oscailt le Adobe Reader, ach is féidir "
-#~ "Okular a úsáid."
-
-#~ msgid "Critical failure"
-#~ msgstr "Teip chriticiúil"
-
-#~ msgid "ForwardDVI"
-#~ msgstr "ForwardDVI"
-
-#~ msgid "Log"
-#~ msgstr "Log"
-
-#~ msgid "Done."
-#~ msgstr "Críochnaithe."
-
-#~ msgid "Complete Files"
-#~ msgstr "Comhaid Iomlána"
-
-#~ msgid "Select Files"
-#~ msgstr "Roghnaigh Comhaid"
-
-#~ msgid "Maximum:"
-#~ msgstr "Uasmhéid:"
-
-#~ msgid "Test"
-#~ msgstr "Tástáil"
-
-#~ msgid "Empty Document"
-#~ msgstr "Cáipéis Fholamh"
-
-#~ msgid "Empty BibTeX Document"
-#~ msgstr "Cáipéis Fholamh BibTeX"
-
-#~ msgid "Thomas Basset"
-#~ msgstr "Thomas Basset"
-
-#~ msgid "Translations"
-#~ msgstr "Aistriúcháin"
-
-#~ msgid "Add current text to this list"
-#~ msgstr "Cuir an téacs reatha leis an liosta seo"
-
-#~ msgid "&LaTeX"
-#~ msgstr "&LaTeX"
-
-#~ msgid "Preview uses always 'dvipng'."
-#~ msgstr "Úsáideann an réamhamharc 'dvipng' i gcónaí."
-
-#~ msgid "Opens always in a separate window."
-#~ msgstr "Osclaíonn sé i bhfuinneog ar leith i gcónaí."
-
-#~ msgid "Use PdfTeX or PdfLaTeX."
-#~ msgstr "Úsáid PdfTeX nó PdfLaTeX."
-
-#~ msgid "&Project"
-#~ msgstr "&Tionscadal"
-
-#~ msgid "Editor View"
-#~ msgstr "Amharc Eagarthóireachta"
-
-#~ msgid "pdftex/pdflatex"
-#~ msgstr "pdftex/pdflatex"
-
-#~ msgid "Relative Path"
-#~ msgstr "Conair Choibhneasta"
-
-#~ msgid "Sorry, the file %1 does not exist."
-#~ msgstr "Tá brón orm, níl an comhad %1 ann."
-
-#~ msgid "Select a &configuration:"
-#~ msgstr "Roghnaigh &cumraíocht:"
-
-#~ msgid "New Config..."
-#~ msgstr "Cumraíocht Nua..."
-
-#~ msgid "Remove Config"
-#~ msgstr "Bain Cumraíocht"
-
-#~ msgid "Default Settings"
-#~ msgstr "Réamhshocruithe"
-
-#~ msgid "Not Specified"
-#~ msgstr "Gan Sonrú"
-
-#~ msgid "Lots of bug fixes!"
-#~ msgstr "Go leor ceartúchán!"
-
-#~ msgid "Font"
-#~ msgstr "Cló"
-
-#~ msgid "Color"
-#~ msgstr "Dath"
-
-#~ msgid "Textcolor:"
-#~ msgstr "Dath téacs:"
-
-#~ msgid "User defined:"
-#~ msgstr "Sainithe ag an úsáideoir:"
-
-#~ msgid "Preamble"
-#~ msgstr "Réamhrá"
-
-#~ msgid "Edit..."
-#~ msgstr "Eagar..."
-
-#~ msgid "Break Multicolumn"
-#~ msgstr "Bris Il-Cholún"
-
-#~ msgid "Save Text"
-#~ msgstr "Sábháil Téacs"
-
-#~ msgid "C&enter"
-#~ msgstr "&Lár"
-
-#~ msgid "Insert &bullets"
-#~ msgstr "Ionsáigh &urchair"
-
-#~ msgid "Do you want to delete this row?"
-#~ msgstr "An bhfuil tú cinnte gur mhaith leat an ró seo a scriosadh?"
-
-#~ msgid "Do you want to delete this column?"
-#~ msgstr "An bhfuil tú cinnte gur mhaith leat an colún seo a scriosadh?"

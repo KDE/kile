@@ -1,14 +1,14 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 # Safa Alfulaij <safa1996alfulaij@gmail.com>, 2016, 2017.
-# SPDX-FileCopyrightText: 2025 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
+# SPDX-FileCopyrightText: 2025, 2026 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-05 00:43+0000\n"
-"PO-Revision-Date: 2025-09-27 18:06+0400\n"
+"PO-Revision-Date: 2026-02-24 23:11+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1983,7 +1983,7 @@ msgstr "صفحتان --> صفحتين في واحدة"
 #: dialogs/pdf-wizard/pdfdialog.cpp:133
 #, kde-format
 msgid "2 Pages (landscape) --> 2up"
-msgstr "صفحتان (أُفقية) --> صفحتين في واحدة"
+msgstr "صفحتان (عرضي) --> صفحتين في واحدة"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:134
 #, kde-format
@@ -1993,7 +1993,7 @@ msgstr "أربع صفحات --> أربع صفحات في واحدة"
 #: dialogs/pdf-wizard/pdfdialog.cpp:135
 #, kde-format
 msgid "4 Pages (landscape) --> 4up"
-msgstr "أربع صفحات (أُفقية) --> أربع صفحات في واحدة"
+msgstr "أربع صفحات (عرضي) --> أربع صفحات في واحدة"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:136 dialogs/postscriptdialog.cpp:125
 #, kde-format
@@ -3305,7 +3305,7 @@ msgstr "ال&سّمة:"
 #: dialogs/quickdocumentdialog.cpp:646
 #, kde-format
 msgid "Sets the document's orientation to landscape"
-msgstr "يضبط اتّجاه المستند ليكون أفقيًّا"
+msgstr "يضبط اتّجاه المستند ليكون عرضي"
 
 #: dialogs/quickdocumentdialog.cpp:647
 #, kde-format
@@ -7740,11 +7740,11 @@ msgstr ""
 "خيارات حجم الورق: a4paper, a5paper, b5paper, letterpaper, legalpaper, "
 "executivepaper\n"
 "خيارات أخرى: \n"
-"landscape -- يختار تنسيق أفقي؛ مبدئي هو عمودي. \n"
+"landscape -- يختار تنسيق عرضي؛ مبدئي هو طولي. \n"
 "titlepage, notitlepage -- يختار إذا يجب أن يكون هناك صفحة عنوان منفصلة.\n"
 "leqno -- اعرض رقم المعادلة على الجانب الأيسر من المعادلات؛ مبدئي هو الجانب "
 "الأيمن.\n"
-"fleqn -- اعرض الصيغ محاذية لليسار؛ مبدئي هو居وسط.\n"
+"fleqn -- اعرض الصيغ محاذية لليسار؛ مبدئي هو وسط.\n"
 "onecolumn, twocolumn -- عمود واحد أو عمودان؛ مبدئي هو عمود واحد\n"
 "oneside, twoside -- يختار تخطيط أحادي أو ثنائي الجانب.\n"
 

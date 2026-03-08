@@ -3670,12 +3670,12 @@ msgstr "不在幻灯片的底部加入任何标题"
 #: dialogs/quickdocumentdialog.cpp:762
 #, kde-format
 msgid "Place text of slides at the (vertical) top of the slides"
-msgstr "将文字排版在幻灯片的(垂直)顶部"
+msgstr "将文本排版在幻灯片的(垂直)顶部"
 
 #: dialogs/quickdocumentdialog.cpp:763
 #, kde-format
 msgid "Place text of slides at the (vertical) center of the slides"
-msgstr "将文字排版在幻灯片的(垂直)正中"
+msgstr "将文本排版在幻灯片的(垂直)正中"
 
 #: dialogs/quickdocumentdialog.cpp:764
 #, kde-format
@@ -3840,12 +3840,12 @@ msgstr "打开书签树"
 #: dialogs/quickdocumentdialog.cpp:1046
 #, kde-format
 msgid "Text for PDF Author field"
-msgstr "PDF 作者域文字"
+msgstr "PDF 作者字段文本"
 
 #: dialogs/quickdocumentdialog.cpp:1047
 #, kde-format
 msgid "Text for PDF Creator field"
-msgstr "PDF 创建者域文字"
+msgstr "PDF 创建者字段文本"
 
 #: dialogs/quickdocumentdialog.cpp:1047
 #, kde-format
@@ -3860,12 +3860,12 @@ msgstr "缩放文档窗口来适应文档尺寸"
 #: dialogs/quickdocumentdialog.cpp:1049
 #, kde-format
 msgid "Text for PDF Keywords field"
-msgstr "PDF 关键字域文字"
+msgstr "PDF 关键字字段文本"
 
 #: dialogs/quickdocumentdialog.cpp:1050
 #, kde-format
 msgid "Text for PDF Producer field"
-msgstr "PDF 生成者域文字"
+msgstr "PDF 生成者字段文本"
 
 #: dialogs/quickdocumentdialog.cpp:1051
 #, kde-format
@@ -3875,7 +3875,7 @@ msgstr "开始浏览 PDF 文档"
 #: dialogs/quickdocumentdialog.cpp:1052
 #, kde-format
 msgid "Text for PDF Subject field"
-msgstr "PDF 主题域文字"
+msgstr "PDF 主题字段文本"
 
 #: dialogs/quickdocumentdialog.cpp:1053
 #, kde-format
@@ -4465,17 +4465,17 @@ msgstr "设定带下划线字形状。"
 #: dialogs/tabular/newtabulardialog.cpp:185
 #, kde-format
 msgid "The text will be aligned at the left border of the cell."
-msgstr "文字将被对齐到单元左侧。"
+msgstr "文本将被对齐到单元左侧。"
 
 #: dialogs/tabular/newtabulardialog.cpp:186
 #, kde-format
 msgid "The text will be centered."
-msgstr "文字将被居中。"
+msgstr "文本将被居中。"
 
 #: dialogs/tabular/newtabulardialog.cpp:187
 #, kde-format
 msgid "The text will be aligned at the right border of the cell."
-msgstr "文字将被对齐到单元右侧。"
+msgstr "文本将被对齐到单元右侧。"
 
 #: dialogs/tabular/newtabulardialog.cpp:188
 #, kde-format
@@ -4503,7 +4503,7 @@ msgstr "选择背景颜色(需要 color 宏包)。"
 #: dialogs/tabular/newtabulardialog.cpp:192
 #, kde-format
 msgid "Choose a text color (needs color package)."
-msgstr "选择文字颜色(需要 color 宏包)。"
+msgstr "选择文本颜色(需要 color 宏包)。"
 
 #: dialogs/tabular/newtabulardialog.cpp:193
 #, kde-format
@@ -4830,7 +4830,7 @@ msgstr "子菜单"
 #: dialogs/usermenu/usermenudialog_base.ui:539 kileinfo.cpp:353
 #, kde-format
 msgid "Text"
-msgstr "文字"
+msgstr "文本"
 
 #: dialogs/usermenu/usermenudialog.cpp:56
 #, kde-format
@@ -5762,7 +5762,7 @@ msgstr "杂类符号"
 #: kile.cpp:657
 #, kde-format
 msgid "Miscellaneous Text"
-msgstr "杂类文字"
+msgstr "其他文本"
 
 #: kile.cpp:662
 #, kde-format
@@ -8621,7 +8621,7 @@ msgid ""
 "the ref entry in the bib file\n"
 "You can open the bib file with Kile to see all the available references"
 msgstr ""
-"此命令生成一个与 bib 文件内 ref 条目相联系的参考的文字引用\n"
+"此命令生成一个与 bib 文件内 ref 条目相联系的参考的文本引用\n"
 "您可以打开使用 Kile 打开 bib 文件查看所有可用的参考"
 
 #: kilestdactions.cpp:298
@@ -9758,12 +9758,12 @@ msgstr "巨大的右括号"
 #: kilestdactions.cpp:846
 #, kde-format
 msgid "Text in Mathmode - \\text{}"
-msgstr "数学模式中文字 - \\text{}"
+msgstr "数学模式中的文本 - \\text{}"
 
 #: kilestdactions.cpp:846
 #, kde-format
 msgid "Text in Mathmode"
-msgstr "数学模式中文字"
+msgstr "数学模式中的文本"
 
 #: kilestdactions.cpp:850
 #, kde-format
@@ -10475,7 +10475,7 @@ msgstr "大括号"
 #: kileui.rc:323
 #, kde-format
 msgid "AMS Text and Boxes"
-msgstr "AMS 文字和盒子"
+msgstr "AMS 文本和边框"
 
 #. i18n: ectx: Menu (menu_mathfrac)
 #: kileui.rc:329
@@ -11196,7 +11196,7 @@ msgstr "简短的"
 #: widgets/abbreviationview.cpp:40
 #, kde-format
 msgid "Expanded Text"
-msgstr "扩展的文字"
+msgstr "扩展文本"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbAdd)
 #: widgets/abbreviationview.cpp:113 widgets/quicktoolconfigwidget.ui:103

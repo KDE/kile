@@ -13,8 +13,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.3\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Lokalize 23.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -255,7 +255,7 @@ msgstr "Kontrolovanie, či je systém nastavený správne..."
 #, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: dialogs/configcheckerdialog.cpp:148
 #, kde-format
@@ -844,7 +844,7 @@ msgstr "PDF súbory (*.pdf)"
 #: dialogs/includegraphicsdialog.cpp:430
 #, kde-format
 msgid "Postscript Files (*.eps *ps)"
-msgstr ""
+msgstr "Postscript Files (*.eps *ps)"
 
 #: dialogs/includegraphicsdialog.cpp:433
 #, kde-format
@@ -854,7 +854,7 @@ msgstr "Grafika (*.png *.jpg *.eps.gz *.eps)"
 #: dialogs/includegraphicsdialog.cpp:436
 #, kde-format
 msgid "Zipped EPS Files (*.eps.gz)"
-msgstr ""
+msgstr "Zipped EPS Files (*.eps.gz)"
 
 #: dialogs/includegraphicsdialog.cpp:437
 #, kde-format
@@ -5095,8 +5095,7 @@ msgstr ""
 "Naozaj chcete uložiť tento súbor?"
 
 #: dialogs/usermenu/usermenudialog.cpp:414
-#, fuzzy, kde-format
-#| msgid "Menutree Error"
+#, kde-format
 msgid "Menu tree errors"
 msgstr "Editor stromu ponuky"
 
@@ -5525,8 +5524,7 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr "Naozaj chcete vyčistiť celý strom ponuky?"
 
 #: dialogs/usermenu/usermenutree.cpp:913
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
 msgstr "Vymazať text"
 
@@ -5986,7 +5984,7 @@ msgstr "Štatistiky"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "&Otvoriť nadradený priečinok"
 
 #: kile.cpp:858
 #, kde-format
@@ -7207,8 +7205,7 @@ msgstr "Len zostaviť dokumenty po uložení."
 
 #. i18n: ectx: label, entry (livePreviewDefaultTool), group (LivePreview)
 #: kile.kcfg:636
-#, fuzzy, kde-format
-#| msgid "Activate live preview functionality."
+#, kde-format
 msgid "default livepreview tool."
 msgstr "Aktivovať funkciu živého náhľadu."
 
@@ -9595,8 +9592,7 @@ msgid "Math Mode"
 msgstr "Matematický režim"
 
 #: kilestdactions.cpp:681
-#, fuzzy, kde-format
-#| msgid "Math Mode - $...$"
+#, kde-format
 msgid "Math Mode - \\(...\\)"
 msgstr "Matematický režim - $...$"
 
@@ -9999,8 +9995,7 @@ msgid "Intertext"
 msgstr "Intertext"
 
 #: kilestdactions.cpp:855
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "Math - \\begin{math}"
 msgstr "Zoskupiť - \\begin{gather}"
 
@@ -10235,19 +10230,17 @@ msgid "Bmatrix"
 msgstr "Bmatrix"
 
 #: kilestdactions.cpp:941
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "dmath - \\begin{dmath}"
 msgstr "Zoskupiť - \\begin{gather}"
 
 #: kilestdactions.cpp:941
 #, kde-format
 msgid "dmath"
-msgstr ""
+msgstr "dmath"
 
 #: kilestdactions.cpp:944
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dmath* - \\begin{dmath*}"
 msgstr "Zoskupiť* - \\begin{gather*}"
 
@@ -10257,20 +10250,17 @@ msgid "dmath*"
 msgstr ""
 
 #: kilestdactions.cpp:948
-#, fuzzy, kde-format
-#| msgid "Cases - \\begin{cases}"
+#, kde-format
 msgid "dseries - \\begin{dseries}"
 msgstr "Cases - \\begin{cases}"
 
 #: kilestdactions.cpp:948
-#, fuzzy, kde-format
-#| msgid "Bold - \\bfseries"
+#, kde-format
 msgid "dseries"
 msgstr "Tučné - \\bfseries"
 
 #: kilestdactions.cpp:951
-#, fuzzy, kde-format
-#| msgid "Verse - \\begin{verse}"
+#, kde-format
 msgid "dseries* - \\begin{dseries*}"
 msgstr "Verše - \\begin{verse}"
 
@@ -10280,26 +10270,22 @@ msgid "dseries*"
 msgstr ""
 
 #: kilestdactions.cpp:955
-#, fuzzy, kde-format
-#| msgid "Figure - \\begin{figure}"
+#, kde-format
 msgid "dgroup - \\begin{dgroup}"
 msgstr "Obrázok - \\begin{figure}"
 
 #: kilestdactions.cpp:955
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup"
 msgstr "Mathgroup"
 
 #: kilestdactions.cpp:958
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dgroup* - \\begin{dgroup*}"
 msgstr "Zoskupiť* - \\begin{gather*}"
 
 #: kilestdactions.cpp:958
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup*"
 msgstr "Mathgroup"
 
@@ -10804,8 +10790,7 @@ msgstr "Prostredia &Matrix"
 
 #. i18n: ectx: Menu (menu_mathbreqnenv)
 #: kileui.rc:425
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "breqn Math Environments"
 msgstr "Matematické prostredia"
 
@@ -11678,7 +11663,7 @@ msgstr "Kontrola, či je váš systém TeX správne nainštalovaný..."
 #: widgets/configcheckerwidget.ui:45
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_grpResults)
 #: widgets/configcheckerwidget.ui:58
@@ -11887,23 +11872,22 @@ msgstr "Nastaviť..."
 #: widgets/latexconfigwidget.cpp:31
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: widgets/latexconfigwidget.cpp:32 widgets/latexconfigwidget.cpp:43
 #, kde-format
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: widgets/latexconfigwidget.cpp:33
-#, fuzzy, kde-format
-#| msgid "Alignat"
+#, kde-format
 msgid "Alt"
-msgstr "Alignat"
+msgstr "Alt"
 
 #: widgets/latexconfigwidget.cpp:34
 #, kde-format
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
@@ -11921,8 +11905,7 @@ msgid "Meta + Ctrl"
 msgstr ""
 
 #: widgets/latexconfigwidget.cpp:42
-#, fuzzy, kde-format
-#| msgid "Command"
+#, kde-format
 msgid "Cmd"
 msgstr "Príkaz"
 
@@ -12130,8 +12113,7 @@ msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, m_previewDefaultToolLabel)
 #: widgets/livepreviewconfigwidget.ui:104
-#, fuzzy, kde-format
-#| msgid "Activate live preview functionality."
+#, kde-format
 msgid "Set default live preview tool"
 msgstr "Aktivovať funkciu živého náhľadu."
 
@@ -12153,8 +12135,7 @@ msgstr "Vybrať nástroj"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
 #: widgets/maintoolconfigwidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Show input files"
+#, kde-format
 msgid "Show hidden tools"
 msgstr "Ukazovať vstupné súbory"
 

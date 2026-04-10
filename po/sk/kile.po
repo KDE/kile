@@ -6827,13 +6827,13 @@ msgstr "Použiť tento počet medzier na prostredia autoindent"
 #: kile.kcfg:214
 #, kde-format
 msgid "Click in editor to select from cursor"
-msgstr ""
+msgstr "Kliknite v editore na výber od kurzora"
 
 #. i18n: ectx: label, entry (envEventSearchModifier), group (Editor Ext)
 #: kile.kcfg:218
 #, kde-format
 msgid "Click in editor to search in viewer"
-msgstr ""
+msgstr "Kliknite v editore na vyhľadávanie v prehliadači"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
 #: kile.kcfg:226
@@ -10247,7 +10247,7 @@ msgstr "Zoskupiť* - \\begin{gather*}"
 #: kilestdactions.cpp:944
 #, kde-format
 msgid "dmath*"
-msgstr ""
+msgstr "dmath*"
 
 #: kilestdactions.cpp:948
 #, kde-format
@@ -10267,7 +10267,7 @@ msgstr "Verše - \\begin{verse}"
 #: kilestdactions.cpp:951
 #, kde-format
 msgid "dseries*"
-msgstr ""
+msgstr "dseries*"
 
 #: kilestdactions.cpp:955
 #, kde-format
@@ -11892,17 +11892,17 @@ msgstr "Meta"
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
 msgid "Ctrl + Shift"
-msgstr ""
+msgstr "Ctrl + Shift"
 
 #: widgets/latexconfigwidget.cpp:36
 #, kde-format
 msgid "Alt + Ctrl"
-msgstr ""
+msgstr "Alt + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:37
 #, kde-format
 msgid "Meta + Ctrl"
-msgstr ""
+msgstr "Meta + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:42
 #, kde-format
@@ -11912,17 +11912,17 @@ msgstr "Príkaz"
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format
 msgid "Cmd + Shift"
-msgstr ""
+msgstr "Cmd + Shift"
 
 #: widgets/latexconfigwidget.cpp:45
 #, kde-format
 msgid "Alt + Cmd"
-msgstr ""
+msgstr "Alt + Cmd"
 
 #: widgets/latexconfigwidget.cpp:46
 #, kde-format
 msgid "Ctrl + Cmd"
-msgstr ""
+msgstr "Ctrl + Cmd"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
@@ -12015,19 +12015,19 @@ msgstr "B&STINPUTS:"
 #: widgets/latexconfigwidget.ui:258
 #, kde-format
 msgid "Modifiers for Left Click Actions"
-msgstr ""
+msgstr "Modifikátory pre akcie ľavého kliknutia"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/latexconfigwidget.ui:267
 #, kde-format
 msgid "Modifier for forward search in viewer:"
-msgstr ""
+msgstr "Modifikátor pre vyhľadávanie dopredu v prehliadači:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: widgets/latexconfigwidget.ui:280
 #, kde-format
 msgid "Modifier for selecting from cursor:"
-msgstr ""
+msgstr "Modifikátor pre výber od kurzora:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckRootDoc)
 #: widgets/latextoolconfigwidget.ui:35

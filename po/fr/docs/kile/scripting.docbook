@@ -1197,7 +1197,7 @@ void view.setCursorPosition(<parameter
 ></term>
 <listitem
 ><para
->Supprime le texte sélectionné. Si la vue ne posséde aucun texte sélectionné, rien n'est fait. </para
+>Supprime le texte sélectionné. Si la vue ne possède aucun texte sélectionné, rien n'est fait. </para
 ></listitem>
 </varlistentry
 ></variablelist>

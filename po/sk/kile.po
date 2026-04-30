@@ -813,7 +813,7 @@ msgstr "Nadpis:"
 #: dialogs/includegraphicsdialog_base.ui:427
 #, kde-format
 msgid "Label:"
-msgstr "Popis:"
+msgstr "Označenie:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_bgGraphics)
 #: dialogs/includegraphicsdialog.cpp:49 widgets/graphicsconfigwidget.ui:20
@@ -1764,7 +1764,7 @@ msgstr "Chystáte sa nahradiť šablónu \"%1\"; ste si istí?"
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
 #, kde-format
 msgid "Replace template"
-msgstr "Odstrániť šablónu"
+msgstr "Nahradiť šablónu"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -2608,7 +2608,7 @@ msgstr "Vlastnosti tohto dokumentu PDF"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:406
 #, kde-format
 msgid "Title:"
-msgstr "Názov:"
+msgstr "Titul:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:416
@@ -2638,7 +2638,7 @@ msgstr "Autor:"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:456
 #, kde-format
 msgid "Producer:"
-msgstr "Tvorca:"
+msgstr "Producent:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:491
@@ -2804,7 +2804,7 @@ msgstr "1 DIN A4 strana + duplikát --> DIN A4"
 #: dialogs/postscriptdialog.cpp:121
 #, kde-format
 msgid "2 DIN A4 Pages --> DIN A4"
-msgstr "2 DIN A5 strany --> DIN A4"
+msgstr "2 DIN A4 strany --> DIN A4"
 
 #: dialogs/postscriptdialog.cpp:122
 #, kde-format
@@ -5097,7 +5097,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:414
 #, kde-format
 msgid "Menu tree errors"
-msgstr "Editor stromu ponuky"
+msgstr "Chyby stromu ponuky"
 
 #: dialogs/usermenu/usermenudialog.cpp:569
 #, kde-format
@@ -5526,7 +5526,7 @@ msgstr "Naozaj chcete vyčistiť celý strom ponuky?"
 #: dialogs/usermenu/usermenutree.cpp:913
 #, kde-format
 msgid "Clear menutree"
-msgstr "Vymazať text"
+msgstr "Vymazať strom ponuky"
 
 #: dialogs/usermenu/usermenutree.cpp:930
 #, kde-format
@@ -5566,7 +5566,7 @@ msgstr "<p><strong>Chyba:</strong>"
 #: dialogs/usermenu/usermenutree.cpp:965
 #, kde-format
 msgid "Menutree Error"
-msgstr "Editor stromu ponuky"
+msgstr "Chyba stromu ponuky"
 
 #: dialogs/usermenu/usermenutree.cpp:1016
 #, kde-format
@@ -6466,7 +6466,7 @@ msgstr "Musíte zahrnúť balíky %1."
 #: kile.cpp:2494
 #, kde-format
 msgid "No Name"
-msgstr "Bez názvu"
+msgstr "Bez mena"
 
 #: kile.cpp:2530
 #, kde-format
@@ -7207,12 +7207,12 @@ msgstr "Len zostaviť dokumenty po uložení."
 #: kile.kcfg:636
 #, kde-format
 msgid "default livepreview tool."
-msgstr "Aktivovať funkciu živého náhľadu."
+msgstr "predvolený nástroj živého náhľadu."
 
 #: kileactions.cpp:336
 #, kde-format
 msgid "&Label:"
-msgstr "Popis:"
+msgstr "&Označenie:"
 
 #: kiledocmanager.cpp:94
 #, kde-format
@@ -7810,7 +7810,7 @@ msgstr "Pridať databázu BibTeX"
 #: kilelyxserver.cpp:252
 #, kde-format
 msgid "Paste"
-msgstr "Vložiť"
+msgstr "Prilepiť"
 
 #: kilestdactions.cpp:31
 #, kde-format
@@ -9594,7 +9594,7 @@ msgstr "Matematický režim"
 #: kilestdactions.cpp:681
 #, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr "Matematický režim - $...$"
+msgstr "Matematický režim - \\(...\\)"
 
 #: kilestdactions.cpp:684
 #, kde-format
@@ -9997,7 +9997,7 @@ msgstr "Intertext"
 #: kilestdactions.cpp:855
 #, kde-format
 msgid "Math - \\begin{math}"
-msgstr "Zoskupiť - \\begin{gather}"
+msgstr "Math - \\begin{math}"
 
 #: kilestdactions.cpp:859
 #, kde-format
@@ -10232,7 +10232,7 @@ msgstr "Bmatrix"
 #: kilestdactions.cpp:941
 #, kde-format
 msgid "dmath - \\begin{dmath}"
-msgstr "Zoskupiť - \\begin{gather}"
+msgstr "dmath - \\begin{dmath}"
 
 #: kilestdactions.cpp:941
 #, kde-format
@@ -10242,7 +10242,7 @@ msgstr "dmath"
 #: kilestdactions.cpp:944
 #, kde-format
 msgid "dmath* - \\begin{dmath*}"
-msgstr "Zoskupiť* - \\begin{gather*}"
+msgstr "dmath* - \\begin{dmath*}"
 
 #: kilestdactions.cpp:944
 #, kde-format
@@ -10252,17 +10252,17 @@ msgstr "dmath*"
 #: kilestdactions.cpp:948
 #, kde-format
 msgid "dseries - \\begin{dseries}"
-msgstr "Cases - \\begin{cases}"
+msgstr "dseries - \\begin{dseries}"
 
 #: kilestdactions.cpp:948
 #, kde-format
 msgid "dseries"
-msgstr "Tučné - \\bfseries"
+msgstr "dseries"
 
 #: kilestdactions.cpp:951
 #, kde-format
 msgid "dseries* - \\begin{dseries*}"
-msgstr "Verše - \\begin{verse}"
+msgstr "dseries* - \\begin{dseries*}"
 
 #: kilestdactions.cpp:951
 #, kde-format
@@ -10272,22 +10272,22 @@ msgstr "dseries*"
 #: kilestdactions.cpp:955
 #, kde-format
 msgid "dgroup - \\begin{dgroup}"
-msgstr "Obrázok - \\begin{figure}"
+msgstr "dgroup - \\begin{dgroup}"
 
 #: kilestdactions.cpp:955
 #, kde-format
 msgid "dgroup"
-msgstr "Mathgroup"
+msgstr "dgroup"
 
 #: kilestdactions.cpp:958
 #, kde-format
 msgid "dgroup* - \\begin{dgroup*}"
-msgstr "Zoskupiť* - \\begin{gather*}"
+msgstr "dgroup* - \\begin{dgroup*}"
 
 #: kilestdactions.cpp:958
 #, kde-format
 msgid "dgroup*"
-msgstr "Mathgroup"
+msgstr "dgroup*"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330
@@ -10792,7 +10792,7 @@ msgstr "Prostredia &Matrix"
 #: kileui.rc:425
 #, kde-format
 msgid "breqn Math Environments"
-msgstr "Matematické prostredia"
+msgstr "Matematické prostredia breqn"
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:438
@@ -12115,7 +12115,7 @@ msgstr " ms"
 #: widgets/livepreviewconfigwidget.ui:104
 #, kde-format
 msgid "Set default live preview tool"
-msgstr "Aktivovať funkciu živého náhľadu."
+msgstr "Nastaviť predvolený nástroj živého náhľadu"
 
 #: widgets/logwidget.cpp:369
 #, kde-format
@@ -12137,7 +12137,7 @@ msgstr "Vybrať nástroj"
 #: widgets/maintoolconfigwidget.ui:94
 #, kde-format
 msgid "Show hidden tools"
-msgstr "Ukazovať vstupné súbory"
+msgstr "Zobraziť skryté nástroje"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)

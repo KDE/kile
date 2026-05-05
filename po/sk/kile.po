@@ -349,7 +349,7 @@ msgid ""
 "Please check the available disk space.</b></font>"
 msgstr ""
 "<br/><font color=\"#FF0000\"><b>Testy nemohli byť správne dokončené. Prosím, "
-"skontrolujte dostupné miesto na disku."
+"skontrolujte dostupné miesto na disku.</b></font>"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UserMenuDialog)
 #. i18n: ectx: property (windowTitle), widget (QWidget, ToolConfigWidget)
@@ -4782,7 +4782,7 @@ msgid ""
 "<br/>Unfortunately, Kile cannot show any useful information."
 msgstr ""
 "Nepodarilo sa určiť prehľadávané cesty pre TexLive/teTeX alebo súbor "
-"'texdoctk.dat'. <br> Kile, žiaľ, nemôže zobraziť žiadne užitočné informácie."
+"'texdoctk.dat'.<br/>Kile, žiaľ, nemôže zobraziť žiadne užitočné informácie."
 
 #: dialogs/texdocumentationdialog.cpp:433
 #, kde-format

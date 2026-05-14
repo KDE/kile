@@ -4797,7 +4797,7 @@ msgid ""
 "of the installed TeX documentation."
 msgstr ""
 "Nepodarilo sa určiť cestu inštalácie vašej distribúcie TeX alebo súboru "
-"'texdoctk.dat'.<br>Preto vám nemôžeme poskytnúť prehľad nainštalovanej "
+"'texdoctk.dat'.<br/>Preto vám nemôžeme poskytnúť prehľad nainštalovanej "
 "dokumentácie TeX."
 
 #: dialogs/userhelpdialog.cpp:51

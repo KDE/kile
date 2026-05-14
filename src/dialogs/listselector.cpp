@@ -200,7 +200,7 @@ ManageCompletionFilesDialog::~ManageCompletionFilesDialog()
 void ManageCompletionFilesDialog::fillTreeView() {
     // we want to keep selected items still selected after refreshing
     QSet<QString> previouslySelectedItems = selected();
-    QStringList list = KileCodeCompletion::Manager::getAllCwlFiles(m_localCompletionDirectory, m_globalCompletionDirectory).values();
+    QStringList list = KileCodeCompletion::Manager::getAllCwlFiles(m_localCompletionDirectory, m_globalCompletionDirectory).keys();
     std::sort(list.begin(), list.end());
     m_listView->clear();
     for(const QString &filename: std::as_const(list)) {

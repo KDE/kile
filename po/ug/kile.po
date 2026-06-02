@@ -8,24 +8,25 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-05 00:43+0000\n"
-"PO-Revision-Date: 2013-09-08 07:04+0900\n"
-"Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
+"PO-Revision-Date: 2026-05-31 18:38-0400\n"
+"Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.9\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "ئابدۇقادىر ئابلىز, غەيرەت كەنجى"
+msgstr "ئابدۇقادىر ئابلىز، غەيرەت كەنجى"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "sahran.ug@gmail.com,  gheyret@gmail.com"
+msgstr "sahranbay@gmail.com, gheyret@gmail.com"
 
 #: abbreviationmanager.cpp:104
 #, kde-format
@@ -196,7 +197,7 @@ msgstr ""
 #: dialogs/cleandialog.cpp:70 dialogs/listselector.cpp:60
 #, kde-format
 msgid "Files"
-msgstr "ھۆججەتلەر"
+msgstr "ھۆججەت"
 
 #: dialogs/configcheckerdialog.cpp:84
 #, kde-format
@@ -237,7 +238,7 @@ msgstr ""
 #, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: dialogs/configcheckerdialog.cpp:148
 #, kde-format
@@ -343,7 +344,7 @@ msgstr "LaTeX"
 #: dialogs/configurationdialog.cpp:70 kileui.rc:554
 #, kde-format
 msgid "Tools"
-msgstr "قوراللار"
+msgstr "قورال"
 
 #: dialogs/configurationdialog.cpp:71
 #, kde-format
@@ -368,7 +369,7 @@ msgstr "ئادەتتىكى تەڭشەك"
 #: dialogs/configurationdialog.cpp:209
 #, kde-format
 msgid "Build"
-msgstr "قۇرۇش"
+msgstr "قۇر"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetScriptingConfig)
 #: dialogs/configurationdialog.cpp:220 widgets/scriptingconfigwidget.ui:21
@@ -424,7 +425,7 @@ msgstr ""
 #: dialogs/configurationdialog.cpp:275
 #, kde-format
 msgid "Appearance"
-msgstr "كۆرۈنۈشى"
+msgstr "قىياپەت"
 
 #. i18n: ectx: attribute (title), widget (QWidget, pageEnvironments)
 #: dialogs/configurationdialog.cpp:292 dialogs/latexcommanddialog_base.ui:41
@@ -448,7 +449,7 @@ msgstr ""
 #: dialogs/configurationdialog.cpp:300 widgets/graphicsconfigwidget.ui:14
 #, kde-format
 msgid "Graphics"
-msgstr "گرافىك"
+msgstr "گىرافىك"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetStructureViewConfig)
 #: dialogs/configurationdialog.cpp:307 widgets/structureviewconfigwidget.ui:26
@@ -496,7 +497,7 @@ msgstr "قېلىپ:"
 #: dialogs/findfilesdialog.cpp:141
 #, kde-format
 msgid "Normal"
-msgstr "نورمال"
+msgstr "ئادەتتىكى"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, commands)
 #: dialogs/findfilesdialog.cpp:142 dialogs/latexcommanddialog_base.ui:133
@@ -527,7 +528,7 @@ msgstr "سۈرەت"
 #: kilestdactions.cpp:284 usermenu/usermenu.cpp:909
 #, kde-format
 msgid "Label"
-msgstr "ئەن"
+msgstr "بەلگە"
 
 #: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:296
 #: usermenu/usermenu.cpp:914
@@ -728,7 +729,7 @@ msgstr ""
 #: kilestdactions.cpp:66
 #, kde-format
 msgid "Center"
-msgstr "مەركەز"
+msgstr "ئوتتۇرا"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
@@ -760,22 +761,19 @@ msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
 msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:427 dialogs/includegraphicsdialog.cpp:434
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "PNG Files (*.png)"
-msgstr "بارلىق ھۆججەتلەر"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:428 dialogs/includegraphicsdialog.cpp:435
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "JPG Files (*.jpg)"
-msgstr "بارلىق ھۆججەتلەر"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:429
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "PDF Files (*.pdf)"
-msgstr "بارلىق ھۆججەتلەر"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:430
 #, kde-format
@@ -793,16 +791,14 @@ msgid "Zipped EPS Files (*.eps.gz)"
 msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:437
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "EPS Files (*.eps)"
-msgstr "بارلىق ھۆججەتلەر"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:439 kileextensions.cpp:123
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "All Files (*)"
-msgstr "بارلىق ھۆججەتلەر"
+msgstr "ھەممە ھۆججەت(*)"
 
 #: dialogs/includegraphicsdialog.cpp:629
 #, kde-format
@@ -836,7 +832,7 @@ msgstr "---"
 #: dialogs/includegraphicsdialog_base.ui:53
 #, kde-format
 msgid "Output:"
-msgstr "چىقار:"
+msgstr "چىقىرىش:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_center)
 #: dialogs/includegraphicsdialog_base.ui:60
@@ -904,7 +900,7 @@ msgstr "نىسبىتى:"
 #: dialogs/includegraphicsdialog_base.ui:175
 #, kde-format
 msgid "Keep aspect ratio"
-msgstr "ئېگىزلىك-كەڭلىك نىسبىتىنى ساقلاپ قال"
+msgstr "تەرەپ نىسبىتىنى ساقلاپ قال"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_6)
 #: dialogs/includegraphicsdialog_base.ui:186
@@ -1091,7 +1087,7 @@ msgstr "ئورۇنلاشتۇرۇش:"
 #: dialogs/latexcommanddialog.cpp:94
 #, kde-format
 msgid "Attributes"
-msgstr "خاسلىقلار"
+msgstr "خاسلىق"
 
 #: dialogs/latexcommanddialog.cpp:99
 #, kde-format
@@ -1216,10 +1212,9 @@ msgid "An empty string is not allowed."
 msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:318
-#, fuzzy, kde-format
-#| msgid "Environment Variables"
+#, kde-format
 msgid "This environment already exists."
-msgstr "مۇھىت ئۆزگەرگۈچى مىقدار"
+msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:319
 #, kde-format
@@ -1247,7 +1242,7 @@ msgstr "ماتېماتىكا"
 #: dialogs/latexcommanddialog.cpp:390
 #, kde-format
 msgid "Lists"
-msgstr "تىزىملار"
+msgstr "تىزىم"
 
 #: dialogs/latexcommanddialog.cpp:391 kile.cpp:1060 kilestdactions.cpp:155
 #, kde-format
@@ -1262,7 +1257,7 @@ msgstr "خەتمۇ-خەت"
 #: dialogs/latexcommanddialog.cpp:394 widgets/structurewidget.cpp:332
 #, kde-format
 msgid "Labels"
-msgstr "ئەنلەر"
+msgstr "ئەن"
 
 #: dialogs/latexcommanddialog.cpp:395
 #, kde-format
@@ -1392,7 +1387,7 @@ msgstr "پارامېتىر"
 #: dialogs/latexcommanddialog_base.ui:108 widgets/latexconfigwidget.ui:26
 #, kde-format
 msgid "Commands"
-msgstr "بۇيرۇقلار"
+msgstr "بۇيرۇق"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, addButton)
 #: dialogs/latexcommanddialog_base.ui:176
@@ -1567,7 +1562,7 @@ msgstr ""
 #: dialogs/managetemplatesdialog.cpp:96
 #, kde-format
 msgid "Type: %1"
-msgstr "تىپ: %1"
+msgstr "تۈرى: %1"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbIcon)
 #: dialogs/managetemplatesdialog.cpp:97
@@ -1666,10 +1661,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "قېلىپنى چىقىرىۋېتىش"
+msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -2232,7 +2226,7 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog.cpp:1175
 #, kde-format
 msgid "ViewPDF"
-msgstr "ViewPDF"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1615
 #, kde-format
@@ -2284,7 +2278,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
-msgstr "\"%1\" ئاتلىق ھۆججەت مەۋجۇت. ئۇنى راستلا قاپلىۋېتەمسىز؟"
+msgstr "«%1» ئاتلىق ھۆججەت مەۋجۇت. ئۇنى راستتىنلا قاپلىۋېتەمسىز؟"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1731 dialogs/postscriptdialog.cpp:435
 #, kde-format
@@ -2475,7 +2469,7 @@ msgstr "ھالقىلىق سۆز:"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:446
 #, kde-format
 msgid "Author:"
-msgstr "ئاپتور:"
+msgstr "يازغۇچى:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:456
@@ -2493,7 +2487,7 @@ msgstr "فورمات:"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:501
 #, kde-format
 msgid "1.4"
-msgstr "1.4"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:508
@@ -2525,7 +2519,7 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog_base.ui:565
 #, kde-format
 msgid "Permissions"
-msgstr "ئىمتىيازلار"
+msgstr "ئىجازەت"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbPermissions)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:577
@@ -2600,16 +2594,14 @@ msgid "Neither 'pstops' nor 'psselect' found."
 msgstr ""
 
 #: dialogs/postscriptdialog.cpp:100
-#, fuzzy, kde-format
-#| msgid "File not found"
+#, kde-format
 msgid "'pstops' not found."
-msgstr "ھۆججەت تېپىلمىدى"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "File not found"
+#, kde-format
 msgid "'psselect' not found."
-msgstr "ھۆججەت تېپىلمىدى"
+msgstr ""
 
 #: dialogs/postscriptdialog.cpp:114
 #, kde-format
@@ -2839,10 +2831,9 @@ msgid "Image Files"
 msgstr "رەسىم ھۆججەتلەر"
 
 #: dialogs/projectdialogs.cpp:111
-#, fuzzy, kde-format
-#| msgid "Bibliography"
+#, kde-format
 msgid "Bibliography Files"
-msgstr "كىتابلار مۇندەرىجىسى"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:118
 #, kde-format
@@ -2912,10 +2903,9 @@ msgid "Please enter the folder where the project file should be saved to."
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:351
-#, fuzzy, kde-format
-#| msgid "Location"
+#, kde-format
 msgid "Empty Location"
-msgstr "ئورنى"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:356
 #, kde-format
@@ -2923,10 +2913,9 @@ msgid "Please enter an absolute path to the project folder."
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:356
-#, fuzzy, kde-format
-#| msgid "Location"
+#, kde-format
 msgid "Invalid Location"
-msgstr "ئورنى"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:361
 #, kde-format
@@ -2935,10 +2924,9 @@ msgid ""
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:361
-#, fuzzy, kde-format
-#| msgid "File Name"
+#, kde-format
 msgid "No File Name Given"
-msgstr "ھۆججەت ئاتى"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:374
 #, kde-format
@@ -2946,10 +2934,9 @@ msgid "The project file exists already. Please choose another name."
 msgstr ""
 
 #: dialogs/projectdialogs.cpp:374 dialogs/projectdialogs.cpp:380
-#, fuzzy, kde-format
-#| msgid "File Already Exists"
+#, kde-format
 msgid "Project File Already Exists"
-msgstr "ھۆججەت مەۋجۇت"
+msgstr ""
 
 #: dialogs/projectdialogs.cpp:380
 #, kde-format
@@ -2963,11 +2950,9 @@ msgid "File Already Exists"
 msgstr "ھۆججەت مەۋجۇت"
 
 #: dialogs/projectdialogs.cpp:395
-#, fuzzy, kde-format
-#| msgid ""
-#| "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
+#, kde-format
 msgid "The file \"%1\" already exists, overwrite it?"
-msgstr "\"%1\" ئاتلىق ھۆججەت مەۋجۇت. ئۇنى راستلا قاپلىۋېتەمسىز؟"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox5)
 #: dialogs/projectdialogs.cpp:422 widgets/generalconfigwidget.ui:32
@@ -3155,7 +3140,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:343
 #, kde-format
 msgid "&Author:"
-msgstr "ئاپتور(&A):"
+msgstr "يازغۇچى(&A):"
 
 #: dialogs/quickdocumentdialog.cpp:349
 #, kde-format
@@ -3878,7 +3863,7 @@ msgstr "‹كۆڭۈلدىكى›"
 #: dialogs/quickdocumentdialog.cpp:1365 dialogs/quickdocumentdialog.cpp:1372
 #, kde-format
 msgid "<empty>"
-msgstr "<قۇرۇق>"
+msgstr "<بوش>"
 
 #: dialogs/quickdocumentdialog.cpp:1658 kilestdactions.cpp:31
 #, kde-format
@@ -4079,10 +4064,9 @@ msgid "This document class option already exists."
 msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:2334
-#, fuzzy, kde-format
-#| msgid "File Already Exists"
+#, kde-format
 msgid "This package already exists."
-msgstr "ھۆججەت مەۋجۇت"
+msgstr ""
 
 #: dialogs/quickdocumentdialog.cpp:2342
 #, kde-format
@@ -4153,7 +4137,7 @@ msgstr ""
 #: dialogs/statisticsdialog.cpp:86 dialogs/statisticsdialog.cpp:92
 #, kde-format
 msgid "Summary"
-msgstr "ئۈزۈندى"
+msgstr "ئۈزۈندە"
 
 #: dialogs/statisticsdialog.cpp:88
 #, kde-format
@@ -4197,10 +4181,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/tabbingdialog_base.ui:29
-#, fuzzy, kde-format
-#| msgid "Number of &rows:"
+#, kde-format
 msgid "Number of &columns:"
-msgstr "قۇر سانى(&R):"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/tabbingdialog_base.ui:63
@@ -4516,7 +4499,7 @@ msgstr "پۈتۈك كۆرگۈ"
 #: kilestdactions.cpp:53
 #, kde-format
 msgid "Table of Contents"
-msgstr "ئاساسىي مەزمۇنلىرى"
+msgstr "مەزمۇن مۇندەرىجىسى"
 
 #: dialogs/texdocumentationdialog.cpp:84
 #, kde-format
@@ -4545,10 +4528,9 @@ msgid "Reset list to all available documentation files."
 msgstr ""
 
 #: dialogs/texdocumentationdialog.cpp:91
-#, fuzzy, kde-format
-#| msgid "&Search"
+#, kde-format
 msgid "Cancel &Search"
-msgstr "ئىزدە(&S)"
+msgstr ""
 
 #: dialogs/texdocumentationdialog.cpp:137
 #, kde-format
@@ -4838,10 +4820,9 @@ msgid ""
 msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:399
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "ھۆججەت قاپلامسىز؟"
+msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:413
 #, kde-format
@@ -4972,7 +4953,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:250
 #, kde-format
 msgid "Load"
-msgstr "يۈك"
+msgstr "يۈكلە"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbSave)
 #: dialogs/usermenu/usermenudialog_base.ui:273
@@ -5036,7 +5017,7 @@ msgstr "تېزلەتمە:"
 #: dialogs/usermenu/usermenudialog_base.ui:466
 #, kde-format
 msgid "Type:"
-msgstr "تىپى:"
+msgstr "تۈرى:"
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, m_urlRequester)
 #: dialogs/usermenu/usermenudialog_base.ui:473
@@ -5161,7 +5142,7 @@ msgstr "؟؟؟"
 #: dialogs/usermenu/usermenuitem.h:27
 #, kde-format
 msgid "  >"
-msgstr "  >"
+msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:166
 #, kde-format
@@ -5269,10 +5250,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:913
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "تېكىستنى تازىلاش"
+msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:930
 #, kde-format
@@ -5590,7 +5570,7 @@ msgstr "قوليازما"
 #: kile.cpp:628
 #, kde-format
 msgid "Symbols"
-msgstr "بەلگىلەر"
+msgstr "بەلگە"
 
 #: kile.cpp:631
 #, kde-format
@@ -5610,7 +5590,7 @@ msgstr "ئەمەللەر"
 #: kile.cpp:647
 #, kde-format
 msgid "Arrows"
-msgstr "يا ئوقلار"
+msgstr "يا ئوق"
 
 #: kile.cpp:652
 #, kde-format
@@ -5695,7 +5675,7 @@ msgstr ""
 #: kile.cpp:854 kile.cpp:1005
 #, kde-format
 msgid "Close All"
-msgstr "ھەممىنى تاقا"
+msgstr "ھەممىنى ياپ"
 
 #: kile.cpp:855
 #, kde-format
@@ -5711,7 +5691,7 @@ msgstr "ستاتىستىكا(&T)"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "ئىچىدىكى قىسقۇچنى ئاچ(&O)"
 
 #: kile.cpp:858
 #, kde-format
@@ -6091,7 +6071,7 @@ msgstr ""
 #: kile.cpp:1151 kileinfo.cpp:357
 #, kde-format
 msgid "BibTeX"
-msgstr "BibTeX"
+msgstr ""
 
 #: kile.cpp:1154
 #, kde-format
@@ -6132,10 +6112,9 @@ msgid "Unable to Create Archive Tool"
 msgstr ""
 
 #: kile.cpp:1548
-#, fuzzy, kde-format
-#| msgid "Project"
+#, kde-format
 msgid "Project: %1"
-msgstr "قۇرۇلۇش"
+msgstr "قۇرۇلۇش: %1"
 
 #: kile.cpp:1551
 #, kde-format
@@ -6148,10 +6127,9 @@ msgid "Normal mode"
 msgstr "ئادەتتىكى ھالەت"
 
 #: kile.cpp:1559
-#, fuzzy, kde-format
-#| msgid "Comment: %1"
+#, kde-format
 msgid "Master document: %1"
-msgstr "ئىزاھات: %1"
+msgstr ""
 
 #: kile.cpp:1564 kile.cpp:2708
 #, kde-format
@@ -6210,13 +6188,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
-msgstr "BLOCK"
+msgstr ""
 
 #: kile.cpp:3069
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
-msgstr "LINE"
+msgstr ""
 
 #: kile.cpp:3076
 #, kde-format
@@ -6228,11 +6206,13 @@ msgstr ""
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
+"بۇ مەشغۇلات تىزىملىك بالداقنى پۈتۈنلەي يوشۇرىدۇ. %1 نى بېسىپ قايتا "
+"كۆرسىتەلەيسىز."
 
 #: kile.cpp:3097
 #, kde-format
 msgid "Hide menu bar"
-msgstr ""
+msgstr "تىزىملىك بالداقنى يوشۇر"
 
 #. i18n: ectx: label, entry (RCVersion), group (VersionInfo)
 #: kile.kcfg:17
@@ -6996,10 +6976,9 @@ msgid "Saving"
 msgstr "ساقلاۋاتىدۇ"
 
 #: kiledocmanager.cpp:926
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "Any files (*)"
-msgstr "بارلىق ھۆججەتلەر"
+msgstr ""
 
 #: kiledocmanager.cpp:928
 #, kde-format
@@ -7021,7 +7000,7 @@ msgstr ""
 #: kiledocmanager.cpp:1072
 #, kde-format
 msgid "Save File"
-msgstr "ھۆججەت ساقلاش"
+msgstr "ھۆججەت ساقلا"
 
 #: kiledocmanager.cpp:1108
 #, kde-format
@@ -7107,10 +7086,9 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:1520
-#, fuzzy, kde-format
-#| msgid "Open Project"
+#, kde-format
 msgid "Could Not Open Project"
-msgstr "قۇرۇلۇش ئاچ"
+msgstr ""
 
 #: kiledocmanager.cpp:1538
 #, kde-format
@@ -7120,10 +7098,9 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:1540
-#, fuzzy, kde-format
-#| msgid "Open Project"
+#, kde-format
 msgid "Impossible to Open Project File"
-msgstr "قۇرۇلۇش ئاچ"
+msgstr ""
 
 #: kiledocmanager.cpp:1550
 #, kde-format
@@ -7133,10 +7110,9 @@ msgid ""
 msgstr ""
 
 #: kiledocmanager.cpp:1552
-#, fuzzy, kde-format
-#| msgid "Open Project"
+#, kde-format
 msgid "Impossible to Open Project"
-msgstr "قۇرۇلۇش ئاچ"
+msgstr ""
 
 #: kiledocmanager.cpp:1562
 #, kde-format
@@ -7229,7 +7205,7 @@ msgstr ""
 #: kiledocmanager.cpp:1856
 #, kde-format
 msgid "Close Project"
-msgstr "قۇرۇلۇش يېپىش"
+msgstr "قۇرۇلۇشنى ياپ"
 
 #: kiledocmanager.cpp:1907
 #, kde-format
@@ -7345,10 +7321,9 @@ msgid "Kile Project Files"
 msgstr ""
 
 #: kileextensions.cpp:108
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "* |All Files"
-msgstr "*|بارلىق ھۆججەتلەر"
+msgstr ""
 
 #: kilehelp.cpp:101
 #, kde-format
@@ -7365,7 +7340,7 @@ msgstr ""
 #: kileinfo.cpp:351
 #, kde-format
 msgid "Undefined"
-msgstr "ئېنىقلىمىسىز"
+msgstr "ئېنىقلانمىغان"
 
 #: kileinfo.cpp:359
 #, kde-format
@@ -7380,7 +7355,7 @@ msgstr ""
 #: kilelauncher.cpp:220
 #, kde-format
 msgid "terminated"
-msgstr ""
+msgstr "ئاخىرلاشتۇرۇلدى"
 
 #: kilelauncher.cpp:229
 #, kde-format
@@ -7850,7 +7825,7 @@ msgstr ""
 #: kilestdactions.cpp:138
 #, kde-format
 msgid "Typewriter"
-msgstr ""
+msgstr "خەت باسقۇ"
 
 #: kilestdactions.cpp:141
 #, kde-format
@@ -8284,7 +8259,7 @@ msgstr "چوڭ"
 #: kilestdactions.cpp:267
 #, kde-format
 msgid "LARGE"
-msgstr "LARGE"
+msgstr ""
 
 #: kilestdactions.cpp:269
 #, kde-format
@@ -8741,7 +8716,7 @@ msgstr ""
 #: kilestdactions.cpp:426
 #, kde-format
 msgid "Roman"
-msgstr "Roman"
+msgstr "رىم"
 
 #: kilestdactions.cpp:429
 #, kde-format
@@ -8761,7 +8736,7 @@ msgstr ""
 #: kilestdactions.cpp:432
 #, kde-format
 msgid "Monospace"
-msgstr "تەڭ كەڭلىك"
+msgstr "Monospace"
 
 #: kilestdactions.cpp:436
 #, kde-format
@@ -9030,10 +9005,9 @@ msgid "Math Mode"
 msgstr "ماتېماتىكا مودېلى"
 
 #: kilestdactions.cpp:681
-#, fuzzy, kde-format
-#| msgid "Math Mode"
+#, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr "ماتېماتىكا مودېلى"
+msgstr ""
 
 #: kilestdactions.cpp:684
 #, kde-format
@@ -9705,10 +9679,9 @@ msgid "dgroup - \\begin{dgroup}"
 msgstr ""
 
 #: kilestdactions.cpp:955
-#, fuzzy, kde-format
-#| msgid "Group:"
+#, kde-format
 msgid "dgroup"
-msgstr "گۇرۇپپا:"
+msgstr ""
 
 #: kilestdactions.cpp:958
 #, kde-format
@@ -9716,10 +9689,9 @@ msgid "dgroup* - \\begin{dgroup*}"
 msgstr ""
 
 #: kilestdactions.cpp:958
-#, fuzzy, kde-format
-#| msgid "Group:"
+#, kde-format
 msgid "dgroup*"
-msgstr "گۇرۇپپا:"
+msgstr ""
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330
@@ -9991,10 +9963,9 @@ msgstr ""
 
 #. i18n: ectx: Menu (selection)
 #: kileui.rc:118
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "&Selection"
-msgstr "تاللاش"
+msgstr "تاللىغان دائىرە(&S)"
 
 #. i18n: ectx: Menu (view)
 #. i18n: ectx: Menu (menu_viewer)
@@ -10009,13 +9980,13 @@ msgstr "كۆرۈنۈش(&V)"
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
-msgstr "پۈتۈك كۆرگۈ"
+msgstr "پۈتۈك كۆرگۈچ"
 
 #. i18n: ectx: Menu (go)
 #: kileui.rc:131
 #, kde-format
 msgid "&Go"
-msgstr ""
+msgstr "يۆتكەل(&G)"
 
 #. i18n: ectx: Menu (menu_build)
 #: kileui.rc:145
@@ -10051,7 +10022,7 @@ msgstr "قۇرۇلۇش(&J)"
 #: kileui.rc:204
 #, kde-format
 msgid "LaTe&X"
-msgstr "LaTe&X"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_preamble)
 #: kileui.rc:205
@@ -10199,10 +10170,9 @@ msgstr ""
 
 #. i18n: ectx: Menu (menu_mathbreqnenv)
 #: kileui.rc:425
-#, fuzzy, kde-format
-#| msgid "Environment"
+#, kde-format
 msgid "breqn Math Environments"
-msgstr "مۇھىت"
+msgstr ""
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:438
@@ -10266,10 +10236,9 @@ msgstr "ياردەم(&H)"
 
 #. i18n: ectx: Menu (help_tex)
 #: kileui.rc:533
-#, fuzzy, kde-format
-#| msgid "Documentation"
+#, kde-format
 msgid "LaTeX Documentation"
-msgstr "قوللانمىلار"
+msgstr ""
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #: kileui.rc:548
@@ -10281,7 +10250,7 @@ msgstr "ئاساس"
 #: kileui.rc:564
 #, kde-format
 msgid "Edit"
-msgstr "تەھرىرلەش"
+msgstr "تەھرىر"
 
 #: kileviewmanager.cpp:125
 #, kde-format
@@ -10406,7 +10375,7 @@ msgstr ""
 #: main.cpp:103
 #, kde-format
 msgid "Michel Ludwig"
-msgstr "Michel Ludwig"
+msgstr ""
 
 #: main.cpp:103
 #, kde-format
@@ -10421,7 +10390,7 @@ msgstr ""
 #: main.cpp:104
 #, kde-format
 msgid "Developer"
-msgstr "ئىجادىيەتچى"
+msgstr "ئىجادكار"
 
 #: main.cpp:105
 #, kde-format
@@ -10451,7 +10420,7 @@ msgstr ""
 #: main.cpp:109
 #, kde-format
 msgid "Andrius Štikonas"
-msgstr "Andrius Štikonas"
+msgstr ""
 
 #: main.cpp:109
 #, kde-format
@@ -10506,7 +10475,7 @@ msgstr ""
 #: main.cpp:114 main.cpp:115
 #, kde-format
 msgid "Documentation"
-msgstr "قوللانمىلار"
+msgstr "قوللانما"
 
 #: main.cpp:115
 #, kde-format
@@ -10605,7 +10574,7 @@ msgstr ""
 #: quickpreview.cpp:78
 #, kde-format
 msgid "There is no selection to compile."
-msgstr "يۇغۇرىدىغان بۆلەك يوق"
+msgstr "يۇغۇرىدىغان بۆلەك يوق."
 
 #: quickpreview.cpp:105
 #, kde-format
@@ -10822,7 +10791,7 @@ msgstr "%1 - %2"
 #: userhelp.cpp:151
 #, kde-format
 msgid "The file '%1' does not exist."
-msgstr "'%1' ھۆججەت مەۋجۇت ئەمەس."
+msgstr "«%1» ھۆججەت مەۋجۇت ئەمەس."
 
 #: usermenu/usermenu.cpp:920
 #, kde-format
@@ -11050,7 +11019,7 @@ msgstr ""
 #: widgets/configcheckerwidget.ui:45
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_grpResults)
 #: widgets/configcheckerwidget.ui:58
@@ -11102,10 +11071,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbNumSpaces)
 #: widgets/environmentconfigwidget.ui:88
-#, fuzzy, kde-format
-#| msgid "Number of rows:"
+#, kde-format
 msgid "&Number of spaces:"
-msgstr "قۇر سانى:"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_envIndentNumSpaces)
 #: widgets/environmentconfigwidget.ui:129
@@ -11149,24 +11117,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: widgets/generalconfigwidget.ui:92
-#, fuzzy, kde-format
-#| msgid "Author:"
+#, kde-format
 msgid "A&uthor:"
-msgstr "ئاپتور:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: widgets/generalconfigwidget.ui:105
-#, fuzzy, kde-format
-#| msgid "Documentation"
+#, kde-format
 msgid "Document c&lass options:"
-msgstr "قوللانمىلار"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: widgets/generalconfigwidget.ui:118
-#, fuzzy, kde-format
-#| msgid "E&ncoding:"
+#, kde-format
 msgid "I&nput encoding:"
-msgstr "كودلاش(&N):"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox4)
 #: widgets/generalconfigwidget.ui:134
@@ -11200,10 +11165,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolution)
 #: widgets/graphicsconfigwidget.ui:29
-#, fuzzy, kde-format
-#| msgid "&Resolution:"
+#, kde-format
 msgid "&Default resolution:"
-msgstr "ئېنىقلىق دەرىجىسى(&R):"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolutionHelp)
 #: widgets/graphicsconfigwidget.ui:51
@@ -11262,22 +11226,22 @@ msgstr "سەپلەش(&F)…"
 #: widgets/latexconfigwidget.cpp:31
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: widgets/latexconfigwidget.cpp:32 widgets/latexconfigwidget.cpp:43
 #, kde-format
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: widgets/latexconfigwidget.cpp:33
 #, kde-format
 msgid "Alt"
-msgstr ""
+msgstr "Alt"
 
 #: widgets/latexconfigwidget.cpp:34
 #, kde-format
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
@@ -11295,10 +11259,9 @@ msgid "Meta + Ctrl"
 msgstr ""
 
 #: widgets/latexconfigwidget.cpp:42
-#, fuzzy, kde-format
-#| msgid "Command"
+#, kde-format
 msgid "Cmd"
-msgstr "بۇيرۇق"
+msgstr ""
 
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format
@@ -11344,7 +11307,7 @@ msgstr ""
 #: widgets/latexconfigwidget.ui:89 widgets/maintoolconfigwidget.ui:365
 #, kde-format
 msgid "&Type:"
-msgstr "تىپى(&T):"
+msgstr "تۈرى(&T):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_InsertSpecialCharacters)
 #: widgets/latexconfigwidget.ui:142
@@ -11538,10 +11501,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
 #: widgets/maintoolconfigwidget.ui:175
-#, fuzzy, kde-format
-#| msgid "&Select"
+#, kde-format
 msgid "Se&lect:"
-msgstr "تاللا(&S)"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
 #: widgets/maintoolconfigwidget.ui:331
@@ -11656,7 +11618,7 @@ msgstr "ئېنىقلىق دەرىجىسى(&R):"
 #: widgets/previewconfigwidget.cpp:78
 #, kde-format
 msgid "dpi"
-msgstr "dpi"
+msgstr ""
 
 #: widgets/previewconfigwidget.cpp:79
 #, kde-format
@@ -11731,7 +11693,7 @@ msgstr "تاللانغىنى:"
 #: widgets/previewconfigwidget.cpp:130
 #, kde-format
 msgid "Environment:"
-msgstr "مۇھىت:"
+msgstr "مۇھىت ئۆزگەرگۈچى:"
 
 #: widgets/previewconfigwidget.cpp:131
 #, kde-format
@@ -11818,7 +11780,7 @@ msgstr ""
 #: widgets/processtoolconfigwidget.ui:83
 #, kde-format
 msgid "Options:"
-msgstr "تاللانمىلار:"
+msgstr "تاللانما:"
 
 #: widgets/projectview.cpp:246
 #, kde-format
@@ -11831,27 +11793,24 @@ msgid "Include in Archive"
 msgstr ""
 
 #: widgets/projectview.cpp:468
-#, fuzzy, kde-format
-#| msgid "Project"
+#, kde-format
 msgid "Project File"
-msgstr "قۇرۇلۇش"
+msgstr ""
 
 #: widgets/projectview.cpp:471
-#, fuzzy, kde-format
-#| msgid "Package"
+#, kde-format
 msgid "Packages"
-msgstr "بوغچا"
+msgstr ""
 
 #: widgets/projectview.cpp:474
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "Images"
 msgstr "سۈرەت"
 
 #: widgets/projectview.cpp:808
 #, kde-format
 msgid "&Open With"
-msgstr "بۇنىڭدا ئاچ(&O)"
+msgstr "ئاچقۇز(&O)"
 
 #: widgets/projectview.cpp:820 widgets/structurewidget.cpp:807
 #, kde-format
@@ -12043,7 +12002,7 @@ msgstr ""
 #: widgets/statisticswidget.cpp:83
 #, kde-format
 msgid "Strings"
-msgstr "تېكىستلەر"
+msgstr "ھەرب- بەلگە تىزىقى"
 
 #: widgets/statisticswidget.cpp:90
 #, kde-format
@@ -12068,7 +12027,7 @@ msgstr ""
 #: widgets/statusbar.cpp:70
 #, kde-format
 msgid "Line: %1 Col: %2"
-msgstr "قۇر: %1 ئىستون: %2"
+msgstr "قۇر: %1 رەت: %2"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: widgets/structureviewconfigwidget.ui:38
@@ -12188,13 +12147,13 @@ msgstr ""
 #: widgets/structureviewconfigwidget.ui:253
 #, kde-format
 msgid "png"
-msgstr "png"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:258
 #, kde-format
 msgid "jpg"
-msgstr "jpg"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:263
@@ -12241,7 +12200,7 @@ msgstr ""
 #: widgets/structurewidget.cpp:344
 #, kde-format
 msgid "TODO"
-msgstr "TODO"
+msgstr ""
 
 #: widgets/structurewidget.cpp:348
 #, kde-format
@@ -12418,10 +12377,9 @@ msgid "Run in Konsole"
 msgstr ""
 
 #: widgets/toolconfigwidget.cpp:114
-#, fuzzy, kde-format
-#| msgid "Document Viewer"
+#, kde-format
 msgid "Use Document Viewer"
-msgstr "پۈتۈك كۆرگۈ"
+msgstr ""
 
 #: widgets/toolconfigwidget.cpp:115
 #, kde-format
@@ -12520,12 +12478,10 @@ msgstr ""
 #~ msgid "Information"
 #~ msgstr "ئۇچۇر"
 
-#, fuzzy
 #~| msgid "Environment"
 #~ msgid "'environment'"
 #~ msgstr "مۇھىت"
 
-#, fuzzy
 #~| msgid "Command"
 #~ msgid "'command'"
 #~ msgstr "بۇيرۇق"
@@ -12533,7 +12489,6 @@ msgstr ""
 #~ msgid "&Library:"
 #~ msgstr "ئامبار(&L):"
 
-#, fuzzy
 #~| msgid "Normal mode"
 #~ msgid "Normal Mode"
 #~ msgstr "ئادەتتىكى ھالەت"

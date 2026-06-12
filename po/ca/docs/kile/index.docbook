@@ -364,7 +364,7 @@
 		<para
 >El sistema de composició tipogràfica &latex; és similar a altres llenguatges de marques, com &XML;, utilitzat en molts tipus de documents (incloent-hi el que esteu llegint), o &HTML;, utilitzat per a les pàgines web. La idea general al darrere dels llenguatges de marques és tenir un conjunt de paraules clau especials, anomenades <emphasis
 >etiquetes</emphasis
->, que li indiquen a un programa (un processador de text, un navegador web, o al compilador de &latex;) com interpretar el text tancat entre les etiquetes. El &kile; ofereix una sèrie d'aquestes etiquetes al menú <guimenu
+>, que li indiquen a un programa (un processador de textos, un navegador web, o al compilador de &latex;) com interpretar el text tancat entre les etiquetes. El &kile; ofereix una sèrie d'aquestes etiquetes al menú <guimenu
 >LaTeX</guimenu
 > a la barra de menús.</para>
 

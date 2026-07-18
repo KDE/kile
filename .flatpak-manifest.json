@@ -330,6 +330,29 @@
             ]
         },
         {
+            "name": "libssh",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "config-opts": [
+                "-DWITH_DEBUG_CALLTRACE:BOOL=OFF",
+                "-DWITH_EXAMPLES:BOOL=OFF",
+                "-DWITH_SERVER:BOOL=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://www.libssh.org/files/0.12/libssh-0.12.0.tar.xz",
+                    "sha256": "1a6af424d8327e5eedef4e5fe7f5b924226dd617ac9f3de80f217d82a36a7121",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 1729,
+                        "stable-only": true,
+                        "url-template": "https://www.libssh.org/files/$major.$minor/libssh-$version.tar.xz"
+                    }
+                }
+            ]
+        },
+        {
             "name": "konsole",
             "buildsystem": "cmake-ninja",
             "sources": [

@@ -3,31 +3,32 @@
 # SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2023 Vít Pelčák <vit@pelcak.org>
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012, 2013.
 # SPDX-FileCopyrightText: 2021, 2022, 2023, 2024 Vit Pelcak <vit@pelcak.org>
+# SPDX-FileCopyrightText: 2026 Libor Filípek <libor.filipek@gmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-05 00:43+0000\n"
-"PO-Revision-Date: 2024-06-20 16:28+0200\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"PO-Revision-Date: 2026-07-23 10:35+0200\n"
+"Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 24.05.1\n"
+"X-Generator: Poedit 3.9\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Vít Pelčák, Tomáš Pospíchal"
+msgstr "Vít Pelčák,Tomáš Pospíchal,Libor Filípek"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "vit@pelcak.org, tm.pospichal@gmail.com"
+msgstr "vit@pelcak.org,tm.pospichal@gmail.com,libor.filipek@gmail.com"
 
 #: abbreviationmanager.cpp:104
 #, kde-format
@@ -2538,7 +2539,7 @@ msgstr "Úloha:"
 #: dialogs/postscriptdialog_base.ui:140
 #, kde-format
 msgid "Viewer:"
-msgstr "Prohlížeč: "
+msgstr "Prohlížeč:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbView)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:237 dialogs/postscriptdialog_base.ui:75
@@ -3108,7 +3109,7 @@ msgstr "Nebyl zadán název souboru"
 #: dialogs/projectdialogs.cpp:374
 #, kde-format
 msgid "The project file exists already. Please choose another name."
-msgstr ""
+msgstr "Soubor projektu již existuje. Zvolte prosím jiný název."
 
 #: dialogs/projectdialogs.cpp:374 dialogs/projectdialogs.cpp:380
 #, kde-format
@@ -3120,6 +3121,8 @@ msgstr "Soubor projektu již existuje"
 msgid ""
 "The GUI settings file exists already. Please choose another project name."
 msgstr ""
+"Soubor s nastavením grafického uživatelského rozhraní již existuje. Zvolte "
+"prosím jiný název projektu."
 
 #: dialogs/projectdialogs.cpp:395 documentinfo.cpp:133
 #, kde-format
@@ -3174,6 +3177,8 @@ msgid ""
 "<p>Could not create the project folder \"\n"
 "%1\"</p>.<p>Please check whether you have write permissions.</p>"
 msgstr ""
+"<p>Nepodařilo se vytvořit složku projektu \"\n"
+"%1\"</p>.<p>Zkontrolujte, zda máte oprávnění k zápisu.</p>"
 
 #: dialogs/projectdialogs.cpp:606
 #, kde-format
@@ -4701,6 +4706,10 @@ msgid ""
 "to show the corresponding file.</p><p>Items that are grayed out are not "
 "installed.</p>"
 msgstr ""
+"<p>Seznam dokumentace dodávané s nainstalovanou distribucí TeXu.</"
+"p><p>Dvojitým kliknutím na položku nebo stisknutím mezerníku se otevře "
+"prohlížeč, který zobrazí příslušný soubor.</p><p>Položky, které jsou "
+"zobrazeny šedě, nejsou nainstalovány.</p>"
 
 #: dialogs/texdocumentationdialog.cpp:87
 #, kde-format
@@ -5034,7 +5043,7 @@ msgstr "Zahodit strom"
 #: widgets/usermenuconfigwidget.cpp:62
 #, kde-format
 msgid "User Menu Files (*.xml)"
-msgstr ""
+msgstr "Soubory uživatelských nabídek (*.xml)"
 
 #: dialogs/usermenu/usermenudialog.cpp:291 usermenu/usermenu.cpp:333
 #: widgets/usermenuconfigwidget.cpp:64
@@ -5075,7 +5084,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:414
 #, kde-format
 msgid "Menu tree errors"
-msgstr ""
+msgstr "Chyby ve stromu nabídek"
 
 #: dialogs/usermenu/usermenudialog.cpp:569
 #, kde-format
@@ -5501,7 +5510,7 @@ msgstr "Přejete si skutečně vyčistit celý strom nabídky?"
 #: dialogs/usermenu/usermenutree.cpp:913
 #, kde-format
 msgid "Clear menutree"
-msgstr ""
+msgstr "Vymazat strom nabídek"
 
 #: dialogs/usermenu/usermenutree.cpp:930
 #, kde-format
@@ -5803,6 +5812,9 @@ msgid ""
 "properly.<br/>This will overwrite any changes you have made.</p><p>Do you "
 "want to reset the tools now?</p>"
 msgstr ""
+"<p>Aby tato verze programu Kile fungovala správně, je třeba obnovit "
+"nastavení nástrojů.<br/>Tím dojde k přepsání všech změn, které jste provedli."
+"</p><p>Chcete nyní obnovit nastavení nástrojů?</p>"
 
 #: kile.cpp:405
 #, kde-format
@@ -5911,7 +5923,7 @@ msgstr "Zkratka"
 #: kile.cpp:738
 #, kde-format
 msgid "Log and Messages"
-msgstr "Záznamy a zprávy "
+msgstr "Záznamy a zprávy"
 
 #: kile.cpp:744
 #, kde-format
@@ -6459,7 +6471,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
-msgstr "BLOK "
+msgstr "BLOK"
 
 #: kile.cpp:3069
 #, kde-format
@@ -6796,13 +6808,13 @@ msgstr "Použít tento počet mezer pro automatické odsazování prostředí"
 #: kile.kcfg:214
 #, kde-format
 msgid "Click in editor to select from cursor"
-msgstr ""
+msgstr "Kliknutím v editoru vyberte z kurzoru"
 
 #. i18n: ectx: label, entry (envEventSearchModifier), group (Editor Ext)
 #: kile.kcfg:218
 #, kde-format
 msgid "Click in editor to search in viewer"
-msgstr ""
+msgstr "Kliknutím v editoru vyhledejte v prohlížeči"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
 #: kile.kcfg:226
@@ -7008,7 +7020,7 @@ msgstr "Má-li být pro prohlížeč dokumentů povolen režim sledování soubo
 #: kile.kcfg:380
 #, kde-format
 msgid "Whether to show the full path of file names in the window title."
-msgstr ""
+msgstr "Zda se má v názvu okna zobrazovat úplná cesta k názvům souborů."
 
 #. i18n: ectx: label, entry (dvipng), group (QuickPreview)
 #: kile.kcfg:448
@@ -7089,6 +7101,8 @@ msgid ""
 "Width of the column containing the script name in the scripts management "
 "widget."
 msgstr ""
+"Šířka sloupce obsahujícího název skriptu v ovládacím prvku pro správu "
+"skriptů."
 
 #. i18n: ectx: label, entry (pdfWizardLastTask), group (PdfWizard)
 #: kile.kcfg:582
@@ -7382,11 +7396,13 @@ msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
 "project, close the project before you re-open it.</p>"
 msgstr ""
+"<p>Projekt \"%1\" je již otevřený.</p><p>Pokud chcete projekt znovu načíst, "
+"nejprve jej zavřete a poté znovu otevřete.</p>"
 
 #: kiledocmanager.cpp:1506
 #, kde-format
 msgid "Project Already Open"
-msgstr "Projekt je už otevřen"
+msgstr "Projekt je již otevřen"
 
 #: kiledocmanager.cpp:1517
 #, kde-format
@@ -7395,6 +7411,8 @@ msgid ""
 "readable.</p><p>Do you want to remove this project from the recent projects "
 "list?</p>"
 msgstr ""
+"<p>Soubor projektu \"%1\" neexistuje nebo není čitelný.</p><p>Chcete tento "
+"projekt odstranit ze seznamu posledních projektů?</p>"
 
 #: kiledocmanager.cpp:1520
 #, kde-format
@@ -7407,11 +7425,12 @@ msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
 "file.</p>"
 msgstr ""
+"<p>Soubor \"%1\" nelze otevřít, protože se nejedná o soubor projektu.</p>"
 
 #: kiledocmanager.cpp:1540
 #, kde-format
 msgid "Impossible to Open Project File"
-msgstr ""
+msgstr "Nelze otevřít soubor projektu"
 
 #: kiledocmanager.cpp:1550
 #, kde-format
@@ -7419,11 +7438,13 @@ msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
 "version of Kile.</p>"
 msgstr ""
+"<p>Projekt \"%1\" nelze otevřít, protože byl vytvořen <br/>novější verzí "
+"programu Kile.</p>"
 
 #: kiledocmanager.cpp:1552
 #, kde-format
 msgid "Impossible to Open Project"
-msgstr ""
+msgstr "Projekt nelze otevřít"
 
 #: kiledocmanager.cpp:1562
 #, kde-format
@@ -7432,11 +7453,13 @@ msgid ""
 "needs to be updated before it can be opened.</p><p>Do you want to update it?"
 "</p>"
 msgstr ""
+"<p>Soubor projektu \"%1\" byl vytvořen v předchozí verzi programu Kile.<br/"
+">Před otevřením je nutné jej aktualizovat.</p><p>Chcete jej aktualizovat?</p>"
 
 #: kiledocmanager.cpp:1565
 #, kde-format
 msgid "Project File Needs to be Updated"
-msgstr ""
+msgstr "Soubor projektu je třeba aktualizovat"
 
 #: kiledocmanager.cpp:1572
 #, kde-format
@@ -7444,11 +7467,13 @@ msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
 "this project from the recent projects list?</p>"
 msgstr ""
+"<p>Soubor projektu \"%1\" se nepodařilo aktualizovat.</p><p>Chcete tento "
+"projekt odstranit ze seznamu posledních projektů?</p>"
 
 #: kiledocmanager.cpp:1574
 #, kde-format
 msgid "Could Not Update Project File"
-msgstr ""
+msgstr "Soubor projektu se nepodařilo aktualizovat"
 
 #: kiledocmanager.cpp:1674
 #, kde-format
@@ -7698,7 +7723,7 @@ msgid ""
 "given to the tool."
 msgstr ""
 "Mezi volbami zadanými nástroji se vyskytují meta znaky příkazového "
-"procesoru, které nelze zpracovat"
+"procesoru, které nelze zpracovat."
 
 #: kilelauncher.cpp:247
 #, kde-format
@@ -7880,7 +7905,7 @@ msgstr "Obsah - \\tableofcontents"
 #: kilestdactions.cpp:56
 #, kde-format
 msgid "Put this command where you want the table of contents to go"
-msgstr "Tento příkaz se vkládá na místo, kde si přejete mít Obsah."
+msgstr "Tento příkaz se vkládá na místo, kde si přejete mít obsah"
 
 #: kilestdactions.cpp:57
 #, kde-format
@@ -8250,7 +8275,7 @@ msgstr "\\textsc{psáno v kapitálkách}"
 #: kilestdactions.cpp:149
 #, kde-format
 msgid "\\item[label] Hello!"
-msgstr "\\item[značka] Ahoj."
+msgstr "\\item[značka] Ahoj!"
 
 #: kilestdactions.cpp:151
 #, kde-format
@@ -8425,7 +8450,7 @@ msgid ""
 "specified, beginning in column i and ending in column j,"
 msgstr ""
 "Příkaz \\cline{i-j} vykreslí vodorovnou čáru napříč zadanými sloupci, "
-"počínaje sloupcem i a konče sloupcem j."
+"počínaje sloupcem i a konče sloupcem j,"
 
 #: kilestdactions.cpp:176
 #, kde-format
@@ -8542,7 +8567,7 @@ msgstr ""
 #: kilestdactions.cpp:207 kilestdactions.cpp:213
 #, kde-format
 msgid "Type or select a filename: "
-msgstr "Zvolte název souboru:"
+msgstr "Zvolte název souboru: "
 
 #: kilestdactions.cpp:208
 #, kde-format
@@ -9347,8 +9372,8 @@ msgid ""
 "Kile inserts automatically the base name of the TeX file"
 msgstr ""
 "Parametrem příkazu \\bibliography je název bib souboru (bez přípony),\n"
-"který obsahuje vaši databázi literatury ve formátu BibTeX.\n"
-"Kile vloží automaticky základní název souboru TeXu."
+"který obsahuje váš seznam použité literatury ve formátu BibTeX.\n"
+"Kile vloží automaticky základní název souboru TeXu"
 
 #: kilestdactions.cpp:480
 #, kde-format
@@ -10281,6 +10306,8 @@ msgid ""
 "Manually selected bibliography tool does not exist: trying to auto-detect it "
 "now."
 msgstr ""
+"Nástroj pro ruční výběr seznamu použité literatury neexistuje: nyní probíhá "
+"pokus o automatickou detekci."
 
 #: kilestdtools.cpp:662
 #, kde-format
@@ -10443,7 +10470,7 @@ msgstr "Za&stavit"
 #: kiletoolmanager.cpp:737
 #, kde-format
 msgid "Bibliography Back End"
-msgstr ""
+msgstr "Podpůrná vrstva pro seznamy použité literatury"
 
 #: kiletoolmanager.cpp:738
 #, kde-format
@@ -10454,11 +10481,13 @@ msgstr "Automatická detekce"
 #, kde-format
 msgid "Auto-detect the bibliography back end from LaTeX output"
 msgstr ""
+"Automaticky detekovat podpůrnou vrstvu pro seznamy použité literatury z "
+"výstupu LaTeXu"
 
 #: kiletoolmanager.cpp:744
 #, kde-format
 msgid "Reset Auto-Detected Back End"
-msgstr ""
+msgstr "Obnovit automatickou detekci podpůrné vrstvy"
 
 #. i18n: ectx: Menu (file)
 #: kileui.rc:12
@@ -11051,7 +11080,7 @@ msgstr "Začít s novým hlavním oknem Kile"
 #: main.cpp:136
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
-msgstr ""
+msgstr "Soubory k otevření / zadejte '-' pro čtení ze standardního vstupu"
 
 #: main.cpp:167
 #, kde-format
@@ -11061,6 +11090,10 @@ msgid ""
 "\n"
 "Please install the Okular library before running Kile."
 msgstr ""
+"Kile nelze spustit, protože se nepodařilo najít nejnovější verzi knihovny "
+"Okular.\n"
+"\n"
+"Před spuštěním Kile prosím nainstalujte knihovnu Okular."
 
 #: main.cpp:169
 #, kde-format
@@ -11291,7 +11324,7 @@ msgstr ""
 #: scripting/script.cpp:293
 #, kde-format
 msgid "Error"
-msgstr "chyba"
+msgstr "Chyba"
 
 #: scriptmanager.cpp:99
 #, kde-format
@@ -11405,7 +11438,7 @@ msgstr "Nastavení vzhledu"
 #: widgets/appearanceconfigwidget.ui:29
 #, kde-format
 msgid "Show full path in window title"
-msgstr ""
+msgstr "Zobrazit úplnou cestu v názvu okna"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSplashScreen)
 #: widgets/appearanceconfigwidget.ui:36
@@ -11942,19 +11975,19 @@ msgstr "B&STINPUTS:"
 #: widgets/latexconfigwidget.ui:258
 #, kde-format
 msgid "Modifiers for Left Click Actions"
-msgstr ""
+msgstr "Modifikátory pro akce levého tlačítka myši"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/latexconfigwidget.ui:267
 #, kde-format
 msgid "Modifier for forward search in viewer:"
-msgstr ""
+msgstr "Modifikátor pro dopředné vyhledávání v prohlížeči:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: widgets/latexconfigwidget.ui:280
 #, kde-format
 msgid "Modifier for selecting from cursor:"
-msgstr ""
+msgstr "Modifikátor pro výběr z kurzoru:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckRootDoc)
 #: widgets/latextoolconfigwidget.ui:35
@@ -12674,7 +12707,7 @@ msgstr "Úroveň rozbalení"
 #: widgets/structureviewconfigwidget.ui:52
 #, kde-format
 msgid "&Default value"
-msgstr "Výchozí ho&dnota:"
+msgstr "Výchozí ho&dnota"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2_2)
 #: widgets/structureviewconfigwidget.ui:112
@@ -13125,4 +13158,4 @@ msgstr "Ukazovat uživa&telskou nabídku v nabídce LaTeXu"
 #: widgets/usermenuconfigwidget.ui:177
 #, kde-format
 msgid "Show the &user menu in the menu bar"
-msgstr ""
+msgstr "Ukazovat &uživatelskou nabídku v liště"

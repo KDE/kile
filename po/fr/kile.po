@@ -2987,9 +2987,9 @@ msgid ""
 "Be sure to call 'dvips' with option '-t a4' and\n"
 "hyperref package (if needed) with option 'a4paper'."
 msgstr ""
-"La conversion des fichiers ps est effectuée par « pstops » et « psselect ».\n"
-"Assurez-vous d'appeler « dvips » avec l'option « -t a4 » et\n"
-"le paquet hyperref (si besoin) avec l'option « a4paper »."
+"La conversion des fichiers ps est effectuée par « pstops » et « psselect ».\n"
+"Assurez-vous d'appeler « dvips » avec l'option « -t a4 » et\n"
+"le paquet « hyperref » (si besoin) avec l'option « a4paper »."
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, m_edInfile)
 #: dialogs/postscriptdialog_base.ui:68
@@ -9126,10 +9126,10 @@ msgid ""
 "optional position argument and mandatory width argument. You may use other "
 "paragraph-making environments inside a minipage."
 msgstr ""
-"L'environnement minipage est similaire à la commande \\parbox. Il requiert "
-"les mêmes paramètres de position (optionnel) et de largeur (obligatoire). "
-"Dans une mini-page il est encore possible d'utiliser d'autres environnements "
-"de formatage de paragraphe"
+"L'environnement « minipage » est similaire à la commande « \\parbox ». Il "
+"requiert les mêmes paramètres de position (optionnel) et de largeur "
+"(obligatoire). Dans une mini-page il est encore possible d'utiliser d'autres "
+"environnements de formatage de paragraphe"
 
 #: kilestdactions.cpp:326
 #, kde-format

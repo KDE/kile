@@ -1242,7 +1242,7 @@ msgstr "Soll der „intelligente Zeilenumbruch“ \\\\ einfügen?"
 #: dialogs/latexcommanddialog.cpp:144
 #, kde-format
 msgid "Does this environment need math mode?"
-msgstr "Braucht diese Umgebung den Mathematik-Modus?"
+msgstr "Benötigt diese Umgebung den Mathematik-Modus?"
 
 #: dialogs/latexcommanddialog.cpp:145
 #, kde-format
@@ -1262,7 +1262,7 @@ msgstr "Optionale Ausrichtungs-Parameter."
 #: dialogs/latexcommanddialog.cpp:170
 #, kde-format
 msgid "Does this command need an optional parameter?"
-msgstr "Braucht dieser Befehl zusätzliche Parameter?"
+msgstr "Benötigt dieser Befehl zusätzliche Parameter?"
 
 #: dialogs/latexcommanddialog.cpp:178
 #, kde-format
@@ -1275,7 +1275,7 @@ msgid ""
 "Does this environment need an additional parameter like {n} for an integer "
 "number, {w} for a width or { } for any other parameter?"
 msgstr ""
-"Braucht diese Umgebung zusätzliche Parameter wie {n} für eine natürliche "
+"Benötigt diese Umgebung zusätzliche Parameter wie {n} für eine natürliche "
 "Zahl, {w} für die Breite oder { } für andere Parameter?"
 
 #: dialogs/latexcommanddialog.cpp:196
@@ -1447,7 +1447,7 @@ msgid ""
 msgstr ""
 "Liste bekannter Umgebungen mit vielen (von Kile möglicherweise genutzten) "
 "Zusatzinformationen. Sie können Ihre eigenen Umgebungen hinzufügen, damit "
-"sie von der Auto-Vervollständigung (z. B. „Intelligenter Zeilenumbruch“ und "
+"sie von der Auto-Vervollständigung (z. B. „Intelligenter Zeilenumbruch“ und "
 "„Intelligenter Tabulator“) berücksichtigt werden können. Beachten Sie, dass "
 "nur benutzerdefinierte Umgebungen bearbeitet und gelöscht werden können."
 
@@ -1872,7 +1872,7 @@ msgstr "Wählen Sie eine Umgebung."
 #: dialogs/tabular/newtabulardialog.cpp:179
 #, kde-format
 msgid "Use the starred version of this environment."
-msgstr "Die *-Version dieses Befehls benutzen."
+msgstr "Die *-Version dieses Befehls verwenden."
 
 #: dialogs/mathenvironmentdialog.cpp:148
 #: dialogs/tabular/newtabulardialog.cpp:175
@@ -2286,10 +2286,10 @@ msgid ""
 "page. This works best if the stamp PDF page has a transparent background."
 msgstr ""
 "Fügt eine Vordergrundstempel auf den Seiten der PDF-Eingabedatei ein. "
-"„Pdftk“ benutzt nur die erste Seite der PDF-Datei mit den Vordergrundstempel "
-"und wendet sie auf jede Seite der PDF-Eingabedatei an. Diese Seite wird "
-"skaliert und gedreht, so dass sie auf die Eingabeseite passt. Dies "
-"funktioniert am besten, wenn die PDF-Seite mit dem Stempel eine "
+"„Pdftk“ verwendet nur die erste Seite der PDF-Datei mit den "
+"Vordergrundstempel und wendet sie auf jede Seite der PDF-Eingabedatei an. "
+"Diese Seite wird skaliert und gedreht, so dass sie auf die Eingabeseite "
+"passt. Dies funktioniert am besten, wenn die PDF-Seite mit dem Stempel eine "
 "transparenten Hintergrund hat."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:844
@@ -5104,7 +5104,7 @@ msgid ""
 msgstr ""
 "<p>Sie können ein benutzerdefiniertes Menü erstellen, ändern und "
 "installieren. Dieses wird als Teil des Kile-Menüs erscheinen. Um das Menü zu "
-"erstellen oder zu ändern, benutzen Sie die sechs Knöpfe auf der linken "
+"erstellen oder zu ändern, verwenden Sie die sechs Knöpfe auf der linken "
 "Seite. Weitere Aktionen sind über das Kontextmenü bereits bestehender "
 "Menüeinträge erreichbar.</p><p>Wie in einem normalen Menü sind drei "
 "verschiedene Arten von Menüeinträgen verfügbar:</p> <ul> "
@@ -6767,7 +6767,7 @@ msgid ""
 msgstr ""
 "Setzen Sie hier die TEXINPUTS-Systemvariable. TEXINPUTS sollte eine durch "
 "Doppelpunkte getrennte Liste aller Pfade sein, in denen TeX zusätzliche "
-"Pakete und/oder Dateien sucht. Sie brauchen nicht :$TEXINPUTS am Ende "
+"Pakete und/oder Dateien sucht. Sie benötigen nicht :$TEXINPUTS am Ende "
 "hinzufügen."
 
 #. i18n: ectx: label, entry (PreviewTeXPaths), group (Tools)
@@ -6788,7 +6788,7 @@ msgid ""
 msgstr ""
 "Setzen Sie hier die TEXINPUTS-Systemvariable. TEXINPUTS sollte eine mit "
 "Doppelpunkten getrennte Liste aller Pfade sein, in denen TeX zusätzliche "
-"Pakete und/oder Dateien sucht. Sie brauchen :$TEXINPUTS am Ende nicht "
+"Pakete und/oder Dateien sucht. Sie benötigen :$TEXINPUTS am Ende nicht "
 "hinzufügen."
 
 #. i18n: ectx: label, entry (BibInputPaths), group (Tools)
@@ -6807,7 +6807,7 @@ msgid ""
 msgstr ""
 "Setzen Sie hier die Systemvariable „BIBINPUTS“. BIBINPUTS sollte eine durch "
 "Doppelpunkte getrennte Liste aller Pfade sein, in denen bibtex nach "
-"zusätzlichen .bib-Dateien sucht. Sie brauchen nicht :$BIBINPUTS am Ende "
+"zusätzlichen .bib-Dateien sucht. Sie benötigen nicht :$BIBINPUTS am Ende "
 "hinzufügen."
 
 #. i18n: ectx: label, entry (PreviewBibInputPaths), group (Tools)
@@ -6829,7 +6829,7 @@ msgstr ""
 "Setzen Sie hier die BIBINPUTS-Systemvariable. BIBINPUTS sollte eine mit "
 "Doppelpunkten getrennte Liste aller Pfade sein, in denen das "
 "Bibliographieprogramm (zum Beispiel BibTeX oder Biber) zusätzliche Pakete "
-"und/oder Dateien sucht. Sie brauchen :$BIBINPUTS am Ende nicht hinzufügen."
+"und/oder Dateien sucht. Sie benötigen :$BIBINPUTS am Ende nicht hinzufügen."
 
 #. i18n: ectx: label, entry (BstInputPaths), group (Tools)
 #: kile.kcfg:141
@@ -6847,7 +6847,7 @@ msgid ""
 msgstr ""
 "Setzen Sie hier die Systemvariable „BSTINPUTS“. BSTINPUTS sollte eine durch "
 "Doppelpunkte getrennte Liste aller Pfade sein, in denen bibtex nach "
-"zusätzlichen „.bst“-Dateien sucht. Sie brauchen nicht :$BSTINPUTS am Ende "
+"zusätzlichen „.bst“-Dateien sucht. Sie benötigen nicht :$BSTINPUTS am Ende "
 "hinzufügen."
 
 #. i18n: ectx: label, entry (BottomBar), group (Show)
@@ -8497,7 +8497,7 @@ msgstr ""
 "\t\\=\tsetzt einen Tabulator an der aktuellen Position\n"
 "\t\\&gt;\tsteuert den nächsten Tabulator an\n"
 "\t\\&lt;\terlaubt es, etwas vor den aktuellen linken Rand zu setzen, ohne "
-"den Rand zu verändern. Kann nur am Anfang der Zeile benutzt werden.\n"
+"den Rand zu verändern. Kann nur am Anfang der Zeile verwendet werden.\n"
 "\t\\+\tbewegt den linken Rand für alle folgenden Befehle einen "
 "Tabulatorschritt nach rechts.\n"
 "\t\\-\tbewegt den linken Rand für alle folgenden Befehle einen "
@@ -8510,7 +8510,7 @@ msgstr ""
 "\t\\kill\tSetzt Tabulatoren, ohne Text wiederzugeben.\n"
 "\t\\a\tin einer tabbing-Umgebung erzeugen die Befehle \\=, \\“ und \\` keine "
 "Akzente wie gewöhnlich. Stattdessen werden dafür \\a=, \\a\" und \\a` "
-"benutzt."
+"verwendet."
 
 #: kilestdactions.cpp:155
 #, kde-format
@@ -13370,7 +13370,7 @@ msgstr "Möchten Sie diese Konfiguration wirklich löschen?"
 #: widgets/toolconfigwidget.cpp:496
 #, kde-format
 msgid "You need at least one configuration for each tool."
-msgstr "Sie brauchen für jedes Werkzeug mindestens eine Konfiguration."
+msgstr "Sie benötigen für jedes Werkzeug mindestens eine Konfiguration."
 
 #: widgets/toolconfigwidget.cpp:496
 #, kde-format

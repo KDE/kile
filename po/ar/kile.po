@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-05 00:43+0000\n"
-"PO-Revision-Date: 2026-03-24 11:03+0400\n"
+"PO-Revision-Date: 2026-08-10 18:34+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2257,7 +2257,7 @@ msgstr ""
 "<center>مُرشد بي دي إف</center><br>يستعمل هذا المُرشد 'pdftk' وحزمة لاتخ "
 "'pdfpages' لـ<ul><li>إعادة ترتيب صفحات مُستند بي دي إف موجود</li><li>قراءة "
 "وتحديث معلومات مُستند بي دي إف (pdftk فقط)</li><li>قراءة أو ضبط أو تغيير بعض "
-"أذونات مُستند بي دي إف (pdftk فقط). كلمة سِر ضرورية لضبط أو تغيير إعدادات هذا "
+"أذون مُستند بي دي إف (pdftk فقط). كلمة سِر ضرورية لضبط أو تغيير إعدادات هذا "
 "المُستند. إضافة لذلك، يجري تعمية بي دي إف لقفل مُحتوى المُلف خلف كلمة السر هذه."
 "</li></ul><p>حزمة 'pdfpages' تعمل فقط مع المُستندات غير المُعَمَّاة. 'pdftk' يُمكِن "
 "أن يَتَعامل مع كلا نوعي المُستندات، لكن كلمة سِر ضرورية للمُلفات المُعَمَّاة. إن لم "
@@ -2651,7 +2651,7 @@ msgstr "الصّلاحيّات"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:577
 #, kde-format
 msgid "Permissions (under 128-bit-security)"
-msgstr "الأذونات (أقل من حماية 128 بت)"
+msgstr "الأذون (أقل من حماية 128 بت)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:609
@@ -3138,7 +3138,7 @@ msgid ""
 "%1\"</p>.<p>Please check whether you have write permissions.</p>"
 msgstr ""
 "<p>لم يُمكِن إنشاء مُجلد المَشروع \"\n"
-"%1\"</p>.<p>الرجاء فحص ما إذا لديك أذونات الكتابة.</p>"
+"%1\"</p>.<p>الرجاء فحص ما إذا لديك أذون الكتابة.</p>"
 
 #: dialogs/projectdialogs.cpp:606
 #, kde-format
@@ -3146,7 +3146,7 @@ msgid ""
 "<p>The project folder \"(%1)\" is not writable.</p><p>Please check the "
 "permissions of the project folder.</p>"
 msgstr ""
-"<p>مُجلد المَشروع \"(%1)\" غير قابل للكتابة.</p><p>الرجاء فحص أذونات مُجلد "
+"<p>مُجلد المَشروع \"(%1)\" غير قابل للكتابة.</p><p>الرجاء فحص أذون مُجلد "
 "المَشروع.</p>"
 
 #: dialogs/quickdocumentdialog.cpp:105
@@ -8888,12 +8888,12 @@ msgid ""
 "widest item label produces by the \\bibitem commands\n"
 "\\bibitem : Specify a bibliography item"
 msgstr ""
-"\\begin{thebibliography}{أعرض لصيقة}\n"
+"\\begin{thebibliography}{أعْرض-لصيقة}\n"
 "\\bibitem[لصيقة]{مفتاح_الاقتباس}\n"
 "...\n"
 "\\end{thebibliography}\n"
 "\n"
-"أعرض لصيقة : نص، عندما يطبع، يكون تقريبًا بعرض أعرض لصيقة عنصر تنتجها أوامر "
+"أعْرض لصيقة : نص، عندما يطبع، يكون تقريبًا بعرض أعرض لصيقة عنصر تنتجها أوامر "
 "\\bibitem\n"
 "\\bibitem : حدد عنصر ببليوغرافيا"
 

@@ -4949,7 +4949,7 @@ msgstr ""
 "<p>يمكنك إنشاء قائمة يحددها المستخدم، وتغييرها وتثبيتها، وستظهر كجزء من "
 "قائمة كايل. لإنشاء هذه القائمة أو تغييرها، استخدِم الأزرار الستة على الجانب "
 "الأيسر. تتوفر المزيد من الإجراءات الممكنة في قائمة السياق لمدخلات القائمة "
-"الموجودة أصلاً.</p><p>كأي قائمة قياسية، تتوفر ثلاثة أنواع مختلفة من مدخلات "
+"الموجودة أصلًا.</p><p>كأي قائمة قياسية، تتوفر ثلاثة أنواع مختلفة من مدخلات "
 "القائمة:</p><ul><li><i>المدخلات القياسية</i>، المخصصة لإجراء معين</"
 "li><li><i>القوائم الفرعية</i>، التي تحتوي على المزيد من مدخلات القائمة</"
 "li><li><i>الفواصل</i>، للحصول على هيكل مرئي لجميع المدخلات</li></ul><p>يخصص "
@@ -5028,7 +5028,7 @@ msgid ""
 msgstr ""
 "شجرة القائمة تحتوي على بعض الأخطاء وتثبيت هذا الملف قد يؤدي إلى نتائج لا "
 "يمكن التنبؤ بها.\n"
-"هل تريد حقاً حفظ هذا الملف؟"
+"هل تريد حقًا حفظ هذا الملف؟"
 
 #: dialogs/usermenu/usermenudialog.cpp:414
 #, kde-format
@@ -5068,13 +5068,13 @@ msgid ""
 msgstr ""
 "شجرة القائمة المحددة من قبل المستخدِم، يمكن تعديلها باستخدام الأزرار الستة "
 "تحت الشجرة (واختصاراتها). تتوفر المزيد من الإجراءات في قائمة السياق للعناصر "
-"المحددة. يمكنك أيضاً إعادة ترتيب العناصر بالسحب والإفلات."
+"المحددة. يمكنك أيضًا إعادة ترتيب العناصر بالسحب والإفلات."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInsertSeparator)
 #: dialogs/usermenu/usermenudialog_base.ui:100
 #, kde-format
 msgid "Insert a new separator below the selected item."
-msgstr "أدرِج فاصلاً جديداً تحت العنصر المحدد."
+msgstr "أدرِج فاصلًا جديدًا تحت العنصر المحدد."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbDelete)
 #: dialogs/usermenu/usermenudialog_base.ui:110
@@ -5098,7 +5098,7 @@ msgstr "أسفل"
 #: dialogs/usermenu/usermenudialog_base.ui:130
 #, kde-format
 msgid "Insert a new menu item below the selected item."
-msgstr "أدرِج مدخل قائمة جديداً تحت العنصر المحدد."
+msgstr "أدرِج مدخل قائمة جديدًا تحت العنصر المحدد."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbInsertBelow)
 #: dialogs/usermenu/usermenudialog_base.ui:133
@@ -5110,7 +5110,7 @@ msgstr "أدرج"
 #: dialogs/usermenu/usermenudialog_base.ui:140
 #, kde-format
 msgid "Insert a new submenu item below the selected item."
-msgstr "أدرِج مدخل قائمة فرعية جديداً تحت العنصر المحدد."
+msgstr "أدرِج مدخل قائمة فرعية جديدًا تحت العنصر المحدد."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbUp)
 #: dialogs/usermenu/usermenudialog_base.ui:166
@@ -5180,7 +5180,7 @@ msgid ""
 "file into the local directory of Kile and choose a new name for this file."
 msgstr ""
 "احفظ شجرة قائمة معدّلة، تصف القائمة المحددة من قبل المستخدِم، في ملف xml في "
-"الدليل المحلي لكايل واختر اسماً جديداً لهذا الملف."
+"الدليل المحلي لكايل واختر اسمًا جديدًا لهذا الملف."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbSaveAs)
 #: dialogs/usermenu/usermenudialog_base.ui:286
@@ -5192,7 +5192,7 @@ msgstr "حفظ باسم"
 #: dialogs/usermenu/usermenudialog_base.ui:352
 #, kde-format
 msgid "(installed)"
-msgstr "(الأكثر تثبيتاً)"
+msgstr "(الأكثر تثبيتًا)"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbNew)
 #: dialogs/usermenu/usermenudialog_base.ui:375
@@ -5276,7 +5276,7 @@ msgstr "وسيط سطر الأوامر لبرنامج قابل للتنفيذ."
 #: dialogs/usermenu/usermenudialog_base.ui:621
 #, kde-format
 msgid "Choose or clear a shortcut for this action."
-msgstr "اختر أو امسح اختصاراً لهذا الإجراء."
+msgstr "اختر أو امسح اختصارًا لهذا الإجراء."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbSelectInsertion)
 #: dialogs/usermenu/usermenudialog_base.ui:647
@@ -5362,12 +5362,12 @@ msgstr "أدرج في الأسفل"
 #: dialogs/usermenu/usermenutree.cpp:172
 #, kde-format
 msgid "Insert a separator above"
-msgstr "أدرِج فاصلاً فوق"
+msgstr "أدرِج فاصلًا فوق"
 
 #: dialogs/usermenu/usermenutree.cpp:173
 #, kde-format
 msgid "Insert a separator below"
-msgstr "أدرِج فاصلاً تحت"
+msgstr "أدرِج فاصلًا تحت"
 
 #: dialogs/usermenu/usermenutree.cpp:178
 #, kde-format
@@ -5387,7 +5387,7 @@ msgstr "أدرِج في هذه القائمة الفرعية"
 #: dialogs/usermenu/usermenutree.cpp:185
 #, kde-format
 msgid "Insert a separator into this submenu"
-msgstr "أدرِج فاصلاً في هذه القائمة الفرعية"
+msgstr "أدرِج فاصلًا في هذه القائمة الفرعية"
 
 #: dialogs/usermenu/usermenutree.cpp:186
 #, kde-format
@@ -5452,7 +5452,7 @@ msgstr "أدخِل لصيقة لهذا المدخل:"
 #: dialogs/usermenu/usermenutree.cpp:912
 #, kde-format
 msgid "Do you really want to clear the complete menutree?"
-msgstr "هل تريد حقاً مسح شجرة القائمة بالكامل؟"
+msgstr "هل تريد حقًا مسح شجرة القائمة بالكامل؟"
 
 #: dialogs/usermenu/usermenutree.cpp:913
 #, kde-format
@@ -5472,7 +5472,7 @@ msgstr "عنصر القائمة الفرعية هذا عديم الفائدة ب
 #: dialogs/usermenu/usermenutree.cpp:938
 #, kde-format
 msgid "This item offers no text to insert."
-msgstr "هذا العنصر لا يقدم نصاً لإدراجه."
+msgstr "هذا العنصر لا يقدم نصًا لإدراجه."
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format
@@ -5521,7 +5521,7 @@ msgid ""
 "The filename contains invalid characters ($~ #).<br>Please provide another "
 "one, or click \"Cancel\" to save anyway."
 msgstr ""
-"يحتوي اسم الملف على أحرف غير صالحة ($~ #).<br>قدّم اسماً آخر، أو انقر على "
+"يحتوي اسم الملف على أحرف غير صالحة ($~ #).<br>قدّم اسمًا آخر، أو انقر على "
 "\"إلغاء\" للحفظ على أي حال."
 
 #: documentinfo.cpp:134
@@ -5530,7 +5530,7 @@ msgid ""
 "A file with filename '%1' already exists.<br>Please provide another one, or "
 "click \"Cancel\" to overwrite it."
 msgstr ""
-"ملف باسم '%1' موجود أصلاً.<br>قدّم اسماً آخر، أو انقر على \"إلغاء\" للكتابة "
+"ملف باسم '%1' موجود أصلًا.<br>قدّم اسمًا آخر، أو انقر على \"إلغاء\" للكتابة "
 "فوقه."
 
 #: documentinfo.cpp:157
@@ -5538,7 +5538,7 @@ msgstr ""
 msgid ""
 "The given filename has no extension; do you want one to be automatically "
 "added?"
-msgstr "اسم الملف المعطى ليس له امتداد؛ أتريد إضافة امتداد آلياً؟"
+msgstr "اسم الملف المعطى ليس له امتداد؛ أتريد إضافة امتداد آليًا؟"
 
 #: documentinfo.cpp:158
 #, kde-format
@@ -5737,7 +5737,7 @@ msgid ""
 "This has some advantages; your own tools can now be used in a QuickBuild "
 "command if you wish."
 msgstr ""
-"لقد حدّدت بعض الأدوات في قائمة المستخدِم. من الآن فصاعداً، ستكون هذه الأدوات "
+"لقد حدّدت بعض الأدوات في قائمة المستخدِم. من الآن فصاعدًا، ستكون هذه الأدوات "
 "متوفرة من قائمة بناء -> أخرى ويمكن ضبطها في حوار الضبط (اذهب إلى قائمة "
 "الإعدادات واختر اضبط كايل). هذا له بعض المزايا؛ يمكن استخدام أدواتك الخاصة "
 "الآن في أمر QuickBuild إذا أردت."
@@ -5791,7 +5791,7 @@ msgstr "الرّموز"
 #: kile.cpp:631
 #, kde-format
 msgid "Most Frequently Used"
-msgstr "الأكثر استخداماً"
+msgstr "الأكثر استخدامًا"
 
 #: kile.cpp:637
 #, kde-format
@@ -5853,7 +5853,7 @@ msgid ""
 "brackets.</p>"
 msgstr ""
 "<p>حرِّك الفأرة فوق الأيقونات لرؤية أوامر لاتخ المقابلة.<br/>انقر على صورة "
-"لإدراج الأمر المقابل، والضغط إضافياً على \"Shift\" يدرجه في وضع الرياضيات، "
+"لإدراج الأمر المقابل، والضغط إضافيًا على \"Shift\" يدرجه في وضع الرياضيات، "
 "والضغط على \"Ctrl\" يدرجه في أقواس معقوفة.</p>"
 
 #: kile.cpp:707 widgets/codecompletionconfigwidget.cpp:57
@@ -6382,7 +6382,7 @@ msgstr "عليك تضمين الحزمة %1."
 #: kile.cpp:2270 kile.cpp:2273
 #, kde-format
 msgid "Insert text"
-msgstr "أدرج نصاً"
+msgstr "أدرج نصًا"
 
 #: kile.cpp:2273
 #, kde-format
@@ -6404,7 +6404,7 @@ msgstr "بلا اسم"
 msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
-msgstr "لكي تعرِّف المستند الحالي كمستند رئيسي، يجب حفظه أولاً."
+msgstr "لكي تعرِّف المستند الحالي كمستند رئيسي، يجب حفظه أولًا."
 
 #: kile.cpp:3068
 #, kde-format
@@ -6897,7 +6897,7 @@ msgstr "أعد فتح الملفّات والمشاريع عند البدء."
 #: kile.kcfg:328
 #, kde-format
 msgid "Automatically clean-up files after close."
-msgstr "نظّف الملفات آلياً بعد الإغلاق."
+msgstr "نظّف الملفات آليًا بعد الإغلاق."
 
 #. i18n: ectx: label, entry (CleanUpFileExtensions), group (Files)
 #: kile.kcfg:332
@@ -6941,7 +6941,7 @@ msgstr "الموقع المبدئي الذي يجب إنشاء المشاريع 
 msgid ""
 "Whether the current directory shown in the console is kept synchronized with "
 "the open tabs"
-msgstr "هل يبقى الدليل الحالي المعروض في الطرفية متزامناً مع الألسنة المفتوحة"
+msgstr "هل يبقى الدليل الحالي المعروض في الطرفية متزامنًا مع الألسنة المفتوحة"
 
 #. i18n: ectx: label, entry (WatchFileForDocumentViewer), group (User)
 #: kile.kcfg:376
@@ -7019,7 +7019,7 @@ msgstr "فعّل دعم النصوص البرمجية."
 #: kile.kcfg:568
 #, kde-format
 msgid "Set a time limit for the execution of scripts."
-msgstr "اضبط حداً زمنياً لتنفيذ النصوص البرمجية."
+msgstr "اضبط حدًا زمنيًا لتنفيذ النصوص البرمجية."
 
 #. i18n: ectx: label, entry (TimeLimit), group (Scripting)
 #: kile.kcfg:572
@@ -7046,25 +7046,25 @@ msgstr "المهمة الأخيرة التي استخدمها PdfWizard."
 #: kile.kcfg:588
 #, kde-format
 msgid "Number of symbols to store in the Most Frequently Used Symbols view."
-msgstr "عدد الرموز التي يجب تخزينها في عرض الرموز الأكثر استخداماً."
+msgstr "عدد الرموز التي يجب تخزينها في عرض الرموز الأكثر استخدامًا."
 
 #. i18n: ectx: label, entry (displayMFUS), group (MostUsedSymbols)
 #: kile.kcfg:592
 #, kde-format
 msgid "Display the Most Frequently Used Symbols view."
-msgstr "اعرض عرض الرموز الأكثر استخداماً."
+msgstr "اعرض عرض الرموز الأكثر استخدامًا."
 
 #. i18n: ectx: label, entry (clearMFUS), group (MostUsedSymbols)
 #: kile.kcfg:596
 #, kde-format
 msgid "Clear the list of the most frequently used symbols whilst closing Kile."
-msgstr "امسح قائمة الرموز الأكثر استخداماً عند إغلاق كايل."
+msgstr "امسح قائمة الرموز الأكثر استخدامًا عند إغلاق كايل."
 
 #. i18n: ectx: label, entry (symbolViewUTF8), group (MostUsedSymbols)
 #: kile.kcfg:600
 #, kde-format
 msgid "Should UTF-8 characters instead of commands be inserted"
-msgstr "هل يجب إدراج أحرف UTF-8 بدلاً من الأوامر"
+msgstr "هل يجب إدراج أحرف UTF-8 بدلًا من الأوامر"
 
 #. i18n: ectx: label, entry (userMenuFile), group (UserMenu)
 #: kile.kcfg:606
@@ -7098,7 +7098,7 @@ msgstr "زامِن موضع المؤشر مع العرض."
 #: kile.kcfg:624
 #, kde-format
 msgid "Enable preview for freshly opened documents."
-msgstr "فعّل المعاينة للمستندات المفتوحة حديثاً."
+msgstr "فعّل المعاينة للمستندات المفتوحة حديثًا."
 
 #. i18n: ectx: label, entry (livePreviewCompilationDelay), group (LivePreview)
 #: kile.kcfg:628
@@ -7273,7 +7273,7 @@ msgid ""
 "document that is associated to the project you want to build the tree for, "
 "then choose Refresh Project Tree again."
 msgstr ""
-"المستند الحالي غير مرتبط بمشروع. فعّل مستنداً مرتبطاً بالمشروع الذي تريد بناء "
+"المستند الحالي غير مرتبط بمشروع. فعّل مستندًا مرتبطًا بالمشروع الذي تريد بناء "
 "الشجرة له، ثم اختر تحديث شجرة المشروع مرة أخرى."
 
 #: kiledocmanager.cpp:1287
@@ -8244,7 +8244,7 @@ msgstr ""
 "توقف الجدولة 0\n"
 "\\kill  اضبط نقاط توقف الجدولة دون إنتاج نص.\n"
 "\\a  في بيئة tabbing، لا تنتج الأوامر \\= و \\' و \\` علامات تشكيل كالمعتاد. "
-"بدلاً من ذلك، تستخدم الأوامر \\a= و \\a' و \\a`."
+"بدلًا من ذلك، تستخدم الأوامر \\a= و \\a' و \\a`."
 
 #: kilestdactions.cpp:155
 #, kde-format
@@ -8999,7 +8999,7 @@ msgstr "نقاط أفقية"
 msgid ""
 "The \\dotfill command produces a \"rubber length\" that produces dots "
 "instead of just spaces."
-msgstr "يُنتج الأمر \\dotfill \"طول مطاطي\" ينتج نقاطًا بدلاً من مجرد مسافات."
+msgstr "يُنتج الأمر \\dotfill \"طول مطاطي\" ينتج نقاطًا بدلًا من مجرد مسافات."
 
 #: kilestdactions.cpp:388
 #, kde-format

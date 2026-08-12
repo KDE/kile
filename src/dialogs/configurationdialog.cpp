@@ -117,14 +117,14 @@ Config::Config(KConfig *config, KileInfo *ki, QWidget* parent)
 
     resize(sizeHint());
     // as of October 2016, 'restoreWindowSize' has no effect when called directly from here
-    QTimer::singleShot(0, this, [=] () {
+    QTimer::singleShot(0, this, [this] () {
         KWindowConfig::restoreWindowSize(windowHandle(), m_configDialogSize);
     });
     // setup connections
     //connect(m_manager, SIGNAL(widgetModified()), this, SLOT(slotWidgetModified()));
     connect(this, &KPageDialog::accepted, this, &Config::slotAcceptChanges);
     connect(this, &KPageDialog::accepted, m_manager, &KConfigDialogManager::updateSettings);
-    connect(this, &KPageDialog::rejected, this, [=] () {
+    connect(this, &KPageDialog::rejected, this, [this] () {
         m_config->markAsClean();
     });
 }
@@ -330,7 +330,7 @@ void Config::setupEditor(KPageWidgetItem* parent)
         KPageWidgetItem *pageWidgetItem = addConfigPage(parent, configPage, configPage->name(),
                                           configPage->icon(),
                                           configPage->fullName());
-        connect(configPage, &KTextEditor::ConfigPage::changed, this, [=] {
+        connect(configPage, &KTextEditor::ConfigPage::changed, this, [this] {
             m_editorSettingsChanged = true;
         });
         m_editorPages.insert(pageWidgetItem, configPage);

@@ -89,24 +89,24 @@ UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu
     connect(m_UserMenuDialog.m_pbMenuentryType, &QPushButton::clicked, this, &UserMenuDialog::slotMenuentryTypeClicked);
     connect(m_UserMenuDialog.m_leMenuEntry, &KLineEdit::textEdited, this, &UserMenuDialog::slotMenuentryTextChanged);
     connect(m_UserMenuDialog.m_urlRequester, &KUrlRequester::textChanged, this, &UserMenuDialog::slotUrlTextChanged);
-    connect(m_UserMenuDialog.m_urlRequester, &KUrlRequester::urlSelected, this, [=]() {
+    connect(m_UserMenuDialog.m_urlRequester, &KUrlRequester::urlSelected, this, [this]() {
         setModified();
     });
-    connect(m_UserMenuDialog.m_leParameter, &KLineEdit::textEdited, this, [=]() {
+    connect(m_UserMenuDialog.m_leParameter, &KLineEdit::textEdited, this, [this]() {
         setModified();
     });
-    connect(m_UserMenuDialog.m_teText, &QPlainTextEdit::textChanged, this, [=]() {
+    connect(m_UserMenuDialog.m_teText, &QPlainTextEdit::textChanged, this, [this]() {
         setModified();
     });
     connect(m_UserMenuDialog.m_pbIcon, &QPushButton::clicked, this, &UserMenuDialog::slotIconClicked);
     connect(m_UserMenuDialog.m_pbIconDelete, &QPushButton::clicked, this, &UserMenuDialog::slotIconDeleteClicked);
     connect(m_UserMenuDialog.m_keyChooser, &KKeySequenceWidget::keySequenceChanged, this, &UserMenuDialog::slotKeySequenceChanged);
 
-    connect(m_UserMenuDialog.m_cbNeedsSelection,   &QCheckBox::stateChanged, this, &UserMenuDialog::slotSelectionStateChanged);
-    connect(m_UserMenuDialog.m_cbContextMenu,      &QCheckBox::stateChanged, this, &UserMenuDialog::slotCheckboxStateChanged);
-    connect(m_UserMenuDialog.m_cbReplaceSelection, &QCheckBox::stateChanged, this, &UserMenuDialog::slotCheckboxStateChanged);
-    connect(m_UserMenuDialog.m_cbSelectInsertion,  &QCheckBox::stateChanged, this, &UserMenuDialog::slotCheckboxStateChanged);
-    connect(m_UserMenuDialog.m_cbInsertOutput,     &QCheckBox::stateChanged, this, &UserMenuDialog::slotCheckboxStateChanged);
+    connect(m_UserMenuDialog.m_cbNeedsSelection,   &QCheckBox::checkStateChanged, this, &UserMenuDialog::slotSelectionStateChanged);
+    connect(m_UserMenuDialog.m_cbContextMenu,      &QCheckBox::checkStateChanged, this, &UserMenuDialog::slotCheckboxStateChanged);
+    connect(m_UserMenuDialog.m_cbReplaceSelection, &QCheckBox::checkStateChanged, this, &UserMenuDialog::slotCheckboxStateChanged);
+    connect(m_UserMenuDialog.m_cbSelectInsertion,  &QCheckBox::checkStateChanged, this, &UserMenuDialog::slotCheckboxStateChanged);
+    connect(m_UserMenuDialog.m_cbInsertOutput,     &QCheckBox::checkStateChanged, this, &UserMenuDialog::slotCheckboxStateChanged);
 
     connect(m_UserMenuDialog.m_pbInstall, &QPushButton::clicked, this, &UserMenuDialog::slotInstallClicked);
     connect(m_UserMenuDialog.m_pbNew,     &QPushButton::clicked, this, &UserMenuDialog::slotNewClicked);

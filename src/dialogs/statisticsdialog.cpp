@@ -54,21 +54,21 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
     buttonBox()->addButton(copyLatexButton, QDialogButtonBox::ActionRole);
     buttonBox()->button(QDialogButtonBox::Close)->setDefault(true);
 
-    connect(copyButton, &QPushButton::clicked, this, [=]() {
+    connect(copyButton, &QPushButton::clicked, this, [this]() {
         KILE_DEBUG_MAIN << "Open tab is" << currentPage()->name() << QLatin1Char(' ') + (m_pagetoname.contains(currentPage()) ?  m_pagetoname[currentPage()] : QStringLiteral("No such entry"));
         QClipboard *clip = QApplication::clipboard();
         QString text;
         convertText(&text, false);
         clip->setText(text, QClipboard::Selection); // the text will be available with the middle mouse button
     });
-    connect(copyLatexButton, &QPushButton::clicked, this, [=]() {
+    connect(copyLatexButton, &QPushButton::clicked, this, [this]() {
         KILE_DEBUG_MAIN << "Open tab is" << currentPage()->name() << QLatin1Char(' ') + (m_pagetoname.contains(currentPage()) ?  m_pagetoname[currentPage()] : QStringLiteral("No such entry"));
         QClipboard *clip = QApplication::clipboard();
         QString text;
         convertText(&text, true);
         clip->setText(text, QClipboard::Selection); // the text will be available with the middle mouse button
     });
-    connect(buttonBox(), &QDialogButtonBox::helpRequested, this, [=] () {
+    connect(buttonBox(), &QDialogButtonBox::helpRequested, this, [this] () {
         KHelpClient::invokeHelp(QStringLiteral("statistics"), QStringLiteral("kile"));
     });
 

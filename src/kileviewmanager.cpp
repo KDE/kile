@@ -129,7 +129,7 @@ Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *p
     m_synchronizeViewWithCursorAction = new KToggleAction(i18n("Synchronize Cursor Position with Viewer"), this);
     connect(m_synchronizeViewWithCursorAction, &KToggleAction::toggled, this, &KileView::Manager::synchronizeViewWithCursorActionToggled);
     connect(m_synchronizeViewWithCursorAction, &KToggleAction::changed,
-    this, [=] () {
+    this, [this] () {
         m_showCursorPositionInViewerAction->setEnabled(!m_synchronizeViewWithCursorAction->isChecked());
     });
     actionCollection->addAction(QStringLiteral("synchronize_cursor_with_document_viewer"), m_synchronizeViewWithCursorAction);
@@ -238,7 +238,7 @@ QWidget * Manager::createTabs(QWidget *parent)
     m_widgetStack->insertWidget(0, emptyDropWidget);
     connect(emptyDropWidget, &KileView::DropWidget::testCanDecode, this, static_cast<void (Manager::*)(const QDragEnterEvent *, bool &)>(&Manager::testCanDecodeURLs));
     connect(emptyDropWidget, &KileView::DropWidget::receivedDropEvent, m_ki->docManager(), &KileDocument::Manager::openDroppedURLs);
-    connect(emptyDropWidget, &KileView::DropWidget::mouseDoubleClick, [=]() {
+    connect(emptyDropWidget, &KileView::DropWidget::mouseDoubleClick, [this]() {
         m_ki->docManager()->fileNew();
     });
     m_tabBar = new QTabBar(parent);
@@ -257,7 +257,7 @@ QWidget * Manager::createTabs(QWidget *parent)
     m_documentListButton->setToolTip(i18n("Show sorted list of opened documents"));
     m_documentListButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
     // lambda: update context menu
-    connect(m_documentListButton->menu(), &QMenu::aboutToShow, [=]() {
+    connect(m_documentListButton->menu(), &QMenu::aboutToShow, [this]() {
         qDeleteAll(m_documentListButton->menu()->actions());
         m_documentListButton->menu()->clear();
 
@@ -275,20 +275,20 @@ QWidget * Manager::createTabs(QWidget *parent)
         }
     });
     // lambda: handle context menu action triggers
-    connect(m_documentListButton->menu(), &QMenu::triggered, [=](QAction *action) {
+    connect(m_documentListButton->menu(), &QMenu::triggered, [this](QAction *action) {
         KTextEditor::View *view = action->data().value<KTextEditor::View*>();
         Q_ASSERT(view);
         m_tabBar->setCurrentIndex(tabIndexOf(view));
     });
     // lambda: menu button is enabled if and only if at least two documents are open
-    connect(this, &KileView::Manager::textViewCreated, [=]() {
+    connect(this, &KileView::Manager::textViewCreated, [this]() {
         m_documentListButton->setEnabled(m_tabBar->count() > 1);
     });
-    connect(this, &KileView::Manager::textViewClosed, [=]() {
+    connect(this, &KileView::Manager::textViewClosed, [this]() {
         m_documentListButton->setEnabled(m_tabBar->count() > 1);
         m_cursorPositionChangedTimer->stop();
     });
-    connect(this, &KileView::Manager::textViewClosed, [=]() {
+    connect(this, &KileView::Manager::textViewClosed, [this]() {
         m_documentListButton->setEnabled(m_tabBar->count() > 1);
     });
     tabBarWidget->layout()->addWidget(m_documentListButton);
@@ -420,7 +420,7 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
     if(action) {
         KILE_DEBUG_MAIN << "   reconnect action 'file_save'...";
         disconnect(action, &QAction::triggered, nullptr, nullptr);
-        connect(action, &QAction::triggered, [=]() {
+        connect(action, &QAction::triggered, [this]() {
             m_ki->docManager()->fileSave();
         });
     }
@@ -428,7 +428,7 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
     if(action) {
         KILE_DEBUG_MAIN << "   reconnect action 'file_save_as'...";
         disconnect(action, &QAction::triggered, nullptr, nullptr);
-        connect(action, &QAction::triggered, [=]() {
+        connect(action, &QAction::triggered, [this]() {
             m_ki->docManager()->fileSaveAs();
         });
     }
@@ -437,7 +437,7 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
     action = view->actionCollection()->action(QStringLiteral("smart_newline"));
     if(action) {
         disconnect(action, &QAction::triggered, nullptr, nullptr);
-        connect(action, &QAction::triggered, [=]() {
+        connect(action, &QAction::triggered, [this]() {
             m_ki->editorExtension()->insertIntelligentNewline();
         });
     }

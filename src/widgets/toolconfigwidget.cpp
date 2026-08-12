@@ -68,7 +68,7 @@ ToolConfig::ToolConfig(KileTool::Manager *mngr, KileDialog::Config *configDialog
     if (item)
         m_configWidget->m_lstbTools->setCurrentItem(item);
 
-    connect(m_configWidget->m_cbShowAllTools, &QCheckBox::stateChanged, this, &ToolConfig::updateToollist);
+    connect(m_configWidget->m_cbShowAllTools, &QCheckBox::checkStateChanged, this, &ToolConfig::updateToollist);
 
     connect(m_configWidget->m_cbConfig, SIGNAL(activated(int)), this, SLOT(switchConfig(int)));
 

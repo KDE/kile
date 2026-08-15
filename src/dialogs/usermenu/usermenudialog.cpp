@@ -89,13 +89,13 @@ UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu
     connect(m_UserMenuDialog.m_pbMenuentryType, &QPushButton::clicked, this, &UserMenuDialog::slotMenuentryTypeClicked);
     connect(m_UserMenuDialog.m_leMenuEntry, &KLineEdit::textEdited, this, &UserMenuDialog::slotMenuentryTextChanged);
     connect(m_UserMenuDialog.m_urlRequester, &KUrlRequester::textChanged, this, &UserMenuDialog::slotUrlTextChanged);
-    connect(m_UserMenuDialog.m_urlRequester, &KUrlRequester::urlSelected, this, [=]() {
+    connect(m_UserMenuDialog.m_urlRequester, &KUrlRequester::urlSelected, this, [this]() {
         setModified();
     });
-    connect(m_UserMenuDialog.m_leParameter, &KLineEdit::textEdited, this, [=]() {
+    connect(m_UserMenuDialog.m_leParameter, &KLineEdit::textEdited, this, [this]() {
         setModified();
     });
-    connect(m_UserMenuDialog.m_teText, &QPlainTextEdit::textChanged, this, [=]() {
+    connect(m_UserMenuDialog.m_teText, &QPlainTextEdit::textChanged, this, [this]() {
         setModified();
     });
     connect(m_UserMenuDialog.m_pbIcon, &QPushButton::clicked, this, &UserMenuDialog::slotIconClicked);

@@ -67,7 +67,7 @@ CommandViewToolBox::CommandViewToolBox(KileInfo *ki, QWidget *parent)
     m_cwlFilesComboBox = new QComboBox(this);
     wrapperLayout->addWidget(m_cwlFilesComboBox);
     connect(m_cwlFilesComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-    [=](int index) {
+    [this](int index) {
         populateCommands(m_cwlFilesComboBox->itemData(index).toString());
     });
 

@@ -515,7 +515,7 @@ KTextEditor::Document* Manager::createDocument(const QUrl &url, TextInfo *docinf
     doc = m_editor->createDocument(nullptr);
     KILE_DEBUG_MAIN << "appending document " <<  doc;
 
-    connect(doc, &KTextEditor::Document::canceled, [=] (const QString &errMsg) {
+    connect(doc, &KTextEditor::Document::canceled, [this,url] (const QString &errMsg) {
         if(!errMsg.isEmpty()) {
             KMessageBox::error(m_ki->mainWindow(), i18n("The URL \"%1\" couldn't be opened.\n\n%2", url.toDisplayString(), errMsg),
                                i18n("Cannot open URL"));

@@ -3125,7 +3125,7 @@
 ><guilabel
 >Gràfics</guilabel
 ></menuchoice
->), l'amplada i l'alçada del gràfic es mostraran automàticament. Si &imagemagick; pot determinar una resolució, la mida dels gràfics també es mostrarà en centímetres.</para
+>), l'amplada i l'altura del gràfic es mostraran automàticament. Si &imagemagick; pot determinar una resolució, la mida dels gràfics també es mostrarà en centímetres.</para
 ></step>
 
 		<step
@@ -3170,7 +3170,7 @@
 
 		<step
 ><para
->Si escolliu una amplada o una alçada, els gràfics sencers seran escalats proporcionalment. Si ajusteu dos valors alhora per a l'amplada i l'alçada, es podran escalar amb factors diferents, i això podria no ser el que voleu. Vegeu també la informació a la part superior del diàleg per a conèixer la mida original de les imatges.</para
+>Si escolliu una amplada o una altura, els gràfics sencers seran escalats proporcionalment. Si ajusteu dos valors alhora per a l'amplada i l'altura, es podran escalar amb factors diferents, i això podria no ser el que voleu. Vegeu també la informació a la part superior del diàleg per a conèixer la mida original de les imatges.</para
 ></step>
 
 		<step
@@ -3190,7 +3190,7 @@
 
 		<step
 ><para
->Escala la imatge per al factor d'escala desitjat. Per exemple, 0.5 per a reduir a la meitat, o 2 per a duplicar. Quan utilitzeu aquesta opció, no cal que establiu una amplada o alçada per a la imatge.</para
+>Escala la imatge per al factor d'escala desitjat. Per exemple, 0.5 per a reduir a la meitat, o 2 per a duplicar. Quan utilitzeu aquesta opció, no cal que establiu una amplada o altura per a la imatge.</para
 ></step>
 
 		<step
@@ -5275,7 +5275,7 @@
 ></listitem>
 		<listitem
 ><para
->Encara més important és que quan es coneix la seva resolució es poden calcular l'amplada i l'alçada de la imatge. Aquesta informació apareixerà a la part superior del diàleg, i pot servir com una pista quan es volen escalar els gràfics.</para
+>Encara més important és que quan es coneix la seva resolució es poden calcular l'amplada i l'altura de la imatge. Aquesta informació apareixerà a la part superior del diàleg, i pot servir com una pista quan es volen escalar els gràfics.</para
 ></listitem>
 		<listitem
 ><para

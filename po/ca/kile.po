@@ -1,17 +1,17 @@
 # Translation of kile.po to Catalan
-# Copyright (C) 2009-2025 This_file_is_part_of_KDE
+# Copyright (C) 2009-2026 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # SPDX-FileCopyrightText: 2009 Manuel Tortosa Moreno <manutortosa@gmail.com>
 # SPDX-FileCopyrightText: 2013-2020, 2022 Antoni Bella Pérez <antonibella5@yahoo.com>
-# SPDX-FileCopyrightText: 2009-2025 Josep M. Ferrer <txemaq@gmail.com>
+# SPDX-FileCopyrightText: 2009-2026 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-05 00:43+0000\n"
-"PO-Revision-Date: 2025-03-09 11:31+0100\n"
+"PO-Revision-Date: 2026-09-06 18:04+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -956,7 +956,7 @@ msgstr "Amplada:"
 #: dialogs/includegraphicsdialog_base.ui:128
 #, kde-format
 msgid "Height:"
-msgstr "Alçada:"
+msgstr "Altura:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/includegraphicsdialog_base.ui:138
@@ -6598,7 +6598,7 @@ msgstr "L'amplada de la finestra principal."
 #: kile.kcfg:45
 #, kde-format
 msgid "The main window's height."
-msgstr "L'alçada de la finestra principal."
+msgstr "L'altura de la finestra principal."
 
 #. i18n: ectx: label, entry (DefaultLevel), group (Structure)
 #: kile.kcfg:53
@@ -6820,7 +6820,7 @@ msgstr "Si s'ha de mostrar la barra inferior."
 #: kile.kcfg:152
 #, kde-format
 msgid "Height of the bottom bar."
-msgstr "Alçada de la barra inferior."
+msgstr "Altura de la barra inferior."
 
 #. i18n: ectx: label, entry (BottomBarIndex), group (Show)
 #: kile.kcfg:156
@@ -8514,7 +8514,7 @@ msgstr ""
 "     l - Una columna d'elements alineats a l'esquerra.\n"
 "     r - Una columna d'elements alineats a la dreta.\n"
 "     c - Una columna d'elements centrats.\n"
-"     | - Una línia vertical d'alçada i profunditat completa de l'entorn.\n"
+"     | - Una línia vertical d'altura i profunditat completa de l'entorn.\n"
 "     @{text} - això insereix text en cada fila.\n"
 "L'ordre \\hline dibuixa una línia horitzontal amb l'amplada de la taula.\n"
 "L'ordre \\cline{i-j} dibuixa línies horitzontals creuant les columnes "
@@ -8580,7 +8580,7 @@ msgid ""
 "The \\vline command draws a vertical line extending the full height and "
 "depth of its row."
 msgstr ""
-"L'ordre \\vline dibuixa una línia vertical abastant tota l'alçada i la "
+"L'ordre \\vline dibuixa una línia vertical abastant tota l'altura i la "
 "profunditat de la seva fila."
 
 #: kilestdactions.cpp:171

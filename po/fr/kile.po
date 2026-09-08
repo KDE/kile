@@ -996,7 +996,7 @@ msgstr "Angle :"
 #: dialogs/includegraphicsdialog_base.ui:148
 #, kde-format
 msgid "Bounding box:"
-msgstr "Boîte englobante :"
+msgstr "Boite englobante :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_bb)
 #: dialogs/includegraphicsdialog_base.ui:158
@@ -4908,7 +4908,7 @@ msgstr ""
 #: dialogs/texdocumentationdialog.cpp:433
 #, kde-format
 msgid "TexDoc Dialog"
-msgstr "Boîte de dialogue « TeXDoc »"
+msgstr "Boite de dialogue « TeXDoc »"
 
 #: dialogs/texdocumentationdialog.cpp:445
 #, kde-format
@@ -4986,7 +4986,7 @@ msgstr "Fichier d'&aide :"
 #: dialogs/userhelpdialog.cpp:403
 #, kde-format
 msgid "Open file dialog"
-msgstr "Boîte de dialogue d'ouverture de fichier"
+msgstr "Boite de dialogue d'ouverture de fichier"
 
 #: dialogs/userhelpdialog.cpp:411
 #, kde-format
@@ -5157,7 +5157,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:239
 #, kde-format
 msgid "UserMenu Dialog"
-msgstr "Boîte de dialogue du menu utilisateur"
+msgstr "Boite de dialogue du menu utilisateur"
 
 #: dialogs/usermenu/usermenudialog.cpp:261
 #: dialogs/usermenu/usermenudialog.cpp:281
@@ -5905,7 +5905,7 @@ msgstr "Avertissements : %1"
 #: errorhandler.cpp:322
 #, kde-format
 msgid "BadBoxes: %1"
-msgstr "Boîtes erronées : %1"
+msgstr "Boites erronées : %1"
 
 #: errorhandler.cpp:326
 #, kde-format
@@ -6919,7 +6919,7 @@ msgstr ""
 #, kde-format
 msgid "Whether to show Bad Box warnings in the LogMsg view."
 msgstr ""
-"Afficher ou non les avertissements de Boîtes erronée dans la vue LogMsg"
+"Afficher ou non les avertissements de Boites erronée dans la vue LogMsg"
 
 #. i18n: ectx: label, entry (HideProblemWarning), group (Show)
 #: kile.kcfg:180
@@ -11672,7 +11672,7 @@ msgstr "Le fichier « %1 » n'existe pas."
 #: usermenu/usermenu.cpp:920
 #, kde-format
 msgid "Input Dialog"
-msgstr "Boîte de dialogue d'entrée"
+msgstr "Boite de dialogue d'entrée"
 
 #: widgets/abbreviationview.cpp:40
 #, kde-format
@@ -12074,7 +12074,7 @@ msgstr "(utilisé lorsque l'image ne fournit pas de résolution)"
 #: widgets/graphicsconfigwidget.ui:61
 #, kde-format
 msgid "Bo&unding box:"
-msgstr "Boî&te englobante :"
+msgstr "Boi&te englobante :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_boundingbox)
 #: widgets/graphicsconfigwidget.ui:80

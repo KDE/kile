@@ -1,17 +1,17 @@
 # Translation of kile.po to Catalan (Valencian)
-# Copyright (C) 2009-2025 This_file_is_part_of_KDE
+# Copyright (C) 2009-2026 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2.1 or
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # SPDX-FileCopyrightText: 2009 Manuel Tortosa Moreno <manutortosa@gmail.com>
 # SPDX-FileCopyrightText: 2013-2020, 2022 Antoni Bella Pérez <antonibella5@yahoo.com>
-# SPDX-FileCopyrightText: 2009-2025 Josep M. Ferrer <txemaq@gmail.com>
+# SPDX-FileCopyrightText: 2009-2026 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-05 00:43+0000\n"
-"PO-Revision-Date: 2025-03-09 11:31+0100\n"
+"PO-Revision-Date: 2026-09-06 18:04+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2005,32 +2005,32 @@ msgstr "Reorg&anitza"
 #: dialogs/pdf-wizard/pdfdialog.cpp:130
 #, kde-format
 msgid "1 Page + Empty Page --> 2up"
-msgstr "1 pàgina + una pàgina buida --> 2 per full"
+msgstr "1 pàgina + una pàgina buida → 2 per full"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:131
 #, kde-format
 msgid "1 Page + Duplicate --> 2up"
-msgstr "1 pàgina + duplicat --> 2 per full"
+msgstr "1 pàgina + duplicat → 2 per full"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:132
 #, kde-format
 msgid "2 Pages --> 2up"
-msgstr "2 pàgines --> 2 per full"
+msgstr "2 pàgines → 2 per full"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:133
 #, kde-format
 msgid "2 Pages (landscape) --> 2up"
-msgstr "2 pàgines (apaïsat) --> 2 per full"
+msgstr "2 pàgines (apaïsat) → 2 per full"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:134
 #, kde-format
 msgid "4 Pages --> 4up"
-msgstr "4 pàgines --> 4 per full"
+msgstr "4 pàgines → 4 per full"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:135
 #, kde-format
 msgid "4 Pages (landscape) --> 4up"
-msgstr "4 pàgines (apaïsat) --> 4 per full"
+msgstr "4 pàgines (apaïsat) → 4 per full"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:136 dialogs/postscriptdialog.cpp:125
 #, kde-format
@@ -2803,47 +2803,47 @@ msgstr "No s'ha trobat «psselect»."
 #: dialogs/postscriptdialog.cpp:114
 #, kde-format
 msgid "1 DIN A5 Page + Empty Page --> DIN A4"
-msgstr "1 pàgina DIN A5 + una pàgina buida --> DIN A4"
+msgstr "1 pàgina DIN A5 + una pàgina buida → DIN A4"
 
 #: dialogs/postscriptdialog.cpp:115
 #, kde-format
 msgid "1 DIN A5 Page + Duplicate --> DIN A4"
-msgstr "1 pàgina DIN A5 + duplicat --> DIN A4"
+msgstr "1 pàgina DIN A5 + duplicat → DIN A4"
 
 #: dialogs/postscriptdialog.cpp:116
 #, kde-format
 msgid "2 DIN A5 Pages --> DIN A4"
-msgstr "2 pàgines DIN A5 --> DIN A4"
+msgstr "2 pàgines DIN A5 → DIN A4"
 
 #: dialogs/postscriptdialog.cpp:117
 #, kde-format
 msgid "2 DIN A5L Pages --> DIN A4"
-msgstr "2 pàgines DIN A5L --> DIN A4"
+msgstr "2 pàgines DIN A5L → DIN A4"
 
 #: dialogs/postscriptdialog.cpp:118
 #, kde-format
 msgid "4 DIN A5 Pages --> DIN A4"
-msgstr "4 pàgines DIN A5 --> DIN A4"
+msgstr "4 pàgines DIN A5 → DIN A4"
 
 #: dialogs/postscriptdialog.cpp:119
 #, kde-format
 msgid "1 DIN A4 Page + Empty Page --> DIN A4"
-msgstr "1 pàgina DIN A4 + una pàgina buida --> DIN A4"
+msgstr "1 pàgina DIN A4 + una pàgina buida → DIN A4"
 
 #: dialogs/postscriptdialog.cpp:120
 #, kde-format
 msgid "1 DIN A4 Page + Duplicate --> DIN A4"
-msgstr "1 pàgina DIN A4 + duplicat --> DIN A4"
+msgstr "1 pàgina DIN A4 + duplicat → DIN A4"
 
 #: dialogs/postscriptdialog.cpp:121
 #, kde-format
 msgid "2 DIN A4 Pages --> DIN A4"
-msgstr "2 pàgines DIN A4 --> DIN A4"
+msgstr "2 pàgines DIN A4 → DIN A4"
 
 #: dialogs/postscriptdialog.cpp:122
 #, kde-format
 msgid "2 DIN A4L Pages --> DIN A4"
-msgstr "2 pàgines DIN A4L --> DIN A4"
+msgstr "2 pàgines DIN A4L → DIN A4"
 
 #: dialogs/postscriptdialog.cpp:130
 #, kde-format
@@ -11291,52 +11291,52 @@ msgstr "Bloc sense títol"
 #: quickpreview.cpp:42
 #, kde-format
 msgid "LaTeX ---> DVI (Okular)"
-msgstr "LaTeX ---> DVI (Okular)"
+msgstr "LaTeX → DVI (Okular)"
 
 #: quickpreview.cpp:43
 #, kde-format
 msgid "LaTeX ---> DVI (Document Viewer)"
-msgstr "LaTeX ---> DVI (visor de documents)"
+msgstr "LaTeX → DVI (visor de documents)"
 
 #: quickpreview.cpp:44
 #, kde-format
 msgid "LaTeX ---> PS (Okular)"
-msgstr "LaTeX ---> PS (Okular)"
+msgstr "LaTeX → PS (Okular)"
 
 #: quickpreview.cpp:45
 #, kde-format
 msgid "LaTeX ---> PS (Document Viewer)"
-msgstr "LaTeX ---> PS (visor de documents)"
+msgstr "LaTeX → PS (visor de documents)"
 
 #: quickpreview.cpp:46
 #, kde-format
 msgid "PDFLaTeX ---> PDF (Okular)"
-msgstr "PDFLaTeX ---> PDF (Okular)"
+msgstr "PDFLaTeX → PDF (Okular)"
 
 #: quickpreview.cpp:47
 #, kde-format
 msgid "PDFLaTeX ---> PDF (Document Viewer)"
-msgstr "PDFLaTeX ---> PDF (visor de documents)"
+msgstr "PDFLaTeX → PDF (visor de documents)"
 
 #: quickpreview.cpp:48
 #, kde-format
 msgid "XeLaTeX ---> PDF (Okular)"
-msgstr "XeLaTeX ---> PDF (Okular)"
+msgstr "XeLaTeX → PDF (Okular)"
 
 #: quickpreview.cpp:49
 #, kde-format
 msgid "XeLaTeX ---> PDF (Document Viewer)"
-msgstr "XeLaTeX ---> PDF (visor de documents)"
+msgstr "XeLaTeX → PDF (visor de documents)"
 
 #: quickpreview.cpp:50
 #, kde-format
 msgid "LuaLaTeX ---> PDF (Okular)"
-msgstr "LuaLaTeX ---> PDF (Okular)"
+msgstr "LuaLaTeX → PDF (Okular)"
 
 #: quickpreview.cpp:51
 #, kde-format
 msgid "LuaLaTeX ---> PDF (Document Viewer)"
-msgstr "LuaLaTeX ---> PDF (visor de documents)"
+msgstr "LuaLaTeX → PDF (visor de documents)"
 
 #: quickpreview.cpp:78
 #, kde-format
@@ -12446,7 +12446,7 @@ msgstr "Kile admet tres tipus de conversions per a imatges png"
 #: widgets/previewconfigwidget.cpp:92 widgets/previewconfigwidget.cpp:260
 #, kde-format
 msgid "dvi --> png"
-msgstr "dvi --> png"
+msgstr "dvi → png"
 
 #: widgets/previewconfigwidget.cpp:92
 #, kde-format
@@ -12456,7 +12456,7 @@ msgstr "(utilitza dvipng)"
 #: widgets/previewconfigwidget.cpp:93 widgets/previewconfigwidget.cpp:263
 #, kde-format
 msgid "dvi --> ps --> png"
-msgstr "dvi --> ps --> png"
+msgstr "dvi → ps → png"
 
 #: widgets/previewconfigwidget.cpp:93
 #, kde-format
@@ -12466,7 +12466,7 @@ msgstr "(utilitza dvips/convert)"
 #: widgets/previewconfigwidget.cpp:94 widgets/previewconfigwidget.cpp:264
 #, kde-format
 msgid "pdf --> png"
-msgstr "pdf --> png"
+msgstr "pdf → png"
 
 #: widgets/previewconfigwidget.cpp:94
 #, kde-format
@@ -13080,8 +13080,7 @@ msgstr "Arregla'm (FIXME)"
 #, kde-format
 msgid "Cannot create a list view item: no parent found."
 msgstr ""
-"No s'ha pogut crear un element de visualització de llista: no s'ha trobat el "
-"pare."
+"No s'ha pogut crear un element de vista de llista: no s'ha trobat el pare."
 
 #: widgets/structurewidget.cpp:691
 #, kde-format

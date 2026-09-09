@@ -6200,7 +6200,7 @@ msgstr "Chercher &dans les fichiers..."
 #: kile.cpp:883
 #, kde-format
 msgid "Refresh Str&ucture"
-msgstr "Rafraîchir la str&ucture"
+msgstr "Rafraichir la str&ucture"
 
 #: kile.cpp:886
 #, kde-format
@@ -6628,7 +6628,7 @@ msgstr "LIGNE"
 #: kile.cpp:3076
 #, kde-format
 msgid "Refreshing structure..."
-msgstr "Rafraîchissement de la structure..."
+msgstr "Rafraichissement de la structure..."
 
 #: kile.cpp:3094
 #, kde-format
@@ -12902,7 +12902,7 @@ msgstr "Enlever la séquence de touches"
 #: widgets/scriptsmanagementwidget.cpp:108
 #, kde-format
 msgid "Refresh List"
-msgstr "Rafraîchir la liste"
+msgstr "Rafraichir la liste"
 
 #: widgets/scriptsmanagementwidget.cpp:119
 #, kde-format

@@ -12968,7 +12968,7 @@ msgstr "Nombre total de caractères :"
 #: widgets/statisticswidget.cpp:83
 #, kde-format
 msgid "Strings"
-msgstr "Chaînes"
+msgstr "Chaines"
 
 #: widgets/statisticswidget.cpp:90
 #, kde-format

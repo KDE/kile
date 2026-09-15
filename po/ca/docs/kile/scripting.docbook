@@ -848,7 +848,7 @@
 ><para
 >Retorna <literal
 >true</literal
-> (vertader), si aquest interval i l'interval de <parameter
+> (vertader), si aquest interval i l'interval d'<parameter
 >altre</parameter
 > són iguals, en cas contrari retornarà <literal
 >false</literal

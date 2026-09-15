@@ -1365,7 +1365,7 @@
 		</itemizedlist>
 
 		<para
->Amb aquesta característica de l'&okular;, un clic amb el &BER; mentre premeu &Maj; al document &DVI; o PDF resultarà en el fet que el &kile; obrirà el document &latex; corresponent i intentarà anar a la línia corresponent. Recordeu dir-li a l'&okular; utilitzar el &kile; com a editor de text, a l'element de menú <menuchoice
+>Amb aquesta característica de l'&okular;, un clic amb el &BER; mentre premeu &Maj; al document &DVI; o PDF ocasionarà que el &kile; obri el document &latex; corresponent i intentarà anar a la línia corresponent. Recordeu dir-li a l'&okular; utilitzar el &kile; com a editor de text, a l'element de menú <menuchoice
 ><guimenu
 >Arranjament</guimenu
 ><guimenuitem
@@ -2820,7 +2820,7 @@
 >mode d'ordres</emphasis
 > no és útil per a la compleció de codi dels entorns. Sempre haureu d'escriure algunes lletres de <userinput
 >\begin</userinput
->, i invocant el mode de compleció resultarà en una enorme llista d'etiquetes d'entorn. D'altra banda, els entorns que el &kile; utilitza sovint, compten amb un mode especial per a la compleció de codi dels entorns. Oblideu-vos de l'etiqueta d'obertura i escriviu, per exemple, <userinput
+>, i invocant el mode de compleció ocasionarà una llista enorme d'etiquetes d'entorn. D'altra banda, els entorns que el &kile; utilitza sovint, compten amb un mode especial per a la compleció de codi dels entorns. Oblideu-vos de l'etiqueta d'obertura i escriviu, per exemple, <userinput
 >al</userinput
 >.</para>
 
@@ -4412,7 +4412,7 @@
 		<para
 >En prémer la tecla <keycombo
 >&Maj;</keycombo
-> i fent clic resultarà en un símbol, s'inserirà <userinput
+> i fent clic generarà un símbol, s'inserirà <userinput
 >$\symbolcmd$</userinput
 >. De manera similar, prement la tecla <keycombo
 >&Ctrl;</keycombo
@@ -4560,7 +4560,7 @@
 ><replaceable
 >foo</replaceable
 ></userinput
->. Si no ajusteu correctament aquest paràmetre, podria resultar en un sagnat no tan atractiu de la vostra bibliografia.</para>
+>. Si no ajusteu correctament aquest paràmetre, podria ocasionar un sagnat no tan atractiu de la vostra bibliografia.</para>
 
 		<para
 >La bibliografia és una secció a part del vostre document principal, i un exemple de codi per a la bibliografia es veuria de la manera següent:</para>
@@ -5139,7 +5139,7 @@
 ><para
 >Podeu convertir en l'altre sentit, i utilitzar &latex; i la conversió PS-PDF. Això no sempre és una bona idea, ja que l'encapsulació EPS de JPG o PNG pot produir fitxers més grans, que al seu torn produeixen documents innecessàriament grans. Tot i que això depèn <emphasis
 >en gran manera</emphasis
-> de la utilitat gràfica que utilitzeu, ja que EPS pot encapsular altres gràfics, però no totes les aplicacions ho implementen correctament. Algunes podrien intentar construir la vostra imatge JPG amb vectors i els diversos scripts creats, el qual resultarà en fitxers gegantins. La conversió de tots els formats gràfics a EPS la podeu fer amb <ulink url="http://www.imagemagick.org/"
+> de la utilitat gràfica que utilitzeu, ja que EPS pot encapsular altres gràfics, però no totes les aplicacions ho implementen correctament. Algunes podrien intentar construir la vostra imatge JPG amb vectors i els diversos scripts creats, el qual ocasionarà fitxers gegantins. La conversió de tots els formats gràfics a EPS la podeu fer amb <ulink url="http://www.imagemagick.org/"
 >&imagemagick;</ulink
 >. Un altre programa senzill que fa aquest procés correctament és <ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/"
 ><application

@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-05 00:43+0000\n"
-"PO-Revision-Date: 2026-05-31 18:38-0400\n"
+"PO-Revision-Date: 2026-09-22 18:03+0900\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
-"Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
+"Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -238,7 +238,7 @@ msgstr ""
 #, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr "%p%"
+msgstr ""
 
 #: dialogs/configcheckerdialog.cpp:148
 #, kde-format
@@ -329,7 +329,7 @@ msgstr "سەپلە"
 #: dialogs/configurationdialog.cpp:68 main.cpp:97
 #, kde-format
 msgid "Kile"
-msgstr "Kile"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLatexConfig)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetEnvironmentConfig)
@@ -338,7 +338,7 @@ msgstr "Kile"
 #: widgets/latexconfigwidget.ui:14
 #, kde-format
 msgid "LaTeX"
-msgstr "LaTeX"
+msgstr ""
 
 #. i18n: ectx: ToolBar (toolsToolBar)
 #: dialogs/configurationdialog.cpp:70 kileui.rc:554
@@ -826,7 +826,7 @@ msgstr "ئۇچۇر:"
 #: dialogs/includegraphicsdialog_base.ui:46
 #, kde-format
 msgid "---"
-msgstr "---"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/includegraphicsdialog_base.ui:53
@@ -1361,7 +1361,7 @@ msgstr ""
 #: dialogs/latexcommanddialog_base.ui:89
 #, kde-format
 msgid "Tab"
-msgstr "Tab"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #. i18n: ectx: property (text), widget (QTreeWidget, commands)
@@ -1580,7 +1580,7 @@ msgstr "تاللا…"
 #, kde-format
 msgctxt "marked"
 msgid "M"
-msgstr "M"
+msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:111 dialogs/managetemplatesdialog.cpp:167
 #, kde-format
@@ -2278,7 +2278,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
-msgstr "«%1» ئاتلىق ھۆججەت مەۋجۇت. ئۇنى راستتىنلا قاپلىۋېتەمسىز؟"
+msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1731 dialogs/postscriptdialog.cpp:435
 #, kde-format
@@ -5655,7 +5655,7 @@ msgstr "چىقار"
 #: kile.cpp:747
 #, kde-format
 msgid "Konsole"
-msgstr "Konsole"
+msgstr ""
 
 #: kile.cpp:849
 #, kde-format
@@ -6206,8 +6206,6 @@ msgstr ""
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
-"بۇ مەشغۇلات تىزىملىك بالداقنى پۈتۈنلەي يوشۇرىدۇ. %1 نى بېسىپ قايتا "
-"كۆرسىتەلەيسىز."
 
 #: kile.cpp:3097
 #, kde-format
@@ -7911,6 +7909,25 @@ msgid ""
 "The \\vline command draws a vertical line extending the full height and "
 "depth of its row."
 msgstr ""
+"\\begin{tabular}[pos]{cols}\n"
+"column 1 entry & column 2 entry ... & column n entry \\\\\n"
+"...\n"
+"\\end{tabular}\n"
+"pos : Specifies the vertical position; default is alignment on the center of "
+"the environment.\n"
+"     t - align on top row\n"
+"     b - align on bottom row\n"
+"cols : Specifies the column formatting.\n"
+"     l - A column of left-aligned items.\n"
+"     r - A column of right-aligned items.\n"
+"     c - A column of centered items.\n"
+"     | - A vertical line the full height and depth of the environment.\n"
+"     @{text} - this inserts text in every row.\n"
+"The \\hline command draws a horizontal line the width of the table.\n"
+"The \\cline{i-j} command draws horizontal lines across the columns "
+"specified, beginning in column i and ending in column j.\n"
+"The \\vline command draws a vertical line extending the full height and "
+"depth of its row."
 
 #: kilestdactions.cpp:159
 #, kde-format
@@ -8726,7 +8743,7 @@ msgstr ""
 #: kilestdactions.cpp:429
 #, kde-format
 msgid "Sans Serif"
-msgstr "Sans Serif"
+msgstr ""
 
 #: kilestdactions.cpp:432
 #, kde-format
@@ -8736,7 +8753,7 @@ msgstr ""
 #: kilestdactions.cpp:432
 #, kde-format
 msgid "Monospace"
-msgstr "Monospace"
+msgstr ""
 
 #: kilestdactions.cpp:436
 #, kde-format
@@ -9117,6 +9134,15 @@ msgid ""
 "     l -- for flush left \n"
 "     r -- for flush right\n"
 msgstr ""
+"\\begin{array}{col1col2...coln}\n"
+"column 1 entry & column 2 entry ... & column n entry \\\\ \n"
+"...\n"
+"\\end{array}\n"
+"Each column, coln, is specified by a single letter that tells how items in "
+"that column should be formatted.\n"
+"     c -- for centered \n"
+"     l -- for flush left \n"
+"     r -- for flush right\n"
 
 #: kilestdactions.cpp:720
 #, kde-format
@@ -10786,7 +10812,7 @@ msgstr ""
 #, kde-format
 msgctxt "<tool name> - <configuration>"
 msgid "%1 - %2"
-msgstr "%1 - %2"
+msgstr ""
 
 #: userhelp.cpp:151
 #, kde-format
@@ -11019,7 +11045,7 @@ msgstr ""
 #: widgets/configcheckerwidget.ui:45
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr "%p%"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_grpResults)
 #: widgets/configcheckerwidget.ui:58
@@ -11226,22 +11252,22 @@ msgstr "سەپلەش(&F)…"
 #: widgets/latexconfigwidget.cpp:31
 #, kde-format
 msgid "Shift"
-msgstr "Shift"
+msgstr ""
 
 #: widgets/latexconfigwidget.cpp:32 widgets/latexconfigwidget.cpp:43
 #, kde-format
 msgid "Ctrl"
-msgstr "Ctrl"
+msgstr ""
 
 #: widgets/latexconfigwidget.cpp:33
 #, kde-format
 msgid "Alt"
-msgstr "Alt"
+msgstr ""
 
 #: widgets/latexconfigwidget.cpp:34
 #, kde-format
 msgid "Meta"
-msgstr "Meta"
+msgstr ""
 
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
@@ -11456,7 +11482,7 @@ msgstr ""
 #: widgets/livepreviewconfigwidget.ui:70
 #, kde-format
 msgid " ms"
-msgstr " ms"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_previewDefaultToolLabel)
 #: widgets/livepreviewconfigwidget.ui:104

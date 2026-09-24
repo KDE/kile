@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-05 00:43+0000\n"
-"PO-Revision-Date: 2019-10-12 16:08+0300\n"
-"Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
+"PO-Revision-Date: 2026-09-23 21:10+0200\n"
+"Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -54,16 +54,14 @@ msgid "Running in Kile"
 msgstr "Выполняется в Kile"
 
 #: configtester.cpp:247
-#, fuzzy, kde-format
-#| msgid ""
-#| "Kile is not configured correctly. Go to Settings->Configure Kile->Tools "
-#| "and either fix the problem or change to the default settings."
+#, kde-format
 msgid ""
 "Tool not found.\n"
 "Kile is not configured correctly. Go to Settings->Configure Kile->Tools and "
 "either fix the problem or change to the default settings."
 msgstr ""
-"Kile настроен неправильно. Откройте из меню Настройка->Настроить Kile...-"
+"Инструмент не найден.\n"
+"Kile настроен неправильно. Откройте из меню Настройка->Настроить Kile-"
 ">Инструменты и либо исправьте ошибку, либо верните параметры по умолчанию."
 
 #: configtester.cpp:269 configtester.cpp:464 dialogs/configcheckerdialog.cpp:80
@@ -84,7 +82,7 @@ msgstr "Версия"
 #: configtester.cpp:325
 #, kde-format
 msgid "Embedding of Okular is supported"
-msgstr ""
+msgstr "Поддерживается встраивание Okular"
 
 #: configtester.cpp:337
 #, kde-format
@@ -92,11 +90,10 @@ msgid "Binary"
 msgstr "Исполняемый файл"
 
 #: configtester.cpp:364
-#, fuzzy, kde-format
-#| msgid "Could not find the binary for this essential tool."
+#, kde-format
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
-msgstr "Невозможно найти исполняемый файл этой необходимой программы."
+msgstr "Невозможно найти исполняемый файл этой необходимой программы. %1"
 
 #: configtester.cpp:368
 #, kde-format
@@ -105,21 +102,20 @@ msgid "No executable '%1' found. %2"
 msgstr "Программа «%1» не найдена. %2"
 
 #: configtester.cpp:373
-#, fuzzy, kde-format
-#| msgid "Could not find the binary for this essential tool."
+#, kde-format
 msgid "Could not find the binary for this essential tool"
 msgstr "Невозможно найти исполняемый файл этой необходимой программы."
 
 #: configtester.cpp:376
 #, kde-format
 msgid "No executable '%1' found"
-msgstr ""
+msgstr "Программа «%1» не найдена"
 
 #: configtester.cpp:382
 #, kde-format
 msgctxt "executable => path"
 msgid "Found (%1 => %2)"
-msgstr ""
+msgstr "Найдено (%1 => %2)"
 
 #: configtester.cpp:397
 #, kde-format
@@ -127,11 +123,10 @@ msgid "Simple Test"
 msgstr "Простой тест"
 
 #: configtester.cpp:472
-#, fuzzy, kde-format
-#| msgid "This essential tool does not work at all, check your installation."
+#, kde-format
 msgid "This essential tool does not work; please check your installation."
 msgstr ""
-"Этот необходимый инструмент совсем не работает, проверьте вашу установку."
+"Этот необходимый инструмент не работает; проверьте правильность установки."
 
 #: configtester.cpp:487
 #, kde-format
@@ -144,6 +139,8 @@ msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
 "and forward search capabilities."
 msgstr ""
+"Поддерживается; для автоматического включения возможностей обратного и "
+"прямого поиска используйте конфигурацию «Modern» для (La)TeX."
 
 #: configtester.cpp:526
 #, kde-format
@@ -155,10 +152,9 @@ msgstr ""
 "используйте пакет srcltx."
 
 #: configtester.cpp:537
-#, fuzzy, kde-format
-#| msgid "Scripting Support"
+#, kde-format
 msgid "SyncTeX Support"
-msgstr "Поддержка сценариев"
+msgstr "Поддержка SyncTeX"
 
 #: configtester.cpp:546
 #, kde-format
@@ -166,20 +162,20 @@ msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
 "enable inverse and forward search capabilities."
 msgstr ""
+"Поддерживается; для автоматического включения возможностей обратного и "
+"прямого поиска используйте конфигурацию «Modern» для PDFLaTeX и XeLaTeX."
 
 #: configtester.cpp:553
-#, fuzzy, kde-format
-#| msgid "Supported."
+#, kde-format
 msgid "Not supported"
-msgstr "Поддерживается."
+msgstr "Не поддерживается"
 
 #: configtester.cpp:795
-#, fuzzy, kde-format
-#| msgid "Show preview of mathgroups in bottom bar."
+#, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr ""
-"Использовать нижнюю панель для предварительного просмотра математических "
-"групп."
+"Предпросмотр PNG нельзя использовать для математических групп в нижней "
+"панели предпросмотра."
 
 #: configtester.cpp:805
 #, kde-format
@@ -187,6 +183,8 @@ msgid ""
 "PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' "
 "in the bottom preview pane"
 msgstr ""
+"Предпросмотр PNG нельзя использовать с преобразованиями «dvi->ps->png» и "
+"«pdf->png» в нижней панели предпросмотра."
 
 #: dialogs/abbreviationinputdialog.cpp:44
 #, kde-format
@@ -247,44 +245,50 @@ msgid ""
 "p><p>It is recommended to run this assistant before using Kile for the first "
 "time.</p><p>Please press 'Next' now to start the test procedure.</p>"
 msgstr ""
+"<p>Этот мастер настройки проверит, правильно ли настроена ваша система для "
+"обработки документов LaTeX. Он также позволит точно настроить параметры Kile "
+"с учётом результатов тестов.</p><p>Рекомендуется запустить этот мастер перед "
+"первым использованием Kile.</p><p>Чтобы начать процедуру тестирования, "
+"нажмите кнопку «Далее».</p>"
 
 #: dialogs/configcheckerdialog.cpp:124
 #, kde-format
 msgid "System Check & Configuration Assistant"
-msgstr ""
+msgstr "Мастер проверки и настройки системы"
 
 #: dialogs/configcheckerdialog.cpp:127
-#, fuzzy, kde-format
-#| msgid "Checking if your TeX system is installed correctly..."
+#, kde-format
 msgid "Checking whether the system is set up correctly..."
-msgstr "Идёт проверка, корректно ли установлена ваша система TeX..."
+msgstr "Идёт проверка, корректно ли настроена ваша система TeX…"
 
 #: dialogs/configcheckerdialog.cpp:134
 #, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: dialogs/configcheckerdialog.cpp:148
-#, fuzzy, kde-format
-#| msgid "Whether to show the side bar."
+#, kde-format
 msgid "Configure the viewer tools to use the document viewer"
-msgstr "Показывать ли боковую панель."
+msgstr ""
+"Настроить инструменты просмотра для использования программы просмотра "
+"документов"
 
 # BUGME: should this be translatable? --aspotashev
 #: dialogs/configcheckerdialog.cpp:150
-#, fuzzy, kde-format
-#| msgid "Choose a configuration for the current tool"
+#, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
-msgstr "Конфигурация для текущего инструмента"
+msgstr ""
+"Использовать конфигурацию «Modern» для инструментов TeX, PDFTeX и LaTeX"
 
 # BUGME: should this be translatable? --aspotashev
 #: dialogs/configcheckerdialog.cpp:152
-#, fuzzy, kde-format
-#| msgid "Choose a configuration for the current tool"
+#, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
-msgstr "Конфигурация для текущего инструмента"
+msgstr ""
+"Использовать конфигурацию «Modern» для инструментов PDFLaTeX, LuaLaTeX и "
+"XeLaTeX"
 
 #: dialogs/configcheckerdialog.cpp:154
 #, kde-format
@@ -292,6 +296,8 @@ msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
 "changes."
 msgstr ""
+"<br/>Чтобы принять рекомендуемые изменения параметров, нажмите кнопку "
+"«Готово»."
 
 #: dialogs/configcheckerdialog.cpp:157
 #, kde-format
@@ -299,48 +305,39 @@ msgid "Test Results"
 msgstr "Результаты тестов"
 
 #: dialogs/configcheckerdialog.cpp:232
-#, fuzzy, kde-format
-#| msgid ""
-#| "<qt>The following tools did not pass all <b>critical</b> tests:<br>"
-#| "%1<br>Your system is not ready to use. Please consult the results to find "
-#| "out what to fix.</qt>"
+#, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
 ">Kile cannot function correctly on your system. Please consult the test "
 "results<br/>to determine which programs have to be fixed."
 msgstr ""
-"<qt>Следующие инструменты прошли не все <b>критические</b> тесты:<br>"
-"%1<br>Ваша система не готова к использованию. Просмотрите результаты "
-"тестирования, чтобы понять, что надо исправить.</qt>"
+"Следующие <b>критические</b> тесты не прошли:<br/><br/>%1<br/><br/>Kile не "
+"может правильно работать в вашей системе. Просмотрите результаты "
+"тестирования,<br/>чтобы определить, какие программы нужно исправить."
 
 #: dialogs/configcheckerdialog.cpp:238
-#, fuzzy, kde-format
-#| msgid ""
-#| "The following tools did not pass all tests:\n"
-#| " %1\n"
-#| "You will still be able to use Kile; however, not all features are "
-#| "guaranteed to work."
+#, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
 "able to use Kile; however, not all features are guaranteed to work."
 msgstr ""
-"Следующие инструменты прошли не все тесты:\n"
-" %1\n"
-"Вы всё ещё можете использовать Kile, хотя, возможно, не все возможности "
-"будут работать."
+"Следующие тесты не пройдены:<br/><br/>%1<br/><br/>Kile можно использовать и "
+"так, однако работа всех возможностей не гарантируется."
 
 #: dialogs/configcheckerdialog.cpp:243
-#, fuzzy, kde-format
-#| msgid "No problems detected, your system is ready to use."
+#, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
-msgstr "Проблем не обнаружено, ваша система готова к использованию."
+msgstr ""
+"<b>Проблем не обнаружено, Kile будет корректно работать в вашей системе.</b>"
 
 #: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr ""
+"Встроенная программа просмотра документов доступна, предпросмотр в реальном "
+"времени поддерживается."
 
 #: dialogs/configcheckerdialog.cpp:259
 #, kde-format
@@ -348,6 +345,8 @@ msgid ""
 "The embedded document viewer is available, but the installed version of "
 "PDFLaTeX is<br/><b>not compatible</b> with live preview."
 msgstr ""
+"Встроенная программа просмотра документов доступна, но установленная версия "
+"PDFLaTeX <br/><b>несовместима</b> с предпросмотром в реальном времени."
 
 #: dialogs/configcheckerdialog.cpp:267
 #, kde-format
@@ -356,17 +355,18 @@ msgid ""
 "not available or the installed<br/>version is too old). Live preview is "
 "hence not supported."
 msgstr ""
+"Встроенная программа просмотра документов <b>недоступна</b> (Okular либо "
+"недоступен, либо установленная<br/>версия слишком стара). Поэтому "
+"предпросмотр в реальном времени не поддерживается."
 
 #: dialogs/configcheckerdialog.cpp:291
-#, fuzzy, kde-format
-#| msgid ""
-#| "The file %1 could not be saved, check the permissions and free disk space."
+#, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "
 "Please check the available disk space.</b></font>"
 msgstr ""
-"Не удалось сохранить файл %1. Проверьте права и свободное пространство на "
-"диске."
+"<br/><font color=\"#FF0000\"><b>Не удалось корректно завершить тесты. "
+"Проверьте свободное пространство на диске.</b></font>"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UserMenuDialog)
 #. i18n: ectx: property (windowTitle), widget (QWidget, ToolConfigWidget)
@@ -435,10 +435,9 @@ msgstr "Сценарии"
 
 #. i18n: ectx: Menu (menu_usermenu)
 #: dialogs/configurationdialog.cpp:229 kileui.rc:498 usermenu/usermenu.cpp:68
-#, fuzzy, kde-format
-#| msgid "User Defined"
+#, kde-format
 msgid "User Menu"
-msgstr "Определённые пользователем"
+msgstr "Меню пользователя"
 
 #: dialogs/configurationdialog.cpp:241
 #, kde-format
@@ -470,15 +469,14 @@ msgstr "Справка"
 
 #. i18n: ectx: Menu (menu_livepreview)
 #: dialogs/configurationdialog.cpp:267 kileui.rc:147
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Live Preview"
-msgstr "Предварительный просмотр"
+msgstr "Предпросмотр в реальном времени"
 
 #: dialogs/configurationdialog.cpp:275
 #, kde-format
 msgid "Appearance"
-msgstr ""
+msgstr "Внешний вид"
 
 #. i18n: ectx: attribute (title), widget (QWidget, pageEnvironments)
 #: dialogs/configurationdialog.cpp:292 dialogs/latexcommanddialog_base.ui:41
@@ -680,6 +678,14 @@ msgid ""
 "'center', Kile will search for '\\begin{center}', and in graphics mode with "
 "pattern '.*\\.png', Kile will search for all png files."
 msgstr ""
+"Выберите один из режимов поиска. Для первых режимов образец поиска строится "
+"из редактируемого шаблона, в котором «%s» заменяется заданным образцом."
+"<br><br>Кроме того, имеются дополнительные фиксированные предопределённые "
+"режимы для окружений, графики, меток, ссылок и входных файлов. Если образец "
+"пуст, Kile будет искать все команды этого режима. Если образец задан, он "
+"подставляется как параметр. Например, в режиме окружений с образцом «center» "
+"Kile будет искать «\\begin{center}», а в режиме графики с образцом «.*\\."
+"png» — все файлы PNG."
 
 #: dialogs/findfilesdialog.cpp:292
 #, kde-format
@@ -834,56 +840,49 @@ msgid "Include Graphics"
 msgstr "Добавление изображения"
 
 #: dialogs/includegraphicsdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
-msgstr "*.png *.jpg *.eps.gz *.eps|Графические файлы\n"
+msgstr "Графические файлы (*.png *.jpg *.pdf *.ps *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:427 dialogs/includegraphicsdialog.cpp:434
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "PNG Files (*.png)"
-msgstr "Все файлы"
+msgstr "Файлы PNG (*.png)"
 
 #: dialogs/includegraphicsdialog.cpp:428 dialogs/includegraphicsdialog.cpp:435
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "JPG Files (*.jpg)"
-msgstr "Все файлы"
+msgstr "Файлы JPG (*.jpg)"
 
 #: dialogs/includegraphicsdialog.cpp:429
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "PDF Files (*.pdf)"
-msgstr "Все файлы"
+msgstr "Файлы PDF (*.pdf)"
 
 #: dialogs/includegraphicsdialog.cpp:430
 #, kde-format
 msgid "Postscript Files (*.eps *ps)"
-msgstr ""
+msgstr "Файлы Postscript (*.eps *ps)"
 
 #: dialogs/includegraphicsdialog.cpp:433
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
-msgstr "*.png *.jpg *.eps.gz *.eps|Графические файлы\n"
+msgstr "Графические файлы (*.png *.jpg *.eps.gz *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:436
 #, kde-format
 msgid "Zipped EPS Files (*.eps.gz)"
-msgstr ""
+msgstr "Сжатые файлы EPS (*.eps.gz)"
 
 #: dialogs/includegraphicsdialog.cpp:437
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "EPS Files (*.eps)"
-msgstr "Все файлы"
+msgstr "Файлы EPS (*.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:439 kileextensions.cpp:123
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "All Files (*)"
-msgstr "Все файлы"
+msgstr "Все файлы (*)"
 
 #: dialogs/includegraphicsdialog.cpp:629
 #, kde-format
@@ -1354,10 +1353,9 @@ msgid "References"
 msgstr "Ссылки"
 
 #: dialogs/latexcommanddialog.cpp:396
-#, fuzzy, kde-format
-#| msgid "&Bibliography"
+#, kde-format
 msgid "Bibliographies"
-msgstr "Библиография"
+msgstr "Библиографии"
 
 #: dialogs/latexcommanddialog.cpp:397
 #, kde-format
@@ -1404,28 +1402,22 @@ msgid "LaTeX Environment"
 msgstr "Окружение LaTeX"
 
 #: dialogs/latexcommanddialog.cpp:762
-#, fuzzy, kde-format
-#| msgid ""
-#| "All your %1 settings will be overwritten with the default settings, are "
-#| "you sure you want to continue?"
+#, kde-format
 msgid ""
 "All your 'environment' settings will be overwritten with the default "
 "settings, are you sure you want to continue?"
 msgstr ""
-"Все настройки раздела %1 будут заменены настройками по умолчанию. Вы "
-"уверены, что хотите продолжить?"
+"Все параметры окружений будут заменены параметрами по умолчанию. Вы уверены, "
+"что хотите продолжить?"
 
 #: dialogs/latexcommanddialog.cpp:763
-#, fuzzy, kde-format
-#| msgid ""
-#| "All your %1 settings will be overwritten with the default settings, are "
-#| "you sure you want to continue?"
+#, kde-format
 msgid ""
 "All your 'command' settings will be overwritten with the default settings, "
 "are you sure you want to continue?"
 msgstr ""
-"Все настройки раздела %1 будут заменены настройками по умолчанию. Вы "
-"уверены, что хотите продолжить?"
+"Все параметры команд будут заменены параметрами по умолчанию. Вы уверены, "
+"что хотите продолжить?"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/latexcommanddialog_base.ui:30
@@ -1574,10 +1566,9 @@ msgid "Add all the selected files"
 msgstr "Добавить все выбранные файлы"
 
 #: dialogs/listselector.cpp:173
-#, fuzzy, kde-format
-#| msgid "Install custom files..."
+#, kde-format
 msgid "Install custom files"
-msgstr "Установить доп. файлы..."
+msgstr "Установить собственные файлы"
 
 #: dialogs/listselector.cpp:174
 #, kde-format
@@ -1585,10 +1576,9 @@ msgid "Install your own completion files"
 msgstr "Установить собственные файлы дополнений"
 
 #: dialogs/listselector.cpp:175
-#, fuzzy, kde-format
-#| msgid "Manage custom files..."
+#, kde-format
 msgid "Manage custom files"
-msgstr "Управление файлами..."
+msgstr "Управление собственными файлами"
 
 #: dialogs/listselector.cpp:176
 #, kde-format
@@ -1620,10 +1610,9 @@ msgid "Select Completion Files to Install Locally"
 msgstr "Выберите файлы дополнений для локальной установки"
 
 #: dialogs/listselector.cpp:230
-#, fuzzy, kde-format
-#| msgid "*.cwl|Completion files (*.cwl)"
+#, kde-format
 msgid "Completion files (*.cwl)"
-msgstr "*.cwl|Файлы автодополнения (*.cwl)"
+msgstr "Файлы автодополнения (*.cwl)"
 
 #: dialogs/listselector.cpp:240
 #, kde-format
@@ -1794,10 +1783,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "Вы действительно хотите заменить шаблон «%1»?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "Удаление шаблона"
+msgstr "Замена шаблона"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -2012,37 +2000,37 @@ msgstr "Мастер PDF"
 #: dialogs/pdf-wizard/pdfdialog.cpp:847
 #, kde-format
 msgid "Re&arrange"
-msgstr ""
+msgstr "Пере&упорядочить"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:130
 #, kde-format
 msgid "1 Page + Empty Page --> 2up"
-msgstr ""
+msgstr "1 страница + пустая страница --> 2up"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:131
 #, kde-format
 msgid "1 Page + Duplicate --> 2up"
-msgstr ""
+msgstr "1 страница + копия --> 2up"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:132
 #, kde-format
 msgid "2 Pages --> 2up"
-msgstr ""
+msgstr "2 страницы --> 2up"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:133
 #, kde-format
 msgid "2 Pages (landscape) --> 2up"
-msgstr ""
+msgstr "2 страницы (альбомная ориентация) --> 2up"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:134
 #, kde-format
 msgid "4 Pages --> 4up"
-msgstr ""
+msgstr "4 страницы --> 4up"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:135
 #, kde-format
 msgid "4 Pages (landscape) --> 4up"
-msgstr ""
+msgstr "4 страницы (альбомная ориентация) --> 4up"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:136 dialogs/postscriptdialog.cpp:125
 #, kde-format
@@ -2072,53 +2060,48 @@ msgstr "Все страницы в обратном порядке"
 #: dialogs/pdf-wizard/pdfdialog.cpp:141
 #, kde-format
 msgid "Decrypt"
-msgstr ""
+msgstr "Расшифровать"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:142
-#, fuzzy, kde-format
-#| msgid "Select Odd Pages"
+#, kde-format
 msgid "Select Pages"
-msgstr "Выбрать нечётные страницы"
+msgstr "Выбрать страницы"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:143
-#, fuzzy, kde-format
-#| msgid "Select Even Pages"
+#, kde-format
 msgid "Delete Pages"
-msgstr "Выбрать чётные страницы"
+msgstr "Удалить страницы"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:144
 #, kde-format
 msgid "Apply a background watermark"
-msgstr ""
+msgstr "Наложить водяной знак на фон"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:145
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "Apply a background color"
-msgstr "Цвет фона"
+msgstr "Наложить цвет фона"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:146
 #, kde-format
 msgid "Apply a foreground stamp"
-msgstr ""
+msgstr "Применить штамп переднего плана"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:147
-#, fuzzy, kde-format
-#| msgid "pstops: Choose Parameter"
+#, kde-format
 msgid "pdftk: Choose Parameter"
-msgstr "pstops: Выбрать параметры"
+msgstr "pdftk: выбор параметра"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:148
-#, fuzzy, kde-format
-#| msgid "pstops: Choose Parameter"
+#, kde-format
 msgid "pdfpages: Choose Parameter"
-msgstr "pstops: Выбрать параметры"
+msgstr "pdfpages: выбор параметра"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:399
 #, kde-format
 msgctxt "%1 is the number of pages"
 msgid "%1 (encrypted)"
-msgstr ""
+msgstr "%1 (зашифровано)"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:407
 #, kde-format
@@ -2139,7 +2122,7 @@ msgid ""
 msgstr ""
 "Этот файл PDF зашифрован и не может быть открыт с помощью «pdftk».\n"
 "Введите пароль для файла\n"
-"или оставьте поле пустым, чтобы попробовать открыть файл другим способом:"
+"или оставьте поле пустым, чтобы попробовать открыть файл другим способом: "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:567
 #, kde-format
@@ -2149,43 +2132,44 @@ msgstr "Пароль необходим для установки или изм�
 #: dialogs/pdf-wizard/pdfdialog.cpp:571
 #, kde-format
 msgid "The permissions of this document can be changed with <i>pdftk</i>."
-msgstr ""
+msgstr "Разрешения этого документа можно изменить с помощью <i>pdftk</i>."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:572
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no permission can be changed."
-msgstr ""
+msgstr "<i>pdftk</i> недоступен, поэтому изменить разрешения невозможно."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:576
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no property can be changed."
-msgstr ""
+msgstr "<i>pdftk</i> недоступен; изменение свойств невозможно."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:579
 #, kde-format
 msgid "The properties of this document can be changed with <i>pdftk</i>."
-msgstr ""
+msgstr "Свойства этого документа можно изменить с помощью <i>pdftk</i>."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:587
 #, kde-format
 msgid "This input file is encrypted, so only <i>pdftk</i> works."
 msgstr ""
+"Входной файл зашифрован; открыть его можно только с помощью <i>pdftk</i>."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:588
 #, kde-format
 msgid "A password is necessary to rearrange pages."
-msgstr ""
+msgstr "Пароль необходим для переупорядочивания страниц."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:589
 #, kde-format
 msgid "This input file is encrypted, but <i>pdftk</i> is not installed."
-msgstr ""
+msgstr "Входной файл зашифрован, но <i>pdftk</i> не установлен."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:593
 #, kde-format
 msgid ""
 "This wizard will use <i>pdftk</i> and the LaTeX package <i>pdfpages</i>."
-msgstr ""
+msgstr "Мастер будет использовать <i>pdftk</i> и пакет LaTeX <i>pdfpages</i>."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:594
 #, kde-format
@@ -2193,6 +2177,8 @@ msgid ""
 "This wizard will only use <i>pdftk</i> (<i>pdfpages.sty</i> is not "
 "installed)."
 msgstr ""
+"Этот мастер будет использовать только <i>pdftk</i> (<i>pdfpages.sty</i> не "
+"установлен)."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:597
 #, kde-format
@@ -2200,11 +2186,15 @@ msgid ""
 "This wizard will only use the LaTeX package <i>pdfpages</i> (<i>pdftk</i> "
 "was not found)."
 msgstr ""
+"Мастер будет использовать только пакет LaTeX <i>pdfpages</i> (<i>pdftk</i> "
+"не найден)."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:598
 #, kde-format
 msgid "This wizard can't work, because no tool was found (see help section)."
 msgstr ""
+"Мастер не может работать, так как не найдено ни одного инструмента (см. "
+"раздел справки)."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:603
 #, kde-format
@@ -2212,11 +2202,12 @@ msgid ""
 "<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</"
 "i>"
 msgstr ""
+"<i>(Собрано без библиотеки libpoppler для PDF. Доступны не все задачи.)</i>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:722
 #, kde-format
 msgid "&Update"
-msgstr ""
+msgstr "&Обновить"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/pdf-wizard/pdfdialog.cpp:785 dialogs/pdf-wizard/pdfdialog_base.ui:55
@@ -2227,7 +2218,7 @@ msgstr "Страницы:"
 #: dialogs/pdf-wizard/pdfdialog.cpp:786
 #, kde-format
 msgid "Comma separated page list: 1,4-7,9"
-msgstr ""
+msgstr "Список страниц через запятую: 1,4-7,9"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameter)
 #: dialogs/pdf-wizard/pdfdialog.cpp:791 dialogs/pdf-wizard/pdfdialog.cpp:796
@@ -2257,6 +2248,10 @@ msgid ""
 "the input PDF. This page is scaled and rotated as needed to fit the input "
 "page."
 msgstr ""
+"Накладывает водяной знак PDF на фон одного входного файла PDF. «pdftk» "
+"использует только первую страницу из фонового файла PDF и накладывает её на "
+"каждую страницу входного файла PDF. Эта страница масштабируется и "
+"поворачивается при необходимости, чтобы соответствовать входной странице."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:824
 #, kde-format
@@ -2266,21 +2261,28 @@ msgid ""
 "the input PDF. This page is scaled and rotated as needed to fit the input "
 "page. This works best if the stamp PDF page has a transparent background."
 msgstr ""
+"Накладывает штамп переднего плана поверх страниц входного документа PDF. "
+"«pdftk» использует только первую страницу из PDF-файла штампа и накладывает "
+"её на каждую страницу входного PDF-файла. Эта страница масштабируется и "
+"поворачивается по мере необходимости, чтобы соответствовать входной "
+"странице. Наилучший результат достигается, если страница PDF-файла штампа "
+"имеет прозрачный фон."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:844
-#, fuzzy, kde-format
-#| msgid "Apply"
+#, kde-format
 msgid "&Apply"
-msgstr "Применить"
+msgstr "&Применить"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:862
-#, fuzzy, kde-format
-#| msgid "Failed to create the template."
+#, kde-format
 msgid ""
 "Failed to create a temporary directory.\n"
 "\n"
 "This wizard cannot be used."
-msgstr "Не удалось создать шаблон."
+msgstr ""
+"Не удалось создать временную папку.\n"
+"\n"
+"Этот мастер нельзя использовать."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:890
 #, kde-format
@@ -2299,6 +2301,20 @@ msgid ""
 "content is encrypted, but the key is known. You should see it more as a "
 "polite but firm request to respect the author's wishes.</p>"
 msgstr ""
+"<center>Мастер PDF</center><br>Этот мастер использует «pdftk» и пакет LaTeX "
+"«pdfpages», чтобы<ul><li>переставлять страницы существующего документа PDF</"
+"li><li>читать и обновлять сведения о документе PDF (только pdftk)</"
+"li><li>читать, устанавливать или изменять некоторые разрешения документа PDF "
+"(только pdftk). Пароль необходим для установки или изменения текущих "
+"параметров. Кроме того, выполняется шифрование PDF, чтобы закрыть содержимое "
+"файла этим паролем.</li></ul><p>Пакет «pdfpages» работает только с "
+"незашифрованными документами. «pdftk» может обрабатывать документы обоих "
+"типов, но для зашифрованных файлов требуется пароль. Если одна из программ "
+"«pdftk» или «pdfpages» недоступна, число возможных перестановок сокращается."
+"</p><p><i>Предупреждение:</i> Шифрование и пароль не обеспечивают реальной "
+"защиты PDF. Содержимое зашифровано, но ключ известен. Скорее это следует "
+"рассматривать как вежливую, но настойчивую просьбу уважать пожелания автора."
+"</p>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:907
 #, kde-format
@@ -2307,6 +2323,8 @@ msgid ""
 "library. Setting, changing and removing of properties and permissions is not "
 "possible.</p>"
 msgstr ""
+"<p><i>Информация: </i>Эта версия Kile собрана без библиотеки libpoppler. "
+"Установка, изменение и удаление свойств и разрешений невозможны.</p>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:911 dialogs/pdf-wizard/pdfdialog.cpp:1699
 #: dialogs/pdf-wizard/pdfdialog.cpp:1769 kile.cpp:1066
@@ -2325,10 +2343,9 @@ msgid "pdftk"
 msgstr "pdftk"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:927
-#, fuzzy, kde-format
-#| msgid "rearrange ps file: "
+#, kde-format
 msgid "Rearranging PDF file: %1"
-msgstr "обработка файла ps: "
+msgstr "Переупорядочивание PDF-файла: %1"
 
 # длина перевода равна 27 символов --aspotashev
 #: dialogs/pdf-wizard/pdfdialog.cpp:935 dialogs/pdf-wizard/pdfdialog.cpp:1047
@@ -2352,17 +2369,15 @@ msgstr "***** выходной файл:       "
 
 # длина перевода равна 27 символов --aspotashev
 #: dialogs/pdf-wizard/pdfdialog.cpp:938 dialogs/pdf-wizard/pdfdialog.cpp:1049
-#, fuzzy, kde-format
-#| msgid "***** tool:        "
+#, kde-format
 msgid "***** param:       "
-msgstr "***** инструмент:          "
+msgstr "***** параметр:            "
 
 # длина перевода равна 27 символов --aspotashev
 #: dialogs/pdf-wizard/pdfdialog.cpp:939
-#, fuzzy, kde-format
-#| msgid "***** tool:        "
+#, kde-format
 msgid "***** command:     "
-msgstr "***** инструмент:          "
+msgstr "***** команда:             "
 
 # длина перевода равна 27 символам --aspotashev
 #: dialogs/pdf-wizard/pdfdialog.cpp:940 dialogs/postscriptdialog.cpp:219
@@ -2371,71 +2386,62 @@ msgid "***** viewer:      "
 msgstr "***** программа просмотра: "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1102
-#, fuzzy, kde-format
-#| msgid ""
-#| "An error has occurred during the execution of the script \"%1\":\n"
-#| "%2"
+#, kde-format
 msgid "An error occurred while executing the task."
-msgstr ""
-"При выполнении скрипта «%1» произошла ошибка:\n"
-"%2"
+msgstr "При выполнении задачи произошла ошибка."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1158
 #, kde-format
 msgid "Finished with an error (wrong password)"
-msgstr ""
+msgstr "Завершено с ошибкой (неверный пароль)"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1161
-#, fuzzy, kde-format
-#| msgid "finished with exit code %1"
+#, kde-format
 msgid "Finished with an error"
-msgstr "завершено с кодом возврата %1"
+msgstr "Завершено с ошибкой"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1175
-#, fuzzy, kde-format
-#| msgid "Could not read the style file."
+#, kde-format
 msgid "Could not create the ViewPDF tool"
-msgstr "Не удалось прочесть стилевой файл."
+msgstr "Не удалось создать инструмент ViewPDF."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1175
-#, fuzzy, kde-format
-#| msgid "View"
+#, kde-format
 msgid "ViewPDF"
-msgstr "Вид"
+msgstr "ViewPDF"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1615
 #, kde-format
 msgid "The utility needs some parameters in this mode."
-msgstr ""
+msgstr "Утилите в этом режиме нужны параметры."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1633
 #, kde-format
 msgid "Illegal page list 'from-to': %1 is bigger than %2."
-msgstr ""
+msgstr "Недопустимый список страниц «от-до»: %1 больше, чем %2."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1637 dialogs/pdf-wizard/pdfdialog.cpp:1644
 #, kde-format
 msgid "Illegal pagenumber: %1."
-msgstr ""
+msgstr "Недопустимый номер страницы: %1."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1657
-#, fuzzy, kde-format
-#| msgid "You need to define an output file or select the viewer."
+#, kde-format
 msgid "You need to define a PDF file as foreground stamp."
-msgstr "Необходимо указать выходной файл или выбрать программу для просмотра."
+msgstr "Необходимо указать файл PDF как штамп переднего плана."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1658
-#, fuzzy, kde-format
-#| msgid "You need to define an output file or select the viewer."
+#, kde-format
 msgid "You need to define a PDF file as background watermark."
-msgstr "Необходимо указать выходной файл или выбрать программу для просмотра."
+msgstr "Необходимо указать файл PDF как водяной знак для фона."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1665
-#, fuzzy, kde-format
-#| msgid "Unknown file format: only '.ps' is accepted as output file."
+#, kde-format
 msgid ""
 "Unknown file format: only '.pdf' is accepted as image file in this mode."
-msgstr "Неизвестный формат файла: допускается вывод только в файлы «.ps»."
+msgstr ""
+"Неизвестный формат файла: в этом режиме в качестве файла изображения "
+"допускается только «.pdf»."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1670
 #, kde-format
@@ -2443,10 +2449,9 @@ msgid "The given file doesn't exist."
 msgstr "Этот файл не существует."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1683
-#, fuzzy, kde-format
-#| msgid "You need to define an output file or select the viewer."
+#, kde-format
 msgid "You need to define an output file."
-msgstr "Необходимо указать выходной файл или выбрать программу для просмотра."
+msgstr "Необходимо указать выходной файл."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1690
 #, kde-format
@@ -2484,7 +2489,7 @@ msgstr "Пароль не указан."
 #: dialogs/pdf-wizard/pdfdialog.cpp:1760
 #, kde-format
 msgid "The password should be at least 6 characters long."
-msgstr ""
+msgstr "Пароль должен состоять как минимум из шести знаков."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1769 dialogs/postscriptdialog.cpp:517
 #: dialogs/texdocumentationdialog.cpp:432
@@ -2507,38 +2512,35 @@ msgstr "Входной файл:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbPages)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:62
-#, fuzzy, kde-format
-#| msgid "Minipage"
+#, kde-format
 msgid "pages"
-msgstr "Министраница"
+msgstr "страниц"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbPassword)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:69
-#, fuzzy, kde-format
-#| msgid "Passed"
+#, kde-format
 msgid "Password:"
-msgstr "Пройден"
+msgstr "Пароль:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameterIcon)
 #. i18n: ectx: property (text), widget (QLabel, m_lbIconChosen)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:135
 #: dialogs/usermenu/usermenudialog_base.ui:492
-#, fuzzy, kde-format
-#| msgid "Icon:"
+#, kde-format
 msgid "Icon"
-msgstr "Значок:"
+msgstr "Значок"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameterInfo)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:158
 #, kde-format
 msgid "This wizard will use 'pdftk' and LaTeX package 'pdfpages'."
-msgstr ""
+msgstr "Мастер использует программу «pdftk» и пакет LaTeX «pdfpages»."
 
 #. i18n: ectx: attribute (title), widget (QWidget, m_tbRearrangements)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:194
 #, kde-format
 msgid "Rearrangements"
-msgstr ""
+msgstr "Переупорядочивания"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbOutfile)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -2549,14 +2551,13 @@ msgstr "Файл вывода:"
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, m_edOutfile)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:216
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The name of the output file. This entry may also be empty, if you want to "
 "overwrite the original file."
 msgstr ""
-"Имя файла вывода. Это поле может быть пустым, если вы хотите только "
-"посмотреть на результат, не сохраняя его. В этом случае отметьте viewer "
-"checkbox."
+"Имя выходного файла. Это поле может быть пустым, если требуется перезаписать "
+"исходный файл."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbTask)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -2587,14 +2588,13 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog_base.ui:240
 #, kde-format
 msgid "Show the resulting PDF file"
-msgstr ""
+msgstr "Показывать полученный PDF-файл"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbOverwrite)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:253
-#, fuzzy, kde-format
-#| msgid "Overwrite File ?"
+#, kde-format
 msgid "Overwrite the original file"
-msgstr "Заменить файл?"
+msgstr "Заменить исходный файл"
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, m_edParameter)
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, m_edParameter)
@@ -2609,17 +2609,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbStamp)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:281
-#, fuzzy, kde-format
-#| msgid "File:"
+#, kde-format
 msgid "PDF file:"
-msgstr "Файл:"
+msgstr "PDF-файл:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbBackgroundColor)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:323
-#, fuzzy, kde-format
-#| msgid "&Background Color:"
+#, kde-format
 msgid "Background:"
-msgstr "Цвет &фона:"
+msgstr "Цвет фона:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, m_tbProperties)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:370 dialogs/projectdialogs.cpp:432
@@ -2630,42 +2628,37 @@ msgstr "Свойства"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbProperties)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:382
-#, fuzzy, kde-format
-#| msgid "Previous Document"
+#, kde-format
 msgid "Properties of this PDF document"
-msgstr "Предыдущий документ"
+msgstr "Свойства этого PDF-документа"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:406
-#, fuzzy, kde-format
-#| msgid "&Title:"
+#, kde-format
 msgid "Title:"
 msgstr "Заголовок:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:416
-#, fuzzy, kde-format
-#| msgid "Caption:"
+#, kde-format
 msgid "Creator:"
-msgstr "Надпись:"
+msgstr "Создатель:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:426
 #, kde-format
 msgid "Subject:"
-msgstr ""
+msgstr "Тема:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:436
-#, fuzzy, kde-format
-#| msgid "Words:"
+#, kde-format
 msgid "Keywords:"
-msgstr "Слов:"
+msgstr "Ключевые слова:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:446
-#, fuzzy, kde-format
-#| msgid "&Author:"
+#, kde-format
 msgid "Author:"
 msgstr "Автор:"
 
@@ -2673,34 +2666,31 @@ msgstr "Автор:"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:456
 #, kde-format
 msgid "Producer:"
-msgstr ""
+msgstr "Производитель:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:491
-#, fuzzy, kde-format
-#| msgid "Normal"
+#, kde-format
 msgid "Format:"
-msgstr "Обычный"
+msgstr "Формат:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbFormat)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:501
 #, kde-format
 msgid "1.4"
-msgstr ""
+msgstr "1.4"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:508
-#, fuzzy, kde-format
-#| msgid "&Description:"
+#, kde-format
 msgid "Encryption:"
-msgstr "Описание:"
+msgstr "Шифрование:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_23)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:525
-#, fuzzy, kde-format
-#| msgid "Caption:"
+#, kde-format
 msgid "Creation date:"
-msgstr "Надпись:"
+msgstr "Дата создания:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbCreationDate)
 #. i18n: ectx: property (text), widget (QLabel, m_lbModDate)
@@ -2708,53 +2698,49 @@ msgstr "Надпись:"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:552
 #, kde-format
 msgid "date"
-msgstr ""
+msgstr "Дата"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:542
-#, fuzzy, kde-format
-#| msgid "Caption:"
+#, kde-format
 msgid "Modification date:"
-msgstr "Надпись:"
+msgstr "Дата изменения:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, m_tbPermissions)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:565
-#, fuzzy, kde-format
-#| msgid "Version"
+#, kde-format
 msgid "Permissions"
-msgstr "Версия"
+msgstr "Права доступа"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbPermissions)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:577
 #, kde-format
 msgid "Permissions (under 128-bit-security)"
-msgstr ""
+msgstr "Права доступа (при 128-битном шифровании)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:609
-#, fuzzy, kde-format
-#| msgid "Scripting"
+#, kde-format
 msgid "Printing:"
-msgstr "Сценарии"
+msgstr "Печать:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:619
 #, kde-format
 msgid "Copy text or graphics:"
-msgstr ""
+msgstr "Копировать текст или изображения:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:629
-#, fuzzy, kde-format
-#| msgid "Table of Contents"
+#, kde-format
 msgid "Modify contents:"
-msgstr "Оглавление"
+msgstr "Изменение содержимого:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:639
 #, kde-format
 msgid "Fill form fields with data:"
-msgstr ""
+msgstr "Заполнить поля формы данными:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbPrinting)
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbModify)
@@ -2768,26 +2754,25 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog_base.ui:720
 #, kde-format
 msgid "allowed"
-msgstr ""
+msgstr "Разрешено"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:701
 #, kde-format
 msgid "Change or add annotations or fill form fields:"
-msgstr ""
+msgstr "Изменение или добавление примечаний, заполнение полей формы:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbPrinting)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:779
 #, kde-format
 msgid "Allow only Printing"
-msgstr ""
+msgstr "Разрешить только печать"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbAll)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:786
-#, fuzzy, kde-format
-#| msgid "Show all the templates"
+#, kde-format
 msgid "Allow all features"
-msgstr "Показать все шаблоны"
+msgstr "Разрешить все возможности"
 
 #: dialogs/postscriptdialog.cpp:60
 #, kde-format
@@ -2797,19 +2782,17 @@ msgstr "Перекладка страниц файла Postscript"
 #: dialogs/postscriptdialog.cpp:97
 #, kde-format
 msgid "Neither 'pstops' nor 'psselect' found."
-msgstr ""
+msgstr "Не найдены ни «pstops», ни «psselect»."
 
 #: dialogs/postscriptdialog.cpp:100
-#, fuzzy, kde-format
-#| msgid "File not found"
+#, kde-format
 msgid "'pstops' not found."
-msgstr "Файл не найден"
+msgstr "Программа «pstops» не найдена."
 
 #: dialogs/postscriptdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "File not found"
+#, kde-format
 msgid "'psselect' not found."
-msgstr "Файл не найден"
+msgstr "Программа «psselect» не найдена."
 
 #: dialogs/postscriptdialog.cpp:114
 #, kde-format
@@ -2892,10 +2875,9 @@ msgid "Could not create a temporary file."
 msgstr "Не удалось создать временный файл."
 
 #: dialogs/postscriptdialog.cpp:208
-#, fuzzy, kde-format
-#| msgid "rearrange ps file: "
+#, kde-format
 msgid "rearrange ps file: %1"
-msgstr "обработка файла ps: "
+msgstr "переупорядочивание файла ps: %1"
 
 #: dialogs/postscriptdialog.cpp:255
 #, kde-format
@@ -3054,10 +3036,9 @@ msgid "Image Files"
 msgstr "Файлы изображений"
 
 #: dialogs/projectdialogs.cpp:111
-#, fuzzy, kde-format
-#| msgid "&Bibliography"
+#, kde-format
 msgid "Bibliography Files"
-msgstr "Библиография"
+msgstr "Файлы библиографии"
 
 #: dialogs/projectdialogs.cpp:118
 #, kde-format
@@ -3070,12 +3051,13 @@ msgid "Predefined:"
 msgstr "Предопределённые:"
 
 #: dialogs/projectdialogs.cpp:156
-#, fuzzy, kde-format
-#| msgid "All user defined extensions should look like '.xyz'"
+#, kde-format
 msgid ""
 "Error in extension '%1':\n"
 "All user-defined extensions should look like '.xyz'"
-msgstr "Все расширения, определённые пользователем, должны иметь вид «.xyz»"
+msgstr ""
+"Ошибка в расширении «%1»:\n"
+"Все расширения, определённые пользователем, должны иметь вид «.xyz»"
 
 #: dialogs/projectdialogs.cpp:156
 #, kde-format
@@ -3139,10 +3121,9 @@ msgid "Empty Location"
 msgstr "Расположение не задано"
 
 #: dialogs/projectdialogs.cpp:356
-#, fuzzy, kde-format
-#| msgid "Please enter an absolute (local) path to the project folder."
+#, kde-format
 msgid "Please enter an absolute path to the project folder."
-msgstr "Пожалуйста, укажите абсолютный (локальный) путь к каталогу проекта."
+msgstr "Укажите абсолютный путь к папке проекта."
 
 #: dialogs/projectdialogs.cpp:356
 #, kde-format
@@ -3161,14 +3142,9 @@ msgid "No File Name Given"
 msgstr "Не выбрано имя файла"
 
 #: dialogs/projectdialogs.cpp:374
-#, fuzzy, kde-format
-#| msgid ""
-#| "The project file already exists, please select another name. Delete the "
-#| "existing project file if your intention was to overwrite it."
+#, kde-format
 msgid "The project file exists already. Please choose another name."
-msgstr ""
-"Файл проекта уже существует; пожалуйста, выберите другое имя. Если вы хотите "
-"заменить файл проекта, сначала удалите старый."
+msgstr "Файл проекта уже существует. Выберите другое имя."
 
 #: dialogs/projectdialogs.cpp:374 dialogs/projectdialogs.cpp:380
 #, kde-format
@@ -3176,15 +3152,12 @@ msgid "Project File Already Exists"
 msgstr "Файл проекта уже существует"
 
 #: dialogs/projectdialogs.cpp:380
-#, fuzzy, kde-format
-#| msgid ""
-#| "The project file already exists, please select another name. Delete the "
-#| "existing project file if your intention was to overwrite it."
+#, kde-format
 msgid ""
 "The GUI settings file exists already. Please choose another project name."
 msgstr ""
-"Файл проекта уже существует; пожалуйста, выберите другое имя. Если вы хотите "
-"заменить файл проекта, сначала удалите старый."
+"Файл параметров графического интерфейса уже существует. Выберите другое имя "
+"проекта."
 
 #: dialogs/projectdialogs.cpp:395 documentinfo.cpp:133
 #, kde-format
@@ -3234,20 +3207,22 @@ msgid "&MakeIndex options"
 msgstr "Пара&метры MakeIndex"
 
 #: dialogs/projectdialogs.cpp:599
-#, fuzzy, kde-format
-#| msgid "Could not create the project folder, check your permissions."
+#, kde-format
 msgid ""
 "<p>Could not create the project folder \"\n"
 "%1\"</p>.<p>Please check whether you have write permissions.</p>"
-msgstr "Не удалось создать каталог проекта; проверьте права доступа."
+msgstr ""
+"<p>Не удалось создать папку проекта «\n"
+"%1»</p>.<p>Проверьте права на запись.</p>"
 
 #: dialogs/projectdialogs.cpp:606
-#, fuzzy, kde-format
-#| msgid "The project folder is not writable, check your permissions."
+#, kde-format
 msgid ""
 "<p>The project folder \"(%1)\" is not writable.</p><p>Please check the "
 "permissions of the project folder.</p>"
-msgstr "Каталог проекта защищён от записи; проверьте права доступа."
+msgstr ""
+"<p>Папка проекта «%1» защищена от записи.</p><p>Проверьте права доступа к "
+"папке проекта.</p>"
 
 #: dialogs/quickdocumentdialog.cpp:105
 #, kde-format
@@ -4357,51 +4332,47 @@ msgid "New Key Sequence"
 msgstr "Новая последовательность клавиш"
 
 #: dialogs/scriptshortcutdialog.cpp:44
-#, fuzzy, kde-format
-#| msgid "Time limit for the execution of scripts."
+#, kde-format
 msgid "Use a key sequence written in the editor to execute a script."
-msgstr "Ограничение времени исполнения сценария."
+msgstr ""
+"Использовать последовательность клавиш, введённую в редакторе, для "
+"выполнения сценария."
 
 #: dialogs/scriptshortcutdialog.cpp:45
-#, fuzzy, kde-format
-#| msgid "Time limit for the execution of scripts."
+#, kde-format
 msgid "Use a shortcut to execute a script."
-msgstr "Ограничение времени исполнения сценария."
+msgstr "Использовать комбинацию клавиш для выполнения сценария."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/scriptshortcutdialog_base.ui:35
-#, fuzzy, kde-format
-#| msgid "Please enter a new key sequence:"
+#, kde-format
 msgid "Choose the type of the key sequence:"
-msgstr "Введите новую последовательность клавиш:"
+msgstr "Выберите тип последовательности клавиш:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbKeySequence)
 #: dialogs/scriptshortcutdialog_base.ui:79
-#, fuzzy, kde-format
-#| msgid "New Key Sequence"
+#, kde-format
 msgid "Editor key sequence"
-msgstr "Новая последовательность клавиш"
+msgstr "Последовательность клавиш редактора"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbShortcut)
 #: dialogs/scriptshortcutdialog_base.ui:106
 #: dialogs/usermenu/usermenudialog.cpp:53
 #, kde-format
 msgid "Shortcut"
-msgstr ""
+msgstr "Комбинация клавиш"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbKeySequence)
 #: dialogs/scriptshortcutdialog_base.ui:134
-#, fuzzy, kde-format
-#| msgid "Please enter a new key sequence:"
+#, kde-format
 msgid "Please enter a key sequence for this script:"
-msgstr "Введите новую последовательность клавиш:"
+msgstr "Введите последовательность клавиш для этого сценария:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbShortcut)
 #: dialogs/scriptshortcutdialog_base.ui:150
-#, fuzzy, kde-format
-#| msgid "Please enter a new key sequence:"
+#, kde-format
 msgid "Please enter a shortcut for this script:"
-msgstr "Введите новую последовательность клавиш:"
+msgstr "Введите комбинацию клавиш для этого сценария:"
 
 #: dialogs/statisticsdialog.cpp:50
 #, kde-format
@@ -4461,8 +4432,7 @@ msgstr "Статистика по безымянному файлу"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/tabbingdialog_base.ui:29
-#, fuzzy, kde-format
-#| msgid "Num of &columns:"
+#, kde-format
 msgid "Number of &columns:"
 msgstr "Число с&толбцов:"
 
@@ -4801,6 +4771,10 @@ msgid ""
 "to show the corresponding file.</p><p>Items that are grayed out are not "
 "installed.</p>"
 msgstr ""
+"<p>Список документации, предоставленной установленным дистрибутивом TeX.</"
+"p><p>Двойной щёлчок по элементу или нажатие клавиши пробела откроет "
+"программу просмотра, в которой будет показан соответствующий файл.</"
+"p><p>Элементы, выделенные серым цветом, не установлены.</p>"
 
 #: dialogs/texdocumentationdialog.cpp:87
 #, kde-format
@@ -4817,16 +4791,14 @@ msgid "Start the search for the chosen keyword."
 msgstr "Начать поиск выбранного ключевого слова."
 
 #: dialogs/texdocumentationdialog.cpp:90
-#, fuzzy, kde-format
-#| msgid "Reset TOC to show all available files."
+#, kde-format
 msgid "Reset list to all available documentation files."
-msgstr "Сбросить оглавление, восстановив все имеющиеся файлы."
+msgstr "Сбросить список, вернув в него все имеющиеся файлы документации."
 
 #: dialogs/texdocumentationdialog.cpp:91
-#, fuzzy, kde-format
-#| msgid "&Search"
+#, kde-format
 msgid "Cancel &Search"
-msgstr "&Искать"
+msgstr "Отменить &поиск"
 
 #: dialogs/texdocumentationdialog.cpp:137
 #, kde-format
@@ -4839,10 +4811,9 @@ msgid "No KDE service found for this file."
 msgstr "Для этого файла не найдено обработчика KDE."
 
 #: dialogs/texdocumentationdialog.cpp:329
-#, fuzzy, kde-format
-#| msgid "Could not find template: %1"
+#, kde-format
 msgid "Could not find the documentation file '%1'"
-msgstr "Не удалось открыть шаблон: %1"
+msgstr "Не удалось найти файл документации «%1»"
 
 #: dialogs/texdocumentationdialog.cpp:345
 #, kde-format
@@ -4860,16 +4831,13 @@ msgid "No documents found for keyword '%1'."
 msgstr "Не найдено документов по ключевому слову «%1»."
 
 #: dialogs/texdocumentationdialog.cpp:432
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not determine the search paths of TexLive/teTeX or file 'texdoctk."
-#| "dat'.<br> Hence, this dialog is unable to provide any useful information."
+#, kde-format
 msgid ""
 "Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'."
 "<br/>Unfortunately, Kile cannot show any useful information."
 msgstr ""
 "Не удалось определить пути поиска TeXLive/teTeX или найти файл «texdoctk."
-"dat».<br>Поэтому этот диалог не может дать полезной информации."
+"dat».<br/>К сожалению, Kile не может показать никакой полезной информации."
 
 #: dialogs/texdocumentationdialog.cpp:433
 #, kde-format
@@ -4877,17 +4845,15 @@ msgid "TexDoc Dialog"
 msgstr "Диалог TexDoc"
 
 #: dialogs/texdocumentationdialog.cpp:445
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not determine the search paths of TexLive or file 'texdoctk.dat'."
-#| "<br> Hence, this dialog is unable to provide any useful information."
+#, kde-format
 msgid ""
 "Could not determine the installation path of your TeX distribution or find "
 "the file 'texdoctk.dat'.<br/>Hence, we cannot provide you with an overview "
 "of the installed TeX documentation."
 msgstr ""
-"Не удалось определить пути поиска TeXLive или найти файл «texdoctk.dat».<br> "
-"Поэтому этот диалог не может дать полезной информации."
+"Не удалось определить путь установки дистрибутива TeX или найти файл "
+"«texdoctk.dat».<br/> Поэтому невозможно показать обзор установленной "
+"документации TeX."
 
 #: dialogs/userhelpdialog.cpp:51
 #, kde-format
@@ -4977,6 +4943,8 @@ msgid ""
 "Websites (HTML) (*.html *.htm);;Documents (PDF, PS, DVI, EPUB) (*.ps *.pdf *."
 "dvi *.epub);;All Files (*)"
 msgstr ""
+"Веб-сайты (HTML) (*.html *.htm);;Документы (PDF, PS, DVI, EPUB) (*.ps *.pdf "
+"*.dvi *.epub);;Все файлы (*)"
 
 #: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2109
 #, kde-format
@@ -4993,21 +4961,19 @@ msgstr "Файл «%1» не существует."
 #: dialogs/usermenu/usermenudialog.cpp:42 usermenu/usermenu.cpp:107
 #, kde-format
 msgid "Edit User Menu"
-msgstr ""
+msgstr "Изменение пользовательского меню"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbMenuEntry)
 #: dialogs/usermenu/usermenudialog.cpp:53
 #: dialogs/usermenu/usermenudialog_base.ui:412
-#, fuzzy, kde-format
-#| msgid "&Menu entry:"
+#, kde-format
 msgid "Menu Entry"
-msgstr "Элемент меню:"
+msgstr "Элемент меню"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbInsertSeparator)
 #: dialogs/usermenu/usermenudialog.cpp:56
 #: dialogs/usermenu/usermenudialog_base.ui:103
-#, fuzzy, kde-format
-#| msgid "&Separator"
+#, kde-format
 msgid "Separator"
 msgstr "Разделитель"
 
@@ -5016,7 +4982,7 @@ msgstr "Разделитель"
 #: dialogs/usermenu/usermenudialog_base.ui:143
 #, kde-format
 msgid "Submenu"
-msgstr ""
+msgstr "Подменю"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenuentryType)
 #: dialogs/usermenu/usermenudialog.cpp:56
@@ -5026,15 +4992,14 @@ msgid "Text"
 msgstr "Текст"
 
 #: dialogs/usermenu/usermenudialog.cpp:56
-#, fuzzy, kde-format
+#, kde-format
 msgid "Insert file contents"
-msgstr "Вставлять "
+msgstr "Вставить содержимое файла"
 
 #: dialogs/usermenu/usermenudialog.cpp:56
-#, fuzzy, kde-format
-#| msgid "Execute"
+#, kde-format
 msgid "Execute program"
-msgstr "Выполнить"
+msgstr "Выполнить программу"
 
 #: dialogs/usermenu/usermenudialog.cpp:59
 #, kde-format
@@ -5045,6 +5010,11 @@ msgid ""
 "li><li>%R - select label from list</li><li>%T - select citation key from "
 "list</li></ul>"
 msgstr ""
+"Текст, который будет вставлен при выполнении действия. Доступны следующие "
+"подстановки: <ul><li>%M — выделенный (отмеченный) текст</li><li>%C — позиция "
+"курсора</li><li>%B — маркер списка</li><li>%E — отступ в окружениях</li><li>"
+"%R — выбор метки из списка</li><li>%T — выбор ключа упоминания из списка</"
+"li></ul>"
 
 #: dialogs/usermenu/usermenudialog.cpp:60
 #, kde-format
@@ -5058,6 +5028,14 @@ msgid ""
 "%T: Select citation key from list\n"
 "%S: Source file name without extension"
 msgstr ""
+"Доступные заполнители:\n"
+"%M: выделенный (отмеченный) текст\n"
+"%C: позиция курсора\n"
+"%B: маркер списка\n"
+"%E: отступ в окружениях\n"
+"%R: выбор метки из списка\n"
+"%T: выбор ключа ссылки из списка\n"
+"%S: имя исходного файла без расширения"
 
 #: dialogs/usermenu/usermenudialog.cpp:217
 #, kde-format
@@ -5084,11 +5062,32 @@ msgid ""
 "items are colored red. More information is available using the <i>What's "
 "this</i> feature of most widgets.</p>"
 msgstr ""
+"<p>Можно создавать, изменять и устанавливать пользовательское меню, которое "
+"будет показано как часть меню Kile. Для создания или изменения этого меню "
+"служат шесть кнопок в левой части. Ещё больше действий доступно в "
+"контекстном меню уже существующих пунктов меню.</p><p>Как и в стандартном "
+"меню, доступны три различных вида пунктов меню:</p><ul><li><i>стандартные "
+"пункты</i>, которым назначено действие</li><li><i>подменю</i>, содержащие "
+"дополнительные пункты меню</li><li><i>разделители</i>, позволяющие наглядно "
+"структурировать все пункты</li></ul><p>Каждому стандартному пункту меню "
+"назначен один из трёх типов действий:</p><ul><li><i>вставка текста</i>: это "
+"действие вставляет текст в текущую позицию курсора. Доступны некоторые "
+"метасимволы: <tt>%M</tt>, <tt>%C</tt>, <tt>%B</tt>, <tt>%E</tt>, <tt>%R</"
+"tt>, <tt>%T</tt>, <tt>%S</tt>. Дополнительные сведения можно получить с "
+"помощью функций <i>Что это?</i> или <i>Подсказка</i> этого виджета.</"
+"li><li><i>содержимое файла</i>: вставляет полное содержимое заданного файла "
+"(метасимволы также доступны)</li><li><i>запуск внешней программы</i>: вывод "
+"этой программы можно вставить в открытый документ. Метасимвол <tt>%M</tt> "
+"возможен также в командной строке этой программы, так как выделенный текст "
+"будет сохранён во временном файле. Используйте <tt>%M</tt> для имени этого "
+"временного файла.</li></ul><p>Если для действия отсутствует важная "
+"информация, пункты меню выделяются красным цветом. Дополнительные сведения "
+"можно получить с помощью функции <i>Что это?</i> большинства виджетов.</p>"
 
 #: dialogs/usermenu/usermenudialog.cpp:239
 #, kde-format
 msgid "UserMenu Dialog"
-msgstr ""
+msgstr "Диалог пользовательского меню"
 
 #: dialogs/usermenu/usermenudialog.cpp:261
 #: dialogs/usermenu/usermenudialog.cpp:281
@@ -5097,46 +5096,46 @@ msgid ""
 "Current menu tree was modified, but not saved.\n"
 "Discard this tree?"
 msgstr ""
+"Текущее дерево меню было изменено, но не сохранено.\n"
+"Отменить изменения в этом дереве?"
 
 #: dialogs/usermenu/usermenudialog.cpp:262
 #: dialogs/usermenu/usermenudialog.cpp:282
 #, kde-format
 msgid "Discard tree"
-msgstr ""
+msgstr "Отбросить дерево"
 
 #: dialogs/usermenu/usermenudialog.cpp:289
 #: dialogs/usermenu/usermenudialog.cpp:390 usermenu/usermenu.cpp:331
 #: widgets/usermenuconfigwidget.cpp:62
 #, kde-format
 msgid "User Menu Files (*.xml)"
-msgstr ""
+msgstr "Файлы пользовательского меню (*.xml)"
 
 #: dialogs/usermenu/usermenudialog.cpp:291 usermenu/usermenu.cpp:333
 #: widgets/usermenuconfigwidget.cpp:64
-#, fuzzy, kde-format
-#| msgid "Select File"
+#, kde-format
 msgid "Select Menu File"
-msgstr "Выбор файла"
+msgstr "Выбор файла меню"
 
 #: dialogs/usermenu/usermenudialog.cpp:392
-#, fuzzy, kde-format
-#| msgid "Save File"
+#, kde-format
 msgid "Save Menu File"
-msgstr "Сохранить"
+msgstr "Сохранить файл меню"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "The file \"%1\" already exists, overwrite it?"
+#, kde-format
 msgid ""
 "File '%1' does already exist.\n"
 "Overwrite this file?"
-msgstr "Файл «%1» уже существует, перезаписать?"
+msgstr ""
+"Файл «%1» уже существует.\n"
+"Заменить этот файл?"
 
 #: dialogs/usermenu/usermenudialog.cpp:399
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "Заменить файл?"
+msgstr "Замена файла"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
 #, kde-format
@@ -5145,38 +5144,37 @@ msgid ""
 "unpredictable results.\n"
 "Do you really want to save this file?"
 msgstr ""
+"Дерево меню содержит ошибки, и установка этого файла может привести к "
+"непредсказуемым результатам.\n"
+"Вы действительно хотите сохранить этот файл?"
 
 #: dialogs/usermenu/usermenudialog.cpp:414
-#, fuzzy, kde-format
-#| msgid "Structure View Error"
+#, kde-format
 msgid "Menu tree errors"
-msgstr "Ошибка в структурированном виде"
+msgstr "Ошибки в дереве меню"
 
 #: dialogs/usermenu/usermenudialog.cpp:569
-#, fuzzy, kde-format
-#| msgid "Menu item:"
+#, kde-format
 msgid "Menutype"
-msgstr "Пункт меню:"
+msgstr "Тип элемента меню"
 
 #: dialogs/usermenu/usermenudialog.cpp:569
-#, fuzzy, kde-format
-#| msgid "Please choose an icon first."
+#, kde-format
 msgid "Please choose a menutype"
-msgstr "Выберите сначала значок, пожалуйста."
+msgstr "Выберите тип элемента меню"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbIcon)
 #: dialogs/usermenu/usermenudialog.cpp:981
 #: dialogs/usermenu/usermenudialog_base.ui:485
 #, kde-format
 msgid "Choose"
-msgstr ""
+msgstr "Выбрать"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbUserMenu)
 #: dialogs/usermenu/usermenudialog_base.ui:45
-#, fuzzy, kde-format
-#| msgid "LaTeX environments:"
+#, kde-format
 msgid "LaTeX Usermenu"
-msgstr "Окружений LaTeX:"
+msgstr "Пользовательское меню LaTeX"
 
 #. i18n: ectx: property (whatsThis), widget (KileMenu::UserMenuTree, m_twUserMenu)
 #: dialogs/usermenu/usermenudialog_base.ui:66
@@ -5186,39 +5184,40 @@ msgid ""
 "the tree (and their shortcuts). More actions are available in the context "
 "menu of selected items. You can also rearrange items with drag and drop."
 msgstr ""
+"Дерево меню, определяемое пользователем; его можно изменять с помощью шести "
+"кнопок под деревом (и их комбинаций клавиш). Дополнительные действия "
+"доступны в контекстном меню выбранных элементов. Элементы также можно "
+"переставлять перетаскиванием."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInsertSeparator)
 #: dialogs/usermenu/usermenudialog_base.ui:100
-#, fuzzy, kde-format
-#| msgid "Insert Label"
+#, kde-format
 msgid "Insert a new separator below the selected item."
-msgstr "Вставить метку"
+msgstr "Вставляет новый разделитель ниже выбранного элемента."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbDelete)
 #: dialogs/usermenu/usermenudialog_base.ui:110
-#, fuzzy, kde-format
-#| msgid "Delete Files"
+#, kde-format
 msgid "Delete the selected item."
-msgstr "Удалить файлы"
+msgstr "Удаляет выбранный элемент."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbDown)
 #: dialogs/usermenu/usermenudialog_base.ui:120
 #, kde-format
 msgid "Move the selected item down."
-msgstr ""
+msgstr "Перемещает выбранный элемент вниз."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbDown)
 #: dialogs/usermenu/usermenudialog_base.ui:123
-#, fuzzy, kde-format
-#| msgid "&Down"
+#, kde-format
 msgid "Down"
-msgstr "&Вниз"
+msgstr "Вниз"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInsertBelow)
 #: dialogs/usermenu/usermenudialog_base.ui:130
 #, kde-format
 msgid "Insert a new menu item below the selected item."
-msgstr ""
+msgstr "Вставляет новый пункт меню ниже выбранного элемента."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbInsertBelow)
 #: dialogs/usermenu/usermenudialog_base.ui:133
@@ -5228,58 +5227,55 @@ msgstr "Вставить"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInsertSubmenu)
 #: dialogs/usermenu/usermenudialog_base.ui:140
-#, fuzzy, kde-format
-#| msgid "Insert Label"
+#, kde-format
 msgid "Insert a new submenu item below the selected item."
-msgstr "Вставить метку"
+msgstr "Вставляет новый пункт подменю ниже выбранного элемента."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbUp)
 #: dialogs/usermenu/usermenudialog_base.ui:166
-#, fuzzy, kde-format
-#| msgid "Delete Files"
+#, kde-format
 msgid "Move the selected item up."
-msgstr "Удалить файлы"
+msgstr "Перемещает выбранный элемент вверх."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbUp)
 #: dialogs/usermenu/usermenudialog_base.ui:169
-#, fuzzy, kde-format
-#| msgid "&Up"
+#, kde-format
 msgid "Up"
-msgstr "&Вверх"
+msgstr "Вверх"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/usermenu/usermenudialog_base.ui:197
 #: widgets/usermenuconfigwidget.ui:29
-#, fuzzy, kde-format
-#| msgid "Open File"
+#, kde-format
 msgid "Menu File"
-msgstr "Открыть файл"
+msgstr "Файл меню"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInstall)
 #: dialogs/usermenu/usermenudialog_base.ui:221
 #, kde-format
 msgid "Install an unmodified and saved menu tree as user-defined menu."
 msgstr ""
+"Устанавливает сохранённое без изменений дерево меню в качестве "
+"пользовательского меню."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbInstall)
 #: dialogs/usermenu/usermenudialog_base.ui:224
 #: widgets/usermenuconfigwidget.ui:86
-#, fuzzy, kde-format
-#| msgid "installed"
+#, kde-format
 msgid "Install"
-msgstr "установлено"
+msgstr "Установить"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbLoad)
 #: dialogs/usermenu/usermenudialog_base.ui:247
 #, kde-format
 msgid "Load an xml file, which describes the user-defined menu."
-msgstr ""
+msgstr "Загружает XML-файл, описывающий пользовательское меню."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbLoad)
 #: dialogs/usermenu/usermenudialog_base.ui:250
 #, kde-format
 msgid "Load"
-msgstr ""
+msgstr "Загрузить"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbSave)
 #: dialogs/usermenu/usermenudialog_base.ui:273
@@ -5288,11 +5284,12 @@ msgid ""
 "Save a modified menu tree, which describes the user-defined menu, to an xml "
 "file into the local directory of Kile."
 msgstr ""
+"Сохраняет изменённое дерево меню, описывающее пользовательское меню, в файл "
+"XML в локальном каталоге Kile."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbSave)
 #: dialogs/usermenu/usermenudialog_base.ui:276
-#, fuzzy, kde-format
-#| msgid "&Save"
+#, kde-format
 msgid "Save"
 msgstr "Сохранить"
 
@@ -5303,364 +5300,330 @@ msgid ""
 "Save a modified menu tree, which describes the user-defined menu, to an xml "
 "file into the local directory of Kile and choose a new name for this file."
 msgstr ""
+"Сохранить изменённое дерево меню, описывающее меню пользователя, в файл XML "
+"в локальный каталог Kile и задать новое имя для этого файла."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbSaveAs)
 #: dialogs/usermenu/usermenudialog_base.ui:286
-#, fuzzy, kde-format
-#| msgid "Save All"
+#, kde-format
 msgid "Save as"
-msgstr "Сохранить все"
+msgstr "Сохранить как"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbXmlInstalled)
 #: dialogs/usermenu/usermenudialog_base.ui:352
-#, fuzzy, kde-format
-#| msgid "installed"
+#, kde-format
 msgid "(installed)"
-msgstr "установлено"
+msgstr "(установлено)"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbNew)
 #: dialogs/usermenu/usermenudialog_base.ui:375
 #, kde-format
 msgid "Delete current menu tree and start a new one."
-msgstr ""
+msgstr "Удаляет текущее дерево меню и создаёт новое."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbNew)
 #: dialogs/usermenu/usermenudialog_base.ui:378
 #, kde-format
 msgid "New"
-msgstr ""
+msgstr "Создать"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbText)
 #: dialogs/usermenu/usermenudialog_base.ui:420
-#, fuzzy, kde-format
-#| msgid "Text"
+#, kde-format
 msgid "Text:"
-msgstr "Текст"
+msgstr "Текст:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbShortcut)
 #: dialogs/usermenu/usermenudialog_base.ui:452
 #, kde-format
 msgid "Shortcut:"
-msgstr ""
+msgstr "Комбинация клавиш:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbType)
 #: dialogs/usermenu/usermenudialog_base.ui:466
-#, fuzzy, kde-format
-#| msgid "&Type:"
+#, kde-format
 msgid "Type:"
-msgstr "&Тип:"
+msgstr "Тип:"
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, m_urlRequester)
 #: dialogs/usermenu/usermenudialog_base.ui:473
 #, kde-format
 msgid "Filename of the corresponding file."
-msgstr ""
+msgstr "Имя соответствующего файла."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbIcon)
 #: dialogs/usermenu/usermenudialog_base.ui:482
-#, fuzzy, kde-format
-#| msgid "Please choose an icon first."
+#, kde-format
 msgid "Choose an icon for this action."
-msgstr "Выберите сначала значок, пожалуйста."
+msgstr "Выбирает значок для этого действия."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbIconDelete)
 #: dialogs/usermenu/usermenudialog_base.ui:515
-#, fuzzy, kde-format
-#| msgid "Remove the current package option"
+#, kde-format
 msgid "Remove the icon for this action."
-msgstr "Удалить текущий параметр пакета"
+msgstr "Удаляет значок для этого действия."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbMenuentryType)
 #: dialogs/usermenu/usermenudialog_base.ui:559
 #, kde-format
 msgid "Change the type of a menu item."
-msgstr ""
+msgstr "Изменяет тип пункта меню."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbMenuentryType)
 #: dialogs/usermenu/usermenudialog_base.ui:562
 #, kde-format
 msgid "Change"
-msgstr ""
+msgstr "Изменить"
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, m_leMenuEntry)
 #: dialogs/usermenu/usermenudialog_base.ui:571
-#, fuzzy, kde-format
-#| msgid "Please enter a new key sequence:"
+#, kde-format
 msgid "The label of the selected menu item."
-msgstr "Введите новую последовательность клавиш:"
+msgstr "Название выбранного пункта меню."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenuEntry)
 #: dialogs/usermenu/usermenudialog_base.ui:584
-#, fuzzy, kde-format
-#| msgid "&Menu entry:"
+#, kde-format
 msgid "Entry:"
-msgstr "Элемент меню:"
+msgstr "Элемент:"
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, m_leParameter)
 #: dialogs/usermenu/usermenudialog_base.ui:614
 #, kde-format
 msgid "Commandline parameter for an executable program."
-msgstr ""
+msgstr "Параметр командной строки для исполняемой программы."
 
 #. i18n: ectx: property (whatsThis), widget (KKeySequenceWidget, m_keyChooser)
 #: dialogs/usermenu/usermenudialog_base.ui:621
-#, fuzzy, kde-format
-#| msgid "Please choose an icon first."
+#, kde-format
 msgid "Choose or clear a shortcut for this action."
-msgstr "Выберите сначала значок, пожалуйста."
+msgstr "Задаёт или очищает комбинацию клавиш для этого действия."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbSelectInsertion)
 #: dialogs/usermenu/usermenudialog_base.ui:647
-#, fuzzy, kde-format
-#| msgid "Please select a template that should be removed."
+#, kde-format
 msgid "Select, if inserted text should be selected."
-msgstr "Пожалуйста, выберите шаблон, который вы хотите удалить."
+msgstr "Выделять вставленный текст после вставки."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbSelectInsertion)
 #: dialogs/usermenu/usermenudialog_base.ui:650
-#, fuzzy, kde-format
-#| msgid "Insert text"
+#, kde-format
 msgid "Select inserted text"
-msgstr "Вставить текст"
+msgstr "Выделять вставленный текст"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbReplaceSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:657
-#, fuzzy, kde-format
-#| msgid "Please select a template that should be removed."
+#, kde-format
 msgid "Select, if the action should replace selected text."
-msgstr "Пожалуйста, выберите шаблон, который вы хотите удалить."
+msgstr "Заменять выделенный текст этим действием."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbReplaceSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:660
-#, fuzzy, kde-format
-#| msgid "Delete Files"
+#, kde-format
 msgid "Replace selected text"
-msgstr "Удалить файлы"
+msgstr "Заменять выделенный текст"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbNeedsSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:673
-#, fuzzy, kde-format
-#| msgid "Please select a template that should be removed."
+#, kde-format
 msgid "Select, if the action needs selected text. "
-msgstr "Пожалуйста, выберите шаблон, который вы хотите удалить."
+msgstr "Требовать выделенный текст для этого действия. "
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbNeedsSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:676
-#, fuzzy, kde-format
-#| msgid "Delete Files"
+#, kde-format
 msgid "Needs selected text"
-msgstr "Удалить файлы"
+msgstr "Требуется выделенный текст"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbInsertOutput)
 #: dialogs/usermenu/usermenudialog_base.ui:699
-#, fuzzy, kde-format
-#| msgid "Please select a template that should be removed."
+#, kde-format
 msgid "Select, if the output of an executable program should be inserted."
-msgstr "Пожалуйста, выберите шаблон, который вы хотите удалить."
+msgstr "Вставлять вывод исполняемой программы."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbInsertOutput)
 #: dialogs/usermenu/usermenudialog_base.ui:702
 #, kde-format
 msgid "Insert the output of the chosen program"
-msgstr ""
+msgstr "Вставлять вывод выбранной программы"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbContextMenu)
 #: dialogs/usermenu/usermenudialog_base.ui:709
 #, kde-format
 msgid ""
 "Select, if the action should be added to the context menu of a selection."
-msgstr ""
+msgstr "Добавлять действие в контекстное меню выделенного текста."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbContextMenu)
 #: dialogs/usermenu/usermenudialog_base.ui:712
 #, kde-format
 msgid "Add to the context menu of selected text"
-msgstr ""
+msgstr "Добавлять в контекстное меню выделенного текста"
 
 #: dialogs/usermenu/usermenuitem.h:26
 #, kde-format
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: dialogs/usermenu/usermenuitem.h:27
 #, kde-format
 msgid "  >"
-msgstr ""
+msgstr "  >"
 
 #: dialogs/usermenu/usermenutree.cpp:166
-#, fuzzy, kde-format
-#| msgid "Insert Label"
+#, kde-format
 msgid "Insert above"
-msgstr "Вставить метку"
+msgstr "Вставить выше"
 
 #: dialogs/usermenu/usermenutree.cpp:167
-#, fuzzy, kde-format
-#| msgid "Insert Label"
+#, kde-format
 msgid "Insert below"
-msgstr "Вставить метку"
+msgstr "Вставить ниже"
 
 #: dialogs/usermenu/usermenutree.cpp:172
 #, kde-format
 msgid "Insert a separator above"
-msgstr ""
+msgstr "Вставить разделитель выше"
 
 #: dialogs/usermenu/usermenutree.cpp:173
-#, fuzzy, kde-format
-#| msgid "Insert Label"
+#, kde-format
 msgid "Insert a separator below"
-msgstr "Вставить метку"
+msgstr "Вставить разделитель ниже"
 
 #: dialogs/usermenu/usermenutree.cpp:178
 #, kde-format
 msgid "Insert a submenu above"
-msgstr ""
+msgstr "Вставить подменю выше"
 
 #: dialogs/usermenu/usermenutree.cpp:179
-#, fuzzy, kde-format
-#| msgid "Insert Label"
+#, kde-format
 msgid "Insert a submenu below"
-msgstr "Вставить метку"
+msgstr "Вставить подменю ниже"
 
 #: dialogs/usermenu/usermenutree.cpp:184
 #, kde-format
 msgid "Insert into this submenu"
-msgstr ""
+msgstr "Вставить в это подменю"
 
 #: dialogs/usermenu/usermenutree.cpp:185
 #, kde-format
 msgid "Insert a separator into this submenu"
-msgstr ""
+msgstr "Вставить разделитель в это подменю"
 
 #: dialogs/usermenu/usermenutree.cpp:186
 #, kde-format
 msgid "Insert a submenu into this submenu"
-msgstr ""
+msgstr "Вставить подменю в это подменю"
 
 #: dialogs/usermenu/usermenutree.cpp:191
-#, fuzzy, kde-format
-#| msgid "Delete Files"
+#, kde-format
 msgid "Delete this item"
-msgstr "Удалить файлы"
+msgstr "Удалить этот элемент"
 
 #: dialogs/usermenu/usermenutree.cpp:193
 #, kde-format
 msgid "Delete the complete tree"
-msgstr ""
+msgstr "Удалить дерево целиком"
 
 #: dialogs/usermenu/usermenutree.cpp:199
 #, kde-format
 msgid "Collapse submenu"
-msgstr ""
+msgstr "Свернуть подменю"
 
 #: dialogs/usermenu/usermenutree.cpp:202
 #, kde-format
 msgid "Expand submenu"
-msgstr ""
+msgstr "Развернуть подменю"
 
 #: dialogs/usermenu/usermenutree.cpp:205
 #, kde-format
 msgid "Collapse complete tree"
-msgstr ""
+msgstr "Свернуть всё дерево"
 
 #: dialogs/usermenu/usermenutree.cpp:206
 #, kde-format
 msgid "Expand complete tree"
-msgstr ""
+msgstr "Развернуть всё дерево"
 
 #: dialogs/usermenu/usermenutree.cpp:213
-#, fuzzy, kde-format
-#| msgid "Info:"
+#, kde-format
 msgid "Info"
-msgstr "Сведения:"
+msgstr "Сведения"
 
 #: dialogs/usermenu/usermenutree.cpp:437
 #, kde-format
 msgid "File '%1' could not be opened to save the usermenu file."
-msgstr ""
+msgstr "Не удалось открыть файл «%1» для сохранения файла меню пользователя."
 
 #: dialogs/usermenu/usermenutree.cpp:681
-#, fuzzy, kde-format
-#| msgid "Please enter a new key sequence:"
+#, kde-format
 msgid "Please enter a label for this menu item:"
-msgstr "Введите новую последовательность клавиш:"
+msgstr "Введите название для этого пункта меню:"
 
 #: dialogs/usermenu/usermenutree.cpp:698
-#, fuzzy, kde-format
-#| msgid "Please enter a new key sequence:"
+#, kde-format
 msgid "Please enter a label for this submenu:"
-msgstr "Введите новую последовательность клавиш:"
+msgstr "Введите название для этого подменю:"
 
 #: dialogs/usermenu/usermenutree.cpp:756
-#, fuzzy, kde-format
-#| msgid "Please enter a new key sequence:"
+#, kde-format
 msgid "Please enter a label for this entry:"
-msgstr "Введите новую последовательность клавиш:"
+msgstr "Введите название для этой записи:"
 
 #: dialogs/usermenu/usermenutree.cpp:912
-#, fuzzy, kde-format
-#| msgid "Do you really want to delete these files?"
+#, kde-format
 msgid "Do you really want to clear the complete menutree?"
-msgstr "Вы действительно хотите удалить эти файлы?"
+msgstr "Вы действительно хотите очистить всё дерево меню?"
 
 #: dialogs/usermenu/usermenutree.cpp:913
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "Удалить текст"
+msgstr "Очистить дерево меню"
 
 #: dialogs/usermenu/usermenutree.cpp:930
-#, fuzzy, kde-format
-#| msgid "This menu item exists already."
+#, kde-format
 msgid "This menuitem has no title."
-msgstr "Этот элемент меню уже существует."
+msgstr "У этого элемента меню нет заголовка."
 
 #: dialogs/usermenu/usermenutree.cpp:934
-#, fuzzy, kde-format
-#| msgid "This menu item exists already."
+#, kde-format
 msgid "This submenu item is useless without children."
-msgstr "Этот элемент меню уже существует."
+msgstr "Этот пункт подменю бесполезен без вложенных пунктов."
 
 #: dialogs/usermenu/usermenutree.cpp:938
-#, fuzzy, kde-format
-#| msgid "This input file does not exist."
+#, kde-format
 msgid "This item offers no text to insert."
-msgstr "Этот файл не существует."
+msgstr "Этот элемент не содержит текста для вставки."
 
 #: dialogs/usermenu/usermenutree.cpp:942
-#, fuzzy, kde-format
-#| msgid "No input file is given."
+#, kde-format
 msgid "No file is given for this task."
-msgstr "Нет входного файла."
+msgstr "Для этой задачи не указан файл."
 
 #: dialogs/usermenu/usermenutree.cpp:946
-#, fuzzy, kde-format
-#| msgid "The file %1 does not exist."
+#, kde-format
 msgid "The file for this item does not exist."
-msgstr "Файл %1 не существует."
+msgstr "Файл для этого элемента не существует."
 
 #: dialogs/usermenu/usermenutree.cpp:950
-#, fuzzy, kde-format
-#| msgid "The file %1 is not readable."
+#, kde-format
 msgid "The file for this item is not executable."
-msgstr "Файл %1 недоступен для чтения."
+msgstr "Файл для этого элемента не является исполняемым."
 
 #: dialogs/usermenu/usermenutree.cpp:953
-#, fuzzy, kde-format
-#| msgid "<strong>Error:</strong><p>"
+#, kde-format
 msgid "<p><strong>Error:</strong>"
-msgstr "<strong>Ошибка:</strong><p>"
+msgstr "<p><strong>Ошибка:</strong>"
 
 #: dialogs/usermenu/usermenutree.cpp:965
-#, fuzzy, kde-format
-#| msgid "Structure View Error"
+#, kde-format
 msgid "Menutree Error"
-msgstr "Ошибка в структурированном виде"
+msgstr "Ошибка дерева меню"
 
 #: dialogs/usermenu/usermenutree.cpp:1016
-#, fuzzy, kde-format
-#| msgid "Name:"
+#, kde-format
 msgid "Name"
-msgstr "Имя:"
+msgstr "Имя"
 
 #. i18n: ectx: ToolBar (extraToolBar)
 #: docpartui.rc:3
@@ -5798,28 +5761,24 @@ msgid "Script execution of %1"
 msgstr "Выполнение сценария %1"
 
 #: errorhandler.cpp:77
-#, fuzzy, kde-format
-#| msgid "Log and Messages"
+#, kde-format
 msgid "Messages"
 msgstr "Журнал сообщений"
 
 #: errorhandler.cpp:78
-#, fuzzy, kde-format
-#| msgid "Error"
+#, kde-format
 msgid "Errors"
-msgstr "Ошибка"
+msgstr "Ошибки"
 
 #: errorhandler.cpp:79
-#, fuzzy, kde-format
-#| msgid "1 warning"
-#| msgid_plural "%1 warnings"
+#, kde-format
 msgid "Warnings"
-msgstr "%1 предупреждение"
+msgstr "Предупреждения"
 
 #: errorhandler.cpp:80
 #, kde-format
 msgid "BadBoxes"
-msgstr ""
+msgstr "Дефекты"
 
 #: errorhandler.cpp:101
 #, kde-format
@@ -5842,10 +5801,9 @@ msgid "Previous LaTeX Warning"
 msgstr "Предыдущее предупреждение LaTeX"
 
 #: errorhandler.cpp:118
-#, fuzzy, kde-format
-#| msgid "Next LaTeX Warning"
+#, kde-format
 msgid "Next LaTeX Warnings"
-msgstr "Следующее предупреждение LaTeX"
+msgstr "Следующие предупреждения LaTeX"
 
 #: errorhandler.cpp:122
 #, kde-format
@@ -5858,33 +5816,30 @@ msgid "Next LaTeX BadBox"
 msgstr "Следующий дефект LaTeX"
 
 #: errorhandler.cpp:316
-#, fuzzy, kde-format
-#| msgid "Error"
+#, kde-format
 msgid "Errors: %1"
-msgstr "Ошибка"
+msgstr "Ошибки: %1"
 
 #: errorhandler.cpp:319
-#, fuzzy, kde-format
-#| msgid "1 warning"
-#| msgid_plural "%1 warnings"
+#, kde-format
 msgid "Warnings: %1"
-msgstr "%1 предупреждение"
+msgstr "Предупреждения: %1"
 
 #: errorhandler.cpp:322
 #, kde-format
 msgid "BadBoxes: %1"
-msgstr ""
+msgstr "Дефекты: %1"
 
 #: errorhandler.cpp:326
 #, kde-format
 msgctxt "Result of the compilation w.r.t. number of errors/warnings/badboxes"
 msgid "%1  %2  %3"
-msgstr ""
+msgstr "%1  %2  %3"
 
 #: errorhandler.cpp:405
 #, kde-format
 msgid "No information about warnings or errors is available."
-msgstr ""
+msgstr "Сведения о предупреждениях и ошибках отсутствуют."
 
 #: errorhandler.cpp:455 parser/latexoutputparser.cpp:664
 #, kde-format
@@ -5892,10 +5847,9 @@ msgid "Cannot open log file; did you run LaTeX?"
 msgstr "Открыть файл журнала не удалось; вы запускали LaTeX?"
 
 #: errorhandler.cpp:541
-#, fuzzy, kde-format
-#| msgid "No LaTeX errors detected."
+#, kde-format
 msgid "No LaTeX warnings/errors detected."
-msgstr "Ошибок LaTeX не обнаружено."
+msgstr "Предупреждений и ошибок LaTeX не обнаружено."
 
 #: kile.cpp:393
 #, kde-format
@@ -5917,25 +5871,20 @@ msgid "User Tools Detected"
 msgstr "Обнаружены нестандартные инструменты"
 
 #: kile.cpp:402
-#, fuzzy, kde-format
-#| msgid ""
-#| "The standard tool list need to be reloaded because of the switch from "
-#| "KDE3 to KDE4. This will overwrite any changes in the tools you have made. "
-#| "Do you want to reload the list now (recommended)?"
+#, kde-format
 msgid ""
 "<p>The tool settings need to be reset for this version of Kile to function "
 "properly.<br/>This will overwrite any changes you have made.</p><p>Do you "
 "want to reset the tools now?</p>"
 msgstr ""
-"Стандартный список инструментов необходимо перезагрузить из-за перехода от "
-"KDE3 к KDE4. При этом будут перезаписаны настройки инструментов, которые вы "
-"могли изменять. Вы хотите перезагрузить этот список сейчас (рекомендуется)?"
+"<p>Параметры инструментов необходимо сбросить, чтобы эта версия Kile "
+"работала правильно.<br/>Все внесённые изменения будут перезаписаны.</"
+"p><p>Сбросить инструменты сейчас?</p>"
 
 #: kile.cpp:405
-#, fuzzy, kde-format
-#| msgid "Tools need to be updated"
+#, kde-format
 msgid "Tools need to be reset"
-msgstr "Инструменты требуют обновления"
+msgstr "Инструменты требуют сброса"
 
 #: kile.cpp:481
 #, kde-format
@@ -6085,7 +6034,7 @@ msgstr "С&татистика"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "&Открыть содержащую папку"
 
 #: kile.cpp:858
 #, kde-format
@@ -6431,10 +6380,9 @@ msgid "Define Current Document as '&Master Document'"
 msgstr "Сделать текущий документ «&главным»"
 
 #: kile.cpp:1073
-#, fuzzy, kde-format
-#| msgid "Document Type"
+#, kde-format
 msgid "Show Document Viewer"
-msgstr "Тип документа"
+msgstr "Показать программу просмотра документов"
 
 #: kile.cpp:1080
 #, kde-format
@@ -6503,11 +6451,14 @@ msgid ""
 "\n"
 "Please check and repair your installation of Kile."
 msgstr ""
+"Не удалось создать инструмент «Архив».\n"
+"\n"
+"Проверьте правильность установки Kile и восстановите её."
 
 #: kile.cpp:1483
 #, kde-format
 msgid "Unable to Create Archive Tool"
-msgstr ""
+msgstr "Не удалось создать инструмент архивации"
 
 #: kile.cpp:1548
 #, kde-format
@@ -6595,21 +6546,22 @@ msgid "LINE"
 msgstr "СТРОКА"
 
 #: kile.cpp:3076
-#, fuzzy, kde-format
-#| msgid "Refresh Str&ucture"
+#, kde-format
 msgid "Refreshing structure..."
-msgstr "Обновить структуру"
+msgstr "Обновление структуры…"
 
 #: kile.cpp:3094
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
+"Это действие полностью скроет панель меню. Чтобы снова её показать, нажмите "
+"%1."
 
 #: kile.cpp:3097
 #, kde-format
 msgid "Hide menu bar"
-msgstr ""
+msgstr "Скрывать строку меню"
 
 #. i18n: ectx: label, entry (RCVersion), group (VersionInfo)
 #: kile.kcfg:17
@@ -6794,27 +6746,23 @@ msgstr ""
 
 #. i18n: ectx: label, entry (PreviewBibInputPaths), group (Tools)
 #: kile.kcfg:136
-#, fuzzy, kde-format
-#| msgid "Holds the TEXINPUTS environment variable for QuickPreview tools."
+#, kde-format
 msgid "Holds the BIBINPUTS environment variable for QuickPreview tools."
-msgstr "Хранит переменную среды TEXINPUTS для инструментов быстрого просмотра."
+msgstr "Задаёт переменную среды BIBINPUTS для инструментов быстрого просмотра."
 
 #. i18n: ectx: whatsthis, entry (PreviewBibInputPaths), group (Tools)
 #: kile.kcfg:137
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the TEXINPUTS environment variable here. TEXINPUTS should be a colon-"
-#| "separated list of all paths TeX should look for additional packages and/"
-#| "or files. You do not have to add :$TEXINPUTS at the end."
+#, kde-format
 msgid ""
 "Set the BIBINPUTS environment variable for QuickPreview tools here. "
 "BIBINPUTS should be a colon-separated list of all the paths where the "
 "bibliography tool (e.g. BibTeX or Biber) should look for additional packages "
 "and/or files. You do not have to add :$BIBINPUTS at the end."
 msgstr ""
-"Установите переменную среды TEXINPUTS здесь. Значением должен быть "
-"разделённый двоеточиями список путей, в которых Te будет искать "
-"дополнительные пакеты и/или файлы. Добавлять в конце :$TEXINPUTS не "
+"Установите здесь переменную среды BIBINPUTS для средств быстрого просмотра. "
+"Значением должен быть разделённый двоеточиями список путей, в которых "
+"средство работы с библиографией (например, BibTeX или Biber) будет искать "
+"дополнительные пакеты и/или файлы. Добавлять :$BIBINPUTS в конце не "
 "требуется."
 
 #. i18n: ectx: label, entry (BstInputPaths), group (Tools)
@@ -6867,17 +6815,15 @@ msgstr "Определяет, показывать ли боковую пане�
 
 #. i18n: ectx: label, entry (ShowDocumentViewer), group (Show)
 #: kile.kcfg:168
-#, fuzzy, kde-format
-#| msgid "Whether to show the side bar."
+#, kde-format
 msgid "Whether to show the document viewer."
-msgstr "Показывать ли боковую панель."
+msgstr "Показывать ли программу просмотра документов."
 
 #. i18n: ectx: label, entry (ShowDocumentViewerInExternalWindow), group (Show)
 #: kile.kcfg:172
-#, fuzzy, kde-format
-#| msgid "Whether to show the side bar."
+#, kde-format
 msgid "Whether to show the document viewer in a separate external window."
-msgstr "Показывать ли боковую панель."
+msgstr "Показывать ли программу просмотра документов в отдельном внешнем окне."
 
 #. i18n: ectx: label, entry (HideProblemBadBox), group (Show)
 #: kile.kcfg:176
@@ -6908,6 +6854,7 @@ msgstr "Определяет, показывать ли заставку при 
 #, kde-format
 msgid "Last version of Kile for which the system check was run at start up"
 msgstr ""
+"Последняя версия Kile, для которой при запуске выполнялась проверка системы"
 
 #. i18n: ectx: label, entry (CompleteEnvironment), group (Editor Ext)
 #: kile.kcfg:198
@@ -6938,13 +6885,13 @@ msgstr "Число пробелов, составляющих автоматич
 #: kile.kcfg:214
 #, kde-format
 msgid "Click in editor to select from cursor"
-msgstr ""
+msgstr "Щелчок в редакторе для выделения от курсора"
 
 #. i18n: ectx: label, entry (envEventSearchModifier), group (Editor Ext)
 #: kile.kcfg:218
 #, kde-format
 msgid "Click in editor to search in viewer"
-msgstr ""
+msgstr "Поиск в программе просмотра по щелчку в редакторе"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
 #: kile.kcfg:226
@@ -7081,10 +7028,11 @@ msgstr "Подключить в контекстную справку докум
 
 #. i18n: ectx: label, entry (latex2erefs), group (Help)
 #: kile.kcfg:318
-#, fuzzy, kde-format
-#| msgid "Use the system's TeX reference for the contextual help."
+#, kde-format
 msgid "Use the system's TexLive LaTeX2e reference for the contextual help."
-msgstr "Использовать системную документацию TeX для контекстной справки."
+msgstr ""
+"Использовать системную документацию LaTeX2e из TeX Live для контекстной "
+"справки."
 
 #. i18n: ectx: label, entry (Restore), group (Files)
 #: kile.kcfg:324
@@ -7108,7 +7056,7 @@ msgstr "Расширения файлов, удаляемых при выход�
 #: kile.kcfg:344
 #, kde-format
 msgid "Only show LaTeX files in the file browser widget"
-msgstr ""
+msgstr "Показывать в виджете обзора файлов только файлы LaTeX"
 
 #. i18n: ectx: label, entry (Author), group (User)
 #: kile.kcfg:354
@@ -7146,17 +7094,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (WatchFileForDocumentViewer), group (User)
 #: kile.kcfg:376
-#, fuzzy, kde-format
-#| msgid "Whether to show the side bar."
+#, kde-format
 msgid "Whether the watch-file mode is enabled for the document viewer"
-msgstr "Показывать ли боковую панель."
+msgstr "Включён ли режим слежения за файлом для программы просмотра документов"
 
 #. i18n: ectx: label, entry (ShowFullPathInWindowTitle), group (User)
 #: kile.kcfg:380
-#, fuzzy, kde-format
-#| msgid "Whether to show Bad Box warnings in the LogMsg view."
+#, kde-format
 msgid "Whether to show the full path of file names in the window title."
-msgstr "Определяет, выводить ли в журнал ошибок сообщения о дефектах."
+msgstr "Определяет, показывать ли полный путь к файлам в заголовке окна."
 
 #. i18n: ectx: label, entry (dvipng), group (QuickPreview)
 #: kile.kcfg:448
@@ -7239,13 +7185,13 @@ msgstr "Ограничение времени исполнения сценар�
 msgid ""
 "Width of the column containing the script name in the scripts management "
 "widget."
-msgstr ""
+msgstr "Ширина столбца с именем сценария в виджете управления сценариями."
 
 #. i18n: ectx: label, entry (pdfWizardLastTask), group (PdfWizard)
 #: kile.kcfg:582
 #, kde-format
 msgid "Last task used by the PdfWizard."
-msgstr ""
+msgstr "Последняя задача, использованная мастером PDF"
 
 #. i18n: ectx: label, entry (numSymbolsMFUS), group (MostUsedSymbols)
 #: kile.kcfg:588
@@ -7275,7 +7221,7 @@ msgstr "Вставлять символы UTF-8 вместо команд"
 #: kile.kcfg:606
 #, kde-format
 msgid "XML file for the user menu"
-msgstr ""
+msgstr "XML-файл пользовательского меню"
 
 #. i18n: ectx: label, entry (userMenuLocation), group (UserMenu)
 #: kile.kcfg:610
@@ -7284,25 +7230,26 @@ msgid ""
 "Use the main menubar (value 0) or the LaTeX menu (value 1) for the location "
 "of the user menu"
 msgstr ""
+"Использовать главную строку меню (значение 0) или меню LaTeX (значение 1) "
+"для размещения пользовательского меню"
 
 #. i18n: ectx: label, entry (livePreviewEnabled), group (LivePreview)
 #: kile.kcfg:616
 #, kde-format
 msgid "Activate live preview functionality."
-msgstr ""
+msgstr "Включать функцию предпросмотра в реальном времени."
 
 #. i18n: ectx: label, entry (synchronizeCursorWithView), group (LivePreview)
 #: kile.kcfg:620
 #, kde-format
 msgid "Synchronize the cursor position with the view."
-msgstr ""
+msgstr "Синхронизировать положение курсора с окном просмотра."
 
 #. i18n: ectx: label, entry (previewEnabledForFreshlyOpenedDocuments), group (LivePreview)
 #: kile.kcfg:624
-#, fuzzy, kde-format
-#| msgid "Create Template From Document..."
+#, kde-format
 msgid "Enable preview for freshly opened documents."
-msgstr "Создать шаблон из документа..."
+msgstr "Включать предпросмотр для только что открытых документов."
 
 #. i18n: ectx: label, entry (livePreviewCompilationDelay), group (LivePreview)
 #: kile.kcfg:628
@@ -7311,19 +7258,19 @@ msgid ""
 "Number of milliseconds after which the compilation is started when a change "
 "has occurred."
 msgstr ""
+"Количество миллисекунд, через которое запускается компиляция после изменения."
 
 #. i18n: ectx: label, entry (livePreviewCompileOnlyAfterSaving), group (LivePreview)
 #: kile.kcfg:632
 #, kde-format
 msgid "Only compile documents after saving."
-msgstr ""
+msgstr "Собирать документы только после сохранения."
 
 #. i18n: ectx: label, entry (livePreviewDefaultTool), group (LivePreview)
 #: kile.kcfg:636
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "default livepreview tool."
-msgstr "Предварительный просмотр"
+msgstr "Инструмент предварительного просмотра по умолчанию"
 
 #: kileactions.cpp:336
 #, kde-format
@@ -7362,17 +7309,19 @@ msgid ""
 "\n"
 "%2"
 msgstr ""
+"Не удалось открыть адрес «%1».\n"
+"\n"
+"%2"
 
 #: kiledocmanager.cpp:521 kiledocmanager.cpp:524
 #, kde-format
 msgid "Cannot open URL"
-msgstr ""
+msgstr "Не удалось открыть URL"
 
 #: kiledocmanager.cpp:524
-#, fuzzy, kde-format
-#| msgid "The template could not be removed."
+#, kde-format
 msgid "The URL \"%1\" couldn't be opened."
-msgstr "Удалить шаблон не получилось."
+msgstr "Не удалось открыть URL «%1»."
 
 #: kiledocmanager.cpp:663
 #, kde-format
@@ -7429,30 +7378,28 @@ msgid "Saving"
 msgstr "Сохранение"
 
 #: kiledocmanager.cpp:926
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "Any files (*)"
-msgstr "Все файлы"
+msgstr "Все файлы (*)"
 
 #: kiledocmanager.cpp:928
-#, fuzzy, kde-format
-#| msgid "Create Template From Document..."
+#, kde-format
 msgid "Save Compiled Document As..."
-msgstr "Создать шаблон из документа..."
+msgstr "Сохранить скомпилированный документ как…"
 
 #: kiledocmanager.cpp:953
-#, fuzzy, kde-format
-#| msgid ""
-#| "The file %1 can not be added because it does not exist or is not readable"
+#, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
 "as it is a directory."
-msgstr "Добавить файл %1 нельзя, потому что его не удалось найти или прочитать"
+msgstr ""
+"Не удалось открыть URL «%1»,\n"
+"так как это каталог."
 
 #: kiledocmanager.cpp:954
 #, kde-format
 msgid "Cannot open directory"
-msgstr ""
+msgstr "Не удалось открыть каталог"
 
 #: kiledocmanager.cpp:1072
 #, kde-format
@@ -7529,16 +7476,13 @@ msgid "Cannot Remove File From Project"
 msgstr "Удалить файл из проекта нельзя"
 
 #: kiledocmanager.cpp:1504
-#, fuzzy, kde-format
-#| msgid ""
-#| "The project you tried to open is already opened. If you wanted to reload "
-#| "the project, close the project before you re-open it."
+#, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
 "project, close the project before you re-open it.</p>"
 msgstr ""
-"Вы пытаетесь открыть уже открытый проект. Если вы хотите перезагрузить этот "
-"проект, сначала закройте его, потом откройте снова."
+"<p>Проект «%1» уже открыт.</p><p>Чтобы перезагрузить проект, закройте его, а "
+"затем откройте снова.</p>"
 
 #: kiledocmanager.cpp:1506
 #, kde-format
@@ -7546,38 +7490,32 @@ msgid "Project Already Open"
 msgstr "Проект уже открыт"
 
 #: kiledocmanager.cpp:1517
-#, fuzzy, kde-format
-#| msgid ""
-#| "The project file for the project \"%1\" does not exist or is not "
-#| "readable. Remove this project from the recent projects list?"
+#, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
 "readable.</p><p>Do you want to remove this project from the recent projects "
 "list?</p>"
 msgstr ""
-"Файл с информацией о проекте «%1» не удалось найти или прочитать. Удалить "
-"этот проект из списка последних проектов?"
+"<p>Файл проекта «%1» не удалось найти или прочитать.</p><p>Удалить этот "
+"проект из списка последних проектов?</p>"
 
 #: kiledocmanager.cpp:1520
-#, fuzzy, kde-format
-#| msgid "Could Not Close Project"
+#, kde-format
 msgid "Could Not Open Project"
-msgstr "Закрыть проект не удалось"
+msgstr "Не удалось открыть проект"
 
 #: kiledocmanager.cpp:1538
-#, fuzzy, kde-format
-#| msgid ""
-#| "The file %1 can not be added because it does not exist or is not readable"
+#, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
 "file.</p>"
-msgstr "Добавить файл %1 нельзя, потому что его не удалось найти или прочитать"
+msgstr ""
+"<p>Файл «%1» нельзя открыть, потому что он не является файлом проекта.</p>"
 
 #: kiledocmanager.cpp:1540
-#, fuzzy, kde-format
-#| msgid "Open Project"
+#, kde-format
 msgid "Impossible to Open Project File"
-msgstr "Открытие проекта"
+msgstr "Открыть файл проекта нельзя"
 
 #: kiledocmanager.cpp:1550
 #, kde-format
@@ -7585,51 +7523,42 @@ msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
 "version of Kile.</p>"
 msgstr ""
+"<p>Проект «%1» невозможно открыть, так как он был создан <br/>более новой "
+"версией Kile.</p>"
 
 #: kiledocmanager.cpp:1552
-#, fuzzy, kde-format
-#| msgid "Open Project"
+#, kde-format
 msgid "Impossible to Open Project"
-msgstr "Открытие проекта"
+msgstr "Открыть проект нельзя"
 
 #: kiledocmanager.cpp:1562
-#, fuzzy, kde-format
-#| msgid ""
-#| "The project file of %1 was created by a newer version of kile. Opening it "
-#| "can lead to unexpected results.\n"
-#| "Do you really want to continue (not recommended)?"
+#, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
 "needs to be updated before it can be opened.</p><p>Do you want to update it?"
 "</p>"
 msgstr ""
-"Файл проекта %1 был создан в более новой версии kile. Если вы откроете его, "
-"результат будет непредсказуем.\n"
-"Вы хотите продолжить (не рекомендуется)?"
+"<p>Файл проекта «%1» был создан в предыдущей версии Kile.<br/>Перед "
+"открытием его необходимо обновить.</p><p>Обновить его?</p>"
 
 #: kiledocmanager.cpp:1565
-#, fuzzy, kde-format
-#| msgid "Tools need to be updated"
+#, kde-format
 msgid "Project File Needs to be Updated"
-msgstr "Инструменты требуют обновления"
+msgstr "Файл проекта требует обновления"
 
 #: kiledocmanager.cpp:1572
-#, fuzzy, kde-format
-#| msgid ""
-#| "The project file for the project \"%1\" does not exist or is not "
-#| "readable. Remove this project from the recent projects list?"
+#, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
 "this project from the recent projects list?</p>"
 msgstr ""
-"Файл с информацией о проекте «%1» не удалось найти или прочитать. Удалить "
-"этот проект из списка последних проектов?"
+"<p>Файл проекта «%1» не удалось обновить.</p><p>Удалить этот проект из "
+"списка последних проектов?</p>"
 
 #: kiledocmanager.cpp:1574
-#, fuzzy, kde-format
-#| msgid "Could Not Load Project File"
+#, kde-format
 msgid "Could Not Update Project File"
-msgstr "Не удалось загрузить файл проекта"
+msgstr "Не удалось обновить файл проекта"
 
 #: kiledocmanager.cpp:1674
 #, kde-format
@@ -7824,22 +7753,18 @@ msgid "Kile Project Files"
 msgstr "Файлы проектов Kile"
 
 #: kileextensions.cpp:108
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "* |All Files"
 msgstr "*|Все файлы"
 
 #: kilehelp.cpp:101
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not find the teTeX documentation at %1; set the correct path in "
-#| "Settings->Configure Kile->Help."
+#, kde-format
 msgid ""
 "Could not find the LaTeX documentation at %1; please set the correct path in "
 "Settings->Configure Kile->Help."
 msgstr ""
-"Не удалось найти документацию teTeX в директории %1. Укажите правильный путь "
-"в меню Настройки->Настройки Kile->Справка."
+"Не удалось найти документацию LaTeX в директории %1. Укажите правильный путь "
+"в меню Настройка->Настроить Kile->Справка."
 
 #: kilehelp.cpp:171
 #, kde-format
@@ -7862,10 +7787,9 @@ msgid " output: \n"
 msgstr " вывод: \n"
 
 #: kilelauncher.cpp:220
-#, fuzzy, kde-format
-#| msgid "Activated"
+#, kde-format
 msgid "terminated"
-msgstr "Включено"
+msgstr "принудительное завершение"
 
 #: kilelauncher.cpp:229
 #, kde-format
@@ -7921,21 +7845,20 @@ msgid "crashed"
 msgstr "сбой"
 
 #: kilelauncher.cpp:313
-#, fuzzy, kde-format
-#| msgid "failed (error code %i)"
+#, kde-format
 msgid "failed (error code %1)"
-msgstr "ошибка (код %i)"
+msgstr "ошибка (код %1)"
 
 #: kilelauncher.cpp:354
-#, fuzzy, kde-format
-#| msgid "There is no active document or it is not saved."
+#, kde-format
 msgid "The document viewer is not available"
-msgstr "Нет активного документа или он не сохранён."
+msgstr "Программа просмотра документов недоступна"
 
 #: kilelauncher.cpp:358
 #, kde-format
 msgid "Please disable the live preview before launching this tool"
 msgstr ""
+"Чтобы запустить эту утилиту, отключите предпросмотр в реальном времени."
 
 #: kilelyxserver.cpp:241
 #, kde-format
@@ -9735,10 +9658,9 @@ msgid "Math Mode"
 msgstr "Режим формул"
 
 #: kilestdactions.cpp:681
-#, fuzzy, kde-format
-#| msgid "Math Mode - $...$"
+#, kde-format
 msgid "Math Mode - \\(...\\)"
-msgstr "Режим формул — $...$"
+msgstr "Режим формул — \\(...\\)"
 
 #: kilestdactions.cpp:684
 #, kde-format
@@ -10140,10 +10062,9 @@ msgid "Intertext"
 msgstr "Внутритекст"
 
 #: kilestdactions.cpp:855
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "Math - \\begin{math}"
-msgstr "Собрать — \\begin{gather}"
+msgstr "Внутристрочная формула — \\begin{math}"
 
 #: kilestdactions.cpp:859
 #, kde-format
@@ -10376,73 +10297,64 @@ msgid "Bmatrix"
 msgstr "{Матрица}"
 
 #: kilestdactions.cpp:941
-#, fuzzy, kde-format
-#| msgid "Gather - \\begin{gather}"
+#, kde-format
 msgid "dmath - \\begin{dmath}"
-msgstr "Собрать — \\begin{gather}"
+msgstr "Выключная формула с переносом — \\begin{dmath}"
 
 #: kilestdactions.cpp:941
 #, kde-format
 msgid "dmath"
-msgstr ""
+msgstr "Выключная формула с переносом"
 
 #: kilestdactions.cpp:944
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dmath* - \\begin{dmath*}"
-msgstr "Собрать* — \\begin{gather*}"
+msgstr "Выключная формула с переносом* — \\begin{dmath*}"
 
 #: kilestdactions.cpp:944
 #, kde-format
 msgid "dmath*"
-msgstr ""
+msgstr "Выключная формула с переносом*"
 
 #: kilestdactions.cpp:948
-#, fuzzy, kde-format
-#| msgid "Cases - \\begin{cases}"
+#, kde-format
 msgid "dseries - \\begin{dseries}"
-msgstr "Варианты — \\begin{cases}"
+msgstr "Ряд формул — \\begin{dseries}"
 
 #: kilestdactions.cpp:948
-#, fuzzy, kde-format
-#| msgid "Bold - \\bfseries"
+#, kde-format
 msgid "dseries"
-msgstr "Полужирный — \\bfseries"
+msgstr "Ряд формул"
 
 #: kilestdactions.cpp:951
-#, fuzzy, kde-format
-#| msgid "Verse - \\begin{verse}"
+#, kde-format
 msgid "dseries* - \\begin{dseries*}"
-msgstr "Стихи — \\begin{verse}"
+msgstr "Ряд формул* — \\begin{dseries*}"
 
 #: kilestdactions.cpp:951
 #, kde-format
 msgid "dseries*"
-msgstr ""
+msgstr "Ряд формул*"
 
 #: kilestdactions.cpp:955
-#, fuzzy, kde-format
-#| msgid "Figure - \\begin{figure}"
+#, kde-format
 msgid "dgroup - \\begin{dgroup}"
-msgstr "Врезка — \\begin{figure}"
+msgstr "Группа формул — \\begin{dgroup}"
 
 #: kilestdactions.cpp:955
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup"
-msgstr "Математическая группа"
+msgstr "Группа формул"
 
 #: kilestdactions.cpp:958
-#, fuzzy, kde-format
-#| msgid "Gather* - \\begin{gather*}"
+#, kde-format
 msgid "dgroup* - \\begin{dgroup*}"
-msgstr "Собрать* — \\begin{gather*}"
+msgstr "Группа формул* — \\begin{dgroup*}"
 
 #: kilestdactions.cpp:958
-#, fuzzy, kde-format
-#| msgid "Mathgroup"
+#, kde-format
 msgid "dgroup*"
-msgstr "Математическая группа"
+msgstr "Группа формул*"
 
 #. i18np call can cause some confusion when 0 is passed to it (#275700)
 #: kilestdtools.cpp:330
@@ -10501,6 +10413,8 @@ msgid ""
 "Manually selected bibliography tool does not exist: trying to auto-detect it "
 "now."
 msgstr ""
+"Выбранное вручную средство работы с библиографией не существует: сейчас "
+"предпринимается попытка автоматического определения."
 
 #: kilestdtools.cpp:662
 #, kde-format
@@ -10663,26 +10577,24 @@ msgid "&Stop"
 msgstr "&Остановить"
 
 #: kiletoolmanager.cpp:737
-#, fuzzy, kde-format
-#| msgid "&Bibliography"
+#, kde-format
 msgid "Bibliography Back End"
-msgstr "Библиография"
+msgstr "Модуль библиографии"
 
 #: kiletoolmanager.cpp:738
-#, fuzzy, kde-format
-#| msgid "(auto-detect)"
+#, kde-format
 msgid "Auto-Detect"
-msgstr "(автоопределение)"
+msgstr "Автоопределение"
 
 #: kiletoolmanager.cpp:739
 #, kde-format
 msgid "Auto-detect the bibliography back end from LaTeX output"
-msgstr ""
+msgstr "Автоматически определять тип библиографии по выводу LaTeX"
 
 #: kiletoolmanager.cpp:744
 #, kde-format
 msgid "Reset Auto-Detected Back End"
-msgstr ""
+msgstr "Сбросить автоматически обнаруженный модуль"
 
 #. i18n: ectx: Menu (file)
 #: kileui.rc:12
@@ -10740,10 +10652,9 @@ msgstr "&Группа TeX"
 
 #. i18n: ectx: Menu (selection)
 #: kileui.rc:118
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "&Selection"
-msgstr "Выделение"
+msgstr "&Выделение"
 
 #. i18n: ectx: Menu (view)
 #. i18n: ectx: Menu (menu_viewer)
@@ -10756,15 +10667,13 @@ msgstr "&Вид"
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
 #: kileui.rc:127 kileviewmanager.cpp:1159 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
-#, fuzzy, kde-format
-#| msgid "Document Type"
+#, kde-format
 msgid "Document Viewer"
-msgstr "Тип документа"
+msgstr "Просмотр документов"
 
 #. i18n: ectx: Menu (go)
 #: kileui.rc:131
-#, fuzzy, kde-format
-#| msgid "&Go to"
+#, kde-format
 msgid "&Go"
 msgstr "&Перейти"
 
@@ -10950,10 +10859,9 @@ msgstr "Окружения &матриц"
 
 #. i18n: ectx: Menu (menu_mathbreqnenv)
 #: kileui.rc:425
-#, fuzzy, kde-format
-#| msgid "Math Environments"
+#, kde-format
 msgid "breqn Math Environments"
-msgstr "Математические окружения"
+msgstr "Математические окружения breqn"
 
 #. i18n: ectx: Menu (menu_fontstyles)
 #: kileui.rc:438
@@ -11017,10 +10925,9 @@ msgstr "&Справка"
 
 #. i18n: ectx: Menu (help_tex)
 #: kileui.rc:533
-#, fuzzy, kde-format
-#| msgid "TeX Documentation"
+#, kde-format
 msgid "LaTeX Documentation"
-msgstr "Документация TeX"
+msgstr "Документация LaTeX"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #: kileui.rc:548
@@ -11037,12 +10944,12 @@ msgstr "Редактирование"
 #: kileviewmanager.cpp:125
 #, kde-format
 msgid "Show Cursor Position in Viewer"
-msgstr ""
+msgstr "Показывать позицию курсора в окне просмотра"
 
 #: kileviewmanager.cpp:129
 #, kde-format
 msgid "Synchronize Cursor Position with Viewer"
-msgstr ""
+msgstr "Синхронизировать позицию курсора с окном просмотра"
 
 #: kileviewmanager.cpp:182
 #, kde-format
@@ -11055,10 +10962,9 @@ msgid "Convert Selection to &LaTeX"
 msgstr "Преобразовать вы&деление в LaTeX"
 
 #: kileviewmanager.cpp:257
-#, fuzzy, kde-format
-#| msgid "Create Template From Document..."
+#, kde-format
 msgid "Show sorted list of opened documents"
-msgstr "Создать шаблон из документа..."
+msgstr "Показывать отсортированный список открытых документов"
 
 #: kileviewmanager.cpp:377
 #, kde-format
@@ -11086,44 +10992,40 @@ msgid "&QuickPreview Math"
 msgstr "Быстрый просмотр &матгруппы"
 
 #: kileviewmanager.cpp:1132
-#, fuzzy, kde-format
-#| msgid "Create Template From Document..."
+#, kde-format
 msgid "Print Compiled Document..."
-msgstr "Создать шаблон из документа..."
+msgstr "Печатать скомпилированный документ…"
 
 #: kileviewmanager.cpp:1138
-#, fuzzy, kde-format
-#| msgid "Create Template From Document..."
+#, kde-format
 msgid "Print Preview For Compiled Document..."
-msgstr "Создать шаблон из документа..."
+msgstr "Предварительный просмотр собранного документа…"
 
 #: livepreview.cpp:187
 #, kde-format
 msgid "Live Preview for Current Document or Project"
-msgstr ""
+msgstr "Динамический предварительный просмотр текущего документа или проекта"
 
 #: livepreview.cpp:192
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Recompile Live Preview"
-msgstr "Предварительный просмотр"
+msgstr "Перекомпилировать предварительный просмотр в реальном времени"
 
 #: livepreview.cpp:197
-#, fuzzy, kde-format
-#| msgid "Create Template From Document..."
+#, kde-format
 msgid "Save Compiled Document..."
-msgstr "Создать шаблон из документа..."
+msgstr "Сохранить скомпилированный документ…"
 
 #: livepreview.cpp:908
 #, kde-format
 msgid "Some documents could not be saved correctly"
-msgstr ""
+msgstr "Не удалось корректно сохранить некоторые документы."
 
 #: livepreview.cpp:914
 #, kde-format
 msgid ""
 "The document must have been saved before the live preview can be started"
-msgstr ""
+msgstr "Перед запуском быстрого просмотра документ должен быть сохранён."
 
 #: livepreview.cpp:940
 #, kde-format
@@ -11132,18 +11034,19 @@ msgid ""
 "directory\n"
 "Live preview for this project has been disabled"
 msgstr ""
+"Расположение одного из элементов проекта не задано относительно базового "
+"каталога проекта\n"
+"Предварительный просмотр в реальном времени для этого проекта отключён"
 
 #: livepreview.cpp:944
-#, fuzzy, kde-format
-#| msgid "Failed to create the template."
+#, kde-format
 msgid "Failed to create the subdirectory structure"
-msgstr "Не удалось создать шаблон."
+msgstr "Не удалось создать структуру вложенных папок."
 
 #: livepreview.cpp:1404
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "LivePreview"
-msgstr "Предварительный просмотр"
+msgstr "LivePreview"
 
 #: main.cpp:57
 #, kde-format
@@ -11156,11 +11059,10 @@ msgid "KDE Integrated LaTeX Environment"
 msgstr "Интегрированная среда LaTeX для KDE"
 
 #: main.cpp:100
-#, fuzzy, kde-format
-#| msgid "by the Kile Team (2003 - 2013)"
+#, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
-msgstr "от команды Kile (2003-2013)"
+msgstr "от команды Kile (2003-%1)"
 
 #: main.cpp:103
 #, kde-format
@@ -11178,10 +11080,9 @@ msgid "Holger Danielsson"
 msgstr "Holger Danielsson"
 
 #: main.cpp:104
-#, fuzzy, kde-format
-#| msgid "developer"
+#, kde-format
 msgid "Developer"
-msgstr "разработчик"
+msgstr "Разработка"
 
 #: main.cpp:105
 #, kde-format
@@ -11286,7 +11187,7 @@ msgstr "Открыть новое главное окно Kile"
 #: main.cpp:136
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
-msgstr ""
+msgstr "Файлы для открытия / укажите «-» для чтения со стандартного ввода"
 
 #: main.cpp:167
 #, kde-format
@@ -11296,12 +11197,14 @@ msgid ""
 "\n"
 "Please install the Okular library before running Kile."
 msgstr ""
+"Не удалось запустить Kile: не найдена свежая версия библиотеки Okular.\n"
+"\n"
+"Установите библиотеку Okular перед запуском Kile."
 
 #: main.cpp:169
-#, fuzzy, kde-format
-#| msgid "Okular could not be found"
+#, kde-format
 msgid "Okular library not found"
-msgstr "Не удалось найти программу Okular."
+msgstr "Библиотека Okular не найдена."
 
 #: parser/latexparser.cpp:221 parser/latexparser.cpp:249
 #, kde-format
@@ -11319,10 +11222,9 @@ msgid "LaTeX ---> DVI (Okular)"
 msgstr "LaTeX ---> DVI (Okular)"
 
 #: quickpreview.cpp:43
-#, fuzzy, kde-format
-#| msgid "Document Type"
+#, kde-format
 msgid "LaTeX ---> DVI (Document Viewer)"
-msgstr "Тип документа"
+msgstr "LaTeX ---> DVI (Просмотр документов)"
 
 #: quickpreview.cpp:44
 #, kde-format
@@ -11330,10 +11232,9 @@ msgid "LaTeX ---> PS (Okular)"
 msgstr "LaTeX ---> PS (Okular)"
 
 #: quickpreview.cpp:45
-#, fuzzy, kde-format
-#| msgid "Document Type"
+#, kde-format
 msgid "LaTeX ---> PS (Document Viewer)"
-msgstr "Тип документа"
+msgstr "LaTeX ---> PS (Document Viewer)"
 
 #: quickpreview.cpp:46
 #, kde-format
@@ -11341,10 +11242,9 @@ msgid "PDFLaTeX ---> PDF (Okular)"
 msgstr "PDFLaTeX ---> PDF (Okular)"
 
 #: quickpreview.cpp:47
-#, fuzzy, kde-format
-#| msgid "Document Type"
+#, kde-format
 msgid "PDFLaTeX ---> PDF (Document Viewer)"
-msgstr "Тип документа"
+msgstr "PDFLaTeX ---> PDF (Просмотр документов)"
 
 #: quickpreview.cpp:48
 #, kde-format
@@ -11352,21 +11252,19 @@ msgid "XeLaTeX ---> PDF (Okular)"
 msgstr "XeLaTeX ---> PDF (Okular)"
 
 #: quickpreview.cpp:49
-#, fuzzy, kde-format
-#| msgid "Document Type"
+#, kde-format
 msgid "XeLaTeX ---> PDF (Document Viewer)"
-msgstr "Тип документа"
+msgstr "XeLaTeX ---> PDF (Просмотр документов)"
 
 #: quickpreview.cpp:50
 #, kde-format
 msgid "LuaLaTeX ---> PDF (Okular)"
-msgstr ""
+msgstr "LuaLaTeX ---> PDF (Okular)"
 
 #: quickpreview.cpp:51
-#, fuzzy, kde-format
-#| msgid "Document Type"
+#, kde-format
 msgid "LuaLaTeX ---> PDF (Document Viewer)"
-msgstr "Тип документа"
+msgstr "LuaLaTeX ---> PDF (Просмотр документов)"
 
 #: quickpreview.cpp:78
 #, kde-format
@@ -11442,34 +11340,29 @@ msgid "QuickPreview"
 msgstr "Быстрый просмотр"
 
 #: scripting/kilescriptobject.cpp:42
-#, fuzzy, kde-format
-#| msgid "Enumeration"
+#, kde-format
 msgid "Script: information"
-msgstr "Нумерованный список"
+msgstr "Сценарий: информация"
 
 #: scripting/kilescriptobject.cpp:48
-#, fuzzy, kde-format
-#| msgid "Scripts"
+#, kde-format
 msgid "Script: sorry"
-msgstr "Сценарии"
+msgstr "Сценарий: sorry"
 
 #: scripting/kilescriptobject.cpp:54
-#, fuzzy, kde-format
-#| msgid "Script Name"
+#, kde-format
 msgid "Script: error"
-msgstr "Название сценария"
+msgstr "Ошибка сценария"
 
 #: scripting/kilescriptobject.cpp:60
-#, fuzzy, kde-format
-#| msgid "Scripting"
+#, kde-format
 msgid "Script: question"
-msgstr "Сценарии"
+msgstr "Сценарий: вопрос"
 
 #: scripting/kilescriptobject.cpp:67
-#, fuzzy, kde-format
-#| msgid "Scripting"
+#, kde-format
 msgid "Script: warning"
-msgstr "Сценарии"
+msgstr "Сценарий: предупреждение"
 
 #: scripting/kilescriptobject.cpp:117
 #, kde-format
@@ -11482,53 +11375,49 @@ msgid "Please enter a value"
 msgstr "Введите значение"
 
 #: scripting/kilescriptobject.cpp:195
-#, fuzzy, kde-format
-#| msgid "Script"
+#, kde-format
 msgid "Script '%1.js'"
-msgstr "Сценарий"
+msgstr "Сценарий «%1.js»"
 
 #: scripting/kilescriptobject.cpp:214
 #, kde-format
 msgid "File Handling Error: Unable to find the file '%1'"
-msgstr ""
+msgstr "Ошибка обработки файла: не удалось найти файл «%1»"
 
 #: scripting/kilescriptobject.cpp:234 scripting/kilescriptobject.cpp:291
-#, fuzzy, kde-format
-#| msgid "Select Files to Remove"
+#, kde-format
 msgid "Select File to Read"
-msgstr "Выбрать файлы для удаления"
+msgstr "Выбрать файл для чтения"
 
 #: scripting/kilescriptobject.cpp:250
 #, kde-format
 msgid "File Handling Error: Unable to create the output file '%1'"
-msgstr ""
+msgstr "Ошибка обработки файла: не удалось создать выходной файл «%1»"
 
 #: scripting/kilescriptobject.cpp:261
 #, kde-format
 msgid "File Handling Error: Unable to write to the output file '%1'"
-msgstr ""
+msgstr "Ошибка обработки файла: не удалось записать в выходной файл «%1»"
 
 #: scripting/kilescriptobject.cpp:279 scripting/kilescriptobject.cpp:297
-#, fuzzy, kde-format
-#| msgid "Save All"
+#, kde-format
 msgid "Save As"
-msgstr "Сохранить все"
+msgstr "Сохранить как"
 
 #: scripting/kilescriptobject.cpp:304
 #, kde-format
 msgid "This action was canceled by the user."
-msgstr ""
+msgstr "Пользователь отменил действие."
 
 #: scripting/script.cpp:206
-#, fuzzy, kde-format
-#| msgid "Could not find '%1'"
+#, kde-format
 msgid "Unable to find '%1'"
 msgstr "Не удалось найти «%1»"
 
 #: scripting/script.cpp:239 scripting/script.cpp:242
 #, kde-format
 msgid "Cursor/Range plugin"
-msgstr ""
+msgstr "Модуль курсора/диапазона"
 
 #: scripting/script.cpp:292
 #, kde-format
@@ -11560,13 +11449,12 @@ msgstr "Ошибка версии"
 #: scriptmanager.cpp:108
 #, kde-format
 msgid "Cannot start the script: no view available"
-msgstr ""
+msgstr "Не удалось запустить сценарий: нет доступного вида"
 
 #: scriptmanager.cpp:108
-#, fuzzy, kde-format
-#| msgid "Script"
+#, kde-format
 msgid "Script Error"
-msgstr "Сценарий"
+msgstr "Ошибка сценария"
 
 #: scriptmanager.cpp:489
 #, kde-format
@@ -11574,18 +11462,14 @@ msgid "Execution of %1"
 msgstr "Выполнение %1"
 
 #: templates.cpp:94
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not find a folder to save %1 to.\n"
-#| "Check whether you have a .kde folder with write permissions in your home "
-#| "folder."
+#, kde-format
 msgid ""
 "Could not find a folder to save %1 to.\n"
 "Check whether you have a folder named \".kde\" with write permissions in "
 "your home folder."
 msgstr ""
 "Не удалось найти каталог для сохранения %1.\n"
-"Проверьте, есть ли в вашем домашнем каталоге подкаталог .kde и доступен ли "
+"Проверьте, есть ли в вашем домашнем каталоге подкаталог «.kde» и доступен ли "
 "он для записи."
 
 #: templates.cpp:167
@@ -11607,7 +11491,7 @@ msgstr "Пустой документ BibTeX"
 #, kde-format
 msgctxt "<tool name> - <configuration>"
 msgid "%1 - %2"
-msgstr ""
+msgstr "%1 — %2"
 
 #: userhelp.cpp:151
 #, kde-format
@@ -11615,10 +11499,9 @@ msgid "The file '%1' does not exist."
 msgstr "Файл «%1» не существует."
 
 #: usermenu/usermenu.cpp:920
-#, fuzzy, kde-format
-#| msgid "Input file:"
+#, kde-format
 msgid "Input Dialog"
-msgstr "Входной файл:"
+msgstr "Диалог ввода"
 
 #: widgets/abbreviationview.cpp:40
 #, kde-format
@@ -11653,16 +11536,15 @@ msgstr "Удаление аббревиатуры"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetAppearanceConfig)
 #: widgets/appearanceconfigwidget.ui:14
-#, fuzzy, kde-format
-#| msgid "LaTeX Configuration"
+#, kde-format
 msgid "Appearance Configuration"
-msgstr "Настройка LaTeX"
+msgstr "Настройка внешнего вида"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFullPathInWindowTitle)
 #: widgets/appearanceconfigwidget.ui:29
 #, kde-format
 msgid "Show full path in window title"
-msgstr ""
+msgstr "Показывать полный путь в заголовке окна"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSplashScreen)
 #: widgets/appearanceconfigwidget.ui:36
@@ -11672,10 +11554,9 @@ msgstr "Показывать заставку при запуске"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDocumentViewerInExternalWindow)
 #: widgets/appearanceconfigwidget.ui:67
-#, fuzzy, kde-format
-#| msgid "Show help file in a &separate window"
+#, kde-format
 msgid "Show in external window"
-msgstr "Показывать файл справки в отдельном окне"
+msgstr "Показывать в отдельном окне"
 
 #: widgets/codecompletionconfigwidget.cpp:55
 #, kde-format
@@ -11766,10 +11647,9 @@ msgstr "Автодополнение"
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_autocomplete)
 #: widgets/codecompletionconfigwidget.ui:23
-#, fuzzy, kde-format
-#| msgid "Auto completion for LaTeX markup"
+#, kde-format
 msgid "Auto completion for &LaTeX markup"
-msgstr "Автодополнение разметки LaTeX"
+msgstr "Автодополнение разметки &LaTeX"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/codecompletionconfigwidget.ui:37
@@ -11785,10 +11665,9 @@ msgstr "буквы"
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_autocompleteabbrev)
 #: widgets/codecompletionconfigwidget.ui:82
-#, fuzzy, kde-format
-#| msgid "Auto completion for abbreviations"
+#, kde-format
 msgid "A&uto completion for abbreviations"
-msgstr "Автодополнение аббревиатур"
+msgstr "А&втодополнение аббревиатур"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_addFileButton)
 #: widgets/codecompletionconfigwidget.ui:133
@@ -11853,7 +11732,7 @@ msgstr "Идёт проверка, корректно ли установлен�
 #: widgets/configcheckerwidget.ui:45
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_grpResults)
 #: widgets/configcheckerwidget.ui:58
@@ -11906,10 +11785,9 @@ msgstr "Оформлять отступы пробелами вместо таб
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbNumSpaces)
 #: widgets/environmentconfigwidget.ui:88
-#, fuzzy, kde-format
-#| msgid "Number of spaces:"
+#, kde-format
 msgid "&Number of spaces:"
-msgstr "Число пробелов:"
+msgstr "&Число пробелов:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_envIndentNumSpaces)
 #: widgets/environmentconfigwidget.ui:129
@@ -11923,10 +11801,9 @@ msgid "Open selected"
 msgstr "Открыть выбранный файл"
 
 #: widgets/filebrowserwidget.cpp:128
-#, fuzzy, kde-format
-#| msgid "Show Project Files"
+#, kde-format
 msgid "Show LaTeX Files Only"
-msgstr "Показ файлов проекта"
+msgstr "Показывать только файлы LaTeX"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/filebrowserwidget.cpp:134 widgets/structureviewconfigwidget.ui:128
@@ -11954,22 +11831,19 @@ msgstr "Переменные для шаблонов"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: widgets/generalconfigwidget.ui:92
-#, fuzzy, kde-format
-#| msgid "&Author:"
+#, kde-format
 msgid "A&uthor:"
-msgstr "Автор:"
+msgstr "&Автор:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: widgets/generalconfigwidget.ui:105
-#, fuzzy, kde-format
-#| msgid "&Document class options:"
+#, kde-format
 msgid "Document c&lass options:"
 msgstr "Параметры класса &документа:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: widgets/generalconfigwidget.ui:118
-#, fuzzy, kde-format
-#| msgid "Input &encoding:"
+#, kde-format
 msgid "I&nput encoding:"
 msgstr "&Кодировка исходных файлов:"
 
@@ -11989,7 +11863,7 @@ msgstr "Удалять временные файлы при завершении
 #: widgets/generalconfigwidget.ui:165
 #, kde-format
 msgid "Reload document automatically after changes"
-msgstr ""
+msgstr "Автоматически перезагружать документ после изменений"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SyncConsoleDirWithTabs)
 #: widgets/generalconfigwidget.ui:175
@@ -12007,10 +11881,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolution)
 #: widgets/graphicsconfigwidget.ui:29
-#, fuzzy, kde-format
-#| msgid "Default resolution:"
+#, kde-format
 msgid "&Default resolution:"
-msgstr "Разрешение по умолчанию:"
+msgstr "&Разрешение по умолчанию:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolutionHelp)
 #: widgets/graphicsconfigwidget.ui:51
@@ -12020,10 +11893,9 @@ msgstr "(используется, если в изображении не ук�
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlBbox)
 #: widgets/graphicsconfigwidget.ui:61
-#, fuzzy, kde-format
-#| msgid "Bounding box:"
+#, kde-format
 msgid "Bo&unding box:"
-msgstr "Границы:"
+msgstr "&Границы:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_boundingbox)
 #: widgets/graphicsconfigwidget.ui:80
@@ -12051,17 +11923,15 @@ msgstr "Контекстная справка"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_latex2erefs)
 #: widgets/helpconfigwidget.ui:41
-#, fuzzy, kde-format
-#| msgid "Use the &Kile LaTeX reference"
+#, kde-format
 msgid "&Use the LaTeX2e unofficial reference manual"
-msgstr "Использовать справку LaTeX &из Kile"
+msgstr "&Использовать неофициальное справочное руководство LaTeX2e"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_kilerefs)
 #: widgets/helpconfigwidget.ui:51
-#, fuzzy, kde-format
-#| msgid "Use the &Kile LaTeX reference"
+#, kde-format
 msgid "Use &Kile's LaTeX reference"
-msgstr "Использовать справку LaTeX &из Kile"
+msgstr "Использовать справку LaTeX из &Kile"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbConfigure)
 #: widgets/helpconfigwidget.ui:97
@@ -12072,59 +11942,57 @@ msgstr "&Настроить..."
 #: widgets/latexconfigwidget.cpp:31
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: widgets/latexconfigwidget.cpp:32 widgets/latexconfigwidget.cpp:43
 #, kde-format
 msgid "Ctrl"
-msgstr ""
+msgstr "Ctrl"
 
 #: widgets/latexconfigwidget.cpp:33
-#, fuzzy, kde-format
-#| msgid "Alignat"
+#, kde-format
 msgid "Alt"
-msgstr "Выровнять несколько столбцов"
+msgstr "Alt"
 
 #: widgets/latexconfigwidget.cpp:34
 #, kde-format
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 #: widgets/latexconfigwidget.cpp:35
 #, kde-format
 msgid "Ctrl + Shift"
-msgstr ""
+msgstr "Ctrl + Shift"
 
 #: widgets/latexconfigwidget.cpp:36
 #, kde-format
 msgid "Alt + Ctrl"
-msgstr ""
+msgstr "Alt + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:37
 #, kde-format
 msgid "Meta + Ctrl"
-msgstr ""
+msgstr "Meta + Ctrl"
 
 #: widgets/latexconfigwidget.cpp:42
-#, fuzzy, kde-format
-#| msgid "Command"
+#, kde-format
 msgid "Cmd"
-msgstr "Команда"
+msgstr "Cmd"
 
 #: widgets/latexconfigwidget.cpp:44
 #, kde-format
 msgid "Cmd + Shift"
-msgstr ""
+msgstr "Cmd + Shift"
 
 #: widgets/latexconfigwidget.cpp:45
 #, kde-format
 msgid "Alt + Cmd"
-msgstr ""
+msgstr "Alt + Cmd"
 
 #: widgets/latexconfigwidget.cpp:46
 #, kde-format
 msgid "Ctrl + Cmd"
-msgstr ""
+msgstr "Ctrl + Cmd"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
@@ -12197,17 +12065,15 @@ msgstr "Переменные окружения"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlPath)
 #: widgets/latexconfigwidget.ui:201
-#, fuzzy, kde-format
-#| msgid "TEXINPUTS:"
+#, kde-format
 msgid "TE&XINPUTS:"
-msgstr "TEXINPUTS:"
+msgstr "TE&XINPUTS:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_bibinputpath)
 #: widgets/latexconfigwidget.ui:220
-#, fuzzy, kde-format
-#| msgid "BIBINPUTS:"
+#, kde-format
 msgid "BIBINP&UTS:"
-msgstr "BIBINPUTS:"
+msgstr "BIBINP&UTS:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_bstinputpath)
 #: widgets/latexconfigwidget.ui:239
@@ -12219,19 +12085,19 @@ msgstr "BSTINPUTS:"
 #: widgets/latexconfigwidget.ui:258
 #, kde-format
 msgid "Modifiers for Left Click Actions"
-msgstr ""
+msgstr "Модификаторы для действий при щелчке левой кнопкой мыши"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/latexconfigwidget.ui:267
 #, kde-format
 msgid "Modifier for forward search in viewer:"
-msgstr ""
+msgstr "Модификатор для прямого поиска в программе просмотра:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: widgets/latexconfigwidget.ui:280
 #, kde-format
 msgid "Modifier for selecting from cursor:"
-msgstr ""
+msgstr "Модификатор для выделения от курсора:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckRootDoc)
 #: widgets/latextoolconfigwidget.ui:35
@@ -12276,55 +12142,52 @@ msgstr "Автоматически запускать дополнительны
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLivePreviewConfig)
 #: widgets/livepreviewconfigwidget.ui:14
-#, fuzzy, kde-format
-#| msgid "LaTeX Configuration"
+#, kde-format
 msgid "Live Preview Configuration"
-msgstr "Настройка LaTeX"
+msgstr "Настройка предпросмотра в реальном времени"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_livePreviewEnabled)
 #: widgets/livepreviewconfigwidget.ui:29
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Enable &live preview"
-msgstr "Предварительный просмотр"
+msgstr "Включить &живой просмотр"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_previewEnabledForFreshlyOpenedDocuments)
 #: widgets/livepreviewconfigwidget.ui:41
 #, kde-format
 msgid "Enable live preview for newly-opened documents"
 msgstr ""
+"Включать предпросмотр в реальном времени для только что открытых документов"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_compileBehaviorGroupBox)
 #: widgets/livepreviewconfigwidget.ui:48
-#, fuzzy, kde-format
-#| msgid "Completion Files"
+#, kde-format
 msgid "Compilation Behavior"
-msgstr "Файлы автодополнения"
+msgstr "Поведение при компиляции"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_compileDocumentOnSaveRadioButton)
 #: widgets/livepreviewconfigwidget.ui:54
 #, kde-format
 msgid "Compile doc&uments after saving"
-msgstr ""
+msgstr "Собирать док&ументы после сохранения"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_compileDocumentOnChangesRadioButton)
 #: widgets/livepreviewconfigwidget.ui:63
 #, kde-format
 msgid "Compile documents whenever &there are changes after"
-msgstr ""
+msgstr "Собирать документы при &последующих изменениях"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_livePreviewCompilationDelay)
 #: widgets/livepreviewconfigwidget.ui:70
 #, kde-format
 msgid " ms"
-msgstr ""
+msgstr " мс"
 
 #. i18n: ectx: property (text), widget (QLabel, m_previewDefaultToolLabel)
 #: widgets/livepreviewconfigwidget.ui:104
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Set default live preview tool"
-msgstr "Предварительный просмотр"
+msgstr "Инструмент предварительного просмотра в реальном времени по умолчанию"
 
 #: widgets/logwidget.cpp:369
 #, kde-format
@@ -12344,10 +12207,9 @@ msgstr "Список инструментов"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbShowAllTools)
 #: widgets/maintoolconfigwidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Show input files"
+#, kde-format
 msgid "Show hidden tools"
-msgstr "Показывать исходные файлы"
+msgstr "Показывать скрытые инструменты"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewTool)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbNewConfig)
@@ -12365,10 +12227,9 @@ msgstr "Конфигурация для текущего инструмента"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
 #: widgets/maintoolconfigwidget.ui:175
-#, fuzzy, kde-format
-#| msgid "Select:"
+#, kde-format
 msgid "Se&lect:"
-msgstr "Выберите:"
+msgstr "Вы&берите:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
 #: widgets/maintoolconfigwidget.ui:331
@@ -12384,8 +12245,7 @@ msgstr "К&ласс:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbSource)
 #: widgets/maintoolconfigwidget.ui:411
-#, fuzzy, kde-format
-#| msgid "&Source extension:"
+#, kde-format
 msgid "Source e&xtension:"
 msgstr "&Входное расширение:"
 
@@ -12421,10 +12281,9 @@ msgstr "Меню"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbMenu)
 #: widgets/maintoolconfigwidget.ui:557
-#, fuzzy, kde-format
-#| msgid "Add tool to Build &menu:"
+#, kde-format
 msgid "Add &tool to Build menu:"
-msgstr "Добавить инструмент в &меню Сборка:"
+msgstr "Добавить &инструмент в меню Сборка:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbIcon)
 #: widgets/maintoolconfigwidget.ui:580
@@ -12714,22 +12573,19 @@ msgid "Include in Archive"
 msgstr "Добавить в архив"
 
 #: widgets/projectview.cpp:468
-#, fuzzy, kde-format
-#| msgid "Project Files"
+#, kde-format
 msgid "Project File"
-msgstr "Файлы проекта"
+msgstr "Файл проекта"
 
 #: widgets/projectview.cpp:471
-#, fuzzy, kde-format
-#| msgid "&Packages"
+#, kde-format
 msgid "Packages"
-msgstr "&Пакеты"
+msgstr "Пакеты"
 
 #: widgets/projectview.cpp:474
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "Images"
-msgstr "Изображение"
+msgstr "Изображения"
 
 #: widgets/projectview.cpp:808
 #, kde-format
@@ -12963,10 +12819,9 @@ msgstr "Уровень разворачивания"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: widgets/structureviewconfigwidget.ui:52
-#, fuzzy, kde-format
-#| msgid "Default &value"
+#, kde-format
 msgid "&Default value"
-msgstr "По &умолчанию"
+msgstr "Значение по &умолчанию"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2_2)
 #: widgets/structureviewconfigwidget.ui:112
@@ -13149,6 +13004,8 @@ msgstr "Создать элемент списка не удалось: не н�
 msgid ""
 "No extension specified for graphic file.  Using .%1 from Project settings."
 msgstr ""
+"Расширение графического файла не указано. Используется .%1 из параметров "
+"проекта."
 
 #: widgets/structurewidget.cpp:692
 #, kde-format
@@ -13156,6 +13013,8 @@ msgid ""
 "No extension specified for graphic file.  Using .%1 from global Structure "
 "View settings."
 msgstr ""
+"Расширение графического файла не указано. Используется .%1 из глобальных "
+"параметров представления структуры."
 
 #: widgets/structurewidget.cpp:693
 #, kde-format
@@ -13316,10 +13175,9 @@ msgid "Run in Konsole"
 msgstr "Запускать в Konsole"
 
 #: widgets/toolconfigwidget.cpp:114
-#, fuzzy, kde-format
-#| msgid "Use &embedded viewer"
+#, kde-format
 msgid "Use Document Viewer"
-msgstr "Использовать встроенную компоненту просмотра"
+msgstr "Использовать встроенную программу просмотра"
 
 #: widgets/toolconfigwidget.cpp:115
 #, kde-format
@@ -13341,16 +13199,13 @@ msgstr ""
 "Возможно, вам стоит восстановить настройки по умолчанию."
 
 #: widgets/toolconfigwidget.cpp:229
-#, fuzzy, kde-format
-#| msgid ""
-#| "All your tool settings will be overwritten with the default settings, are "
-#| "you sure you want to continue?"
+#, kde-format
 msgid ""
 "All your tool settings will be overwritten with the default settings.\n"
 "Are you sure you want to continue?"
 msgstr ""
-"Все настройки инструментов будут заменены настройками по умолчанию. Вы "
-"уверены, что хотите продолжить?"
+"Все настройки инструментов будут заменены настройками по умолчанию.\n"
+"Вы уверены, что хотите продолжить?"
 
 #: widgets/toolconfigwidget.cpp:355
 #, kde-format
@@ -13388,8 +13243,7 @@ msgid "Cannot Remove Configuration"
 msgstr "Удалить конфигурацию нельзя"
 
 #: widgets/usermenuconfigwidget.cpp:89
-#, fuzzy, kde-format
-#| msgid "not installed"
+#, kde-format
 msgid "no file installed"
 msgstr "не установлено"
 
@@ -13397,33 +13251,31 @@ msgstr "не установлено"
 #: widgets/usermenuconfigwidget.ui:40
 #, kde-format
 msgid "Installed menu file:"
-msgstr ""
+msgstr "Установленный файл меню:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_usermenuFile)
 #: widgets/usermenuconfigwidget.ui:69
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "File "
-msgstr "Файл"
+msgstr "Файл "
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/usermenuconfigwidget.ui:149
-#, fuzzy, kde-format
-#| msgid "Quotation"
+#, kde-format
 msgid "Location"
-msgstr "Длинная цитата"
+msgstr "Расположение"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbLaTeXMenuLocation)
 #: widgets/usermenuconfigwidget.ui:161
 #, kde-format
 msgid "Show &the user menu in the LaTeX menu"
-msgstr ""
+msgstr "Показывать &меню пользователя в меню LaTeX"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbStandAloneMenuLocation)
 #: widgets/usermenuconfigwidget.ui:177
 #, kde-format
 msgid "Show the &user menu in the menu bar"
-msgstr ""
+msgstr "Показывать меню &пользователя в строке меню"
 
 #~ msgid "*.pdf|PDF Files"
 #~ msgstr "*.pdf|Файлы PDF"

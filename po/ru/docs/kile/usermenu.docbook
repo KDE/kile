@@ -1,0 +1,638 @@
+<chapter id="id_usermenu">
+<title
+>Настраиваемое пользователем меню</title>
+
+<sect1 id="id_usermenu_configuration">
+<title
+>Настройка</title>
+
+<para
+>&kile; поддерживает настраиваемое пользователем меню, которое показывается как часть меню &kile;. Это меню настраивается в диалоговом окне настройки &kile; с помощью <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile</guisubmenu
+><guimenuitem
+>Меню пользователя</guimenuitem
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Настройка пользовательского меню</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_01.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Настроить меню пользователя</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Это меню можно разместить двумя способами:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>либо меню <guimenu
+>Меню пользователя</guimenu
+> появится в главной панели меню между меню <guimenu
+>LaTeX</guimenu
+> и <guimenu
+>Мастер</guimenu
+>, а пункт мастера настройки <guimenuitem
+>Изменение пользовательского меню</guimenuitem
+> — в меню <guimenu
+>Мастер</guimenu
+></para>
+
+	<screenshot>
+		<screeninfo
+>Меню пользователя размещено в главном меню</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_02.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Меню пользователя размещается в главном меню</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+>или оба элемента появятся в нижней части меню <guimenu
+>LaTeX</guimenu
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Меню пользователя как часть меню LaTeX</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_03.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Меню пользователя как часть меню LaTeX</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+
+<para
+>Уже существующие пользовательские теги из старых версий &kile; автоматически преобразуются в новое настраиваемое пользователем меню. Теги сохраняются в файле <filename
+>usertags.xml</filename
+>, и, как и все файлы определения меню, их можно найти в локальном каталоге меню пользователя &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>, например, <filename
+>/home/user/.kde/share/apps/kile/usermenu/</filename
+>.</para>
+
+<para
+>Для разных задач можно использовать разные файлы определения меню. Чтобы установить или изменить файл определения меню, вызовите мастер меню пользователя <menuchoice
+><guimenu
+>Мастер</guimenu
+><guisubmenu
+>Изменение пользовательского меню</guisubmenu
+></menuchoice
+> или <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Изменение пользовательского меню</guisubmenu
+></menuchoice
+>.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_wizard">
+<title
+>Мастер</title>
+
+<para
+>Создать новые или изменить существующие меню можно с помощью удобного мастера настройки меню пользователя, который находится в <menuchoice
+><guimenu
+>Мастер</guimenu
+><guisubmenu
+>Изменение пользовательского меню</guisubmenu
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Мастер пользовательского меню</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_04.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Мастер меню пользователя</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Слева показано существующее дерево меню. Как и в стандартном меню, доступны три различных типа элементов меню:</para>
+
+<itemizedlist>
+<listitem
+><para
+>стандартные пункты меню, которым назначено действие</para
+></listitem>
+<listitem
+><para
+>подменю, содержащие больше элементов меню</para
+></listitem>
+<listitem
+><para
+>разделители, чтобы получить наглядную структуру всех элементов.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Чтобы изменить это меню, используйте шесть кнопок в левой части. Дополнительные действия доступны в контекстном меню уже существующих элементов меню.</para>
+
+	<screenshot>
+		<screeninfo
+>Дерево меню пользователя</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_05.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Определяемое пользователем дерево меню</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Каждому стандартному элементу меню назначается один из трёх типов действий, каждый из которых имеет собственные атрибуты, которые можно задать:</para>
+
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Текст:</guilabel
+>&nbsp; &kile; позволяет создавать собственные теги. Тег похожа на ярлык, который запускает какую-либо команду или вставляет часто используемый текст, например, Joe Sixpack часто использует предложения <userinput
+>Hi, I have been inserted ...</userinput
+>. Эта тег будет вставлена в текущую позицию курсора при вызове этого действия (см. выше). Также доступны метасимволы (см. <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+</listitem>
+
+<listitem
+><para
+><guilabel
+>Вставить содержимое файла:</guilabel
+>&nbsp; Вставляет содержимое указанного файла целиком.</para>
+
+	<screenshot>
+		<screeninfo
+>Вставка содержимого файла</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Вставить содержимое файла</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+  <listitem
+><para
+><guilabel
+>Запуск внешней программы:</guilabel
+>&nbsp; Вывод этой программы можно вставить в открытый документ. В командной строке этой программы также допустим метасимвол <userinput
+>%M</userinput
+>, поскольку выделенный текст сохраняется во временном файле. Для имени этого временного файла используйте <userinput
+>%M</userinput
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Запуск внешней программы</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Выполнить внешнюю программу</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Если для действия отсутствует важная информация, элементы меню выделяются красным цветом. Это может быть несуществующий файл.</para>
+
+	<screenshot>
+		<screeninfo
+>Несуществующий файл</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Несуществующий файл</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>или отсутствие заголовка элемента меню, который будет показан в виде вопросительных знаков <userinput
+>???</userinput
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Отсутствие заголовка элемента меню</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Отсутствует заголовок элемента меню</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>При открытии контекстного меню такого элемента меню, выделенного красным цветом, появится дополнительная возможность получить сведения об этой ошибке.</para>
+
+	<screenshot>
+		<screeninfo
+>Дополнительные сведения</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Дополнительная информация</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Дополнительные сведения также можно получить с помощью функции <guilabel
+>Что это?</guilabel
+>, доступной у большинства элементов управления.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_placeholders">
+<title
+>Заполнители</title>
+
+<sect2 id="id_usermenu_placeholders_text">
+<title
+>Вставка текста</title>
+
+<para
+>В пользовательских метках можно использовать следующие заполнители: <userinput
+>%C</userinput
+>, <userinput
+>%B</userinput
+>, <userinput
+>%M</userinput
+>, <userinput
+>%E</userinput
+>, <userinput
+>%R</userinput
+> и <userinput
+>%T</userinput
+>.</para>
+
+<itemizedlist>
+<listitem>
+<para
+><userinput
+>%C</userinput
+>:&nbsp; здесь будет установлен курсор после вставки определяемой пользователем теги.</para>
+
+	<screenshot>
+		<screeninfo
+>Позиция курсора (%C)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Позиция курсора (%C)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%B</userinput
+>:&nbsp; будет заменён на маркер (см. <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+
+	<screenshot>
+		<screeninfo
+>Маркер (%B)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Маркер (%B)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%M</userinput
+>:&nbsp; будет заменён выделенным текстом.</para>
+
+	<screenshot>
+		<screeninfo
+>Выделенный текст (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Выделенный текст (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%E</userinput
+>:&nbsp; обозначает глубину отступа текста внутри окружения.</para>
+
+	<screenshot>
+		<screeninfo
+>Отступ текста окружения (%E)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08d.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Отступ текста окружения (%E)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%R</userinput
+>:&nbsp; вызовет диалог ссылок для выбора уже определённой метки. Это позволяет ссылаться на заранее определённую метку, выбираемую из раскрывающегося списка (см. также <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Ссылки</guimenuitem
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> или <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Ссылки</guimenuitem
+><guimenuitem
+>pageref</guimenuitem
+></menuchoice
+>).</para>
+
+	<screenshot>
+		<screeninfo
+>Ссылки (%R)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08e.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ссылки (%R)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%T</userinput
+>:&nbsp; вызовет диалог цитирования, в котором можно выбрать уже определённую ссылку. То же самое, что воспользоваться пунктом <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Ссылки</guimenuitem
+><guimenuitem
+>Упоминание</guimenuitem
+></menuchoice
+> — появляется список всех ключей ссылок.</para>
+
+	<screenshot>
+		<screeninfo
+>Ключи цитирования (%T)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08f.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ключи ссылок (%T)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+<para
+>Рассмотрим другой пример с таким макросом: <userinput
+>\frac{%M}{%C}</userinput
+>. Сначала выделим в тексте число, скажем, <userinput
+>42</userinput
+>. Теперь вызовем этот макрос и получим <userinput
+>\frac{42}{}</userinput
+>, при этом курсор будет установлен внутри второй пары фигурных скобок.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_file">
+<title
+>Вставка содержимого файла</title>
+
+<para
+>Чтобы вставить содержимое текстового файла, можно использовать те же заполнители.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_program">
+<title
+>Запуск программы</title>
+
+<para
+>Если требуется запустить внешнюю программу, в командной строке распознаётся только <userinput
+>%M</userinput
+> для выделенного текста. Выделенный текст сохраняется во временном файле, а вместо заполнителя <userinput
+>%M</userinput
+> подставляется имя этого файла.</para>
+
+	<screenshot>
+		<screeninfo
+>Запуск внешней программы (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_09.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Выполнить внешнюю программу (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Ещё один заполнитель — <userinput
+>%S</userinput
+>, который заменяется полным базовым именем текущего документа без пути. Это базовое имя состоит из всех символов имени файла до последнего символа «.» (не включая его).</para>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_parameter">
+<title
+>Параметр</title>
+
+<para
+>Большинство пунктов меню могут иметь дополнительные поясняющие параметры, которые можно установить. Если некоторые из этих параметров недоступны для какого-либо типа действия, они отключены.</para>
+
+	<screenshot>
+		<screeninfo
+>Параметр пользовательского меню</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_10.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Параметр меню пользователя</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Ниже приведён пример запуска внешней программы:</para>
+
+	<screenshot>
+		<screeninfo
+>Пример параметра</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Пример параметра</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Как видно, вызывается сценарий <userinput
+>perl</userinput
+>, который должен работать с текущим выделением. Параметр <guilabel
+>Требуется выделенный текст</guilabel
+> включён, чтобы гарантировать наличие выделения. Вывод этого сценария будет вставлен (<guilabel
+>Вставлять вывод выбранной программы</guilabel
+>) и заменит текущее выделение (<guilabel
+>Заменять выделенный текст</guilabel
+>), но сам выделен не будет.</para>
+
+<para
+>Разумеется, можно также вызывать собственные программы или сценарии. Например, выделите список чисел, разделённых пробелами, и вызовите сценарий или программу на Perl, которая преобразует это выделение в код &latex; для матрицы. Любые идеи можно реализовать с помощью следующего пункта меню пользователя.</para>
+
+	<screenshot>
+		<screeninfo
+>Пример параметра 2</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Пример параметра 2</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_files">
+<title
+>Файлы определения меню</title>
+
+<para
+>Для разных задач можно устанавливать разные меню во время работы. При вызове мастера меню пользователя загружается текущий файл определения меню. Если изменить его и закрыть диалоговое окно кнопкой <guibutton
+>ОК</guibutton
+>, изменения будут сохранены и установлены как новое меню пользователя. При закрытии диалогового окна кнопкой <guibutton
+>Отмена</guibutton
+> все изменения будут отброшены.</para>
+
+	<screenshot>
+		<screeninfo
+>Файлы определения меню</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_12.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Файлы определения меню</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+
+<para
+>Изменённый файл можно также сохранить в каталоге меню пользователя или загрузить другой файл определения меню и установить его. Все файлы определения меню должны быть сохранены в локальном каталоге меню пользователя &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>.</para>
+
+<para
+>Чтобы увидеть другие пункты меню с их параметрами, обратитесь к примеру файла определения меню <userinput
+>example.xml</userinput
+>.</para>
+
+</sect1>
+
+</chapter>

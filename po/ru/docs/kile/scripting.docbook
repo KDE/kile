@@ -1,0 +1,4258 @@
+<chapter id="id_scripting">
+<title
+>Поддержка сценариев</title>
+
+<sect1 id="id_scripting_kile">
+<title
+>Поддержка сценариев в &kile;</title>
+
+<para
+>Средство создания сценариев в &kile; позволяет выполнять код <ulink url="http://en.wikipedia.org/wiki/ECMAScript"
+>ECMAScript</ulink
+>, широко известный как &javascript;. Имеется множество руководств с описанием объектов (переменных), функций и свойств, поддерживаемых &javascript;.</para>
+
+<para
+>Поддержка сценариев включается в диалоговом окне настройки &kile;: <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Сценарии</guilabel
+></menuchoice
+>. <screenshot>
+	<screeninfo
+>Включение или отключение поддержки сценариев</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-support.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Включение или отключение поддержки сценариев</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Если сценарии включены, в боковой панели показывается дополнительная панель сценариев, где можно управлять сценариями: <screenshot>
+	<screeninfo
+>Панель сценариев в боковой панели</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-panel.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Панель сценариев в боковой панели</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Этот виджет содержит шесть значков, которые позволяют выполнять различные задачи: <itemizedlist>
+<listitem
+><para
+>Выполняет выбранный сценарий.</para
+></listitem>
+<listitem
+><para
+>Создаёт новый сценарий.</para
+></listitem>
+<listitem
+><para
+>Открывает выбранный сценарий в редакторе.</para
+></listitem>
+<listitem
+><para
+>Назначает выбранному сценарию последовательность клавиш.</para
+></listitem>
+<listitem
+><para
+>Удаляет назначенную последовательность клавиш.</para
+></listitem>
+<listitem
+><para
+>Обновляет список доступных сценариев, которые находятся в <filename
+>$<envar
+>KDEDIR</envar
+>/share/apps/kile/scripts/</filename
+>.</para
+></listitem>
+</itemizedlist>
+</para>
+
+</sect1>
+
+<sect1 id="id_execute_script">
+<title
+>Выполнение сценария</title>
+
+<para
+>Сценарий можно выполнить тремя способами:</para>
+
+<procedure>
+<step
+><para
+>Выберите нужный сценарий и нажмите кнопку <guilabel
+>Выполнить</guilabel
+> в левой части виджета управления сценариями.</para>
+<screenshot>
+	<screeninfo
+>Сценарии: кнопка выполнения</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-execbutton.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Сценарии: кнопка выполнения</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>Комбинацией клавиш.</para>
+<screenshot>
+	<screeninfo
+>Сценарии: комбинация клавиш</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-shortcut.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Сценарии: комбинация клавиш</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Назначить сценарию комбинацию клавиш можно кнопкой <guilabel
+>Настроить</guilabel
+> в панели управления сценариями.</para>
+<screenshot>
+	<screeninfo
+>Сценарии: диалоговое окно настройки комбинации клавиш</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-configure.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Сценарии: диалог настройки комбинации клавиш</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>Последовательностью клавиш в редакторе: сценарий выполняется, если ввести в редакторе назначенную последовательность клавиш.</para>
+<screenshot>
+	<screeninfo
+>Сценарии: последовательность клавиш в редакторе</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence1.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Сценарии: последовательность клавиш в редакторе</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Этот метод можно расширить до довольно сложной разновидности автодополнения кода. Предположим, что имеется сценарий, который просто вставляет в текущий документ команду &latex; <userinput
+>\textbf{}</userinput
+>.</para>
+
+<programlisting
+>document.insertText("\\textbf{%C}");
+</programlisting>
+
+<para
+>Если теперь ввести в документе назначенную последовательность <userinput
+>bfx</userinput
+>, она будет удалена и выполнится сценарий: он вставит <userinput
+>\textbf{}</userinput
+> и поставит курсор между фигурными скобками.</para>
+<screenshot>
+	<screeninfo
+>Сценарии: ввод последовательности клавиш в редакторе</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence2.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Сценарии: ввод последовательности клавиш в редакторе</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Какой удобный и мощный способ автодополнения кода.</para>
+</step>
+</procedure>
+
+</sect1>
+
+<sect1 id="id_scripting_api">
+<title
+>Справочник API</title>
+
+<para
+>Представленный здесь программный интерфейс сценариев доступен во всех сценариях. Перед загрузкой содержимого сценария &kile; сначала добавляет в контекст сценариев несколько прототипов и функций. Этот вспомогательный программный интерфейс содержит такие прототипы, как текстовые курсоры и текстовые диапазоны, и находится в папке <filename
+>KILE_APP_DIR/script-plugins/</filename
+>.</para>
+
+<para
+>Сценарии &kile; немного отличаются от сценариев <ulink url="http://kate-editor.org"
+>&kate;</ulink
+>, которые устроены иначе, поскольку их также можно запускать из командной строки. Но все функции API создания сценариев &kate; также доступны в API создания сценариев &kile;, поэтому перенос кода &javascript; из &kate; в &kile; должен быть очень простым. Но поскольку &kile; — очень многофункциональный редактор &latex;, его собственный API создания сценариев предоставляет гораздо больше возможностей, чем API &kate;.</para>
+
+<para
+><emphasis
+>Примечание: </emphasis
+>Описания вызовов API, которые также доступны в сценариях &kate;, взяты из документации &kate;.</para>
+
+
+<sect2 id="id_scripting_api_global">
+<title
+>Глобальные функции</title>
+
+<para
+>В этом разделе перечислены глобальные функции.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void debug(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Выводит <parameter
+>text</parameter
+> в <literal
+>stdout</literal
+> в консоли. Выводимый текст выделяется цветом, чтобы отличать его от прочего отладочного вывода. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_cursor">
+<title
+>Прототип Cursor</title>
+
+<para
+>Так как &kile; — текстовый редактор, весь API сценариев по возможности основан на курсорах и диапазонах. Курсор — это простой кортеж <literal
+>(line, column)</literal
+>, представляющий позицию текста в документе.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor();
+</synopsis
+></term>
+<listitem
+><para
+>Конструктор: возвращает курсор в позиции <literal
+>(0,0)</literal
+>. </para
+><para
+>Пример: <function
+>var cursor = new Cursor();</function
+></para>
+</listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Конструктор: возвращает курсор в позиции (строка, столбец). </para
+><para
+>Пример: <function
+>var cursor = new Cursor(3,42);</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>Cursor <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Конструктор копирования: возвращает копию курсора <parameter
+>other</parameter
+>. </para
+><para
+>Пример: <function
+>var copy = new Cursor(other);</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.clone();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает копию курсора. </para
+><para
+>Пример: <function
+>var clone = cursor.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>Проверяет, допустим ли курсор. Курсор недопустим, если для строки и (или) столбца задано значение <literal
+>-1</literal
+>. </para
+><para
+>Пример: <function
+>var valid = cursor.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает новый недействительный курсор в позиции <literal
+>(-1,-1)</literal
+>. </para
+><para
+>Пример: <function
+>var invalidCursor = cursor.invalid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int Cursor.compareTo(<parameter
+>Cursor <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Сравнивает этот курсор с курсором <parameter
+>other</parameter
+>. Возвращает <itemizedlist>
+<listitem
+><para
+><literal
+>-1</literal
+>, если этот курсор расположен перед курсором <parameter
+>other</parameter
+>,</para
+></listitem>
+<listitem
+><para
+><literal
+>0</literal
+>, если оба курсора равны и</para
+></listitem>
+<listitem
+><para
+><literal
+>+1</literal
+>, если этот курсор расположен после курсора <parameter
+>other</parameter
+>.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.equals(<parameter
+>Cursor <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если этот курсор и курсор <parameter
+>other</parameter
+> равны, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Cursor.toString();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает курсор в виде строки вида <literal
+>Cursor(line,column)</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_range">
+<title
+>Прототип Range</title>
+
+<para
+>Так как &kile; — текстовый редактор, весь API сценариев по возможности основан на курсорах и диапазонах. Поскольку курсор — это простой кортеж <literal
+>(line, column)</literal
+>, представляющий позицию текста в документе, диапазон охватывает текст от начальной позиции курсора до конечной.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range();
+</synopsis
+></term>
+<listitem
+><para
+>Конструктор: вызов <literal
+>new Range()</literal
+> возвращает диапазон <literal
+>(0,0) - (0,0)</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Cursor <replaceable
+>start</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>end</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Конструктор: вызов <literal
+>new Range(<replaceable
+>start</replaceable
+>, <replaceable
+>end</replaceable
+>)</literal
+> возвращает диапазон от курсора <parameter
+>start</parameter
+> до курсора <parameter
+>end</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>int <replaceable
+>startLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>startColumn</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>endLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>endColumn</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Конструктор: вызов <literal
+>new Range(<replaceable
+>startLine</replaceable
+>,<replaceable
+>startColumn</replaceable
+>,<replaceable
+>endLine</replaceable
+>, <replaceable
+>endColumn</replaceable
+>)</literal
+> возвращает диапазон от (<literal
+>startLine</literal
+>, <literal
+>startColumn</literal
+>) до (<literal
+>endLine</literal
+>, <literal
+>endColumn</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Range <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Конструктор копирования: возвращает копию Range <literal
+>other</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range Range.clone();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает копию диапазона. </para
+><para
+>Пример: <function
+>var clone = range.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если курсоры начала и конца допустимы, иначе — <literal
+>false</literal
+>. </para
+><para
+>Пример: <function
+>var valid = range.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает диапазон от (-1,-1) до (-1,-1). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если этот диапазон содержит позицию курсора, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Range <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если этот диапазон содержит диапазон <parameter
+>other</parameter
+>, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsColumn(<parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если <parameter
+>column</parameter
+> находится в полуоткрытом интервале <literal
+>[start.column, end.column]</literal
+>, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если <parameter
+>line</parameter
+> находится в полуоткрытом интервале <literal
+>[start.line, end.line]</literal
+>, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlaps(<parameter
+>Range <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если этот диапазон и диапазон <parameter
+>other</parameter
+> имеют общую область, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если <parameter
+>line</parameter
+> находится в интервале <literal
+>[start.line, end.line]</literal
+>, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsColumn(<parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если <parameter
+>column</parameter
+> находится в интервале <literal
+>[start.column, end.column]</literal
+>, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.equals(<parameter
+>Range <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если этот диапазон и диапазон <parameter
+>other</parameter
+> равны, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Range.toString();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает диапазон в виде строки вида <literal
+>Range(Cursor(line,column) - Cursor(line,column))</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_view">
+<title
+>Программный интерфейс View</title>
+
+<para
+>При выполнении сценария существует глобальный объект (переменная) <userinput
+>view</userinput
+>, представляющий текущее активное представление редактора. Все функции <literal
+>view</literal
+> работают с позициями курсора или выделенным текстом. Ниже приведён список всех доступных функций <userinput
+>view</userinput
+>.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.backspace();
+</synopsis
+></term>
+<listitem
+><para
+>Программно выполняет действие, аналогичное нажатию клавиши Backspace. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.cursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает текущую позицию курсора в области просмотра. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorPosition(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+void view.setCursorPosition(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Устанавливает текущую позицию курсора в <parameter
+>line</parameter
+>, <parameter
+>column</parameter
+> или в заданный <parameter
+>cursor</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorLeft();
+</synopsis
+></term>
+<listitem
+><para
+>Перемещает курсор на одну позицию назад в тексте. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorRight();
+</synopsis
+></term>
+<listitem
+><para
+>Перемещает курсор на одну позицию вперёд в тексте. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorUp();
+</synopsis
+></term>
+<listitem
+><para
+>Перемещает курсор на одну строку вверх в документе. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorDown();
+</synopsis
+></term>
+<listitem
+><para
+>Перемещает курсор на одну строку вниз в документе. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorLine();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает строку, в которой находится курсор. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorColumn();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает столбец, в котором находится курсор. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Устанавливает строку курсора в заданную <parameter
+>line</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorColumn(<parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Устанавливает столбец курсора в заданный <parameter
+>column</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.virtualCursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает текущую <emphasis
+>виртуальную</emphasis
+> позицию курсора. <emphasis
+>Виртуальная</emphasis
+> означает, что символ табуляции (TAB) считается за <emphasis
+>несколько</emphasis
+> символов, как задано пользователем (например, один TAB — 8 пробелов). Виртуальная позиция курсора предоставляет доступ к видимым пользователю значениям текущей позиции курсора. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool view.hasSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если в представлении есть выделенный текст, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String view.selectedText();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает выделенный текст. Если текст не выделен, возвращаемая строка пуста. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range view.selectionRange();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает диапазон выделенного текста. Если текст не выделен, возвращаемый диапазон недействителен. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setSelection(<parameter
+>Range <replaceable
+>range</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Устанавливает выделенный текст в заданный <parameter
+>range</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectAll();
+</synopsis
+></term>
+<listitem
+><para
+>Выделяет весь текст в документе. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.clearSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Снимает выделение с текста, не удаляя сам текст. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.removeSelectedText();
+</synopsis
+></term>
+<listitem
+><para
+>Удаляет выделенный текст. Если в представлении нет выделенного текста, ничего не происходит. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine();
+</synopsis
+></term>
+<listitem
+><para
+>Выделяет текст в текущей строке. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Выделяет текст в заданной <parameter
+>line</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLines(<parameter
+>int <replaceable
+>from</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>to</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Выделяет весь текст от строки <parameter
+>from</parameter
+> до строки <parameter
+>to</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectWord();
+</synopsis
+></term>
+<listitem
+><para
+>Выделяет текущее слово. Если в текущей позиции курсора слово не найдено, ничего не происходит. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLatexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>Выделяет текущую команду &latex;. Если в текущей позиции курсора команда не найдена, ничего не выполняется. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectEnvironment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Выделяет весь текст текущего окружения &latex;. Если <parameter
+>inside</parameter
+> имеет значение <literal
+>false</literal
+>, выделяется текст окружения вместе с окружающими тегами &latex; <userinput
+>\begin{...}...\end{...}</userinput
+>, иначе — без этих тегов. Если параметр не задан, <parameter
+>inside</parameter
+> устанавливается в <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectTexgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Выделяет текст текущей группы &latex;. Если <parameter
+>inside</parameter
+> имеет значение <literal
+>true</literal
+>, выделяется только texgroup без окружающих фигурных скобок. Если параметр не задан, <parameter
+>inside</parameter
+> устанавливается в <literal
+>true</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Выделяет текст текущей математической группы. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectParagraph(bool wholeLines = true);
+</synopsis
+></term>
+<listitem
+><para
+>Выделяет весь текст текущего абзаца &latex;. Если <parameter
+>wholeLines</parameter
+> имеет значение <literal
+>true</literal
+>, первая и последняя строки абзаца будут включены в выделение целиком (включая символ конца строки); иначе выделение будет содержать только непробельные символы. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_document">
+<title
+>Программный интерфейс Document</title>
+
+<para
+>При выполнении сценария существует глобальный объект (переменная) <userinput
+>document</userinput
+>, представляющий текущий активный документ. Ниже приведён список всех доступных функций <userinput
+>document</userinput
+>.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет <parameter
+>text</parameter
+> в текущую позицию курсора. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+void document.insertText(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет <parameter
+>text</parameter
+> в заданной позиции курсора. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeText(<parameter
+>int <replaceable
+>fromLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>fromColumn</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>toLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>toColumn</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Cursor <replaceable
+>from</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>to</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Range <replaceable
+>range</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Удаляет текст в заданном диапазоне. Возвращает <literal
+>true</literal
+> при успешном выполнении или <literal
+>false</literal
+>, если документ открыт только для чтения. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceText(<parameter
+>Range <replaceable
+>range</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Заменяет текст заданного диапазона указанным текстом. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lines();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает число строк в документе. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.length();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает число символов в документе. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.documentRange();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает диапазон, охватывающий весь документ. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor document.documentEnd();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает текущую позицию курсора в конце документа. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает всё содержимое документа в виде одной текстовой строки. Переводы строк помечаются символом новой строки <literal
+>\n</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text(<parameter
+>int <replaceable
+>fromLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>fromColumn</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>toLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>toColumn</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Cursor <replaceable
+>from</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>to</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Range <replaceable
+>range</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает текст в заданном диапазоне. Для лучшей читаемости исходного кода рекомендуется использовать версию, основанную на курсоре и диапазоне. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.setText(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Задаёт весь текст документа. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.clear();
+</synopsis
+></term>
+<listitem
+><para
+>Удаляет весь текст в документе. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает текущую строку текста в виде строки. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает заданную строку текста в виде строки. Если запрошенная строка вне диапазона, возвращаемая строка пуста. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает длину текущей строки. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает длину строки <parameter
+>line</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>String <replaceable
+>s</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет текст в текущую строку. Возвращает <literal
+>true</literal
+> при успешном выполнении или <literal
+>false</literal
+>, если документ открыт только для чтения или строка вне диапазона документа. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>s</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет текст в заданную строку. Возвращает <literal
+>true</literal
+> при успешном выполнении или <literal
+>false</literal
+>, если документ открыт только для чтения или строка не входит в диапазон документа. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine();
+</synopsis
+></term>
+<listitem
+><para
+>Удаляет текущую строку текста. Возвращает <literal
+>true</literal
+> при успешном выполнении или <literal
+>false</literal
+>, если документ открыт только для чтения. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Удаляет заданную строку текста. Возвращает <literal
+>true</literal
+> при успешном выполнении или <literal
+>false</literal
+>, если документ открыт только для чтения или строка не входит в диапазон документа. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Заменяет текст текущей строки указанным текстом. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Заменяет текст заданной строки указанным текстом. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncateLine();
+</synopsis
+></term>
+<listitem
+><para
+>Обрезает текущую строку по заданному столбцу или позиции курсора. Возвращает <literal
+>true</literal
+> при успешном выполнении или <literal
+>false</literal
+>, если заданная строка вне диапазона документа. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncate(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+bool document.truncate(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Обрезает заданную строку по заданному столбцу или позиции курсора. Возвращает <literal
+>true</literal
+> при успешном выполнении или <literal
+>false</literal
+>, если заданная строка не входит в диапазон документа. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.word();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает слово в текущей позиции курсора. Если в текущей позиции курсора слово не найдено, возвращаемая строка пуста. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.wordAt(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+String document.wordAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает слово в заданной позиции курсора. Если в этой позиции курсора слово не найдено, возвращаемая строка пуста. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.wordRange();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает диапазон слова в заданной позиции курсора. Если слово не найдено, возвращается <literal
+>Range.invalid()</literal
+>, что можно проверить с помощью <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает команду &latex; в текущей позиции курсора. Если в текущей позиции курсора команда не найдена, возвращаемая строка пуста. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommandAt(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+String document.latexCommandAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает команду &latex; в заданной позиции курсора. Если в этой позиции курсора команда не найдена, возвращаемая строка пуста. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.latexCommandRange();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает диапазон команды &latex; в указанной позиции курсора. Если команда &latex; не найдена, возвращается <literal
+>Range.invalid()</literal
+>, что можно проверить с помощью <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.charAt(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+String document.charAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает символ в указанной позиции курсора. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.firstChar(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает первый символ в заданной <parameter
+>line</parameter
+>, не являющийся пробельным. Первый символ находится в столбце 0. Если строка пуста или содержит только пробельные символы, возвращаемая строка пуста. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.lastChar(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает последний непробельный символ в заданной <parameter
+>line</parameter
+>. Если строка пуста или состоит только из пробельных символов, возвращается пустая строка. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.isSpace(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+bool document.isSpace(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если символ в заданной позиции курсора является пробельным, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет <emphasis
+>маркер</emphasis
+> &kile;. Напомним, что к следующему и предыдущему маркеру легко перейти; маркер при этом выделяется и автоматически удаляется при вводе первой буквы. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.nextBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Переходит к следующему маркеру в тексте, если он есть. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.previousBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Переходит к предыдущему маркеру в тексте, если он есть. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если найдено охватывающее окружение &latex;, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает весь текст окружающего окружения &latex;. Если <parameter
+>inside</parameter
+> имеет значение <literal
+>false</literal
+>, возвращается текст окружения вместе с обрамляющими тегами &latex; <userinput
+>\begin{...}...\end{...}</userinput
+>, иначе — без этих тегов. Если параметр не задан, <parameter
+>inside</parameter
+> устанавливается в <literal
+>false</literal
+>. Если окружение не найдено, возвращаемая строка пуста. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.environmentRange(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает диапазон охватывающего окружения &latex;. Если <parameter
+>inside</parameter
+> имеет значение <literal
+>false</literal
+>, возвращается диапазон, включающий охватывающие теги &latex; <userinput
+>\begin{...}...\end{...}</userinput
+>, иначе — без этих тегов. Если параметр не задан, <parameter
+>inside</parameter
+> устанавливается в <literal
+>false</literal
+>. Если окружение не найдено, возвращается <literal
+>Range.invalid()</literal
+>, что можно проверить с помощью <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environmentName();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает имя охватывающего окружения &latex; или пустую строку. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeEnvironment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Удаляет текст окружающего окружения &latex;. Если <parameter
+>inside</parameter
+> имеет значение <literal
+>false</literal
+>, текст окружения удаляется вместе с окружающими тегами &latex; <userinput
+>\begin{...}...\end{...}</userinput
+>, иначе — без этих тегов. Если параметр не указан, <parameter
+>inside</parameter
+> устанавливается в <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет закрывающую тег окружения, если в текущей позиции курсора найдено открытое окружение &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeAllEnvironments();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет закрывающие теги окружений для всех открытых окружений &latex;, найденных в текущей позиции курсора. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если в текущей позиции курсора найдена охватывающая группа &latex;, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.texgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает текст окружающей группы &latex;. Если <parameter
+>inside</parameter
+> имеет значение <literal
+>false</literal
+>, возвращается текст этой группы &latex; вместе с обрамляющими фигурными скобками <userinput
+>{...}</userinput
+>, иначе — без них. Если параметр не задан, <parameter
+>inside</parameter
+> устанавливается в <literal
+>false</literal
+>. Если в текущей позиции курсора не найдена окружающая группа &latex;, возвращаемая строка пуста. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.texgroupRange(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает диапазон окружающей группы &latex;. Если <parameter
+>inside</parameter
+> имеет значение <literal
+>false</literal
+>, возвращается диапазон вместе с обрамляющими фигурными скобками <userinput
+>{...}</userinput
+>, иначе — без них. Если параметр не задан, <parameter
+>inside</parameter
+> устанавливается в <literal
+>false</literal
+>. Если группа не найдена, возвращается <literal
+>Range.invalid()</literal
+>, что можно проверить с помощью <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeTexgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Удаляет текст окружающей группы &latex;. Если <parameter
+>inside</parameter
+> имеет значение <literal
+>false</literal
+>, текст этой группы &latex; удаляется вместе с обрамляющими фигурными скобками <userinput
+>{...}</userinput
+>, иначе — без них. Если параметр не задан, <parameter
+>inside</parameter
+> устанавливается в <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если в текущей позиции курсора найдена охватывающая математическая группа &latex;, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.mathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает текст охватывающей математической группы &latex;. Возвращаемая строка пуста, если в текущей позиции курсора охватывающая математическая группа &latex; не найдена. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.mathgroupRange();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает диапазон охватывающей математической группы &latex;. Если охватывающая математическая группа не найдена, возвращается <literal
+>Range.invalid()</literal
+>, что можно проверить с помощью <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Удаляет текст охватывающей математической группы &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.paragraph();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает текст текущего абзаца &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.paragraphRange();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает диапазон охватывающего абзаца &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Удаляет текст текущего абзаца &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.matchesAt(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+bool document.matchesAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если заданный <parameter
+>text</parameter
+> совпадает в соответствующей позиции курсора, иначе — <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.startsWith(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>pattern</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>skipWhiteSpaces = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если строка начинается с <parameter
+>pattern</parameter
+>, иначе — <literal
+>false</literal
+>. Аргумент <parameter
+>skipWhiteSpaces</parameter
+> определяет, игнорируются ли начальные пробельные символы. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.endsWith(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>pattern</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>skipWhiteSpaces = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает <literal
+>true</literal
+>, если строка заканчивается на <parameter
+>pattern</parameter
+>, иначе — <literal
+>false</literal
+>. Аргумент <parameter
+>skipWhiteSpaces</parameter
+> определяет, игнорируются ли завершающие пробельные символы. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.firstColumn(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает первый непробельный столбец в заданной <parameter
+>line</parameter
+>. Если строка содержит только пробельные символы, возвращается значение <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lastColumn(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает номер последнего непробельного столбца в заданной <parameter
+>line</parameter
+>. Если строка состоит только из пробельных символов, возвращается значение <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonSpaceColumn(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+int document.prevNonSpaceColumn(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает столбец с непробельным символом при поиске в обратном направлении, начиная с заданной позиции курсора. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonSpaceColumn(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+int document.nextNonSpaceColumn(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает столбец, содержащий непробельный символ, при поиске вперёд начиная с заданной позиции курсора. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonEmptyLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает следующую непустую строку, содержащую непробельные символы, при поиске в обратном направлении. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonEmptyLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает следующую непустую строку, содержащую непробельные символы, при поиске вперёд. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginEnv();
+</synopsis
+></term>
+<listitem
+><para
+>Переходит к началу охватывающего окружения &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndEnv();
+</synopsis
+></term>
+<listitem
+><para
+>Переходит в конец охватывающего окружения &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Переходит к началу охватывающей группы &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Переходит в конец охватывающей группы &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Переходит к следующему абзацу &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Переходит к предыдущему абзацу &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>Переходит к следующему разделу &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>Переходит к предыдущему разделу &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Переходит к заданной строке <literal
+>line</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertChapter();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет команду <userinput
+>\chapter</userinput
+> (см. также <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSection();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет команду <userinput
+>\section</userinput
+>. Как и при выборе пункта меню <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Разбиение</guisubmenu
+><guimenuitem
+>Раздел</guimenuitem
+></menuchoice
+>, появится диалоговое окно, позволяющее выбрать заголовок и необязательную метку для этой команды раздела. <screenshot>
+	<screeninfo
+>Диалоговое окно: команда вставки главы</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertsection.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Диалоговое окно: команда вставки главы</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsection();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет команду <userinput
+>\subsection</userinput
+> (см. также <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsubsection();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет команду <userinput
+>\subsubsection</userinput
+> (см. также <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет команду <userinput
+>\paragraph</userinput
+> (см. также <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubparagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет команду <userinput
+>\subparagraph</userinput
+> (см. также <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertLabel();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет команду <userinput
+>\label</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertReference();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет команду <userinput
+>\ref</userinput
+>. Как и при выборе пункта меню <menuchoice
+><guimenu
+>&latex;</guimenu
+><guisubmenu
+>Ссылки</guisubmenu
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+>, появится диалоговое окно, в котором можно выбрать одну из уже определённых меток, перечисленных в раскрывающемся списке. <screenshot>
+	<screeninfo
+>Диалоговое окно: вставка команды ссылки</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertreference.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Диалоговое окно: вставка команды ссылки</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertPageref();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет команду <userinput
+>\pageref</userinput
+> (см. также <literal
+>document.insertReference()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertCitation();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет команду <userinput
+>\cite</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIndex();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет команду <userinput
+>\index</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertFootnote();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет команду <userinput
+>\footnote</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.comment();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет маркеры комментария, чтобы превратить выделенный фрагмент или текущую строку в комментарий. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uncomment();
+</synopsis
+></term>
+<listitem
+><para
+>Удаляет маркеры комментариев из выделенного фрагмента или текущей строки. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uppercase();
+</synopsis
+></term>
+<listitem
+><para
+>Переводит выделенный текст или символ после курсора в верхний регистр. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.lowercase();
+</synopsis
+></term>
+<listitem
+><para
+>Переводит выделенный текст или букву после курсора в нижний регистр. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.capitalize();
+</synopsis
+></term>
+<listitem
+><para
+>Делает первую букву выделенного текста или текущего слова заглавной. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.joinLines();
+</synopsis
+></term>
+<listitem
+><para
+>Объединяет строки текущего выделенного фрагмента. Две идущие подряд текстовые строки всегда разделяются одним пробелом. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentNewline();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет «умный» перенос строки (см. <xref linkend="editing_smartnewline" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentTabulator();
+</synopsis
+></term>
+<listitem
+><para
+>Вставляет умную табуляцию (см. <xref linkend="editing_tabulator" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editBegin();
+</synopsis
+></term>
+<listitem
+><para
+>Начинает группу правок для группировки отмены и повтора. Следует всегда вызывать <function
+>editEnd()</function
+> столько же раз, сколько и <function
+>editBegin()</function
+>. При вызове <function
+>editBegin()</function
+> внутренне используется счётчик ссылок, то есть вызов может быть вложенным. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editEnd();
+</synopsis
+></term>
+<listitem
+><para
+>Завершает группу правок. Последний вызов <function
+>editEnd()</function
+> (то есть соответствующий первому вызову <function
+>editBegin()</function
+>) завершает шаг правки. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.labelList();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает все определённые метки в виде <literal
+>StringList</literal
+>, который можно использовать в &javascript; как массив строк. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.bibitemList();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает все определённые bibitem в виде <literal
+>StringList</literal
+>, который можно использовать в &javascript; как массив строк. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.refreshStructure();
+</synopsis
+></term>
+<listitem
+><para
+>Обновляет представление структуры (см. <xref linkend="navigating" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_kile">
+<title
+>API &kile;</title>
+
+<para
+>Глобальный объект (переменная) <userinput
+>kile</userinput
+> используется для обработки взаимодействий верхнего уровня с внешним миром, а также интерфейсов ввода сообщений и диалоговых окон. Эти вызовы API разделены на подобъекты, структурирующие эту часть API сценариев. По сути <userinput
+>kile</userinput
+> немного похож на <userinput
+>window</userinput
+> в API браузера. <itemizedlist>
+<listitem
+><para
+><literal
+>kile.alert</literal
+>: &nbsp; окна сообщений</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.input</literal
+>: &nbsp; ввод данных пользователем</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.wizard</literal
+>: &nbsp; вызов мастеров &kile;</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.script</literal
+>: &nbsp; сведения о выполняемом сценарии</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.file</literal
+>: &nbsp; операции с файлами, такие как чтение и запись.</para
+></listitem>
+</itemizedlist>
+</para>
+
+
+<sect3 id="id_scripting_api_kile_alert">
+<title
+>Сообщения</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.information(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Показывает диалоговое окно <emphasis
+>Информация</emphasis
+>. <parameter
+>text</parameter
+> — строка сообщения, а <parameter
+>caption</parameter
+> — заголовок окна сообщения. По умолчанию заголовком служит имя сценария. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.sorry(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Показывает диалоговое окно <emphasis
+>Sorry</emphasis
+>. <parameter
+>text</parameter
+> — строка сообщения, а <parameter
+>caption</parameter
+> — заголовок окна сообщения. По умолчанию заголовок — имя сценария. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.error(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Показывает диалоговое окно <emphasis
+>ошибки</emphasis
+>. <parameter
+>text</parameter
+> — строка сообщения, а <parameter
+>caption</parameter
+> — заголовок окна сообщения. По умолчанию заголовок — имя сценария. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.question(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Показывает простое диалоговое окно с <emphasis
+>вопросом</emphasis
+>. <parameter
+>text</parameter
+> — строка сообщения, а <parameter
+>caption</parameter
+> — заголовок окна сообщения. По умолчанию заголовок — имя сценария. Возвращаемая строка — <literal
+>yes</literal
+> или <literal
+>no</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.warning(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Показывает простое диалоговое окно <emphasis
+>предупреждения</emphasis
+>. <parameter
+>text</parameter
+> — текст сообщения, а <parameter
+>caption</parameter
+> — заголовок окна сообщения. По умолчанию заголовок — имя сценария. Возвращаемая строка — <literal
+>continue</literal
+> или <literal
+>cancel</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_input">
+<title
+>Ввод</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getListboxItem(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>list</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Функция, позволяющая пользователю выбрать элемент из списка, который показывается в виде списка. <parameter
+>caption</parameter
+> — текст, выводимый в заголовке окна, <parameter
+>label</parameter
+> — текст, который показывается в качестве метки списка, а <parameter
+>list</parameter
+> — список строк, вставляемый в список. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getComboboxItem(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>list</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Функция позволяет пользователю выбрать элемент из списка, который показывается в виде раскрывающегося списка. <parameter
+>caption</parameter
+> — текст, показываемый в заголовке окна, <parameter
+>label</parameter
+> — текст, который показывается в качестве метки списка, а <parameter
+>list</parameter
+> — список строк, вставляемый в список. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getText(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Функция получения строки от пользователя. <parameter
+>caption</parameter
+> — текст, который показывается в заголовке окна, а <parameter
+>label</parameter
+> — текст, который выводится как надпись для поля ввода. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getLatexCommand(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Функция получения команды &latex; от пользователя. Это означает, что допускаются только строчные и прописные буквы. <parameter
+>caption</parameter
+> — текст, показываемый в заголовке окна, а <parameter
+>label</parameter
+> — текст, который показывается как метка для поля ввода. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getInteger(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = INT_MIN</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = INT_MAX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Функция для получения целого числа от пользователя. <parameter
+>caption</parameter
+> — текст, показываемый в заголовке окна. <parameter
+>label</parameter
+> — текст, показываемый в качестве метки счётчика. <parameter
+>min</parameter
+> и <parameter
+>max</parameter
+> — минимальное и максимальное допустимые значения, которые можно выбрать. Значения по умолчанию — <literal
+>INT_MIN</literal
+> и <literal
+>INT_MAX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getPosInteger(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = 1</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = INT_MAX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Функция для получения от пользователя положительного целого числа. <parameter
+>caption</parameter
+> — текст, показываемый в строке заголовка. <parameter
+>label</parameter
+> — текст, показываемый в качестве надписи счётчика. <parameter
+>min</parameter
+> и <parameter
+>max</parameter
+> — минимальное и максимальное допустимые значения, доступные для выбора. Значения по умолчанию — <literal
+>1</literal
+> и <literal
+>INT_MAX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_wizard">
+<title
+>Мастер</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabular();
+</synopsis
+></term>
+<listitem
+><para
+>Вызывает <emphasis
+>мастер таблиц</emphasis
+>, который помогает создать табличное окружение (см. <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.array();
+</synopsis
+></term>
+<listitem
+><para
+>Вызывает <emphasis
+>мастер массивов</emphasis
+>, который помогает создать окружение массива (см. <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabbing();
+</synopsis
+></term>
+<listitem
+><para
+>Вызывает <emphasis
+>мастер табуляции</emphasis
+>, который помогает создать окружение tabbing (см. <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.floatEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Вызывает <emphasis
+>мастер плавающих объектов</emphasis
+>, который помогает вставлять плавающие объекты (см. <xref linkend="wizard_float" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.mathEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Вызывает <emphasis
+>мастер формул</emphasis
+>, который помогает вставить математические окружения (см. <xref linkend="wizard_math" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.postscript();
+</synopsis
+></term>
+<listitem
+><para
+>Вызывает <emphasis
+>мастер инструментов Postscript</emphasis
+>, который помогает обрабатывать или переставлять документы Postscript (см. <xref linkend="wizard_postscript" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_script">
+<title
+>Сценарий</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.name();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает базовое имя выполняемого сценария (без пути и расширения). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.caption();
+</synopsis
+></term>
+<listitem
+><para
+>Возвращает строку, которую можно использовать в качестве заголовка окон предупреждений. Она имеет вид <userinput
+>Script: scriptname.js</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_file">
+<title
+>Файл</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read(<parameter
+>String <replaceable
+>filename</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Читает содержимое текстового файла. Используется так: </para
+><para
+>Пример: <function
+>var res = kile.file.read("path/to/file.txt");</function
+> </para
+><para
+>Возвращаемое значение <userinput
+>res</userinput
+> — объект (точнее, отображение) с тремя свойствами: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>status:</guilabel
+>&nbsp; Возвращает код состояния операции, который может быть 0 (нет ошибки), 1 (ошибка доступа) или 2 (доступ запрещён). Если ошибки не произошло, значение <userinput
+>res.status</userinput
+> или <userinput
+>res["status"]</userinput
+> будет равно 0.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>result:</guilabel
+>&nbsp; Содержит текст заданного файла.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>message:</guilabel
+>&nbsp; Содержит сообщение об ошибке, если она произошла.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read();
+</synopsis
+></term>
+<listitem
+><para
+>То же, что и <literal
+>read(filename)</literal
+>, но имя файла не задано. Появится диалоговое окно для выбора файла для чтения. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>filename</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Записывает заданный текст в файл. Используется так: </para
+><para
+>Пример: <function
+>var res = kile.file.write("path/to/file.txt","Some text...");</function
+> </para
+><para
+>Возвращаемое значение <userinput
+>res</userinput
+> — объект (точнее, отображение) с двумя свойствами: <literal
+>status</literal
+> и <literal
+>message</literal
+> (подробнее см. <literal
+>read()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>То же, что и <literal
+>write(filename,text)</literal
+>, но имя файла не указано. Появится диалоговое окно для выбора имени файла. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.file.getOpenFileName(<parameter
+>String <replaceable
+>startDir</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>filter</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Создаёт модальное диалоговое окно выбора файла и возвращает имя выбранного файла или пустую строку, если ничего не выбрано. Следует учитывать, что при использовании этого метода можно выбрать только существующее имя файла. </para
+><para
+>Параметры: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>startDir:</guilabel
+>&nbsp; Начальный каталог диалогового окна открытия файла.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>filter:</guilabel
+>&nbsp; Шаблон подстановки оболочки или фильтр по типу MIME, определяющий, какие файлы показывать. Дополнительные сведения об этом параметре см. в документации KFileDialog.</para
+></listitem>
+</itemizedlist>
+</para
+><para
+>Оба параметра необязательны. Если опустить <literal
+>filter</literal
+>, будут показаны все файлы. Если к тому же опустить <literal
+>startDir</literal
+>, диалоговое окно в качестве начального каталога возьмёт каталог текущего документа. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.file.getSaveFileName(<parameter
+>String <replaceable
+>startDir</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>filter</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Создаёт модальное диалоговое окно выбора файла и возвращает имя выбранного файла или пустую строку, если ничего не выбрано. Следует учесть, что при использовании этого метода выбирать существующий файл не требуется. Описание параметров приведено в <literal
+>getOpenFileName()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect3>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_scripting_examples">
+<title
+>Примеры</title>
+
+<para
+>Разобраться в использовании API сценариев помогут примеры. Эти и другие примеры находятся в каталоге сценариев &kile;: <filename
+>KILE_APP_DIR/scripts/</filename
+>. Каждый сценарий содержит краткое описание.</para>
+
+<sect2 id="id_scripting_example1">
+<title
+>Пример 1: замена имени окружения</title>
+
+<para
+>Заменяет окружающее окружение &latex; на другое, при этом относительная позиция курсора не изменяется. Например, <userinput
+>\begin{abc}...\end{abc}</userinput
+> можно заменить на <userinput
+>\begin{xyz}...\end{xyz}</userinput
+>.</para>
+
+<programlisting
+>var range = document.environmentRange(false);
+if ( range.isValid() ) {
+        var envname = kile.input.getLatexCommand("Ввод окружения","Имя нового окружения:");
+        if ( envname != '' ) {
+                replaceEnvCommand(envname,range);
+        }
+}
+else {
+        kile.alert.sorry("Окружающее окружение LaTeX не найдено.");
+}
+
+function replaceEnvCommand(newEnv,r)
+{
+        var c = view.cursorPosition();
+
+        var envname = document.environmentName();
+
+        if ( envname != "" ) {
+                var beginRange = new Range(r.start,new Cursor(r.start.line,r.start.column+8+envname.length));
+                var endRange = new Range(new Cursor(r.end.line,r.end.column-6-envname.length),r.end);
+
+                document.editBegin();
+                document.replaceText(endRange,"\\end{"+newEnv+"}");
+                document.replaceText(beginRange,"\\begin{"+newEnv+"}");
+                document.editEnd();
+        }
+}
+</programlisting>
+</sect2>
+
+<sect2 id="id_scripting_example2">
+<title
+>Пример 2: замена команды шрифта &latex;</title>
+
+<para
+>Заменяет окружающую команду шрифта &latex; на другую команду шрифта, если курсор находится внутри группы tex. Относительная позиция курсора не изменяется. Например, <userinput
+>\textbf{abc}</userinput
+> можно заменить на <userinput
+>\textit{abc}</userinput
+>.</para>
+
+<programlisting
+>var fontCommands = new Array("\\textbf","\\textit","\\textsl","\\texttt",
+                             "\\textsc","\\textrm","\\textsf","\\emph");
+
+var range = document.texgroupRange(false);
+if ( range.isValid() ) {
+        replaceFontCommand(range);
+}
+else {
+        kile.alert.sorry("Окружающая группа TeX не найдена.");
+}
+
+function replaceFontCommand(r)
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.setCursorPosition(r.start);
+        var cmd = document.latexCommand();
+        var index = fontCommands.indexOf(cmd);
+        if ( index 
+>= 0 ) {
+                var cmdRange = document.latexCommandRange();
+                if ( cmdRange.isValid() ) {
+                        var newcommand = kile.input.getListboxItem("Выбор",
+                                                    "Выбор команды шрифта:",buildCmdList(cmd));
+                        if ( newcommand != "" ) {
+                                document.replaceText(cmdRange,newcommand);
+                                c.column = c.column - (cmd.length - newcommand.length);
+                        }
+                }
+/                view.setCursorPosition(c);
+        }
+        else {
+                kile.alert.sorry("Окружающая команда шрифта не найдена.");
+        }
+        document.editEnd();
+}
+
+function buildCmdList(current)
+{
+        var result = new Array();
+        for ( i=0; i&lt;fontCommands.length; ++i ) {
+                if ( fontCommands[i] != current ) {
+                        result.push(fontCommands[i]);
+                }
+        }
+        return result;
+}
+</programlisting>
+
+</sect2>
+
+<sect2 id="id_scripting_example3">
+<title
+>Пример 3: охватывание выделенного текста</title>
+
+<para
+>Окружает выделенный текст командой TeX, при этом относительная позиция курсора не изменяется. Например, <userinput
+>abc</userinput
+> можно преобразовать в <userinput
+>\texcommand{abc}</userinput
+>.</para>
+
+<programlisting
+>var range = view.selectionRange();
+
+if ( range.isValid() ) {
+        var cmd = kile.input.getLatexCommand("Выбрать","Выберите охватывающую команду LaTeX:");
+        if ( cmd != "" ) {
+                surroundTexCommand("\\"+cmd,range);
+        }
+}
+else {
+        kile.alert.sorry("Выделенный фрагмент не найден.");
+}
+
+function surroundTexCommand(cmd,r)
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.clearSelection();
+        document.insertText(r.end,"}");
+        document.insertText(r.start,cmd+"{");
+
+        c.column = c.column + cmd.length + 2;
+        view.setCursorPosition(c);
+        document.editEnd();
+}
+</programlisting>
+</sect2>
+
+</sect1>
+
+</chapter>

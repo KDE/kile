@@ -1,0 +1,6728 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kile "<application
+>Kile</application
+>">
+  <!ENTITY latex "L<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY pdflatex "PDFL<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY tex "T<subscript
+>E</subscript
+>X">
+  <!ENTITY tetex "<application
+>teT<subscript
+>E</subscript
+>X</application
+>">
+  <!ENTITY texlive "<application
+>TeX Live</application
+>">
+  <!ENTITY bibtex "BibT<subscript
+>E</subscript
+>X">
+  <!ENTITY makeindex "makeindex">
+  <!ENTITY kbibtex "KBibT<subscript
+>E</subscript
+>X">
+  <!ENTITY kbib "KBib">
+  <!ENTITY asymptote "Asymptote">
+  <!ENTITY imagemagick "<application
+>ImageMagick</application
+>">
+  <!ENTITY dvipng "<application
+>dvipng</application
+>">
+  <!ENTITY makeidx "<application
+>makeidx</application
+>">
+  <!ENTITY cjk "<abbrev
+>CJK</abbrev
+>">
+  <!ENTITY ucs "<abbrev
+>ucs</abbrev
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Russian "INCLUDE">
+  <!ENTITY javascript "<application
+>JavaScript</application
+>">
+  <!ENTITY include-section-scripting SYSTEM "scripting.docbook">
+  <!ENTITY include-section-usermenu SYSTEM "usermenu.docbook">
+]>
+
+<book id="kile" lang="&language;">
+
+<bookinfo>
+<title
+>Руководство пользователя &kile;</title>
+
+<authorgroup>
+	<author
+><firstname
+>Jonathan</firstname
+><surname
+>Pechta</surname
+></author>
+	<author
+><firstname
+>Federico</firstname
+><surname
+>Zenith</surname
+> <affiliation
+><address
+><email
+>federico.zenith@member.fsf.org</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Holger</firstname
+><surname
+>Danielsson</surname
+> <affiliation
+><address
+><email
+>holger.danielsson@versanet.de</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Thomas</firstname
+><surname
+>Braun</surname
+></author>
+	<author
+><firstname
+>Michel</firstname
+><surname
+>Ludwig</surname
+> <affiliation
+><address
+><email
+>michel.ludwig@kdemail.net</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Felix</firstname
+><surname
+>Mauch</surname
+> <affiliation
+><address
+><email
+>felix_mauch@web.de</email
+></address
+></affiliation
+></author>
+	<othercredit role="translator"
+><firstname
+>Александр</firstname
+><surname
+>Яворский</surname
+><affiliation
+><address
+><email
+>kekcuha@gmail.com</email
+></address
+></affiliation
+><contrib
+>Перевод на русский</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>Jonathan Pechta</holder>
+</copyright>
+
+<copyright>
+<year
+>2003</year
+><year
+>2005</year
+><year
+>2006</year>
+<holder
+>Federico Zenith</holder>
+</copyright>
+
+<copyright>
+<year
+>2005</year
+><year
+>2006</year
+><year
+>2012</year>
+<holder
+>Holger Danielsson</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>Thomas Braun</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year
+><year
+>2011</year>
+<holder
+>Michel Ludwig</holder>
+</copyright>
+
+<copyright>
+<year
+>2011</year>
+<holder
+>Felix Mauch</holder>
+</copyright>
+
+<date
+>22 мая 2011 г.</date>
+<releaseinfo
+>2.1</releaseinfo>
+
+<legalnotice>
+&FDLNotice;
+</legalnotice>
+
+<abstract>
+<para
+>&kile; — редактор исходного кода и оболочка для &tex; и &latex;. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdenonbeta</keyword>
+<keyword
+>Kile</keyword>
+<keyword
+>LaTeX</keyword>
+<keyword
+>TeX</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="preface">
+
+<title
+>Предисловие</title>
+
+	<sect1 id="preface_sect">
+
+		<title
+>Требования</title>
+
+		<para
+>Для запуска &kile; в системе должны быть установлены следующие компоненты:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><ulink url="http://www.kde.org/"
+>K Desktop environment (&kde;)</ulink
+>: &kde; — популярная среда рабочего стола с открытым исходным кодом.</para
+></listitem>
+			<listitem
+><para
+><ulink url="https://qt.io/"
+>&Qt;</ulink
+>: &Qt; — библиотека C++ для графического интерфейса и работы с сетью, необходимая для сборки &kile;.</para
+></listitem>
+			<listitem
+><para
+><ulink url="http://www.ctan.org/"
+>&latex;</ulink
+>: программа высококачественной вёрстки документов. Скорее всего, потребуется пакет &texlive; (или &tetex; в старых системах), если используется система типа &UNIX;.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Большинство этих компонентов может входить в состав дистрибутива &Linux;; чтобы добавить эти пакеты на компьютер, обратитесь к документации дистрибутива или к установочному &CD; или DVD.</para>
+
+		<para
+>&kile; может также быть доступен в виде готового пакета для вашего дистрибутива &Linux;. Проверьте в менеджере пакетов вашего дистрибутива.</para>
+
+	</sect1>
+
+	<sect1 id="preface_audience">
+
+		<title
+>Целевая аудитория</title>
+
+		<para
+>Это руководство предназначено для любого пользователя, независимо от его опыта работы с &latex;, &kde;, &kile; или &Linux;.</para>
+
+		<para
+>Опытные пользователи вряд ли станут читать это руководство, но все предложения по документации будут рассмотрены. Чтобы внести вклад в этот проект или в документацию, обратитесь к <ulink url="http://kile.sourceforge.net/"
+>веб-странице &kile;</ulink
+>.</para>
+
+		<para
+>Нужны ответы о &kile;? Возникли сложности с компиляцией? Хотите, чтобы появилась новая функция? Предпочтительный способ задать технические вопросы или начать обсуждение — воспользоваться списком рассылки: <email
+>kile-devel@lists.sourceforge.net</email
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="introduction">
+
+	<title
+>Введение</title>
+
+	<sect1 id="intro_about">
+
+		<title
+>Основные сведения</title>
+
+		<sect2>
+
+			<title
+>О программе &kile;</title>
+
+			<para
+>&kile; — интегрированная среда &latex; для рабочего стола &kde;. &kile; позволяет использовать все возможности &latex; в графическом интерфейсе, обеспечивая простой, быстрый и настраиваемый доступ ко всем программам для автодополнения кода, компиляции, постобработки, отладки, преобразования и просмотра; кроме того, предоставляются удобные мастера, справочник по &latex; и мощное средство управления проектами.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&kile; и компонент редактора &kate;</title>
+
+			<para
+>&kile; основан на компоненте редактирования &kate;, то есть многие его возможности редактирования обеспечиваются самим компонентом редактирования &kate;. &kile; расширяет эти возможности средствами для редактирования документов &latex;. Подробнее о компоненте редактирования &kate; и его возможностях см. на <ulink url="http://kate-editor.org"
+>веб-странице &kate;</ulink
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Что такое &latex;?</title>
+
+			<para
+>&latex; — система обработки текста, произошедшая от &tex;, программы, изначально разработанной в 1977 году Donald Knuth, чтобы помочь верстать текст профессионально и получать качество вёрстки, сравнимое с работой профессионального верстальщика. &latex; создал Leslie Lamport, чтобы дать авторам автоматического верстальщика и в особенности облегчить дорогостоящий и кропотливый процесс вёрстки математических формул и выражений, которые в &latex; заключаются в знаки доллара <emphasis
+>не случайно</emphasis
+>. Сегодня текстовые процессоры позволяют любому пользователю выступить в роли верстальщика, но часто нужен документ, который просто хорошо выглядит, без необходимости тратить часы на доведение его до нужного вида. &latex; берёт эту ношу на себя и позволяет сосредоточиться на документе, а не на вёрстке. И да, он <emphasis
+>будет</emphasis
+> хорошо выглядеть!</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Как это произносится и почему так странно пишется?</title>
+
+			<para
+>У пакетов, связанных с &tex;, есть забавная традиция — иметь как можно более странное произношение и вёрстку. Предполагалось, что &tex; происходит от греческого <emphasis
+>τεχ</emphasis
+>, латинскими буквами — <emphasis
+>tech</emphasis
+>. Этому есть множество объяснений, но скорее всего причина в том, что &tex; изначально создавался для технических отчётов, и действительно, главным его достоинством была правильная и простая вёрстка математических формул, которые в ту пору были чрезвычайно дорогим, трудоёмким и изматывающим делом.</para>
+			<para
+>Произношение должно быть следующим: <emphasis
+>T</emphasis
+> — как и следовало ожидать, <emphasis
+>E</emphasis
+> — как в <emphasis
+>get</emphasis
+>, а <emphasis
+>X</emphasis
+> — как в немецком i<emphasis
+>ch</emphasis
+>. Если не знать, как звучит <emphasis
+>ch</emphasis
+>, то это более или менее похоже на звук, который издаёт шипящий кот; знак МФА — /ç/. Многие сообщают о другом произношении <emphasis
+>ach</emphasis
+> (знак МФА /x/), но, по мнению некоторых греков, первый вариант действительно верен. Следует учитывать, что многие произносят &tex; неправильно — как /teks/ или /tek/.</para>
+			<para
+>Наконец, в &latex; первая L<superscript
+>A</superscript
+> произносится как <emphasis
+>lay</emphasis
+>: подразумевается, что хотя необработанный &tex; сложен, даже <emphasis
+>lay</emphasis
+>man (неспециалист) может использовать макросы &latex;. Менее вдохновляющее, но более реалистичное объяснение состоит в том, что это происходит от фамилии Leslie Lamport, создателя &latex;. Теперь вы знаете!</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_latexbasics">
+
+		<title
+>&latex; 101</title>
+
+		<para
+>Система вёрстки &latex; похожа на другие языки разметки, такие как &XML;, применяемый во множестве типов документов (включая тот, который читается сейчас), или &HTML;, используемый для веб-страниц. Общая идея языков разметки состоит в наличии особых ключевых слов, называемых <emphasis
+>тегами</emphasis
+>, которые указывают программе (текстовому процессору, веб-браузеру или компилятору &latex;), как следует интерпретировать текст, заключённый в эти теги. &kile; предлагает ряд таких тегов в меню <guimenu
+>LaTeX</guimenu
+> в строке меню.</para>
+
+		<para
+>Хотя здесь и предпринята попытка дать представление о том, что такое &latex;, этот документ, конечно же, не является исчерпывающим руководством по &latex;. Для углублённого изучения &latex; можно взять специализированную книгу в местной библиотеке.</para>
+
+		<para
+>Как и в любом другом языке разметки, документы &latex; содержат <emphasis
+>преамбулу</emphasis
+>, которая задаёт глобальные свойства, такие как размер бумаги, нумерация страниц, размеры текста на странице, и <emphasis
+>тело</emphasis
+> документа, содержащее текст документа. Преамбула состоит как минимум из команды <userinput
+>\documentclass</userinput
+>. Она предшествует телу документа, которое начинается с команды <userinput
+>\begin{document}</userinput
+> и завершается командой <userinput
+>\end{document}</userinput
+>.</para>
+
+	</sect1>
+
+	<sect1 id="intro_mainfeat">
+
+		<title
+>Основные возможности &kile;</title>
+
+		<sect2 id="intro_docwizard">
+
+			<title
+>Мастер создания документа</title>
+
+			<para
+>Встроенный в &kile; мастер создания документа помогает быстро начать новый документ. При его вызове из строки меню предлагается несколько вариантов создания документа; кроме того, можно сразу задать некоторые его параметры.</para>
+
+			<para
+>Параметры класса:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>Класс документа</guilabel
+>: тип создаваемого документа — article, book, letter, report, scrartcl, scrreprt, scrbook, prosper, beamer или другой, заданный пользователем.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Размер шрифта</guilabel
+>: размер шрифта в пунктах (pt).</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Размер страницы</guilabel
+>: размер или формат листа.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Кодировка</guilabel
+>: как правило, лучше использовать стандартную кодировку системы. Современные системы всё чаще используют UTF-8. По возможности указывайте utf8 или utf8x (именно так они пишутся в документах &latex;). </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Другие параметры</guilabel
+>: дополнительные параметры, например печать, черновик и другие.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Пакеты</para>
+			<para
+>Здесь перечислены некоторые из наиболее распространённых дополнительных пакетов, используемых в &latex;. Чтобы включить пакет, установите флажок.</para>
+
+			<para
+>Параметры документа:</para>
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>Автор</guilabel
+>: имя автора.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Заголовок</guilabel
+>: заголовок документа.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Дата</guilabel
+>: дата.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="intro_templates">
+
+			<title
+>Стандартные шаблоны</title>
+
+			<para
+>Предопределённые шаблоны в &kile;:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>Пустой документ: настоящие энтузиасты начинают с нуля!</para
+></listitem>
+				<listitem
+><para
+>Article: задаёт формат статьи для документа, слишком короткого для разбиения на главы.</para
+></listitem>
+				<listitem
+><para
+>Report: задаёт формат отчёта для документа среднего размера, например, с нумерацией страниц по внешнему краю.</para
+></listitem>
+				<listitem
+><para
+>Book: задаёт формат книги — полноценный вариант, настолько мощный, что используется для написания многих университетских учебников.</para
+></listitem>
+				<listitem
+><para
+>Letter: задаёт формат письма.</para
+></listitem>
+				<listitem
+><para
+>Beamer, HA-Prosper: красивые презентации в PDF со всеми возможностями &latex;.</para
+></listitem>
+				<listitem
+><para
+>Powerdot: Powerdot — преемник пакетов <userinput
+>seminar</userinput
+> и <userinput
+>HA-Prosper</userinput
+>. У него не так много параметров, как у Beamer, но он прост в использовании и позволяет создавать действительно красивые презентации в PDF.</para
+></listitem>
+				<listitem
+><para
+>Scrartcl, Scrbook, Scrreprt, Scrlttr2: классы документов KOMA-Script, специально адаптированные к немецкой типографике. Используйте их при написании текстов на немецком языке.</para
+></listitem>
+				<listitem
+><para
+>Xelatex: изменённый шаблон <userinput
+>Article</userinput
+> для использования с <userinput
+>XeLaTeX</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Обратите внимание, что все эти шаблоны можно настроить в соответствии с требованиями пользователя.</para>
+
+			<para
+>Новичкам не стоит беспокоиться: этот список — лишь краткое описание доступных возможностей, а более подробное описание можно найти в <xref linkend="quickstart" role="select: title pageabbrv"/>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_highlight">
+
+			<title
+>Подсветка синтаксиса</title>
+
+			<para
+>&kile; похож на другие программы для работы с исходным кодом и редактирования и автоматически выделяет команды, параметры и элементы, которые используются (и злоупотребляются). &kile; позволяет легко находить проблемные места: например, если большие участки текста становятся зелёными, скорее всего, где-то не закрыта математическая среда.</para>
+
+		</sect2>
+
+		<sect2 id="intro_autocoml">
+
+			<title
+>Автодополнение окружений</title>
+
+			<para
+>Автодополнение окружений означает, что при создании нового окружения вводом команды <userinput
+>\begin{environment}</userinput
+> &kile; автоматически вставит соответствующую команду <userinput
+>\end{environment}</userinput
+>, а между ними — строку для текста. Разумеется, при желании это можно отключить в <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>Окружения</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_jump">
+
+			<title
+>Переход к элементу структуры</title>
+
+			<para
+>Все документы обычно имеют ту или иную иерархическую структуру. &latex; позволяет разбивать документы на следующую иерархию (part — высший уровень иерархии, subparagraph — низший):</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>\part</para
+></listitem>
+				<listitem
+><para
+>\chapter</para
+></listitem>
+				<listitem
+><para
+>\section</para
+></listitem>
+				<listitem
+><para
+>\subsection</para
+></listitem>
+				<listitem
+><para
+>\subsubsection</para
+></listitem>
+				<listitem
+><para
+>\paragraph</para
+></listitem>
+				<listitem
+><para
+>\subparagraph</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>При просмотре документа в представлении <guilabel
+>Структура</guilabel
+> можно переходить между элементами, щёлкнув по элементу, который требуется просмотреть.</para>
+
+		</sect2>
+
+		<sect2 id="intro_inverse">
+
+			<title
+>Обратный поиск</title>
+
+			<para
+>При создании собственных файлов &latex; обратный поиск может быть очень полезен. После создания файла &DVI; (DeVice Independent File) или PDF-файла можно, удерживая &Shift;, щёлкнуть левой кнопкой мыши в программе просмотра, и &kile; перейдёт к соответствующей строке исходного кода &latex;.</para>
+
+			<para
+>&DVI; — это тип файла, содержащего описание форматированного документа вместе с другой информацией, включая шрифт символов; помимо PDF, это обычный результат работы &tex; или &latex;. Существует ряд утилит для просмотра, преобразования и печати файлов &DVI; в различных системах и на различных устройствах.</para>
+
+		</sect2>
+
+		<sect2 id="intro_forward">
+
+			<title
+>Прямой поиск</title>
+
+			<para
+>При использовании обратного поиска выделение элементов в файле &DVI; или PDF связывается с редактором, поэтому при щелчке по файлу &DVI; или PDF главное окно переходит к соответствующему разделу кода &latex; в редакторе. Прямой поиск — полная противоположность этому. Прямой поиск позволяет щёлкнуть по определённому фрагменту текста в коде &latex; и перейти к связанной позиции в окне просмотра.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_toolbar">
+
+		<title
+>Панель инструментов</title>
+
+		<itemizedlist>
+			<listitem
+><para
+><guibutton
+>Создать</guibutton
+>: создаёт новый документ.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Открыть</guibutton
+>: открывает документ.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Закрыть</guibutton
+>: закрывает документ.</para
+></listitem>
+			<!-- following toolbar items are different in default master/2.1-->
+			<listitem
+><para
+><guibutton
+>Сделать документ главным</guibutton
+>: используется при работе с несколькими файлами. Наличие главного документа упрощает работу с другими файлами <literal role="extension"
+>.tex</literal
+>, включёнными в документ. При использовании проектов можно также задать главный документ для всего проекта в <menuchoice
+><guimenu
+>Проект</guimenu
+><guisubmenu
+>Настройки проекта</guisubmenu
+></menuchoice
+>.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Quickbuild</guibutton
+>: компилирует исходный код &latex; и автоматически показывает результат, если в документе нет ошибок.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Следить за изменениями файла</guibutton
+>: в этом режиме отслеживаются изменения файла &DVI;, и после <guibutton
+>Quickbuild</guibutton
+> новый экземпляр &okular; не запускается.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Просмотреть журнал</guibutton
+>: показывает файл <literal role="extension"
+>.log</literal
+>, что позволяет обнаружить ошибки.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Предыдущая ошибка</guibutton
+>: переходит назад по файлу <literal role="extension"
+>.log</literal
+> и выделяет ошибки в исходном коде.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Следующая ошибка</guibutton
+>: переходит вперёд по файлу <literal role="extension"
+>.log</literal
+> и выделяет ошибки в исходном коде.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Остановить</guibutton
+>: останавливает текущий инструмент.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>LaTeX</guibutton
+>: запускает &latex; для активного документа.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewDVI</guibutton
+>: запускает программу просмотра &DVI;.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVItoPS</guibutton
+>: преобразует &DVI; в &PostScript; (PS).</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewPS</guibutton
+>: запускает программу просмотра &PostScript; (PS).</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PDFLaTeX</guibutton
+>: запускает &pdflatex; для активного документа.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewPDF</guibutton
+>: запускает программу просмотра PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVItoPDF</guibutton
+>: преобразует файл &DVI; в PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PStoPDF</guibutton
+>: преобразует PS в PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewHTML</guibutton
+>: показывает созданный &HTML;.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ForwardDVI</guibutton
+>: переходит к странице файла &DVI;, соответствующей текущей строке в редакторе.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ForwardPDF</guibutton
+>: переходит к странице PDF-файла, соответствующей текущей строке в редакторе.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Если посмотреть на панель инструментов <guilabel
+>Правка</guilabel
+>, можно заметить три больших раскрывающихся меню. Эти раскрывающиеся меню предназначены для быстрого добавления в документ некоторых общих элементов. Первое раскрывающееся меню служит для быстрого разделения документа на части, главы, разделы и т. д.; доступны следующие команды для добавления сегментов в исходный код &latex;:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>part</guilabel
+>: высший уровень разбиения документа на разделы.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>chapter</guilabel
+>: начинает новую главу.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>section</guilabel
+>: создаёт новый раздел.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>subsection</guilabel
+>: создаёт новый подраздел.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>subsubsection</guilabel
+>: раздел третьего уровня, между подразделом и абзацем.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>paragraph</guilabel
+>: создаёт новый абзац.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>subparagraph</guilabel
+>: создаёт новый подабзац.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Раскрывающийся список <guilabel
+>Другое</guilabel
+> используется для вставки в документ таких элементов, как предметные указатели, сноски и ссылки; доступны следующие команды:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>label</guilabel
+>: команда, создающая метку для главы, рисунка или другого элемента.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>index</guilabel
+>: создаёт запись для предметного указателя.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>footnote</guilabel
+>: создаёт сноску в документе.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>ref</guilabel
+>: используется для ссылки на предопределённую метку, выбираемую из раскрывающегося списка.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>pageref</guilabel
+>: то же, что и <guilabel
+>ref</guilabel
+>, но ссылается на страницу, а не на элемент структуры.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>cite</guilabel
+>: создаёт ссылку на запись библиографии.</para
+></listitem>
+<!-- The next feature is currently disabled (see 'kile.cpp'). -->
+<!--			<listitem
+><para
+><guilabel
+>cite from ViewBib</guilabel
+>: ask the ViewBib tool for all selected references and insert them.
+			Currently this is only available with <ulink url="http://user.digisurf.com.au/~thachly/kbib/"
+>&kbib;</ulink
+> as ViewBib tool.</para
+></listitem
+>-->
+		</itemizedlist>
+
+		<screenshot>
+			<screeninfo
+>Раскрывающееся меню <guilabel
+>Другое</guilabel
+></screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_choose.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Раскрывающееся меню <guilabel
+>Другое</guilabel
+></phrase>
+			</textobject>
+			<caption
+><para
+>Раскрывающийся список <guilabel
+>Другое</guilabel
+></para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<screenshot>
+			<screeninfo
+>Выбор метки для ссылки</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Выбор метки для ссылки</phrase>
+			</textobject>
+			<caption
+><para
+>Выбор метки для ссылки</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>При использовании <guilabel
+>cite</guilabel
+> показывается раскрывающийся список элементов библиографии, но при использовании &bibtex; это сработает, только если файл принадлежит проекту. Для правки файлов &bibtex; рекомендуется использовать специализированные редакторы. Автор получил хорошие результаты при работе с &kbibtex;. Разумеется, файлы &bibtex; можно писать вручную и в &kile;.</para>
+
+		<para
+>Последний раскрывающийся список, с надписью <guilabel
+>tiny</guilabel
+>, задаёт размер текста: основного текста, сносок и т. д. Доступны следующие команды:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>tiny</guilabel
+>: самый мелкий.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>scriptsize</guilabel
+>: очень мелкий.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>footnotesize</guilabel
+>: мелкий.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>small</guilabel
+>: уменьшенный.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>normalsize</guilabel
+>: обычный.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>large</guilabel
+>: крупный.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Large</guilabel
+>: ещё крупнее.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>LARGE</guilabel
+>: очень крупный.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>huge</guilabel
+>: огромный.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Huge</guilabel
+>: самый крупный.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+</chapter>
+<chapter id="quickstart">
+
+	<title
+>Быстрый запуск</title>
+
+	<sect1 id="quick_begin">
+
+		<title
+>Написание документа &latex; в &kile; для начинающих</title>
+
+		<para
+>Начать новый документ в &kile; можно двумя способами: создать его с помощью мастера (меню <guimenu
+>Мастер</guimenu
+>), выбрав тип документа и такие параметры, как размер шрифта, размер страницы и т. д., либо написать код вручную.</para>
+
+<programlisting
+>\documentclass[12pt]{article}
+\begin{document}
+        Здесь приведён фрагмент текста, набранный в \LaTeX.
+\end{document}</programlisting>
+
+		<para
+>Каждый документ в &latex; начинается с команды <userinput
+> \documentclass[необязательный аргумент]{класс}</userinput
+>, где класс задаёт тип документа.</para>
+
+		<para
+>Если ввести приведённый выше пример кода в текстовое поле, получится следующий вывод:</para>
+
+		<screenshot>
+			<screeninfo
+>Скомпилированный текст в выводе &DVI;</screeninfo>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="latex_example.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Скомпилированный текст в выводе &DVI;</phrase>
+				</textobject>
+				<caption
+><para
+>Скомпилированный текст в формате &DVI;</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Квадратные скобки после команды <userinput
+>\documentclass</userinput
+> содержат параметры команды. Параметр <userinput
+>[12pt]</userinput
+> задаёт размер шрифта статьи; если размер шрифта не задан в начале, его можно задать позже в тексте.</para>
+
+		<para
+>После ввода примера кода из поля, приведённого выше, потребуется скомпилировать исходный код &latex;. Проще всего скомпилировать &latex; с помощью меню <guimenu
+>Сборка</guimenu
+> или кнопки <guilabel
+>Quickbuild</guilabel
+>.</para>
+
+		<para
+>Комбинация клавиш <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+> предназначена для компиляции исходного кода.</para>
+
+		<para
+>Перед компиляцией необходимо сохранить исходный код; &kile; сделает это автоматически.</para>
+
+		<para
+>Если документ не скомпилировался, проверьте журнал на наличие ошибок. При использовании клавиши <guilabel
+>Quickbuild</guilabel
+> программа просмотра &okular; должна запускаться автоматически; если этого не происходит, просмотрите журнал.</para>
+
+	</sect1>
+
+	<sect1 id="quick_env">
+		<title
+>Окружения</title>
+
+		<para
+>Окружение — это сегмент текста, который обрабатывается иначе, чем остальная часть документа. Например, при создании отчёта с размером шрифта 12 может потребоваться изменить размер шрифта для нескольких предложений. Команды <userinput
+>\begin{environment}</userinput
+>, <userinput
+>\huge</userinput
+> и <userinput
+>\end{environment}</userinput
+> позволяют временно изменить текст внутри команд окружения на размер huge.</para>
+
+		<para
+>Изменения действуют только от <userinput
+>\begin{environment}</userinput
+> до <userinput
+>\end{environment}</userinput
+>. Число изменений, которые можно внести внутри окружения, не ограничено.</para>
+
+		<para
+>В документ можно добавить множество элементов, которые сделают его более удобочитаемым и удобным в использовании. Можно добавлять в документ такие элементы, как определённые шрифты, полужирный шрифт, курсив, подчёркивание и т. д., и эти команды будут завершаться либо командой <userinput
+>\end</userinput
+>, либо концом окружения.</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><userinput
+>\begin{emph}</userinput
+>: эта команда делает текст курсивным и действует до тех пор, пока в коде не встретится <userinput
+>\end{emph}</userinput
+> или другое окружение. Для выделения курсивом одного слова в предложении используется такой синтаксис: это <userinput
+>\emph{моё}</userinput
+> предложение.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\textbf{Я делаю этот текст внутри фигурных скобок полужирным}</userinput
+>: эта команда делает текст полужирным.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\quote</userinput
+>: для создания цитаты внутри документа начните цитату с <userinput
+>\begin{quote}</userinput
+> и завершите её <userinput
+>\end{quote}</userinput
+>.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\center</userinput
+>: выравнивает текст по центру.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\verse</userinput
+>: создаёт текст с отступом для стихотворений.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\itemize</userinput
+>: создаёт маркированный список.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+	<sect1 id="quick_using">
+
+		<title
+>Использование &kile;</title>
+
+		<para
+>Теперь, когда приведены основные сведения о написании кода на языке разметки &latex;, показано, как шаг за шагом создать документ с помощью &kile;.</para>
+
+		<procedure>
+			<step
+><para
+>Запустите &kile;.</para
+></step>
+			<step
+><para
+>Выберите <menuchoice
+><guimenu
+>Мастер</guimenu
+><guimenuitem
+>Новый документ</guimenuitem
+></menuchoice
+>, затем выберите формат и задайте параметры в мастере.</para
+></step>
+			<step
+><para
+>После того как мастер введёт текст, настройте документ для повышения удобочитаемости: добавьте как минимум одну цитату, полужирный шрифт, курсив и стих, чтобы увидеть разницу между командами.</para
+></step>
+			<step
+><para
+>Сохраните файл и присвойте ему имя <filename
+>intro.tex</filename
+>.</para
+></step>
+			<step
+><para
+>Соберите документ с помощью <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+> или кнопки с надписью <guilabel
+>LaTeX</guilabel
+>.</para
+></step>
+			<step
+><para
+>Выберите <guibutton
+>ViewDVI</guibutton
+>.</para
+></step>
+			<step
+><para
+>Просмотрите весь новый текст.</para
+></step>
+			<step
+><para
+>Просмотрев документ, нажмите кнопку <guibutton
+>Editor View</guibutton
+> или <keycombo
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>, чтобы вернуться в редактор, если используется встроенная программа просмотра, либо закройте окно программы просмотра, если используется отдельная.</para
+></step>
+		</procedure>
+
+		<para
+>Вот и всё! Только что создан первый документ &latex;!</para>
+
+		<para
+>После создания файла &DVI; документ можно напечатать или при желании преобразовать в файл &PostScript; или PDF. Экспериментируйте и получайте удовольствие!</para>
+
+	</sect1>
+
+	<sect1 id="quick_dvi">
+
+		<title
+>Файлы &DVI;</title>
+
+		<para
+>&DVI; — сокращение от <emphasis
+>DeVice Independent</emphasis
+> (файл, не зависящий от устройства). Такие файлы создаются &tex; или &latex; для чтения каким-либо драйвером на компьютере. Файл <literal role="extension"
+>.dvi</literal
+> можно вывести разными способами: на принтер, в преобразователь в &PostScript; или PDF, на экран компьютера.</para>
+
+	 	<sect2 id="quick_viewdvi">
+
+			<title
+>Просмотр файла &DVI;</title>
+
+			<para
+>Ранее уже было показано, как просмотреть файл &DVI; на экране с помощью кнопки <guibutton
+>ViewDVI</guibutton
+> на панели инструментов.</para>
+
+		</sect2>
+
+		<sect2 id="quick_printdvi">
+
+		<title
+>Печать файла &DVI;</title>
+
+			<para
+>Чтобы напечатать &DVI;, можно воспользоваться тем же способом, который применялся ранее при создании документа (см. <xref linkend="quick_using" role="select: title pageabbrv"/>). На шаге 7 после нажатия кнопки <guibutton
+>ViewDVI</guibutton
+> выберите в программе просмотра <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Печать</guimenuitem
+></menuchoice
+>; если принтер настроен правильно, можно будет напечатать &DVI;.</para>
+
+		</sect2>
+
+		<sect2 id="quick_exportdvi">
+
+			<title
+>Преобразование файлов &DVI;</title>
+
+			<para
+>Панель инструментов предоставляет возможности преобразования &DVI; в другие форматы. После создания файла &DVI; из исходного кода &latex; его можно экспортировать в формат по своему выбору с помощью кнопок панели инструментов.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="quick_forward">
+
+		<title
+>Прямой поиск между &kile; и &okular;</title>
+
+		<para
+>Функции прямого поиска позволяют перейти из редактора непосредственно к соответствующему месту файла &DVI; или PDF. </para>
+		<para
+>&kile; предлагает для всех программ &latex; конфигурацию с этим параметром. Откройте <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>Инструменты</guimenuitem
+><guilabel
+>Сборка</guilabel
+></menuchoice
+> и всегда выбирайте конфигурацию <guilabel
+>Modern</guilabel
+>.</para>
+
+		<para
+>Чтобы выполнить прямой поиск, установите курсор на строке исходного кода и, удерживая &Shift;, щёлкните <mousebutton
+>левой</mousebutton
+> кнопкой мыши либо нажмите <guilabel
+>Forward DVI</guilabel
+>/<guilabel
+>Forward PDF</guilabel
+>, чтобы перейти к связанной позиции в окне программы просмотра &DVI; или PDF.</para>
+	</sect1>
+
+	<sect1 id="quick_inverse">
+
+		<title
+>Обратный поиск между &kile; и &okular;</title>
+
+		<para
+>Обратный поиск — очень полезная функция при создании собственного документа &latex;. Если всё настроено правильно, можно, удерживая &Shift;, щёлкнуть <mousebutton
+>левой</mousebutton
+> кнопкой мыши в окне &okular;. После этого &kile; загрузит исходный файл &latex; и перейдёт к нужному абзацу. Чтобы использовать обратный поиск, необходимо скомпилировать файл &latex; с конфигурацией <guilabel
+>Modern</guilabel
+>.</para>
+
+		<para
+>Обратный поиск работает, только если:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>исходный файл успешно скомпилирован;</para
+></listitem>
+			<listitem
+><para
+>&okular; знает, какой редактор использовать.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Благодаря этой возможности &okular; щелчок левой кнопкой мыши при удержании &Shift; в документе &DVI; или PDF приведёт к тому, что &kile; откроет соответствующий документ &latex; и попытается перейти к соответствующей строке. Следует указать &okular; использовать &kile; в качестве текстового редактора в пункте меню <menuchoice
+><guimenu
+>Настройка</guimenu
+><guimenuitem
+>Настройка Okular…</guimenuitem
+></menuchoice
+> (на странице <guimenuitem
+>Редактор</guimenuitem
+>).</para>
+
+		<screenshot>
+			<screeninfo
+>Настройка &okular;</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_okular_settings.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Настройка &okular;</phrase>
+			</textobject>
+			<caption
+><para
+>Настройка &okular;</para
+></caption>
+			</mediaobject>
+		</screenshot>
+	</sect1>
+
+	<sect1 id="quick_errors">
+
+		<title
+>Устранение ошибок</title>
+
+		<para
+>Если при использовании быстрой сборки программа просмотра &DVI; не открывается, скорее всего, произошла ошибка. Если произошла ошибка, она будет видна в журнале или в области сообщений, а также приводится краткое описание ошибки.</para>
+
+		<para
+>Файл журнала указывает причину ошибки в коде. Кнопки <guibutton
+>Предыдущая ошибка LaTeX</guibutton
+> и <guibutton
+>Следующая ошибка LaTeX</guibutton
+> на панели инструментов редактора позволяют переходить между ошибками. В журнале всегда указана строка, в которой произошла ошибка; щёлкните по ошибке в окне журнала, и &kile; перейдёт к этой строке.</para>
+
+	</sect1>
+
+</chapter>
+<chapter id="startnew">
+
+	<title
+>Начало работы с новым документом</title>
+
+	<para
+>При нажатии кнопки на панели инструментов для создания нового документа открывается диалоговое окно, в котором предлагается выбрать тип шаблона для написания документа. По умолчанию предлагаются следующие варианты:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>Пустой документ</para
+></listitem>
+		<listitem
+><para
+>Article</para
+></listitem>
+		<listitem
+><para
+>Beamer</para
+></listitem>
+		<listitem
+><para
+>Book</para
+></listitem>
+		<listitem
+><para
+>HA-Prosper</para
+></listitem>
+		<listitem
+><para
+>Powerdot</para
+></listitem>
+		<listitem
+><para
+>Letter</para
+></listitem>
+		<listitem
+><para
+>Report</para
+></listitem>
+		<listitem
+><para
+>Scrartcl (из пакета KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>Scrbook (из пакета KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>Scrlttr2 (из пакета KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>Scrreprt (из пакета KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>PDF</para
+></listitem>
+		<listitem
+><para
+>XeLaTeX</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>Если выбран <guilabel
+>Пустой документ</guilabel
+>, можно либо начать писать документ с нуля, либо воспользоваться мастером для быстрого создания нового документа (см. <xref linkend="intro_docwizard" role="select: title pageabbrv"/>).</para>
+
+
+	<sect1 id="startnew_templates">
+
+		<title
+>Шаблоны</title>
+
+		<para
+>Постоянные пользователи &latex; обычно используют одну и ту же преамбулу почти для каждого документа. В &kile; можно создавать, сохранять и загружать шаблоны, что упрощает создание нового документа.</para>
+
+
+		<sect2>
+			<title
+>Создание нового шаблона</title>
+
+			<para
+>Чтобы создать новый шаблон, сначала необходимо открыть файл &tex; / &latex; или создать собственный файл. &kile; позволяет создать шаблон из существующего документа: достаточно открыть нужный документ и выбрать <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Создать шаблон из документа</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Настройка автоматических замен</title>
+
+			<para
+>При создании нового документа выбором шаблона в <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Создать</guimenuitem
+></menuchoice
+> некоторые сочетания символов заменяются такими данными, как имя или используемая кодировка символов. Эти переменные можно настроить в <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>Параметры</guimenuitem
+><guilabel
+>Главное</guilabel
+></menuchoice
+>.</para>
+
+			<para
+>При создании собственного шаблона полезно знать, какие сочетания символов заменяются какими переменными шаблона:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><userinput
+>$$AUTHOR$$</userinput
+>: эта строка заменяется переменной автора.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$DOCUMENTCLASSOPTIONS$$</userinput
+>: эта строка будет заменена переменной параметров класса документа. Обычно она используется так: <userinput
+>\documentclass[$$DOCUMENTCLASSOPTIONS$$]{article}</userinput
+>.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$INPUTENCODING$$</userinput
+>: если переменной inputencoding присвоено значение, например <userinput
+>latin1</userinput
+>, эта строка заменяется на <userinput
+>\input[latin1]{inputenc}</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="templ_wiz">
+
+			<title
+>Создание шаблона с помощью мастера</title>
+
+			<para
+>Самый простой способ создать новый шаблон — запустить мастер, а затем добавить команды в редакторе. После того как документ будет настроен по своему усмотрению:</para>
+
+			<procedure>
+				<step
+><para
+>Сохраните файл;</para
+></step>
+				<step
+><para
+>Перейдите в меню <guimenu
+>Файл</guimenu
+>;</para
+></step>
+				<step
+><para
+>Выберите <guimenuitem
+>Создать шаблон из документа</guimenuitem
+>;</para
+></step>
+				<step
+><para
+>Внесите в шаблон необходимые исправления;</para
+></step>
+				<step
+><para
+>Введите имя нового шаблона;</para
+></step>
+				<step
+><para
+>Чтобы добавить шаблон в меню, нажмите кнопку <guibutton
+>ОК</guibutton
+>.</para
+></step>
+			</procedure>
+
+			<para
+>При следующем создании нового документа можно будет выбрать собственный шаблон вместо шаблонов по умолчанию.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Создание шаблона из любого файла</title>
+
+			<para
+>Шаблон можно создать из любого файла &latex;. Если требуется простой способ настройки шаблона, найдите подходящий в Интернете и выполните те же действия, что перечислены в <xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
+
+			<para
+>Например, может потребоваться создать полноценный плакат формата A0. Такие плакаты обычно встречаются на научных конференциях, и &latex; поможет создать привлекательный, запоминающийся плакат. Учтите, что потребуется пакет <filename
+>a0poster</filename
+>, который обычно не входит в стандартные дистрибутивы &tex;. Загрузите его <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/"
+>отсюда</ulink
+> и поместите в ту же папку, что и файл &latex;.</para>
+		</sect2>
+
+		 <sect2 id="templ_rem">
+
+	 		<title
+>Удаление шаблона</title>
+
+			<para
+>Чтобы удалить шаблон из &kile;, выполните следующие действия:</para>
+
+			<procedure>
+				<step
+><para
+>Перейдите в <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Удалить шаблон…</guimenuitem
+></menuchoice
+>;</para
+></step>
+				<step
+><para
+>Откроется диалоговое окно со списком всех шаблонов: выберите шаблон;</para
+></step>
+				<step
+><para
+>Нажмите кнопку <guilabel
+>ОК</guilabel
+> — шаблон будет удалён.</para
+></step>
+			</procedure>
+
+			<para
+>Шаблоны, помеченные звёздочкой (*), невозможно удалить без надлежащих прав.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+<chapter id="editing">
+
+	<title
+>Редактирование документов &latex;</title>
+
+	<para
+>Внутренний редактор, используемый &kile;, — &kate;. &kate; — текстовый редактор, созданный для программистов, который позволяет читать и подсвечивать множество различных типов текстовых файлов, в том числе &latex; и &bibtex;; многие параметры &kate; доступны непосредственно из меню <guimenu
+>Инструменты</guimenu
+> &kile;.</para>
+
+	 <para
+>Подробнее о &kate; и его возможностях см. в <ulink url="help:/kate"
+>руководстве &kate;</ulink
+>. Пользователи &kile; могут начать чтение с главы <quote
+>Работа с редактором &kate;</quote
+>.</para>
+
+	 <sect1 id="editing_sect">
+
+		<title
+>Справочник по &latex;</title>
+
+		<para
+>В &kile; есть удобный справочник по командам &latex;, который открывается пунктом <menuchoice
+><guimenu
+>Справка</guimenu
+><guimenuitem
+>Справочник по LaTeX</guimenuitem
+></menuchoice
+>. В нём подробно описаны почти все команды &latex; и их синтаксис.</para>
+
+	</sect1>
+
+	<sect1 id="editing_cursor">
+
+	 	<title
+>Перемещения курсора</title>
+
+		<para
+>Для выбора текста предусмотрены следующие возможности:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Удерживайте левую кнопку мыши и перетащите указатель, чтобы выделить текст.</para
+></listitem>
+			<listitem
+><para
+>Чтобы переместить курсор в новое место, щёлкните один раз по слову.</para
+></listitem>
+			<listitem
+><para
+>Чтобы выделить слово целиком, дважды щёлкните по нему.</para
+></listitem>
+			<listitem
+><para
+>Двойной щёлчок по слову при нажатой <keycombo
+>&Ctrl;</keycombo
+> выделяет слово &tex; целиком. Это значит, что такой щёлчок по <userinput
+>\par</userinput
+> в <userinput
+>\par\bigskip</userinput
+> выделяет только \par.</para
+></listitem>
+			<listitem
+><para
+>Чтобы выделить всё предложение, щёлкните три раза.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Если, удерживая левую кнопку мыши, перетащить текст, который нужно выделить, выделенный текст автоматически копируется в буфер обмена.</para>
+
+		<para
+>Удерживая &Shift; и используя клавиши со стрелками, можно выделить фрагменты исходного кода в окне редактора.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bracket">
+
+		<title
+>Скобки</title>
+
+		<para
+>Подсветка парных скобок — наглядное средство, показывающее, какая скобка какой соответствует. Если открыть любой файл <literal role="extension"
+>.tex</literal
+> и поставить курсор у скобки — круглой (), квадратной [] или фигурной {}, — редактор выделит её и парную ей скобку жёлтым цветом (цвет можно изменить). Например, если поставить курсор на фигурную скобку в <userinput
+>\section{Introduction}</userinput
+>, скобки в <userinput
+>\section{Introduction}</userinput
+> будут подсвечены жёлтым, показывая начало и конец.</para>
+
+	</sect1>
+
+	<sect1 id="editing_highlight">
+
+		<title
+>Подсветка</title>
+
+		<para
+>&kile; позволяет находить и подсвечивать различные типы кода. Например, команды &latex; отличаются от обычного текста, а математические формулы также подсвечиваются другим цветом.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bullets">
+
+		<title
+>Маркеры</title>
+
+		<para
+>Многие мастера могут вставлять маркеры — особые закладки в тексте. Пункты меню <menuchoice
+><guimenu
+>Правка</guimenu
+><guisubmenu
+>Маркеры</guisubmenu
+></menuchoice
+> и соответствующие комбинации клавиш позволяют перейти к следующему или предыдущему маркеру. Маркер при этом выделяется, так что при вводе первой буквы он автоматически удаляется.</para>
+
+		<screenshot>
+			<screeninfo
+>Маркеры</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="bullets.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Маркеры</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>Right</keycap
+></keycombo
+></shortcut
+> <guimenuitem
+>Следующий маркер</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Переходит к следующему маркеру в тексте, если он есть.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>Left</keycap
+></keycombo
+></shortcut
+> <guimenuitem
+>Предыдущий маркер</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Переходит к предыдущему маркеру в тексте, если он есть.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_select">
+
+		<title
+>Выделить</title>
+
+		<para
+>Редактирование, разумеется, — один из основных аспектов при работе с такой программой, как &kile;. Хотя &kate; уже обладает большими возможностями, &kile; добавляет некоторые важные функции, особенно необходимые для написания исходного кода &latex;. &latex; всегда требует множества окружений и групп, поэтому &kile; поддерживает специальные команды для их выбора. В меню <menuchoice
+><guimenu
+>Правка</guimenu
+><guisubmenu
+>Выделить</guisubmenu
+></menuchoice
+> находятся следующие команды для выделения текста.</para>
+
+		<screenshot>
+			<screeninfo
+>Правка → Выделить</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Правка → Выделить</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Окружение (внутри)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Выделяет окружение без окружающих тегов. Если эта команда вызывается, когда окружение уже выделено, &kile; расширит выделение до следующего внешнего окружения.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>Окружение (снаружи)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Выделяет окружение вместе с окружающими тегами. Выделение можно расширить повторным вызовом этой команды. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>Группа TeX (внутри)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Выделяет группу &tex; внутри охватывающих фигурных скобок.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>Группа TeX (снаружи)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Выделяет группу &tex; вместе с обрамляющими фигурными скобками.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Математическая группа</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Выделяет текущую математическую группу вместе с математическими командами.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>Абзац</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Выделяет целый абзац, то есть группу строк текста, отделённую с обеих сторон пустыми строками. Абзац — это не просто идущие подряд строки текста, как в других текстовых редакторах. Это расширенное значение также включает таблицы, команды &latex; и все остальные строки исходного кода. Для &kile; важно лишь то, что такой абзац отделяется двумя пустыми строками.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,L</keycap
+></shortcut
+> <guimenuitem
+>Строка</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Выделяет строку текста в текущей позиции курсора.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>Слово TeX</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Выделяет слово под текущей позицией курсора. Это выделение имеет и более широкое значение, поскольку эта команда позволяет выделять также команды &latex;, которые начинаются с обратной косой черты и могут иметь необязательную звёздочку в конце.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+		<sect2 id="editing_select_latex_commands">
+
+		<title
+>Выделение команд &latex;</title>
+
+		<para
+>&kile; предоставляет расширенную возможность выбора команд &latex;. Если, например, введена</para>
+
+		<programlisting
+>текст \bfseries\itshape ещё текст</programlisting>
+
+		<para
+>а двойной щёлчок по одной из команд &latex; выделит обе. Но часто требуется выделить только одну из двух или более команд. Это делается с помощью клавиши <keycombo
+>&Ctrl;</keycombo
+>. Достаточно нажать клавишу <keycombo
+>&Ctrl;</keycombo
+>, и двойной щелчок выделит только нужную команду.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="editing_delete">
+
+		<title
+>Удалить</title>
+
+		<para
+>Чтобы удалить некоторые части документа, их, разумеется, можно выделить, а затем нажать клавишу <keycombo
+><keycap
+>Delete</keycap
+></keycombo
+>. &kate; также предлагает команду <keycombo
+>&Ctrl;<keycap
+>K</keycap
+></keycombo
+>, удаляющую целую строку. Но &kile; предлагает более быстрый способ — собственные команды удаления. В меню <menuchoice
+><guimenu
+>Правка</guimenu
+><guisubmenu
+>Удалить</guisubmenu
+></menuchoice
+> находятся следующие команды для удаления текста.</para>
+
+		<screenshot>
+			<screeninfo
+>Правка → Удалить</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="delete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Правка → Удалить</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Окружение (внутри)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Удаляет окружение без окружающих тегов.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>Окружение (снаружи)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Удаляет окружение вместе с окружающими тегами.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>Группа TeX (внутри)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Удаляет группу &tex; внутри окружающих фигурных скобок.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>Группа TeX (снаружи)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Удаляет группу &tex; вместе с окружающими фигурными скобками.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Математическая группа</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Удаляет текущую математическую группу вместе с математическими командами.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>Абзац</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Удаляет весь абзац. О том, как в &kile; определяется абзац, см. команду <menuchoice
+><guisubmenu
+>Выделить</guisubmenu
+><guimenuitem
+>Абзац</guimenuitem
+></menuchoice
+>.</para
+></listitem>
+		</varlistentry>
+
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,I</keycap
+></shortcut
+> <guimenuitem
+>До конца строки</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Удаляет текст от текущей позиции курсора до конца строки. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>Слово TeX</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Удаляет слово или команду &latex; в текущей позиции курсора.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_environment">
+
+		<title
+>Окружение</title>
+
+		<para
+>Уже упоминалось, что окружения занимают центральное место в &latex;. Поэтому &kile; предлагает ещё пять команд, максимально упрощающих работу с &latex;, в подменю <menuchoice
+><guimenu
+>Правка</guimenu
+><guisubmenu
+>Окружение</guisubmenu
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Правка → Окружение</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="environment.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Правка → Окружение</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>К началу</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Эта команда перемещает курсор в начало текущего окружения независимо от текущего положения курсора. Курсор устанавливается непосредственно перед открывающей тегом окружения.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>К концу</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Эта команда переместит курсор в конец текущего окружения, где бы он ни находился в данный момент. Курсор будет помещён непосредственно за закрывающей тегом окружения.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Пара</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Если курсор расположен перед тегом <userinput
+>\begin{environment}</userinput
+> или над ней, он переместится в противоположный конец окружения, и наоборот.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>Закрыть</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>При вводе большого количества вложенных тегов окружений можно потерять контроль над всеми этими окружениями. Эта команда закроет последнее открытое окружение, чтобы вложенная структура окружений не была нарушена.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,A</keycap
+></shortcut
+> <guimenuitem
+>Закрыть все</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Закрывает все открытые окружения, а не только последнее открытое.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_texgroup">
+
+		<title
+>Группа &tex;</title>
+
+		<para
+>&kile; также предоставляет специальные команды для групп &latex;, которые задаются фигурными скобками <userinput
+>{...}</userinput
+>. В подменю <menuchoice
+><guimenu
+>Правка</guimenu
+><guisubmenu
+>Группа TeX</guisubmenu
+></menuchoice
+> находятся важные команды, соответствующие командам из <menuchoice
+><guimenu
+>Правка</guimenu
+><guisubmenu
+>Окружение</guisubmenu
+></menuchoice
+>. </para>
+
+		<screenshot>
+			<screeninfo
+>Правка → Группа TeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="texgroup.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Правка → Группа TeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>К началу</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Эта команда перемещает курсор в начало текущей группы независимо от текущего положения. Курсор устанавливается непосредственно перед открывающей фигурной скобкой.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>К концу</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Эта команда переместит курсор в конец текущей группы, где бы ни находилась текущая позиция. Курсор устанавливается непосредственно за закрывающей фигурной скобкой.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Пара</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Если курсор находится перед открывающей фигурной скобкой группы &tex; или после неё, он переместится к противоположному концу группы, и наоборот.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>Закрыть</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ввод множества фигурных скобок вложенных групп может оказаться трудоёмким. Эта команда закроет последнюю открытую группу, чтобы вложенная структура групп &tex; не нарушилась.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_dblquotes">
+
+		<title
+>Двойные кавычки</title>
+
+		<para
+>В &latex; две одинарные кавычки используются в качестве двойных. Чтобы упростить их ввод, &kile; позволяет нажать <keycap
+>"</keycap
+>, чтобы вставить две открывающие одинарные кавычки. Кроме того, чтобы закрыть цитату, также нужно нажать <keycap
+>"</keycap
+>. &kile; достаточно умён, чтобы распознать эту ситуацию, и вставляет две закрывающие кавычки для &latex;.</para>
+
+		<para
+>Чтобы получить обычную двойную кавычку с другой стороны, дважды нажмите <keycap
+>"</keycap
+>.</para>
+
+		<para
+>Автоматическую вставку открывающих и закрывающих двойных кавычек можно включить или отключить в разделе <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Двойные кавычки</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-dblquotes.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Двойные кавычки</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Если также указать параметры для конкретного языка, например <userinput
+>ngerman</userinput
+> или <userinput
+>french</userinput
+>, можно будет использовать немецкие или французские двойные кавычки. Доступны и многие другие языки. </para>
+
+	</sect1>
+
+	<sect1 id="editing_smartnewline">
+
+		<title
+>Умный перевод строки</title>
+
+		<para
+>Если нажать <keycombo
+>&Ctrl;<keycap
+>Return</keycap
+></keycombo
+>, &kile; вставит интеллектуальный перевод строки. Если текущая позиция находится внутри окружения списка, например <userinput
+>enumerate</userinput
+> или <userinput
+>itemize</userinput
+>, &kile; не только вставит перевод строки, но и добавит команду <userinput
+>\item</userinput
+>.</para>
+
+		<para
+>Внутри окружения tabular &kile; завершит текущую строку символом <userinput
+>\\</userinput
+>, после чего добавит перевод строки.</para>
+
+    <para
+>Если текущая позиция находится внутри комментария &latex;, &kile; начнёт следующую строку с <userinput
+>%</userinput
+>.</para>
+
+		<para
+>Более того, &kile; достаточно умён, чтобы поддерживать предопределённые окружения &latex; и окружения, определённые пользователем, которые добавляются в разделе <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+	<sect1 id="editing_tabulator">
+
+		<title
+>Умная табуляция</title>
+
+		<para
+>Некоторые пользователи предпочитают выравнивать столбцы в табличных окружениях и располагать все символы амперсанда <keycap
+>&amp;</keycap
+> друг под другом. &kile; старается это поддерживать. Если нажать <keycombo
+>&Alt;&Shift;<keycap
+>&amp;</keycap
+></keycombo
+>, &kile; будет искать следующий символ табуляции в строке выше. Хотя этот символ табуляции может не соответствовать нужному столбцу, &kile; добавит несколько пробелов, чтобы выровнять положение столбца по текущей позиции табуляции.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="completion">
+
+	<title
+>Автодополнение кода</title>
+
+	<para
+>Хотя &kate; уже предлагает хороший режим автодополнения, &kile; расширяет автодополнение кода для поддержки специальных методов, особенно для &latex;. Встроено пять различных режимов. Три из них работают по запросу, остальные два — режимы автодополнения. Работу всех режимов можно настроить по-разному в <menuchoice
+><guimenu
+>Настройка</guimenu
+><guimenuitem
+>Настроить Kile…</guimenuitem
+></menuchoice
+>.</para>
+
+	<sect1 id="complete_autoenvironment">
+
+		<title
+>Автоматическое дополнение окружения</title>
+
+		<para
+>Если начать новое окружение, введя <userinput
+>\begin{environment}</userinput
+>, &kile; автоматически добавит команду <userinput
+>\end{environment}</userinput
+> и оставит между ними строку для текста.</para>
+
+		<para
+>Автодополнение можно отключить в разделе &latex;: <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>Окружения</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Завершение окружения формулы</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_autocomplete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Завершение окружения формулы</phrase>
+			</textobject>
+			<caption
+><para
+>Завершение окружения формулы</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="complete_command">
+
+		<title
+>Команды &latex;</title>
+
+		<para
+>При вводе нескольких букв можно включить этот режим дополнения для команд &latex; и обычных слов с помощью <menuchoice
+><guimenu
+>Правка</guimenu
+><guisubmenu
+>Автодополнение</guisubmenu
+><guimenuitem
+>Команда (La)TeX</guimenuitem
+></menuchoice
+> или комбинации клавиш <keycombo
+>&Ctrl;&Shift;<keycap
+>Space</keycap
+></keycombo
+>. &kile; сначала считывает буквы от текущей позиции курсора влево и останавливается на первом небуквенном символе или обратной косой черте. Если этот шаблон начинается с обратной косой черты, &kile; переходит в режим дополнения команд &tex; или &latex;. В противном случае включается обычный режим словаря, в котором команды &latex; отсутствуют. В зависимости от выбранного режима открывается окно дополнения. Показываются все команды или слова, начало которых совпадает с текущим шаблоном. По этому списку можно перемещаться клавишами курсора и выбрать один элемент с помощью &Enter; или двойного щелчка мышью.</para>
+
+		<screenshot>
+			<screeninfo
+>Дополнение команды LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Завершение команды LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>При нажатии клавиши &Backspace; удаляется последняя буква шаблона, и список дополнений может увеличиться. Если же ввести ещё одну букву, шаблон расширится, а видимый список слов может сократиться.</para>
+
+		<para
+>Если ни один из предложенных вариантов не выбран, это диалоговое окно можно закрыть клавишей &Esc;.</para>
+
+		<para
+>Все команды записаны вместе с кратким описанием их параметров. Разумеется, при выборе команды эти описания удаляются. При желании можно разрешить &kile; вставлять в этих местах маркеры, чтобы легко переходить к этим позициям с помощью <menuchoice
+><guimenu
+>Правка</guimenu
+><guisubmenu
+>Маркеры</guisubmenu
+><guimenuitem
+>Следующий маркер</guimenuitem
+></menuchoice
+> и вставлять нужный параметр.</para>
+
+		<screenshot>
+			<screeninfo
+>Дополнение команды LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Завершение команды LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Чтобы настроить один или несколько из этих списков, перейдите в <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Автодополнение</guilabel
+></menuchoice
+>. Для команд &tex; и &latex; можно выбрать разные списки слов, а для обычных слов — режим словаря.</para>
+
+		<para
+>При выборе параметра <guimenuitem
+>Показывать команды LaTeX</guimenuitem
+> в отдельной области боковой панели &kile; показываются записи всех выбранных файлов сжатых списков слов (cwl) для дополнения команд &latex;. Видно, какие команды доступны и какие параметры и возможности должны или могут быть заданы при дополнении. Кроме того, можно просто выбрать запись щелчком мыши — она будет вставлена в документ, а все именованные параметры и возможности будут удалены.</para>
+
+		<screenshot>
+			<screeninfo
+>Команды LaTeX на боковой панели</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="command-view.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Команды LaTeX на боковой панели</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Так как каждый выбранный список слов показывается в отдельном представлении, представлений может оказаться слишком много, и главное окно &kile; может не поместиться на небольшом экране. Поскольку это выглядит очень некрасиво, &kile; ограничивает число представлений, по умолчанию равное 10. Если это значение слишком велико для экрана, его следует уменьшить.</para>
+
+	</sect1>
+
+	<sect1 id="complete_environment">
+
+		<title
+>Окружения</title>
+
+		<para
+><emphasis
+>Режим команд</emphasis
+> не подходит для дополнения окружений. Всегда приходится вводить несколько букв <userinput
+>\begin</userinput
+>, а вызов режима дополнения приведёт к появлению огромного списка тегов окружений. С другой стороны, окружения используются настолько часто, что &kile; предлагает специальный режим дополнения окружений. Открывающую тег можно не вводить: достаточно набрать, например, <userinput
+>al</userinput
+>.</para>
+
+		<para
+>При вызове режима дополнения с помощью <menuchoice
+><guimenu
+>Правка</guimenu
+><guisubmenu
+>Автодополнение</guisubmenu
+><guimenuitem
+>Окружение</guimenuitem
+></menuchoice
+> или комбинации клавиш <keycombo
+>&Alt;&Shift;<keycap
+>Space</keycap
+></keycombo
+> открывающая тег добавляется автоматически, и появляется <userinput
+>\begin{al}</userinput
+>. После этого список дополнения становится значительно менее загромождённым.</para>
+
+		<screenshot>
+			<screeninfo
+>Дополнение команды LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Завершение команды LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Теперь выберите окружение — оно также автоматически закроется. Более того, если &kile; распознает его как окружение списка, он также вставит первую тег <userinput
+>\item</userinput
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Дополнение команды LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Завершение команды LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Чтобы настроить один или несколько из этих списков, перейдите в <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Автодополнение</guilabel
+></menuchoice
+>. Этот режим использует те же списки слов, что и режим завершения команд &tex; и &latex;.</para>
+
+	</sect1>
+
+	<sect1 id="complete_abbreviation">
+
+		<title
+>Аббревиатуры</title>
+
+		<para
+>&kile; поддерживает определяемые пользователем списки сокращений, которые по запросу заменяются более длинными текстовыми строками. Чтобы настроить один или несколько таких списков, откройте <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Автодополнение</guilabel
+></menuchoice
+>. В приведённом здесь примере нужно выбрать список сокращений из файла <filename
+>example.cwl</filename
+>. В этом файле, например, есть запись <userinput
+>L=\LaTeX</userinput
+>.</para>
+
+		<para
+>Например, введите только букву <userinput
+>L</userinput
+>. Теперь вызовите режим сокращений дополнения слов с помощью <menuchoice
+><guimenu
+>Правка</guimenu
+><guisubmenu
+>Автодополнение</guisubmenu
+><guimenuitem
+>Аббревиатура</guimenuitem
+></menuchoice
+> или комбинации клавиш <keycombo
+>&Ctrl;&Alt;<keycap
+>Space</keycap
+></keycombo
+> — буква <userinput
+>L</userinput
+> заменится строкой <userinput
+>\LaTeX</userinput
+>.</para>
+
+		<para
+>Дополнение сокращений также поддерживает перевод строки <userinput
+>%n</userinput
+> и <userinput
+>%C</userinput
+> для установки курсора, если эти символы присутствуют в тексте раскрытия. Так, если имеется запись</para>
+
+		<programlisting
+>en1=\begin{enumerate}%n\item %C%n\end{enumerate}%n</programlisting>
+
+		<para
+>в файл дополнений и вызвать дополнение сокращений, развёрнутый текст будет выглядеть так, как показано ниже, где <userinput
+>x</userinput
+> показывает конечное положение курсора.</para>
+
+<programlisting
+>\begin{enumerate}
+        \item x
+\end{enumerate}</programlisting>
+
+		<sect2 id="complete_abbrev_view">
+
+			<title
+>Аббревиатуры</title>
+
+			<para
+>При выборе параметра <guimenuitem
+>Показывать аббревиатуры</guimenuitem
+> в области боковой панели показываются все возможные сокращения. Так можно получить полный обзор всех возможных сокращений.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_auto">
+
+		<title
+>Режимы автодополнения</title>
+
+		<sect2 id="complete_autolatex">
+
+			<title
+>Команды &latex;</title>
+
+			<para
+>Кроме того, можно включить режим автодополнения команд &latex;. При вводе порогового количества букв (по умолчанию: 3) открывается всплывающее окно со списком всех подходящих команд &latex;. Можно выбрать одну из этих команд или проигнорировать это окно и продолжить ввод букв. Записи окна дополнения всегда изменяются в соответствии с вводимым в данный момент словом.</para>
+
+			<para
+>Чтобы включить или отключить этот режим либо изменить порог, перейдите в <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Автодополнение</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Завершение окружения формулы</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-complete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Завершение окружения формулы</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		</sect2>
+
+		<sect2 id="complete_autotext">
+
+			<title
+>Слова в документе</title>
+
+			<para
+>Большие словари бесполезны в режиме автодополнения. Но, как было замечено, многие слова в документе вводятся более одного раза. Поэтому &kile; предлагает дополнение для всех слов документа, уже введённых пользователем. Этот режим дополнения можно вызвать вручную нажатием <keycombo
+>&Ctrl;<keycap
+>Space</keycap
+></keycombo
+>. Следует учесть, что этот режим отличается от режима дополнения команд &latex;.</para>
+
+			<para
+>Чтобы включить или отключить этот режим, перейдите в <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>Редактор</guimenuitem
+><guimenuitem
+>Редактирование</guimenuitem
+><guilabel
+>Автодополнение</guilabel
+></menuchoice
+>. В этом диалоговом окне можно настроить, включать ли режим дополнения для слов документа. Есть также дополнительный режим автодополнения, в котором при достижении определённого порога появляется окно дополнения.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_own_files">
+
+		<title
+>Написание собственных файлов автодополнения</title>
+
+    <para
+>Последняя версия спецификации формата файла дополнений приведена в <ulink url="https://commits.kde.org/kile?path=README.cwl"
+> спецификации формата файлов CWL</ulink
+>. </para>
+
+		<para
+>Файлы дополнения устанавливаются в домашней папке пользователя во вложенной папке <filename
+>~/.kde/share/apps/kile/complete/&lt;mode&gt;/</filename
+>, где <parameter
+>&lt;mode&gt;</parameter
+> означает <constant
+>abbreviation</constant
+>, <constant
+>dictionary</constant
+> или <constant
+>tex</constant
+>. </para>
+
+	</sect1>
+</chapter>
+
+<chapter id="wizard">
+
+	<title
+>Мастера и диалоги</title>
+
+	<sect1 id="wizard_quickstart">
+
+		<title
+>Мастер создания документа</title>
+
+		<para
+>Этот мастер уже описан в разделе <xref linkend="intro_docwizard" role="select: title pageabbrv"/>.</para>
+
+	</sect1>
+
+	<sect1 id="wizard_graphics">
+
+		<title
+>Добавление изображения</title>
+
+		<para
+>Диалоговое окно <guilabel
+>Добавление изображения</guilabel
+> максимально упрощает вставку изображений. Оно открывается из строки меню: <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Включение изображения</guimenuitem
+></menuchoice
+>. Основные сведения о графических форматах приведены в разделах <xref linkend="build_graphics" role="select: title pageabbrv"/> и <xref linkend="build_epsgraphics" role="select: title pageabbrv"/>.</para>
+
+		<screenshot>
+			<screeninfo
+>Включение графического элемента</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="includegraphics.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Включение графического элемента</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<procedure>
+		<step
+><para
+>Выберите файл изображения: JPEG, PNG, PDF, EPS или даже EPS, сжатый zip или gzip. Если установлен <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+> и &kile; настроен на его использование (<menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>Вставка рисунков</guilabel
+></menuchoice
+>), ширина и высота изображения показываются автоматически. Если &imagemagick; может определить разрешение, размер показывается и в сантиметрах.</para
+></step>
+
+		<step
+><para
+>Укажите, следует ли размещать изображение по центру страницы.</para
+></step>
+
+		<step
+><para
+>Выберите, использовать ли для графического файла запись <userinput
+>\graphicspath</userinput
+>.</para>
+
+		<para
+>По умолчанию графические файлы должны находиться в той же папке, что и главный документ. Однако их можно поместить в другие папки, чтобы навести порядок. Без команды <userinput
+>\graphicspath</userinput
+> &kile; включал бы путь к графическому файлу. Но если использовать <userinput
+>\graphicspath</userinput
+> в преамбуле следующим образом:</para>
+
+		<programlisting
+>\graphicspath{{/path/to/my/graphics}{other/path/to/more/graphics}}</programlisting>
+
+		<para
+>и установите этот флажок — &kile; будет использовать только базовое имя графического файла.</para>
+
+		<para
+>Другой пример: если задать команду <userinput
+>\graphicspath</userinput
+> следующим образом:</para>
+
+		<programlisting
+>\graphicspath{{./}{camera/}{images/}}</programlisting>
+
+		<para
+>Чтобы найти графический файл, &latex; будет искать сначала в текущей папке, затем в <filename
+>camera</filename
+> и, наконец, в <filename
+>images</filename
+>.</para
+></step>
+
+		<step
+><para
+>Если указать только ширину или только высоту, весь графический элемент будет масштабирован пропорционально. Если задать ширину и высоту одновременно, они могут масштабироваться с разными коэффициентами, что может оказаться нежелательным. Исходный размер графического элемента указан в верхней части диалогового окна.</para
+></step>
+
+		<step
+><para
+>Укажите угол, на который следует повернуть графику против часовой стрелки.</para
+></step>
+
+		<step
+><para
+>Информация об ограничивающем прямоугольнике устанавливается автоматически при выборе графического файла. Эта информация требуется только при работе с традиционным &latex; и растровой графикой. См. обсуждение <link linkend="build_epsgraphics"
+>графики EPS</link
+>. </para>
+
+		<para
+>Если &latex; нужен ограничивающий прямоугольник, а создавать файл bb не хочется, &kile; может указать его параметром. &pdflatex; при этом выдаст предупреждение, если с этим параметром вставляется изображение png или jpg. Флажок включает и отключает этот параметр.</para
+></step>
+
+		<step
+><para
+>Масштаб изображения: например, 0,5 уменьшает его вдвое, а 2 — увеличивает вдвое. Если задан масштаб, ширину и высоту указывать не нужно.</para
+></step>
+
+		<step
+><para
+>На вкладке <guilabel
+>Обрезать изображение</guilabel
+> можно обрезать изображение со всех четырёх сторон.</para
+></step>
+
+		<step>
+		  <para
+>Наконец, необходимо указать, следует ли встраивать это изображение в окружение figure. Если требуется обтекание рисунка текстом, используйте вместо него окружение wrapfigure. </para>
+			<note>
+				<para
+>При выборе окружения wrapfigure необходимо подключить пакет wrapfig в преамбуле.</para>
+			</note>
+		  <para
+>В любом случае можно вставить подпись и метку для изображения. Как правило, для каждого типа меток рекомендуется использовать отдельный префикс. Обычно для изображений используется префикс <userinput
+>fig:</userinput
+>. </para>
+		</step>
+
+		<step
+><para
+>Если выбрать окружение figure, можно указать, где &latex; должен предпочтительно разместить рисунок. </para
+></step>
+		<step>
+		  <para
+>В окружении wrapfigure можно:</para>
+		  <substeps>
+		    <step
+><para
+>Выберите правило размещения рисунка и укажите, будет ли он плавающим. В двустороннем документе можно указать, у какого края страницы — внутреннего или внешнего — располагать рисунок. </para
+></step>
+		    <step
+><para
+>Укажите, сколько сокращённых строк текста размещается рядом с рисунком. Если оставить это поле пустым, &latex; определит это сам, насколько это возможно. </para
+></step>
+		    <step
+><para
+>Задайте выступ с выбранной стороны. Это особенно полезно, если в документе есть столбцы и требуется, чтобы рисунок занимал более одного столбца, или если нужно сократить текст с обеих сторон рисунка. </para
+></step>
+		    <step
+><para
+>Выберите ширину рисунка. Она должна быть немного больше фактической ширины изображения, чтобы между рисунком и текстом оставалось свободное пространство. </para
+></step>
+		  </substeps>
+		</step>
+		</procedure>
+
+	</sect1>
+
+	<sect1 id="wizard_array">
+
+		<title
+>Массивы и таблицы</title>
+
+		<para
+>Одно из самых скучных занятий в &latex; — писать матрицу или окружение tabular: нужно следить за всеми элементами, за правильностью окружения и за тем, чтобы всё стояло на своих местах. Отступы помогают, но есть способ проще: пункты меню &kile; <menuchoice
+><guimenu
+>Мастер</guimenu
+><guimenuitem
+>Массив</guimenuitem
+></menuchoice
+> и <menuchoice
+><guimenu
+>Мастер</guimenu
+><guimenuitem
+>Табличные</guimenuitem
+></menuchoice
+>. Они открывают форму ввода в виде матрицы, которую легко заполнить. В этом диалоговом окне есть и параметры оформления таблицы.</para>
+
+		<screenshot>
+			<screeninfo
+>Вставка окружения tabular</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-tabular.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Вставка окружения tabular</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>С помощью панели инструментов в верхней части диалогового окна можно задать <userinput
+>выравнивание</userinput
+> ячейки, определить <userinput
+>стиль шрифта</userinput
+>, <userinput
+>объединить</userinput
+> и <userinput
+>разделить</userinput
+> ячейки, выбрать <userinput
+>границу</userinput
+> и указать <userinput
+>цвета</userinput
+> фона и шрифта. В крайней правой части находится кнопка <guilabel
+>Вставить</guilabel
+>. С её помощью можно вставить в диалоговое окно таблицу из буфера обмена, что позволяет, например, копировать и вставлять таблицы из табличного процессора. </para>
+
+		<para
+>Ниже можно выбрать количество строк и столбцов и настроить дополнительные параметры массива: </para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Параметр <guilabel
+>Имя</guilabel
+> позволяет выбрать окружение для массива или табличного материала. </para
+></listitem>
+			<listitem
+><para
+>Вертикальное выравнивание ячеек можно выбрать с помощью параметра <guilabel
+>Параметр</guilabel
+>. Эта возможность доступна только для окружений, которые её поддерживают. </para
+></listitem>
+			<listitem
+><para
+>Если у выбранного окружения есть версия со звёздочкой, можно установить флажок <guilabel
+>Версия со звёздочкой</guilabel
+>. В этом случае нужно указать и <guilabel
+>Ширина таблицы</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+>Таблицы иногда выглядят лучше, если установить флажок <guilabel
+>использовать пакет booktabs</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+>Конечно, можно также выровнять весь массив по центру, выбрав <guilabel
+>По центру</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Вставка маркеров</guilabel
+> помогает при заполнении содержимого в редакторе. Если этот параметр включён, &kile; вставит маркеры-заполнители для каждого элемента массива. </para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Пункт <menuchoice
+><guimenu
+>Мастер</guimenu
+><guimenuitem
+>Табулятор</guimenuitem
+></menuchoice
+> открывает упрощённое диалоговое окно для быстрого создания окружения tabbing. В нём легко задать число строк и столбцов и нужные интервалы.</para>
+	</sect1>
+
+	<sect1 id="wizard_float">
+	  <title
+>Вставка плавающих элементов</title>
+
+	  <para
+>&kile; помогает вставлять плавающие объекты: пункт <menuchoice
+><guimenu
+>Мастер</guimenu
+><guimenuitem
+>Плавающие</guimenuitem
+></menuchoice
+> позволяет очень просто создать окружение figure или table. </para>
+
+	  <screenshot>
+		<screeninfo
+>Вставка плавающего элемента</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-float.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Вставка плавающего элемента</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>Чтобы вставить новое плавающее окружение, выполните следующие действия: </para>
+
+	     <procedure>
+	       <step>
+		 <para
+>Выберите, вставить рисунок или таблицу. </para>
+	       </step>
+	       <step>
+		 <para
+>Выберите нужные правила позиционирования. </para>
+	       </step>
+	       <step>
+		 <para
+>Введите подпись для плавающего элемента. </para>
+	      </step>
+	      <step>
+		<para
+>Введите метку для нового плавающего элемента. &kile; автоматически предложит подходящий префикс, например, «fig:» для рисунков и «tab:» для таблиц. </para>
+	      </step>
+	     </procedure>
+	</sect1>
+
+	<sect1 id="wizard_math">
+	  <title
+>Вставка математических окружений</title>
+
+	  <para
+>Запомнить, как работают все математические элементы, бывает непросто. Разумеется, &kile; может сделать это за вас: <menuchoice
+><guimenu
+>Мастер</guimenu
+><guimenuitem
+>Математические</guimenuitem
+></menuchoice
+></para>
+
+	  <screenshot>
+		<screeninfo
+>Вставка математического элемента</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-math.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Вставка математического элемента</phrase>
+		</textobject>
+		</mediaobject>
+	  </screenshot>
+
+	  <para
+>Параметры: </para>
+	  <itemizedlist>
+				<listitem
+><para
+><guilabel
+>Имя:</guilabel
+> тип создаваемого математического элемента.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Без нумерации:</guilabel
+> отключает нумерацию у нумеруемых элементов, таких как equation или align.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Команда пробела для разделения групп:</guilabel
+> в окружениях с несколькими группами, например alignat, задаёт разделитель между группами. Можно ввести любую команду пробела математического режима, например \quad. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Стандартная табуляция:</guilabel
+> выберите символ табуляции. Обычно &kile; подбирает подходящий сам.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Режим выключных формул:</guilabel
+> для таких окружений, как матрицы или массивы, можно выбрать математическое окружение, в котором будет выводиться формула. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Применять маркеры:</guilabel
+> если флажок установлен, &kile; вставит маркер-заполнитель на место каждого элемента формулы.</para
+></listitem>
+			</itemizedlist>
+	</sect1>
+
+	<sect1 id="wizard_postscript">
+
+		<title
+>Утилиты &PostScript;</title>
+
+		<para
+>Файлы PS не так популярны, как файлы PDF, но служат отличной основой для манипуляций и перестановки страниц. Если требуется вывод в PDF, можно переставить страницы с помощью некоторых утилит &PostScript;, а затем преобразовать файл в PDF с помощью <command
+>ps2pdf</command
+>.</para>
+
+		<para
+><emphasis
+>Мастер &PostScript;</emphasis
+> (<menuchoice
+><guimenu
+>Мастер</guimenu
+><guimenuitem
+>Обработка Postscript</guimenuitem
+></menuchoice
+>) предлагает самые распространённые варианты перестановки страниц. Преобразование выполняют программы <command
+>pstops</command
+> и <command
+>psselect</command
+>, которые в большинстве дистрибутивов входят в пакет <userinput
+>psutils</userinput
+>. Если одной из этих программ нет, соответствующий пункт не показывается.</para>
+
+		<screenshot>
+			<screeninfo
+>Диалоговое окно PSTools</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-pstools.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Диалоговое окно PSTools</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Сначала выберите файл ввода. Если &kile; находит PS-файл, соответствующий текущему главному документу, он уже подставлен как файл ввода, но можно выбрать и другой файл. Затем выберите файл вывода и одну из задач. Наконец, нужно решить, выполнять только преобразование или также запустить &okular; для просмотра результата.</para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+>1 страница A5 + пустая страница → A4</term>
+		<listitem
+><para
+>Объединяет одну страницу A5 с одной пустой страницей на одной странице A4. Если объединяются две страницы A5, они поворачиваются на 90 градусов и размещаются на странице A4 в альбомной ориентации.</para>
+		<screenshot>
+			<screeninfo
+>A5 + пустая страница</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>A5 + пустая страница</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 страница A5 + копия --> A4</term>
+		<listitem
+><para
+>Помещает одну страницу A5 и её копию вместе на одну страницу A4.</para>
+		<screenshot>
+			<screeninfo
+>Создание копии страниц A5</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Дублирует страницу A5.</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 страницы A5 → A4</term>
+		<listitem
+><para
+>Помещает две последовательные страницы A5 на одну страницу A4.</para>
+		<screenshot>
+			<screeninfo
+>Объединение двух страниц A5</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils3.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Объединение двух страниц A5</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 страницы A5L --> A4</term>
+		<listitem
+><para
+>Помещает две последовательные страницы A5 в альбомной ориентации вместе на одну страницу A4.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>4 страницы A5 --> A4</term>
+		<listitem
+><para
+>Объединяет четыре последовательные страницы A5 на одной странице A4. Чтобы страницы A5 поместились на странице, их необходимо масштабировать с коэффициентом 0,7.</para>
+		<screenshot>
+			<screeninfo
+>4 страницы A5 → A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils5.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>4 страницы A5 → A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 страница A4 + пустая страница → A4</term>
+		<listitem
+><para
+>Объединяет одну страницу A4 с одной пустой страницей на одной странице A4. Если две страницы A4 объединяются на одной итоговой странице A4, их требуется масштабировать с коэффициентом 0,7 и разместить в альбомной ориентации.</para>
+		<screenshot>
+			<screeninfo
+>1 страница A4 + пустая страница --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils6.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>1 страница A4 + пустая страница --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 страница A4 + копия --> A4</term>
+		<listitem
+><para
+>Помещает одну страницу A4 и её копию вместе на одну страницу A4.</para>
+		<screenshot>
+			<screeninfo
+>1 страница A4 + копия --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils7.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>1 страница A4 + копия --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 страницы A4 → A4</term>
+		<listitem
+><para
+>Помещает две последовательные страницы A4 на одну страницу A4.</para>
+		<screenshot>
+			<screeninfo
+>Объединение двух страниц A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils8.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Объединение двух страниц A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 страницы A4L --> A4</term>
+		<listitem
+><para
+>Помещает две последовательные страницы A4 в альбомной ориентации вместе на одну страницу A4.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Выбор чётных страниц</term>
+		<listitem
+><para
+>Выбирает все чётные страницы документа.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Выбор нечётных страниц</term>
+		<listitem
+><para
+>Выбирает все нечётные страницы документа.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Выбор чётных страниц (в обратном порядке)</term>
+		<listitem
+><para
+>Выбирает все чётные страницы документа в обратном порядке.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Выбор нечётных страниц (в обратном порядке)</term>
+		<listitem
+><para
+>Выбирает все нечётные страницы документа в обратном порядке.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Обратный порядок всех страниц</term>
+		<listitem
+><para
+>Переставляет все страницы документа в обратном порядке.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Копировать все страницы (с подборкой)</term>
+		<listitem
+><para
+>Копирует все страницы документа. Нужно указать число копий с подборкой.</para>
+		<screenshot>
+			<screeninfo
+>Копирование всех страниц (с подборкой)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils15.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Копирование всех страниц (с подборкой)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Копировать все страницы (без подборки)</term>
+		<listitem
+><para
+>Копирует все страницы документа. Нужно указать число копий без подборки.</para>
+		<screenshot>
+			<screeninfo
+>Копирование всех страниц (без подборки)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils16.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Копирование всех страниц (без подборки)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>pstops: выбор параметра</term>
+		<listitem
+><para
+>Утилиты &PostScript; <command
+>pstops</command
+> и <command
+>psselect</command
+> имеют множество параметров. Если нужен какой-то особый параметр, можно вызвать <command
+>pstops</command
+> с выбранным параметром. Все возможные параметры описаны в руководстве.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>psselect: выбор параметра</term>
+		<listitem
+><para
+>Можно вызвать <command
+>psselect</command
+> с нужным параметром. Все возможные параметры описаны в руководстве.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="wizard_pdf">
+
+		<title
+>Утилиты PDF</title>
+
+		<para
+>Многие считают, что файлы PDF нельзя изменить. Но это не так — существуют отличные инструменты</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>для операций со страницами и их перестановки,</para
+></listitem>
+		<listitem
+><para
+>для чтения и изменения сведений о документе,</para
+></listitem>
+		<listitem
+><para
+>для чтения, установки и изменения разрешений</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>существующего документа PDF.</para>
+
+		<para
+><emphasis
+>Мастер PDF</emphasis
+> &kile; в меню <menuchoice
+><guimenu
+>Мастер</guimenu
+><guimenuitem
+>Инструменты PDF</guimenuitem
+></menuchoice
+> использует два разных способа обработки и перестановки документов PDF:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>Пакет &latex; <command
+>pdfpages</command
+>, входящий в состав каждого дистрибутива &latex;. <command
+>pdfpages</command
+> не работает с зашифрованными страницами.</para
+></listitem>
+		<listitem
+><para
+><command
+>pdftk</command
+> — отличная утилита командной строки для повседневной работы с документами PDF (см. <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit"
+>The PDF Toolkit</ulink
+>).</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Если одна из этих вспомогательных программ, <command
+>pdfpages</command
+> или <command
+>pdftk</command
+>, отсутствует в системе, соответствующие пункты не показываются. Кроме того, следует помнить, что только <command
+>pdftk</command
+> может работать с зашифрованными файлами.</para>
+
+		<sect2 id="pdf_rearrangements">
+
+			<title
+>Перестановка</title>
+
+			<para
+>Мастер PDF в &kile; открывается на вкладке <userinput
+>Rearrangements</userinput
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>Диалоговое окно инструментов PDF</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Диалоговое окно инструментов PDF</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Сначала выберите файл ввода. Если &kile; находит PDF-файл, соответствующий текущему главному документу, он уже подставлен как файл ввода, но можно выбрать и другой файл. Затем выберите файл вывода или перезапишите существующий файл PDF и выберите одну из задач. Наконец, нужно решить, выполнять только преобразование или также запустить программу просмотра (например, &okular;) для показа полученного документа.</para>
+
+			<para
+>Если файл PDF зашифрован, работать будет только <command
+>pdftk</command
+>, а для выполнения задач потребуется ввести пароль этого документа.</para>
+
+			<variablelist>
+
+			<varlistentry>
+			<term
+>1 страница + пустая страница → A4</term>
+			<listitem
+><para
+>Объединяет одну страницу с одной пустой страницей на одной странице A4. Если объединяются две страницы A5, они поворачиваются на 90 градусов и размещаются на странице A4 в альбомной ориентации.</para>
+			<screenshot>
+				<screeninfo
+>A5 + пустая страница</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A5 + пустая страница</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Если объединяются две страницы A4, они масштабируются, поворачиваются на 90 градусов и размещаются на странице A4 в альбомной ориентации.</para>
+			<screenshot>
+				<screeninfo
+>A4 + пустая страница → A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils6.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A4 + пустая страница</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>1 страница + копия --> A4</term>
+			<listitem
+><para
+>Помещает одну страницу и её копию вместе на одну страницу A4.</para>
+			<screenshot>
+				<screeninfo
+>Создание копии страницы</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Создать копию страницы</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Если копируемая страница имеет размер A4, она будет масштабирована, чтобы поместиться на странице.</para>
+			<screenshot>
+				<screeninfo
+>Создание копии страницы</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils7.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Создать копию страницы</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>2 страницы → A4</term>
+			<listitem
+><para
+>Объединяет две последовательные страницы на одной странице A4. Если объединяются две страницы A5, они поворачиваются на 90 градусов и размещаются на странице A4 в альбомной ориентации.</para>
+			<screenshot>
+				<screeninfo
+>Объединение двух страниц A5</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Объединение двух страниц A5</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Если объединяются две страницы A4, они масштабируются, поворачиваются на 90 градусов и размещаются на странице A4 в альбомной ориентации.</para>
+			<screenshot>
+				<screeninfo
+>Объединение двух страниц A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils8.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Объединение двух страниц A4</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>2 страницы (альбомная ориентация) --> A4</term>
+			<listitem
+><para
+>Помещает две последовательные страницы в альбомной ориентации вместе на одну страницу A4.</para>
+			<screenshot>
+				<screeninfo
+>Объединение двух страниц (в альбомной ориентации)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Объединение двух страниц (в альбомной ориентации)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 страницы --> A4</term>
+			<listitem
+><para
+>Объединяет четыре последовательные страницы на одной странице A4. Чтобы страницы поместились на странице, их необходимо масштабировать.</para>
+			<screenshot>
+				<screeninfo
+>4 страницы → A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils5.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>4 страницы → A4</phrase>
+				</textobject>
+			</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 страницы (альбомная ориентация) --> A4</term>
+			<listitem
+><para
+>Объединяет четыре последовательные страницы в альбомной ориентации на одной странице A4. Чтобы страницы поместились на странице, их необходимо масштабировать.</para>
+			<screenshot>
+				<screeninfo
+>Объединение четырёх страниц (в альбомной ориентации)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Объединение четырёх страниц (в альбомной ориентации)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Выбор чётных страниц</term>
+			<listitem
+><para
+>Выбирает все чётные страницы документа.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Выбор нечётных страниц</term>
+			<listitem
+><para
+>Выбирает все нечётные страницы документа.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Выбор чётных страниц (в обратном порядке)</term>
+			<listitem
+><para
+>Выбирает все чётные страницы документа в обратном порядке.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Выбор нечётных страниц (в обратном порядке)</term>
+			<listitem
+><para
+>Выбирает все нечётные страницы документа в обратном порядке.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Обратный порядок всех страниц</term>
+			<listitem
+><para
+>Переставляет все страницы документа в обратном порядке.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Расшифровка файла</term>
+			<listitem
+><para
+>Если файл PDF зашифрован, его можно расшифровать.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Выбор страниц</term>
+			<listitem
+><para
+>Добавьте разделённый запятыми список страниц или диапазонов страниц, например, 1,4-7,9. Только эти страницы попадут в итоговый файл PDF.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Удаление страниц</term>
+			<listitem
+><para
+>Добавьте разделённый запятой список страниц или диапазонов страниц, которые следует удалить из выбранного файла PDF.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Наложение фонового водяного знака</term>
+			<listitem
+><para
+>Накладывает водяной знак PDF на фон одного файла ввода PDF. Мастер использует только первую страницу фонового PDF-файла и применяет её к каждой странице файла ввода PDF. Эта страница масштабируется и поворачивается так, чтобы соответствовать странице файла ввода.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Применение цвета фона</term>
+			<listitem
+><para
+>Задаёт цвет фона для всех страниц текущего документа. Это можно сделать только один раз, так как второй цвет будет помещён за первым и не будет виден.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Нанесение штампа на переднем плане</term>
+			<listitem
+><para
+>Накладывает штамп переднего плана поверх страниц входного файла PDF. Мастер использует только первую страницу файла PDF со штампом и накладывает её на каждую страницу входного файла PDF. Эта страница масштабируется и поворачивается по мере необходимости, чтобы соответствовать входной странице. Наилучший результат достигается, если страница файла PDF со штампом имеет прозрачный фон.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdftk: выбор параметра</term>
+			<listitem
+><para
+>Можно вызвать <command
+>pdftk</command
+> с нужным параметром. Все возможные параметры описаны в руководстве.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdfpages: выбор параметра</term>
+			<listitem
+><para
+>Можно вызвать <command
+>pdfpages</command
+> с нужным параметром. Все возможные параметры описаны в руководстве.</para
+></listitem>
+			</varlistentry>
+
+			</variablelist>
+
+		</sect2>
+
+		<sect2 id="pdf_properties">
+
+			<title
+>Свойства</title>
+
+			<para
+>Установка, изменение и удаление свойств возможны, только если установлена <command
+>pdftk</command
+> и если, кроме того, &kile; собран с библиотекой <userinput
+>libpoppler</userinput
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>Диалоговое окно свойств PDF</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Диалоговое окно свойств PDF</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Традиционные метаданные PDF включают название документа, автора, тему, ключевые слова, создателя, производителя, а также даты создания и последнего изменения.</para>
+
+		</sect2>
+
+		<sect2 id="pdf_permissions">
+
+			<title
+>Разрешения</title>
+
+			<para
+>Кроме того, устанавливать, изменять и удалять разрешения можно, только если установлена утилита <command
+>pdftk</command
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>Диалоговое окно разрешений PDF</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Диалоговое окно разрешений PDF</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Для установки или изменения этих параметров документа необходим пароль. Кроме того, шифрование PDF выполняется, чтобы закрыть содержимое файла этим паролем или применить менее строгие ограничения, установленные автором. Таким образом, автор может разрешить или запретить:</para>
+
+			<itemizedlist>
+			<listitem
+><para
+>печать страниц;</para
+></listitem>
+			<listitem
+><para
+>изменение страниц;</para
+></listitem>
+			<listitem
+><para
+>копирование текста и изображений со страниц;</para
+></listitem>
+			<listitem
+><para
+>изменение и добавление комментариев;</para
+></listitem>
+			<listitem
+><para
+>заполнение полей формы данными.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>При изменении разрешений всегда принудительно включается шифрование со 128-битной защитой <userinput
+>Acrobat</userinput
+> 5 и 6, а также требуется пароль.</para>
+
+			<para
+>Но всегда помните: шифрование и пароль не обеспечивают настоящей защиты PDF. Содержимое зашифровано, но ключ известен. Скорее это вежливая, но настойчивая просьба уважать пожелания автора.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="statistics">
+		<title
+>Статистика документа</title>
+
+		<para
+>Диалоговое окно <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Статистика</guimenuitem
+></menuchoice
+> показывает статистику по выделенному фрагменту, документу или всему проекту: число слов, команд и окружений &latex;, а также число символов каждого типа.</para>
+
+		<para
+>Полученную статистику можно скопировать в буфер обмена как текст или как красиво оформленную таблицу &latex;. </para>
+		<para
+>При выделении текста и открытии диалогового окна статистики показывается статистика для текущего выделенного текста. Если открыть диалоговое окно без выделенного текста, показывается статистика для всех открытых файлов. Чтобы получить статистику для всего проекта, можно воспользоваться <menuchoice
+><guimenu
+>Проект</guimenu
+><guisubmenu
+>Открыть все файлы проекта</guisubmenu
+></menuchoice
+> — это простой и быстрый способ открыть все исходные файлы проекта.</para>
+
+		<para
+>Необходимо сделать оговорку относительно точности этих чисел. В программу заложена некоторая логика для получения хорошей оценки: например, K\"uhler даёт одно слово и одну команду длиной шесть и два символа соответственно. Однако существуют и другие сочетания, в которых части команд считаются словами, и наоборот. Следует учесть, что алгоритм разрабатывался и тестировался для языков, близких к английскому или немецкому. Поэтому не стоит считать эти числа точными. Если требуется написать отчёт, длина которого должна составлять определённое число слов или символов, сначала следует провести несколько проверок, чтобы убедиться, что точность &kile; отвечает вашим потребностям.</para>
+	</sect1>
+
+</chapter>
+
+
+<chapter id="latex">
+
+	<title
+>Специальные команды &latex;</title>
+
+	<sect1 id="latex_library">
+		<title
+>Библиотека символов &latex;</title>
+
+		<para
+>В &latex; тысячи команд для символов и специальных знаков. Проще всего вставлять их из меню боковой панели слева от окна редактора.</para>
+
+		<screenshot>
+			<screeninfo
+>Меню боковой панели</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_sidebarmenu.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Меню боковой панели</phrase>
+			</textobject>
+			<caption
+><para
+>Меню боковой панели</para
+></caption>
+			</mediaobject>
+		</screenshot>
+		<para
+>Доступны следующие типы:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Часто используемые</para
+></listitem>
+			<listitem
+><para
+>Отношение</para
+></listitem>
+			<listitem
+><para
+>Операторы</para
+></listitem>
+			<listitem
+><para
+>Стрелки</para
+></listitem>
+			<listitem
+><para
+>Прочая математика</para
+></listitem>
+			<listitem
+><para
+>Прочий текст</para
+></listitem>
+			<listitem
+><para
+>Разделители</para
+></listitem>
+			<listitem
+><para
+>Греческие буквы</para
+></listitem>
+			<listitem
+><para
+>Специальные символы</para
+></listitem>
+			<listitem
+><para
+>Кириллические символы</para
+></listitem>
+			<listitem
+><para
+>Определённые пользователем</para
+></listitem>
+		</itemizedlist>
+		<para
+>Во всплывающих подсказках значков показываются команды &latex; и дополнительные необходимые пакеты.</para>
+		<para
+>Если нажать <keycombo
+>&Shift;</keycombo
+> и щёлкнуть по символу, будет вставлено <userinput
+>$\symbolcmd$</userinput
+>. Аналогично нажатие <keycombo
+>&Ctrl;</keycombo
+> вставляет его в фигурные скобки.</para>
+		<para
+>Если вставить команду, требующую пакета, который не включён в документ &latex;, в окне просмотра журнала появится предупреждающее сообщение.</para>
+		<para
+>Первый список — <guilabel
+>Часто используемые</guilabel
+> символы. Вставленные символы добавляются в этот список для быстрого доступа. Порядок символов при добавлении новых не меняется — увеличивается только счётчик обращений. Если в списке больше 30 элементов, удаляется элемент с наименьшим счётчиком.</para>
+		<para
+>Список <guilabel
+>Определённые пользователем</guilabel
+> содержит собственные символы. Для их создания нужны программа gesymb и файл <filename
+>definitions.tex</filename
+> из пакета исходных текстов kile, а также компилятор &latex; (какая неожиданность) и <ulink url="http://www.dvipng.sourceforge.net"
+>&dvipng;</ulink
+> версии 1.7 или новее. Создайте файл &latex; с командой <userinput
+>\input{definitions}</userinput
+>, после чего станут доступны перечисленные ниже команды, и запустите <userinput
+>gesymb mysymbols.tex user</userinput
+> (она вызывает &latex; и &dvipng;), чтобы создать значки. Скопируйте их в <userinput
+>$HOME/.kde/share/apps/kile/mathsymbols/user/</userinput
+> и перезапустите kile — собственные символы станут доступны. </para>
+		<para
+>В файле <filename
+>definitions.tex</filename
+> определены следующие команды: <itemizedlist>
+			<listitem>
+				<para
+><userinput
+>\command[\optarg]{\symbol}</userinput
+>: включает символ <userinput
+>\symbol</userinput
+> в список символов; необязательный аргумент <userinput
+>\optarg</userinput
+> задаёт команду, которую должно вставить kile. Если он не указан, используется команда из обязательного аргумента. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\mathcommand[\optarg]{\symbol}</userinput
+>: то же, что выше, но команда в обязательном аргументе вставляется в математическом режиме. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\pkgs[arg]{pkg}</userinput
+>: указывает, что команда, заданная в этой строке, требует пакет &latex; <userinput
+>pkg</userinput
+> с необязательным аргументом <userinput
+>arg</userinput
+>. Эта команда должна стоять перед командой <userinput
+>\command</userinput
+> и переопределяет указание пакета в окружении neededpkgs. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\begin{neededpkgs}[pkgs-args]{pkgs} ... \end{neededpkgs}</userinput
+>: то же самое, но для всех вложенных команд. </para>
+			</listitem>
+		</itemizedlist>
+		</para>
+		<para
+>Для полноты здесь приведён пример: <programlisting
+>\documentclass[a4paper,10pt]{article}
+\usepackage{amssymb}
+\input{definitions}
+%
+\begin{document}
+\pagestyle{empty}
+%
+\begin{neededpkgs}{amssymb}
+\mathcommand{\surd}
+\pkgs{amsmath}\mathcommand[\ddddot{}]{\ddddot{a}}
+\mathcommand{\angle}
+\end{neededpkgs}
+\command{\"A}
+\mathcommand{\exists}
+\mathcommand[\stackrel{}{}]{\stackrel{abc}{=}}
+
+%\begin{neededpkgs}[russian,koi8-r,T2C,]{babel,inputenc,fontenc,mathtext}
+%
+%   \end{neededpkgs}
+% здесь потребовалось бы подключить пакеты
+% \usepackage{mathtext}
+% \usepackage[T2C]{fontenc}
+% \usepackage[russian]{babel}
+% \usepackage[koi8-r]{inputenc}
+%  просто для пояснения формата
+\end{document}</programlisting>
+		</para>
+	</sect1>
+
+	<sect1 id="latex_bib">
+
+		<title
+>Использование \bibitem</title>
+
+		<para
+><userinput
+>\bibitem</userinput
+> — команда, служащая для вставки ссылки в окружение <userinput
+>thebibliography</userinput
+> документа. Синтаксис использования <userinput
+>\bibitem</userinput
+>: <userinput
+>\bibitem[label]{key}</userinput
+>.</para>
+
+		<para
+>Необязательный <userinput
+>[label]</userinput
+> позволяет добавить собственную систему меток для записи библиографии. Если метка не задана, записи нумеруются по порядку: [1], [2], [3] и т. д.</para>
+
+		<para
+>Аргумент <userinput
+>{key}</userinput
+> используется для ссылки и связывания команд <userinput
+>\bibitem</userinput
+> и <userinput
+>\cite</userinput
+> друг с другом и содержащейся в них информации. Команда <userinput
+>\cite</userinput
+> содержит метку, связанную с нужной командой <userinput
+>\bibitem</userinput
+>, которая находится внутри окружения <userinput
+>thebibliography</userinput
+> и содержит данные ссылки. Соответствующие команды <userinput
+>\bibitem</userinput
+> и <userinput
+>\cite</userinput
+> должны иметь одинаковый <userinput
+>{key}</userinput
+>; проще всего упорядочивать ключи по фамилии автора. Вторые фигурные скобки в окружении <userinput
+>thebibliography</userinput
+> задают самую длинную метку списка литературы, которую предполагается использовать. Так, вставка <userinput
+>{<replaceable
+>foo</replaceable
+>}</userinput
+> означает, что любая метка может быть короче выражения <userinput
+><replaceable
+>foo</replaceable
+></userinput
+> или совпадать с ним по длине. Если этот параметр задан неправильно, отступы в списке литературы могут получиться не самыми красивыми.</para>
+
+		<para
+>Библиография — это раздел, отдельный от основного документа, а пример кода для библиографии выглядит следующим образом:</para>
+
+<programlisting
+>\begin{thebibliography}{50}
+        \bibitem{Simpson} Homer J. Simpson. \textsl{Mmmmm...donuts}. Evergreen Terrace Printing Co.,
+                          Springfield, SomewhereUSA, 1998
+\end{thebibliography}</programlisting>
+
+		<para
+>Затем основной исходный код будет содержать расположение информации, относящейся к <userinput
+>\bibitem</userinput
+>, с помощью <userinput
+>\cite</userinput
+>. Этот исходный код будет выглядеть примерно так:</para>
+
+		<programlisting
+>Моя диссертация о философии The Simpsons\copyright взята из моей любимой книги \cite{Simpson}.</programlisting>
+
+		<para
+>Так как при большом количестве ссылок часто трудно вспомнить точный ключ цитирования, &kile; предоставляет простой способ вставки ссылки. При выборе <menuchoice
+><guimenu
+>LaTeX </guimenu
+><guimenuitem
+>Ссылки</guimenuitem
+><guimenuitem
+>Упоминание</guimenuitem
+></menuchoice
+> появляется список всех ключей цитирования. Выберите нужную ссылку, и в документ будет вставлена ссылка. Чтобы обновить список ключей, сохраните файл, выберите <menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Обновить структуру</guimenuitem
+></menuchoice
+> или нажмите <keycap
+>F12</keycap
+>. Если включено автодополнение кода, &kile; покажет список всех меток <userinput
+>bibitem</userinput
+> при вводе команды <userinput
+>\cite</userinput
+>.</para>
+
+		<para
+>Тогда окончательный результат в библиографии документа будет выглядеть так:</para>
+
+		<para
+><computeroutput
+>[1] Homer J. Simpson. Mmmmm...donuts. Evergreen Terrace Printing Co., Springfield, SomewhereUSA, 1998.</computeroutput
+></para>
+
+		<para
+>&kile; также поддерживает совместную работу с редакторами &bibtex;, например &kbibtex;, что упрощает ввод ссылок. Когда в проект добавляется файл &bibtex;, &kile; помогает дополнять команды ссылок, как описано выше.</para>
+
+	</sect1>
+
+</chapter>
+
+&include-section-usermenu;
+
+<chapter id="build">
+
+	<title
+>Инструменты сборки</title>
+
+	<sect1 id="build_sect">
+
+		<title
+>Компиляция, преобразование и просмотр</title>
+
+		<para
+>Чтобы увидеть результат работы, исходный текст сначала нужно скомпилировать. Все инструменты сборки собраны в меню <menuchoice
+><guimenu
+>Сборка</guimenu
+><guisubmenu
+>Компиляция</guisubmenu
+></menuchoice
+>, <menuchoice
+><guimenu
+>Сборка</guimenu
+><guisubmenu
+>Преобразовать</guisubmenu
+></menuchoice
+> и <menuchoice
+><guimenu
+>Сборка</guimenu
+><guisubmenu
+>Вид</guisubmenu
+></menuchoice
+>.</para>
+
+		<para
+>Чтобы скомпилировать исходный код для программ просмотра на экране, таких как &okular;, или для дальнейшего преобразования, можно использовать комбинацию клавиш <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+>. Затем можно просмотреть файл &DVI; в программе просмотра по умолчанию с помощью <keycombo
+>&Alt;<keycap
+>3</keycap
+></keycombo
+>, преобразовать &DVI; в файл PS с помощью <keycombo
+>&Alt;<keycap
+>4</keycap
+></keycombo
+> и просмотреть файл PS с помощью <keycombo
+>&Alt;<keycap
+>5</keycap
+></keycombo
+>.</para>
+
+		<sect2>
+
+		<title
+>&bibtex;</title>
+
+			<para
+>Если для записей библиографии используется <ulink url="http://www.ecst.csuchico.edu/~jacobsd/bib/formats/bibtex.html"
+>&bibtex;</ulink
+>, обычно приходится применять особую схему компиляции. Это означает, что нужно вызвать &latex;, затем &bibtex; и ещё дважды &latex;. К счастью, &kile; достаточно умён, чтобы автоматически определить, нужно ли вызывать дополнительные инструменты, такие как &bibtex;, &makeidx; и &asymptote;. Эта логика включена по умолчанию, а изменить её можно в <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+><guisubmenu
+>Инструменты</guisubmenu
+><guilabel
+>Сборка</guilabel
+></menuchoice
+> на вкладке <guilabel
+>Главное</guilabel
+> в инструментах &latex; и &pdflatex;. </para>
+
+		</sect2>
+
+<!-- Already stated in last paragraph
+		<sect2>
+
+			<title
+>&makeidx;</title>
+
+			<para
+>If you are using the <ulink url="http://ipagwww.med.yale.edu/latex/makeindex.pdf"
+>&makeidx;</ulink>
+			package to make a final, alphabetical index for your document, you have also to follow a certain
+			compilation pattern or let &kile; do this for you in the same way as with &bibtex; files.</para>
+
+		</sect2>
+-->
+		<sect2>
+
+			<title
+>MetaPost и &asymptote;</title>
+
+			<para
+>Если требуется скомпилировать документ с помощью <application
+>MetaPost</application
+> или <application
+>&asymptote;</application
+> — программ для рисования изображений, — воспользуйтесь пунктами <menuchoice
+><guimenu
+>Сборка</guimenu
+><guisubmenu
+>Компиляция</guisubmenu
+><guimenuitem
+>Metapost</guimenuitem
+></menuchoice
+> или <menuchoice
+><guimenu
+>Сборка</guimenu
+><guisubmenu
+>Компиляция</guisubmenu
+><guimenuitem
+>&asymptote;</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&pdflatex;</title>
+
+			<para
+>Если нужен PDF, есть и другой способ: &pdflatex; компилирует исходный текст сразу в файл PDF по нажатию <keycombo
+>&Alt;<keycap
+>6</keycap
+></keycombo
+>, а посмотреть результат можно, нажав <keycombo
+>&Alt;<keycap
+>7</keycap
+></keycombo
+>.</para>
+
+			<para
+>Кроме того, можно преобразовать PS в PDF с помощью <keycombo
+>&Alt;<keycap
+>8</keycap
+></keycombo
+> или &DVI; напрямую в PDF с помощью <keycombo
+>&Alt;<keycap
+>9</keycap
+></keycombo
+>.</para>
+
+			<para
+>Использование &pdflatex; вместо &latex; может быть просто вопросом простоты или привычки, но иногда поведение этих двух программ различается.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&latex; в веб</title>
+
+			<para
+>Работу можно опубликовать и в Интернете, а не только на бумаге. Для этого есть программа <application
+>latex2html</application
+>, которую можно вызвать из меню &kile; <menuchoice
+><guimenu
+>Сборка</guimenu
+><guisubmenu
+>Преобразовать</guisubmenu
+><guimenuitem
+>LaTeX to Web</guimenuitem
+></menuchoice
+>. Результат помещается во вложенную папку рабочей папки, а посмотреть его можно пунктом <menuchoice
+><guimenu
+>Сборка</guimenu
+><guisubmenu
+>Вид</guisubmenu
+><guimenuitem
+>View &HTML;</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_cl">
+
+			<title
+>Передача параметров командной строки</title>
+
+			<para
+>Если требуется передать инструментам компиляции, преобразования и просмотра особые параметры командной строки, их вызов можно настроить в <menuchoice
+><guimenu
+>Настройка</guimenu
+> <guisubmenu
+>Настроить Kile…</guisubmenu
+><guisubmenu
+>Инструменты</guisubmenu
+><guilabel
+>Сборка</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_preview">
+		<title
+>Быстрый просмотр</title>
+
+		<para
+>При работе с &latex; просмотр результата всегда занимает время: &latex; компилирует исходный текст, затем вызывается программа просмотра. Это раздражает, если в сложной формуле изменено всего несколько букв. В &kile; есть режим <emphasis
+>быстрого просмотра</emphasis
+>, в котором компилируется только часть документа, что экономит много времени. Поддерживается четыре режима, которые сочетаются с семью конфигурациями.</para>
+
+		<screenshot>
+			<screeninfo
+>Быстрый просмотр</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Быстрый просмотр</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Все параметры задаются в <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>Инструменты</guimenuitem
+><guilabel
+>Предпросмотр</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Настройка быстрого просмотра</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Настройка быстрого просмотра</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<sect2 id="build_qp_selection">
+
+			<title
+>Режим выделения</title>
+
+			<para
+>Требуется выделить часть документа. Пункт меню <menuchoice
+><guimenu
+>Сборка</guimenu
+><guisubmenu
+>Быстрый просмотр</guisubmenu
+><guimenuitem
+>Выделение</guimenuitem
+></menuchoice
+> или комбинация клавиш <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>S</keycap
+> запустит выбранные программы. &kile; берёт преамбулу исходного текста, чтобы были включены все пакеты и команды, определённые пользователем. Можно выбрать одну из восьми предварительно заданных конфигураций:</para>
+
+			<itemizedlist>
+			<listitem
+><para
+><application
+>LaTeX+&DVI; (встроенная программа просмотра)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+&DVI; (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+PS (встроенное средство просмотра)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+PS (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLaTeX+PDF (встроенная программа просмотра)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLaTeX+PDF (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>XeLaTeX+PDF (встроенная программа просмотра)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>XeLaTeX+PDF (&okular;)</application
+></para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Этого достаточно во всех случаях, когда требуется быстрый просмотр.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_environment">
+
+			<title
+>Режим окружения</title>
+
+			<para
+>Очень часто требуется просмотреть текущее окружение, особенно математические окружения, которые иногда бывает трудно записать. &kile; предоставляет очень быстрый способ сделать это. Выделять ничего не нужно: достаточно выбрать <menuchoice
+><guimenu
+>Сборка</guimenu
+><guisubmenu
+>Быстрый просмотр</guisubmenu
+><guimenuitem
+>Окружение</guimenuitem
+></menuchoice
+> или нажать комбинацию клавиш <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>E</keycap
+> — и текущее окружение будет скомпилировано и показано.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_subdocument">
+
+			<title
+>Режим вложенного документа</title>
+
+			<para
+>Если проект большой и содержит много документов, компилировать его целиком не стоит, когда изменения внесены только в один документ. &kile; позволяет скомпилировать текущий поддокумент и просмотреть его. Преамбула при этом берётся из главного документа, а компилируется только текущая часть — при выборе <menuchoice
+><guimenu
+>Сборка</guimenu
+><guisubmenu
+>Быстрый просмотр</guisubmenu
+><guimenuitem
+>Поддокумент</guimenuitem
+></menuchoice
+> или комбинации клавиш <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>D</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_mathgroup">
+
+			<title
+>Режим математической группы</title>
+
+			<para
+>Режим просмотра математической группы показывает редактируемую математическую группу. &kile; берёт преамбулу из главного документа и компилирует только ту группу, в которой находится курсор, при выборе <menuchoice
+><guimenu
+>Сборка</guimenu
+><guisubmenu
+>Быстрый просмотр</guisubmenu
+><guimenuitem
+>Математическая группа</guimenuitem
+></menuchoice
+> или нажатии <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>M</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="qp_bottombar">
+
+			<title
+>Быстрый просмотр в нижней панели</title>
+
+			<para
+>Вместо показа предпросмотра в новом документе &kile; можно также настроить на использование нижней панели для компиляции предпросмотра. Включить эту возможность можно на панели настройки быстрого просмотра.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_graphics">
+
+		<title
+>Форматы графических файлов</title>
+
+		<sect2 id="build_graphics_latex">
+
+		<title
+>&latex; и &pdflatex;</title>
+
+		<para
+>&pdflatex; при использовании с пакетами <userinput
+>graphics</userinput
+> или <userinput
+>graphicx</userinput
+> позволяет правильно компилировать файлы PNG и JPG в &DVI; или PDF, но не умеет обрабатывать файлы EPS. И наоборот: компиляция с помощью &latex; в &DVI; с последующим преобразованием в PS и, в конечном счёте, в PDF поддерживает EPS, но не поддерживает PNG и JPG.</para>
+
+		<para
+>Многие пользователи хотят создавать документы PDF, но при этом хотят использовать превосходный пакет <application
+>Pstricks</application
+> для создания графики &PostScript; либо применять вывод &PostScript; математических и научных программ, таких как <application
+>Mathematica</application
+>, <application
+>Maple</application
+> или <application
+>MuPAD</application
+>. Таким пользователям &latex; приходится сначала компилировать в &PostScript;, даже если им нужны документы PDF, поскольку эти программы создают код &PostScript;, который не может обработать &pdflatex;. Однако это не так сложно, как может показаться, ведь &kile; поможет.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_conversion">
+
+		<title
+>Преобразование графики</title>
+
+		<para
+>Чтобы разорвать этот досадный замкнутый круг, когда требуется включить и код &PostScript;, и файлы PNG или JPG, существует несколько обходных решений:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Если требуется файл в формате PS, но есть графика в формате JPG или PNG, можно также просто сначала воспользоваться &pdflatex; с выводом в формате &DVI;, а затем запустить <application
+>dvips</application
+>, чтобы создать файл PS. Как видно, &pdflatex; — очень хороший выбор, если исходный текст вообще не содержит кода &PostScript;.</para
+></listitem>
+
+			<listitem
+><para
+>Преобразовать файлы EPS в PNG или другие форматы можно с помощью таких программ, как <ulink url="http://www.gimp.org/"
+><application
+>Gimp</application
+></ulink
+> или <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>, а также использовать &pdflatex;.</para
+></listitem>
+
+			<listitem
+><para
+><anchor id="build_graphics_epstopdf"
+></anchor
+>Предпочтительный способ — преобразовать графику EPS в графику PDF с помощью <command
+>epstopdf</command
+>, входящей в состав любого дистрибутива &tex;, а затем воспользоваться &pdflatex;. Это обеспечивает высокое качество графики, а результатом можно даже управлять с помощью некоторых из перечисленных ниже параметров: <programlisting
+>-dAutoFilterColorImages=false
+        -dAutoFilterGrayImages=false
+        -sColorImageFilter=FlateEncode
+        -sGrayImageFilter=FlateEncode
+        -dPDFSETTINGS=/prepress
+        -dUseFlateCompression=true
+</programlisting>
+			</para>
+
+			<para
+>Ещё лучше: если система допускает <userinput
+>shell-escape</userinput
+>, преобразование можно выполнять на лету. Достаточно подключить пакет <application
+>epstopdf</application
+>, входящий во все дистрибутивы &tex;, командой <userinput
+>\usepackage{epstopdf}</userinput
+>. Предположим, что код имеет вид: <programlisting>
+        \includegraphics[width=5cm]{test.eps}
+</programlisting
+> Если вызвать &pdflatex; с параметром <option
+>--shell-escape</option
+>, графический файл <filename
+>test.eps</filename
+> автоматически преобразуется в <filename
+>test.pdf</filename
+>.</para>
+
+			<para
+>Это преобразование будет выполняться при каждом запуске &pdflatex;. Если команда для графики задана неявно: <programlisting>
+        \includegraphics[width=5cm]{test}
+</programlisting
+> <application
+>epstopdf</application
+> проверяет, доступен ли уже файл <filename
+>test.pdf</filename
+>, чтобы шаг преобразования можно было пропустить.</para
+></listitem>
+
+			<listitem
+><para
+>Можно преобразовывать и в обратном направлении, используя &latex; и преобразование PS-PDF. Это не всегда удачная идея, поскольку инкапсуляция JPG или PNG в EPS может давать файлы большего размера, которые, в свою очередь, приводят к неоправданно большим документам. Однако это <emphasis
+>сильно</emphasis
+> зависит от используемой графической программы, поскольку EPS может инкапсулировать другие графические изображения, но не все приложения поддерживают это в совершенстве. Некоторые из них могут попытаться построить изображение JPG с помощью векторов и различных сценариев, что приведёт к гигантским файлам. Преобразование всех графических форматов в EPS можно выполнить с помощью <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>. Ещё одна простая программа, которая правильно выполняет это преобразование, — <ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/"
+><application
+>jpg2ps</application
+></ulink
+>. </para
+></listitem>
+
+			<listitem
+><para
+>Можно также использовать автоматическое преобразование. Все графические файлы преобразуются на лету в EPS и вставляются в документ PS. Это удобный способ, но требуется правильно настроить систему. Об этом рассказывается в разделе <link linkend="build_epsgraphics"
+>Графика EPS</link
+>.</para
+></listitem>
+
+		</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="build_graphics_type">
+
+		<title
+>Выбор формата для изображения</title>
+
+	 	<itemizedlist>
+			<listitem
+><para
+>EPS — это своего рода язык сценариев векторной графики, описывающий все линии и точки, из которых состоит изображение; он хорошо выглядит даже при увеличении сверх размера по умолчанию и лучше всего подходит для диаграмм и векторной графики, изначально созданных в EPS, которые выглядят очень чётко и резко, сохраняя при этом очень малый размер в байтах.</para
+></listitem>
+			<listitem
+><para
+>PNG (или устаревший &GIF;) — это <emphasis
+>формат без потерь</emphasis
+> с хорошим сжатием и качеством. Он отлично подходит для диаграмм, отсканированных чертежей и всего, чёткость чего требуется сохранить. Иногда его использование для фотографий избыточно.</para
+></listitem>
+			<listitem
+><para
+>JPG — это формат с <emphasis
+>потерями</emphasis
+>, который сжимает файлы лучше, чем PNG, но ценой некоторой потери детализации изображения. Обычно это несущественно для фотографий, но может привести к плохому качеству диаграмм и рисунков, а также к полному исчезновению некоторых тонких линий; в таких случаях используйте EPS или PNG.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Но всегда помните: мусор на входе — мусор на выходе! Никакое преобразование не сделает плохое изображение хорошим.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_epsgraphics">
+
+		<title
+>Графика EPS</title>
+
+		<para
+>Файлы графики EPS — традиционный способ вставки графических файлов в документы &latex;. Поскольку списки рассылки изобилуют вопросами о графике EPS, ниже рассматриваются некоторые важные аспекты и показывается, как &kile; поддерживает их.</para>
+
+		<sect2 id="build_graphics_eps">
+
+		<title
+>&latex; и графика EPS</title>
+
+		<para
+>Если для создания вывода PS или PDF используется традиционный &latex;, вероятно, возникнут проблемы с графикой. Придётся использовать графику EPS (Encapsulated &PostScript;), а не файлы JPEG или PNG. Это не должно вызвать затруднений, поскольку существует множество <link linkend="build_graphics_conversion"
+>преобразователей</link
+>, таких как <command
+>convert</command
+> из превосходного пакета <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>. Но, конечно, на это требуется время.</para>
+
+		<para
+>Файлы EPS используются как &latex;, так и преобразователем &DVI;-PS:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex; ищет в файле EPS строку bounding box, из которой узнаёт, сколько места оставить под изображение.</para
+></listitem>
+
+		<listitem
+><para
+>Затем преобразователь &DVI;-PS читает файл EPS и вставляет графику в файл PS.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Из этого следует несколько выводов:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex; никогда не читает файл EPS, если в команде вставки графики заданы параметры ограничивающего прямоугольника.</para
+></listitem>
+
+		<listitem
+><para
+>Поскольку &latex; не читает файлы, не являющиеся ASCII, он не может получить сведения об ограничивающем прямоугольнике из сжатых файлов и графических файлов других форматов.</para
+></listitem>
+
+		<listitem
+><para
+>Графика EPS не включается в файл &DVI;. Поскольку файлы EPS должны присутствовать при преобразовании файла &DVI; в PS, при любом перемещении файлов &DVI; вместе с ними необходимо перемещать и файлы EPS.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Теперь можно вызвать &latex; и преобразователь &DVI;-PS, например <application
+>dvips</application
+>, чтобы создать документ &PostScript;. Если требуется документ PDF, следует запустить <command
+>dvips</command
+> с параметром <option
+>-Ppdf</option
+>, а затем вызвать <command
+>ps2pdf</command
+>. Найдётся много документов, описывающих это решение.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_epskile">
+
+		<title
+>Работа с &PostScript; в &kile;</title>
+
+		<para
+>&kile; помогает получить информацию об ограничивающем прямоугольнике. Если установлен пакет <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>, &kile; извлечёт эту информацию из файла EPS и вставит её в качестве параметра. Это выполняется автоматически при выборе графического файла. У такого подхода есть два преимущества:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>Сведения уже получены в диалоговом окне, и &latex; не придётся искать их позже.</para
+></listitem>
+		<listitem
+><para
+>Ещё важнее, что ширину и высоту изображения можно вычислить, если известно разрешение. Эти сведения показываются в верхней части диалогового окна и могут служить подсказкой при масштабировании графики.</para
+></listitem>
+		<listitem
+><para
+>&kile; также может поддерживать файлы EPS, сжатые zip или gzip, которые гораздо меньше несжатых файлов EPS. Однако эту возможность можно использовать только при особой настройке системы и изменении локальной конфигурации графики, как описано в разделе <link linkend="build_graphics_bitmap"
+>Растровая графика</link
+>.</para
+></listitem>
+		</itemizedlist>
+	<!-- FIXME I don't understand the following sentence, tbraun
+		<para
+> The <emphasis
+>&PostScript; Way of &kile;</emphasis
+> can be turned off or on in
+		<menuchoice
+><guimenu
+>Settings</guimenu
+><guisubmenu
+>Configure Kile...</guisubmenu>
+		<guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>General</guilabel
+></menuchoice
+>.</para>
+		-->
+	</sect2>
+
+	<sect2 id="build_graphics_bitmap">
+
+		<title
+>Подход &PostScript; и растровая графика</title>
+
+		<para
+>Если система допускает <userinput
+>shell-escape</userinput
+>, &kile; также поддерживает простой способ включения растровой графики при условии правильной настройки системы &tex;. Преобразовывать графику JPEG или PNG не требуется: это можно сделать автоматически при преобразовании файла &DVI; в PS.</para>
+
+		<para
+>&latex; требуется информация о суффиксах файлов. Пакет <userinput
+>graphicx</userinput
+> ищет файл <filename
+>graphics.cfg</filename
+>, который должен находиться где-то в пути поиска документов &latex;. Найдите записи вида:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{}%
+</programlisting>
+
+		<para
+>и замените эти строки на:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   % изменённые или новые правила для графики
+   \DeclareGraphicsRule{.eps.zip}{eps}{.eps.bb}{`unzip -p #1}%   EPS, сжатый zip
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{`gunzip -c #1}%   EPS, сжатый gzip
+   \DeclareGraphicsRule{.jpg}{eps}{}{`convert #1 eps:-}%         JPEG
+   \DeclareGraphicsRule{.gif}{eps}{.bb}{`convert #1 eps:-}%      GIF
+   \DeclareGraphicsRule{.png}{eps}{.bb}{`convert #1 eps:-}%      PNG
+   \DeclareGraphicsRule{.tif}{eps}{.bb}{`convert #1 eps:-}%      TIFF
+   \DeclareGraphicsRule{.pdf}{eps}{.bb}{`convert #1 eps:-}%      графика PDF
+</programlisting>
+
+		<para
+>Этот файл можно найти, например, в Debian, по пути <filename
+>/etc/texmf/latex/graphics.cfg</filename
+>. Лучше всего скопировать этот файл в локальный texpath, а затем изменить копию. Чтобы узнать, как получить список папок &tex;, обратитесь к руководству своего дистрибутива &tex;.</para>
+
+		<para
+>С помощью этого файла конфигурации можно вставлять в &latex; растровую графику и файлы EPS, сжатые zip или gzip. Команду для преобразования предоставляет <command
+>dvips</command
+>. Если посмотреть на команду преобразования, можно увидеть, что дополнительный файл не создаётся. Результат преобразования по конвейеру направляется непосредственно в файл PS. &latex; должен знать только размер графики, поэтому необходим ограничивающий прямоугольник, который предоставляет &kile;.</para>
+
+		<para
+>Некоторые утверждают, что этот способ небезопасен; как работать — каждый решает сам. В любом случае ограничивающий прямоугольник не нужен, так как &kile; извлечёт эти сведения из графики любого типа.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_pdflatex">
+
+		<title
+>&pdflatex; и графика EPS</title>
+
+		<para
+>Как уже отмечалось, &pdflatex; не умеет обрабатывать графические файлы EPS, но помогут такие преобразователи, как <link linkend="build_graphics_epstopdf"
+>epstopdf</link
+>. Лучший способ — подключить пакет <filename
+>epstopdf</filename
+>, который должен следовать за пакетом <userinput
+>graphicx</userinput
+>.</para>
+
+<programlisting
+>\usepackage[pdftex]{graphicx}
+   \usepackage{epstopdf}
+</programlisting>
+
+		<para
+>Уже сейчас можно включать графику EPS, если запускать <command
+>pdflatex</command
+> с параметром <option
+>--shell-escape</option
+>, но можно сделать ещё лучше и обрабатывать также файлы EPS, сжатые zip или gzip. Снова нужно изменить файл конфигурации графики <filename
+>graphics.cfg</filename
+>, как описано выше. На этот раз ищем:</para>
+
+<programlisting
+>% pdfTeX is running in pdf mode
+   \ExecuteOptions{pdftex}%
+</programlisting>
+
+		<para
+>и просто добавьте несколько строк:</para>
+
+<programlisting
+>% pdfTeX работает в режиме pdf
+   \ExecuteOptions{pdftex}%
+   \AtEndOfPackage{%
+      \g@addto@macro\Gin@extensions{.eps.gz,.eps.zip}%
+      \@namedef{Gin@rule@.eps.gz}#1{{pdf}{.pdf}{`gunzip -c #1 | epstopdf -f 
+>\Gin@base.pdf}}%
+      \@namedef{Gin@rule@.eps.zip}#1{{pdf}{.pdf}{`unzip -p #1 | epstopdf -f 
+>\Gin@base.pdf}}%
+   }%
+</programlisting>
+
+		<para
+>С этими строками &pdflatex; сможет обрабатывать файлы EPS, и, надо надеяться, проблем с графикой больше не возникнет.</para>
+
+	</sect2>
+
+	</sect1>
+
+	<sect1 id="build_master">
+
+		<title
+>Главный документ</title>
+
+		<para
+>Определение документа как главного позволяет работать с отдельными файлами: в результате появляется родительский (или главный) документ и поддокументы, составляющие законченную работу. После того как главный документ определён соответствующей командой в меню <guimenu
+>Настройка</guimenu
+>, все команды меню <guimenu
+>Инструменты</guimenu
+> будут применяться только к этому документу, даже при работе с поддокументами. Главный документ можно даже закрыть.</para>
+	</sect1>
+
+	<sect1 id="build_errorhandling">
+
+		<title
+>Обработка ошибок</title>
+
+		<para
+>После компиляции &kile; просматривает сообщения об ошибках. Если есть ошибки или предупреждения, они кратко выводятся в окне <guilabel
+>Журнал сообщений</guilabel
+>. Подробнее их можно посмотреть, выбрав <menuchoice
+><guimenu
+>Сборка</guimenu
+><guimenuitem
+>Просмотреть файл журнала</guimenuitem
+></menuchoice
+> или нажав <keycombo
+>&Alt;<keycap
+>0</keycap
+></keycombo
+>. Журнал показывается в окне <guilabel
+>Журнал сообщений</guilabel
+>, ошибки и предупреждения выделяются.</para>
+
+		<screenshot>
+			<screeninfo
+>Просмотр журнала</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_compile_error.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Просмотр журнала</phrase>
+			</textobject>
+			<caption
+><para
+>Просмотр журнала</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Можно легко переходить от одного сообщения в файле журнала к другому, используя пункты меню <menuchoice
+><guimenu
+>Сборка</guimenu
+><guimenuitem
+>Следующая / предыдущая ошибка / предупреждение LaTeX</guimenuitem
+></menuchoice
+> или соответствующие кнопки панели инструментов.</para>
+
+		<para
+>Чтобы перейти к строке исходного текста &latex;, в которой возникла ошибка или предупреждение, щёлкните по сообщению в окне <guilabel
+>Журнал сообщений</guilabel
+>. &kile; перейдёт к этой строке автоматически.</para>
+
+	</sect1>
+
+	<sect1 id="build_watch">
+
+			<title
+>Режим отслеживания изменений файла</title>
+
+			<para
+>После компиляции командой <guibutton
+>Quickbuild</guibutton
+> обычно вызывается программа просмотра. Если встроенная программа просмотра не используется, каждый раз открывается новое окно.</para>
+
+			<para
+>При настройке внешнего вида документа <guibutton
+>Quickbuild</guibutton
+> приходится запускать очень часто, и на рабочем столе открывается много окон программы просмотра. Чтобы этого избежать, включите режим <guibutton
+>Следить за изменениями файла</guibutton
+>: тогда <guibutton
+>Quickbuild</guibutton
+> не будет запускать программу просмотра.</para>
+
+			<para
+>Этот режим, конечно, бесполезен при использовании встроенных средств просмотра, так как для возврата к редактированию документа и повторной компиляции их всё равно придётся закрыть.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="navigating">
+
+	<title
+>Навигация по исходному тексту &latex;</title>
+
+	<sect1 id="navigating_struct">
+
+		<title
+>Использование представления структуры</title>
+
+		<para
+>Представление <guilabel
+>Структура</guilabel
+> показывает иерархию документа, создаваемого в &kile;, и позволяет быстро перемещаться по его частям. Достаточно щёлкнуть левой кнопкой мыши по метке, главе, разделу, подразделу и т. д. — и откроется начало соответствующей части.</para>
+
+		<para
+>Если с помощью команд <userinput
+>\input</userinput
+> или <userinput
+>\include</userinput
+> в исходный текст включён отдельный файл &latex;, эти файлы будут показаны в представлении <guilabel
+>Структура</guilabel
+>; при двойном щелчке по их именам &kile; откроет включённый файл в окне редактора.</para>
+
+		<para
+>Дерево иерархии также содержит отдельную ветвь для меток, используемых в тексте.</para>
+
+<!--		<screenshot>
+			<screeninfo
+>Using the Structure View</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_structview_label.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Using the Structure View</phrase>
+			</textobject>
+			<caption
+><para
+>Using the Structure View</para
+></caption>
+			</mediaobject>
+		</screenshot
+>-->
+
+		<sect2 id="navigating_contextmenu">
+
+			<title
+>Использование контекстного меню</title>
+
+			<para
+>Большинство элементов представления структуры содержат много пунктов в контекстном меню, которое открывается щелчком правой кнопкой мыши. Поэтому рассмотрим представление структуры на следующем рисунке.</para>
+
+			<screenshot>
+				<screeninfo
+>Использование представления «Структура»</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Использование представления структуры</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>На рисунке видны несколько меток, несколько элементов разбиения на разделы, два окружения figure и три рисунка. Щелчок правой кнопкой мыши по элементу раздела открывает меню с полезными командами. Все команды, такие как <guibutton
+>Выделить текст</guibutton
+>, <guibutton
+>Удалить</guibutton
+> или <guibutton
+>Закомментировать</guibutton
+>, действуют на все строки этого раздела.</para>
+
+			<screenshot>
+				<screeninfo
+>Контекстное меню элементов разделов</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Контекстное меню элементов разбиения на разделы</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Щелчок правой кнопкой мыши по элементу рисунка или таблицы предлагает действия со ссылками на него, а по элементу изображения — программы для его открытия.</para>
+
+			<screenshot>
+				<screeninfo
+>Контекстное меню для элементов рисунков, таблиц и графики</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Контекстное меню для элементов рисунков, таблиц и графики</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			</sect2>
+
+		<sect2 id="navigating_update">
+
+			<title
+>Обновление представления структуры</title>
+
+			<para
+>Чтобы обновить представление структуры, выберите <menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Обновить структуру</guimenuitem
+></menuchoice
+>, нажмите <keycombo
+><keycap
+>F12</keycap
+></keycombo
+> или сохраните документ — тогда &kile; обновит представление <guilabel
+>Структура</guilabel
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="navigating_bookmarks">
+
+		<title
+>Закладки</title>
+
+		<para
+>Закладки — это ссылки на фрагмент текста или строку в окружении &kile;. Чтобы воспользоваться закладкой, выберите строку документа, к которой нужно вернуться, и нажмите <keycombo
+>&Ctrl; <keycap
+>B</keycap
+></keycombo
+> — &kile; добавит закладку к этой строке. Кроме того, закладку можно установить, выделив строку и выбрав пункт меню <menuchoice
+><guimenu
+>Закладки</guimenu
+><guimenuitem
+>Установить закладку</guimenuitem
+></menuchoice
+>.</para>
+
+		<para
+>Чтобы удалить все закладки, выберите <menuchoice
+><guimenu
+>Закладки</guimenu
+> <guimenuitem
+>Удалить все закладки</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="projects">
+
+	<title
+>Проекты</title>
+
+	<sect1 id="projects_working">
+
+		<title
+>Работа с проектами</title>
+
+		<para
+>В &kile; можно создавать <emphasis
+>проекты</emphasis
+> и работать с ними. Проект — это группа файлов &latex;, графических, &bibtex; или других, содержащих всю информацию, которая используется для сборки полного документа. Типичный проект — это документ, состоящий из нескольких глав, записанных в разных файлах <literal role="extension"
+>.tex</literal
+>; все их можно включить в проект, чтобы упростить управление всем документом. Параметры проекта хранятся в специальном файле с расширением <literal role="extension"
+>.kilepr</literal
+>.</para>
+
+		<para
+>Проект добавляет следующие возможности:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Задавать главный документ не нужно — &kile; делает это автоматически.</para
+></listitem>
+			<listitem
+><para
+>Чтобы заархивировать файлы проекта вместе, выберите <menuchoice
+><guimenu
+>Проект</guimenu
+><guimenuitem
+>Архивировать</guimenuitem
+></menuchoice
+></para
+></listitem>
+			<listitem
+><para
+>Представление <guilabel
+>Файлы и проекты</guilabel
+> показывает, какие файлы включены в проект.</para
+></listitem>
+			<listitem
+><para
+>После открытия проекта все ранее открытые файлы восстанавливаются с исходной кодировкой и подсветкой.</para
+></listitem>
+      <listitem
+><para
+>Автодополнение кода работает во всех файлах проекта.</para
+></listitem>
+      <listitem
+><para
+>Автодополнение ссылок работает во всех файлах проекта.</para
+></listitem>
+      <listitem
+><para
+>Автодополнение цитирований работает во всех файлах проекта.</para
+></listitem>
+      <listitem
+><para
+>Поиск во всех файлах проекта.</para
+></listitem>
+      <listitem
+><para
+>Собственные команды Quickbuild и &makeidx;.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Все команды, относящиеся к проекту, находятся в меню <guilabel
+>Проект</guilabel
+>. Оттуда можно открывать, закрывать проекты и управлять ими.</para>
+
+	</sect1>
+
+	<sect1 id="projects_creating">
+
+		<title
+>Создание проекта</title>
+
+		<para
+>Чтобы создать проект, выберите <menuchoice
+><guimenu
+>Проект</guimenu
+> <guimenuitem
+>Создать проект…</guimenuitem
+></menuchoice
+>.</para>
+		<screenshot>
+		  <screeninfo
+>Окно создания проекта</screeninfo>
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="project-creation.png" format="PNG"/>
+		    </imageobject>
+		    <textobject>
+		      <phrase
+>Окно создания проекта</phrase>
+		    </textobject>
+		  </mediaobject>
+		</screenshot>
+		<para
+>Для создания проекта потребуется указать следующие сведения:</para>
+		<itemizedlist>
+		  <listitem>
+		    <para
+>Название проекта (текстовое поле <guilabel
+>Название проекта</guilabel
+>). </para>
+		    <para
+>Название проекта используется для формирования имени файла проекта: оно преобразуется в нижний регистр и дополняется расширением <filename role="extension"
+>.kilepr</filename
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Папка, в которой будет храниться файл проекта (текстовое поле <guilabel
+>Каталог проекта</guilabel
+>). </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Чтобы создать новый главный файл проекта, установите флажок <guilabel
+>Создать новый файл и добавить его к этому проекту</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>В поле <guilabel
+>Имя файла</guilabel
+> указывается путь относительно папки, в которой хранится файл проекта <filename role="extension"
+>.kilepr</filename
+> (см. поле <guilabel
+>Каталог проекта</guilabel
+>). </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Тип создаваемого файла — <guilabel
+>Пустой файл</guilabel
+>, <guilabel
+>Article</guilabel
+>, <guilabel
+>Book</guilabel
+>, <guilabel
+>Letter</guilabel
+>, <guilabel
+>Report</guilabel
+> и т. д. — выбирается в списке в нижней части панели <guilabel
+>Файл</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Расширения для файлов проекта по умолчанию можно выбрать на панели <guilabel
+>Расширения</guilabel
+>. Сделанный выбор определяет файлы, которые будут открываться при выборе пункта меню <menuchoice
+><guimenu
+>Проект</guimenu
+><guimenuitem
+>Открыть все файлы проекта</guimenuitem
+></menuchoice
+> и в мастерах &kile;. Расширения в текстовом поле разделяются пробелами. </para>
+		  </listitem>
+		</itemizedlist>
+	</sect1>
+
+	<sect1 id="projects_view">
+
+		<title
+>Представление «Файлы и проекты»</title>
+
+		<para
+>Представление <guilabel
+>Файлы и проекты</guilabel
+> — это кнопка меню боковой панели. В этом представлении показывается структура проекта, его файлы и имя файла <literal role="extension"
+>.kilepr</literal
+>, в котором хранится информация о проекте. Добавление, удаление и изменение параметров проекта выполняется с помощью представления <guilabel
+>Файлы и проекты</guilabel
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Представление «Файлы и проекты»</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Представление файлов и проектов</phrase>
+			</textobject>
+			<caption
+><para
+>Представление файлов и проектов</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="projects_adding">
+
+		<title
+>Добавление и удаление файлов</title>
+
+		<para
+>Чтобы добавить файл в проект, откройте любой файл &tex;, щёлкните правой кнопкой мыши по его имени в представлении <guilabel
+>Файлы и проекты</guilabel
+> и выберите <guilabel
+>Добавить в проект</guilabel
+>. Если открыто несколько проектов, появится диалоговое окно, в котором можно указать, в какой проект следует добавить файл.</para>
+		<!-- duplicated see next para
+		<para
+>If you have multiple files to be added to a project, you can select the
+		project from the <guilabel
+>Files and Projects</guilabel
+> view and right-click then select
+		<guilabel
+>Add Files...</guilabel
+>; you will then be able to select your files in a dialog box.</para>
+		-->
+		<para
+>Также можно щёлкнуть правой кнопкой мыши по имени проекта в представлении <guilabel
+>Файлы и проекты</guilabel
+> и выбрать <guilabel
+>Добавить файлы…</guilabel
+>, чтобы открыть диалоговое окно выбора файлов.</para>
+
+		<screenshot>
+			<screeninfo
+>Добавление файла в проект</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview_add.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Добавление файла в проект</phrase>
+			</textobject>
+			<caption
+><para
+>Добавление файла в проект</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Чтобы удалить файл из проекта, щёлкните по нему правой кнопкой мыши и выберите <guilabel
+>Удалить файл</guilabel
+>. При этом файл <emphasis
+>не</emphasis
+> удаляется (и не закрывается), а только убирается из списка файлов, содержащегося в файле расширения <literal role="extension"
+>.kilepr</literal
+>.</para>
+
+		<sect2 id="projects_archive">
+
+			<title
+>Архивация проекта</title>
+
+			<para
+>&kile; позволяет легко создавать резервную копию проекта, сохраняя все его файлы в единый архив (часто называемый <emphasis
+>tar-архивом</emphasis
+>). Чтобы заархивировать проект, щёлкните правой кнопкой мыши по его имени в представлении <guilabel
+>Файлы и проекты</guilabel
+> или выберите <menuchoice
+><guimenu
+>Проект</guimenu
+><guimenuitem
+>Архивировать</guimenuitem
+></menuchoice
+>.</para>
+
+			<para
+>По умолчанию в архив добавляются все файлы проекта. Чтобы исключить файл из архива, щёлкните по нему правой кнопкой мыши в представлении <guilabel
+>Файлы и проекты</guilabel
+> и снимите флажок <guilabel
+>Добавить в архив</guilabel
+>.</para>
+
+			<para
+>Архивация в настоящее время выполняется запуском команды <command
+>tar</command
+> из папки проекта (в которой находится файл <literal role="extension"
+>.kilepr</literal
+>).</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="projects_options">
+
+		<title
+>Параметры проекта</title>
+
+		<para
+>У проекта в &kile; есть несколько параметров. Чтобы изменить их, щёлкните правой кнопкой мыши по названию проекта и выберите <guilabel
+>Настройки проекта</guilabel
+>. Можно изменить:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Название проекта.</para
+></listitem>
+			<listitem
+><para
+>Расширения файлов по умолчанию.</para
+></listitem>
+ 			<listitem
+><para
+>Главный документ.</para
+></listitem>
+ 			<listitem
+><para
+>Команда быстрой сборки.</para
+></listitem>
+ 			<listitem
+><para
+>Параметры &makeidx;.</para
+></listitem>
+		</itemizedlist>
+
+
+<!-- FIXME not working in kile, tbraun 11/3/2007
+		<sect2 id="projects_ext">
+
+			<title
+>Extensions for Non-Source Files</title>
+
+			<para
+>Non-source files are files such as pictures, PDF or &PostScript; files, etc. that are
+			to be included in the project, but are not source files with the extension <literal role="extension"
+>.tex</literal
+>. You have
+			the option to use your own regular expressions to match non-source files.</para>
+		</sect2>
+-->
+
+	</sect1>
+
+	<sect1 id="projects_closing">
+
+		<title
+>Закрытие проекта</title>
+
+		<para
+>Чтобы закрыть проект, откройте представление <guilabel
+>Файлы и проекты</guilabel
+> на вертикальной панели инструментов, щёлкните правой кнопкой мыши по названию проекта и выберите <guimenuitem
+>Закрыть</guimenuitem
+>. Будут закрыты проект и все его файлы, а имя проекта будет добавлено в подменю <guisubmenu
+>Последние проекты</guisubmenu
+> меню <guimenu
+>Проект</guimenu
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="lang">
+
+	<title
+>Кодировка документа</title>
+
+	<para
+>Редактор &kile; позволяет читать, преобразовывать и сохранять текст в той кодировке символов, которая требуется документу. Благодаря этому можно, например, использовать символы с диакритическими знаками, обычно применяемые в итальянском или французском языке, непосредственно в документах &latex;. Выбрать кодировку для документа можно двумя способами:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>Один из способов задать кодировку документа — воспользоваться подменю <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+><guimenuitem
+>Редактор</guimenuitem
+></menuchoice
+>, где можно задать кодировку символов по умолчанию для всех файлов.</para>
+		<screenshot>
+			<screeninfo
+>Установка кодировки символов по умолчанию</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-encoding.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Установка кодировки символов по умолчанию</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		<listitem
+><para
+>Ещё один способ задать кодировку документа — выбрать нужную кодировку в мастере создания нового документа.</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>Сам &latex; понимает только ASCII, который включает лишь очень ограниченный набор символов. Поэтому использовать символы с диакритическими знаками напрямую невозможно. Чтобы всё же их использовать, был придуман специальный синтаксис: например, <userinput
+>\"e</userinput
+> для <computeroutput
+>ë</computeroutput
+>. Для этого можно задействовать пакет <application
+>inputenc</application
+>. Он подключается в преамбуле командой <userinput
+>\usepackage[latin1]{inputenc}</userinput
+>, где необязательный аргумент задаёт нужную кодировку (в настоящее время в большинстве случаев <userinput
+>utf8</userinput
+>). Это указывает &latex; преобразовать все написанные <userinput
+>ë</userinput
+> в <userinput
+>\"e</userinput
+> перед компиляцией. Дополнительные сведения см. непосредственно в документации к <application
+>inputenc</application
+>. И последнее, но не менее важное: не забудьте убедиться, что файл <emphasis
+>действительно</emphasis
+> сохранён в той же кодировке, которая указана для пакета <application
+>inputenc</application
+>!</para>
+
+	<para
+>Множество различных таблиц кодировки символов породило немало проблем: например, нельзя написать курс турецкого языка на французском, не потеряв специальные символы одного из языков. Общепризнано, что рано или поздно все перейдут на <ulink url="http://www.unicode.org"
+>Unicode</ulink
+>. Существует множество реализаций Unicode, и <abbrev
+>UTF-8</abbrev
+> — наиболее удачная в &Linux;; а &Windows;&reg; вместо неё полагается на более громоздкую и менее гибкую <abbrev
+>UCS-2</abbrev
+>. Большинство дистрибутивов уже начали устанавливать кодировку по умолчанию в <abbrev
+>UTF-8</abbrev
+>, поэтому может оказаться полезным использовать аргумент <userinput
+>utf8</userinput
+> пакета <userinput
+>inputenc</userinput
+>.</para>
+
+	<sect1 id="ucs">
+
+		<title
+>Пакет &ucs;</title>
+		<para
+>Если пакет &ucs; не установлен, можно поступить следующим образом:</para>
+		<itemizedlist>
+		<listitem
+><para
+>Возьмите пакет &ucs; с сайта <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/unicode/"
+>CTAN</ulink
+>. </para
+></listitem>
+		<listitem>
+		<para
+>Чтобы установить его, распакуйте загруженный файл и поместите его в одну из папок, указанных в переменной окружения $<envar
+>TEXINPUTS</envar
+>. Значение этой переменной можно также задать в &kile;.</para>
+		</listitem>
+		</itemizedlist>
+
+<programlisting
+>\usepackage{ucs}
+\usepackage[utf8]{inputenc}</programlisting>
+
+	</sect1>
+
+	<sect1 id="xelatex">
+
+		<title
+>XeLaTeX</title>
+
+		<para
+>При использовании <userinput
+>XeLaTeX</userinput
+> достаточно подключить пакет <userinput
+>xltxtra</userinput
+>. Он дополнительно загрузит все необходимые пакеты.</para>
+		<programlisting
+>\usepackage{xltxtra}</programlisting>
+
+	</sect1>
+
+	<sect1 id="cjk">
+
+		<title
+>Поддержка &cjk;</title>
+
+		<para
+>Добавление поддержки идеографических языков — довольно сложная задача. Однако после завершения настройки всё будет работать довольно хорошо. Помимо установки пакетов, потребуется выполнить дополнительную работу по настройке.</para>
+
+		<tip
+><para
+>Возможно, в дистрибутиве &Linux; уже есть готовый пакет &cjk; (китайский, японский, корейский), и тогда не придётся устанавливать всё вручную. Обязательно проверьте это, прежде чем продолжать!</para
+></tip>
+
+		<para
+>Есть возможность использовать пакет &ucs; для записи коротких фрагментов текста &cjk;, но эта возможность серьёзно ограничена, так как она не обрабатывает, среди прочего, переводы строк. Вместо этого нужно установить полный пакет &cjk;-&latex; и настроить его работу как с &latex;, так и с &pdflatex;. Значительная часть этого материала основана на <ulink url="http://www.ece.uci.edu/~chou/"
+>странице Pai H. Chou</ulink
+> <ulink url="http://www.ece.uci.edu/~chou/unicode-tex.html"
+>о настройке &pdflatex;</ulink
+>.</para>
+
+		<orderedlist>
+
+		<listitem
+><para
+>Загрузите пакет <ulink url="http://www.ctan.org/tex-archive/help/Catalogue/entries/cjk.html"
+>&cjk;</ulink
+>. Скопируйте его распакованные файлы в подходящую вложенную папку $<envar
+>TEXMF</envar
+>, как ранее с пакетом &ucs; (см. <xref linkend="ucs" role="select: title pageabbrv"/>). Файлы будут распакованы в папку <filename
+>CJK/X_Y.Z</filename
+>; вынимать их необязательно, хотя так, вероятно, будет аккуратнее и проще поддерживать.</para
+></listitem>
+
+		<listitem
+><para
+>Теперь нужно загрузить шрифт, поддерживающий все необходимые символы &cjk;. Можно выбрать любой файл <literal role="extension"
+>*.ttf</literal
+>, содержащий их, но в этом руководстве используется <ulink url="ftp://ftp.wu-wien.ac.at/pub/www/Netscape/communicator/extras/fonts/windows/Cyberbit.ZIP"
+>Cyberbit</ulink
+>. Распакуйте файл и переименуйте <filename
+>Cyberbit.ttf</filename
+> в <filename
+>cyberbit.ttf</filename
+>, так как прописные буквы могут сбить систему с толку.</para>
+		<para
+>Помещает <filename
+>cyberbit.ttf</filename
+> в папку вместе с <ulink url="http://delloye.free.fr/Unicode.sfd"
+><filename
+>Unicode.sfd</filename
+></ulink
+> и создайте файлы <literal role="extension"
+>*.tfm</literal
+> и <literal role="extension"
+>*.enc</literal
+> командой <userinput
+><command
+>$ ttf2tfm cyberbit.ttf -w cyberbit@Unicode@</command
+></userinput
+>. Почему-то иногда при этом не создаются сотни файлов, которые должны быть созданы. Если это произошло, можно загрузить оба файла — <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-tfm.tgz"
+><literal role="extension"
+>*.tfm</literal
+></ulink
+> и <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-enc.tgz"
+><literal role="extension"
+>*.enc</literal
+></ulink
+>.</para>
+		<para
+>Помещает файлы <literal role="extension"
+>*.tfm</literal
+> в подходящую папку, например <filename
+>$<envar
+>TEXMF</envar
+>/fonts/tfm/bitstream/cyberbit/</filename
+>; файлы <literal role="extension"
+>*.enc</literal
+> можно установить в <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/enc/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Теперь нужен файл карты, чтобы связать файлы <literal role="extension"
+>*.enc</literal
+> со шрифтом. Загрузите <ulink url="http://delloye.free.fr/cyberbit.map"
+><filename
+>cyberbit.map</filename
+></ulink
+> и установите его в <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Загрузите другой файл, <ulink url="http://delloye.free.fr/c70cyberbit.fd"
+><filename
+>c70cyberbit.fd</filename
+></ulink
+>, и поместите его в подходящую папку. Подойдёт, например, папка <filename
+>$<envar
+>TEXMF</envar
+>/tex/misc/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Последний файл, который требуется создать, — шрифт &PostScript; Type 1, необходимый для чтения файлов &DVI;, созданных с помощью &latex;. Выполните команду <userinput
+><command
+>$ ttf2pfb cyberbit.ttf -o cyberbit.pfb</command
+></userinput
+> и скопируйте полученный файл <filename
+>cyberbit.pfb</filename
+> в папку, например <filename
+>$<envar
+>TEXMF</envar
+>/fonts/type1/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Теперь поместите <filename
+>cyberbit.ttf</filename
+> в одну из папок со шрифтами, где &latex; сможет его найти. Его можно поместить в папку с именем <filename
+>$<envar
+>TEXMF</envar
+>/fonts/truetype/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Проверьте файл конфигурации <filename
+>$<envar
+>TEXMF</envar
+>/web2c/texmf.cnf</filename
+> и убедитесь, что строка с <envar
+>TTFONTS</envar
+> не закомментирована и указывает на папку, в которой сохранён файл <filename
+>cyberbit.ttf</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Чтобы &pdflatex; мог использовать шрифты &cjk;, необходимо добавить строку в файл конфигурации <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/pdftex.cfg</filename
+>. Добавьте в этот файл <userinput
+>map +cyberbit.map</userinput
+>, чтобы завершить настройку &pdflatex;.</para
+></listitem>
+
+		<listitem
+><para
+>Чтобы настроить &latex; для создания файлов &DVI; с символами &cjk;, необходимо добавить строку в файл <filename
+>ttfonts.map</filename
+>. Этот файл может находиться в папке <filename
+>$<envar
+>TEXMF</envar
+>/ttf2pk/</filename
+>, но, вероятно, его придётся поискать. Добавьте в него строку <userinput
+>cyberbit@Unicode@ cyberbit.ttf</userinput
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Теперь остаётся только выполнить <userinput
+><command
+>texhash</command
+></userinput
+>, и система будет готова.</para
+></listitem>
+
+		</orderedlist>
+
+		<para
+>Чтобы проверить, правильно ли выполнена настройка, попробуйте скомпилировать <ulink url="http://www.math.nus.edu.sg/aslaksen/cs/sample-utf8.tex"
+>этот тестовый файл</ulink
+>.</para>
+
+		<sect2>
+			<title
+>Устранение неполадок &cjk;</title>
+
+			<para
+>При добавлении поддержки &cjk; вручную многое может пойти не так. Если что-то не работает, поможет следующий контрольный список.</para>
+
+			<itemizedlist>
+
+			<listitem
+><para
+>Очевидно, что, поскольку &latex; запускается от имени пользователя, а не root, необходимо <emphasis
+>разрешить</emphasis
+> обычным пользователям доступ к новым файлам. Убедитесь, что все папки и файлы доступны, с помощью команды <command
+>chmod</command
+>.</para
+></listitem>
+
+			<listitem
+><para
+>Если &latex; создаёт &DVI; без проблем, но просмотреть его не удаётся, то причина почти наверняка в проблемах с автоматическим созданием шрифтов <literal role="extension"
+>*.pk</literal
+>. Предполагается, что они создаются на лету при просмотре файла &DVI;, но это может не сработать по ряду причин: сначала ещё раз проверьте <filename
+>ttfonts.map</filename
+> на наличие собственной строки. Однако может случиться, что команда <command
+>ttf2pk</command
+>, обычно вызываемая программой просмотра &DVI;, была скомпилирована <emphasis
+>без</emphasis
+> поддержки библиотек <application
+>kpathsea</application
+>. В этом случае <userinput
+><command
+>ttf2pk</command
+> <option
+>--version</option
+></userinput
+> ничего не сообщит о <application
+>kpathsea</application
+>. Поскольку поддержка этих библиотек необходима, возможно, придётся найти новый пакет или перекомпилировать <application
+>FreeType 1</application
+> самостоятельно.</para
+></listitem>
+
+			</itemizedlist>
+
+		</sect2>
+
+
+		<sect2>
+
+			<title
+>Ввод символов &cjk; в Unicode</title>
+
+			<para
+>Существует несколько различных движков ввода, и выбор может зависеть также от личных предпочтений. Автор использует <ulink url="http://www.scim-im.org/projects/skim"
+><application
+>Skim</application
+></ulink
+> — порт движка <ulink url="http://www.scim-im.org"
+><application
+>Scim</application
+></ulink
+> для &kde;. Чтобы узнать, как установить эти программы, обратитесь к документации своего дистрибутива. Настройка таких программ тоже может быть непростой: в случае <application
+>Skim</application
+> потребуется определить переменную окружения <userinput
+><envar
+>XMODIFIERS</envar
+>="@im=SCIM"</userinput
+> <emphasis
+>до</emphasis
+> запуска <application
+>X</application
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+
+&include-section-scripting;
+
+<chapter id="help">
+
+	<title
+>Справка</title>
+
+	<sect1 id="help_documents">
+
+		<title
+>Справочные документы</title>
+
+		<para
+>&latex; — довольно сложная система, базовые возможности которой можно расширить с помощью множества дополнительных пакетов. &kile; предлагает множество различных способов помочь пользователю.</para>
+
+		<para
+>Подменю <menuchoice
+><guimenu
+>Справка</guimenu
+> <guisubmenu
+>Документация LaTeX</guisubmenu
+></menuchoice
+> содержит ссылки на документацию по всем включённым пакетам, а также дополнительное справочное руководство по &latex;. </para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+><guimenu
+>Просмотр документации</guimenu
+></term>
+		<listitem
+><para
+>Удобный инструмент для просмотра всех тем &latex;. Установите пакеты справки &latex; для своего дистрибутива, если требуется полноценный сборник документации.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>LaTeX</guimenu
+></term>
+		<listitem
+><para
+>Полный неофициальный справочник по &tex; и родственным программам. Здесь не только описываются все программы, но и упоминаются некоторые важные пакеты. Он также содержит полное справочное руководство по командам &latex;&mdash;идеально подходит для поиска нужного элемента форматирования при написании документа. Поскольку этот документ действительно обширен, в &kile; на него ссылаются три закладки.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>Команды LaTeX</guimenu
+></term>
+		<listitem
+><para
+>Ещё один алфавитный указатель наиболее распространённых команд &latex;.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>Окружения LaTeX</guimenu
+></term>
+		<listitem
+><para
+>Алфавитный указатель наиболее распространённых окружений &latex;.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="help_contextsentitive">
+
+		<title
+>Контекстная справка</title>
+
+		<para
+>&kile; также поддерживает контекстно-зависимую справку, которая вызывается комбинацией клавиш <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>H</keycap
+></keycombo
+>,<keycap
+>K</keycap
+>. В разделе <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Справка</guilabel
+></menuchoice
+> можно выбрать, использовать справочник &latex; из &kile; или систему справки &tetex;/&texlive;, применяемую по умолчанию.</para>
+
+		<screenshot>
+			<screeninfo
+>Маркеры</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Маркеры</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="help_search">
+
+		<title
+>Поиск ключевых слов</title>
+
+		<para
+>Не всегда легко найти нужный документ, поскольку &tetex;/&texlive; поставляется с огромным количеством справочных документов. Чтобы упростить этот процесс, &tetex;/&texlive; предоставляет небольшую программу <application
+>texdoctk</application
+>. Она содержит базу данных всех справочных документов, для работы с которой &kile; предлагает удобный интерфейс.</para>
+
+		<screenshot>
+			<screeninfo
+>Маркеры</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Маркеры</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Все документы сгруппированы по категориям. Кроме того, можно искать по названиям пакетов или ключевым словам. &kile; покажет только те документы справки, которые соответствуют строке поиска.</para>
+
+		<screenshot>
+			<screeninfo
+>Маркеры</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Маркеры</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Двойной щелчок мышью или нажатие клавиши <keycap
+>Пробел</keycap
+> запустит программу просмотра выбранного документа. Это может быть произвольный документ, а не только документ &DVI;, PS, PDF или &HTML;. &kile; учитывает параметры &kde;, чтобы запустить подходящую программу просмотра.</para>
+
+
+	</sect1>
+
+	<sect1 id="help_userdefined">
+
+		<title
+>Дополнительная справка</title>
+
+		<para
+>Помимо статической документации &tetex;/&texlive;, &kile; поддерживает и более гибкий способ работы со справочными документами. В меню <guimenu
+>Справка</guimenu
+> есть подменю <guimenu
+>Дополнительная справка</guimenu
+>, в которое можно добавлять любые документы: важнейшие документы из &tetex;/&texlive; или даже собственные. Можно указывать и адреса URL.</para>
+
+		<para
+>Откройте <menuchoice
+><guimenu
+>Настройка</guimenu
+><guisubmenu
+>Настроить Kile…</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Справка</guilabel
+></menuchoice
+> и нажмите кнопку <guibutton
+>Настроить</guibutton
+>, чтобы настроить меню <guimenu
+>Дополнительная справка</guimenu
+>. Пункты меню можно добавлять, удалять и перемещать, а также вставлять разделители.</para>
+
+		<screenshot>
+			<screeninfo
+>Диалоговое окно настройки дополнительной справки</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Диалоговое окно настройки дополнительной справки</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>При нажатии кнопки <guibutton
+>Добавить</guibutton
+> откроется другое диалоговое окно, в котором можно изменить название пункта меню и выбрать соответствующий файл или &URL;. Вторая кнопка справа от текстового поля запускает &konqueror;, с помощью которого можно определить правильный &URL;.</para>
+
+		<screenshot>
+			<screeninfo
+>Диалоговое окно: добавление новой записи справки</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-addhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Диалоговое окно: добавление новой записи справки</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>После настройки все пункты появятся в меню <guimenu
+>Справка</guimenu
+> &kile; в подменю <guimenu
+>Дополнительная справка</guimenu
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Меню «Дополнительная справка»</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="menu-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Меню «Дополнительная справка»</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="credits">
+
+	<title
+>Авторские права и лицензия</title>
+
+	<para
+>&kile; — удобный редактор исходного кода &latex; / &tex; с открытым исходным кодом. Он работает в системах с установленной средой рабочего стола &kde;. &kde; доступна для нескольких архитектур, включая &Linux; и другие Unix-подобные системы.</para>
+
+	<para
+>Большая благодарность людям, которые стремятся продолжать проект &kile;, и тем, кто отдаёт множество часов своего времени разработке инструментов, доступных всем по лицензии &GNU;. Актуальные сведения об участниках приведены в диалоговом окне <guimenuitem
+>О программе &kile;</guimenuitem
+> из меню <guimenu
+>Справка</guimenu
+>. </para>
+
+	<para
+>Большое спасибо всем, кто принимал участие!</para>
+
+<para
+>Перевод на русский — Александр Яворский<email
+>kekcuha@gmail.com</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+
+&documentation.index;
+
+</book>
+
+<!--
+Local Variables:
+mode: xml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab
+-->

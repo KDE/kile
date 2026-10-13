@@ -9,13 +9,13 @@
 # Tolga BALCI <tolgabalci@ttnet.net.tr>, 2007.
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014, 2015, 2017.
 # Kaan Ozdincer <kaanozdincer@gmail.com>, 2014.
-# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025, 2026 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022-2026 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-05 00:43+0000\n"
-"PO-Revision-Date: 2026-05-02 19:53+0300\n"
+"PO-Revision-Date: 2026-10-12 12:01+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3438,12 +3438,12 @@ msgstr "Başlıkları kenarlık olarak say"
 #: dialogs/quickdocumentdialog.cpp:677
 #, kde-format
 msgid "Cause the footer to be counted as text"
-msgstr "Altbilgiyi da metin olarak say"
+msgstr "Alt bilgiyi de metin olarak say"
 
 #: dialogs/quickdocumentdialog.cpp:678
 #, kde-format
 msgid "Cause the footer to be counted as border"
-msgstr "Altbilgiyi kenarlık olarak say"
+msgstr "Alt bilgiyi kenarlık olarak say"
 
 #: dialogs/quickdocumentdialog.cpp:679
 #, kde-format
@@ -3498,12 +3498,12 @@ msgstr "Başlığı metinden ayırmak için çizgi kullanma"
 #: dialogs/quickdocumentdialog.cpp:689
 #, kde-format
 msgid "Use a line to separate the footer from the text body"
-msgstr "Altbilgiyi metinden ayırmak için bir çizgi kullan"
+msgstr "Alt bilgiyi metinden ayırmak için bir çizgi kullan"
 
 #: dialogs/quickdocumentdialog.cpp:690
 #, kde-format
 msgid "Use no line to separate the footer from the text body"
-msgstr "Altbilgiyi metinden ayırmak için çizgi kullanma"
+msgstr "Alt bilgiyi metinden ayırmak için çizgi kullanma"
 
 #: dialogs/quickdocumentdialog.cpp:691
 #, kde-format
@@ -3774,7 +3774,7 @@ msgstr "Slaytların metnini slaytların ortasına yerleştir (düşeyde)"
 #, kde-format
 msgid "Headlines, footlines, and sidebars are replaced by gray rectangles"
 msgstr ""
-"Başlıklar, altbilgi çizgileri ve yan çubuklar gri dikdörtgenler ile "
+"Başlıklar, alt bilgi çizgileri ve yan çubuklar gri dikdörtgenler ile "
 "değiştirilecektir"
 
 #: dialogs/quickdocumentdialog.cpp:765

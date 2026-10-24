@@ -58,6 +58,7 @@ void ParserThread::addParserInput(ParserInput *input)
 
     if(it != m_parserQueue.end()) {
         qCDebug(LOG_KILE_PARSER) << "document in queue already";
+        delete *it;
         *it = input;
     }
     else {

@@ -13,6 +13,8 @@
 
 #include "parsermanager.h"
 
+#include <memory>
+
 #include "documentinfo.h"
 #include "errorhandler.h"
 #include "kiledocmanager.h"
@@ -91,6 +93,8 @@ void Manager::stopDocumentParsing(const QUrl &url)
 void Manager::handleOutputParsingComplete(const QUrl &url, KileParser::ParserOutput *output)
 {
     qCDebug(LOG_KILE_PARSER) << url;
+    // we take ownership of 'output'; it has to be deleted on every path
+    std::unique_ptr<ParserOutput> outputGuard(output);
     QList<KileTool::Base*> toolList = m_urlToToolHash.values(url);
     m_urlToToolHash.remove(url);
 

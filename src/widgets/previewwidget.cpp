@@ -96,10 +96,7 @@ void ImageDisplayWidget::clear()
 
 void ImageDisplayWidget::setImageFile(const QString& fileName)
 {
-    if(!m_image) {
-        delete m_image;
-    }
-
+    delete m_image;
     m_image = new QImage(fileName);
     setMinimumSize(m_image->width() + 6, m_image->height() + 6);
     repaint();

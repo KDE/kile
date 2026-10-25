@@ -43,7 +43,10 @@
 
 #include "dialogs/findfilesdialog.h"
 
+#include <algorithm>
+
 #include <QCheckBox>
+#include <QCollator>
 #include <QCursor>
 #include <QDialogButtonBox>
 #include <QEvent>
@@ -407,6 +410,12 @@ void FindFilesDialog::setupProject()
 
         m_projectfiles.clear();
         m_projectfiles = m_ki->docManager()->getProjectFiles();
+
+        // sort the files so that the search results are listed alphabetically
+        QCollator collator;
+        collator.setNumericMode(true);
+        collator.setCaseSensitivity(Qt::CaseInsensitive);
+        std::sort(m_projectfiles.begin(), m_projectfiles.end(), collator);
     }
     else {
         m_projectOpened = false;
@@ -485,7 +494,7 @@ void FindFilesDialog::startGrep()
     m_errbuf.clear();
     QString command;
     if (m_mode == KileGrep::Project) {
-        command = buildProjectCommand() + QLatin1Char(' ') + KShell::quoteArg(m_projectfiles[m_grepJobs-1]);
+        command = buildProjectCommand() + QLatin1Char(' ') + KShell::quoteArg(m_projectfiles[m_projectfiles.count() - m_grepJobs]);
     }
     else {
         command = buildFilesCommand();
@@ -690,6 +699,10 @@ void FindFilesDialog::slotSearch()
         KMessageBox::error(m_ki->mainWindow(), i18n("Invalid regular expression: %1", re.errorString()), i18n("Grep Tool Error"));
         return;
     }
+
+    // remove the results of the previous search
+    resultbox->clear();
+    clear_button->setEnabled(false);
 
     resultbox->setCursor(QCursor(Qt::WaitCursor));
     search_button->setText(i18n("&Cancel"));

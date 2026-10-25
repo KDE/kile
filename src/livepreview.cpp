@@ -534,6 +534,14 @@ void LivePreviewManager::handleDocumentSavedOrUploaded(KTextEditor::Document *do
     }
 }
 
+// a document that has been reloaded from disk (e.g. after it was modified by an external
+// program) has to be treated like a saved one, as otherwise the preview is never updated
+// when 'livePreviewCompileOnlyAfterSaving' is set
+void LivePreviewManager::handleDocumentReloaded(KTextEditor::Document *doc)
+{
+    handleDocumentSavedOrUploaded(doc, false);
+}
+
 void LivePreviewManager::handleDocumentModificationTimerTimeout()
 {
     if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {

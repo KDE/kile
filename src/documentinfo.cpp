@@ -992,6 +992,8 @@ void LaTeXInfo::installSignalConnections(KTextEditor::View *view)
             m_livePreviewManager, &KileTool::LivePreviewManager::handleTextChanged, Qt::UniqueConnection);
     connect(view->document(), &KTextEditor::Document::documentSavedOrUploaded,
             m_livePreviewManager, &KileTool::LivePreviewManager::handleDocumentSavedOrUploaded, Qt::UniqueConnection);
+    connect(view->document(), &KTextEditor::Document::reloaded,
+            m_livePreviewManager, &KileTool::LivePreviewManager::handleDocumentReloaded, Qt::UniqueConnection);
 }
 
 void LaTeXInfo::removeSignalConnections(KTextEditor::View *view)
@@ -1002,6 +1004,8 @@ void LaTeXInfo::removeSignalConnections(KTextEditor::View *view)
                m_livePreviewManager, &KileTool::LivePreviewManager::handleTextChanged);
     disconnect(view->document(), &KTextEditor::Document::documentSavedOrUploaded,
                m_livePreviewManager, &KileTool::LivePreviewManager::handleDocumentSavedOrUploaded);
+    disconnect(view->document(), &KTextEditor::Document::reloaded,
+               m_livePreviewManager, &KileTool::LivePreviewManager::handleDocumentReloaded);
 }
 
 void LaTeXInfo::registerCodeCompletionModels(KTextEditor::View *view)

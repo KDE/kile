@@ -79,6 +79,7 @@ Q_SIGNALS:
 public Q_SLOTS:
     void handleTextChanged(KTextEditor::Document *doc);
     void handleDocumentSavedOrUploaded(KTextEditor::Document *doc, bool savedAs);
+    void handleDocumentReloaded(KTextEditor::Document *doc);
 
     void handleMasterDocumentChanged();
 

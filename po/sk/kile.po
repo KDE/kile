@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-05 00:43+0000\n"
+"POT-Creation-Date: 2026-10-26 00:49+0000\n"
 "PO-Revision-Date: 2023-12-17 14:53+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -497,113 +497,113 @@ msgstr "Pohľad štruktúry"
 msgid "Symbol View"
 msgstr "Pohľad symbolu"
 
-#: dialogs/findfilesdialog.cpp:94 dialogs/projectdialogs.cpp:57
+#: dialogs/findfilesdialog.cpp:97 dialogs/projectdialogs.cpp:57
 #, kde-format
 msgid "Project"
 msgstr "Projekt"
 
-#: dialogs/findfilesdialog.cpp:100 dialogs/managetemplatesdialog.cpp:84
+#: dialogs/findfilesdialog.cpp:103 dialogs/managetemplatesdialog.cpp:84
 #: dialogs/tabular/newtabulardialog.cpp:127
 #, kde-format
 msgid "Name:"
 msgstr "Názov:"
 
-#: dialogs/findfilesdialog.cpp:103 dialogs/findfilesdialog.cpp:186
+#: dialogs/findfilesdialog.cpp:106 dialogs/findfilesdialog.cpp:189
 #, kde-format
 msgid "Directory:"
 msgstr "Adresár:"
 
-#: dialogs/findfilesdialog.cpp:118 dialogs/texdocumentationdialog.cpp:70
+#: dialogs/findfilesdialog.cpp:121 dialogs/texdocumentationdialog.cpp:70
 #, kde-format
 msgid "Search"
 msgstr "Hľadať"
 
-#: dialogs/findfilesdialog.cpp:124
+#: dialogs/findfilesdialog.cpp:127
 #, kde-format
 msgid "Pattern:"
 msgstr "Vzor:"
 
-#: dialogs/findfilesdialog.cpp:135
+#: dialogs/findfilesdialog.cpp:138
 #, kde-format
 msgid "Template:"
 msgstr "Šablóna:"
 
-#: dialogs/findfilesdialog.cpp:141
+#: dialogs/findfilesdialog.cpp:144
 #, kde-format
 msgid "Normal"
 msgstr "Normálne"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, commands)
-#: dialogs/findfilesdialog.cpp:142 dialogs/latexcommanddialog_base.ui:133
+#: dialogs/findfilesdialog.cpp:145 dialogs/latexcommanddialog_base.ui:133
 #, kde-format
 msgid "Command"
 msgstr "Príkaz"
 
-#: dialogs/findfilesdialog.cpp:143
+#: dialogs/findfilesdialog.cpp:146
 #, kde-format
 msgid "Command[]"
 msgstr "Príkaz[]"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
-#: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
+#: dialogs/findfilesdialog.cpp:147 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
 #: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:1025
 #, kde-format
 msgid "Environment"
 msgstr "Prostredie"
 
-#: dialogs/findfilesdialog.cpp:145
+#: dialogs/findfilesdialog.cpp:148
 #, kde-format
 msgid "Image"
 msgstr "Obrázok"
 
-#: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:281
+#: dialogs/findfilesdialog.cpp:149 kilestdactions.cpp:281
 #: kilestdactions.cpp:284 usermenu/usermenu.cpp:909
 #, kde-format
 msgid "Label"
 msgstr "Štítok"
 
-#: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:296
+#: dialogs/findfilesdialog.cpp:150 kilestdactions.cpp:296
 #: usermenu/usermenu.cpp:914
 #, kde-format
 msgid "Reference"
 msgstr "Odkaz"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: dialogs/findfilesdialog.cpp:148 dialogs/includegraphicsdialog_base.ui:17
+#: dialogs/findfilesdialog.cpp:151 dialogs/includegraphicsdialog_base.ui:17
 #: dialogs/projectdialogs.cpp:233
 #, kde-format
 msgid "File"
 msgstr "Súbor"
 
-#: dialogs/findfilesdialog.cpp:171
+#: dialogs/findfilesdialog.cpp:174
 #, kde-format
 msgid "Directory Options"
 msgstr "Možnosti adresára"
 
-#: dialogs/findfilesdialog.cpp:177
+#: dialogs/findfilesdialog.cpp:180
 #, kde-format
 msgid "Filter:"
 msgstr "Filter:"
 
-#: dialogs/findfilesdialog.cpp:197
+#: dialogs/findfilesdialog.cpp:200
 #, kde-format
 msgid "Scan directories recursively"
 msgstr "Prehľadať adresáre rekurzívne"
 
-#: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:584
+#: dialogs/findfilesdialog.cpp:218 dialogs/findfilesdialog.cpp:593
 #: dialogs/texdocumentationdialog.cpp:79
 #, kde-format
 msgid "&Search"
 msgstr "&Hľadať"
 
-#: dialogs/findfilesdialog.cpp:221
+#: dialogs/findfilesdialog.cpp:224
 #, kde-format
 msgid "&Clear"
 msgstr "V&yčistiť"
 
-#: dialogs/findfilesdialog.cpp:257
+#: dialogs/findfilesdialog.cpp:260
 #, kde-format
 msgid ""
 "Enter the regular expression you want to search for here.<br>Possible meta "
@@ -640,7 +640,7 @@ msgstr ""
 "najviac <i>m</i> krát.</li></ul>Okrem toho, spätné odkazy k podvýrazom v "
 "zátvorkách sú k dispozícii prostredníctvom notácie \\\\<i>n</i>."
 
-#: dialogs/findfilesdialog.cpp:281
+#: dialogs/findfilesdialog.cpp:284
 #, kde-format
 msgid ""
 "Enter the file name pattern of the files to search here. You may give "
@@ -649,7 +649,7 @@ msgstr ""
 "Sem zadajte vzor názvu súboru pre hľadané súbory. Môžete zadať niekoľko "
 "vzorov oddelených čiarkami."
 
-#: dialogs/findfilesdialog.cpp:284
+#: dialogs/findfilesdialog.cpp:287
 #, kde-format
 msgid ""
 "Choose one search mode. For the first modes, the search pattern is built "
@@ -669,7 +669,7 @@ msgstr ""
 "režime prostredia so vzorom 'center', Kile bude hľadať '\\begin{center}' a v "
 "grafickom režime so vzorom '.*\\.png', bude Kile hľadať všetky súbory png."
 
-#: dialogs/findfilesdialog.cpp:292
+#: dialogs/findfilesdialog.cpp:295
 #, kde-format
 msgid ""
 "For the first three modes you can choose a template for the pattern from the "
@@ -682,17 +682,17 @@ msgstr ""
 "čo vedie k regulárnemu výrazu pre hľadanie. Vo všetkých ostatných režimoch "
 "je táto šablóna ignorovaná."
 
-#: dialogs/findfilesdialog.cpp:297
+#: dialogs/findfilesdialog.cpp:300
 #, kde-format
 msgid "Enter the directory which contains the files you want to search in."
 msgstr "Zadajte adresár, ktorý obsahuje súbory, v ktorých chcete hľadať."
 
-#: dialogs/findfilesdialog.cpp:299
+#: dialogs/findfilesdialog.cpp:302
 #, kde-format
 msgid "Check this box to search in all subdirectories."
 msgstr "Zaškrtnúť toto pole pre hľadanie vo všetkých podadresároch."
 
-#: dialogs/findfilesdialog.cpp:301
+#: dialogs/findfilesdialog.cpp:304
 #, kde-format
 msgid ""
 "The results of the grep run are listed here. Select a filename/line number "
@@ -703,37 +703,37 @@ msgstr ""
 "riadku kliknutím myšou na položku alebo s kurzorom ukázať príslušný riadok v "
 "editore."
 
-#: dialogs/findfilesdialog.cpp:308
+#: dialogs/findfilesdialog.cpp:311
 #, kde-format
 msgid "Find in Files"
 msgstr "Hľadať v súboroch"
 
-#: dialogs/findfilesdialog.cpp:312
+#: dialogs/findfilesdialog.cpp:315
 #, kde-format
 msgid "Find in Project"
 msgstr "Hľadať v projekte"
 
-#: dialogs/findfilesdialog.cpp:413
+#: dialogs/findfilesdialog.cpp:422
 #, kde-format
 msgid "no project opened"
 msgstr "žiadny projekt otvorený"
 
-#: dialogs/findfilesdialog.cpp:556
+#: dialogs/findfilesdialog.cpp:565
 #, kde-format
 msgid "<strong>Error:</strong><p>"
 msgstr "<strong>Chyba:</strong><p>"
 
-#: dialogs/findfilesdialog.cpp:556 dialogs/findfilesdialog.cpp:690
+#: dialogs/findfilesdialog.cpp:565 dialogs/findfilesdialog.cpp:699
 #, kde-format
 msgid "Grep Tool Error"
 msgstr "Chyba nástroja grep."
 
-#: dialogs/findfilesdialog.cpp:690
+#: dialogs/findfilesdialog.cpp:699
 #, kde-format
 msgid "Invalid regular expression: %1"
 msgstr "Neplatný regulárny výraz: %1"
 
-#: dialogs/findfilesdialog.cpp:695
+#: dialogs/findfilesdialog.cpp:708
 #, kde-format
 msgid "&Cancel"
 msgstr "&Zrušiť"
@@ -10947,18 +10947,18 @@ msgstr "Znovu zostaviť živý náhľad"
 msgid "Save Compiled Document..."
 msgstr "Uložiť skompilovaný dokument..."
 
-#: livepreview.cpp:908
+#: livepreview.cpp:916
 #, kde-format
 msgid "Some documents could not be saved correctly"
 msgstr "Niektoré dokumenty nemohli byť správne uložené"
 
-#: livepreview.cpp:914
+#: livepreview.cpp:922
 #, kde-format
 msgid ""
 "The document must have been saved before the live preview can be started"
 msgstr "Dokument musel byť uložený pred spustením živého náhľadu"
 
-#: livepreview.cpp:940
+#: livepreview.cpp:948
 #, kde-format
 msgid ""
 "The location of one project item is not relative to the project's base "
@@ -10969,12 +10969,12 @@ msgstr ""
 "projektu\n"
 "Živý náhľad pre tento projekt bol zakázaný"
 
-#: livepreview.cpp:944
+#: livepreview.cpp:952
 #, kde-format
 msgid "Failed to create the subdirectory structure"
 msgstr "Zlyhalo vytvorenie štruktúry podadresárov"
 
-#: livepreview.cpp:1404
+#: livepreview.cpp:1412
 #, kde-format
 msgid "LivePreview"
 msgstr "Živý náhľad"

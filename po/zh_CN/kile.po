@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-05 00:43+0000\n"
+"POT-Creation-Date: 2026-10-26 00:49+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -483,113 +483,113 @@ msgstr "结构视图"
 msgid "Symbol View"
 msgstr "符号查看"
 
-#: dialogs/findfilesdialog.cpp:94 dialogs/projectdialogs.cpp:57
+#: dialogs/findfilesdialog.cpp:97 dialogs/projectdialogs.cpp:57
 #, kde-format
 msgid "Project"
 msgstr "工程"
 
-#: dialogs/findfilesdialog.cpp:100 dialogs/managetemplatesdialog.cpp:84
+#: dialogs/findfilesdialog.cpp:103 dialogs/managetemplatesdialog.cpp:84
 #: dialogs/tabular/newtabulardialog.cpp:127
 #, kde-format
 msgid "Name:"
 msgstr "名称："
 
-#: dialogs/findfilesdialog.cpp:103 dialogs/findfilesdialog.cpp:186
+#: dialogs/findfilesdialog.cpp:106 dialogs/findfilesdialog.cpp:189
 #, kde-format
 msgid "Directory:"
 msgstr "目录："
 
-#: dialogs/findfilesdialog.cpp:118 dialogs/texdocumentationdialog.cpp:70
+#: dialogs/findfilesdialog.cpp:121 dialogs/texdocumentationdialog.cpp:70
 #, kde-format
 msgid "Search"
 msgstr "搜索"
 
-#: dialogs/findfilesdialog.cpp:124
+#: dialogs/findfilesdialog.cpp:127
 #, kde-format
 msgid "Pattern:"
 msgstr "模式："
 
-#: dialogs/findfilesdialog.cpp:135
+#: dialogs/findfilesdialog.cpp:138
 #, kde-format
 msgid "Template:"
 msgstr "模板："
 
-#: dialogs/findfilesdialog.cpp:141
+#: dialogs/findfilesdialog.cpp:144
 #, kde-format
 msgid "Normal"
 msgstr "普通"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, commands)
-#: dialogs/findfilesdialog.cpp:142 dialogs/latexcommanddialog_base.ui:133
+#: dialogs/findfilesdialog.cpp:145 dialogs/latexcommanddialog_base.ui:133
 #, kde-format
 msgid "Command"
 msgstr "命令"
 
-#: dialogs/findfilesdialog.cpp:143
+#: dialogs/findfilesdialog.cpp:146
 #, kde-format
 msgid "Command[]"
 msgstr "命令[]"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
-#: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
+#: dialogs/findfilesdialog.cpp:147 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
 #: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:1025
 #, kde-format
 msgid "Environment"
 msgstr "环境"
 
-#: dialogs/findfilesdialog.cpp:145
+#: dialogs/findfilesdialog.cpp:148
 #, kde-format
 msgid "Image"
 msgstr "图像"
 
-#: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:281
+#: dialogs/findfilesdialog.cpp:149 kilestdactions.cpp:281
 #: kilestdactions.cpp:284 usermenu/usermenu.cpp:909
 #, kde-format
 msgid "Label"
 msgstr "标签"
 
-#: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:296
+#: dialogs/findfilesdialog.cpp:150 kilestdactions.cpp:296
 #: usermenu/usermenu.cpp:914
 #, kde-format
 msgid "Reference"
 msgstr "参考"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: dialogs/findfilesdialog.cpp:148 dialogs/includegraphicsdialog_base.ui:17
+#: dialogs/findfilesdialog.cpp:151 dialogs/includegraphicsdialog_base.ui:17
 #: dialogs/projectdialogs.cpp:233
 #, kde-format
 msgid "File"
 msgstr "文件"
 
-#: dialogs/findfilesdialog.cpp:171
+#: dialogs/findfilesdialog.cpp:174
 #, kde-format
 msgid "Directory Options"
 msgstr "目录选项"
 
-#: dialogs/findfilesdialog.cpp:177
+#: dialogs/findfilesdialog.cpp:180
 #, kde-format
 msgid "Filter:"
 msgstr "过滤器："
 
-#: dialogs/findfilesdialog.cpp:197
+#: dialogs/findfilesdialog.cpp:200
 #, kde-format
 msgid "Scan directories recursively"
 msgstr "递归扫描目录"
 
-#: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:584
+#: dialogs/findfilesdialog.cpp:218 dialogs/findfilesdialog.cpp:593
 #: dialogs/texdocumentationdialog.cpp:79
 #, kde-format
 msgid "&Search"
 msgstr "搜索(&S)"
 
-#: dialogs/findfilesdialog.cpp:221
+#: dialogs/findfilesdialog.cpp:224
 #, kde-format
 msgid "&Clear"
 msgstr "清除(&C)"
 
-#: dialogs/findfilesdialog.cpp:257
+#: dialogs/findfilesdialog.cpp:260
 #, kde-format
 msgid ""
 "Enter the regular expression you want to search for here.<br>Possible meta "
@@ -622,7 +622,7 @@ msgstr ""
 "次。</li></ul>另外，可以使用<br>\\\\<i>n</i>标号来反向引用被括起来的子表达"
 "式。"
 
-#: dialogs/findfilesdialog.cpp:281
+#: dialogs/findfilesdialog.cpp:284
 #, kde-format
 msgid ""
 "Enter the file name pattern of the files to search here. You may give "
@@ -630,7 +630,7 @@ msgid ""
 msgstr ""
 "在这里输入您要搜索的文件名的模式。您可以输入多个模式，模式之间以逗号分隔。"
 
-#: dialogs/findfilesdialog.cpp:284
+#: dialogs/findfilesdialog.cpp:287
 #, kde-format
 msgid ""
 "Choose one search mode. For the first modes, the search pattern is built "
@@ -649,7 +649,7 @@ msgstr ""
 "索“\\begin{center}”，在图片模式中给定格式“\n"
 "*\\.png\"，Kile 将会搜索所有的 png 文件。"
 
-#: dialogs/findfilesdialog.cpp:292
+#: dialogs/findfilesdialog.cpp:295
 #, kde-format
 msgid ""
 "For the first three modes you can choose a template for the pattern from the "
@@ -660,17 +660,17 @@ msgstr ""
 "您可以在下拉框的模式中选择一个模板。并且在这里编辑。模板中的字符串 %s 将被替"
 "换成输入框中的模式，产生用于搜索的正则表达式。"
 
-#: dialogs/findfilesdialog.cpp:297
+#: dialogs/findfilesdialog.cpp:300
 #, kde-format
 msgid "Enter the directory which contains the files you want to search in."
 msgstr "输入包含您要搜索的文件的目录。"
 
-#: dialogs/findfilesdialog.cpp:299
+#: dialogs/findfilesdialog.cpp:302
 #, kde-format
 msgid "Check this box to search in all subdirectories."
 msgstr "选中此框在所有子目录搜索。"
 
-#: dialogs/findfilesdialog.cpp:301
+#: dialogs/findfilesdialog.cpp:304
 #, kde-format
 msgid ""
 "The results of the grep run are listed here. Select a filename/line number "
@@ -680,37 +680,37 @@ msgstr ""
 "这里是 grep 命令的输出。选择一个文件名/行号的组合并按下回车键或双击，即可在编"
 "辑器中显示相应的行。 "
 
-#: dialogs/findfilesdialog.cpp:308
+#: dialogs/findfilesdialog.cpp:311
 #, kde-format
 msgid "Find in Files"
 msgstr "在文件中寻找"
 
-#: dialogs/findfilesdialog.cpp:312
+#: dialogs/findfilesdialog.cpp:315
 #, kde-format
 msgid "Find in Project"
 msgstr "在工程中查找"
 
-#: dialogs/findfilesdialog.cpp:413
+#: dialogs/findfilesdialog.cpp:422
 #, kde-format
 msgid "no project opened"
 msgstr "未打开工程"
 
-#: dialogs/findfilesdialog.cpp:556
+#: dialogs/findfilesdialog.cpp:565
 #, kde-format
 msgid "<strong>Error:</strong><p>"
 msgstr "<strong>错误：</strong><p>"
 
-#: dialogs/findfilesdialog.cpp:556 dialogs/findfilesdialog.cpp:690
+#: dialogs/findfilesdialog.cpp:565 dialogs/findfilesdialog.cpp:699
 #, kde-format
 msgid "Grep Tool Error"
 msgstr "Grep 工具错误"
 
-#: dialogs/findfilesdialog.cpp:690
+#: dialogs/findfilesdialog.cpp:699
 #, kde-format
 msgid "Invalid regular expression: %1"
 msgstr "无效的正则表达式：%1"
 
-#: dialogs/findfilesdialog.cpp:695
+#: dialogs/findfilesdialog.cpp:708
 #, kde-format
 msgid "&Cancel"
 msgstr "取消(&C)"
@@ -10708,18 +10708,18 @@ msgstr "重新编译实时预览"
 msgid "Save Compiled Document..."
 msgstr "将编译出的文档保存..."
 
-#: livepreview.cpp:908
+#: livepreview.cpp:916
 #, kde-format
 msgid "Some documents could not be saved correctly"
 msgstr "无法保存部分文档"
 
-#: livepreview.cpp:914
+#: livepreview.cpp:922
 #, kde-format
 msgid ""
 "The document must have been saved before the live preview can be started"
 msgstr "您必须保存文档后才能开始实时预览"
 
-#: livepreview.cpp:940
+#: livepreview.cpp:948
 #, kde-format
 msgid ""
 "The location of one project item is not relative to the project's base "
@@ -10727,12 +10727,12 @@ msgid ""
 "Live preview for this project has been disabled"
 msgstr ""
 
-#: livepreview.cpp:944
+#: livepreview.cpp:952
 #, kde-format
 msgid "Failed to create the subdirectory structure"
 msgstr "无法创建子目录结构"
 
-#: livepreview.cpp:1404
+#: livepreview.cpp:1412
 #, kde-format
 msgid "LivePreview"
 msgstr "实时预览"

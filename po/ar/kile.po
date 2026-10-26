@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-05 00:43+0000\n"
+"POT-Creation-Date: 2026-10-26 00:49+0000\n"
 "PO-Revision-Date: 2026-08-10 18:34+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -490,113 +490,113 @@ msgstr "منظور البنى"
 msgid "Symbol View"
 msgstr "منظور الرّموز"
 
-#: dialogs/findfilesdialog.cpp:94 dialogs/projectdialogs.cpp:57
+#: dialogs/findfilesdialog.cpp:97 dialogs/projectdialogs.cpp:57
 #, kde-format
 msgid "Project"
 msgstr "المشروع"
 
-#: dialogs/findfilesdialog.cpp:100 dialogs/managetemplatesdialog.cpp:84
+#: dialogs/findfilesdialog.cpp:103 dialogs/managetemplatesdialog.cpp:84
 #: dialogs/tabular/newtabulardialog.cpp:127
 #, kde-format
 msgid "Name:"
 msgstr "الاسم:"
 
-#: dialogs/findfilesdialog.cpp:103 dialogs/findfilesdialog.cpp:186
+#: dialogs/findfilesdialog.cpp:106 dialogs/findfilesdialog.cpp:189
 #, kde-format
 msgid "Directory:"
 msgstr "الدّليل:"
 
-#: dialogs/findfilesdialog.cpp:118 dialogs/texdocumentationdialog.cpp:70
+#: dialogs/findfilesdialog.cpp:121 dialogs/texdocumentationdialog.cpp:70
 #, kde-format
 msgid "Search"
 msgstr "البحث"
 
-#: dialogs/findfilesdialog.cpp:124
+#: dialogs/findfilesdialog.cpp:127
 #, kde-format
 msgid "Pattern:"
 msgstr "النّمط:"
 
-#: dialogs/findfilesdialog.cpp:135
+#: dialogs/findfilesdialog.cpp:138
 #, kde-format
 msgid "Template:"
 msgstr "القالب:"
 
-#: dialogs/findfilesdialog.cpp:141
+#: dialogs/findfilesdialog.cpp:144
 #, kde-format
 msgid "Normal"
 msgstr "عاديّ"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, commands)
-#: dialogs/findfilesdialog.cpp:142 dialogs/latexcommanddialog_base.ui:133
+#: dialogs/findfilesdialog.cpp:145 dialogs/latexcommanddialog_base.ui:133
 #, kde-format
 msgid "Command"
 msgstr "أمر"
 
-#: dialogs/findfilesdialog.cpp:143
+#: dialogs/findfilesdialog.cpp:146
 #, kde-format
 msgid "Command[]"
 msgstr "الأمر[]"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
-#: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
+#: dialogs/findfilesdialog.cpp:147 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
 #: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:1025
 #, kde-format
 msgid "Environment"
 msgstr "البيئة"
 
-#: dialogs/findfilesdialog.cpp:145
+#: dialogs/findfilesdialog.cpp:148
 #, kde-format
 msgid "Image"
 msgstr "صورة"
 
-#: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:281
+#: dialogs/findfilesdialog.cpp:149 kilestdactions.cpp:281
 #: kilestdactions.cpp:284 usermenu/usermenu.cpp:909
 #, kde-format
 msgid "Label"
 msgstr "لصيقة"
 
-#: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:296
+#: dialogs/findfilesdialog.cpp:150 kilestdactions.cpp:296
 #: usermenu/usermenu.cpp:914
 #, kde-format
 msgid "Reference"
 msgstr "مرجع"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: dialogs/findfilesdialog.cpp:148 dialogs/includegraphicsdialog_base.ui:17
+#: dialogs/findfilesdialog.cpp:151 dialogs/includegraphicsdialog_base.ui:17
 #: dialogs/projectdialogs.cpp:233
 #, kde-format
 msgid "File"
 msgstr "ملفّ"
 
-#: dialogs/findfilesdialog.cpp:171
+#: dialogs/findfilesdialog.cpp:174
 #, kde-format
 msgid "Directory Options"
 msgstr "خيارات الدّليل"
 
-#: dialogs/findfilesdialog.cpp:177
+#: dialogs/findfilesdialog.cpp:180
 #, kde-format
 msgid "Filter:"
 msgstr "المرشّح:"
 
-#: dialogs/findfilesdialog.cpp:197
+#: dialogs/findfilesdialog.cpp:200
 #, kde-format
 msgid "Scan directories recursively"
 msgstr "افحص الأدلّة تكراريًّا"
 
-#: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:584
+#: dialogs/findfilesdialog.cpp:218 dialogs/findfilesdialog.cpp:593
 #: dialogs/texdocumentationdialog.cpp:79
 #, kde-format
 msgid "&Search"
 msgstr "اب&حث"
 
-#: dialogs/findfilesdialog.cpp:221
+#: dialogs/findfilesdialog.cpp:224
 #, kde-format
 msgid "&Clear"
 msgstr "ام&حُ"
 
-#: dialogs/findfilesdialog.cpp:257
+#: dialogs/findfilesdialog.cpp:260
 #, kde-format
 msgid ""
 "Enter the regular expression you want to search for here.<br>Possible meta "
@@ -631,7 +631,7 @@ msgstr ""
 "المراجع الخلفية للتعبيرات الفرعية الموضوعة بين قوسين عبر تدوين <tt>\\</"
 "tt><i>ن</i>."
 
-#: dialogs/findfilesdialog.cpp:281
+#: dialogs/findfilesdialog.cpp:284
 #, kde-format
 msgid ""
 "Enter the file name pattern of the files to search here. You may give "
@@ -639,7 +639,7 @@ msgid ""
 msgstr ""
 "أدخل نمط أسماء الملفّات التي تريد البحث عنها هنا. يمكنك فصل الأنماط بفواصل."
 
-#: dialogs/findfilesdialog.cpp:284
+#: dialogs/findfilesdialog.cpp:287
 #, kde-format
 msgid ""
 "Choose one search mode. For the first modes, the search pattern is built "
@@ -658,7 +658,7 @@ msgstr ""
 "'center'، يبحث كايل عن '\\begin{center}'، وفي وضع الرُسُومات بنَمَط '.*\\.png'، "
 "يبحث كايل عن كل مُلفات png."
 
-#: dialogs/findfilesdialog.cpp:292
+#: dialogs/findfilesdialog.cpp:295
 #, kde-format
 msgid ""
 "For the first three modes you can choose a template for the pattern from the "
@@ -670,17 +670,17 @@ msgstr ""
 "وتَحريره هنا. يُستبدَل النص %s في القالب بحقل إدخال النَمَط، مُسفرًا عن التعبير "
 "النَمَطي للبحث. في كل الأوضاع الأُخرى، يُتَجاهَل هذا القالب."
 
-#: dialogs/findfilesdialog.cpp:297
+#: dialogs/findfilesdialog.cpp:300
 #, kde-format
 msgid "Enter the directory which contains the files you want to search in."
 msgstr "أدخل الدّليل الذي يحوي الملفّات التي تريد البحث فيه."
 
-#: dialogs/findfilesdialog.cpp:299
+#: dialogs/findfilesdialog.cpp:302
 #, kde-format
 msgid "Check this box to search in all subdirectories."
 msgstr "أشّر على هذا المربّع للبحث في كلّ الأدلّة الفرعيّة."
 
-#: dialogs/findfilesdialog.cpp:301
+#: dialogs/findfilesdialog.cpp:304
 #, kde-format
 msgid ""
 "The results of the grep run are listed here. Select a filename/line number "
@@ -690,37 +690,37 @@ msgstr ""
 "تُسرَد نتائج تشغيل grep هنا. اختَر مَجموعة اسم المُلف/رقم السطر بضغط فأرة على "
 "العُنصر أو بالمؤشر لعرض السطر المَعني في المُحَرر."
 
-#: dialogs/findfilesdialog.cpp:308
+#: dialogs/findfilesdialog.cpp:311
 #, kde-format
 msgid "Find in Files"
 msgstr "البحث في الملفّات"
 
-#: dialogs/findfilesdialog.cpp:312
+#: dialogs/findfilesdialog.cpp:315
 #, kde-format
 msgid "Find in Project"
 msgstr "البحث في المشروع"
 
-#: dialogs/findfilesdialog.cpp:413
+#: dialogs/findfilesdialog.cpp:422
 #, kde-format
 msgid "no project opened"
 msgstr "لا مشاريع مفتوحة"
 
-#: dialogs/findfilesdialog.cpp:556
+#: dialogs/findfilesdialog.cpp:565
 #, kde-format
 msgid "<strong>Error:</strong><p>"
 msgstr "<strong>خطأ:</strong><p>"
 
-#: dialogs/findfilesdialog.cpp:556 dialogs/findfilesdialog.cpp:690
+#: dialogs/findfilesdialog.cpp:565 dialogs/findfilesdialog.cpp:699
 #, kde-format
 msgid "Grep Tool Error"
 msgstr "خطأ في أداة Grep"
 
-#: dialogs/findfilesdialog.cpp:690
+#: dialogs/findfilesdialog.cpp:699
 #, kde-format
 msgid "Invalid regular expression: %1"
 msgstr "التّعبير النّمطيّ غير صالح: %1"
 
-#: dialogs/findfilesdialog.cpp:695
+#: dialogs/findfilesdialog.cpp:708
 #, kde-format
 msgid "&Cancel"
 msgstr "أل&غِ"
@@ -10812,18 +10812,18 @@ msgstr "أعد تصريف المعاينة الحيّة"
 msgid "Save Compiled Document..."
 msgstr "احفظ المستند المصرّف..."
 
-#: livepreview.cpp:908
+#: livepreview.cpp:916
 #, kde-format
 msgid "Some documents could not be saved correctly"
 msgstr "تعذّر حفظ بعض المستندات كما ينبغي"
 
-#: livepreview.cpp:914
+#: livepreview.cpp:922
 #, kde-format
 msgid ""
 "The document must have been saved before the live preview can be started"
 msgstr "يجب حفظ المستند قبل بدء المعاينة الحيّة"
 
-#: livepreview.cpp:940
+#: livepreview.cpp:948
 #, kde-format
 msgid ""
 "The location of one project item is not relative to the project's base "
@@ -10833,12 +10833,12 @@ msgstr ""
 "موقع عنصر مشروع واحد ليس نسبيًّا بالنسبة لدليل قاعدة المشروع\n"
 "عطِّل المعاينة الحية لهذا المشروع"
 
-#: livepreview.cpp:944
+#: livepreview.cpp:952
 #, kde-format
 msgid "Failed to create the subdirectory structure"
 msgstr "فشل إنشاء هيكل الدليل الفرعي"
 
-#: livepreview.cpp:1404
+#: livepreview.cpp:1412
 #, kde-format
 msgid "LivePreview"
 msgstr "معاينة حية"

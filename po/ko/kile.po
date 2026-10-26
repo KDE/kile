@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-05 00:43+0000\n"
+"POT-Creation-Date: 2026-10-26 00:49+0000\n"
 "PO-Revision-Date: 2025-04-06 23:09+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -491,113 +491,113 @@ msgstr "구조 보기"
 msgid "Symbol View"
 msgstr "기호 보기"
 
-#: dialogs/findfilesdialog.cpp:94 dialogs/projectdialogs.cpp:57
+#: dialogs/findfilesdialog.cpp:97 dialogs/projectdialogs.cpp:57
 #, kde-format
 msgid "Project"
 msgstr "프로젝트"
 
-#: dialogs/findfilesdialog.cpp:100 dialogs/managetemplatesdialog.cpp:84
+#: dialogs/findfilesdialog.cpp:103 dialogs/managetemplatesdialog.cpp:84
 #: dialogs/tabular/newtabulardialog.cpp:127
 #, kde-format
 msgid "Name:"
 msgstr "이름:"
 
-#: dialogs/findfilesdialog.cpp:103 dialogs/findfilesdialog.cpp:186
+#: dialogs/findfilesdialog.cpp:106 dialogs/findfilesdialog.cpp:189
 #, kde-format
 msgid "Directory:"
 msgstr "디렉터리:"
 
-#: dialogs/findfilesdialog.cpp:118 dialogs/texdocumentationdialog.cpp:70
+#: dialogs/findfilesdialog.cpp:121 dialogs/texdocumentationdialog.cpp:70
 #, kde-format
 msgid "Search"
 msgstr "찾기"
 
-#: dialogs/findfilesdialog.cpp:124
+#: dialogs/findfilesdialog.cpp:127
 #, kde-format
 msgid "Pattern:"
 msgstr "패턴:"
 
-#: dialogs/findfilesdialog.cpp:135
+#: dialogs/findfilesdialog.cpp:138
 #, kde-format
 msgid "Template:"
 msgstr "서식:"
 
-#: dialogs/findfilesdialog.cpp:141
+#: dialogs/findfilesdialog.cpp:144
 #, kde-format
 msgid "Normal"
 msgstr "일반"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, commands)
-#: dialogs/findfilesdialog.cpp:142 dialogs/latexcommanddialog_base.ui:133
+#: dialogs/findfilesdialog.cpp:145 dialogs/latexcommanddialog_base.ui:133
 #, kde-format
 msgid "Command"
 msgstr "명령"
 
-#: dialogs/findfilesdialog.cpp:143
+#: dialogs/findfilesdialog.cpp:146
 #, kde-format
 msgid "Command[]"
 msgstr "명령[]"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
-#: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
+#: dialogs/findfilesdialog.cpp:147 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
 #: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:1025
 #, kde-format
 msgid "Environment"
 msgstr "환경"
 
-#: dialogs/findfilesdialog.cpp:145
+#: dialogs/findfilesdialog.cpp:148
 #, kde-format
 msgid "Image"
 msgstr "그림"
 
-#: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:281
+#: dialogs/findfilesdialog.cpp:149 kilestdactions.cpp:281
 #: kilestdactions.cpp:284 usermenu/usermenu.cpp:909
 #, kde-format
 msgid "Label"
 msgstr "이름표"
 
-#: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:296
+#: dialogs/findfilesdialog.cpp:150 kilestdactions.cpp:296
 #: usermenu/usermenu.cpp:914
 #, kde-format
 msgid "Reference"
 msgstr "참조"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: dialogs/findfilesdialog.cpp:148 dialogs/includegraphicsdialog_base.ui:17
+#: dialogs/findfilesdialog.cpp:151 dialogs/includegraphicsdialog_base.ui:17
 #: dialogs/projectdialogs.cpp:233
 #, kde-format
 msgid "File"
 msgstr "파일"
 
-#: dialogs/findfilesdialog.cpp:171
+#: dialogs/findfilesdialog.cpp:174
 #, kde-format
 msgid "Directory Options"
 msgstr "디렉터리 설정"
 
-#: dialogs/findfilesdialog.cpp:177
+#: dialogs/findfilesdialog.cpp:180
 #, kde-format
 msgid "Filter:"
 msgstr "필터:"
 
-#: dialogs/findfilesdialog.cpp:197
+#: dialogs/findfilesdialog.cpp:200
 #, kde-format
 msgid "Scan directories recursively"
 msgstr "재귀적으로 디렉터리 탐색"
 
-#: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:584
+#: dialogs/findfilesdialog.cpp:218 dialogs/findfilesdialog.cpp:593
 #: dialogs/texdocumentationdialog.cpp:79
 #, kde-format
 msgid "&Search"
 msgstr "찾기(&S)"
 
-#: dialogs/findfilesdialog.cpp:221
+#: dialogs/findfilesdialog.cpp:224
 #, kde-format
 msgid "&Clear"
 msgstr "지우기(&C)"
 
-#: dialogs/findfilesdialog.cpp:257
+#: dialogs/findfilesdialog.cpp:260
 #, kde-format
 msgid ""
 "Enter the regular expression you want to search for here.<br>Possible meta "
@@ -631,7 +631,7 @@ msgstr ""
 "이상 <i>m</i>번 이하 일치</li></ul>괄호로 둘러싼 하위 표현식을 역으로 참조하"
 "려면 \\\\<i>n</i> 표기법을 사용하십시오."
 
-#: dialogs/findfilesdialog.cpp:281
+#: dialogs/findfilesdialog.cpp:284
 #, kde-format
 msgid ""
 "Enter the file name pattern of the files to search here. You may give "
@@ -640,7 +640,7 @@ msgstr ""
 "검색할 파일의 이름 패턴을 입력하십시오. 패턴 여러 개를 지정하려면 쉼표로 구분"
 "해서 입력하십시오."
 
-#: dialogs/findfilesdialog.cpp:284
+#: dialogs/findfilesdialog.cpp:287
 #, kde-format
 msgid ""
 "Choose one search mode. For the first modes, the search pattern is built "
@@ -660,7 +660,7 @@ msgstr ""
 "문자열을 검색하며, 그림 모드에서 '.*\\.png' 패턴으로 검색하면 Kile에서는 모"
 "든 PNG 파일을 검색합니다."
 
-#: dialogs/findfilesdialog.cpp:292
+#: dialogs/findfilesdialog.cpp:295
 #, kde-format
 msgid ""
 "For the first three modes you can choose a template for the pattern from the "
@@ -672,17 +672,17 @@ msgstr ""
 "다. 템플릿의 %s 문자열은 패턴 입력 필드의 값으로 대체되며, 검색할 정규 표현식"
 "으로 취급됩니다. 다른 모든 모드에서 이 템플릿은 무시됩니다."
 
-#: dialogs/findfilesdialog.cpp:297
+#: dialogs/findfilesdialog.cpp:300
 #, kde-format
 msgid "Enter the directory which contains the files you want to search in."
 msgstr "파일을 찾을 디렉터리를 입력하십시오."
 
-#: dialogs/findfilesdialog.cpp:299
+#: dialogs/findfilesdialog.cpp:302
 #, kde-format
 msgid "Check this box to search in all subdirectories."
 msgstr "이 상자를 선택하면 모든 하위 디렉터리에서 찾습니다."
 
-#: dialogs/findfilesdialog.cpp:301
+#: dialogs/findfilesdialog.cpp:304
 #, kde-format
 msgid ""
 "The results of the grep run are listed here. Select a filename/line number "
@@ -692,37 +692,37 @@ msgstr ""
 "grep 실행 결과를 여기에 표시합니다. 편집기에 해당 파일의 줄을 표시하려면 파"
 "일 이름/줄 번호 조합을 마우스로 클릭하거나 커서 키로 선택하십시오."
 
-#: dialogs/findfilesdialog.cpp:308
+#: dialogs/findfilesdialog.cpp:311
 #, kde-format
 msgid "Find in Files"
 msgstr "파일에서 찾기"
 
-#: dialogs/findfilesdialog.cpp:312
+#: dialogs/findfilesdialog.cpp:315
 #, kde-format
 msgid "Find in Project"
 msgstr "프로젝트에서 찾기"
 
-#: dialogs/findfilesdialog.cpp:413
+#: dialogs/findfilesdialog.cpp:422
 #, kde-format
 msgid "no project opened"
 msgstr "연 프로젝트 없음"
 
-#: dialogs/findfilesdialog.cpp:556
+#: dialogs/findfilesdialog.cpp:565
 #, kde-format
 msgid "<strong>Error:</strong><p>"
 msgstr "<strong>오류:</strong><p>"
 
-#: dialogs/findfilesdialog.cpp:556 dialogs/findfilesdialog.cpp:690
+#: dialogs/findfilesdialog.cpp:565 dialogs/findfilesdialog.cpp:699
 #, kde-format
 msgid "Grep Tool Error"
 msgstr "grep 도구 오류"
 
-#: dialogs/findfilesdialog.cpp:690
+#: dialogs/findfilesdialog.cpp:699
 #, kde-format
 msgid "Invalid regular expression: %1"
 msgstr "잘못된 정규 표현식: %1"
 
-#: dialogs/findfilesdialog.cpp:695
+#: dialogs/findfilesdialog.cpp:708
 #, kde-format
 msgid "&Cancel"
 msgstr "취소(&C)"
@@ -10820,18 +10820,18 @@ msgstr "즉시 미리 보기 다시 컴파일"
 msgid "Save Compiled Document..."
 msgstr "컴파일된 문서 저장..."
 
-#: livepreview.cpp:908
+#: livepreview.cpp:916
 #, kde-format
 msgid "Some documents could not be saved correctly"
 msgstr "일부 문서를 올바르게 저장할 수 없음"
 
-#: livepreview.cpp:914
+#: livepreview.cpp:922
 #, kde-format
 msgid ""
 "The document must have been saved before the live preview can be started"
 msgstr "즉시 미리 보기를 시작하기 전에 문서를 저장해야 함"
 
-#: livepreview.cpp:940
+#: livepreview.cpp:948
 #, kde-format
 msgid ""
 "The location of one project item is not relative to the project's base "
@@ -10841,12 +10841,12 @@ msgstr ""
 "프로젝트 항목 위치가 프로젝트 기반 디렉터리에 대한 상대 경로가 아님\n"
 "프로젝트 즉시 미리 보기가 비활성화됨"
 
-#: livepreview.cpp:944
+#: livepreview.cpp:952
 #, kde-format
 msgid "Failed to create the subdirectory structure"
 msgstr "하위 디렉터리 구조를 만들 수 없음"
 
-#: livepreview.cpp:1404
+#: livepreview.cpp:1412
 #, kde-format
 msgid "LivePreview"
 msgstr "즉시 미리 보기"

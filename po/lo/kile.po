@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-05 00:43+0000\n"
+"POT-Creation-Date: 2026-10-26 00:49+0000\n"
 "PO-Revision-Date: 2025-12-06 23:41+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -491,113 +491,113 @@ msgstr "ມຸມມອງໂຄງສ້າງ"
 msgid "Symbol View"
 msgstr "ມຸມມອງສັນຍາລັກ"
 
-#: dialogs/findfilesdialog.cpp:94 dialogs/projectdialogs.cpp:57
+#: dialogs/findfilesdialog.cpp:97 dialogs/projectdialogs.cpp:57
 #, kde-format
 msgid "Project"
 msgstr "ໂຄງການ"
 
-#: dialogs/findfilesdialog.cpp:100 dialogs/managetemplatesdialog.cpp:84
+#: dialogs/findfilesdialog.cpp:103 dialogs/managetemplatesdialog.cpp:84
 #: dialogs/tabular/newtabulardialog.cpp:127
 #, kde-format
 msgid "Name:"
 msgstr "ຊື່:"
 
-#: dialogs/findfilesdialog.cpp:103 dialogs/findfilesdialog.cpp:186
+#: dialogs/findfilesdialog.cpp:106 dialogs/findfilesdialog.cpp:189
 #, kde-format
 msgid "Directory:"
 msgstr "ໂຟນເດີ:"
 
-#: dialogs/findfilesdialog.cpp:118 dialogs/texdocumentationdialog.cpp:70
+#: dialogs/findfilesdialog.cpp:121 dialogs/texdocumentationdialog.cpp:70
 #, kde-format
 msgid "Search"
 msgstr "ຄົ້ນຫາ"
 
-#: dialogs/findfilesdialog.cpp:124
+#: dialogs/findfilesdialog.cpp:127
 #, kde-format
 msgid "Pattern:"
 msgstr "ຮູບແບບ:"
 
-#: dialogs/findfilesdialog.cpp:135
+#: dialogs/findfilesdialog.cpp:138
 #, kde-format
 msgid "Template:"
 msgstr "ແມ່ແບບ:"
 
-#: dialogs/findfilesdialog.cpp:141
+#: dialogs/findfilesdialog.cpp:144
 #, kde-format
 msgid "Normal"
 msgstr "ປົກກະຕິ"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, commands)
-#: dialogs/findfilesdialog.cpp:142 dialogs/latexcommanddialog_base.ui:133
+#: dialogs/findfilesdialog.cpp:145 dialogs/latexcommanddialog_base.ui:133
 #, kde-format
 msgid "Command"
 msgstr "ຄຳສັ່ງ"
 
-#: dialogs/findfilesdialog.cpp:143
+#: dialogs/findfilesdialog.cpp:146
 #, kde-format
 msgid "Command[]"
 msgstr "ຄຳສັ່ງ[]"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
-#: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
+#: dialogs/findfilesdialog.cpp:147 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
 #: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:1025
 #, kde-format
 msgid "Environment"
 msgstr "ສະພາບແວດລ້ອມ"
 
-#: dialogs/findfilesdialog.cpp:145
+#: dialogs/findfilesdialog.cpp:148
 #, kde-format
 msgid "Image"
 msgstr "ຮູບພາບ"
 
-#: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:281
+#: dialogs/findfilesdialog.cpp:149 kilestdactions.cpp:281
 #: kilestdactions.cpp:284 usermenu/usermenu.cpp:909
 #, kde-format
 msgid "Label"
 msgstr "ປ້າຍຊື່"
 
-#: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:296
+#: dialogs/findfilesdialog.cpp:150 kilestdactions.cpp:296
 #: usermenu/usermenu.cpp:914
 #, kde-format
 msgid "Reference"
 msgstr "ການອ້າງອີງ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: dialogs/findfilesdialog.cpp:148 dialogs/includegraphicsdialog_base.ui:17
+#: dialogs/findfilesdialog.cpp:151 dialogs/includegraphicsdialog_base.ui:17
 #: dialogs/projectdialogs.cpp:233
 #, kde-format
 msgid "File"
 msgstr "ໄຟລ໌"
 
-#: dialogs/findfilesdialog.cpp:171
+#: dialogs/findfilesdialog.cpp:174
 #, kde-format
 msgid "Directory Options"
 msgstr "ທາງເລືອກໂຟນເດີ"
 
-#: dialogs/findfilesdialog.cpp:177
+#: dialogs/findfilesdialog.cpp:180
 #, kde-format
 msgid "Filter:"
 msgstr "ຕົວຕອງ:"
 
-#: dialogs/findfilesdialog.cpp:197
+#: dialogs/findfilesdialog.cpp:200
 #, kde-format
 msgid "Scan directories recursively"
 msgstr "ສະແກນໂຟນເດີຍ່ອຍທັງໝົດ"
 
-#: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:584
+#: dialogs/findfilesdialog.cpp:218 dialogs/findfilesdialog.cpp:593
 #: dialogs/texdocumentationdialog.cpp:79
 #, kde-format
 msgid "&Search"
 msgstr "&ຄົ້ນຫາ"
 
-#: dialogs/findfilesdialog.cpp:221
+#: dialogs/findfilesdialog.cpp:224
 #, kde-format
 msgid "&Clear"
 msgstr "&ລຶບລ້າງ"
 
-#: dialogs/findfilesdialog.cpp:257
+#: dialogs/findfilesdialog.cpp:260
 #, kde-format
 msgid ""
 "Enter the regular expression you want to search for here.<br>Possible meta "
@@ -630,14 +630,14 @@ msgstr ""
 "ລາຍການກ່ອນໜ້າກົງກັນຢ່າງໜ້ອຍ <i>n</i>, ແຕ່ຫຼາຍສຸດ <i>m</i> ຄັ້ງ.</ul>ນອກຈາກນັ້ນ, "
 "backreferences ໄປຫາ subexpressions ໃນວົງເລັບກໍ່ສາມາດໃຊ້ໄດ້ຜ່ານ \\\\<i>n</i>."
 
-#: dialogs/findfilesdialog.cpp:281
+#: dialogs/findfilesdialog.cpp:284
 #, kde-format
 msgid ""
 "Enter the file name pattern of the files to search here. You may give "
 "several patterns separated by commas."
 msgstr "ໃສ່ຮູບແບບຊື່ໄຟລ໌ຂອງໄຟລ໌ທີ່ຈະຄົ້ນຫາຢູ່ບ່ອນນີ້. ທ່ານສາມາດໃສ່ຫຼາຍຮູບແບບໂດຍຂັ້ນດ້ວຍຈຸດ (,)."
 
-#: dialogs/findfilesdialog.cpp:284
+#: dialogs/findfilesdialog.cpp:287
 #, kde-format
 msgid ""
 "Choose one search mode. For the first modes, the search pattern is built "
@@ -656,7 +656,7 @@ msgstr ""
 "Kile ຈະຄົ້ນຫາ '\\begin{center}', ແລະໃນໂໝດກຣາບຟິກທີ່ມີຮູບແບບ '.*\\.png', Kile "
 "ຈະຄົ້ນຫາໄຟລ໌ png ທັງໝົດ."
 
-#: dialogs/findfilesdialog.cpp:292
+#: dialogs/findfilesdialog.cpp:295
 #, kde-format
 msgid ""
 "For the first three modes you can choose a template for the pattern from the "
@@ -668,17 +668,17 @@ msgstr ""
 "%s ໃນແມ່ແບບຈະຖືກແທນທີ່ດ້ວຍຊ່ອງປ້ອນຮູບແບບ, ເຊິ່ງຈະໄດ້ຜົນເປັນນິພົດປົກກະຕິທີ່ຈະຄົ້ນຫາ. ໃນໂໝດອື່ນໆທັງໝົດ "
 "ແມ່ແບບນີ້ຈະຖືກບໍ່ສົນໃຈ."
 
-#: dialogs/findfilesdialog.cpp:297
+#: dialogs/findfilesdialog.cpp:300
 #, kde-format
 msgid "Enter the directory which contains the files you want to search in."
 msgstr "ໃສ່ໂຟນເດີທີ່ມີໄຟລ໌ທີ່ທ່ານຕ້ອງການຄົ້ນຫາ."
 
-#: dialogs/findfilesdialog.cpp:299
+#: dialogs/findfilesdialog.cpp:302
 #, kde-format
 msgid "Check this box to search in all subdirectories."
 msgstr "ໝາຍເອົາຫ້ອງນີ້ເພື່ອຄົ້ນຫາໃນໂຟນເດີຍ່ອຍທັງໝົດ."
 
-#: dialogs/findfilesdialog.cpp:301
+#: dialogs/findfilesdialog.cpp:304
 #, kde-format
 msgid ""
 "The results of the grep run are listed here. Select a filename/line number "
@@ -688,37 +688,37 @@ msgstr ""
 "ຜົນຂອງການແລ່ນ grep ຈະສະແດງຢູ່ບ່ອນນີ້. ເລືອກຊື່ໄຟລ໌/ເລກແຖວ ດ້ວຍການຄລິກເມົາສ໌ໃສ່ລາຍການ ຫຼື "
 "ໃຊ້ເຄີເຊີເພື່ອສະແດງແຖວນັ້ນໃນຕົວແກ້ໄຂ."
 
-#: dialogs/findfilesdialog.cpp:308
+#: dialogs/findfilesdialog.cpp:311
 #, kde-format
 msgid "Find in Files"
 msgstr "ຄົ້ນຫາໃນໄຟລ໌"
 
-#: dialogs/findfilesdialog.cpp:312
+#: dialogs/findfilesdialog.cpp:315
 #, kde-format
 msgid "Find in Project"
 msgstr "ຄົ້ນຫາໃນໂຄງການ"
 
-#: dialogs/findfilesdialog.cpp:413
+#: dialogs/findfilesdialog.cpp:422
 #, kde-format
 msgid "no project opened"
 msgstr "ບໍ່ມີໂຄງການເປີດຢູ່"
 
-#: dialogs/findfilesdialog.cpp:556
+#: dialogs/findfilesdialog.cpp:565
 #, kde-format
 msgid "<strong>Error:</strong><p>"
 msgstr "<strong>ຂໍ້ຜິດພາດ:</strong><p>"
 
-#: dialogs/findfilesdialog.cpp:556 dialogs/findfilesdialog.cpp:690
+#: dialogs/findfilesdialog.cpp:565 dialogs/findfilesdialog.cpp:699
 #, kde-format
 msgid "Grep Tool Error"
 msgstr "ຂໍ້ຜິດພາດເຄື່ອງມື Grep"
 
-#: dialogs/findfilesdialog.cpp:690
+#: dialogs/findfilesdialog.cpp:699
 #, kde-format
 msgid "Invalid regular expression: %1"
 msgstr "ນິພົດປົກກະຕິບໍ່ຖືກຕ້ອງ: %1"
 
-#: dialogs/findfilesdialog.cpp:695
+#: dialogs/findfilesdialog.cpp:708
 #, kde-format
 msgid "&Cancel"
 msgstr "&ຍົກເລີກ"
@@ -10748,18 +10748,18 @@ msgstr "ຄອມໄພລ໌ Live Preview ຄືນໃໝ່"
 msgid "Save Compiled Document..."
 msgstr "ບັນທຶກເອກະສານທີ່ຄອມໄພລ໌ແລ້ວ..."
 
-#: livepreview.cpp:908
+#: livepreview.cpp:916
 #, kde-format
 msgid "Some documents could not be saved correctly"
 msgstr "ເອກະສານບາງຢ່າງບໍ່ສາມາດບັນທຶກໄດ້ຢ່າງຖືກຕ້ອງ"
 
-#: livepreview.cpp:914
+#: livepreview.cpp:922
 #, kde-format
 msgid ""
 "The document must have been saved before the live preview can be started"
 msgstr "ເອກະສານຕ້ອງຖືກບັນທຶກກ່ອນທີ່ຈະສາມາດເລີ່ມ Live Preview ໄດ້"
 
-#: livepreview.cpp:940
+#: livepreview.cpp:948
 #, kde-format
 msgid ""
 "The location of one project item is not relative to the project's base "
@@ -10769,12 +10769,12 @@ msgstr ""
 "ທີ່ຕັ້ງຂອງລາຍການໂຄງການໜຶ່ງບໍ່ສຳພັນກັບໄດເຣັກທໍຣີພື້ນຖານຂອງໂຄງການ\n"
 "Live preview ສຳລັບໂຄງການນີ້ຖືກປິດການໃຊ້ງານແລ້ວ"
 
-#: livepreview.cpp:944
+#: livepreview.cpp:952
 #, kde-format
 msgid "Failed to create the subdirectory structure"
 msgstr "ລົ້ມເຫຼວໃນການສ້າງໂຄງສ້າງໂຟນເດີຍ່ອຍ"
 
-#: livepreview.cpp:1404
+#: livepreview.cpp:1412
 #, kde-format
 msgid "LivePreview"
 msgstr "LivePreview"

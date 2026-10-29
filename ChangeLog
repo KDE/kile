@@ -1,5 +1,8 @@
 version 3.0 beta 4 -> ???
 
+Fixes:
+- Remove multiple memory leaks
+
 Features:
 - Sort results in "Find in Project" (#217467)
 - Clear results when starting a new search in "Find in Project"

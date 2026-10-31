@@ -449,9 +449,14 @@ void Manager::recreateTextDocumentInfo(TextInfo *oldinfo)
 {
     const QList<KileProjectItem*> list = itemsFor(oldinfo);
     QUrl url = oldinfo->url();
+    KTextEditor::Document *doc = oldinfo->getDoc();
+
+    // the document already has the new URL; if 'oldinfo' were still attached to it,
+    // 'createTextDocumentInfo' would return 'oldinfo' itself, which is deleted below
+    oldinfo->detach();
     TextInfo *newinfo = createTextDocumentInfo(m_ki->extensions()->determineDocumentType(url), url, oldinfo->getBaseDirectory());
 
-    newinfo->setDoc(oldinfo->getDoc());
+    newinfo->setDoc(doc);
 
     for(KileProjectItem* item : list) {
         item->setInfo(newinfo);

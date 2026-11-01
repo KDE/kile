@@ -131,6 +131,8 @@ protected:
     bool detectBadBoxLineNumber(QString & strLine, short & dwCookie, int len);
 
     bool fileExists(const QString & name);
+    bool fileExistsWithoutGuessing(const QString & name);
+    int findEndOfExistingFileName(const QString &strLine, int start, int from, const QString &prefix);
 
 protected:
     /**

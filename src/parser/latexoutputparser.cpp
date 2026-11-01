@@ -105,6 +105,28 @@ bool LaTeXOutputParser::fileExists(const QString & name)
     return false;
 }
 
+// unlike 'fileExists', no extensions are tried, i.e. 'name' has to be the complete file name
+bool LaTeXOutputParser::fileExistsWithoutGuessing(const QString & name)
+{
+    const QFileInfo fi(QDir::isAbsolutePath(name) ? name : path() + QLatin1Char('/') + name);
+    return fi.exists() && !fi.isDir();
+}
+
+// Returns the largest index 'end' >= 'from' such that 'prefix' followed by the characters of 'strLine'
+// from 'start' to 'end' is the name of an existing file, and the file name could end at 'end', i.e.
+// 'end' is the last character of the line or followed by a space or ')'; returns -1 if there is none.
+int LaTeXOutputParser::findEndOfExistingFileName(const QString &strLine, int start, int from, const QString &prefix)
+{
+    for(int end = strLine.length() - 1; end >= from; --end) {
+        const bool isCandidateEnd = (end + 1 == strLine.length()) || strLine[end + 1].isSpace() || strLine[end + 1] == QLatin1Char(')');
+        if(isCandidateEnd && !strLine[end].isSpace()
+                && fileExistsWithoutGuessing(prefix + strLine.mid(start, end - start + 1))) {
+            return end;
+        }
+    }
+    return -1;
+}
+
 // There are basically two ways to detect the current file TeX is processing:
 //	1) Use \Input (i.c.w. srctex.sty or srcltx.sty) and \include exclusively. This will
 //	cause (La)TeX to print the line ":<+ filename"  in the log file when opening a file,
@@ -218,6 +240,21 @@ void LaTeXOutputParser::updateFileStackHeuristic(const QString &strLine, short &
 
         bool isLastChar = (i+1 == strLine.length());
         bool nextIsTerminator = isLastChar ? false : (strLine[i+1].isSpace() || strLine[i+1] == QLatin1Char(')'));
+
+        // TeX doesn't quote file names containing spaces in the log file (bug 347752); hence, if the
+        // file name seems to end at a space, we check whether a longer candidate on this line,
+        // which includes the space, is the name of an existing file (the longest one wins)
+        if(expectFileName && !isLastChar && strLine[i+1].isSpace()) {
+            const int end = findEndOfExistingFileName(strLine, index, i + 2, strPartialFileName);
+            if(end >= 0) {
+                strPartialFileName += strLine.mid(index, end - index + 1);
+                m_stackFile.push(LOFStackItem(strPartialFileName));
+                expectFileName = false;
+                dwCookie = Start;
+                i = end; // continue scanning after the file name
+                continue;
+            }
+        }
 
         if(expectFileName && (isLastChar || nextIsTerminator)) {
             qCDebug(LOG_KILE_PARSER) << "Update the partial filename " << strPartialFileName;

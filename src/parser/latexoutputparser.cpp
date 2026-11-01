@@ -105,6 +105,13 @@ bool LaTeXOutputParser::fileExists(const QString & name)
     return false;
 }
 
+// unlike 'fileExists', no extensions are tried, i.e. 'name' has to be the complete file name
+bool LaTeXOutputParser::fileExistsWithoutGuessing(const QString & name)
+{
+    const QFileInfo fi(QDir::isAbsolutePath(name) ? name : path() + QLatin1Char('/') + name);
+    return fi.exists() && !fi.isDir();
+}
+
 // There are basically two ways to detect the current file TeX is processing:
 //	1) Use \Input (i.c.w. srctex.sty or srcltx.sty) and \include exclusively. This will
 //	cause (La)TeX to print the line ":<+ filename"  in the log file when opening a file,
@@ -218,6 +225,22 @@ void LaTeXOutputParser::updateFileStackHeuristic(const QString &strLine, short &
 
         bool isLastChar = (i+1 == strLine.length());
         bool nextIsTerminator = isLastChar ? false : (strLine[i+1].isSpace() || strLine[i+1] == QLatin1Char(')'));
+
+        // TeX doesn't quote file names containing spaces in the log file (bug 347752); hence, if the
+        // file name seems to end at a space, we check whether a longer candidate on this line,
+        // which includes the space, is the name of an existing file (the longest one wins)
+        if(expectFileName && nextIsTerminator && strLine[i+1].isSpace()) {
+            for(int j = strLine.length() - 1; j > i + 1; --j) {
+                const bool isCandidateEnd = (j+1 == strLine.length()) || strLine[j+1].isSpace() || strLine[j+1] == QLatin1Char(')');
+                if(isCandidateEnd && !strLine[j].isSpace()
+                        && fileExistsWithoutGuessing(strPartialFileName + strLine.mid(index, j - index + 1))) {
+                    i = j;
+                    isLastChar = (i+1 == strLine.length());
+                    nextIsTerminator = !isLastChar;
+                    break;
+                }
+            }
+        }
 
         if(expectFileName && (isLastChar || nextIsTerminator)) {
             qCDebug(LOG_KILE_PARSER) << "Update the partial filename " << strPartialFileName;

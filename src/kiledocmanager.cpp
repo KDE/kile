@@ -509,7 +509,6 @@ KTextEditor::Document* Manager::createDocument(const QUrl &url, TextInfo *docinf
 
     doc = docFor(url);
     if (doc) {
-        qWarning() << url << " already has a document!";
         return doc;
     }
     doc = m_editor->createDocument(nullptr);

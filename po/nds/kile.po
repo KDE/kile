@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-26 00:49+0000\n"
+"POT-Creation-Date: 2026-11-02 00:54+0000\n"
 "PO-Revision-Date: 2014-05-04 21:32+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -4863,7 +4863,7 @@ msgid ""
 "dvi *.epub);;All Files (*)"
 msgstr ""
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2109
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2113
 #, kde-format
 msgid "Select File"
 msgstr "Datei utsöken"
@@ -6063,8 +6063,8 @@ msgstr "All &Projektdateien opmaken"
 msgid "Find in &Project..."
 msgstr "Binnen &Projekt söken..."
 
-#: kile.cpp:911 kile.cpp:1042 kile.cpp:2194 kiledocmanager.cpp:1963
-#: kiledocmanager.cpp:1973
+#: kile.cpp:911 kile.cpp:1042 kile.cpp:2194 kiledocmanager.cpp:1967
+#: kiledocmanager.cpp:1977
 #, kde-format
 msgid "Clean"
 msgstr "Reenmaken"
@@ -7182,7 +7182,7 @@ msgstr ""
 "De Kile-Koppel beedt Di üm Vergeven för all Scherereen un üm en "
 "Fehlerbericht."
 
-#: kiledocmanager.cpp:520
+#: kiledocmanager.cpp:524
 #, kde-format
 msgid ""
 "The URL \"%1\" couldn't be opened.\n"
@@ -7190,58 +7190,58 @@ msgid ""
 "%2"
 msgstr ""
 
-#: kiledocmanager.cpp:521 kiledocmanager.cpp:524
+#: kiledocmanager.cpp:525 kiledocmanager.cpp:528
 #, kde-format
 msgid "Cannot open URL"
 msgstr ""
 
-#: kiledocmanager.cpp:524
+#: kiledocmanager.cpp:528
 #, fuzzy, kde-format
 #| msgid "The template could not be removed."
 msgid "The URL \"%1\" couldn't be opened."
 msgstr "De Vörlaag lett sik nich wegmaken."
 
-#: kiledocmanager.cpp:663
+#: kiledocmanager.cpp:667
 #, kde-format
 msgid "Could not find template: %1"
 msgstr "De Vörlaag \"%1\" lett sik nich finnen."
 
-#: kiledocmanager.cpp:663
+#: kiledocmanager.cpp:667
 #, kde-format
 msgid "File Not Found"
 msgstr "Datei nich funnen"
 
-#: kiledocmanager.cpp:723
+#: kiledocmanager.cpp:727
 #, kde-format
 msgid "Please save the file first."
 msgstr "Bitte seker eerst de Datei."
 
-#: kiledocmanager.cpp:728
+#: kiledocmanager.cpp:732
 #, kde-format
 msgid "Open/create a document first."
 msgstr "Bitte maak oder stell eerst en Datei op."
 
-#: kiledocmanager.cpp:736
+#: kiledocmanager.cpp:740
 #, kde-format
 msgid "A template for this type of document cannot be created."
 msgstr "För dissen Dokmenttyp lett sik keen Vörlaag opstellen."
 
-#: kiledocmanager.cpp:740
+#: kiledocmanager.cpp:744
 #, kde-format
 msgid "Create Template From Document"
 msgstr "Vörlaag ut Dokment opstellen"
 
-#: kiledocmanager.cpp:746
+#: kiledocmanager.cpp:750
 #, kde-format
 msgid "Remove Template"
 msgstr "Vörlaag wegmaken"
 
-#: kiledocmanager.cpp:811
+#: kiledocmanager.cpp:815
 #, kde-format
 msgid "Open Files"
 msgstr "Dateien opmaken"
 
-#: kiledocmanager.cpp:892
+#: kiledocmanager.cpp:896
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
@@ -7250,24 +7250,24 @@ msgstr ""
 "Dat geev en Problem bi't Sekern vun de Datei \"%1\". Hest Du noog free Platz "
 "op Dien Fastplaat na?"
 
-#: kiledocmanager.cpp:893
+#: kiledocmanager.cpp:897
 #, kde-format
 msgid "Saving"
 msgstr "Sekern"
 
-#: kiledocmanager.cpp:926
+#: kiledocmanager.cpp:930
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "Any files (*)"
 msgstr "All Dateien"
 
-#: kiledocmanager.cpp:928
+#: kiledocmanager.cpp:932
 #, fuzzy, kde-format
 #| msgid "Save Copy As..."
 msgid "Save Compiled Document As..."
 msgstr "Kopie sekern as..."
 
-#: kiledocmanager.cpp:953
+#: kiledocmanager.cpp:957
 #, fuzzy, kde-format
 #| msgid ""
 #| "The file %1 can not be added because it does not exist or is not readable"
@@ -7278,33 +7278,33 @@ msgstr ""
 "De Datei \"%1\" lett sik nich tofögen - dat gifft ehr gor nich, oder se lett "
 "sik nich lesen."
 
-#: kiledocmanager.cpp:954
+#: kiledocmanager.cpp:958
 #, kde-format
 msgid "Cannot open directory"
 msgstr ""
 
-#: kiledocmanager.cpp:1072
+#: kiledocmanager.cpp:1076
 #, kde-format
 msgid "Save File"
 msgstr "Datei sekern"
 
-#: kiledocmanager.cpp:1108
+#: kiledocmanager.cpp:1112
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "Dat gifft al en Datei mit den Naam \"%1\". Wullt Du ehr överschrieven?"
 
-#: kiledocmanager.cpp:1109
+#: kiledocmanager.cpp:1113
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Datei överschrieven?"
 
-#: kiledocmanager.cpp:1279
+#: kiledocmanager.cpp:1283
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "Projektboom opfrischen"
 
-#: kiledocmanager.cpp:1287
+#: kiledocmanager.cpp:1291
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7315,28 +7315,28 @@ msgstr ""
 "Projekt tohöört, för dat Du den Projektboom opstellen wullt, un bruuk denn "
 "\"Projektboom opfrischen\" nochmaal."
 
-#: kiledocmanager.cpp:1287
+#: kiledocmanager.cpp:1291
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "Projektboom lett sik nich opfrischen"
 
-#: kiledocmanager.cpp:1371 kiledocmanager.cpp:2130 kiledocmanager.cpp:2200
-#: kiledocmanager.cpp:2235
+#: kiledocmanager.cpp:1375 kiledocmanager.cpp:2134 kiledocmanager.cpp:2204
+#: kiledocmanager.cpp:2239
 #, kde-format
 msgid "Select Project"
 msgstr "Projekt utsöken"
 
-#: kiledocmanager.cpp:1396 kiledocmanager.cpp:1411 kiledocmanager.cpp:1418
+#: kiledocmanager.cpp:1400 kiledocmanager.cpp:1415 kiledocmanager.cpp:1422
 #, kde-format
 msgid "Add to Project"
 msgstr "Na't Projekt tofögen"
 
-#: kiledocmanager.cpp:1410
+#: kiledocmanager.cpp:1414
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "De Datei \"%1\" höört al dat Projekt \"%2\" to."
 
-#: kiledocmanager.cpp:1417
+#: kiledocmanager.cpp:1421
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
@@ -7344,7 +7344,7 @@ msgstr ""
 "De Datei \"%1\" lett sik nich tofögen - dat gifft ehr gor nich, oder se lett "
 "sik nich lesen."
 
-#: kiledocmanager.cpp:1436
+#: kiledocmanager.cpp:1440
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
@@ -7353,12 +7353,12 @@ msgstr ""
 "Dit is de Projektdatei. Se bargt all Informatschonen över Dien Projekt. "
 "Dorüm kann keeneen de Datei ut ehr Projekt wegmaken."
 
-#: kiledocmanager.cpp:1436
+#: kiledocmanager.cpp:1440
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "Datei lett sik nich ut Projekt wegmaken"
 
-#: kiledocmanager.cpp:1504
+#: kiledocmanager.cpp:1508
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project you tried to open is already opened. If you wanted to reload "
@@ -7370,12 +7370,12 @@ msgstr ""
 "Dat Projekt, dat Du opmaken wullst, is al op. Wenn Du dat Projekt nieg laden "
 "wullst, maak dat man toeerst to."
 
-#: kiledocmanager.cpp:1506
+#: kiledocmanager.cpp:1510
 #, kde-format
 msgid "Project Already Open"
 msgstr "Projekt is al op"
 
-#: kiledocmanager.cpp:1517
+#: kiledocmanager.cpp:1521
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project file for the project \"%1\" does not exist or is not "
@@ -7388,13 +7388,13 @@ msgstr ""
 "De Projektdatei för dat Projekt \"%1\" lett sik nich finnen oder lesen. "
 "Wullt Du dit Projekt vun de List mit annerlest bruukt Projekten wegmaken?"
 
-#: kiledocmanager.cpp:1520
+#: kiledocmanager.cpp:1524
 #, fuzzy, kde-format
 #| msgid "Could Not Close Project"
 msgid "Could Not Open Project"
 msgstr "Projekt lett sik nich tomaken"
 
-#: kiledocmanager.cpp:1538
+#: kiledocmanager.cpp:1542
 #, fuzzy, kde-format
 #| msgid ""
 #| "The file %1 can not be added because it does not exist or is not readable"
@@ -7405,26 +7405,26 @@ msgstr ""
 "De Datei \"%1\" lett sik nich tofögen - dat gifft ehr gor nich, oder se lett "
 "sik nich lesen."
 
-#: kiledocmanager.cpp:1540
+#: kiledocmanager.cpp:1544
 #, fuzzy, kde-format
 #| msgid "Open Project"
 msgid "Impossible to Open Project File"
 msgstr "Projekt opmaken"
 
-#: kiledocmanager.cpp:1550
+#: kiledocmanager.cpp:1554
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
 "version of Kile.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1552
+#: kiledocmanager.cpp:1556
 #, fuzzy, kde-format
 #| msgid "Open Project"
 msgid "Impossible to Open Project"
 msgstr "Projekt opmaken"
 
-#: kiledocmanager.cpp:1562
+#: kiledocmanager.cpp:1566
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project file of %1 was created by a newer version of kile. Opening it "
@@ -7439,13 +7439,13 @@ msgstr ""
 "Dat Opmaken kunn Resultaten hebben, de Du Di nich vermoden büst.\n"
 "Wullt Du redig wiedermaken (nich anraadt)?"
 
-#: kiledocmanager.cpp:1565
+#: kiledocmanager.cpp:1569
 #, fuzzy, kde-format
 #| msgid "Tools need to be updated"
 msgid "Project File Needs to be Updated"
 msgstr "Warktüüch mööt opfrischt warrn"
 
-#: kiledocmanager.cpp:1572
+#: kiledocmanager.cpp:1576
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project file for the project \"%1\" does not exist or is not "
@@ -7457,23 +7457,23 @@ msgstr ""
 "De Projektdatei för dat Projekt \"%1\" lett sik nich finnen oder lesen. "
 "Wullt Du dit Projekt vun de List mit annerlest bruukt Projekten wegmaken?"
 
-#: kiledocmanager.cpp:1574
+#: kiledocmanager.cpp:1578
 #, fuzzy, kde-format
 #| msgid "Could Not Load Project File"
 msgid "Could Not Update Project File"
 msgstr "Projektdatei lett sik nich laden"
 
-#: kiledocmanager.cpp:1674
+#: kiledocmanager.cpp:1678
 #, kde-format
 msgid "Open Project"
 msgstr "Projekt opmaken"
 
-#: kiledocmanager.cpp:1693
+#: kiledocmanager.cpp:1697
 #, kde-format
 msgid "Save Project"
 msgstr "Projekt sekern"
 
-#: kiledocmanager.cpp:1743
+#: kiledocmanager.cpp:1747
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7484,28 +7484,28 @@ msgstr ""
 "Projekt tohöört, dat Du sekern wullt, un bruuk denn nochmaal \"Projekt sekern"
 "\"."
 
-#: kiledocmanager.cpp:1743
+#: kiledocmanager.cpp:1747
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "Aktiv Projekt lett sik nich fastslaan"
 
-#: kiledocmanager.cpp:1764
+#: kiledocmanager.cpp:1768
 #, kde-format
 msgid "Add Files to Project"
 msgstr "Dateien na Projekt tofögen"
 
-#: kiledocmanager.cpp:1777
+#: kiledocmanager.cpp:1781
 #, kde-format
 msgid "Add Files"
 msgstr "Dateien tofögen"
 
-#: kiledocmanager.cpp:1780
+#: kiledocmanager.cpp:1784
 #, fuzzy, kde-format
 #| msgid "&Add"
 msgid "Add"
 msgstr "&Tofögen"
 
-#: kiledocmanager.cpp:1795
+#: kiledocmanager.cpp:1799
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
@@ -7514,17 +7514,17 @@ msgstr ""
 "Du hest keen Projekt opmaakt. Maak bitte dat Projekt op, na dat Du Dateien "
 "tofögen wullt, un bruuk denn nochmaal \"Dateien tofögen\"."
 
-#: kiledocmanager.cpp:1795 kiledocmanager.cpp:1830
+#: kiledocmanager.cpp:1799 kiledocmanager.cpp:1834
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "Aktiv Projekt lett sik nich fastslaan"
 
-#: kiledocmanager.cpp:1821
+#: kiledocmanager.cpp:1825
 #, kde-format
 msgid "Project Options For"
 msgstr "Projektoptschonen för"
 
-#: kiledocmanager.cpp:1830
+#: kiledocmanager.cpp:1834
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7535,12 +7535,12 @@ msgstr ""
 "Projekt tohöört, dat Du ännern wullt, un bruuk denn nochmaal "
 "\"Projektoptschonen\"."
 
-#: kiledocmanager.cpp:1856
+#: kiledocmanager.cpp:1860
 #, kde-format
 msgid "Close Project"
 msgstr "Projekt tomaken"
 
-#: kiledocmanager.cpp:1907
+#: kiledocmanager.cpp:1911
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7551,77 +7551,77 @@ msgstr ""
 "Projekt tohöört, dat Du tomaken wullt, un bruuk denn nochmaal \"Projekt "
 "tomaken\"."
 
-#: kiledocmanager.cpp:1907
+#: kiledocmanager.cpp:1911
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "Projekt lett sik nich tomaken"
 
-#: kiledocmanager.cpp:1962
+#: kiledocmanager.cpp:1966
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr "Nix dor, wat sik för \"%1\" reenmaken lett"
 
-#: kiledocmanager.cpp:1972
+#: kiledocmanager.cpp:1976
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "An't Oprümen vun %1: %2"
 
-#: kiledocmanager.cpp:2045
+#: kiledocmanager.cpp:2049
 #, kde-format
 msgid "Switch Project"
 msgstr "Projekt wesseln"
 
-#: kiledocmanager.cpp:2101
+#: kiledocmanager.cpp:2105
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "Dateien utsöken, de Du wegmaken wullt"
 
-#: kiledocmanager.cpp:2112 kiledocmanager.cpp:2115
+#: kiledocmanager.cpp:2116 kiledocmanager.cpp:2119
 #, kde-format
 msgid "Show Project Files"
 msgstr "Projektdateien wiesen"
 
-#: kiledocmanager.cpp:2112 kiledocmanager.cpp:2158
+#: kiledocmanager.cpp:2116 kiledocmanager.cpp:2162
 #, kde-format
 msgid "project configuration file"
 msgstr "Projekt-Instellendatei"
 
-#: kiledocmanager.cpp:2115 kiledocmanager.cpp:2161
+#: kiledocmanager.cpp:2119 kiledocmanager.cpp:2165
 #, kde-format
 msgid "graphics file"
 msgstr "Bilddatei"
 
-#: kiledocmanager.cpp:2158 kiledocmanager.cpp:2161
+#: kiledocmanager.cpp:2162 kiledocmanager.cpp:2165
 #, kde-format
 msgid "Open All Project Files"
 msgstr "All Projektdateien opmaken"
 
-#: kiledocmanager.cpp:2193
+#: kiledocmanager.cpp:2197
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "nich opmaakt: %1 (%2)"
 
-#: kiledocmanager.cpp:2216 kiledocmanager.cpp:2251
+#: kiledocmanager.cpp:2220 kiledocmanager.cpp:2255
 #, kde-format
 msgid "Project Files"
 msgstr "Projektdateien"
 
-#: kiledocmanager.cpp:2224 kiledocmanager.cpp:2261
+#: kiledocmanager.cpp:2228 kiledocmanager.cpp:2265
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "De utsöchte Datei lett sik nich fastslaan."
 
-#: kiledocmanager.cpp:2224 kiledocmanager.cpp:2261
+#: kiledocmanager.cpp:2228 kiledocmanager.cpp:2265
 #, kde-format
 msgid "Project Error"
 msgstr "Projekt-Fehler"
 
-#: kiledocmanager.cpp:2328
+#: kiledocmanager.cpp:2332
 #, kde-format
 msgid "Opening Project..."
 msgstr "Projekt warrt opmaakt..."
 
-#: kiledocmanager.cpp:2331
+#: kiledocmanager.cpp:2335
 #, kde-format
 msgid "Scanning project files..."
 msgstr "Projektdateien warrt inleest..."
@@ -11211,7 +11211,7 @@ msgstr ""
 "De Fixvöransicht lett sik nich opropen:\n"
 "Opgaav \"%1\" is nich begäng."
 
-#: quickpreview.cpp:201 widgets/previewwidget.cpp:129
+#: quickpreview.cpp:201 widgets/previewwidget.cpp:126
 #, kde-format
 msgid ""
 "There is already a preview running that has to be finished to run this one."
@@ -11225,7 +11225,7 @@ msgid "There is nothing to compile and preview."
 msgstr "Dat gifft nix to kompileren un dorüm ok keen Vöransicht."
 
 #: quickpreview.cpp:229 quickpreview.cpp:239 quickpreview.cpp:250
-#: widgets/previewwidget.cpp:181
+#: widgets/previewwidget.cpp:178
 #, kde-format
 msgid "Could not run '%1' for QuickPreview."
 msgstr "De Fixvöransicht kann \"%1\" nich opropen."
@@ -11245,7 +11245,7 @@ msgstr "De Vörloop lett sik nich lesen."
 msgid "Could not find a '\\begin{document}' command."
 msgstr "De Befehl \"\\begin{document}\" lett sik nich finnen."
 
-#: quickpreview.cpp:385 widgets/previewwidget.cpp:238
+#: quickpreview.cpp:385 widgets/previewwidget.cpp:235
 #, kde-format
 msgid "QuickPreview"
 msgstr "Fix-Vöransicht"

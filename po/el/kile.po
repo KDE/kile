@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-26 00:49+0000\n"
+"POT-Creation-Date: 2026-11-02 00:54+0000\n"
 "PO-Revision-Date: 2024-09-19 21:56+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -4995,7 +4995,7 @@ msgstr ""
 "Ιστότοποι (HTML) (*.html *.htm);;Έγγραφα (PDF, PS, DVI, EPUB) (*.ps *.pdf *."
 "dvi *.epub);;Όλα τα αρχεία (*)"
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2109
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2113
 #, kde-format
 msgid "Select File"
 msgstr "Επιλογή αρχείου"
@@ -6257,8 +6257,8 @@ msgstr "Άνοιγμα όλων των αρχείων έρ&γου"
 msgid "Find in &Project..."
 msgstr "Αναζήτηση στο έ&ργο..."
 
-#: kile.cpp:911 kile.cpp:1042 kile.cpp:2194 kiledocmanager.cpp:1963
-#: kiledocmanager.cpp:1973
+#: kile.cpp:911 kile.cpp:1042 kile.cpp:2194 kiledocmanager.cpp:1967
+#: kiledocmanager.cpp:1977
 #, kde-format
 msgid "Clean"
 msgstr "Καθαρισμός"
@@ -7390,7 +7390,7 @@ msgstr ""
 "Η ομάδα του Kile σας ζητά συγγνώμη για οποιοδήποτε πρόβλημα και θα εκτιμούσε "
 "πολύ την αποστολή μιας αναφοράς σφάλματος."
 
-#: kiledocmanager.cpp:520
+#: kiledocmanager.cpp:524
 #, kde-format
 msgid ""
 "The URL \"%1\" couldn't be opened.\n"
@@ -7401,58 +7401,58 @@ msgstr ""
 "\n"
 "%2"
 
-#: kiledocmanager.cpp:521 kiledocmanager.cpp:524
+#: kiledocmanager.cpp:525 kiledocmanager.cpp:528
 #, kde-format
 msgid "Cannot open URL"
 msgstr "Αδυναμία ανοίγματος του URL"
 
-#: kiledocmanager.cpp:524
+#: kiledocmanager.cpp:528
 #, kde-format
 msgid "The URL \"%1\" couldn't be opened."
 msgstr "Αδυναμία ανοίγματος του URL «%1»."
 
-#: kiledocmanager.cpp:663
+#: kiledocmanager.cpp:667
 #, kde-format
 msgid "Could not find template: %1"
 msgstr "Αδυναμία εύρεσης του προτύπου: %1"
 
-#: kiledocmanager.cpp:663
+#: kiledocmanager.cpp:667
 #, kde-format
 msgid "File Not Found"
 msgstr "Το αρχείο δεν βρέθηκε"
 
-#: kiledocmanager.cpp:723
+#: kiledocmanager.cpp:727
 #, kde-format
 msgid "Please save the file first."
 msgstr "Παρακαλώ αποθηκεύστε πρώτα το αρχείο."
 
-#: kiledocmanager.cpp:728
+#: kiledocmanager.cpp:732
 #, kde-format
 msgid "Open/create a document first."
 msgstr "Ανοίξτε/δημιουργήστε ένα έγγραφο πρώτα."
 
-#: kiledocmanager.cpp:736
+#: kiledocmanager.cpp:740
 #, kde-format
 msgid "A template for this type of document cannot be created."
 msgstr ""
 "Δυστυχώς δεν μπορεί να δημιουργηθεί πρότυπο γι' αυτόν τον τύπο εγγράφου."
 
-#: kiledocmanager.cpp:740
+#: kiledocmanager.cpp:744
 #, kde-format
 msgid "Create Template From Document"
 msgstr "Δημιουργία προτύπου από έγγραφο"
 
-#: kiledocmanager.cpp:746
+#: kiledocmanager.cpp:750
 #, kde-format
 msgid "Remove Template"
 msgstr "Αφαίρεση προτύπου"
 
-#: kiledocmanager.cpp:811
+#: kiledocmanager.cpp:815
 #, kde-format
 msgid "Open Files"
 msgstr "Άνοιγμα αρχείων"
 
-#: kiledocmanager.cpp:892
+#: kiledocmanager.cpp:896
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
@@ -7461,22 +7461,22 @@ msgstr ""
 "Το Kile αντιμετώπισε προβλήματα κατά την αποθήκευση του αρχείου %1. "
 "Διαθέτετε αρκετό ελεύθερο χώρο στο δίσκο;"
 
-#: kiledocmanager.cpp:893
+#: kiledocmanager.cpp:897
 #, kde-format
 msgid "Saving"
 msgstr "Αποθήκευση"
 
-#: kiledocmanager.cpp:926
+#: kiledocmanager.cpp:930
 #, kde-format
 msgid "Any files (*)"
 msgstr "Οποιαδήποτε αρχεία (*)"
 
-#: kiledocmanager.cpp:928
+#: kiledocmanager.cpp:932
 #, kde-format
 msgid "Save Compiled Document As..."
 msgstr "Αποθήκευση μεταγλωττισμένου εγγράφου ως..."
 
-#: kiledocmanager.cpp:953
+#: kiledocmanager.cpp:957
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
@@ -7485,34 +7485,34 @@ msgstr ""
 "Αδυναμία ανοίγματος του URL «%1»\n"
 "καθώς πρόκειται για κατάλογο."
 
-#: kiledocmanager.cpp:954
+#: kiledocmanager.cpp:958
 #, kde-format
 msgid "Cannot open directory"
 msgstr "Αδυναμία ανοίγματος του καταλόγου"
 
-#: kiledocmanager.cpp:1072
+#: kiledocmanager.cpp:1076
 #, kde-format
 msgid "Save File"
 msgstr "Αποθήκευση αρχείου"
 
-#: kiledocmanager.cpp:1108
+#: kiledocmanager.cpp:1112
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr ""
 "Ένα αρχείο το όνομα \"%1\" υπάρχει ήδη. Επιθυμείτε την αντικατάστασή του;"
 
-#: kiledocmanager.cpp:1109
+#: kiledocmanager.cpp:1113
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Αντικατάσταση αρχείου;"
 
-#: kiledocmanager.cpp:1279
+#: kiledocmanager.cpp:1283
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "Ανανέωση δέντρου έργου"
 
-#: kiledocmanager.cpp:1287
+#: kiledocmanager.cpp:1291
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7524,28 +7524,28 @@ msgstr ""
 "κατασκευάσετε τη δομή του, και έπειτα επιλέξτε ξανά την ανανέωση δέντρου του "
 "έργου."
 
-#: kiledocmanager.cpp:1287
+#: kiledocmanager.cpp:1291
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "Αδυναμία ανανέωσης δέντρου του έργου"
 
-#: kiledocmanager.cpp:1371 kiledocmanager.cpp:2130 kiledocmanager.cpp:2200
-#: kiledocmanager.cpp:2235
+#: kiledocmanager.cpp:1375 kiledocmanager.cpp:2134 kiledocmanager.cpp:2204
+#: kiledocmanager.cpp:2239
 #, kde-format
 msgid "Select Project"
 msgstr "Επιλογή έργου"
 
-#: kiledocmanager.cpp:1396 kiledocmanager.cpp:1411 kiledocmanager.cpp:1418
+#: kiledocmanager.cpp:1400 kiledocmanager.cpp:1415 kiledocmanager.cpp:1422
 #, kde-format
 msgid "Add to Project"
 msgstr "Προσθήκη στο έργο"
 
-#: kiledocmanager.cpp:1410
+#: kiledocmanager.cpp:1414
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "Το αρχείο %1 είναι ήδη μέλος του έργου %2"
 
-#: kiledocmanager.cpp:1417
+#: kiledocmanager.cpp:1421
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
@@ -7553,7 +7553,7 @@ msgstr ""
 "Το αρχείο %1 δεν μπορεί να προστεθεί επειδή δεν υπάρχει ή δεν είναι "
 "αναγνώσιμο"
 
-#: kiledocmanager.cpp:1436
+#: kiledocmanager.cpp:1440
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
@@ -7562,12 +7562,12 @@ msgstr ""
 "Αυτό το αρχείο αποτελεί το αρχείο του έργου το οποίο κρατά πληροφορίες "
 "σχετικά με το έργο σας.  Γι' αυτό, δεν επιτρέπεται να αφαιρεθεί από το έργο."
 
-#: kiledocmanager.cpp:1436
+#: kiledocmanager.cpp:1440
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "Αδυναμία αφαίρεσης του αρχείου από το έργο"
 
-#: kiledocmanager.cpp:1504
+#: kiledocmanager.cpp:1508
 #, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
@@ -7576,12 +7576,12 @@ msgstr ""
 "<p>Το έργο «%1» είναι ήδη ανοικτό.</p><p>Αν επιθυμείτε την επαναφόρτωση του "
 "έργου, κλείστε το έργο πριν το ξανανοίξετε.</p>"
 
-#: kiledocmanager.cpp:1506
+#: kiledocmanager.cpp:1510
 #, kde-format
 msgid "Project Already Open"
 msgstr "Το έργο είναι ήδη ανοικτό"
 
-#: kiledocmanager.cpp:1517
+#: kiledocmanager.cpp:1521
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7591,12 +7591,12 @@ msgstr ""
 "<p>Το αρχείο έργου για το έργο «%1» δεν υπάρχει ή δεν είναι αναγνώσιμο.</"
 "p><p>Θέλετε να αφαιρεθεί αυτό το έργο από τη λίστα των πρόσφατων έργων;</p>"
 
-#: kiledocmanager.cpp:1520
+#: kiledocmanager.cpp:1524
 #, kde-format
 msgid "Could Not Open Project"
 msgstr "Αδυναμία ανοίγματος του έργου"
 
-#: kiledocmanager.cpp:1538
+#: kiledocmanager.cpp:1542
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
@@ -7605,12 +7605,12 @@ msgstr ""
 "<p>Αδυναμία ανοίγματος του αρχείου «%1» καθώς δε φαίνεται να είναι αρχείο "
 "έργου.</p>"
 
-#: kiledocmanager.cpp:1540
+#: kiledocmanager.cpp:1544
 #, kde-format
 msgid "Impossible to Open Project File"
 msgstr "Αδυναμία ανοίγματος του αρχείου του έργου"
 
-#: kiledocmanager.cpp:1550
+#: kiledocmanager.cpp:1554
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
@@ -7619,12 +7619,12 @@ msgstr ""
 "<p>Αδυναμία ανοίγματος του έργου «%1» αφού δημιουργήθηκε <br/>με μία νεότερη "
 "έκδοση του Kile.</p>"
 
-#: kiledocmanager.cpp:1552
+#: kiledocmanager.cpp:1556
 #, kde-format
 msgid "Impossible to Open Project"
 msgstr "Αδύνατον να ανοίξει το έργο"
 
-#: kiledocmanager.cpp:1562
+#: kiledocmanager.cpp:1566
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7635,12 +7635,12 @@ msgstr ""
 "<br/>Απαιτείται να ενημερωθεί πριν ανοίξει.</p><p>Θέλετε να το ενημερώσετε;</"
 "p>"
 
-#: kiledocmanager.cpp:1565
+#: kiledocmanager.cpp:1569
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr "Το αρχείο του έργου χρειάζεται ενημέρωση"
 
-#: kiledocmanager.cpp:1572
+#: kiledocmanager.cpp:1576
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
@@ -7649,22 +7649,22 @@ msgstr ""
 "<p>Αδυναμία ενημέρωσης του αρχείου «%1» του έργου.</p><p>Θέλετε να αφαιρεθεί "
 "αυτό το έργο από τη λίστα των πρόσφατων έργων;</p>"
 
-#: kiledocmanager.cpp:1574
+#: kiledocmanager.cpp:1578
 #, kde-format
 msgid "Could Not Update Project File"
 msgstr "Αδυναμία ενημέρωσης του αρχείου έργου"
 
-#: kiledocmanager.cpp:1674
+#: kiledocmanager.cpp:1678
 #, kde-format
 msgid "Open Project"
 msgstr "Άνοιγμα έργου"
 
-#: kiledocmanager.cpp:1693
+#: kiledocmanager.cpp:1697
 #, kde-format
 msgid "Save Project"
 msgstr "Αποθήκευση έργου"
 
-#: kiledocmanager.cpp:1743
+#: kiledocmanager.cpp:1747
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7675,27 +7675,27 @@ msgstr ""
 "ένα έγγραφο που είναι συσχετισμένο με το έργο που επιθυμείτε να "
 "αποθηκεύσετε, και έπειτα επιλέξτε ξανά την αποθήκευση του έργου."
 
-#: kiledocmanager.cpp:1743
+#: kiledocmanager.cpp:1747
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "Αδυναμία καθορισμού του ενεργού έργου"
 
-#: kiledocmanager.cpp:1764
+#: kiledocmanager.cpp:1768
 #, kde-format
 msgid "Add Files to Project"
 msgstr "Προσθήκη αρχείων στο έργο"
 
-#: kiledocmanager.cpp:1777
+#: kiledocmanager.cpp:1781
 #, kde-format
 msgid "Add Files"
 msgstr "Προσθήκη αρχείων"
 
-#: kiledocmanager.cpp:1780
+#: kiledocmanager.cpp:1784
 #, kde-format
 msgid "Add"
 msgstr "Προσθήκη"
 
-#: kiledocmanager.cpp:1795
+#: kiledocmanager.cpp:1799
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
@@ -7704,17 +7704,17 @@ msgstr ""
 "Δεν υπάρχουν ανοικτά έργα. Παρακαλώ ανοίξτε το έργο στο οποίο επιθυμείτε να "
 "προσθέσετε αρχεία, και επιλέξτε ξανά την προσθήκη αρχείων."
 
-#: kiledocmanager.cpp:1795 kiledocmanager.cpp:1830
+#: kiledocmanager.cpp:1799 kiledocmanager.cpp:1834
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "Αδυναμία καθορισμού του ενεργού έργου"
 
-#: kiledocmanager.cpp:1821
+#: kiledocmanager.cpp:1825
 #, kde-format
 msgid "Project Options For"
 msgstr "Επιλογές έργου για"
 
-#: kiledocmanager.cpp:1830
+#: kiledocmanager.cpp:1834
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7725,12 +7725,12 @@ msgstr ""
 "ένα έγγραφο που είναι συσχετισμένο με το έργο που επιθυμείτε να "
 "τροποποιήσετε, και έπειτα επιλέξτε ξανά τις επιλογές του έργου."
 
-#: kiledocmanager.cpp:1856
+#: kiledocmanager.cpp:1860
 #, kde-format
 msgid "Close Project"
 msgstr "Κλείσιμο έργου"
 
-#: kiledocmanager.cpp:1907
+#: kiledocmanager.cpp:1911
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7741,77 +7741,77 @@ msgstr ""
 "ένα έγγραφο που είναι συσχετισμένο με το έργο που επιθυμείτε να κλείσετε, "
 "και έπειτα επιλέξτε ξανά το κλείσιμο του έργου."
 
-#: kiledocmanager.cpp:1907
+#: kiledocmanager.cpp:1911
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "Αδυναμία κλεισίματος του έργου"
 
-#: kiledocmanager.cpp:1962
+#: kiledocmanager.cpp:1966
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr "Δεν υπάρχει κάτι για καθαρισμό του %1"
 
-#: kiledocmanager.cpp:1972
+#: kiledocmanager.cpp:1976
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "Καθαρισμός %1: %2"
 
-#: kiledocmanager.cpp:2045
+#: kiledocmanager.cpp:2049
 #, kde-format
 msgid "Switch Project"
 msgstr "Εναλλαγή έργου"
 
-#: kiledocmanager.cpp:2101
+#: kiledocmanager.cpp:2105
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "Επιλογή αρχείων για αφαίρεση"
 
-#: kiledocmanager.cpp:2112 kiledocmanager.cpp:2115
+#: kiledocmanager.cpp:2116 kiledocmanager.cpp:2119
 #, kde-format
 msgid "Show Project Files"
 msgstr "Εμφάνιση αρχείων έργου"
 
-#: kiledocmanager.cpp:2112 kiledocmanager.cpp:2158
+#: kiledocmanager.cpp:2116 kiledocmanager.cpp:2162
 #, kde-format
 msgid "project configuration file"
 msgstr "αρχείο ρυθμίσεων έργου"
 
-#: kiledocmanager.cpp:2115 kiledocmanager.cpp:2161
+#: kiledocmanager.cpp:2119 kiledocmanager.cpp:2165
 #, kde-format
 msgid "graphics file"
 msgstr "αρχείο γραφικών"
 
-#: kiledocmanager.cpp:2158 kiledocmanager.cpp:2161
+#: kiledocmanager.cpp:2162 kiledocmanager.cpp:2165
 #, kde-format
 msgid "Open All Project Files"
 msgstr "Άνοιγμα όλων των αρχείων έργου"
 
-#: kiledocmanager.cpp:2193
+#: kiledocmanager.cpp:2197
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "μη ανοιγμένα: %1 (%2)"
 
-#: kiledocmanager.cpp:2216 kiledocmanager.cpp:2251
+#: kiledocmanager.cpp:2220 kiledocmanager.cpp:2255
 #, kde-format
 msgid "Project Files"
 msgstr "Αρχεία έργου"
 
-#: kiledocmanager.cpp:2224 kiledocmanager.cpp:2261
+#: kiledocmanager.cpp:2228 kiledocmanager.cpp:2265
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "Αδυναμία καθορισμού του επιλεγμένου αρχείου."
 
-#: kiledocmanager.cpp:2224 kiledocmanager.cpp:2261
+#: kiledocmanager.cpp:2228 kiledocmanager.cpp:2265
 #, kde-format
 msgid "Project Error"
 msgstr "Σφάλμα έργου"
 
-#: kiledocmanager.cpp:2328
+#: kiledocmanager.cpp:2332
 #, kde-format
 msgid "Opening Project..."
 msgstr "Άνοιγμα έργου..."
 
-#: kiledocmanager.cpp:2331
+#: kiledocmanager.cpp:2335
 #, kde-format
 msgid "Scanning project files..."
 msgstr "Σάρωση αρχείων έργου..."
@@ -11441,7 +11441,7 @@ msgstr ""
 "Αδυναμία εκτέλεσης της προεπισκόπησης:\n"
 "άγνωστη εργασία '%1'"
 
-#: quickpreview.cpp:201 widgets/previewwidget.cpp:129
+#: quickpreview.cpp:201 widgets/previewwidget.cpp:126
 #, kde-format
 msgid ""
 "There is already a preview running that has to be finished to run this one."
@@ -11455,7 +11455,7 @@ msgid "There is nothing to compile and preview."
 msgstr "Δεν υπάρχει τίποτα για μεταγλώττιση και προεπισκόπηση."
 
 #: quickpreview.cpp:229 quickpreview.cpp:239 quickpreview.cpp:250
-#: widgets/previewwidget.cpp:181
+#: widgets/previewwidget.cpp:178
 #, kde-format
 msgid "Could not run '%1' for QuickPreview."
 msgstr "Αδυναμία εκτέλεσης του '%1' για προεπισκόπηση."
@@ -11475,7 +11475,7 @@ msgstr "Αδυναμία ανάγνωσης του προοιμίου."
 msgid "Could not find a '\\begin{document}' command."
 msgstr "Αδυναμία εύρεσης μιας εντολής '\\begin{document}'."
 
-#: quickpreview.cpp:385 widgets/previewwidget.cpp:238
+#: quickpreview.cpp:385 widgets/previewwidget.cpp:235
 #, kde-format
 msgid "QuickPreview"
 msgstr "Γρήγορη προεπισκόπηση"

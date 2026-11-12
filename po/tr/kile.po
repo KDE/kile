@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-08 02:58+0000\n"
-"PO-Revision-Date: 2026-10-24 22:03+0300\n"
+"PO-Revision-Date: 2026-11-10 21:38+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -9374,12 +9374,12 @@ msgstr "Küçültülmüş Büyük Harfler"
 #: kilestdactions.cpp:466
 #, kde-format
 msgid "Bibliography Style Selection - \\bibliographystyle{}"
-msgstr "Kaynakça Biçemi Seçimi — \\bibliographystyle{}"
+msgstr "Kaynakça Stili Seçimi — \\bibliographystyle{}"
 
 #: kilestdactions.cpp:466
 #, kde-format
 msgid "Bibliography Style Selection"
-msgstr "Kaynakça Biçem Seçimi"
+msgstr "Kaynakça Stil Seçimi"
 
 #: kilestdactions.cpp:469
 #, kde-format
@@ -9395,7 +9395,7 @@ msgid ""
 msgstr ""
 "\\bibliographystyle a verilen argüman style.bst dosyasına dayanır. Bu dosya "
 "sizin atıflarınızın nasıl görüneceğini belirler.\n"
-"BibTeX ile birlikte gelen standart biçemler:\n"
+"BibTeX ile birlikte gelen standart stiller:\n"
 "alpha : alfabetik dizilim. Etiketler yazar adı ve yayınlanma tarihine göre "
 "sıralanır.\n"
 "plain  : alfabelik dizilim. Etiketler numaralandırılır.\n"
@@ -9673,12 +9673,12 @@ msgstr "Formül Gösterim Kesiri"
 #: kilestdactions.cpp:702
 #, kde-format
 msgid "Textstyle Fraction - \\tfrac{}{}"
-msgstr "Metin Biçemli Kesir — \\tfrac{}{}"
+msgstr "Metin Stilli Kesir — \\tfrac{}{}"
 
 #: kilestdactions.cpp:702
 #, kde-format
 msgid "Textstyle Fraction"
-msgstr "Metin Biçemli Kesir"
+msgstr "Metin Stilli Kesir"
 
 #: kilestdactions.cpp:705
 #, kde-format
@@ -10747,7 +10747,7 @@ msgstr "AMS Okları"
 #: kileui.rc:344
 #, kde-format
 msgid "Math &Font Styles"
-msgstr "&Matematik Yazıtipi Biçemleri"
+msgstr "&Matematik Yazıtipi Stilleri"
 
 #. i18n: ectx: Menu (menu_mathaccents)
 #: kileui.rc:354
@@ -10807,7 +10807,7 @@ msgstr "breqn Matematik Ortamları"
 #: kileui.rc:438
 #, kde-format
 msgid "&Font Styles"
-msgstr "&Yazıtipi Biçemleri"
+msgstr "&Yazıtipi Stilleri"
 
 #. i18n: ectx: Menu (menu_fontfamily)
 #: kileui.rc:448

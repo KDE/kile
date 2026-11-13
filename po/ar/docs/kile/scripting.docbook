@@ -1,0 +1,4258 @@
+<chapter id="id_scripting">
+<title
+>البرمجة النصية</title>
+
+<sect1 id="id_scripting_kile">
+<title
+>البرمجة النصية في كايل</title>
+
+<para
+>تتيح ميزة البرمجة النصية في كايل تنفيذ كود <ulink url="http://en.wikipedia.org/wiki/ECMAScript"
+>ECMAScript</ulink
+>، المعروف على نطاق واسع باسم &javascript;. ستجد العديد من الدروس التي تقدم معلومات عن الكائنات (المتغيرات) والدوال والخصائص التي يدعمها &javascript;.</para>
+
+<para
+>يمكن تفعيل دعم البرمجة النصية في حوار إعدادات كايل: <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+> <guimenuitem
+>كايل</guimenuitem
+><guilabel
+>النص البرمجي</guilabel
+></menuchoice
+>. <screenshot>
+	<screeninfo
+>فعّل أو عطّل دعم البرمجة النصية</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-support.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>فعّل أو عطّل دعم البرمجة النصية</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>إذا كان البرمجة النصية مفعّلًا، ستظهر لوحة نص برمجي إضافية في الشريط الجانبي، حيث يمكن إدارة النصوص البرمجية: <screenshot>
+	<screeninfo
+>لوحة البرمجة النصية في الشريط الجانبي</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-panel.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>لوحة البرمجة النصية في الشريط الجانبي</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>تحتوي هذه الأداة على ستة أيقونات، تقدم مهام مختلفة: <itemizedlist>
+<listitem
+><para
+>شغّل البرمجة النصية المحدد.</para
+></listitem>
+<listitem
+><para
+>أنشئ نصًا برمجيًا جديدًا.</para
+></listitem>
+<listitem
+><para
+>افتح السكربت المحدد في المحرر.</para
+></listitem>
+<listitem
+><para
+>اضبط تسلسل مفاتيح للنص البرمجي المحدد.</para
+></listitem>
+<listitem
+><para
+>أزل تسلسل مفاتيح مُسند.</para
+></listitem>
+<listitem
+><para
+>حدّث قائمة النصوص البرمجية المتاحة، والتي توجد جميعها في <filename
+>$<envar
+>KDEDIR</envar
+>/share/apps/kile/scripts/</filename
+>.</para
+></listitem>
+</itemizedlist>
+</para>
+
+</sect1>
+
+<sect1 id="id_execute_script">
+<title
+>تنفيذ نص برمجي</title>
+
+<para
+>يمكنك تنفيذ نص برمجي بثلاث طرق مختلفة:</para>
+
+<procedure>
+<step
+><para
+>اختر السكربت المطلوب وانقر على زر <guilabel
+>تنفيذ</guilabel
+> على الجانب الأيسر من أداة إدارة النصوص البرمجية.</para>
+<screenshot>
+	<screeninfo
+>البرمجة النصية: زر التنفيذ</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-execbutton.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>البرمجة النصية: زر التنفيذ</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>استخدم اختصار لوحة مفاتيح.</para>
+<screenshot>
+	<screeninfo
+>البرمجة النصية: اختصار لوحة المفاتيح</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-shortcut.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>البرمجة النصية: اختصار لوحة المفاتيح</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>يمكنك إسناد اختصار لوحة مفاتيح لنص برمجي باستخدام زر <guilabel
+>اضبط</guilabel
+> في أداة إدارة النصوص البرمجية.</para>
+<screenshot>
+	<screeninfo
+>البرمجة النصية: حوار ضبط التسلسل</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-configure.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>البرمجة النصية: حوار ضبط التسلسل</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>استخدم تسلسل مفاتيح المحرر. سيُنفّذ البرمجة النصية إذا كتبت تسلسل المفاتيح المُسند في المحرر.</para>
+<screenshot>
+	<screeninfo
+>البرمجة النصية: تسلسل مفاتيح المحرر</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence1.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>البرمجة النصية: تسلسل مفاتيح المحرر</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>يمكن توسيع هذه الطريقة إلى نوع متطور من إكمال الكود. لنفترض أنك كتبت سكربتًا يقوم ببساطة بإدراج أمر &latex; <userinput
+>\textbf{}</userinput
+> في المستند الحالي.</para>
+
+<programlisting
+>document.insertText("\\textbf{%C}");
+</programlisting>
+
+<para
+>إذا كتبت الآن تسلسل المفاتيح المعين <userinput
+>bfx</userinput
+> في مستندك النصي، فسيُحذف هذا التسلسل ويُنفَّذ السكربت. سيدرج <userinput
+>\textbf{}</userinput
+> ويوضع المؤشر بين القوسين.</para>
+<screenshot>
+	<screeninfo
+>البرمجة النصية: كتابة تسلسل مفاتيح المحرر</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence2.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>البرمجة النصية: كتابة تسلسل مفاتيح المحرر</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>يا لها من طريقة مريحة وقوية لإكمال الكود.</para>
+</step>
+</procedure>
+
+</sect1>
+
+<sect1 id="id_scripting_api">
+<title
+>مرجع واجهة البرمجة</title>
+
+<para
+>واجهة البرمجة النصية المعروضة هنا متاحة في جميع السكربتات. قبل تحميل محتويات سكربت، يضيف كايل أولًا عدة نماذج أولية ودوال إلى سياق البرمجة النصية. تحتوي واجهة البرمجة المريحة هذه على نماذج أولية مثل مؤشرات النص ونطاقات النص، وتقع في المجلد <filename
+>KILE_APP_DIR/script-plugins/</filename
+>.</para>
+
+<para
+>تختلف سكربتات كايل قليلًا عن سكربتات <ulink url="http://kate-editor.org"
+>&kate;</ulink
+> التي تستخدم تصميمًا آخر، حيث يمكن تشغيلها أيضًا من سطر الأوامر. لكن جميع دوال واجهة برمجة &kate; متاحة أيضًا في واجهة برمجة كايل، لذا فإن نقل كود &javascript; من &kate; إلى كايل سهل جدًا. ولكن نظرًا لأن كايل محرر &latex; غني بالميزات، فإن واجهة برمجته النصية توفر إمكانيات أكثر بكثير من واجهة &kate;.</para>
+
+<para
+><emphasis
+>ملاحظة: </emphasis
+>أُخذ وصف استدعاءات واجهة البرمجة المتاحة أيضًا في برمجة &kate; النصية من توثيق &kate;.</para>
+
+
+<sect2 id="id_scripting_api_global">
+<title
+>الدوال العامة</title>
+
+<para
+>يسرد هذا القسم الدوال العامة.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void debug(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يطبع <parameter
+>نصًا</parameter
+> إلى <literal
+>stdout</literal
+> في وحدة التحكم. النص المطبوع ملون لتمييزه عن مخرجات التنقيح الأخرى. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_cursor">
+<title
+>النموذج الأولي للمؤشر</title>
+
+<para
+>نظرًا لأن كايل محرر نصوص، فإن واجهة البرمجة النصية بأكملها مبنية على المؤشرات والنطاقات قدر الإمكان. المؤشر هو زوج بسيط <literal
+>(سطر، عمود)</literal
+> يمثل موضع نص في المستند.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor();
+</synopsis
+></term>
+<listitem
+><para
+>المنشئ: يُرجع مؤشرًا في الموضع <literal
+>(0,0)</literal
+>. </para
+><para
+>مثال: <function
+>var cursor = new Cursor();</function
+></para>
+</listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>المنشئ: يُرجع مؤشرًا في الموضع (سطر، عمود). </para
+><para
+>مثال: <function
+>var cursor = new Cursor(3,42);</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>Cursor <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>منشئ النسخ: يُرجع نسخة من المؤشر <parameter
+>آخر</parameter
+>. </para
+><para
+>مثال: <function
+>var copy = new Cursor(other);</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.clone();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع استنساخًا للمؤشر. </para
+><para
+>مثال: <function
+>var clone = cursor.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>تحقق مما إذا كان المؤشر صالحًا. المؤشر غير صالح إذا كان السطر و/أو العمود مضبوطين على <literal
+>-1</literal
+>. </para
+><para
+>مثال: <function
+>var valid = cursor.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع مؤشرًا جديدًا غير صالح يقع في <literal
+>(-1,-1)</literal
+>. </para
+><para
+>مثال: <function
+>var invalidCursor = cursor.invalid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int Cursor.compareTo(<parameter
+>Cursor <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يقارن هذا المؤشر بالمؤشر <parameter
+>آخر</parameter
+>. يُرجع <itemizedlist>
+<listitem
+><para
+><literal
+>-1</literal
+>، إذا كان هذا المؤشر يقع قبل المؤشر <parameter
+>آخر</parameter
+>،</para
+></listitem>
+<listitem
+><para
+><literal
+>0</literal
+>، إذا كان المؤشران متساويين و</para
+></listitem>
+<listitem
+><para
+><literal
+>+1</literal
+>، إذا كان هذا المؤشر يقع بعد المؤشر <parameter
+>آخر</parameter
+>.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.equals(<parameter
+>Cursor <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع <literal
+>صحيح</literal
+>، إذا كان هذا المؤشر والمؤشر <parameter
+>آخر</parameter
+> متساويين، وإلا <literal
+>خاطئ</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Cursor.toString();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع المؤشر كسلسلة من الشكل <literal
+>Cursor(سطر، عمود)</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_range">
+<title
+>النموذج الأولي للنطاق</title>
+
+<para
+>نظرًا لأن كايل محرر نصوص، فإن واجهة البرمجة النصية بأكملها مبنية على المؤشرات والنطاقات قدر الإمكان. كما أن المؤشر هو زوج بسيط <literal
+>(سطر، عمود)</literal
+> يمثل موضع نص في المستند، فإن النطاق يمتد نصًا من موضع مؤشر بداية إلى موضع مؤشر نهاية.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range();
+</synopsis
+></term>
+<listitem
+><para
+>المنشئ: استدعاء <literal
+>new Range()</literal
+> يُرجع نطاقًا في <literal
+>(0,0) - (0,0)</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Cursor <replaceable
+>start</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>end</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>المنشئ: استدعاء <literal
+>new Range(<replaceable
+>بداية</replaceable
+>, <replaceable
+>نهاية</replaceable
+>)</literal
+> يُرجع النطاق من المؤشر <parameter
+>بداية</parameter
+> إلى المؤشر <parameter
+>نهاية</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>int <replaceable
+>startLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>startColumn</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>endLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>endColumn</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>الباني: استدعاء <literal
+>new Range(<replaceable
+>startLine</replaceable
+>,<replaceable
+>startColumn</replaceable
+>,<replaceable
+>endLine</replaceable
+>, <replaceable
+>endColumn</replaceable
+>)</literal
+> يُرجع النطاق من (<literal
+>startLine</literal
+>, <literal
+>startColumn</literal
+>) إلى (<literal
+>endLine</literal
+>, <literal
+>endColumn</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Range <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>باني النسخ: يُرجع نسخة من النطاق <literal
+>other</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range Range.clone();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع استنساخًا للنطاق. </para
+><para
+>مثال: <function
+>var clone = range.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع <literal
+>true</literal
+>، إذا كان مؤشرا البداية والنهاية صالحَين، وإلا <literal
+>false</literal
+>. </para
+><para
+>مثال: <function
+>var valid = range.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع النطاق من (-1,-1) إلى (-1,-1). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع <literal
+>true</literal
+>، إذا احتوى هذا النطاق موضع المؤشر، وإلا <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Range <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع <literal
+>true</literal
+>، إذا احتوى هذا النطاق النطاق <parameter
+>other</parameter
+>، وإلا <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsColumn(<parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع <literal
+>true</literal
+>، إذا كان <parameter
+>column</parameter
+> في الفترة نصف المفتوحة <literal
+>[start.column, end.column]</literal
+>، وإلا <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع <literal
+>true</literal
+>، إذا كان <parameter
+>line</parameter
+> في الفترة نصف المفتوحة <literal
+>[start.line, end.line]</literal
+>، وإلا <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlaps(<parameter
+>Range <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع <literal
+>true</literal
+>، إذا اشترك هذا النطاق والنطاق <parameter
+>other</parameter
+> في منطقة مشتركة، وإلا <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع <literal
+>true</literal
+>، إذا كان <parameter
+>line</parameter
+> في الفترة <literal
+>[start.line, end.line]</literal
+>، وإلا <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsColumn(<parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع <literal
+>true</literal
+>، إذا كان <parameter
+>column</parameter
+> في الفترة <literal
+>[start.column, end.column]</literal
+>، وإلا <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.equals(<parameter
+>Range <replaceable
+>other</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع <literal
+>true</literal
+>، إذا كان هذا النطاق والنطاق <parameter
+>other</parameter
+> متساويين، وإلا <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Range.toString();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع النطاق كسلسلة بالصيغة <literal
+>Range(Cursor(line,column) - Cursor(line,column))</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_view">
+<title
+>واجهة برمجة العرض</title>
+
+<para
+>عندما يُنفَّذ سكريبت، يوجد كائن عام (متغير) <userinput
+>view</userinput
+> يُمثِّل عرض المحرِّر النشط الحالي. جميع دوال <literal
+>view</literal
+> تعمل مع مواضع المؤشر أو النص المحدد. فيما يلي قائمة بجميع دوال <userinput
+>view</userinput
+> المتاحة.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.backspace();
+</synopsis
+></term>
+<listitem
+><para
+>يُنفِّذ برمجيًّا ما يعادل الضغط على مفتاح المسح الخلفي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.cursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع موضع المؤشر الحالي في العرض. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorPosition(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+void view.setCursorPosition(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يضبط موضع المؤشر الحالي إما إلى <parameter
+>line</parameter
+> و <parameter
+>column</parameter
+> أو إلى <parameter
+>cursor</parameter
+> المُعطى. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorLeft();
+</synopsis
+></term>
+<listitem
+><para
+>يُحرِّك المؤشر موضعًا واحدًا إلى الخلف في النص. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorRight();
+</synopsis
+></term>
+<listitem
+><para
+>يُحرِّك المؤشر موضعًا واحدًا إلى الأمام في النص. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorUp();
+</synopsis
+></term>
+<listitem
+><para
+>يُحرِّك المؤشر سطرًا واحدًا لأعلى في المستند. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorDown();
+</synopsis
+></term>
+<listitem
+><para
+>يُحرِّك المؤشر سطرًا واحدًا لأسفل في المستند. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorLine();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع السطر الذي يقع فيه المؤشر حاليًا. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorColumn();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع العمود الذي يقع فيه المؤشر حاليًا. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يضبط سطر المؤشر إلى <parameter
+>line</parameter
+> المُعطى. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorColumn(<parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يضبط عمود المؤشر إلى <parameter
+>column</parameter
+> المُعطى. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.virtualCursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>احصل على موضع المؤشر <emphasis
+>الافتراضي</emphasis
+> الحالي. <emphasis
+>الافتراضي</emphasis
+> يعني أن حرف الجدولة (TAB) يُحتسب كـ <emphasis
+>عدة</emphasis
+> أحرف، كما ضبطه المستخدم (مثلًا، TAB واحد يساوي 8 مسافات). يوفر موضع المؤشر الافتراضي الوصول إلى القيم المرئية للمستخدم لموضع المؤشر الحالي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool view.hasSelection();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع <literal
+>true</literal
+>، إذا كان للعرض نص محدد، وإلا <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String view.selectedText();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع النص المحدد. إذا لم يُحدد نص، تكون السلسلة المُرجعة فارغة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range view.selectionRange();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع نطاق النص المحدد. يكون النطاق المُرجَع غير صالح إذا لم يكن هناك نص محدد. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setSelection(<parameter
+>Range <replaceable
+>range</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يضبط النص المحدد على <parameter
+>النطاق</parameter
+> المُعطى. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectAll();
+</synopsis
+></term>
+<listitem
+><para
+>يحدد النص بأكمله في المستند. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.clearSelection();
+</synopsis
+></term>
+<listitem
+><para
+>يمسح تحديد النص دون إزالة النص. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.removeSelectedText();
+</synopsis
+></term>
+<listitem
+><para
+>يزيل النص المحدد. إذا لم يكن للعرض أي نص محدد، لا يفعل هذا شيئًا. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine();
+</synopsis
+></term>
+<listitem
+><para
+>يحدد النص في السطر الحالي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يحدد النص في <parameter
+>السطر</parameter
+> المُعطى. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLines(<parameter
+>int <replaceable
+>from</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>to</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يحدد النص بأكمله من <parameter
+>السطر</parameter
+> إلى <parameter
+>السطر</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectWord();
+</synopsis
+></term>
+<listitem
+><para
+>يحدد الكلمة الحالية. إذا لم تُعثر على كلمة في موضع المؤشر الحالي، لا يُفعل شيء. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLatexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>يحدد أمر &latex; الحالي. إذا لم يُعثر على أمر في موضع المؤشر الحالي، لا يُفعل شيء. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectEnvironment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يحدد النص الكامل لبيئة &latex; الحالية. إذا كان <parameter
+>داخل</parameter
+> هو <literal
+>false</literal
+>، يُحدد نص البيئة بما في ذلك وسوم &latex; المحيطة <userinput
+>\begin{...}...\end{...}</userinput
+>، وإلا دون هذه الوسوم. إذا لم يُعطَ معامل، يُضبط <parameter
+>داخل</parameter
+> على <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectTexgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يحدد نص مجموعة &latex; الحالية. إذا كان <parameter
+>داخل</parameter
+> هو <literal
+>true</literal
+>، يُحدد فقط نص المجموعة دون الأقواس المحيطة. إذا لم يُعطَ معامل، يُضبط <parameter
+>داخل</parameter
+> على <literal
+>true</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>يحدد نص المجموعة الرياضية الحالية. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectParagraph(bool wholeLines = true);
+</synopsis
+></term>
+<listitem
+><para
+>يحدد النص الكامل لفقرة &latex; الحالية. إذا كان <parameter
+>أسطر كاملة</parameter
+> هو <literal
+>true</literal
+>، تُضمّن الأسطر الأولى والأخيرة من الفقرة في التحديد بالكامل (بما في ذلك حرف نهاية السطر)؛ وإلا، سيحتوي التحديد فقط على أحرف غير فراغية. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_document">
+<title
+>واجهة برمجة التطبيقات للمستند</title>
+
+<para
+>عندما يُنفّذ سكريبت، يوجد كائن (متغير) عام <userinput
+>document</userinput
+> يمثل المستند النشط الحالي. فيما يلي قائمة بجميع دوال <userinput
+>document</userinput
+> المتاحة.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُدرج <parameter
+>النص</parameter
+> في موضع المؤشر الحالي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+void document.insertText(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُدرج <parameter
+>النص</parameter
+> في موضع المؤشر المُعطى. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeText(<parameter
+>int <replaceable
+>fromLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>fromColumn</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>toLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>toColumn</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Cursor <replaceable
+>from</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>to</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Range <replaceable
+>range</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يزيل النص في النطاق المُعطى. يُرجع <literal
+>true</literal
+> عند النجاح، أو <literal
+>false</literal
+> إذا كان المستند في وضع القراءة فقط. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceText(<parameter
+>Range <replaceable
+>range</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يستبدل نص النطاق المُعطى بالنص المحدد. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lines();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع عدد الأسطر في المستند. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.length();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع عدد الأحرف في المستند. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.documentRange();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع نطاقًا يغطي المستند بأكمله. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor document.documentEnd();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع موضع المؤشر الحالي لنهاية المستند. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع المحتوى الكامل للمستند في سلسلة نصية واحدة. تُوسم الأسطر الجديدة بحرف السطر الجديد <literal
+>\n</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text(<parameter
+>int <replaceable
+>fromLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>fromColumn</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>toLine</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>toColumn</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Cursor <replaceable
+>from</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>to</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Range <replaceable
+>range</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع النص في النطاق المُعطى. يُوصى باستخدام الإصدار القائم على المؤشر والنطاق لتحسين قابلية قراءة شفرة المصدر. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.setText(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يضبط نص المستند بأكمله. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.clear();
+</synopsis
+></term>
+<listitem
+><para
+>يزيل النص بأكمله في المستند. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع سطر النص الحالي كسلسلة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع سطر النص المُعطى كسلسلة. تكون السلسلة فارغة إذا كان السطر المطلوب خارج النطاق. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع طول السطر الحالي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع طول <parameter
+>السطر</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>String <replaceable
+>s</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُدرج نصًا في السطر الحالي. يُرجع <literal
+>صحيح</literal
+> عند النجاح، أو <literal
+>خطأ</literal
+> إذا كان المستند في وضع القراءة فقط أو كان السطر خارج نطاق المستند. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>s</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُدرج نصًا في السطر المُعطى. يُرجع <literal
+>صحيح</literal
+> عند النجاح، أو <literal
+>خطأ</literal
+> إذا كان المستند في وضع القراءة فقط أو كان السطر خارج نطاق المستند. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine();
+</synopsis
+></term>
+<listitem
+><para
+>يزيل سطر النص الحالي. يُرجع <literal
+>صحيح</literal
+> عند النجاح، أو <literal
+>خطأ</literal
+> إذا كان المستند في وضع القراءة فقط. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يزيل سطر النص المُعطى. يُرجع <literal
+>صحيح</literal
+> عند النجاح، أو <literal
+>خطأ</literal
+> إذا كان المستند في وضع القراءة فقط أو كان السطر خارج نطاق المستند. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>استبدل نص السطر الحالي بالنص المُحدد. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>استبدل نص السطر المُعطى بالنص المُحدد. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncateLine();
+</synopsis
+></term>
+<listitem
+><para
+>اقتطع السطر الحالي عند العمود أو موضع المؤشر المُعطى. يُرجع <literal
+>صحيح</literal
+> عند النجاح، أو <literal
+>خطأ</literal
+> إذا كان السطر المُعطى ليس جزءًا من نطاق المستند. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncate(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+bool document.truncate(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>اقتطع السطر المُعطى عند العمود أو موضع المؤشر المُعطى. يُرجع <literal
+>صحيح</literal
+> عند النجاح، أو <literal
+>خطأ</literal
+> إذا كان السطر المُعطى ليس جزءًا من نطاق المستند. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.word();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع الكلمة في موضع المؤشر الحالي. إذا لم تُعثر على كلمة في هذا الموضع، تكون السلسلة المُرجَعة فارغة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.wordAt(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+String document.wordAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع الكلمة في موضع المؤشر المُعطى. إذا لم تُعثر على كلمة في هذا الموضع، تكون السلسلة المُرجَعة فارغة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.wordRange();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع نطاق الكلمة في موضع المؤشر المُعطى. إذا لم تُعثر على كلمة، يُرجع <literal
+>Range.invalid()</literal
+>، والذي يمكن اختباره باستخدام <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع أمر &latex; في موضع المؤشر الحالي. إذا لم يُعثر على أمر في هذا الموضع، تكون السلسلة المُرجَعة فارغة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommandAt(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+String document.latexCommandAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع أمر &latex; في موضع المؤشر المُعطى. إذا لم يُعثر على أمر في هذا الموضع، تكون السلسلة المُرجَعة فارغة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.latexCommandRange();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع نطاق أمر &latex; في موضع المؤشر المُعطى. إذا لم يُعثر على أمر &latex;، يُرجع <literal
+>Range.invalid()</literal
+>، والذي يمكن اختباره باستخدام <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.charAt(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+String document.charAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع الحرف في موضع المؤشر المُعطى. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.firstChar(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع أول حرف في <parameter
+>السطر</parameter
+> المُعطى ليس مسافة بيضاء. أول حرف يكون في العمود 0. إذا كان السطر فارغًا أو يحتوي فقط على أحرف مسافة بيضاء، تكون السلسلة المُرجَعة فارغة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.lastChar(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع آخر حرف في <parameter
+>السطر</parameter
+> المُعطى ليس مسافة بيضاء. إذا كان السطر فارغًا أو يحتوي فقط على أحرف مسافة بيضاء، تكون السلسلة المُرجَعة فارغة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.isSpace(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+bool document.isSpace(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع <literal
+>صحيح</literal
+> إذا كان الحرف في موضع المؤشر المُعطى مسافة بيضاء، وإلا <literal
+>خطأ</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertBullet();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج <emphasis
+>نقطة تعداد</emphasis
+> من كايل. تذكر أنه يمكنك القفز بسهولة إلى النقطة التالية أو السابقة. سيؤدي هذا أيضًا إلى إبراز هذه النقطة بحيث تُحذف آليًا عند إدخال أول حرف لك. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.nextBullet();
+</synopsis
+></term>
+<listitem
+><para
+>اقفز إلى النقطة التالية في النص إذا وُجدت. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.previousBullet();
+</synopsis
+></term>
+<listitem
+><para
+>اقفز إلى النقطة السابقة في النص إذا وُجدت. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>منطقي document.hasEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع <literal
+>صحيح</literal
+> إذا وُجدت بيئة &latex; محيطة، وإلا <literal
+>خطأ</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع النص الكامل لبيئة &latex; المحيطة. إذا كان <parameter
+>داخل</parameter
+> هو <literal
+>خطأ</literal
+>، يُرجع نص البيئة بما في ذلك وسوم &latex; المحيطة <userinput
+>\begin{...}...\end{...}</userinput
+>، وإلا بدون هذه الوسوم. إذا لم يُعطَ معامل، يُضبط <parameter
+>داخل</parameter
+> على <literal
+>خطأ</literal
+>. إذا لم تُعثر على بيئة، تكون السلسلة المُرجَعة فارغة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.environmentRange(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع نطاق بيئة &latex; المحيطة. إذا كان <parameter
+>داخل</parameter
+> هو <literal
+>خطأ</literal
+>، يُرجع النطاق بما في ذلك وسوم &latex; المحيطة <userinput
+>\begin{...}...\end{...}</userinput
+>، وإلا بدون هذه الوسوم. إذا لم يُعطَ معامل، يُضبط <parameter
+>داخل</parameter
+> على <literal
+>خطأ</literal
+>. إذا لم تُعثر على بيئة، يُرجع <literal
+>Range.invalid()</literal
+>، والذي يمكن اختباره باستخدام <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environmentName();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع اسم بيئة &latex; المحيطة أو سلسلة فارغة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeEnvironment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يزيل نص بيئة &latex; المحيطة. إذا كان <parameter
+>داخل</parameter
+> هو <literal
+>خطأ</literal
+>، يُزال نص البيئة بما في ذلك وسوم &latex; المحيطة <userinput
+>\begin{...}...\end{...}</userinput
+>، وإلا بدون هذه الوسوم. إذا لم يُعطَ معامل، يُضبط <parameter
+>داخل</parameter
+> على <literal
+>خطأ</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج وسم إغلاق بيئة، إذا وُجدت بيئة &latex; مفتوحة في موضع المؤشر الحالي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeAllEnvironments();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج وسوم إغلاق لكل بيئات &latex; المفتوحة التي وُجدت في موضع المؤشر الحالي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع <literal
+>true</literal
+> إذا وُجدت مجموعة &latex; محيطة في موضع المؤشر الحالي، وإلا تُرجع <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.texgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع نص المجموعة &latex; المحيطة. إذا كان <parameter
+>inside</parameter
+> هو <literal
+>false</literal
+>، فسيُعاد نص هذه المجموعة &latex; بما في ذلك الأقواس المحيطة <userinput
+>{...}</userinput
+>، وإلا بدونها. إذا لم يُعطَ معامل، فسيُضبط <parameter
+>inside</parameter
+> على <literal
+>false</literal
+>. السلسلة المُعادة فارغة إذا لم تُوجد مجموعة &latex; محيطة في موضع المؤشر الحالي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.texgroupRange(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع نطاق المجموعة &latex; المحيطة. إذا كان <parameter
+>inside</parameter
+> هو <literal
+>false</literal
+>، فسيُعاد النطاق بما في ذلك الأقواس المحيطة <userinput
+>{...}</userinput
+>، وإلا بدونها. إذا لم يُعطَ معامل، فسيُضبط <parameter
+>inside</parameter
+> على <literal
+>false</literal
+>. إذا لم تُوجد مجموعة، فسيُعاد <literal
+>Range.invalid()</literal
+>، والذي يمكن اختباره باستخدام <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeTexgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُزيل نص المجموعة &latex; المحيطة. إذا كان <parameter
+>inside</parameter
+> هو <literal
+>false</literal
+>، فسيُزال نص هذه المجموعة &latex; بما في ذلك الأقواس المحيطة <userinput
+>{...}</userinput
+>، وإلا بدونها. إذا لم يُعطَ معامل، فسيُضبط <parameter
+>inside</parameter
+> على <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع <literal
+>true</literal
+> إذا وُجدت مجموعة رياضية &latex; محيطة في موضع المؤشر الحالي، وإلا تُرجع <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.mathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع نص المجموعة الرياضية &latex; المحيطة. السلسلة المُعادة فارغة إذا لم تُوجد مجموعة رياضية &latex; محيطة في موضع المؤشر الحالي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.mathgroupRange();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع نطاق المجموعة الرياضية &latex; المحيطة. إذا لم توجد مجموعة رياضية محيطة، فسيُعاد <literal
+>Range.invalid()</literal
+>، والذي يمكن اختباره باستخدام <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>تُزيل نص المجموعة الرياضية &latex; المحيطة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.paragraph();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع نص فقرة &latex; الحالية. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.paragraphRange();
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع نطاق فقرة &latex; المحيطة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>تُزيل نص فقرة &latex; الحالية. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.matchesAt(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+bool document.matchesAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع <literal
+>true</literal
+> إذا طابق النص المُعطى <parameter
+>text</parameter
+> موضع المؤشر المقابل، وإلا تُرجع <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.startsWith(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>pattern</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>skipWhiteSpaces = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع <literal
+>true</literal
+> إذا بدأ السطر بـ <parameter
+>pattern</parameter
+>، وإلا تُرجع <literal
+>false</literal
+>. يتحكم المعامل <parameter
+>skipWhiteSpaces</parameter
+> في تجاهل المسافات البيضاء البادئة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.endsWith(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>pattern</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>skipWhiteSpaces = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع <literal
+>true</literal
+> إذا انتهى السطر بـ <parameter
+>pattern</parameter
+>، وإلا تُرجع <literal
+>false</literal
+>. يتحكم المعامل <parameter
+>skipWhiteSpaces</parameter
+> في تجاهل المسافات البيضاء التابعة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.firstColumn(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع أول عمود غير مسافة بيضاء في السطر المُعطى <parameter
+>line</parameter
+>. إذا كانت هناك مسافات بيضاء فقط في السطر، فالقيمة المُعادة هي <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lastColumn(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع آخر عمود غير مسافة بيضاء في السطر المُعطى <parameter
+>line</parameter
+>. إذا كانت هناك مسافات بيضاء فقط في السطر، فالقيمة المُعادة هي <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonSpaceColumn(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+int document.prevNonSpaceColumn(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع العمود الذي يحتوي على حرف غير مسافة بيضاء بدءًا من موضع المؤشر المُعطى والبحث للخلف. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonSpaceColumn(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>column</replaceable
+></parameter
+>);
+int document.nextNonSpaceColumn(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع العمود الذي يحتوي على حرف غير مسافة بيضاء بدءًا من موضع المؤشر المُعطى والبحث للأمام. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonEmptyLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع السطر التالي غير الفارغ الذي يحتوي على أحرف غير مسافة بيضاء بالبحث للخلف. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonEmptyLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>تُرجع السطر التالي غير الفارغ الذي يحتوي على أحرف غير مسافة بيضاء بالبحث للأمام. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginEnv();
+</synopsis
+></term>
+<listitem
+><para
+>اذهب إلى بداية بيئة &latex; محيطة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndEnv();
+</synopsis
+></term>
+<listitem
+><para
+>اذهب إلى نهاية بيئة &latex; محيطة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>اذهب إلى بداية مجموعة &latex; محيطة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>اذهب إلى نهاية مجموعة &latex; محيطة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>اذهب إلى فقرة &latex; التالية. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>اذهب إلى فقرة &latex; السابقة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>اذهب إلى قسم &latex; التالي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>اذهب إلى قسم &latex; السابق. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoLine(<parameter
+>int <replaceable
+>line</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>اذهب إلى <literal
+>السطر</literal
+> المعطى. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertChapter();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج أمر <userinput
+>\chapter</userinput
+> (انظر أيضًا <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSection();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج أمر <userinput
+>\section</userinput
+>. كما هو الحال عند اختيار إدخال القائمة <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>تقسيم</guisubmenu
+><guimenuitem
+>قسم</guimenuitem
+></menuchoice
+>، سيظهر حوار حيث يمكنك اختيار العنوان ووسم اختياري لأمر التقسيم هذا. <screenshot>
+	<screeninfo
+>حوار: أدرج أمر فصل</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertsection.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>حوار: أدرج أمر فصل</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsection();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج أمر <userinput
+>\subsection</userinput
+> (انظر أيضًا <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsubsection();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج أمر <userinput
+>\subsubsection</userinput
+> (انظر أيضًا <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج أمر <userinput
+>\paragraph</userinput
+> (انظر أيضًا <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubparagraph();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج أمر <userinput
+>\subparagraph</userinput
+> (انظر أيضًا <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertLabel();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج أمر <userinput
+>\label</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertReference();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج أمر <userinput
+>\ref</userinput
+>. كما هو الحال عند اختيار إدخال القائمة <menuchoice
+><guimenu
+>&latex;</guimenu
+><guisubmenu
+>مراجع</guisubmenu
+><guimenuitem
+>مرجع</guimenuitem
+></menuchoice
+>، سيظهر حوار حيث يمكنك الاختيار من الوسوم المعرفة مسبقًا، المدرجة في مربع قائمة منسدلة. <screenshot>
+	<screeninfo
+>حوار: أدرج أمر مرجع</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertreference.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>حوار: أدرج أمر مرجع</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertPageref();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج أمر <userinput
+>\pageref</userinput
+> (انظر أيضًا <literal
+>document.insertReference()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertCitation();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج أمر <userinput
+>\cite</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIndex();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج أمر <userinput
+>\index</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertFootnote();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج أمر <userinput
+>\footnote</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.comment();
+</synopsis
+></term>
+<listitem
+><para
+>يدرج علامات تعليق لجعل التحديد أو السطر الحالي تعليقًا. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uncomment();
+</synopsis
+></term>
+<listitem
+><para
+>يزيل علامات التعليق من التحديد أو السطر الحالي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uppercase();
+</synopsis
+></term>
+<listitem
+><para
+>اجعل النص المحدد أو الحرف بعد المؤشر بأحرف كبيرة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.lowercase();
+</synopsis
+></term>
+<listitem
+><para
+>اجعل النص المحدد أو الحرف بعد المؤشر بأحرف صغيرة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.capitalize();
+</synopsis
+></term>
+<listitem
+><para
+>اكتب الحرف الأول من النص المحدد أو الكلمة الحالية بأحرف كبيرة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.joinLines();
+</synopsis
+></term>
+<listitem
+><para
+>يضم أسطر التحديد الحالي. يُفصل سطران نصيان متتاليان دائمًا بمسافة واحدة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentNewline();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج سطرًا جديدًا ذكيًا (انظر <xref linkend="editing_smartnewline" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentTabulator();
+</synopsis
+></term>
+<listitem
+><para
+>أدرج علامة جدولة ذكية (انظر <xref linkend="editing_tabulator" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editBegin();
+</synopsis
+></term>
+<listitem
+><para
+>يبدأ مجموعة تحرير لتجميع التراجع/الإعادة. تأكد من استدعاء <function
+>editEnd()</function
+> دائمًا بعدد مرات استدعاء <function
+>editBegin()</function
+>. يستخدم استدعاء <function
+>editBegin()</function
+> داخليًا عداد مراجع، أي يمكن تداخل هذا الاستدعاء. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editEnd();
+</synopsis
+></term>
+<listitem
+><para
+>ينهي مجموعة تحرير. آخر استدعاء لـ <function
+>editEnd()</function
+> (أي الاستدعاء المقابل لأول استدعاء لـ <function
+>editBegin()</function
+>) ينهي خطوة التحرير. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.labelList();
+</synopsis
+></term>
+<listitem
+><para
+>يعيد جميع الوسوم المعرفة كـ <literal
+>StringList</literal
+>، يمكن استخدامها في &javascript; كمصفوفة من السلاسل النصية. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.bibitemList();
+</synopsis
+></term>
+<listitem
+><para
+>يعيد جميع bibitems المعرفة كـ <literal
+>StringList</literal
+>، يمكن استخدامها في &javascript; كمصفوفة من السلاسل النصية. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.refreshStructure();
+</synopsis
+></term>
+<listitem
+><para
+>أنعش عرض الهيكل (انظر <xref linkend="navigating" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_kile">
+<title
+>واجهة برمجة تطبيقات كايل</title>
+
+<para
+>يُستخدم الكائن العام (المتغير) <userinput
+>kile</userinput
+> للتعامل مع التفاعلات عالية المستوى مع العالم الخارجي، وواجهات إدخال الرسائل والحوار. تُقسم استدعاءات واجهة برمجة التطبيقات هذه إلى كائنات فرعية لتنظيم هذا الجزء من واجهة برمجة تطبيقات البرمجة النصية. من الناحية المفاهيمية، يشبه <userinput
+>kile</userinput
+> قليلًا <userinput
+>window</userinput
+> في واجهة برمجة تطبيقات المتصفح. <itemizedlist>
+<listitem
+><para
+><literal
+>kile.alert</literal
+>: &nbsp; مربعات الرسائل</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.input</literal
+>: &nbsp; الحصول على إدخال المستخدم</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.wizard</literal
+>: &nbsp; استدعاء أحد معالجات كايل</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.script</literal
+>: &nbsp; الحصول على معلومات حول برنامج نصي قيد التشغيل</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.file</literal
+>: &nbsp; عمليات الملفات مثل القراءة والكتابة.</para
+></listitem>
+</itemizedlist>
+</para>
+
+
+<sect3 id="id_scripting_api_kile_alert">
+<title
+>تنبيه</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.information(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يعرض حوار <emphasis
+>معلومات</emphasis
+>. <parameter
+>text</parameter
+> هو سلسلة الرسالة و<parameter
+>caption</parameter
+> عنوان مربع الرسالة. العنوان المبدئي هو اسم البرنامج النصي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.sorry(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يعرض حوار <emphasis
+>آسف</emphasis
+>. <parameter
+>text</parameter
+> هو سلسلة الرسالة و<parameter
+>caption</parameter
+> عنوان مربع الرسالة. العنوان المبدئي هو اسم البرنامج النصي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.error(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يعرض حوار <emphasis
+>خطأ</emphasis
+>. <parameter
+>text</parameter
+> هو سلسلة الرسالة و<parameter
+>caption</parameter
+> عنوان مربع الرسالة. العنوان المبدئي هو اسم البرنامج النصي. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.question(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يعرض حوار <emphasis
+>سؤال</emphasis
+> بسيط. <parameter
+>text</parameter
+> هو سلسلة الرسالة و<parameter
+>caption</parameter
+> عنوان مربع الرسالة. العنوان المبدئي هو اسم البرنامج النصي. السلسلة المُرجَعة هي إما <literal
+>yes</literal
+> أو <literal
+>no</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.warning(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يعرض حوار <emphasis
+>تحذير</emphasis
+> بسيط. <parameter
+>text</parameter
+> هو سلسلة الرسالة و<parameter
+>caption</parameter
+> عنوان مربع الرسالة. العنوان المبدئي هو اسم البرنامج النصي. السلسلة المُرجَعة هي إما <literal
+>continue</literal
+> أو <literal
+>cancel</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_input">
+<title
+>الإدخال</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getListboxItem(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>list</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>دالة للسماح للمستخدم باختيار عنصر من قائمة، تُعرض كصندوق قائمة. <parameter
+>caption</parameter
+> هو النص المعروض في شريط العنوان، <parameter
+>label</parameter
+> هو النص الذي يظهر كتسمية للقائمة و<parameter
+>list</parameter
+> هي قائمة السلاسل المُدرجة في القائمة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getComboboxItem(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>list</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>دالة للسماح للمستخدم باختيار عنصر من قائمة، تُعرض كمربع تحرير وسرد. <parameter
+>caption</parameter
+> هو النص المعروض في شريط العنوان، <parameter
+>label</parameter
+> هو النص الذي يظهر كتسمية للقائمة و<parameter
+>list</parameter
+> هي قائمة السلاسل المُدرجة في القائمة. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getText(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>دالة للحصول على سلسلة من المستخدم. <parameter
+>caption</parameter
+> هو النص المعروض في شريط العنوان و<parameter
+>label</parameter
+> النص الذي يظهر كتسمية لتحرير السطر. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getLatexCommand(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>دالة للحصول على أمر &latex; من المستخدم. هذا يعني أن الأحرف الصغيرة والكبيرة فقط مسموح بها. <parameter
+>caption</parameter
+> هو النص المعروض في شريط العنوان و<parameter
+>label</parameter
+> النص الذي يظهر كتسمية لتحرير السطر. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getInteger(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = INT_MIN</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = INT_MAX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>دالة للحصول على عدد صحيح من المستخدم. <parameter
+>caption</parameter
+> هو النص المعروض في شريط العنوان. <parameter
+>label</parameter
+> هو النص الذي يظهر كتسمية لمربع الدوران. <parameter
+>min</parameter
+> و<parameter
+>max</parameter
+> هما الحدان الأدنى والأقصى للقيم المسموح بها التي قد يختارها المستخدم. القيم المبدئية هي <literal
+>INT_MIN</literal
+> و<literal
+>INT_MAX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getPosInteger(<parameter
+>String <replaceable
+>caption</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = 1</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = INT_MAX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>دالة للحصول على عدد صحيح موجب من المستخدم. <parameter
+>caption</parameter
+> هو النص المعروض في شريط العنوان. <parameter
+>label</parameter
+> هو النص الذي يظهر كتسمية لمربع الدوران. <parameter
+>min</parameter
+> و<parameter
+>max</parameter
+> هما الحدان الأدنى والأقصى للقيم المسموح بها التي قد يختارها المستخدم. القيم المبدئية هي <literal
+>1</literal
+> و<literal
+>INT_MAX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_wizard">
+<title
+>المُرشد</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabular();
+</synopsis
+></term>
+<listitem
+><para
+>يستدعي <emphasis
+>معالج الجداول</emphasis
+>، الذي يساعد في كتابة بيئة جدولية (انظر <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.array();
+</synopsis
+></term>
+<listitem
+><para
+>يستدعي <emphasis
+>معالج المصفوفات</emphasis
+>، الذي يساعد في كتابة بيئة مصفوفة (انظر <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabbing();
+</synopsis
+></term>
+<listitem
+><para
+>يستدعي <emphasis
+>معالج الجدولة</emphasis
+>، الذي يساعد في كتابة بيئة جدولة (انظر <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.floatEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>يستدعي <emphasis
+>معالج العناصر العائمة</emphasis
+>، الذي يساعد في إدراج عناصر عائمة (انظر <xref linkend="wizard_float" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.mathEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>يستدعي <emphasis
+>معالج الرياضيات</emphasis
+>، الذي يساعد في إدراج بيئات رياضية (انظر <xref linkend="wizard_math" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.postscript();
+</synopsis
+></term>
+<listitem
+><para
+>يستدعي <emphasis
+>معالج أدوات بوستسكريبت</emphasis
+>، الذي قد يساعد في معالجة أو إعادة ترتيب مستندات بوستسكريبت (انظر <xref linkend="wizard_postscript" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_script">
+<title
+>السكربت</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.name();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع الاسم الأساسي لبرنامج نصي قيد التشغيل (بدون مسار أو امتداد). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.caption();
+</synopsis
+></term>
+<listitem
+><para
+>يُرجع سلسلة، يمكن استخدامها كعنوان لمربعات التنبيه. تبدو مثل <userinput
+>Script: scriptname.js</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_file">
+<title
+>ملف</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read(<parameter
+>String <replaceable
+>filename</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يقرأ محتويات ملف نصي. يُستخدم كالتالي </para
+><para
+>مثال: <function
+>var res = kile.file.read("path/to/file.txt");</function
+> </para
+><para
+>القيمة المُرجَعة <userinput
+>res</userinput
+> هي كائن (أفضل: خريطة) بثلاث خصائص: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>الحالة:</guilabel
+>&nbsp; تُعطي رمز حالة العملية، والذي يمكن أن يكون 0 (لا خطأ)، 1 (فشل الوصول) أو 2 (الوصول ممنوع). لذا، إذا لم يحدث خطأ، ستكون قيمة <userinput
+>res.status</userinput
+> أو <userinput
+>res["status"]</userinput
+> هي 0.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>النتيجة:</guilabel
+>&nbsp; تحتوي على نص الملف المُعطى.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>الرسالة:</guilabel
+>&nbsp; تحتوي على رسالة خطأ، إذا حدث خطأ.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read();
+</synopsis
+></term>
+<listitem
+><para
+>نفس <literal
+>read(filename)</literal
+>، لكن لا يُعطى اسم ملف. سيظهر حوار لاختيار الملف المراد قراءته. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>filename</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>يكتب النص المُعطى في ملف. يُستخدم كالتالي </para
+><para
+>مثال: <function
+>var res = kile.file.write("path/to/file.txt","Some text...");</function
+> </para
+><para
+>القيمة المُرجَعة <userinput
+>res</userinput
+> هي كائن (أفضل: خريطة) بخاصيتين: <literal
+>status</literal
+> و <literal
+>message</literal
+> (انظر <literal
+>read()</literal
+> لمزيد من المعلومات). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>نفس <literal
+>write(filename,text)</literal
+>، لكن لا يُعطى اسم ملف. سيظهر حوار لاختيار اسم ملف. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.file.getOpenFileName(<parameter
+>String <replaceable
+>startDir</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>filter</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>ينشئ حوار ملف مشروطًا ويُرجِع اسم الملف المحدد أو سلسلة فارغة إذا لم يُختر أي ملف. لاحظ أنه بهذه الطريقة يجب على المستخدم اختيار اسم ملف موجود. </para
+><para
+>المُعطيات: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>startDir:</guilabel
+>&nbsp; دليل البداية لحوار الفتح.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>filter:</guilabel
+>&nbsp; تعبير شامل (glob) أو مرشح بنوع MIME يُحدد الملفات التي سيتم عرضها. راجع توثيق KFileDialog لمزيد من المعلومات حول هذه المُعطية.</para
+></listitem>
+</itemizedlist>
+</para
+><para
+>كِلتا المُعطيتين اختياريتان. إذا حذفت <literal
+>filter</literal
+>، سيتم عرض جميع الملفات. إذا حذفت أيضًا <literal
+>startDir</literal
+>، سيأخذ الحوار دليل المستند الحالي كنقطة بداية. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>سلسلة kile.file.getSaveFileName(<parameter
+>سلسلة <replaceable
+>startDir</replaceable
+></parameter
+>, <parameter
+>سلسلة <replaceable
+>filter</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>ينشئ حوار ملف مشروطًا ويُرجِع اسم الملف المحدد أو سلسلة فارغة إذا لم يُختر أي ملف. لاحظ أنه بهذه الطريقة لا يحتاج المستخدم إلى اختيار اسم ملف موجود. انظر <literal
+>getOpenFileName()</literal
+> لشرح المُعطيات. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect3>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_scripting_examples">
+<title
+>أمثلة</title>
+
+<para
+>قد تساعدك بعض الأمثلة على فهم كيفية استخدام واجهة البرمجة النصية. توجد هذه الأمثلة وبعض الأمثلة الإضافية في دليل البرمجة النصية لـ كايل: <filename
+>KILE_APP_DIR/scripts/</filename
+>. يحتوي كل نص على وصف قصير.</para>
+
+<sect2 id="id_scripting_example1">
+<title
+>مثال 1: استبدال اسم بيئة</title>
+
+<para
+>استبدال بيئة &latex; محيطة بأخرى، حيث لن يتغير موضع المؤشر النسبي. <userinput
+>\begin{abc}...\end{abc}</userinput
+> على سبيل المثال يمكن تغييره إلى <userinput
+>\begin{xyz}...\end{xyz}</userinput
+>.</para>
+
+<programlisting
+>var range = document.environmentRange(false);
+if ( range.isValid() ) {
+        var envname = kile.input.getLatexCommand("Enter Environment","New environment name:");
+        if ( envname != '' ) {
+                replaceEnvCommand(envname,range);
+        }
+}
+else {
+        kile.alert.sorry("No surrounding LaTeX environment found.");
+}
+
+function replaceEnvCommand(newEnv,r)
+{
+        var c = view.cursorPosition();
+
+        var envname = document.environmentName();
+
+        if ( envname != "" ) {
+                var beginRange = new Range(r.start,new Cursor(r.start.line,r.start.column+8+envname.length));
+                var endRange = new Range(new Cursor(r.end.line,r.end.column-6-envname.length),r.end);
+
+                document.editBegin();
+                document.replaceText(endRange,"\\end{"+newEnv+"}");
+                document.replaceText(beginRange,"\\begin{"+newEnv+"}");
+                document.editEnd();
+        }
+}
+</programlisting>
+</sect2>
+
+<sect2 id="id_scripting_example2">
+<title
+>مثال 2: استبدال أمر خط &latex;</title>
+
+<para
+>استبدال أمر خط &latex; محيط بأمر خط آخر، عندما يكون المؤشر داخل مجموعة TeX. لن يتغير موضع المؤشر النسبي. <userinput
+>\textbf{abc}</userinput
+> على سبيل المثال يمكن تغييره إلى <userinput
+>\textit{abc}</userinput
+>.</para>
+
+<programlisting
+>var fontCommands = new Array("\\textbf","\\textit","\\textsl","\\texttt",
+                             "\\textsc","\\textrm","\\textsf","\\emph");
+
+var range = document.texgroupRange(false);
+if ( range.isValid() ) {
+        replaceFontCommand(range);
+}
+else {
+        kile.alert.sorry("No surrounding TeX group found.");
+}
+
+function replaceFontCommand(r)
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.setCursorPosition(r.start);
+        var cmd = document.latexCommand();
+        var index = fontCommands.indexOf(cmd);
+        if ( index 
+>= 0 ) {
+                var cmdRange = document.latexCommandRange();
+                if ( cmdRange.isValid() ) {
+                        var newcommand = kile.input.getListboxItem("Choose",
+                                                    "Choose font command:",buildCmdList(cmd));
+                        if ( newcommand != "" ) {
+                                document.replaceText(cmdRange,newcommand);
+                                c.column = c.column - (cmd.length - newcommand.length);
+                        }
+                }
+/                view.setCursorPosition(c);
+        }
+        else {
+                kile.alert.sorry("No surrounding font command found.");
+        }
+        document.editEnd();
+}
+
+function buildCmdList(current)
+{
+        var result = new Array();
+        for ( i=0; i&lt;fontCommands.length; ++i ) {
+                if ( fontCommands[i] != current ) {
+                        result.push(fontCommands[i]);
+                }
+        }
+        return result;
+}
+</programlisting>
+
+</sect2>
+
+<sect2 id="id_scripting_example3">
+<title
+>مثال 3: إحاطة النص المحدد</title>
+
+<para
+>إحاطة النص المحدد بأمر TeX، حيث لن يتغير موضع المؤشر النسبي. <userinput
+>abc</userinput
+> على سبيل المثال يمكن تغييره إلى <userinput
+>\texcommand{abc}</userinput
+>.</para>
+
+<programlisting
+>var range = view.selectionRange();
+
+if ( range.isValid() ) {
+        var cmd = kile.input.getLatexCommand("Choose","Choose surrounding LaTeX command:");
+        if ( cmd != "" ) {
+                surroundTexCommand("\\"+cmd,range);
+        }
+}
+else {
+        kile.alert.sorry("No selection found.");
+}
+
+function surroundTexCommand(cmd,r)
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.clearSelection();
+        document.insertText(r.end,"}");
+        document.insertText(r.start,cmd+"{");
+
+        c.column = c.column + cmd.length + 2;
+        view.setCursorPosition(c);
+        document.editEnd();
+}
+</programlisting>
+</sect2>
+
+</sect1>
+
+</chapter>

@@ -1,0 +1,638 @@
+<chapter id="id_usermenu">
+<title
+>قائمة قابلة لتهيئة المستخدم</title>
+
+<sect1 id="id_usermenu_configuration">
+<title
+>الضبط</title>
+
+<para
+>يدعم كايل قائمة قابلة لتهيئة المستخدم، ستظهر كجزء من قائمة كايل. يمكن تهيئة هذه القائمة باستخدام حوار تهيئة كايل عبر <menuchoice
+><guimenu
+>إعدادات</guimenu
+><guisubmenu
+>اضبط كايل</guisubmenu
+><guimenuitem
+>قائمة المستخدم</guimenuitem
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>اضبط قائمة المستخدم</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_01.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>اضبط قائمة المستخدم</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>لديك خياران لوضع هذه القائمة:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>إما أن تظهر القائمة <guimenu
+>قائمة المستخدم</guimenu
+> في شريط القائمة الرئيس بين القائمتين <guimenu
+>LaTeX</guimenu
+> و<guimenu
+>المعاون</guimenu
+> ومعاون التهيئة <guimenuitem
+>حرّر قائمة المستخدم</guimenuitem
+> في قائمة <guimenu
+>المعاون</guimenu
+></para>
+
+	<screenshot>
+		<screeninfo
+>قائمة المستخدم موضوعة في القائمة الرئيسة</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_02.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>قائمة المستخدم موضوعة في القائمة الرئيسة</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+>أو سيظهر كلا العنصرين في أسفل قائمة <guimenu
+>لاتخ</guimenu
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>قائمة المستخدم كجزء من قائمة LaTeX</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_03.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>قائمة المستخدم كجزء من قائمة LaTeX</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+
+<para
+>تُحوّل الوسوم المعرفة من قبل المستخدم الموجودة من الإصدارات الأقدم من كايل آليًا إلى القائمة الجديدة القابلة لتهيئة المستخدم. تُحفظ الوسوم في ملف يُسمى <filename
+>usertags.xml</filename
+> وكجميع ملفات تعريف القائمة، يمكن العثور عليها في دليل قائمة المستخدم المحلي لـ كايل: <filename
+>KILE_APP_DIR/usermenu/</filename
+>، مثل <filename
+>/home/user/.kde/share/apps/kile/usermenu/</filename
+>.</para>
+
+<para
+>يمكنك استخدام ملفات تعريف قائمة مختلفة لمهام مختلفة. استدعِ معاون قائمة المستخدم <menuchoice
+><guimenu
+>المعاون</guimenu
+><guisubmenu
+>حرّر قائمة المستخدم</guisubmenu
+></menuchoice
+> أو <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>حرّر قائمة المستخدم</guisubmenu
+></menuchoice
+> لتثبيت أو تحرير ملف تعريف قائمة.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_wizard">
+<title
+>المُرشد</title>
+
+<para
+>يمكنك إنشاء قوائم جديدة أو تغيير القوائم الموجودة باستخدام معاون تهيئة قائمة المستخدم المريح الموجود في <menuchoice
+><guimenu
+>المعاون</guimenu
+><guisubmenu
+>حرّر قائمة المستخدم</guisubmenu
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>معاون قائمة المستخدم</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_04.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>معاون قائمة المستخدم</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>على الجانب الأيسر سترى شجرة قائمة موجودة. كالقائمة القياسية، تتوفر ثلاثة أنواع مختلفة من عناصر القائمة:</para>
+
+<itemizedlist>
+<listitem
+><para
+>إدخالات قائمة قياسية، مخصصة لإجراء</para
+></listitem>
+<listitem
+><para
+>قوائم فرعية، تحتوي على المزيد من عناصر القائمة</para
+></listitem>
+<listitem
+><para
+>فواصل، للحصول على هيكل مرئي لجميع الإدخالات.</para
+></listitem>
+</itemizedlist>
+
+<para
+>لتعديل هذه القائمة، استخدم الأزرار الستة على الجانب الأيسر. الإجراءات الممكنة الإضافية متوفرة في قائمة السياق لعناصر القائمة الموجودة.</para>
+
+	<screenshot>
+		<screeninfo
+>شجرة قائمة معرفة من المستخدم</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_05.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>شجرة قائمة معرفة من المستخدم</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>كل عنصر قائمة قياسي مخصص لواحد من ثلاثة أنواع إجراءات، حيث لكل منها سمات مختلفة يمكن ضبطها:</para>
+
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>نص:</guilabel
+>&nbsp; يمنحك كايل القدرة على صنع وسومك الخاصة. الوسم مشابه لاختصار يُطلق أمرًا ما أو يكتب نصوصًا كثيرة الاستخدام، مثل جو سيكس باك غالبًا ما يستخدم الجمل <userinput
+>مرحبًا، لقد أُدرجت ...</userinput
+>. سيُدرج هذا الوسم في موضع المؤشر الحالي، عند استدعاء هذا الإجراء (انظر أعلاه). الرموز الوصفية متوفرة أيضًا (انظر <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+</listitem>
+
+<listitem
+><para
+><guilabel
+>أدرج محتويات ملف:</guilabel
+>&nbsp; يُدرج المحتويات الكاملة لملف معطى.</para>
+
+	<screenshot>
+		<screeninfo
+>أدرج محتويات ملف</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>أدرج محتويات ملف</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+  <listitem
+><para
+><guilabel
+>نفّذ برنامجًا خارجيًا:</guilabel
+>&nbsp; يمكن إدراج مخرجات هذا البرنامج في المستند المفتوح. الرمز الوصفي <userinput
+>%M</userinput
+> ممكن أيضًا في سطر أوامر هذا البرنامج، حيث سيُحفظ النص المحدد في ملف مؤقت. استخدم <userinput
+>%M</userinput
+> لاسم ملف هذا الملف المؤقت.</para>
+
+	<screenshot>
+		<screeninfo
+>نفّذ برنامجًا خارجيًا</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>تنفيذ برنامج خارجي</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+</itemizedlist>
+
+<para
+>إذا كانت بعض المعلومات المهمة لإجراء ما مفقودة، تُلون عناصر القائمة بالأحمر. قد يكون هذا ملفًا غير موجود</para>
+
+	<screenshot>
+		<screeninfo
+>ملف غير موجود</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>ملف غير موجود</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>أو عنوان مفقود لإدخال القائمة، والذي سيُعرض بعلامات استفهام كـ <userinput
+>???</userinput
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>عنوان مفقود لإدخال القائمة</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>عنوان مفقود لإدخال القائمة</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>إذا فتحت القائمة السياقية لعنصر قائمة ملون بالأحمر، ستحصل على خيار إضافي لمزيد من المعلومات بخصوص هذا الخطأ.</para>
+
+	<screenshot>
+		<screeninfo
+>معلومات إضافية</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>معلومات إضافية</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>قد تتوفر معلومات إضافية أيضًا باستخدام ميزة <guilabel
+>ما هذا</guilabel
+> لمعظم الأدوات.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_placeholders">
+<title
+>عناصر نائبة</title>
+
+<sect2 id="id_usermenu_placeholders_text">
+<title
+>إدراج نص</title>
+
+<para
+>هناك بعض العناصر النائبة التي يمكنك استخدامها في وسومك المعرفة من قبل المستخدم: <userinput
+>%C</userinput
+>، <userinput
+>%B</userinput
+>، <userinput
+>%M</userinput
+>، <userinput
+>%E</userinput
+>، <userinput
+>%R</userinput
+> و <userinput
+>%T</userinput
+>.</para>
+
+<itemizedlist>
+<listitem>
+<para
+><userinput
+>%C</userinput
+>:&nbsp; هذا هو المكان الذي سيوضع فيه المؤشر بعد إدراج وسم معرف من قبل المستخدم.</para>
+
+	<screenshot>
+		<screeninfo
+>موضع المؤشر (%C)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>موضع المؤشر (%C)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%B</userinput
+>:&nbsp;  سيُستبدل بنقطة (انظر <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+
+	<screenshot>
+		<screeninfo
+>نقطة (%B)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>نقطة (%B)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%M</userinput
+>:&nbsp; سيُستبدل بالنص المحدد.</para>
+
+	<screenshot>
+		<screeninfo
+>النص المحدد (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>النص المحدد (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%E</userinput
+>:&nbsp; يشير إلى عمق الإزاحة للنص داخل بيئة.</para>
+
+	<screenshot>
+		<screeninfo
+>إزاحة نص البيئة (%E)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08d.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>إزاحة نص البيئة (%E)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%R</userinput
+>:&nbsp; سيستدعي حوار مراجع لاختيار وسم محدد مسبقًا. يمكن استخدامه للإشارة إلى وسم محدد مسبقًا، يمكنك اختياره من قائمة منسدلة (انظر أيضًا <menuchoice
+><guimenu
+>لاتخ</guimenu
+><guimenuitem
+>مراجع</guimenuitem
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> أو <menuchoice
+><guimenu
+>لاتخ</guimenu
+><guimenuitem
+>مراجع</guimenuitem
+><guimenuitem
+>pageref</guimenuitem
+></menuchoice
+>).</para>
+
+	<screenshot>
+		<screeninfo
+>مراجع (%R)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08e.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>مراجع (%R)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%T</userinput
+>:&nbsp; سيؤدي إلى فتح مربع حوار الاقتباس لاختيار اقتباس محدد مسبقًا. وهو ما يعادل استخدام <menuchoice
+><guimenu
+>لاتخ</guimenu
+><guimenuitem
+>مراجع</guimenuitem
+><guimenuitem
+>اقتبس</guimenuitem
+></menuchoice
+>، حيث تظهر قائمة تضم جميع مفاتيح الاقتباس.</para>
+
+	<screenshot>
+		<screeninfo
+>مفاتيح الاستشهاد (%T)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08f.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>مفاتيح الاستشهاد (%T)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+<para
+>لنأخذ مثالًا آخر، مع الماكرو التالي <userinput
+>\frac{%M}{%C}</userinput
+>. أولًا، نختار رقمًا في نصنا، لنقل <userinput
+>42</userinput
+>. الآن نستدعي هذا الماكرو ونحصل على <userinput
+>\frac{42}{}</userinput
+> مع وضع المؤشر داخل الزوج الثاني من الأقواس.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_file">
+<title
+>أدرج محتويات ملف</title>
+
+<para
+>إذا أردت إدراج محتويات ملف نصي، يمكنك استخدام العناصر النائبة نفسها.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_program">
+<title
+>نفّذ برنامجًا</title>
+
+<para
+>إذا أردت تنفيذ برنامج خارجي، فإن <userinput
+>%M</userinput
+> للنص المحدد فقط هو المعترف به في سطر الأوامر. سيُحفظ التحديد في ملف مؤقت ويُستبدل العنصر النائب <userinput
+>%M</userinput
+> باسم هذا الملف.</para>
+
+	<screenshot>
+		<screeninfo
+>نفّذ برنامجًا خارجيًا (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_09.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>نفّذ برنامجًا خارجيًا (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>عنصر نائب آخر هو <userinput
+>%S</userinput
+>، والذي يُستبدل باسم القاعدة الكامل للمستند الحالي دون المسار. يتكون اسم القاعدة هذا من جميع الأحرف في الملف حتى آخر حرف '.' (ولكن لا يتضمنه).</para>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_parameter">
+<title
+>وسيط</title>
+
+<para
+>معظم إدخالات القائمة قد تحتوي على وسائط إضافية واضحة بذاتها، يمكن تفعيلها. إذا كانت بعض هذه الوسائط غير متوفرة لنوع معين من الإجراءات، فتُعطّل.</para>
+
+	<screenshot>
+		<screeninfo
+>وسيط قائمة المستخدم</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_10.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>وسيط قائمة المستخدم</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>هذا مثال واحد لتنفيذ برنامج خارجي:</para>
+
+	<screenshot>
+		<screeninfo
+>مثال وسيط</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>مثال وسيط</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>يمكنك رؤية أن سكربت <userinput
+>perl</userinput
+> يُستدعى، والذي يجب أن يعمل مع التحديد الحالي. الوسيط <guilabel
+>يحتاج نصًا محددًا</guilabel
+> مُفعل لضمان وجود تحديد. سيُدرج مخرجات هذا السكربت (<guilabel
+>أدرج مخرجات البرنامج المختار</guilabel
+>) ويستبدل التحديد الحالي (<guilabel
+>استبدل النص المحدد</guilabel
+>)، لكنه لا يُحدد نفسه.</para>
+
+<para
+>بالطبع يمكنك أيضًا استدعاء برامجك أو سكربتاتك الخاصة. على سبيل المثال، حدد قائمة أرقام مفصولة بمسافات، واستدع سكربتًا أو برنامج Perl، يحول هذا التحديد إلى كود &latex; لمصفوفة. مهما كانت أفكارك، يمكنك تحقيقها باستخدام إدخال قائمة المستخدم التالي.</para>
+
+	<screenshot>
+		<screeninfo
+>مثال وسيط 2</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>مثال وسيط 2</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_files">
+<title
+>ملفات تعريف القائمة</title>
+
+<para
+>يمكنك تثبيت قوائم مختلفة في وقت التشغيل لمهام مختلفة. عند استدعاء معالج قائمة المستخدم، يُحمّل ملف تعريف القائمة الحالي. إذا عدّلته وأغلقت الحوار بالزر <guibutton
+>موافق</guibutton
+>، فستُحفظ تغييراتك وتُثبّت كقائمة مستخدم جديدة. إغلاق الحوار بالزر <guibutton
+>إلغاء</guibutton
+> سيتجاهل جميع التغييرات.</para>
+
+	<screenshot>
+		<screeninfo
+>ملفات تعريف القائمة</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_12.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>ملفات تعريف القائمة</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+
+<para
+>أنت حر أيضًا في حفظ الملف المعدّل في دليل قائمة المستخدم أو تحميل ملف تعريف قائمة آخر وتثبيته. يجب حفظ جميع ملفات تعريف قائمة المستخدم في دليل قائمة المستخدم المحلي لـ كايل: <filename
+>KILE_APP_DIR/usermenu/</filename
+>.</para>
+
+<para
+>انظر إلى ملف تعريف القائمة المثال <userinput
+>example.xml</userinput
+> لرؤية المزيد من إدخالات القائمة مع وسائطها.</para>
+
+</sect1>
+
+</chapter>

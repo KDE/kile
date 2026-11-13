@@ -1,0 +1,6664 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kile "<application
+>Kile</application
+>">
+  <!ENTITY latex "L<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY pdflatex "PDFL<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY tex "T<subscript
+>E</subscript
+>X">
+  <!ENTITY tetex "<application
+>teT<subscript
+>E</subscript
+>X</application
+>">
+  <!ENTITY texlive "<application
+>TeX Live</application
+>">
+  <!ENTITY bibtex "BibT<subscript
+>E</subscript
+>X">
+  <!ENTITY makeindex "makeindex">
+  <!ENTITY kbibtex "KBibT<subscript
+>E</subscript
+>X">
+  <!ENTITY kbib "KBib">
+  <!ENTITY asymptote "Asymptote">
+  <!ENTITY imagemagick "<application
+>ImageMagick</application
+>">
+  <!ENTITY dvipng "<application
+>dvipng</application
+>">
+  <!ENTITY makeidx "<application
+>makeidx</application
+>">
+  <!ENTITY cjk "<abbrev
+>CJK</abbrev
+>">
+  <!ENTITY ucs "<abbrev
+>ucs</abbrev
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Arabic "INCLUDE">
+  <!ENTITY javascript "<application
+>JavaScript</application
+>">
+  <!ENTITY include-section-scripting SYSTEM "scripting.docbook">
+  <!ENTITY include-section-usermenu SYSTEM "usermenu.docbook">
+]>
+
+<book id="kile" lang="&language;">
+
+<bookinfo>
+<title
+>دليل كايل</title>
+
+<authorgroup>
+	<author
+><firstname
+>Jonathan</firstname
+><surname
+>Pechta</surname
+></author>
+	<author
+><firstname
+>Federico</firstname
+><surname
+>Zenith</surname
+> <affiliation
+><address
+><email
+>federico.zenith@member.fsf.org</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Holger</firstname
+><surname
+>Danielsson</surname
+> <affiliation
+><address
+><email
+>holger.danielsson@versanet.de</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Thomas</firstname
+><surname
+>Braun</surname
+></author>
+	<author
+><firstname
+>Michel</firstname
+><surname
+>Ludwig</surname
+> <affiliation
+><address
+><email
+>michel.ludwig@kdemail.net</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Felix</firstname
+><surname
+>Mauch</surname
+> <affiliation
+><address
+><email
+>felix_mauch@web.de</email
+></address
+></affiliation
+></author>
+	<othercredit role="translator"
+><firstname
+>زايد</firstname
+><surname
+>السعيدي</surname
+><affiliation
+><address
+><email
+>zayed.alsaidi@gmail.com</email
+></address
+></affiliation
+><contrib
+>التّرجمة العربيّة</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>Jonathan Pechta</holder>
+</copyright>
+
+<copyright>
+<year
+>2003</year
+><year
+>2005</year
+><year
+>2006</year>
+<holder
+>Federico Zenith</holder>
+</copyright>
+
+<copyright>
+<year
+>2005</year
+><year
+>2006</year
+><year
+>2012</year>
+<holder
+>Holger Danielsson</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>Thomas Braun</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year
+><year
+>2011</year>
+<holder
+>Michel Ludwig</holder>
+</copyright>
+
+<copyright>
+<year
+>2011</year>
+<holder
+>Felix Mauch</holder>
+</copyright>
+
+<date
+>2011-05-22</date>
+<releaseinfo
+>2.1</releaseinfo>
+
+<legalnotice>
+&FDLNotice;
+</legalnotice>
+
+<abstract>
+<para
+>كايل هو محرر وصدفة لمصادر تخ و لاتخ. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>كيدي</keyword>
+<keyword
+>kdenonbeta</keyword>
+<keyword
+>كايل</keyword>
+<keyword
+>لاتخ</keyword>
+<keyword
+>تخ</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="preface">
+
+<title
+>مقدمة</title>
+
+	<sect1 id="preface_sect">
+
+		<title
+>المتطلبات</title>
+
+		<para
+>لتشغيل كايل، يجب أن تكون المكونات التالية مثبتة على نظامك:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><ulink url="http://www.kde.org/"
+>بيئة سطح المكتب كي (كيدي)</ulink
+>: كيدي هي بيئة سطح مكتب مفتوحة المصدر شائعة.</para
+></listitem>
+			<listitem
+><para
+><ulink url="https://qt.io/"
+>&Qt;</ulink
+>: &Qt; هي مكتبة واجهة مستخدم رسومية وشبكات بلغة سي++ ضرورية لترجمة كايل.</para
+></listitem>
+			<listitem
+><para
+><ulink url="http://www.ctan.org/"
+>لاتخ</ulink
+>: برنامج تنضيد مستندات عالي الجودة. على الأرجح تريد حزمة &texlive; (أو &tetex; على الأنظمة القديمة)، إذا كنت على نظام يشبه &UNIX;.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>قد تكون معظم هذه العناصر مضمنة في توزيعة لينكس الخاصة بك؛ يُرجى الرجوع إلى وثائق توزيعتك، أو الرجوع إلى &CD; التثبيت أو DVD الخاص بك، لإضافة هذه الحزم إلى حاسوبك.</para>
+
+		<para
+>قد يكون كايل متاحًا أيضًا كحزمة مترجمة مسبقًا لتوزيعة لينكس الخاصة بك. يُرجى التحقق من مدير الحزم في توزيعتك.</para>
+
+	</sect1>
+
+	<sect1 id="preface_audience">
+
+		<title
+>الجمهور المستهدف</title>
+
+		<para
+>هذا الدليل مخصص لأي فرد، بغض النظر عن خبرته مع لاتخ أو كيدي أو كايل أو لينكس.</para>
+
+		<para
+>من غير المرجح أن يقرأ المستخدمون المتقدمون هذا الدليل، ولكن سيتم النظر في جميع الاقتراحات المتعلقة بالوثائق. إذا كنت ترغب في المساهمة في هذا المشروع أو الوثائق، يُرجى استشارة <ulink url="http://kile.sourceforge.net/"
+>صفحة كايل على الويب</ulink
+>.</para>
+
+		<para
+>هل تحتاج إلى إجابات حول كايل؟ هل علقت في عملية الترجمة؟ هل تريد رؤية ميزة جديدة مطبقة؟ الطريقة المفضلة لطرح الأسئلة التقنية أو بدء مناقشة هي استخدام قائمتنا البريدية: <email
+>kile-devel@lists.sourceforge.net</email
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="introduction">
+
+	<title
+>المقدمة</title>
+
+	<sect1 id="intro_about">
+
+		<title
+>حقائق أساسية</title>
+
+		<sect2>
+
+			<title
+>عن كايل</title>
+
+			<para
+>كايل هي بيئة لاتخ متكاملة لسطح مكتب كيدي. تمنحك كايل القدرة على استخدام جميع وظائف لاتخ في واجهة رسومية، مما يمنحك وصولًا سهلًا وفوريًا ومخصصًا لجميع برامج إكمال كود لاتخ والترجمة والمعالجة اللاحقة والتنقيح والتحويل وعرض الأدوات؛ كما تحصل على معالجات سهلة جدًا ومرجع لاتخ ومدير مشاريع قوي.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>كايل ومكون محرر كيت</title>
+
+			<para
+>كايل مبني على مكون محرر كيت، أي أن الكثير من قدراته التحريرية تنبع من مكون محرر كيت نفسه. يوسع كايل هذه القدرات بميزات لتحرير مستندات لاتخ. لمعرفة المزيد عن مكون محرر كيت وقدراته، انظر <ulink url="http://kate-editor.org"
+>صفحة كيت على الويب</ulink
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>ما هو لاتخ؟</title>
+
+			<para
+>لاتخ هو نظام معالجة نصوص مشتق من تخ، وهو برنامج طُوّر أصلًا في عام 1977 بواسطة دونالد كنوث للمساعدة في تخطيط النص بطريقة احترافية والحصول على جودة تخطيط تضاهي عمل المنضد المحترف. تم إنشاء لاتخ بواسطة ليزلي لامبورت لمنح المؤلفين منضدًا آليًا، خاصة لتسهيل عملية التنضيد المكلفة والشاقة للصيغ والتعابير الرياضية، التي تُحاط بعلامات الدولار في لاتخ <emphasis
+>لسبب</emphasis
+>. اليوم، تتيح برامج معالجة الكلمات لأي مستخدم العمل كمنضد، ولكن ما هو مطلوب غالبًا هو مستند يبدو جيدًا ببساطة دون قضاء ساعات في تشكيله. يتحمل لاتخ هذا العبء على عاتقه، ويسمح لك بالتركيز على المستند بدلًا من التخطيط. ونعم، <emphasis
+>سيبدو</emphasis
+> جيدًا!</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>كيف تنطقه؟ لماذا هذا التنضيد الغريب؟</title>
+
+			<para
+>هناك تقليد مضحك لحزم متعلقة بـ تخ بأن يكون لها أغرب نطق وتنضيد ممكن. كان من المفترض أن يُشتق تخ من الكلمة اليونانية <emphasis
+>τεχ</emphasis
+>، بالأحرف اللاتينية <emphasis
+>tech</emphasis
+>. هناك الكثير من التفسيرات لماذا، ولكن على الأرجح لأن تخ صُمم أصلًا للتقارير الفنية، وبالفعل كانت قدرته الأساسية هي التنضيد الصحيح والسهل للصيغ الرياضية، التي كانت آنذاك عملية مكلفة للغاية وتستغرق وقتًا طويلًا ومحبطة.</para>
+			<para
+>من المفترض أن يكون النطق كالتالي: <emphasis
+>T</emphasis
+> كما تتوقع، <emphasis
+>E</emphasis
+> كما في <emphasis
+>get</emphasis
+>، و<emphasis
+>X</emphasis
+> كما في الألمانية i<emphasis
+>ch</emphasis
+>. إذا كنت لا تعرف كيف يبدو صوت <emphasis
+>ch</emphasis
+>، فهو تقريبًا مثل الصوت الذي يصدره القط الهسهس؛ رمز IPA هو /ç/. يذكر العديد من الأشخاص نطقًا مختلفًا لـ <emphasis
+>ach</emphasis
+> (رمز IPA /x/)، ولكن وفقًا لبعض اليونانيين، فإن الإصدار الأول صحيح بالفعل. يجب أن تدرك أن الكثير من الناس يخطئون في نطق تخ كـ /teks/ أو /tek/.</para>
+			<para
+>أخيرًا، في لاتخ، يُنطق أول L<superscript
+>A</superscript
+> كـ <emphasis
+>lay</emphasis
+>: الفكرة هي، بينما تخ الخام صعب، حتى الشخص <emphasis
+>العادي</emphasis
+> يمكنه استخدام وحدات ماكرو لاتخ. تفسير أقل إلهامًا ولكنه أكثر واقعية هو أنه مشتق من اسم عائلة ليزلي لامبورت، مبتكر لاتخ. الآن أنت تعرف!</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_latexbasics">
+
+		<title
+>لاتخ 101</title>
+
+		<para
+>نظام التنضيد لاتخ مشابه للغات ترميز أخرى مثل &XML;، المستخدمة في العديد من أنواع المستندات (بما في ذلك الذي تقرأه الآن)، أو &HTML;، المستخدمة لصفحات الويب. الفكرة العامة وراء لغات الترميز هي وجود كلمات رئيسية خاصة، تسمى <emphasis
+>وسوم</emphasis
+>، تخبر برنامجًا (معالج كلمات، متصفح ويب، أو مترجم لاتخ) كيف يجب تفسير النص المحصور داخل الوسوم. يقدم كايل عددًا من هذه الوسوم في قائمة <guimenu
+>LaTeX</guimenu
+> في شريط القوائم.</para>
+
+		<para
+>بينما سنحاول أن نعطيك فكرة جيدة عن ماهية لاتخ، فإن هذه الوثيقة ليست بالطبع الكتاب النهائي عن لاتخ. إذا كنت تريد تعلم لاتخ بعمق، قد ترغب في استعارة كتاب متخصص من مكتبتك المحلية.</para>
+
+		<para
+>كما هو الحال مع أي لغة ترميز أخرى، تحتوي مستندات لاتخ على <emphasis
+>ديباجة</emphasis
+>، تحدد خصائص عامة، مثل حجم الورق، ترقيم الصفحات، أبعاد النص على الصفحة، و<emphasis
+>جسم</emphasis
+> المستند، الذي يحتوي على نص المستند. تتكون الديباجة على الأقل من أمر <userinput
+>\documentclass</userinput
+>. تسبق جسم المستند، الذي يبدأ بالأمر <userinput
+>\begin{document}</userinput
+> وينتهي بالأمر <userinput
+>\end{document}</userinput
+>.</para>
+
+	</sect1>
+
+	<sect1 id="intro_mainfeat">
+
+		<title
+>الميزات الرئيسية لـ كايل</title>
+
+		<sect2 id="intro_docwizard">
+
+			<title
+>معالج البدء السريع</title>
+
+			<para
+>معالج البدء السريع المدمج في كايل هو ميزة مفيدة لبدء إنشاء المستندات بسرعة في كايل. اختيار المعالج من شريط القوائم يمنحك عدة خيارات لإنشاء مستندك. يمكنك أيضًا تحديد بعض الخيارات المتعلقة بالمستند فورًا.</para>
+
+			<para
+>خيارات الصّنف:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>فئة المستند</guilabel
+>: اختر نوع المستند الذي تريد إنشاءه: مقال، كتاب، رسالة، تقرير، scrartcl، scrreprt، scrbook، prosper، beamer أو أخرى مخصصة.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>حجم الخط</guilabel
+>: أخبر كايل بحجم النقطة (pt) الذي تريد استخدامه.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>حجم الورق</guilabel
+>: اختر حجم أو نمط الأوراق.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>الترميز</guilabel
+>: بشكل عام، من الجيد استخدام ترميز النظام القياسي. تتحول الأنظمة الحديثة بشكل متزايد إلى UTF-8 كترميز قياسي. إذا استطعت، استخدم utf8 أو utf8x (وهو الإملاء الصحيح لوثائق لاتخ). </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>خيارات أخرى</guilabel
+>: يتيح لك هذا تعيين خيارات إضافية مثل الطباعة والمسودة وغيرها.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>الحزم</para>
+			<para
+>يسرد هذا بعض الحزم الإضافية الأكثر شيوعًا المستخدمة في لاتخ. حدد مربع الاختيار لتضمينها.</para>
+
+			<para
+>خصائص المستند:</para>
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>المؤلف</guilabel
+>: ضع اسمك هنا.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>العنوان</guilabel
+>: أضف عنوان المستند هنا.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>التاريخ</guilabel
+>: حدد التاريخ.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="intro_templates">
+
+			<title
+>قوالب محددة مسبقًا</title>
+
+			<para
+>القوالب المحددة مسبقًا في كايل هي:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>مستند فارغ: المحترفون الحقيقيون يبدؤون من الصفر!</para
+></listitem>
+				<listitem
+><para
+>مقالة: تضبط تنسيق المقالة، لمستند قصير لا يحتاج إلى تقسيمه إلى فصول.</para
+></listitem>
+				<listitem
+><para
+>تقرير: يضبط تنسيق التقرير، لمستند متوسط الحجم، مع ترقيم الصفحات على الحافة الخارجية للصفحة مثلًا.</para
+></listitem>
+				<listitem
+><para
+>كتاب: يضبط تنسيق الكتاب، نمط متكامل وقوي لدرجة استخدامه في كتابة العديد من الكتب الجامعية.</para
+></listitem>
+				<listitem
+><para
+>رسالة: يضبط تنسيق الرسالة.</para
+></listitem>
+				<listitem
+><para
+>Beamer، HA-Prosper: أنشئ عروضًا تقديمية رائعة بصيغة PDF بمظهر فائق وكل قوة لاتخ.</para
+></listitem>
+				<listitem
+><para
+>Powerdot: Powerdot هو خليفة الحزم <userinput
+>seminar</userinput
+> و<userinput
+>HA-Prosper</userinput
+>. ليس لديه عدد كبير من الخيارات مثل Beamer، لكنه سهل الاستخدام ويمكنه إنشاء عروض تقديمية رائعة بصيغة PDF.</para
+></listitem>
+				<listitem
+><para
+>Scrartcl، Scrbook، Scrreprt، Scrlttr2: أصناف مستندات KOMA-Script، المكيفة خصيصًا للطباعة الألمانية. استخدمها عند كتابة نصوص ألمانية.</para
+></listitem>
+				<listitem
+><para
+>Xelatex: قالب <userinput
+>Article</userinput
+> معدّل للاستخدام مع <userinput
+>XeLaTeX</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>لاحظ أن كل هذه القوالب يمكن تعديلها وفقًا لمتطلبات المستخدم.</para>
+
+			<para
+>لا داعي للقلق للمستخدمين الجدد: هذه القائمة مجرد وصف موجز للميزات المتاحة، ويمكن العثور على وصف أكثر تفصيلًا في <xref linkend="quickstart" role="select: title pageabbrv"/>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_highlight">
+
+			<title
+>إبراز الصّياغة</title>
+
+			<para
+>يشبه كايل البرامج الأخرى التي تتعامل مع الكود المصدري والتحرير، وسيبرز تلقائيًا الأوامر والخيارات والعناصر المستخدمة (والمساء استخدامها). يجعل كايل من السهل اكتشاف المناطق الإشكالية: على سبيل المثال، إذا رأيت مساحات كبيرة من النص تتحول إلى اللون الأخضر، فمن المحتمل أنك نسيت إغلاق بيئة رياضية في مكان ما.</para>
+
+		</sect2>
+
+		<sect2 id="intro_autocoml">
+
+			<title
+>الإكمال التلقائي للبيئات</title>
+
+			<para
+>الإكمال التلقائي للبيئات يعني أنه عند بدء بيئة جديدة بكتابة <userinput
+>\begin{environment}</userinput
+>، سيدرج كايل تلقائيًا أمر <userinput
+>\end{environment}</userinput
+> مطابقًا، مع سطر بينهما لنصك. يمكنك بالطبع تعطيله إذا أردت في <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+> <guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>البيئات</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_jump">
+
+			<title
+>الانتقال إلى عنصر الهيكل</title>
+
+			<para
+>جميع المستندات منظمة عادةً في تسلسل هرمي من نوع ما. يسمح لك لاتخ بتقسيم المستندات إلى التسلسل الهرمي التالي (الجزء هو الأعلى في التسلسل الهرمي، والفقرة الفرعية هي الأدنى):</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>\part</para
+></listitem>
+				<listitem
+><para
+>\chapter</para
+></listitem>
+				<listitem
+><para
+>\section</para
+></listitem>
+				<listitem
+><para
+>\subsection</para
+></listitem>
+				<listitem
+><para
+>\subsubsection</para
+></listitem>
+				<listitem
+><para
+>\paragraph</para
+></listitem>
+				<listitem
+><para
+>\subparagraph</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>عند عرض مستند في عرض <guilabel
+>الهيكل</guilabel
+>، يمكنك التنقل بين العناصر بالنقر على العنصر الذي تريد عرضه.</para>
+
+		</sect2>
+
+		<sect2 id="intro_inverse">
+
+			<title
+>البحث العكسي</title>
+
+			<para
+>عند إنشاء ملفات لاتخ الخاصة بك، يمكن أن يكون البحث العكسي مفيدًا جدًا. بمجرد إنشاء ملف &DVI; (ملف مستقل عن الجهاز) أو ملف PDF، يمكنك النقر بزر الماوس الأيسر أثناء الضغط على &Shift; في العارض وسينتقل كايل إلى السطر المقابل في كود لاتخ المصدر.</para>
+
+			<para
+>ملف &DVI; هو نوع من الملفات يحتوي على وصف لمستند منسق، إلى جانب معلومات أخرى بما في ذلك خط الحرف، وهو إلى جانب PDF المخرجات المعتادة لـ تخ أو لاتخ. توجد العديد من الأدوات المساعدة لعرض وتحويل وطباعة ملفات &DVI; على أنظمة وأجهزة مختلفة.</para>
+
+		</sect2>
+
+		<sect2 id="intro_forward">
+
+			<title
+>البحث الأمامي</title>
+
+			<para
+>عند استخدام البحث العكسي، يرتبط اختيار العناصر في ملف &DVI; أو PDF بالمحرر، لذا عند النقر على ملف &DVI; أو PDF، تنتقل النافذة الرئيسة إلى القسم المقابل من كود لاتخ في المحرر. البحث الأمامي هو العكس تمامًا لهذا. سيسمح لك البحث الأمامي بالنقر على قسم معين من النص في كود لاتخ، والانتقال إلى الموضع المرتبط في نافذة العارض.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_toolbar">
+
+		<title
+>شريط الأدوات</title>
+
+		<itemizedlist>
+			<listitem
+><para
+><guibutton
+>جديد</guibutton
+>: ابدأ مستندًا جديدًا.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>فتح</guibutton
+>: افتح مستندًا جديدًا.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>إغلاق</guibutton
+>: أغلق مستندك.</para
+></listitem>
+			<!-- following toolbar items are different in default master/2.1-->
+			<listitem
+><para
+><guibutton
+>تعريف المستند كمستند رئيس</guibutton
+>: يُستخدم هذا عند العمل مع ملفات متعددة. وجود مستند رئيس سيتيح لك العمل بسهولة أكبر مع ملفات <literal role="extension"
+>.tex</literal
+> الأخرى المضمنة في مستندك. إذا كنت تستخدم مشاريع، يمكنك أيضًا تعيين مستند رئيس على نطاق المشروع في <menuchoice
+><guimenu
+>مشروع</guimenu
+><guisubmenu
+>خيارات المشروع</guisubmenu
+></menuchoice
+>.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>بناء سريع</guibutton
+>: يجمّع شيفرة لاتخ المصدر ويعرض النتائج آليًا ما لم تكن هناك أخطاء في المستند.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>وضع مراقبة الملف</guibutton
+>: هذا الوضع "يراقب" ملف &DVI; لرصد التغييرات، ولن يطلق جلسة جديدة من &okular; بعد <guibutton
+>البناء السريع</guibutton
+>.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>عرض ملف السجل</guibutton
+>: يعرض ملف <literal role="extension"
+>.log</literal
+>، لتتمكن من رصد الأخطاء.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>الخطأ السابق</guibutton
+>: يقفز للخلف عبر ملف <literal role="extension"
+>.log</literal
+> ويبرز الأخطاء في المصدر.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>الخطأ التالي</guibutton
+>: يقفز للأمام عبر ملف <literal role="extension"
+>.log</literal
+> ويبرز الأخطاء في المصدر.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>إيقاف</guibutton
+>: يوقف الأداة الحالية.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>LaTeX</guibutton
+>: يشغّل لاتخ على المستند النشط.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>عرضDVI</guibutton
+>: يشغّل عارض &DVI;.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVIإلىPS</guibutton
+>: يحوّل &DVI; إلى &PostScript; (PS).</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>عرضPS</guibutton
+>: يشغّل عارض &PostScript; (PS).</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PDFLaTeX</guibutton
+>: يشغّل &pdflatex; على المستند النشط.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>عرضPDF</guibutton
+>: يشغّل عارض PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVIإلىPDF</guibutton
+>: يحوّل &DVI; إلى PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PSإلىPDF</guibutton
+>: يحوّل PS إلى PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>عرضHTML</guibutton
+>: يعرض &HTML; المُنشأ.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>إلى الأمامDVI</guibutton
+>: انتقل إلى صفحة ملف &DVI; التي تقابل السطر الحالي في المحرر.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>إلى الأمامPDF</guibutton
+>: انتقل إلى صفحة ملف PDF التي تقابل السطر الحالي في المحرر.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>إذا نظرت إلى شريط الأدوات <guilabel
+>تحرير</guilabel
+>، ستلاحظ ثلاث قوائم منسدلة كبيرة. صُممت القوائم المنسدلة لتتمكن من إضافة ميزات شائعة معينة بسرعة إلى مستندك. مربع القائمة المنسدلة الأول يُستخدم لتقسيم مستندك بسرعة إلى أجزاء، فصول، أقسام، وهكذا؛ الأوامر المتاحة لإضافة مقاطع إلى شيفرة لاتخ المصدر هي:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>جزء</guilabel
+>: أعلى مستوى تقسيم لمستند.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>فصل</guilabel
+>: يبدأ فصلًا جديدًا.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>قسم</guilabel
+>: أنشئ قسمًا جديدًا.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>قسم فرعي</guilabel
+>: أنشئ قسمًا فرعيًا جديدًا.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>قسم فرعي ثانوي</guilabel
+>: قسم ثانوي بين القسم الفرعي والفقرة.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>فقرة</guilabel
+>: أنشئ فقرة جديدة.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>فقرة فرعية</guilabel
+>: أنشئ فقرة فرعية جديدة.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>مربع القائمة المنسدلة المُسمى <guilabel
+>أخرى</guilabel
+> يُستخدم لإدراج عناصر في مستندك مثل الفهارس، الحواشي السفلية، والمراجع؛ الأوامر المتاحة هي:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>label</guilabel
+>: أمر يُنتج لصيقة لفصل أو شكل أو عنصر آخر.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>index</guilabel
+>: ينشئ مدخلًا للفهرس.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>footnote</guilabel
+>: ينشئ حاشية سفلية في مستندك.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>ref</guilabel
+>: يُستخدم للإشارة إلى لصيقة مُعرّفة مسبقًا، يمكنك اختيارها من قائمة منسدلة.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>pageref</guilabel
+>: تمامًا مثل <guilabel
+>ref</guilabel
+>، لكنه يشير إلى صفحة بدلًا من عنصر بنيوي.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>cite</guilabel
+>: ينشئ مرجعًا ببيانات من قائمة مراجع.</para
+></listitem>
+<!-- The next feature is currently disabled (see 'kile.cpp'). -->
+<!--			<listitem
+><para
+><guilabel
+>cite from ViewBib</guilabel
+>: ask the ViewBib tool for all selected references and insert them.
+			Currently this is only available with <ulink url="http://user.digisurf.com.au/~thachly/kbib/"
+>&kbib;</ulink
+> as ViewBib tool.</para
+></listitem
+>-->
+		</itemizedlist>
+
+		<screenshot>
+			<screeninfo
+>القائمة المنسدلة <guilabel
+>أخرى</guilabel
+></screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_choose.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>القائمة المنسدلة <guilabel
+>أخرى</guilabel
+></phrase>
+			</textobject>
+			<caption
+><para
+>القائمة المنسدلة <guilabel
+>أخرى</guilabel
+></para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<screenshot>
+			<screeninfo
+>اختيار اللصيقة لمرجع</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>اختيار اللصيقة لمرجع</phrase>
+			</textobject>
+			<caption
+><para
+>اختيار اللصيقة لمرجع</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>عند استخدام <guilabel
+>cite</guilabel
+>، تُعرض عليك قائمة منسدلة بعناصر bibitem، لكن إذا كنت تستخدم &bibtex; فلن يعمل هذا إلا إذا كان الملف ينتمي إلى مشروع. لتحرير ملفات &bibtex; يُوصى باستخدام محررات متخصصة. حصل المؤلف على نتائج جيدة مع &kbibtex;. بالطبع يمكنك أيضًا كتابة ملفات &bibtex; يدويًا داخل كايل.</para>
+
+		<para
+>مربع القائمة المنسدلة الأخير المُسمى <guilabel
+>صغير جدًا</guilabel
+> يُستخدم لتعيين حجم النص. يمكنك تعيين حجم النص الرئيسي، والحواشي السفلية، وهكذا. الأوامر المتاحة هي:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>صغير جدًا</guilabel
+>: الأصغر.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>حجم النص البرمجي</guilabel
+>: صغير جدًا.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>حجم الحاشية السفلية</guilabel
+>: أصغر.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>صغير</guilabel
+>: صغير.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>حجم عادي</guilabel
+>: عادي.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>كبير</guilabel
+>: كبير.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>كبير</guilabel
+>: أكبر.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>كبير جدًا</guilabel
+>: أكبر حتى.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>ضخم</guilabel
+>: أكبر بعد.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>ضخم جدًا</guilabel
+>: الأكبر.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+</chapter>
+<chapter id="quickstart">
+
+	<title
+>بداية سريعة</title>
+
+	<sect1 id="quick_begin">
+
+		<title
+>كتابة مستند لاتخ باستخدام كايل للمبتدئين</title>
+
+		<para
+>مستخدمو كايل لديهم خياران عند بدء مستند جديد: يمكنهم استخدام <guimenu
+>المعاون</guimenu
+> لبدء مستند جديد، واختيار نوع المستند الذي يرغبون في إنشائه وخيارات مثل حجم الخط وحجم الورقة، وهكذا؛ أو يمكنهم كتابة الكود يدويًا.</para>
+
+<programlisting
+>\documentclass[12pt]{article}</programlisting>
+
+		<para
+>يبدأ كل مستند في لاتخ بالأمر <userinput
+> \documentclass[وسيط اختياري]{صنف}</userinput
+>، حيث يُحدد الصنف نوع المستند.</para>
+
+		<para
+>كتابة مثال الكود أعلاه من مربع النص يُعطيك المخرجات التالية:</para>
+
+		<screenshot>
+			<screeninfo
+>نص مُجمّع في مخرج &DVI;</screeninfo>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="latex_example.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>نص مُجمّع في مخرج &DVI;</phrase>
+				</textobject>
+				<caption
+><para
+>نص مُجمّع في مخرج &DVI;</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>الأقواس التي تأتي بعد الأمر <userinput
+>\documentclass</userinput
+> تحتوي على خيارات الأمر. الخيار <userinput
+>[12pt]</userinput
+> يضبط حجم الخط لمقالتك؛ إذا لم تضبط حجم الخط في البداية، يمكنك ضبطه لاحقًا في النص.</para>
+
+		<para
+>بمجرد أن تكتب مثال الشيفرة من المربع أعلاه، ستحتاج إلى تجميع شيفرة لاتخ المصدر. أسهل طريقة لتجميع لاتخ هي استخدام قائمة <guimenu
+>بناء</guimenu
+>، أو استخدام زر <guilabel
+>بناء سريع</guilabel
+>.</para>
+
+		<para
+><keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+> هو اختصار لوحة المفاتيح لتجميع شيفرتك المصدر.</para>
+
+		<para
+>يجب حفظ شيفرتك المصدر قبل أن تتمكن من التجميع؛ كايل سيفعل ذلك آليًا لك.</para>
+
+		<para
+>إذا لم يُجمّع مستندك، تحقق من السجل بحثًا عن أخطاء. عند استخدام مفتاح <guilabel
+>بناء سريع</guilabel
+>، يجب أن يُطلق عارض &okular; آليًا؛ إذا لم يحدث، انظر إلى السجل.</para>
+
+	</sect1>
+
+	<sect1 id="quick_env">
+		<title
+>البيئات</title>
+
+		<para
+>البيئة هي مقطع من النص يُدار بشكل مختلف عن بقية المستند. على سبيل المثال، تنشئ تقريرًا بحجم خط 12، لكنك تحتاج إلى تغيير حجم خطك لجمل قليلة. الأوامر <userinput
+>\begin{environment}</userinput
+> و <userinput
+>\huge</userinput
+> و <userinput
+>\end{environment}</userinput
+> ستسمح لك بتغيير النص داخل أوامر البيئة مؤقتًا ليكون بحجم ضخم.</para>
+
+		<para
+>التغييرات تكون فعّالة فقط من <userinput
+>\begin{environment}</userinput
+> إلى <userinput
+>\end{environment}</userinput
+>. لا توجد حدود لعدد التغييرات التي يمكنك إجراؤها داخل بيئة.</para>
+
+		<para
+>هناك العديد من الميزات التي يمكنك إضافتها إلى مستندك لتجعله أكثر قابلية للقراءة وسهولة الاستخدام. يمكنك إضافة ميزات مثل خطوط محددة، عريض، مائل، تسطير إلخ… إلى مستندك، وهذه الأوامر ستنتهي إما بأمر <userinput
+>\end</userinput
+>، أو في نهاية بيئتك.</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><userinput
+>\begin{emph}</userinput
+>: هذا الأمر يجعل النص مائلًا، وهو صالح حتى يصادف الشيفرة <userinput
+>\end{emph}</userinput
+>، أو بيئة أخرى. لجعل كلمة واحدة مائلة في جملة، يمكنك استخدام الصياغة: هذه هي جملة <userinput
+>\emph{لي}</userinput
+>.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\textbf{أنا أجعل هذا النص داخل الأقواس عريضًا}</userinput
+>: هذا الأمر يجعل نصك عريضًا.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\quote</userinput
+>: لإنشاء اقتباس داخل مستندك؛ ابدأ اقتباسك بـ <userinput
+>\begin{quote}</userinput
+> وأنهه بـ <userinput
+>\end{quote}</userinput
+>.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\center</userinput
+>: يوسّط النص.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\verse</userinput
+>: ينشئ نصًا مزاحًا للقصائد.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\itemize</userinput
+>: ينشئ قائمة تعداد نقطي.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+	<sect1 id="quick_using">
+
+		<title
+>استخدام كايل</title>
+
+		<para
+>الآن بعد أن أعطيناك بعض الخلفية حول كيفية كتابة شيفرة باستخدام لغة الترميز لاتخ، سنريك كيفية إنشاء مستند باستخدام كايل خطوة بخطوة.</para>
+
+		<procedure>
+			<step
+><para
+>شغّل كايل.</para
+></step>
+			<step
+><para
+>اختر <menuchoice
+><guimenu
+>معالج</guimenu
+><guimenuitem
+>بداية سريعة</guimenuitem
+></menuchoice
+>، ثم اختر تنسيقًا، واضبط تفضيلاتك في المعالج.</para
+></step>
+			<step
+><para
+>بمجرد أن يُدخل المعالج النص، قم ببعض التخصيص لجعل المستند أكثر قابلية للقراءة، أضف اقتباسًا واحدًا على الأقل، بعض النص العريض، المائل، وشعر لرؤية الفرق بين الأوامر.</para
+></step>
+			<step
+><para
+>احفظ ملفك، وأعطه الاسم <filename
+>intro.tex</filename
+>.</para
+></step>
+			<step
+><para
+>ابنِ مستندك باستخدام <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+>، أو الزر المسمى <guilabel
+>LaTeX</guilabel
+>.</para
+></step>
+			<step
+><para
+>اختر <guibutton
+>عرضDVI</guibutton
+>.</para
+></step>
+			<step
+><para
+>تفقّد كل نصك الجديد.</para
+></step>
+			<step
+><para
+>عندما تنتهي من عرض مستندك، انقر زر <guibutton
+>عرض المحرر</guibutton
+> أو اضغط <keycombo
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+> للعودة إلى المحرر إذا كنت تستخدم العارض المضمّن، أو أغلق نافذة العارض إذا كنت تستخدم عارضًا منفصلًا.</para
+></step>
+		</procedure>
+
+		<para
+>هذا كل شيء! لقد أنشأت للتو أول مستند لاتخ لك!</para>
+
+		<para
+>بمجرد أن تنشئ &DVI; الخاص بك، ستتمكن من طباعة مستندك، أو تحويله إلى ملف &PostScript; أو PDF إذا أردت. جرّب واستمتع!</para>
+
+	</sect1>
+
+	<sect1 id="quick_dvi">
+
+		<title
+>ملفات &DVI;</title>
+
+		<para
+>يرمز &DVI; إلى ملف <emphasis
+>مستقل عن الجهاز</emphasis
+>. تُنتَج هذه الملفات بواسطة تخ أو لاتخ لتُقرأ بواسطة مشغّل ما على حاسوبك. هناك أنواع عديدة من المخرجات التي يمكن إرسال ملف <literal role="extension"
+>.dvi</literal
+> إليها، مثل طابعة، أو محول إلى &PostScript; أو PDF، أو شاشة حاسوبك.</para>
+
+	 	<sect2 id="quick_viewdvi">
+
+			<title
+>عرض &DVI;</title>
+
+			<para
+>لقد رأيت بالفعل كيفية عرض ملف &DVI; على الشاشة باستخدام زر <guibutton
+>ViewDVI</guibutton
+> في شريط الأدوات.</para>
+
+		</sect2>
+
+		<sect2 id="quick_printdvi">
+
+		<title
+>طباعة &DVI;</title>
+
+			<para
+>لطباعة &DVI;، يمكنك استخدام العملية نفسها التي استخدمتها لإنشاء مستندك سابقًا (انظر <xref linkend="quick_using" role="select: title pageabbrv"/>). في الخطوة 7، بعد النقر على <guibutton
+>ViewDVI</guibutton
+>، اختر <menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>طباعة</guimenuitem
+></menuchoice
+> في العارض، وإذا كانت طابعتك مضبوطة بشكل صحيح، فستتمكن من طباعة &DVI;.</para>
+
+		</sect2>
+
+		<sect2 id="quick_exportdvi">
+
+			<title
+>تحويل ملفات &DVI;</title>
+
+			<para
+>يوفر شريط الأدوات خيارات تحويل &DVI; إلى صيغ أخرى. بمجرد إنشاء &DVI; من شيفرة لاتخ المصدرية، ستتمكن من تصديره إلى صيغة من اختيارك باستخدام أزرار شريط الأدوات.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="quick_forward">
+
+		<title
+>البحث الأمامي بين كايل و&okular;</title>
+
+		<para
+>تتيح لك وظائف البحث الأمامي الانتقال من محررك مباشرة إلى الموضع المرتبط في ملف &DVI; أو PDF. </para>
+		<para
+>يقدم كايل تهيئة بهذا الخيار لجميع برامج لاتخ الثنائية. اذهب إلى <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+> <guimenuitem
+>أدوات</guimenuitem
+><guilabel
+>بناء</guilabel
+></menuchoice
+> واختر دائمًا التهيئة <guilabel
+>الحديثة</guilabel
+>.</para>
+
+		<para
+>لتنفيذ بحث أمامي، ضع المؤشر على سطر من الشيفرة المصدرية، وانقر بزر الفأرة <mousebutton
+>الأيسر</mousebutton
+> مع الضغط على &Shift;، أو انقر على <guilabel
+>Forward DVI</guilabel
+>/<guilabel
+>Forward PDF</guilabel
+> للانتقال إلى الموضع المرتبط في نافذة عارض &DVI; أو PDF.</para>
+	</sect1>
+
+	<sect1 id="quick_inverse">
+
+		<title
+>البحث العكسي بين كايل و&okular;</title>
+
+		<para
+>البحث العكسي ميزة مفيدة جدًا عند كتابة مستند لاتخ بنفسك. إذا كان كل شيء مضبوطًا بشكل صحيح، يمكنك النقر في نافذة &okular; بزر الفأرة <mousebutton
+>الأيسر</mousebutton
+> مع الضغط على &Shift;. بعد ذلك، يقوم كايل بتحميل ملف لاتخ المصدر والانتقال إلى الفقرة المناسبة. لاستخدام البحث العكسي، يجب ترجمة ملف لاتخ الخاص بك بالتهيئة <guilabel
+>الحديثة</guilabel
+>.</para>
+
+		<para
+>لا يمكن للبحث العكسي أن يعمل إلا إذا:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>صُرّف الملف المصدري بنجاح.</para
+></listitem>
+			<listitem
+><para
+>عرف أوكلار أي محرر ترغب في استخدامه.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>مع هذه الميزة في &okular;، يؤدي النقر بزر الفأرة الأيسر مع الضغط على &Shift; في مستند &DVI; أو PDF إلى فتح كايل لمستند لاتخ المقابل ومحاولة الانتقال إلى السطر المقابل. تذكر إخبار &okular; باستخدام كايل كمحرر نصوص، في عنصر قائمة &okular; <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guimenuitem
+>اضبط أوكيولار...</guimenuitem
+></menuchoice
+> (في الصفحة <guimenuitem
+>محرر</guimenuitem
+>).</para>
+
+		<screenshot>
+			<screeninfo
+>ضبط أوكلار</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_okular_settings.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>ضبط أوكلار</phrase>
+			</textobject>
+			<caption
+><para
+>ضبط أوكلار</para
+></caption>
+			</mediaobject>
+		</screenshot>
+	</sect1>
+
+	<sect1 id="quick_errors">
+
+		<title
+>حل الأخطاء</title>
+
+		<para
+>إذا كنت تحاول استخدام البناء السريع، ولم يفتح عارض &DVI;، فمن المحتمل وجود خطأ. إذا كان لديك خطأ، فسيكون مرئيًا في منطقة ملف السجل/الرسائل، وسيُعطى ملخص الخطأ.</para>
+
+		<para
+>سيشرح ملف السجل مصدر الخطأ في شيفرتك. في المحرر، يمكنك استخدام الأزرار في شريط الأدوات المسماة <guibutton
+>خطأ لاتخ السابق</guibutton
+> و<guibutton
+>خطأ لاتخ التالي</guibutton
+> للانتقال من وإلى الأخطاء. يذكر ملف السجل دائمًا السطر الذي حدث فيه الخطأ. لعرض السطر الذي حدث فيه خطأ، انقر على الخطأ في نافذة السجل، وسينقلك كايل إلى سطر الخطأ.</para>
+
+	</sect1>
+
+</chapter>
+<chapter id="startnew">
+
+	<title
+>بدء مستند جديد</title>
+
+	<para
+>عند النقر على الزر في شريط الأدوات لبدء مستند جديد، يظهر حوار يسأل عن نوع القالب الذي ترغب في استخدامه لكتابة مستندك. الخيارات المبدئية هي:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>مستند فارغ</para
+></listitem>
+		<listitem
+><para
+>مقالة</para
+></listitem>
+		<listitem
+><para
+>تسدية</para
+></listitem>
+		<listitem
+><para
+>كتاب</para
+></listitem>
+		<listitem
+><para
+>HA-Prosper</para
+></listitem>
+		<listitem
+><para
+>Powerdot</para
+></listitem>
+		<listitem
+><para
+>رسالة</para
+></listitem>
+		<listitem
+><para
+>تقرير</para
+></listitem>
+		<listitem
+><para
+>Scrartcl (من حزمة KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>Scrbook (من حزمة KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>Scrlttr2 (من حزمة KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>Scrreprt (من حزمة KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>بي دي اف</para
+></listitem>
+		<listitem
+><para
+>XeLaTeX</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>إذا اخترت <guilabel
+>مستندًا فارغًا</guilabel
+>، يمكنك إما البدء في كتابة مستند من الصفر، أو استخدام المعالج لبدء مستند جديد بسرعة (انظر <xref linkend="intro_docwizard" role="select: title pageabbrv"/>).</para>
+
+
+	<sect1 id="startnew_templates">
+
+		<title
+>القوالب</title>
+
+		<para
+>يستخدم مستخدمو لاتخ المتكررون عادةً نفس الديباجة لكل مستند تقريبًا. يمكن إنشاء القوالب وحفظها وتحميلها داخل كايل لتسهيل بدء مستند جديد.</para>
+
+
+		<sect2>
+			<title
+>إنشاء قالب جديد</title>
+
+			<para
+>لإنشاء قالب جديد، يجب أولًا إما فتح ملف تخ / لاتخ، أو إنشاء ملف خاص بك. يمكن لـ كايل توليد قالب من مستند موجود بفتح المستند المطلوب واختيار <menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>أنشئ قالبًا من المستند</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>ضبط الاستبدالات الآلية</title>
+
+			<para
+>عند إنشاء مستند جديد باختيار قالب من <menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>جديد</guimenuitem
+></menuchoice
+>، ستُستبدل تركيبات حروف معينة ببيانات مثل اسمك أو ترميز الأحرف الذي تستخدمه. يمكن ضبط هذه المتغيرات في <menuchoice
+><guimenu
+>إعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+> <guimenuitem
+>إعدادات</guimenuitem
+><guilabel
+>عام</guilabel
+></menuchoice
+>.</para>
+
+			<para
+>عند تصميم قالبك الخاص، من المفيد معرفة أي تركيبات حروف تُستبدل بأي متغيرات قالب:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><userinput
+>$$AUTHOR$$</userinput
+>: ستُستبدل هذه السلسلة بمتغير المؤلف.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$DOCUMENTCLASSOPTIONS$$</userinput
+>: ستُستبدل هذه السلسلة بمتغير خيارات فئة المستند. تُستخدم عادةً كالتالي: <userinput
+>\documentclass[$$DOCUMENTCLASSOPTIONS$$]{article}</userinput
+>.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$INPUTENCODING$$</userinput
+>: إذا ضُبط متغير ترميز الإدخال على، مثلًا، <userinput
+>latin1</userinput
+>، ستُستبدل هذه السلسلة بـ <userinput
+>\input[latin1]{inputenc}</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="templ_wiz">
+
+			<title
+>أنشئ قالبًا من المعالج</title>
+
+			<para
+>أسهل طريقة لإنشاء قالب جديد هي بدء المعالج، ثم إضافة أوامر في المحرر. بمجرد إعداد مستندك بالطريقة التي تريدها:</para>
+
+			<procedure>
+				<step
+><para
+>احفظ ملفك؛</para
+></step>
+				<step
+><para
+>اذهب إلى <guimenu
+>ملف</guimenu
+>؛</para
+></step>
+				<step
+><para
+>اختر <guimenuitem
+>أنشئ قالبًا من المستند</guimenuitem
+>؛</para
+></step>
+				<step
+><para
+>أجرِ أي تصحيحات ضرورية للقالب؛</para
+></step>
+				<step
+><para
+>أدخل اسمًا لقالبك الجديد؛</para
+></step>
+				<step
+><para
+>انقر <guibutton
+>موافق</guibutton
+> لإضافة قالبك إلى القائمة.</para
+></step>
+			</procedure>
+
+			<para
+>في المرة التالية التي تبدأ فيها مستندًا جديدًا، ستتمكن من اختيار قالبك المخصص بدلًا من القوالب المبدئية.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>إنشاء قالب من أي ملف</title>
+
+			<para
+>يمكن إنشاء قالب من أي ملف لاتخ. إذا كنت تبحث عن طريقة سهلة لضبط قالب، فابحث عن واحد يعجبك على الإنترنت واتبع نفس الخطوات المذكورة في <xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
+
+			<para
+>على سبيل المثال، قد ترغب في إنشاء ملصق A0 كامل. تُرى هذه الملصقات عادةً في المؤتمرات العلمية، ويساعدك لاتخ في صنع ملصق جذاب ولافت. تذكر أنك ستحتاج إلى حزمة <filename
+>a0poster</filename
+>، التي لا تُضمن عادةً في توزيعات تخ القياسية. حمّلها من <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/"
+>هنا</ulink
+> وضعها في نفس مجلد ملف لاتخ الخاص بك.</para>
+		</sect2>
+
+		 <sect2 id="templ_rem">
+
+	 		<title
+>إزالة قالب</title>
+
+			<para
+>لإزالة قالب من كايل، افعل ما يلي:</para>
+
+			<procedure>
+				<step
+><para
+>اذهب إلى <menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>أزل القالب...</guimenuitem
+></menuchoice
+>؛</para
+></step>
+				<step
+><para
+>سيظهر مربع حوار بجميع القوالب المدرجة: اختر قالبًا؛</para
+></step>
+				<step
+><para
+>انقر <guilabel
+>موافق</guilabel
+>، وسيُزال قالبك.</para
+></step>
+			</procedure>
+
+			<para
+>لا يمكن إزالة القوالب الموسومة بعلامة نجمية (*) دون الإذن المناسب.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+<chapter id="editing">
+
+	<title
+>تحرير مستندات لاتخ</title>
+
+	<para
+>المحرر الداخلي الذي يستخدمه كايل هو كيت. كيت هو محرر نصوص صُمم للمبرمجين، ويتضمن القدرة على قراءة وإبراز العديد من أنواع ملفات النصوص المختلفة، ومن بينها لاتخ و &bibtex;؛ يمكنك الوصول إلى العديد من خيارات كيت مباشرةً من قائمة <guimenu
+>أدوات</guimenu
+> في كايل.</para>
+
+	 <para
+>لمعرفة المزيد عن كيت وإمكانياته، انظر <ulink url="help:/kate"
+>دليل كيت</ulink
+>. يمكن لمستخدمي كايل البدء بالقراءة من الفصل <quote
+>العمل مع محرر كيت</quote
+>.</para>
+
+	 <sect1 id="editing_sect">
+
+		<title
+>مرجع لاتخ</title>
+
+		<para
+>يتميز كايل بمرجع عملي جدًا لوسوم لاتخ، يمكنك الوصول إليه باختيار <menuchoice
+><guimenu
+>مساعدة</guimenu
+><guimenuitem
+>مرجع لاتخ</guimenuitem
+></menuchoice
+>. يحتوي على وصف شامل لجميع الأوامر التي قد تستخدمها في لاتخ تقريبًا وتركيبها.</para>
+
+	</sect1>
+
+	<sect1 id="editing_cursor">
+
+	 	<title
+>حركات المؤشر</title>
+
+		<para
+>لتحديد النص، لديك الخيارات التالية:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>اضغط زر الفأرة الأيسر واسحب الفأرة لتظليل النص.</para
+></listitem>
+			<listitem
+><para
+>انقر مرة واحدة على كلمة لتحريك المؤشر إلى منطقة جديدة.</para
+></listitem>
+			<listitem
+><para
+>انقر مرتين على كلمة لتحديد الكلمة بأكملها.</para
+></listitem>
+			<listitem
+><para
+>انقر مرتين على كلمة واضغط <keycombo
+>&Ctrl;</keycombo
+> لتحديد كلمة تخ بأكملها. يعني هذا أن النقر بهذه الطريقة على <userinput
+>\par</userinput
+> من <userinput
+>\par\bigskip</userinput
+> يحدد \par فقط.</para
+></listitem>
+			<listitem
+><para
+>انقر ثلاث مرات لتحديد الجملة بأكملها.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>يؤدي الضغط مع الاستمرار على زر الفأرة الأيسر وسحب النص الذي تريد تحديده إلى نسخ النص المحدد آليًا إلى الحافظة.</para>
+
+		<para
+>يتيح لك الضغط على &Shift; واستخدام مفاتيح الأسهم تحديد أجزاء من الكود المصدري في نافذة المحرر.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bracket">
+
+		<title
+>الأقواس</title>
+
+		<para
+>إكمال الأقواس هو أداة بصرية يستخدمها عرض المحرر للإشارة إلى أي قوس يطابق أي قوس. إذا فتحت أي ملف <literal role="extension"
+>.tex</literal
+> وحددت أي قوس، سواء كان قوسًا دائريًا () أو قوسًا مربعًا [] أو قوسًا معقوفًا {}، فسيبرز المحرر القوس ونظيره باللون الأصفر (يمكن تغيير هذا اللون المبدئي). لذا، على سبيل المثال، إذا وضعت المؤشر على الأقواس المعقوفة في <userinput
+>\section{Introduction}</userinput
+>، فسترى <userinput
+>\section{Introduction}</userinput
+> مظللة باللون الأصفر المبدئي، مما يوضح موقع قوسي البداية والنهاية.</para>
+
+	</sect1>
+
+	<sect1 id="editing_highlight">
+
+		<title
+>الإبراز</title>
+
+		<para
+>تمتلك كايل القدرة على البحث عن أنواع مختلفة من الكود وتظليلها. على سبيل المثال، يتم تمييز أوامر لاتخ عن النص العادي، كما يتم تظليل الصيغ الرياضية بلون مختلف.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bullets">
+
+		<title
+>نقطيات</title>
+
+		<para
+>يمكن للعديد من المعالجات إدراج نقاط اختيارية، وهي نوع خاص من الإشارات المرجعية داخل النص. تتيح لك إدخالات القائمة <menuchoice
+><guimenu
+>تحرير</guimenu
+><guisubmenu
+>نقاط</guisubmenu
+></menuchoice
+> أو اختصارات لوحة المفاتيح المقابلة الانتقال إلى النقطة التالية أو الأخيرة. سيؤدي هذا أيضًا إلى تظليل هذه النقطة بحيث تُحذف آليًا عند إدخال حرفك الأول.</para>
+
+		<screenshot>
+			<screeninfo
+>نقطيات</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="bullets.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>نقطيات</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>يمين</keycap
+></keycombo
+></shortcut
+> <guimenuitem
+>النقطة التالية</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>انتقل إلى النقطة التالية في النص إن وجدت.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>يسار</keycap
+></keycombo
+></shortcut
+> <guimenuitem
+>النقطة الأخيرة</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>انتقل إلى النقطة السابقة في النص إن وجدت.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_select">
+
+		<title
+>اختر</title>
+
+		<para
+>التحرير هو بالطبع أحد الجوانب الرئيسة عند استخدام برنامج مثل كايل. على الرغم من أن كيت تمتلك قدرات رائعة بالفعل، إلا أن كايل تضيف بعض الميزات المهمة، والتي تكون مطلوبة بشكل خاص لكتابة كود لاتخ المصدر. يحتاج لاتخ دائمًا إلى الكثير من البيئات والمجموعات، لذا تدعم كايل أوامر خاصة جدًا لتحديدها. تحت <menuchoice
+><guimenu
+>تحرير</guimenu
+><guisubmenu
+>تحديد</guisubmenu
+></menuchoice
+> ستجد الأوامر التالية لتحديد النص.</para>
+
+		<screenshot>
+			<screeninfo
+>تحرير->تحديد العناصر</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>تحرير->تحديد العناصر</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>البيئة (داخليًا)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>حدد بيئة بدون الوسوم المحيطة. إذا استُدعي هذا الأمر عندما تكون بيئة محددة بالفعل، فستوسع كايل التحديد إلى البيئة المحيطة التالية.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>البيئة (خارجيًا)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>حدد بيئة بما في ذلك الوسوم المحيطة. يمكن أيضًا توسيع هذا التحديد باستدعاء ثانٍ لهذا الأمر. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>مجموعة تخ (داخليًا)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>حدد مجموعة تخ داخل الأقواس المعقوفة المحيطة.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>مجموعة تخ (خارجيًا)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>حدد مجموعة تخ بما في ذلك الأقواس المعقوفة المحيطة.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>مجموعة رياضية</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>حدد المجموعة الرياضية الحالية بما في ذلك الأوامر الرياضية.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>فقرة</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>حدد فقرة كاملة، أي مجموعة من سطور النص مفصولة من كلا الجانبين بسطور فارغة. الفقرة لا تعني مجرد سطور نص متصلة، كما هو الحال في برامج تحرير النص الأخرى. يشمل هذا المعنى الموسع أيضًا الجداول وأوامر لاتخ وجميع سطور الكود المصدري الأخرى. الشيء الوحيد المهم بالنسبة لـ كايل هو أن هذا النوع من الفقرات يُفصل بسطرين فارغين.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,L</keycap
+></shortcut
+> <guimenuitem
+>سطر</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>حدد سطر النص في موضع المؤشر الحالي.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>كلمة تخ</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>حدد الكلمة تحت موضع المؤشر الحالي. لهذا التحديد معنى موسع أيضًا، لأن هذا الأمر يمكنه أيضًا تحديد أوامر لاتخ التي تبدأ بشرطة مائلة عكسية وقد تحتوي على نجمة اختيارية في النهاية.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+		<sect2 id="editing_select_latex_commands">
+
+		<title
+>حدد أوامر لاتخ</title>
+
+		<para
+>لـ كايل ميزة موسعة لتحديد أوامر لاتخ. إذا كتبت، على سبيل المثال،</para>
+
+		<programlisting
+>نص \bfseries\itshape المزيد من النص</programlisting>
+
+		<para
+>ونقرت نقرًا مزدوجًا على أحد أوامر لاتخ، فسيتم تحديد كليهما. لكنك غالبًا تريد تحديد أمر واحد فقط من أمرين أو أكثر. يمكن فعل ذلك باستخدام مفتاح <keycombo
+>&Ctrl;</keycombo
+>. عليك فقط الضغط على مفتاح <keycombo
+>&Ctrl;</keycombo
+> وسيؤدي النقر المزدوج إلى تحديد الأمر المطلوب فقط.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="editing_delete">
+
+		<title
+>احذف</title>
+
+		<para
+>لحذف أجزاء من مستند، يمكنك بالطبع تحديدها ثم استخدام مفتاح <keycombo
+><keycap
+>Delete</keycap
+></keycombo
+>. يقدم كيت أيضًا الأمر <keycombo
+>&Ctrl;<keycap
+>K</keycap
+></keycombo
+> الذي يحذف السطر بأكمله. لكن كايل يقدم طريقة أسرع بأوامر الحذف الخاصة به. تحت <menuchoice
+><guimenu
+>تحرير</guimenu
+><guisubmenu
+>حذف</guisubmenu
+></menuchoice
+> ستجد الأوامر التالية لحذف النص.</para>
+
+		<screenshot>
+			<screeninfo
+>تحرير->عناصر الحذف</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="delete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>تحرير->عناصر الحذف</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>بيئة (داخل)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>احذف بيئة بدون الوسوم المحيطة.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>بيئة (خارج)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>احذف بيئة بما في ذلك الوسوم المحيطة.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>مجموعة تخ (داخل)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>احذف مجموعة تخ داخل الأقواس المحيطة.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>مجموعة تخ (خارج)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>احذف مجموعة تخ بما في ذلك الأقواس المحيطة.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>مجموعة رياضية</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>احذف المجموعة الرياضية الحالية بما في ذلك الأوامر الرياضية.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>فقرة</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>احذف فقرة كاملة. انظر إلى أمر <menuchoice
+><guisubmenu
+>تحديد</guisubmenu
+><guimenuitem
+>فقرة</guimenuitem
+></menuchoice
+> لمعرفة كيف تُعرف الفقرة في كايل.</para
+></listitem>
+		</varlistentry>
+
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,I</keycap
+></shortcut
+> <guimenuitem
+>إلى نهاية السطر</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>احذف النص من موضع المؤشر الحالي إلى نهاية السطر. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>كلمة تخ</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>احذف الكلمة أو أمر لاتخ تحت موضع المؤشر الحالي.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_environment">
+
+		<title
+>البيئة</title>
+
+		<para
+>لقد ذُكر سابقًا أن البيئات هي نقطة محورية في لاتخ. لذا يقدم كايل خمسة أوامر أخرى لتسهيل العمل مع لاتخ قدر الإمكان تحت القوائم الفرعية <menuchoice
+><guimenu
+>تحرير</guimenu
+><guisubmenu
+>بيئة</guisubmenu
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>تحرير->عناصر البيئة</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="environment.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>تحرير->عناصر البيئة</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>الانتقال إلى البداية</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>سينتقل هذا الأمر إلى بداية البيئة الحالية، أينما كان موضعك الحالي. سيُوضع المؤشر مباشرة أمام وسم فتح البيئة.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>الانتقال إلى النهاية</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>سينتقل هذا الأمر إلى نهاية البيئة الحالية، أينما كان موضعك الحالي. سيُوضع المؤشر مباشرة خلف وسم إغلاق البيئة.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>مطابقة</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>عندما يُوضع المؤشر أمام أو فوق وسم <userinput
+>\\begin{environment}</userinput
+>، سيُنقل إلى الطرف المقابل للبيئة والعكس صحيح.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>إغلاق</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>قد تفقد السيطرة على كل تلك البيئات عند كتابة الكثير من وسوم البيئات المتداخلة. سيغلق هذا الأمر آخر بيئة مفتوحة، بحيث لا تنكسر البنية المتداخلة للبيئات.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,A</keycap
+></shortcut
+> <guimenuitem
+>إغلاق الكل</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>يغلق هذا كل البيئات المفتوحة، وليس فقط آخر بيئة مفتوحة.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_texgroup">
+
+		<title
+>مجموعة تخ</title>
+
+		<para
+>يقدم كايل أيضًا بعض الأوامر الخاصة لمجموعات لاتخ، التي تُحدد بالأقواس <userinput
+>{...}</userinput
+>. ستجد في القائمة الفرعية <menuchoice
+><guimenu
+>تحرير</guimenu
+><guisubmenu
+>مجموعة تخ</guisubmenu
+></menuchoice
+> بعض الأوامر المهمة، التي تقابل تلك الموجودة في <menuchoice
+><guimenu
+>تحرير</guimenu
+><guisubmenu
+>بيئة</guisubmenu
+></menuchoice
+>. </para>
+
+		<screenshot>
+			<screeninfo
+>تحرير->مجموعة تخ</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="texgroup.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>تحرير->مجموعة تخ</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>الانتقال إلى البداية</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>سينتقل هذا الأمر إلى بداية المجموعة الحالية، أينما كان موضعك الحالي. سيُوضع المؤشر مباشرة أمام القوس الفاتح.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>الانتقال إلى النهاية</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>سينتقل هذا الأمر إلى نهاية المجموعة الحالية، أينما كان موضعك الحالي. سيُوضع المؤشر مباشرة خلف القوس الغالق.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>مطابقة</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>عندما يُوضع المؤشر أمام أو خلف قوس فاتح لمجموعة تخ، سيُنقل إلى الطرف المقابل للمجموعة والعكس صحيح.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>إغلاق</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>قد تكون كتابة الكثير من أقواس المجموعات المتداخلة عملًا شاقًا. سيغلق هذا الأمر آخر مجموعة مفتوحة، بحيث لا تنكسر البنية المتداخلة لمجموعات تخ.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_dblquotes">
+
+		<title
+>علامات تنصيص مزدوجة</title>
+
+		<para
+>في لاتخ، تُستخدم علامتا اقتباس مفردتان كعلامتي اقتباس مزدوجتين. لمساعدتك في إدراجهما بكفاءة، يسمح لك كايل بالضغط على <keycap
+>"</keycap
+> لإدراج علامتي اقتباس مفردتين فاتحتين. علاوة على ذلك، إذا أردت إغلاق اقتباس، فعليك أيضًا الضغط على <keycap
+>"</keycap
+>. سيكون كايل ذكيًا بما يكفي ليتعرف على هذه الحالة ويُدرج علامتي اقتباس غالقتين لـ لاتخ.</para>
+
+		<para
+>للحصول على علامة اقتباس مزدوجة حرفية على الجانب الآخر، اضغط <keycap
+>"</keycap
+> مرتين.</para>
+
+		<para
+>يمكنك تفعيل أو تعطيل هذا الإدراج التلقائي لعلامات الاقتباس المزدوجة الفاتحة والغالقة في القسم <menuchoice
+><guimenu
+>إعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+><guimenuitem
+>لا تخ</guimenuitem
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>علامات تنصيص مزدوجة</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-dblquotes.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>علامات تنصيص مزدوجة</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>إذا أدرجت أيضًا خيارات خاصة باللغة مثل <userinput
+>ngerman</userinput
+> أو <userinput
+>french</userinput
+>، فستتمكن أيضًا من استخدام علامات الاقتباس المزدوجة الألمانية أو الفرنسية. تتوفر العديد من اللغات الإضافية. </para>
+
+	</sect1>
+
+	<sect1 id="editing_smartnewline">
+
+		<title
+>سطر جديد ذكي</title>
+
+		<para
+>إذا ضغطت <keycombo
+>&Ctrl;<keycap
+>رجوع</keycap
+></keycombo
+>، يُدرج كايل سطرًا جديدًا ذكيًا. إذا كان موضعك الحالي داخل بيئة قائمة، مثل <userinput
+>enumerate</userinput
+> أو <userinput
+>itemize</userinput
+>، فلن يُدرج كايل سطرًا جديدًا فحسب، بل سيُضيف أيضًا أمر <userinput
+>\\item</userinput
+>.</para>
+
+		<para
+>إذا كنت داخل بيئة جدولية، سينهي كايل السطر الحالي بـ <userinput
+>\\\\</userinput
+>، متبوعًا بالسطر الجديد.</para>
+
+    <para
+>إذا كنت داخل تعليق لاتخ، سيبدأ كايل السطر التالي بـ <userinput
+>%</userinput
+>.</para>
+
+		<para
+>بل أفضل، كايل ذكي بما يكفي لدعم بيئات لاتخ المعرفة مسبقًا والبيئات المعرفة من قبل المستخدم، والتي يمكن إضافتها في القسم <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+><guimenuitem
+>لاتخ</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+	<sect1 id="editing_tabulator">
+
+		<title
+>مُجَدْوِل ذكي</title>
+
+		<para
+>يحب بعض المستخدمين ترتيب الأعمدة في البيئات الجدولية ووضع جميع رموز العطف <keycap
+>&amp;</keycap
+> أسفل بعضها البعض. يحاول كايل دعم ذلك. إذا ضغطت <keycombo
+>&Alt;&Shift;<keycap
+>&amp;</keycap
+></keycombo
+>، سيبحث كايل عن علامة التبويب التالية في الصف أعلاه. على الرغم من أن علامة التبويب هذه قد لا تكون علامة التبويب المقابلة، سيضيف كايل بعض المسافات لضبط موضع العمود مع علامة التبويب الحالية.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="completion">
+
+	<title
+>إكمال الشّيفرة</title>
+
+	<para
+>على الرغم من أن كيت يقدم بالفعل وضع إكمال جيد، يوسع كايل إكمال الكود لدعم بعض الطرق الخاصة خاصة لـ لاتخ. تم دمج خمسة أوضاع مختلفة. ثلاثة منها تعمل عند الطلب، والآخران هما وضعا إكمال تلقائي. يمكن ضبط جميع الأوضاع لتعمل بشكل مختلف جدًا في <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guimenuitem
+>اضبط كايل...</guimenuitem
+></menuchoice
+>.</para>
+
+	<sect1 id="complete_autoenvironment">
+
+		<title
+>إكمال البيئة التلقائي</title>
+
+		<para
+>عند بدء بيئة جديدة، بكتابة <userinput
+>\begin{environment}</userinput
+>، سيضيف كايل تلقائيًا أمر <userinput
+>\end{environment}</userinput
+>، مع سطر بينهما لنصك.</para>
+
+		<para
+>يمكن إيقاف الإكمال التلقائي في قسم لاتخ من <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+> <guimenuitem
+>لاتخ</guimenuitem
+><guilabel
+>البيئات</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>إكمال بيئة معادلة</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_autocomplete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>إكمال بيئة معادلة</phrase>
+			</textobject>
+			<caption
+><para
+>إكمال بيئة معادلة</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="complete_command">
+
+		<title
+>أوامر لاتخ</title>
+
+		<para
+>عند كتابة بعض الأحرف، يمكنك تفعيل وضع الإكمال هذا لأوامر لاتخ والكلمات العادية باستخدام <menuchoice
+><guimenu
+>تحرير</guimenu
+><guisubmenu
+>إكمال</guisubmenu
+><guimenuitem
+>أمر (لا)تخ</guimenuitem
+></menuchoice
+> أو الاختصار اللوحي <keycombo
+>&Ctrl;&Shift;<keycap
+>مسافة</keycap
+></keycombo
+>. يقرأ كايل أولًا الأحرف من موضع المؤشر الحالي إلى اليسار ويتوقف عند أول حرف غير حرفي أو شرطة مائلة عكسية. إذا بدأ هذا النمط بشرطة مائلة عكسية، سيدخل كايل وضع الإكمال لأوامر تخ أو لاتخ. وإلا، يدخل وضع القاموس العادي، حيث لن تجد أي أوامر لاتخ. اعتمادًا على الوضع المختار، سيُفتح مربع إكمال. سترى جميع الأوامر أو الكلمات التي تتطابق بدايتها مع النمط الحالي. يمكنك التنقل عبر هذه القائمة بمفاتيح الأسهم واختيار إدخال واحد بـ &Enter; أو نقر مزدوج بالفأرة.</para>
+
+		<screenshot>
+			<screeninfo
+>إكمال أمر لاتخ</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>إكمال أمر لاتخ</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>عند الضغط على مفتاح &Backspace;، سيُحذف آخر حرف من نمطك، وقد تنمو قائمة الإكمال. من ناحية أخرى، إذا كتبت حرفًا آخر، سيتوسع النمط وقد تتقلص قائمة الكلمات المرئية.</para>
+
+		<para
+>إذا قررت عدم اختيار أي من الاقتراحات، يمكنك مغادرة هذا الحوار بـ &Esc;.</para>
+
+		<para
+>سترى أن جميع الأوامر مكتوبة بوصف قصير لوسائطها. تُجرّد هذه الأوصاف بالطبع عند اختيار الأمر. اختياريًا، يمكنك ترك كايل يُدرج نقاطًا في هذه المواضع، بحيث يمكنك القفز بسهولة إلى هذه المواضع باستخدام <menuchoice
+><guimenu
+>تحرير</guimenu
+><guisubmenu
+>النقاط</guisubmenu
+><guimenuitem
+>النقطة التالية</guimenuitem
+></menuchoice
+> وإدراج الوسيط الذي تريده.</para>
+
+		<screenshot>
+			<screeninfo
+>إكمال أمر لاتخ</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>إكمال أمر لاتخ</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>اذهب إلى <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+> <guimenuitem
+>كايل</guimenuitem
+><guilabel
+>إكمال</guilabel
+></menuchoice
+> لضبط قائمة أو أكثر من هذه القوائم. يمكنك اختيار قوائم كلمات مختلفة لأوامر تخ و لاتخ ووضع القاموس للكلمات العادية.</para>
+
+		<para
+>إذا اخترت الخيار <guimenuitem
+>إظهار أوامر لاتخ</guimenuitem
+>، تُعرض إدخالات جميع ملفات قوائم الكلمات المضغوطة (cwl) المختارة لإكمال أوامر لاتخ في عرض منفصل في الشريط الجانبي لـ كايل. سترى الأوامر المتاحة وما هي الوسائط والخيارات التي يجب أو يمكن تقديمها للإكمال. يمكنك أيضًا ببساطة تحديد إدخال واحد بنقرة فأرة وسيُدرج في المستند، مع تجريد جميع الوسائط والخيارات المسماة.</para>
+
+		<screenshot>
+			<screeninfo
+>أوامر لاتخ في الشريط الجانبي</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="command-view.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>أوامر لاتخ في الشريط الجانبي</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>نظرًا لأن كل قائمة كلمات مختارة ستُعرض في عرض منفصل خاص بها، قد يكون هناك عدد كبير جدًا من العروض، بحيث قد تكون النافذة الرئيسة لـ كايل أكبر مما تسمح به الشاشة الصغيرة. نظرًا لأن هذا يبدو قبيحًا جدًا، يعمل كايل بعدد أقصى من العروض المسموح بها، والذي يُضبط مبدئيًا على 10. إذا كانت هذه القيمة كبيرة جدًا على شاشتك، يجب تقليلها.</para>
+
+	</sect1>
+
+	<sect1 id="complete_environment">
+
+		<title
+>البيئات</title>
+
+		<para
+>وضع <emphasis
+>الأمر</emphasis
+> ليس مفيدًا لإكمال كود البيئات. عليك دائمًا كتابة بعض أحرف <userinput
+>\begin</userinput
+>، وسيؤدي استدعاء وضع الإكمال إلى قائمة ضخمة من وسوم البيئة. من ناحية أخرى، تُستخدم البيئات كثيرًا لدرجة أن كايل يقدم وضعًا خاصًا لإكمال كود البيئات. انسَ وسم الفتح واكتب، على سبيل المثال، <userinput
+>al</userinput
+>.</para>
+
+		<para
+>عند استدعاء وضع الإكمال بـ <menuchoice
+><guimenu
+>تحرير</guimenu
+><guisubmenu
+>إكمال</guisubmenu
+><guimenuitem
+>بيئة</guimenuitem
+></menuchoice
+> أو الاختصار اللوحي <keycombo
+>&Alt;&Shift;<keycap
+>مسافة</keycap
+></keycombo
+>، يُضاف وسم الفتح تلقائيًا وسترى <userinput
+>\begin{al}</userinput
+>. بعد هذا التغيير، تكون قائمة الإكمال أقل ازدحامًا بكثير.</para>
+
+		<screenshot>
+			<screeninfo
+>إكمال أمر لاتخ</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>إكمال أمر لاتخ</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>اختر الآن بيئة، وسترى أنها تُغلق تلقائيًا أيضًا. بل أكثر، إذا تعرف عليها كايل كبيئة قائمة، سيدرج أيضًا أول وسم <userinput
+>\item</userinput
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>إكمال أمر لاتخ</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>إكمال أمر لاتخ</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>اذهب إلى <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+> <guimenuitem
+>كايل</guimenuitem
+><guilabel
+>إكمال</guilabel
+></menuchoice
+> لضبط قائمة أو أكثر من هذه القوائم. يستخدم هذا الوضع نفس قوائم الكلمات مثل وضع الإكمال لأوامر تخ و لاتخ.</para>
+
+	</sect1>
+
+	<sect1 id="complete_abbreviation">
+
+		<title
+>الاختصارات:</title>
+
+		<para
+>يدعم كايل قوائم مختصرات معرفة من قبل المستخدم، تُستبدل عند الطلب بنصوص أطول. انظر إلى <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+> <guimenuitem
+>كايل</guimenuitem
+><guilabel
+>إكمال</guilabel
+></menuchoice
+> لضبط قائمة أو أكثر من هذه القوائم. للمثال المعطى هنا، يجب اختيار قائمة المختصرات في <filename
+>example.cwl</filename
+>. في هذا الملف ستجد، على سبيل المثال، الإدخال <userinput
+>L=\LaTeX</userinput
+>.</para>
+
+		<para
+>على سبيل المثال، اكتب فقط الحرف <userinput
+>L</userinput
+>. الآن استدعِ وضع المختصرات لإكمال الكلمات بـ <menuchoice
+><guimenu
+>تحرير</guimenu
+><guisubmenu
+>إكمال</guisubmenu
+><guimenuitem
+>مختصر</guimenuitem
+></menuchoice
+> أو الاختصار اللوحي <keycombo
+>&Ctrl;&Alt;<keycap
+>مسافة</keycap
+></keycombo
+>، وسيُستبدل الحرف <userinput
+>L</userinput
+> بالسلسلة <userinput
+>\LaTeX</userinput
+>.</para>
+
+		<para
+>يدعم إكمال المختصرات أيضًا السطر الجديد <userinput
+>%n</userinput
+> و <userinput
+>%C</userinput
+> لوضع المؤشر، إذا كانت هذه الأحرف موجودة في نص التوسيع. لذا إذا كان لديك الإدخال</para>
+
+		<programlisting
+>en1=\begin{enumerate}%n\item %C%n\end{enumerate}%n</programlisting>
+
+		<para
+>في ملف الإكمال، واستدعيت إكمال المختصرات، يبدو التوسيع كما أدناه، حيث يظهر <userinput
+>x</userinput
+> موضع المؤشر النهائي.</para>
+
+<programlisting
+>\begin{enumerate}</programlisting>
+
+		<sect2 id="complete_abbrev_view">
+
+			<title
+>الاختصارات:</title>
+
+			<para
+>إذا اخترت <guimenuitem
+>إظهار الاختصارات</guimenuitem
+>، فستُعرض جميع الاختصارات الممكنة في عرض الشريط الجانبي. وبذلك ستحصل على نظرة شاملة لجميع الاختصارات الممكنة.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_auto">
+
+		<title
+>أوضاع الإكمال التلقائي</title>
+
+		<sect2 id="complete_autolatex">
+
+			<title
+>أوامر لاتخ</title>
+
+			<para
+>يمكنك أيضًا تفعيل وضع الإكمال التلقائي لأوامر لاتخ. عند إدخال حد معين من الأحرف (المبدئي: 3)، تُفتح نافذة منبثقة بقائمة بجميع أوامر لاتخ المطابقة. يمكنك اختيار أحد هذه الأوامر، أو تجاهل هذه النافذة ومواصلة الكتابة. ستتغير مدخلات مربع الإكمال دائمًا لتطابق الكلمة التي تكتبها حاليًا.</para>
+
+			<para
+>اذهب إلى <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+> <guimenuitem
+>كايل</guimenuitem
+><guilabel
+>إكمال</guilabel
+></menuchoice
+> لتفعيل أو تعطيل هذا الوضع أو لتغيير الحد.</para>
+
+		<screenshot>
+			<screeninfo
+>إكمال بيئة معادلة</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-complete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>إكمال بيئة معادلة</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		</sect2>
+
+		<sect2 id="complete_autotext">
+
+			<title
+>كلمات المستند</title>
+
+			<para
+>القواميس الكبيرة ليست مفيدة في وضع الإكمال التلقائي. لكننا لاحظنا أن العديد من الكلمات في المستند تُكتب أكثر من مرة. لذا يقدم كايل إكمالًا لجميع الكلمات من المستند التي كتبها المستخدم بالفعل. يمكنك استدعاء هذا الإكمال يدويًا بالضغط على <keycombo
+>&Ctrl;<keycap
+>مسافة</keycap
+></keycombo
+>. لاحظ أن هذا الوضع يختلف عن وضع الإكمال لأوامر لاتخ.</para>
+
+			<para
+>إذا أردت تشغيل هذا الوضع أو إيقافه، اذهب إلى <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+> <guimenuitem
+>محرر</guimenuitem
+><guimenuitem
+>تحرير</guimenuitem
+><guilabel
+>إكمال تلقائي</guilabel
+></menuchoice
+>. في هذا الحوار يمكنك ضبط ما إذا كان وضع الإكمال لكلمات المستند مفعّلًا. يوجد أيضًا وضع إكمال تلقائي إضافي، حيث يظهر مربع إكمال عند بلوغ حد معين.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_own_files">
+
+		<title
+>كتابة ملفات إكمال خاصة</title>
+
+    <para
+>يمكن العثور على أحدث مواصفات لتنسيق ملف الإكمال في <ulink url="https://commits.kde.org/kile?path=README.cwl"
+>مواصفات تنسيق ملف CWL</ulink
+>. </para>
+
+		<para
+>يمكن تثبيت ملفات الإكمال في المجلد الرئيسي للمستخدم تحت الدليل الفرعي <filename
+>~/.kde/share/apps/kile/complete/&lt;mode&gt;/</filename
+>، حيث <parameter
+>&lt;mode&gt;</parameter
+> إما أن يمثل <constant
+>اختصار</constant
+> أو <constant
+>قاموس</constant
+> أو <constant
+>tex</constant
+>. </para>
+
+	</sect1>
+</chapter>
+
+<chapter id="wizard">
+
+	<title
+>المعالجات والحوارات</title>
+
+	<sect1 id="wizard_quickstart">
+
+		<title
+>معالج البدء السريع</title>
+
+		<para
+>لقد وُصف هذا المعالج بالفعل في القسم <xref linkend="intro_docwizard" role="select: title pageabbrv"/>.</para>
+
+	</sect1>
+
+	<sect1 id="wizard_graphics">
+
+		<title
+>ضمّن الرّسوم</title>
+
+		<para
+>يجعل حوار <guilabel
+>تضمين الرسوميات</guilabel
+> إدراج الرسوميات سهلًا قدر الإمكان. يمكنك الوصول إليه عبر شريط القوائم بـ <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>إدراج صورة</guimenuitem
+></menuchoice
+>. يُرجى إلقاء نظرة على <xref linkend="build_graphics" role="select: title pageabbrv"/> و <xref linkend="build_epsgraphics" role="select: title pageabbrv"/> للحصول على نظرة عامة على بعض الحقائق الأساسية المتعلقة بتنسيقات الرسوميات.</para>
+
+		<screenshot>
+			<screeninfo
+>تضمين عنصر رسومي</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="includegraphics.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>تضمين عنصر رسومي</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<procedure>
+		<step
+><para
+>اختر ملف رسوميات. يمكن أن يكون ملف JPEG أو PNG أو PDF أو EPS أو حتى ملف EPS مضغوطًا بـ zip أو gzip. إذا كنت قد ثبّت <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+> وضبطت كايل لاستخدامه (<menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+> <guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>رسوميات</guilabel
+></menuchoice
+>)، فسيُعرض عرض وارتفاع الرسم آليًا. إذا استطاع &imagemagick; تحديد الدقة، فسيُعرض حجم الرسم أيضًا بالسنتيمتر.</para
+></step>
+
+		<step
+><para
+>قرر ما إذا كانت صورتك ستُوسَّط في الصفحة.</para
+></step>
+
+		<step
+><para
+>اختر ما إذا كنت تريد ترميز <userinput
+>\graphicspath</userinput
+> لملف الرسوميات الخاص بك.</para>
+
+		<para
+>مبدئيًا، يجب أن تكون ملفات الرسوميات في نفس مجلد المستند الرئيسي. ومع ذلك، من الممكن وضعها في مجلدات أخرى لجعل الأمور أكثر ترتيبًا. بدون أمر <userinput
+>\graphicspath</userinput
+>، سيضمّن كايل المسار لملف الرسوميات. لكن إذا استخدمت <userinput
+>\graphicspath</userinput
+> في الديباجة هكذا:</para>
+
+		<programlisting
+>\graphicspath{{/path/to/my/graphics}{other/path/to/more/graphics}}</programlisting>
+
+		<para
+>ووضعت علامة على هذا الخيار، فسيستخدم كايل الاسم الأساسي لملف الرسوميات فقط.</para>
+
+		<para
+>مثال آخر: إذا ضبطت أمر <userinput
+>\graphicspath</userinput
+> هكذا:</para>
+
+		<programlisting
+>\graphicspath{{./}{camera/}{images/}}</programlisting>
+
+		<para
+>سيبحث لاتخ في المجلد الحالي، ثم في <filename
+>camera</filename
+> وأخيرًا في <filename
+>images</filename
+> للعثور على ملف الرسوميات الخاص بك.</para
+></step>
+
+		<step
+><para
+>إذا اخترت عرضًا أو ارتفاعًا، فسيُقاس الرسم بالكامل بشكل متناسب. إذا ضبطت قيمتين للعرض والارتفاع في نفس الوقت، فقد يُقاس العرض والارتفاع بعوامل مختلفة، وقد لا يكون هذا ما تريده. انظر أيضًا إلى المعلومات قرب أعلى الحوار لمعرفة الحجم الأصلي للرسم.</para
+></step>
+
+		<step
+><para
+>أدخل زاوية لتدوير الرسم عكس اتجاه عقارب الساعة.</para
+></step>
+
+		<step
+><para
+>تُضبط معلومات الصندوق المحيط آليًا عند اختيار ملف رسوميات. هذه المعلومات مطلوبة فقط عند العمل مع لاتخ التقليدي والرسوميات النقطية. انظر مناقشة <link linkend="build_epsgraphics"
+>رسوميات EPS</link
+>. </para>
+
+		<para
+>إذا احتاج لاتخ إلى صندوق محيط ولم ترغب في إنشاء ملف bb، فـ كايل يدعم هذا الخيار. من ناحية أخرى، سيعطي &pdflatex; تحذيرًا عندما تريد تضمين رسم png أو jpg بهذا الخيار. مربع الاختيار هذا يفعّل أو يعطّل خيار الصندوق المحيط.</para
+></step>
+
+		<step
+><para
+>قاس الصورة بعامل القياس المطلوب. مثلًا، 0.5 للتقليل إلى النصف، أو 2 للمضاعفة. عند استخدام هذا الخيار، لا تحتاج إلى ضبط عرض أو ارتفاع للصورة.</para
+></step>
+
+		<step
+><para
+>في اللسان <guilabel
+>اقتصاص الصورة</guilabel
+> يمكنك اقتصاص صورتك في جميع الاتجاهات الأربعة.</para
+></step>
+
+		<step>
+		  <para
+>أخيرًا، عليك تحديد ما إذا كنت ترغب في تضمين هذه الصورة داخل بيئة شكل. عندما تريد أن يلتف النص حول الشكل، استخدم بيئة wrapfigure بدلًا من ذلك. </para>
+			<note>
+				<para
+>عند اختيار بيئة wrapfigure، تحتاج إلى تضمين حزمة wrapfig في الديباجة.</para>
+			</note>
+		  <para
+>في كلتا الحالتين، يمكنك إدراج تسمية توضيحية ووسم لصورتك. عمومًا، من الجيد إضافة بادئة مختلفة لكل نوع من الوسوم. من الشائع استخدام البادئة <userinput
+>fig:</userinput
+> للصور. </para>
+		</step>
+
+		<step
+><para
+>إذا اخترت بيئة الشكل، يمكنك اختيار أين يفضل لاتخ وضع الشكل. </para
+></step>
+		<step>
+		  <para
+>في بيئة wrapfigure يمكنك:</para>
+		  <substeps>
+		    <step
+><para
+>اختيار قاعدة موضع للشكل وتحديد ما إذا كان الشكل يجب أن يطفو أم لا. في مستند ذي وجهين، يمكنك تحديد ما إذا كان الشكل يجب أن يكون على الحافة الداخلية أم الخارجية للصفحة. </para
+></step>
+		    <step
+><para
+>تحديد عدد الأسطر المختصرة من النص التي تُوضع بجانب الشكل. إذا تركت هذا فارغًا، سيحدد لاتخ ذلك بنفسه بأفضل ما يمكن. </para
+></step>
+		    <step
+><para
+>تحديد بروز للجانب المختار. هذا مفيد بشكل خاص عندما يكون لديك أعمدة في مستندك وتريد أن يمتد الشكل لأكثر من عمود واحد أو تريد نصًا مختصرًا على جانبي الشكل. </para
+></step>
+		    <step
+><para
+>اختيار عرض للشكل. يجب أن يكون هذا أكبر قليلًا من عرض الصورة الفعلي، بحيث يكون هناك بعض المساحة الفارغة بين الشكل والنص. </para
+></step>
+		  </substeps>
+		</step>
+		</procedure>
+
+	</sect1>
+
+	<sect1 id="wizard_array">
+
+		<title
+>المصفوفات والجداول</title>
+
+		<para
+>من أكثر المهام مملة التي يمكن القيام بها في لاتخ هي كتابة مصفوفة أو بيئة جدول. يجب على المرء تتبع جميع العناصر، وضمان أن البيئة مكونة بشكل جيد، وأن جميع الأشياء في مكانها الصحيح. المسافة البادئة الجيدة تساعد، لكن هناك طريقة أبسط: استخدام إدخالات القائمة <menuchoice
+><guimenu
+>معالج</guimenu
+><guimenuitem
+>مصفوفة</guimenuitem
+></menuchoice
+> أو <menuchoice
+><guimenu
+>معالج</guimenu
+><guimenuitem
+>جدول</guimenuitem
+></menuchoice
+> في كايل. ستحصل على نموذج إدخال على نمط المصفوفة يمكنك ملؤه بسهولة بإدخالاتك. يقدم هذا الحوار أيضًا بعض الخيارات لتنضيد مادة الجدول.</para>
+
+		<screenshot>
+			<screeninfo
+>إدراج بيئة جدول</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-tabular.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>إدراج بيئة جدول</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>باستخدام شريط الأدوات أعلى الحوار، يمكنك ضبط <userinput
+>محاذاة</userinput
+> خلية، وتحديد <userinput
+>نمط خط</userinput
+> معين، و<userinput
+>دمج</userinput
+> و<userinput
+>تقسيم</userinput
+> الخلايا، واختيار <userinput
+>حدود</userinput
+>، وتحديد <userinput
+>ألوان</userinput
+> الخلفية والخط. في أقصى اليمين يوجد زر <guilabel
+>لصق</guilabel
+>. باستخدام هذا الزر، يمكنك إدراج جدول من الحافظة إلى الحوار، مما يسمح لك بنسخ ولصق الجداول من برنامج جداول بيانات، على سبيل المثال. </para>
+
+		<para
+>أدناه يمكنك اختيار عدد الصفوف والأعمدة التي تريدها، ويمكنك تعديل بعض التفاصيل الإضافية حول مصفوفتك: </para>
+
+		<itemizedlist>
+			<listitem
+><para
+>بخيار <guilabel
+>الاسم</guilabel
+> يمكنك تحديد البيئة التي يجب استخدامها للمصفوفة أو مادة الجدول. </para
+></listitem>
+			<listitem
+><para
+>يمكنك تحديد محاذاة الخلية العمودية بخيار <guilabel
+>المعامل</guilabel
+>. هذا ممكن فقط للبيئات التي تدعم هذه الميزة. </para
+></listitem>
+			<listitem
+><para
+>إذا كان موجودًا للبيئة المحددة، يمكنك تحديد <guilabel
+>استخدام النسخة المنجمة</guilabel
+>. عند تحديد هذا الخيار، يجب أيضًا تحديد <guilabel
+>عرض الجدول</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+>تبدو الجداول أحيانًا أجمل عند تحديد خيار <guilabel
+>استخدام حزمة booktabs</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+>بالطبع، يمكنك أيضًا <guilabel
+>توسيط</guilabel
+> مصفوفتك بأكملها. </para
+></listitem>
+			<listitem
+><para
+><guilabel
+>إدراج نقاط</guilabel
+> يساعدك عندما تريد ملء محتواك في المحرر. مع تحديد هذا الخيار، سيدرج كايل نقاطًا نائبة لكل عنصر من مصفوفتك. </para
+></listitem>
+		</itemizedlist>
+
+		<para
+>خيار <menuchoice
+><guimenu
+>معالج</guimenu
+><guimenuitem
+>تبويب</guimenuitem
+></menuchoice
+> سيعرض حوارًا أبسط لإعداد بيئة تبويب بسرعة. يسمح لك بتحديد عدد الصفوف أو الأعمدة والتباعد المطلوب بسهولة.</para>
+	</sect1>
+
+	<sect1 id="wizard_float">
+	  <title
+>إدراج العناصر العائمة</title>
+
+	  <para
+>يساعدك كايل في إدراج عناصرك العائمة. باستخدام معالج <menuchoice
+><guimenu
+>معالج</guimenu
+><guimenuitem
+>عوامات</guimenuitem
+></menuchoice
+>، من السهل جدًا إنشاء بيئة شكل أو جدول جديدة. </para>
+
+	  <screenshot>
+		<screeninfo
+>إدراج عنصر عائم</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-float.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>إدراج عنصر عائم</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>لإدراج بيئة عائمة جديدة، اتبع هذه الخطوات: </para>
+
+	     <procedure>
+	       <step>
+		 <para
+>اختر ما إذا كنت تريد إدراج شكل أم جدول. </para>
+	       </step>
+	       <step>
+		 <para
+>حدد قواعد الموضع المطلوبة. </para>
+	       </step>
+	       <step>
+		 <para
+>أدخل تسمية توضيحية لعنصرك العائم. </para>
+	      </step>
+	      <step>
+		<para
+>اكتب لصيقة لعنصرك العائم الجديد. سيقترح كايل آليًا بادئة مناسبة، مثل "fig:" للأشكال و"tab:" للجداول. </para>
+	      </step>
+	     </procedure>
+	</sect1>
+
+	<sect1 id="wizard_math">
+	  <title
+>إدراج بيئات الرياضيات</title>
+
+	  <para
+>قد يكون تذكر كيفية عمل جميع عناصر الرياضيات المختلفة مزعجًا حقًا. بالطبع يمكن لـ كايل القيام بالسحر نيابة عنك هنا: <menuchoice
+><guimenu
+>معالج</guimenu
+><guimenuitem
+>رياضيات</guimenuitem
+></menuchoice
+></para>
+
+	  <screenshot>
+		<screeninfo
+>إدراج عنصر رياضي</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-math.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>إدراج عنصر رياضي</phrase>
+		</textobject>
+		</mediaobject>
+	  </screenshot>
+
+	  <para
+>الخيارات: </para>
+	  <itemizedlist>
+				<listitem
+><para
+><guilabel
+>الاسم:</guilabel
+> اختر نوع عنصر الرياضيات الذي تريد إنشاءه.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>بدون ترقيم:</guilabel
+> يمكن لهذا إيقاف الترقيم للعناصر المرقمة مثل المعادلات أو المحاذيات.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>أمر مسافة لفصل المجموعات:</guilabel
+> في بيئة تدعم عدة مجموعات مثل alignat، يمكنك تعريف فاصل مسافة عندما يكون لديك أكثر من مجموعة واحدة. يمكنك إدخال أي أمر مسافة موجود في وضع الرياضيات هنا، مثل \quad. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>محدد توقف قياسي:</guilabel
+> حدد محدد التوقف الذي يجب استخدامه. يجب أن يختار كايل تلقائيًا المحدد المناسب لك هنا.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>وضع عرض الرياضيات:</guilabel
+> للبيئات مثل المصفوفات أو المصفوفات ثنائية البعد، يمكنك اختيار بيئة الرياضيات التي يجب عرض نصك الرياضي بها. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>استخدام النقاط:</guilabel
+> مع تفعيل هذا الخيار، سيدرج كايل عناصر نائبة بنقاط لكل عنصر من نصك الرياضي.</para
+></listitem>
+			</itemizedlist>
+	</sect1>
+
+	<sect1 id="wizard_postscript">
+
+		<title
+>أدوات &PostScript;</title>
+
+		<para
+>ملفات PS ليست شائعة مثل ملفات PDF، لكنها قاعدة ممتازة للتلاعبات وإعادة ترتيب الصفحات. إذا كنت بحاجة إلى مخرجات PDF، يمكنك إعادة ترتيب الصفحات باستخدام بعض أدوات &PostScript; ثم تحويلها إلى PDF باستخدام <command
+>ps2pdf</command
+>.</para>
+
+		<para
+>سيقترح <emphasis
+>معالج &PostScript;</emphasis
+> ضمن <menuchoice
+><guimenu
+>معالج</guimenu
+><guimenuitem
+>أدوات بوستسكريبت</guimenuitem
+></menuchoice
+> إعادة الترتيب الأكثر شيوعًا. يتم التحويل بواسطة البرنامجين <command
+>pstops</command
+> و <command
+>psselect</command
+>، واللذان يمكن العثور عليهما في معظم التوزيعات في الحزمة <userinput
+>psutils</userinput
+>. إذا لم يكن أحد هذين البرنامجين متاحًا، فلن يكون العنصر المقابل مرئيًا.</para>
+
+		<screenshot>
+			<screeninfo
+>حوار أدوات PS</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-pstools.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>حوار أدوات PS</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>أولًا اختر ملف الإدخال الخاص بك. إذا وجد كايل ملف PS مطابقًا لمستندك الرئيسي الحالي، فسيتم ملؤه بالفعل كملف إدخال، لكنك حر أيضًا في اختيار ملف آخر. ثم اختر ملف إخراج، وحدد إحدى المهام. أخيرًا، عليك أن تقرر ما إذا كنت تريد إجراء التحويل فقط، أو أيضًا استدعاء &okular; لعرض النتيجة.</para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+>صفحة A5 واحدة + صفحة فارغة --> A4</term>
+		<listitem
+><para
+>اجمع صفحة A5 واحدة مع صفحة فارغة واحدة على صفحة A4 واحدة. عندما يتم دمج صفحتين A5 معًا، يتم تدويرهما 90 درجة وسيتم ترتيبهما على صفحة A4 في الوضع الأفقي.</para>
+		<screenshot>
+			<screeninfo
+>A5 + صفحة فارغة</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>A5 + صفحة فارغة</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>صفحة A5 واحدة + نسخة مكررة --> A4</term>
+		<listitem
+><para
+>ضع صفحة A5 واحدة ونسخة مكررة معًا على صفحة A4 واحدة.</para>
+		<screenshot>
+			<screeninfo
+>صفحات A5 مكررة</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>كرر صفحة A5</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>صفحتان A5 --> A4</term>
+		<listitem
+><para
+>ضع صفحتين A5 متتاليتين معًا على صفحة A4 واحدة.</para>
+		<screenshot>
+			<screeninfo
+>دمج صفحتين A5</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils3.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>دمج صفحتين A5</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>صفحتان A5L --> A4</term>
+		<listitem
+><para
+>ضع صفحتي A5 متتاليتين في الوضع الأفقي معًا على صفحة A4 واحدة.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>4 صفحات A5 ← A4</term>
+		<listitem
+><para
+>اجمع أربع صفحات A5 متتالية معًا على صفحة A4 واحدة. يجب تحجيم صفحات A5 بعامل 0.7 لتناسب الصفحة.</para>
+		<screenshot>
+			<screeninfo
+>4 صفحات A5 ← A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils5.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>4 صفحات A5 ← A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>صفحة A4 واحدة + صفحة فارغة ← A4</term>
+		<listitem
+><para
+>اجمع صفحة A4 واحدة مع صفحة فارغة على صفحة A4 واحدة. كلما جُمعت صفحتا A4 معًا على صفحة A4 ناتجة واحدة، يجب تحجيمهما بعامل 0.7 وسيُرتّبان في الوضع الأفقي.</para>
+		<screenshot>
+			<screeninfo
+>صفحة A4 واحدة + صفحة فارغة ← A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils6.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>صفحة A4 واحدة + صفحة فارغة ← A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>صفحة A4 واحدة + نسخة مكررة ← A4</term>
+		<listitem
+><para
+>ضع صفحة A4 واحدة ونسخة مكررة معًا على صفحة A4 واحدة.</para>
+		<screenshot>
+			<screeninfo
+>صفحة A4 واحدة + نسخة مكررة ← A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils7.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>صفحة A4 واحدة + نسخة مكررة ← A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>صفحتا A4 ← A4</term>
+		<listitem
+><para
+>ضع صفحتي A4 متتاليتين معًا على صفحة A4 واحدة.</para>
+		<screenshot>
+			<screeninfo
+>اجمع صفحتي A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils8.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>اجمع صفحتي A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>صفحتا A4L ← A4</term>
+		<listitem
+><para
+>ضع صفحتي A4 متتاليتين في الوضع الأفقي معًا على صفحة A4 واحدة.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>اختَر الصفحات الزوجية</term>
+		<listitem
+><para
+>حدد كل الصفحات الزوجية من مستند.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>اختَر الصفحات الفردية</term>
+		<listitem
+><para
+>حدد كل الصفحات الفردية من مستند.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>اختَر الصفحات الزوجية (بترتيب معكوس)</term>
+		<listitem
+><para
+>حدد كل الصفحات الزوجية من مستند واعكس الترتيب.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>اختَر الصفحات الفردية (بترتيب معكوس)</term>
+		<listitem
+><para
+>حدد كل الصفحات الفردية من مستند واعكس الترتيب.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>اعكِس كل الصفحات</term>
+		<listitem
+><para
+>اعكس كل صفحات مستند.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>انسَخ كل الصفحات (مُرتَّبة)</term>
+		<listitem
+><para
+>انسخ كل صفحات مستند. يجب اختيار عدد النسخ المرتبة.</para>
+		<screenshot>
+			<screeninfo
+>انسَخ كل الصفحات (مُرتَّبة)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils15.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>انسَخ كل الصفحات (مُرتَّبة)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>انسَخ كل الصفحات (غير مُرتَّبة)</term>
+		<listitem
+><para
+>انسخ كل صفحات مستند. يجب اختيار عدد النسخ غير المرتبة.</para>
+		<screenshot>
+			<screeninfo
+>انسَخ كل الصفحات (غير مُرتَّبة)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils16.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>انسَخ كل الصفحات (غير مُرتَّبة)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>pstops: اختَر الوسيط</term>
+		<listitem
+><para
+>هناك خيارات كثيرة لأدوات &PostScript; <command
+>pstops</command
+> و <command
+>psselect</command
+>. إذا احتجت خيارًا خاصًا جدًا، يمكنك استدعاء <command
+>pstops</command
+> بخيار من اختيارك. يُرجى قراءة الدليل لكل الخيارات الممكنة.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>psselect: اختَر الوسيط</term>
+		<listitem
+><para
+>يمكنك استدعاء <command
+>psselect</command
+> بخيار من اختيارك. يُرجى قراءة الدليل لكل الخيارات الممكنة.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="wizard_pdf">
+
+		<title
+>أدوات PDF</title>
+
+		<para
+>يعتقد كثير من الناس أن ملفات PDF هي ملفات مجمدة لا يمكن تعديلها. لكن هذا غير صحيح، إذ توجد أدوات ممتازة</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>للتلاعب وإعادة ترتيب الصفحات</para
+></listitem>
+		<listitem
+><para
+>لقراءة وتحديث معلومات المستند</para
+></listitem>
+		<listitem
+><para
+>لقراءة أو تعيين أو تغيير بعض الأذون</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>لمستند PDF موجود.</para>
+
+		<para
+>يستخدم <emphasis
+>معالج PDF</emphasis
+> في كايل تحت <menuchoice
+><guimenu
+>معالج</guimenu
+><guimenuitem
+>أدوات PDF</guimenuitem
+></menuchoice
+> طريقتين مختلفتين للتلاعب بمستندات PDF وإعادة ترتيبها:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>حزمة لاتخ <command
+>pdfpages</command
+>، وهي جزء من كل توزيعة لاتخ. لا تعمل <command
+>pdfpages</command
+> مع الصفحات المُعمّاة.</para
+></listitem>
+		<listitem
+><para
+><command
+>pdftk</command
+>، وهي أداة سطر أوامر ممتازة للقيام بالأعمال اليومية مع مستندات PDF (انظر <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit"
+>مجموعة أدوات PDF</ulink
+>).</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>إذا لم يكن أحد هذين المساعدين، <command
+>pdfpages</command
+> أو <command
+>pdftk</command
+>، موجودًا في نظامك، فلن تظهر العناصر المقابلة. علاوة على ذلك، تذكر أن <command
+>pdftk</command
+> فقط يمكنه العمل مع الملفات المُعمّاة.</para>
+
+		<sect2 id="pdf_rearrangements">
+
+			<title
+>إعادة التّرتيب</title>
+
+			<para
+>عند استدعاء معالج PDF في كايل، يبدأ ببطاقة التسجيل <userinput
+>إعادة الترتيب</userinput
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>حوار أدوات PDF</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>حوار أدوات PDF</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>اختر أولًا ملف الإدخال الخاص بك. إذا وجد كايل ملف PDF مطابقًا لمستندك الرئيس الحالي، فسيتم ملؤه تلقائيًا كملف إدخال، لكن يمكنك أيضًا اختيار ملف آخر. ثم اختر ملف إخراج أو استبدل ملف PDF الموجود، وحدد إحدى المهام. أخيرًا، عليك أن تقرر ما إذا كنت تريد إجراء التحويل فقط، أو أيضًا استدعاء العارض (&eg; &okular;) لعرض المستند الناتج.</para>
+
+			<para
+>إذا كان ملف PDF مُعمّى، فسيعمل <command
+>pdftk</command
+> فقط وسيتعين عليك إعطاء كلمة مرور هذا المستند لتنفيذ المهام.</para>
+
+			<variablelist>
+
+			<varlistentry>
+			<term
+>صفحة 1 + صفحة فارغة --> A4</term>
+			<listitem
+><para
+>اجمع صفحة واحدة مع صفحة فارغة على صفحة A4 واحدة. كلما تم جمع صفحتين A5 معًا، يتم تدويرهما بمقدار 90 درجة وترتيبهما على صفحة A4 في الوضع الأفقي.</para>
+			<screenshot>
+				<screeninfo
+>A5 + صفحة فارغة</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A5 + صفحة فارغة</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>كلما تم جمع صفحتين A4 معًا، يتم تغيير حجمهما وتدويرهما بمقدار 90 درجة وترتيبهما على صفحة A4 في الوضع الأفقي.</para>
+			<screenshot>
+				<screeninfo
+>A4 + صفحة فارغة --> A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils6.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A4 + صفحة فارغة</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>صفحة 1 + نسخة مكررة --> A4</term>
+			<listitem
+><para
+>ضع صفحة واحدة ونسخة مكررة معًا على صفحة A4 واحدة.</para>
+			<screenshot>
+				<screeninfo
+>تكرار صفحة</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>تكرار صفحة</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>إذا كانت الصفحة المراد تكرارها بحجم A4، فسيتم تغيير حجمها لتناسب الصفحة.</para>
+			<screenshot>
+				<screeninfo
+>تكرار صفحة</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils7.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>تكرار صفحة</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>صفحتان --> A4</term>
+			<listitem
+><para
+>اجمع صفحتين متتاليتين معًا على صفحة A4 واحدة. كلما تم جمع صفحتين A5 معًا، يتم تدويرهما بمقدار 90 درجة وترتيبهما على صفحة A4 في الوضع الأفقي.</para>
+			<screenshot>
+				<screeninfo
+>دمج صفحتين A5</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>دمج صفحتين A5</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>كلما تم جمع صفحتين A4 معًا، يتم تغيير حجمهما وتدويرهما بمقدار 90 درجة وترتيبهما على صفحة A4 في الوضع الأفقي.</para>
+			<screenshot>
+				<screeninfo
+>اجمع صفحتي A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils8.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>اجمع صفحتي A4</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>صفحتان (أفقي) --> A4</term>
+			<listitem
+><para
+>ضع صفحتين متتاليتين في الوضع الأفقي معًا على صفحة A4 واحدة.</para>
+			<screenshot>
+				<screeninfo
+>جمع صفحتين (في الوضع الأفقي)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>جمع صفحتين (في الوضع الأفقي)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 صفحات --> A4</term>
+			<listitem
+><para
+>اجمع أربع صفحات متتالية معًا في صفحة A4 واحدة. يجب تحجيم الصفحات لتناسب الصفحة.</para>
+			<screenshot>
+				<screeninfo
+>4 صفحات ← A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils5.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>4 صفحات ← A4</phrase>
+				</textobject>
+			</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 صفحات (أفقي) ← A4</term>
+			<listitem
+><para
+>اجمع أربع صفحات متتالية في الوضع الأفقي معًا في صفحة A4 واحدة. يجب تحجيم الصفحات لتناسب الصفحة.</para>
+			<screenshot>
+				<screeninfo
+>اجمع أربع صفحات (في الوضع الأفقي)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>اجمع أربع صفحات (في الوضع الأفقي)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>اختَر الصفحات الزوجية</term>
+			<listitem
+><para
+>حدد كل الصفحات الزوجية من مستند.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>اختَر الصفحات الفردية</term>
+			<listitem
+><para
+>حدد كل الصفحات الفردية من مستند.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>اختَر الصفحات الزوجية (بترتيب معكوس)</term>
+			<listitem
+><para
+>حدد كل الصفحات الزوجية من مستند واعكس الترتيب.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>اختَر الصفحات الفردية (بترتيب معكوس)</term>
+			<listitem
+><para
+>حدد كل الصفحات الفردية من مستند واعكس الترتيب.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>اعكِس كل الصفحات</term>
+			<listitem
+><para
+>اعكس كل صفحات مستند.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>فك تعمية ملف</term>
+			<listitem
+><para
+>إذا كان ملف PDF معمّى، يمكنك فك تعميته.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>اختَر الصفحات</term>
+			<listitem
+><para
+>أضف قائمة مفصولة بفواصل من الصفحات أو نطاقات الصفحات، مثل 1,4-7,9. ستظهر هذه الصفحات فقط في ملف PDF الناتج.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>احذِف الصفحات</term>
+			<listitem
+><para
+>أضف قائمة مفصولة بفواصل من الصفحات أو نطاقات الصفحات، التي يجب إزالتها من ملف PDF المختار.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>طبِّق علامة مائية للخلفية</term>
+			<listitem
+><para
+>يطبق علامة مائية PDF على خلفية ملف PDF واحد مدخل. يستخدم المعالج الصفحة الأولى فقط من ملف PDF الخلفي ويطبقها على كل صفحة من ملف PDF المدخل. تُحجّم هذه الصفحة وتُدوّر حسب الحاجة لتناسب الصفحة المدخلة.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>طبِّق لون خلفية</term>
+			<listitem
+><para
+>يطبق لون خلفية على جميع صفحات المستند الحالي. يمكن فعل ذلك مرة واحدة فقط، لأن اللون الثاني سيُوضع خلف اللون الأول ولن يكون مرئيًا بعد ذلك.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>طبِّق طابعًا مُقدَّمًا</term>
+			<listitem
+><para
+>يطبق ختمًا أماميًا فوق صفحات مستند PDF المدخل. يستخدم المعالج الصفحة الأولى فقط من ملف PDF الختم ويطبقها على كل صفحة من ملف PDF المدخل. تُحجّم هذه الصفحة وتُدوّر حسب الحاجة لتناسب الصفحة المدخلة. يعمل هذا بشكل أفضل إذا كانت صفحة PDF الختم ذات خلفية شفافة.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdftk: اختَر الوسيط</term>
+			<listitem
+><para
+>يمكنك استدعاء <command
+>pdftk</command
+> مع خيار من اختيارك. اقرأ الدليل لجميع الخيارات الممكنة.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdfpages: اختَر الوسيط</term>
+			<listitem
+><para
+>يمكنك استدعاء <command
+>pdfpages</command
+> مع خيار من اختيارك. اقرأ الدليل لجميع الخيارات الممكنة.</para
+></listitem>
+			</varlistentry>
+
+			</variablelist>
+
+		</sect2>
+
+		<sect2 id="pdf_properties">
+
+			<title
+>الخصائص</title>
+
+			<para
+>لن يكون ضبط الخصائص وتغييرها وإزالتها ممكنًا إلا إذا كان <command
+>pdftk</command
+> مثبتًا وإذا كان كايل قد جُمّع مع مكتبة <userinput
+>libpoppler</userinput
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>حوار خصائص PDF</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>حوار خصائص PDF</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>البيانات الوصفية التقليدية لـ PDF تتضمن عنوان المستند، المؤلف، الموضوع، الكلمات المفتاحية، المنشئ، المنتج، وتواريخ الإنشاء وآخر تعديل.</para>
+
+		</sect2>
+
+		<sect2 id="pdf_permissions">
+
+			<title
+>الأذون</title>
+
+			<para
+>أيضًا، لن يكون ضبط الأذون وتغييرها وإزالتها ممكنًا إلا إذا كان <command
+>pdftk</command
+> مثبتًا.</para>
+
+			<screenshot>
+				<screeninfo
+>حوار أذون PDF</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>حوار أذون PDF</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>كلمة مرور ضرورية لضبط أو تغيير إعدادات المستند هذه. بالإضافة إلى ذلك، يُجرى تعمية PDF لقفل محتوى الملف خلف كلمة المرور هذه أو لفرض قيود أخف يفرضها المؤلف. لذا يمكن للمؤلف السماح أو تقييد:</para>
+
+			<itemizedlist>
+			<listitem
+><para
+>طباعة الصفحات</para
+></listitem>
+			<listitem
+><para
+>تعديل الصفحات</para
+></listitem>
+			<listitem
+><para
+>نسخ النص والرسومات من الصفحات</para
+></listitem>
+			<listitem
+><para
+>تغيير أو إضافة تعليقات توضيحية</para
+></listitem>
+			<listitem
+><para
+>ملء حقول النماذج بالبيانات.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>تغيير الأذون يفرض دائمًا تعمية مرتبطة بأمان 128 بت لـ <userinput
+>Acrobat</userinput
+> 5 و6، ويحتاج أيضًا إلى كلمة مرور.</para>
+
+			<para
+>لكن تذكر دائمًا: التعمية وكلمة المرور لا توفران أي أمان حقيقي لملف PDF. المحتوى معمّى، لكن المفتاح معروف. ينبغي أن ترى ذلك كطلب مهذب لكن حازم لاحترام رغبات المؤلف.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="statistics">
+		<title
+>إحصائيات المستند</title>
+
+		<para
+>حوار الإحصائيات في <menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>إحصائيات</guimenuitem
+></menuchoice
+> يمنحك نظرة إحصائية لتحديد، مستند أو مشروع كامل. يتضمن عدد الكلمات، أوامر/بيئات لاتخ، ويتضمن أيضًا عدد المحارف لكل نوع.</para>
+
+		<para
+>يمكن نسخ الإحصائيات التي تم الحصول عليها كنص أو كجدول لاتخ منسق بشكل جيد إلى الحافظة. </para>
+		<para
+>عندما تحدد نصًا وتفتح حوار الإحصائيات، تحصل على إحصائيات النص المحدد حاليًا. إذا فتحت الحوار دون تحديد أي نص، تُعرض إحصائيات جميع الملفات المفتوحة. إذا أردت الحصول على إحصائيات للمشروع بأكمله، يمكنك استخدام <menuchoice
+><guimenu
+>مشروع</guimenu
+><guisubmenu
+>افتح جميع ملفات المشروع</guisubmenu
+></menuchoice
+> كطريقة سهلة وسريعة لفتح جميع ملفات المصدر لمشروعك.</para>
+
+		<para
+>يجب التنبيه إلى دقة الأرقام. لقد أدرجنا بعض المنطق للحصول على تقدير جيد، مثل: K"uhler يعطي كلمة واحدة وأمرًا واحدًا، بستة محرفين ومحرفين على التوالي. لكن هناك تركيبات أخرى تُحسب فيها أجزاء من الأوامر ككلمات والعكس صحيح. يرجى ملاحظة أن الخوارزمية طُوّرت واختُبرت للغات مشابهة للإنجليزية أو الألمانية. لذا لا تأخذ الأرقام كمسلّمات. إذا كنت تكتب تقريرًا يجب أن يكون طوله عددًا معينًا من الكلمات أو المحارف، يرجى إجراء بعض الاختبارات أولًا للتحقق مما إذا كانت دقة كايل تلبي احتياجاتك.</para>
+	</sect1>
+
+</chapter>
+
+
+<chapter id="latex">
+
+	<title
+>وسوم خاصة في لاتخ</title>
+
+	<sect1 id="latex_library">
+		<title
+>استخدام مكتبة وسوم لاتخ</title>
+
+		<para
+>لدى لاتخ آلاف الوسوم للرموز والمحارف الخاصة. أسهل طريقة لإدراج هذه الوسوم هي استخدام قائمة الشريط الجانبي، إلى يسار نافذة المحرر.</para>
+
+		<screenshot>
+			<screeninfo
+>قائمة الشريط الجانبي</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_sidebarmenu.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>قائمة الشريط الجانبي</phrase>
+			</textobject>
+			<caption
+><para
+>قائمة الشريط الجانبي</para
+></caption>
+			</mediaobject>
+		</screenshot>
+		<para
+>الأنواع التالية متاحة:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>الأكثر استخدامًا</para
+></listitem>
+			<listitem
+><para
+>العلاقات</para
+></listitem>
+			<listitem
+><para
+>معاملات</para
+></listitem>
+			<listitem
+><para
+>الأسهم</para
+></listitem>
+			<listitem
+><para
+>رياضيات متنوعة</para
+></listitem>
+			<listitem
+><para
+>نص متنوع</para
+></listitem>
+			<listitem
+><para
+>الفواصل</para
+></listitem>
+			<listitem
+><para
+>اليونانية</para
+></listitem>
+			<listitem
+><para
+>المحارف الخاصّة</para
+></listitem>
+			<listitem
+><para
+>أحرف سيريلية</para
+></listitem>
+			<listitem
+><para
+>عرّفها المستخدم</para
+></listitem>
+		</itemizedlist>
+		<para
+>تظهر تلميحات أيقونات الأوامر أوامر لاتخ والحزم الإضافية المطلوبة.</para>
+		<para
+>الضغط على <keycombo
+>&Shift;</keycombo
+> والنقر على رمز سيؤدي إلى إدراج <userinput
+>$\symbolcmd$</userinput
+>. وبالمثل، الضغط على <keycombo
+>&Ctrl;</keycombo
+> يدرجه في أقواس معقوفة.</para>
+		<para
+>إذا أدخلت أمرًا يتطلب حزمة غير مضمنة في مستند لاتخ الخاص بك، سترى رسالة تحذير في نافذة عرض السجل.</para>
+		<para
+>القائمة الأولى للرموز تحمل رموز <guilabel
+>الأكثر استخدامًا</guilabel
+>. ستُضاف الرموز المدرجة إلى هذه القائمة، للرجوع السريع والسهل. لن يتغير ترتيب الرموز عند إضافة رموز جديدة، بل يزداد عداد مرجعي. إذا تجاوز عدد العناصر 30 عنصرًا، يُزال العنصر ذو العدد الأقل.</para>
+		<para
+>قائمة الرموز <guilabel
+>المعرفة من المستخدم</guilabel
+> يمكنها حمل رموزك الخاصة. لإنشاء رموزك الخاصة تحتاج إلى برنامج gesymb والملف <filename
+>definitions.tex</filename
+> من حزمة مصدر kile. بالإضافة إلى ذلك تحتاج إلى مترجم لاتخ (يا للمفاجأة) و <ulink url="http://www.dvipng.sourceforge.net"
+>&dvipng;</ulink
+> (الإصدار 1.7 أو أحدث). الإجراء هو أن تنشئ ملف لاتخ بـ <userinput
+>\input{definitions}</userinput
+>، مما يجعل الأوامر المدرجة أدناه متاحة، وتدع <userinput
+>gesymb mysymbols.tex user</userinput
+> (الذي يستدعي لاتخ و &dvipng;) ينشئ الأيقونات. بعد نسخها إلى <userinput
+>$HOME/.kde/share/apps/kile/mathsymbols/user/</userinput
+> وإعادة تشغيل kile يمكنك استخدام رموزك الخاصة. </para>
+		<para
+>الأوامر التالية مُعرّفة في <filename
+>definitions.tex</filename
+>: <itemizedlist>
+			<listitem>
+				<para
+><userinput
+>\command[\optarg]{\symbol}</userinput
+>: تضمين الرمز <userinput
+>\symbol</userinput
+> في قائمة الرموز، الوسيط الاختياري <userinput
+>\optarg</userinput
+> يحدد الأمر الذي يجب على kile إدراجه. إذا لم يُعطَ، يُستخدم الأمر في الوسيط الإلزامي. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\mathcommand[\optarg]{\symbol}</userinput
+>: نفس ما سبق، باستثناء أن الأمر في الوسيط الإلزامي يُدرج في وضع الرياضيات. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\pkgs[arg]{pkg}</userinput
+>: أعلن أن الأمر المعطى في هذا السطر يحتاج إلى حزمة لاتخ <userinput
+>pkg</userinput
+> مع الوسيط الاختياري <userinput
+>arg</userinput
+>. يجب أن يكون هذا الأمر أمام أمر <userinput
+>\command</userinput
+> ويتجاوز أي تحديد حزمة بواسطة بيئة neededpkgs. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\begin{neededpkgs}[pkgs-args]{pkgs} ... \end{neededpkgs}</userinput
+>: له نفس التأثير كما سبق، لكن لجميع الأوامر المحصورة. </para>
+			</listitem>
+		</itemizedlist>
+		</para>
+		<para
+>مثال للاكتمال يُعطى هنا: <programlisting
+>\documentclass[a4paper,10pt]{article}</programlisting>
+		</para>
+	</sect1>
+
+	<sect1 id="latex_bib">
+
+		<title
+>استخدام Bibitems</title>
+
+		<para
+><userinput
+>\bibitem</userinput
+> هو أمر يُستخدم لإدخال مرجع في بيئة <userinput
+>thebibliography</userinput
+> في مستندك. صيغة استخدام <userinput
+>\bibitem</userinput
+> هي <userinput
+>\bibitem[label]{key}</userinput
+>.</para>
+
+		<para
+>الوسيط الاختياري <userinput
+>[label]</userinput
+> هو لإضافة نظام التوسيم الخاص بك لإدخال المراجع. إذا لم يُضبط أي وسم، ستُضبط الإدخالات بترتيب رقمي: [1]، [2]، [3]، &etc;</para>
+
+		<para
+>الوسيط <userinput
+>{key}</userinput
+> يُستخدم للإشارة وربط الأمرين <userinput
+>\bibitem</userinput
+> و <userinput
+>\cite</userinput
+> ببعضهما وبالمعلومات التي يحتويانها. الأمر <userinput
+>\cite</userinput
+> يحتوي على الوسم المرتبط بـ <userinput
+>\bibitem</userinput
+> المقصود، الموجود داخل بيئة <userinput
+>thebibliography</userinput
+>، ويحتوي على بيانات المرجع. يجب أن يكون لكل من <userinput
+>\bibitem</userinput
+> و <userinput
+>\cite</userinput
+> المتقابلين نفس <userinput
+>{key}</userinput
+>؛ أسهل طريقة لتنظيم المفاتيح هي باسم عائلة المؤلف. الأقواس الثانوية في بيئة <userinput
+>thebibliography</userinput
+> تشير إلى أطول وسم مرجعي تتوقعه. لذا، إدراج <userinput
+>{<replaceable
+>foo</replaceable
+>}</userinput
+> يعني أنه يمكنك الحصول على أي وسم أقصر أو بنفس حجم التعبير <userinput
+><replaceable
+>foo</replaceable
+></userinput
+>. الفشل في ضبط هذه المعلمة بشكل صحيح قد يؤدي إلى مسافة بادئة غير جذابة لمراجعك.</para>
+
+		<para
+>المراجع هي قسم منفصل عن مستندك الرئيسي، ومثال على كود المراجع سيبدو كالتالي:</para>
+
+<programlisting
+>\begin{thebibliography}{50}</programlisting>
+
+		<para
+>عندئذ، سيحتوي كود مصدرك الرئيس على موقع المعلومات المتعلقة بـ <userinput
+>\bibitem</userinput
+> باستخدام <userinput
+>\cite</userinput
+>. سيبدو ذلك الكود المصدري مشابهًا لهذا:</para>
+
+		<programlisting
+>أطروحتي، حول فلسفة عائلة سيمبسون\copyright مأخوذة من كتابي المفضل \cite{Simpson}.</programlisting>
+
+		<para
+>نظرًا لصعوبة تذكر مفتاح الاستشهاد الدقيق غالبًا عند وجود مراجع كثيرة، يوفر كايل طريقة سهلة لإدراج استشهاد. باستخدام <menuchoice
+><guimenu
+>LaTeX </guimenu
+><guimenuitem
+>مراجع</guimenuitem
+><guimenuitem
+>استشهاد</guimenuitem
+></menuchoice
+> تظهر قائمة بجميع مفاتيح الاستشهاد. اختر المرجع الصحيح وسيُدرج استشهاد في مستندك. لتحديث قائمة المفاتيح، إما احفظ الملف، أو <menuchoice
+><guimenu
+>تحرير</guimenu
+><guimenuitem
+>تحديث الهيكل</guimenuitem
+></menuchoice
+>، أو اضغط <keycap
+>F12</keycap
+>. مع تفعيل إكمال الكود، سيعرض كايل قائمة بجميع وسوم <userinput
+>bibitem</userinput
+> حالما تفتح أمر <userinput
+>\cite</userinput
+>.</para>
+
+		<para
+>ستبدو النتيجة النهائية في قائمة مراجع مستندك هكذا:</para>
+
+		<para
+><computeroutput
+>[1] Homer J. Simpson. Mmmmm...donuts. Evergreen Terrace Printing Co., Springfield, SomewhereUSA, 1998.</computeroutput
+></para>
+
+		<para
+>يمكن لـ كايل أيضًا العمل مع محررات &bibtex;، مثل &kbibtex;، لتسهيل إدخال الاستشهادات. عند إضافة ملف &bibtex; إلى المشروع، سيساعدك كايل في إكمال أوامر الاستشهاد، كما هو موصوف أعلاه.</para>
+
+	</sect1>
+
+</chapter>
+
+&include-section-usermenu;
+
+<chapter id="build">
+
+	<title
+>أدوات البناء</title>
+
+	<sect1 id="build_sect">
+
+		<title
+>الترجمة والتحويل والعرض</title>
+
+		<para
+>لعرض نتيجة عملك، تحتاج أولًا إلى ترجمة المصدر. جميع أدوات البناء مجمعة معًا في قوائم <menuchoice
+><guimenu
+>بناء</guimenu
+><guisubmenu
+>ترجمة</guisubmenu
+></menuchoice
+>، و<menuchoice
+><guimenu
+>بناء</guimenu
+><guisubmenu
+>تحويل</guisubmenu
+></menuchoice
+>، و<menuchoice
+><guimenu
+>بناء</guimenu
+><guisubmenu
+>عرض</guisubmenu
+></menuchoice
+>.</para>
+
+		<para
+>لترجمة كودك المصري لعارضي شاشة مثل &okular; أو لمزيد من التحويل، يمكنك استخدام الاختصار <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+>. ثم يمكنك عرض ملف &DVI; باستخدام عارضك المبدئي بـ <keycombo
+>&Alt;<keycap
+>3</keycap
+></keycombo
+>، وتحويل &DVI; إلى ملف PS بـ <keycombo
+>&Alt;<keycap
+>4</keycap
+></keycombo
+>، وعرض ملف PS بـ <keycombo
+>&Alt;<keycap
+>5</keycap
+></keycombo
+>.</para>
+
+		<sect2>
+
+		<title
+>&bibtex;</title>
+
+			<para
+>إذا كنت تستخدم <ulink url="http://www.ecst.csuchico.edu/~jacobsd/bib/formats/bibtex.html"
+>&bibtex;</ulink
+> لمدخلات قائمة مراجعك، فعليك عادة اتباع مخطط ترجمة خاص. هذا يعني استدعاء لاتخ ثم &bibtex; ثم لاتخ مرتين أخريين. لحسن الحظ، كايل ذكي بما يكفي ليكتشف آليًا إذا كان من الضروري استدعاء أدوات إضافية مثل &bibtex; و&makeidx; و&asymptote;. هذا المنطق مفعل مبدئيًا ويمكن تغييره في <menuchoice
+><guimenu
+>إعدادات</guimenu
+><guisubmenu
+>اضبط كايلي...</guisubmenu
+><guisubmenu
+>أدوات</guisubmenu
+><guilabel
+>بناء</guilabel
+></menuchoice
+> في لسان <guilabel
+>عام</guilabel
+> في أدوات لاتخ و&pdflatex;. </para>
+
+		</sect2>
+
+<!-- Already stated in last paragraph
+		<sect2>
+
+			<title
+>&makeidx;</title>
+
+			<para
+>If you are using the <ulink url="http://ipagwww.med.yale.edu/latex/makeindex.pdf"
+>&makeidx;</ulink>
+			package to make a final, alphabetical index for your document, you have also to follow a certain
+			compilation pattern or let &kile; do this for you in the same way as with &bibtex; files.</para>
+
+		</sect2>
+-->
+		<sect2>
+
+			<title
+>MetaPost و&asymptote;</title>
+
+			<para
+>إذا أردت ترجمة مستندك باستخدام <application
+>MetaPost</application
+> أو <application
+>&asymptote;</application
+>، وهما برنامجان لرسم الصور، يمكنك فعل ذلك بـ <menuchoice
+><guimenu
+>بناء</guimenu
+><guisubmenu
+>ترجمة</guisubmenu
+><guimenuitem
+>Metapost</guimenuitem
+></menuchoice
+>، أو <menuchoice
+><guimenu
+>بناء</guimenu
+><guisubmenu
+>ترجمة</guisubmenu
+><guimenuitem
+>&asymptote;</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&pdflatex;</title>
+
+			<para
+>هناك أيضًا طريقة أخرى لترجمة مستندك، إذا أردت PDF: يمكنك تشغيل &pdflatex;، الذي سيترجم المصدر مباشرة إلى ملف PDF، بـ <keycombo
+>&Alt;<keycap
+>6</keycap
+></keycombo
+>: يمكنك بعد ذلك عرض الملف المترجم بالضغط على <keycombo
+>&Alt;<keycap
+>7</keycap
+></keycombo
+>.</para>
+
+			<para
+>بدلًا من ذلك، يمكنك تحويل PS إلى PDF بـ <keycombo
+>&Alt;<keycap
+>8</keycap
+></keycombo
+>، أو &DVI; مباشرة إلى PDF بـ <keycombo
+>&Alt;<keycap
+>9</keycap
+></keycombo
+>.</para>
+
+			<para
+>قد يكون استخدام &pdflatex; بدلًا من لاتخ مجرد مسألة بساطة أو عادة، لكن أحيانًا يمكن أن يختلف سلوك البرنامجين.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>لاتخ إلى الويب</title>
+
+			<para
+>أخيرًا، قد ترغب في نشر عملك على الويب وليس فقط على الورق. يمكنك بعد ذلك استخدام برنامج <application
+>latex2html</application
+>، الذي يمكن استدعاؤه من قائمة كايل <menuchoice
+><guimenu
+>بناء</guimenu
+><guisubmenu
+>تحويل</guisubmenu
+><guimenuitem
+>LaTeX إلى الويب</guimenuitem
+></menuchoice
+>. ستوضع النتيجة في مجلد فرعي من مجلد العمل، وستتمكن من رؤية نتيجة التحويل باختيار عنصر القائمة <menuchoice
+><guimenu
+>بناء</guimenu
+><guisubmenu
+>عرض</guisubmenu
+><guimenuitem
+>عرض &HTML;</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_cl">
+
+			<title
+>تمرير معاملات سطر الأوامر</title>
+
+			<para
+>إذا أردت تمرير بعض معاملات سطر الأوامر المحددة إلى أدوات الترجمة أو التحويل أو العرض، يمكنك ضبط استدعائها في <menuchoice
+><guimenu
+>إعدادات</guimenu
+> <guisubmenu
+>اضبط كايلي...</guisubmenu
+><guisubmenu
+>أدوات</guisubmenu
+><guilabel
+>بناء</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_preview">
+		<title
+>المعاينة السّريعة</title>
+
+		<para
+>ستحتاج دائمًا إلى بعض الوقت لعرض النتيجة، عند العمل مع لاتخ. على لاتخ ترجمة المصدر ويجب استدعاء العارض. قد يكون هذا مزعجًا إذا غيرت فقط بعض الحروف في معادلة يصعب تنضيدها. يقدم كايل وضع <emphasis
+>معاينة سريعة</emphasis
+>، حيث يمكنك ترجمة جزء فقط من مستند وتوفير الكثير من الوقت. يدعم أربعة أوضاع مختلفة، يمكن دمجها مع سبعة تشكيلات.</para>
+
+		<screenshot>
+			<screeninfo
+>المعاينة السّريعة</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>المعاينة السّريعة</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>يجب إجراء جميع الإعدادات في <menuchoice
+><guimenu
+>إعدادات</guimenu
+><guisubmenu
+>اضبط كايلي...</guisubmenu
+> <guimenuitem
+>أدوات</guimenuitem
+><guilabel
+>معاينة</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>تشكيل المعاينة السريعة</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>تشكيل المعاينة السريعة</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<sect2 id="build_qp_selection">
+
+			<title
+>وضع التحديد</title>
+
+			<para
+>على المستخدم تحديد جزء من المستند. مدخل القائمة <menuchoice
+><guimenu
+>بناء</guimenu
+><guisubmenu
+>معاينة سريعة</guisubmenu
+><guimenuitem
+>تحديد</guimenuitem
+></menuchoice
+> أو الاختصار اللوحي <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>S</keycap
+> سيبدأ البرامج المحددة. يأخذ كايل ديباجة النص الأصلي، بحيث تُضمن جميع الحزم والأوامر المعرفة من قبل المستخدم. يمكن للمستخدم اختيار واحد من ثمانية تشكيلات معرفة مسبقًا:</para>
+
+			<itemizedlist>
+			<listitem
+><para
+><application
+>LaTeX+&DVI; (عارض مضمن)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+&DVI; (أوكلار)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+PS (عارض مضمن)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+PS (أوكلار)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLaTeX+PDF (عارض مضمن)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLaTeX+PDF (أوكلار)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>XeLaTeX+PDF (عارض مضمن)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>XeLaTeX+PDF (أوكلار)</application
+></para
+></listitem>
+			</itemizedlist>
+
+			<para
+>ينبغي أن يكون هذا كافيًا لجميع الحالات التي تحتاج فيها إلى معاينة سريعة.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_environment">
+
+			<title
+>وضع البيئة</title>
+
+			<para
+>غالبًا ما ترغب في معاينة البيئة الحالية، وخاصة البيئات الرياضية، التي قد يصعب كتابتها أحيانًا. يقدم كايل طريقة سريعة جدًا للقيام بذلك. لا حاجة لتحديد، فقط اختر <menuchoice
+><guimenu
+>بناء</guimenu
+><guisubmenu
+>معاينة سريعة</guisubmenu
+><guimenuitem
+>بيئة</guimenuitem
+></menuchoice
+> أو الاختصار اللوحي <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>E</keycap
+> وسيُجمّع البيئة الحالية وتُعرض.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_subdocument">
+
+			<title
+>وضع المستند الفرعي</title>
+
+			<para
+>إذا كان لديك مشروع كبير يحتوي على العديد من المستندات، فإن تجميع المشروع بأكمله ليس فكرة جيدة إذا أجريت تغييرات في مستند واحد فقط. يستطيع كايل تجميع وعرض معاينة للمستند الفرعي الحالي. يأخذ التمهيد من المستند الرئيس ويُجمّع الجزء الحالي فقط عند اختيار <menuchoice
+><guimenu
+>بناء</guimenu
+><guisubmenu
+>معاينة سريعة</guisubmenu
+><guimenuitem
+>مستند فرعي</guimenuitem
+></menuchoice
+> أو الاختصار اللوحي <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>D</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_mathgroup">
+
+			<title
+>وضع المجموعة الرياضية</title>
+
+			<para
+>يتيح لك وضع معاينة المجموعة الرياضية معاينة المجموعة الرياضية التي تحررها حاليًا. يأخذ كايل التمهيد من المستند الرئيس ويُجمّع المجموعة الرياضية التي يوجد بها المؤشر حاليًا عند اختيار <menuchoice
+><guimenu
+>بناء</guimenu
+><guisubmenu
+>معاينة سريعة</guisubmenu
+><guimenuitem
+>مجموعة رياضية</guimenuitem
+></menuchoice
+> أو الاختصار اللوحي <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>M</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="qp_bottombar">
+
+			<title
+>معاينة سريعة في الشريط السفلي</title>
+
+			<para
+>بدلًا من عرض المعاينة في مستند جديد، يمكن ضبط كايل لاستخدام الشريط السفلي لمعاينات التجميع. يمكنك تفعيل هذه الميزة في لوحة ضبط المعاينة السريعة.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_graphics">
+
+		<title
+>صيغ ملفات الرسوميات</title>
+
+		<sect2 id="build_graphics_latex">
+
+		<title
+>لاتخ و &pdflatex;</title>
+
+		<para
+>يمكن لـ &pdflatex;، عند استخدامه مع حزمتي <userinput
+>graphics</userinput
+> أو <userinput
+>graphicx</userinput
+>، تجميع ملفات PNG و JPG بشكل صحيح إلى &DVI; أو PDF، لكنه لا يستطيع التعامل مع ملفات EPS. بالمقابل، تدعم عملية التجميع باستخدام لاتخ إلى &DVI; والتحويل إلى PS وفي النهاية PDF ملفات EPS، لكنها لا تدعم PNG و JPG.</para>
+
+		<para
+>يرغب العديد من المستخدمين في إنشاء مستندات PDF، ولكنهم يريدون أيضًا استخدام حزمة <application
+>Pstricks</application
+> الممتازة لإنشاء رسوميات &PostScript;، أو يريدون استخدام مخرجات &PostScript; للبرامج الرياضية والعلمية مثل <application
+>Mathematica</application
+> و <application
+>Maple</application
+> أو <application
+>MuPAD</application
+>. يجب على مستخدمي لاتخ هؤلاء التجميع أولًا في &PostScript;، حتى لو أرادوا إنشاء مستندات PDF، لأن هذه البرامج تُنتج كود &PostScript; لا يمكن لـ &pdflatex; إدارته. ومع ذلك، فإن الأمر ليس صعبًا كما قد يبدو، لأن كايل سيساعد.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_conversion">
+
+		<title
+>تحويل الرسوميات</title>
+
+		<para
+>لتجاوز هذه الحلقة المربكة، عندما تريد تضمين كل من كود &PostScript; وملفات PNG أو JPG، لديك عدد من الحلول البديلة:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>إذا كنت بحاجة إلى ملف بصيغة PS، ولكن لديك رسوميات JPG أو PNG، يمكنك ببساطة استخدام &pdflatex; مع مخرج &DVI; أولًا، ثم تشغيل <application
+>dvips</application
+> لإنشاء ملف PS. ترى أن &pdflatex; خيار جيد جدًا إذا كان مصدرك لا يحتوي على أي كود &PostScript; على الإطلاق.</para
+></listitem>
+
+			<listitem
+><para
+>يمكنك تحويل ملفات EPS إلى PNG أو صيغ أخرى باستخدام أدوات مثل <ulink url="http://www.gimp.org/"
+><application
+>Gimp</application
+></ulink
+> أو <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+> واستخدام &pdflatex;.</para
+></listitem>
+
+			<listitem
+><para
+><anchor id="build_graphics_epstopdf"
+></anchor
+>الطريقة المفضلة هي تحويل رسوميات EPS إلى رسوميات PDF باستخدام <command
+>epstopdf</command
+>، الذي يأتي مع كل توزيعة تخ ثم استخدام &pdflatex;. يُنتج رسوميات عالية الجودة، ويمكنك حتى التحكم في النتيجة باستخدام بعض الخيارات التالية: <programlisting
+>-dAutoFilterColorImages=false
+</programlisting>
+			</para>
+
+			<para
+>الأفضل من ذلك: إذا كان نظامك يسمح بـ <userinput
+>shell-escape</userinput
+>، يمكن إجراء التحويل أثناء التشغيل. كل ما عليك فعله هو تضمين حزمة <application
+>epstopdf</application
+>، وهي جزء من جميع توزيعات تخ، بالأمر <userinput
+>\usepackage{epstopdf}</userinput
+>. بافتراض أن كودك هو: <programlisting>
+        \includegraphics[width=5cm]{test.eps}
+</programlisting
+>عند استدعاء &pdflatex; مع الخيار <option
+>--shell-escape</option
+>، تُحول الرسوميات <filename
+>test.eps</filename
+> آليًا إلى <filename
+>test.pdf</filename
+>.</para>
+
+			<para
+>سيحدث هذا التحويل في كل مرة تشغل فيها &pdflatex;. إذا كان أمر الرسوميات معطى ضمنيًا: <programlisting>
+        \includegraphics[width=5cm]{test}
+</programlisting
+> <application
+>epstopdf</application
+> يتحقق مما إذا كان <filename
+>test.pdf</filename
+> متاحًا بالفعل، بحيث يمكن تخطي خطوة التحويل.</para
+></listitem>
+
+			<listitem
+><para
+>يمكنك التحويل بالاتجاه المعاكس، واستخدام لاتخ وتحويل PS-PDF. هذه ليست دائمًا فكرة جيدة، لأن تغليف EPS لـ JPG أو PNG يمكن أن يُنتج ملفات أكبر، والتي بدورها تُنتج مستندات كبيرة بشكل غير ضروري. ومع ذلك، فإن هذا <emphasis
+>يعتمد بشدة</emphasis
+> على أداة الرسوميات التي تستخدمها، حيث يمكن لـ EPS تغليف رسوميات أخرى، ولكن لا تدعم جميع التطبيقات هذا بشكل مثالي. قد يحاول البعض فعليًا بناء صورة JPG الخاصة بك باستخدام متجهات ونصوص برمجية متنوعة، مما سيؤدي إلى ملفات ضخمة. يمكن إجراء تحويل جميع صيغ الرسوميات إلى EPS بواسطة <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>. برنامج بسيط آخر يقوم بهذه العملية بشكل صحيح هو <ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/"
+><application
+>jpg2ps</application
+></ulink
+>. </para
+></listitem>
+
+			<listitem
+><para
+>يمكنك أيضًا استخدام تحويل آلي. تُحوّل جميع ملفات الرسوميات أثناء التشغيل إلى EPS، وتُدرج في مستند PS. هذه طريقة مريحة، ولكن عليك ضبط نظامك بشكل صحيح. يُناقش هذا في القسم <link linkend="build_epsgraphics"
+>رسوميات EPS</link
+>.</para
+></listitem>
+
+		</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="build_graphics_type">
+
+		<title
+>استخدم الملف الصحيح للرسومية الصحيحة</title>
+
+	 	<itemizedlist>
+			<listitem
+><para
+>EPS هو نوع من لغة البرمجة النصية المتجهة للرسوميات، تصف جميع الخطوط والنقاط التي تتكون منها الرسومية؛ تبدو جيدة حتى عند تكبيرها إلى ما يتجاوز حجمها المبدئي، وتناسب المخططات والرسوميات المتجهة المنتجة أصلًا في EPS، والتي تبدو واضحة وحادة جدًا مع الحفاظ على حجم بايت صغير جدًا.</para
+></listitem>
+			<listitem
+><para
+>PNG (أو &GIF; المُهمل) هو صيغة ملف <emphasis
+>غير فقداني</emphasis
+>، بضغط وجودة جيدين. إنه جيد جدًا للمخططات ومسح الرسومات، أو أي شيء تريد الاحتفاظ بحدة وضوحه. قد يكون مبالغًا فيه أحيانًا عند استخدامه للصور الفوتوغرافية.</para
+></listitem>
+			<listitem
+><para
+>JPG هو صيغة <emphasis
+>فقدانية</emphasis
+>، تضغط الملفات بشكل أفضل من PNG على حساب بعض الفقدان في تفاصيل الصورة. هذا عادةً غير مهم للصور الفوتوغرافية، ولكنه قد يسبب جودة رديئة للمخططات والرسومات، وقد يجعل بعض الخطوط الرفيعة تختفي تمامًا؛ في هذه الحالات استخدم EPS أو PNG.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>لكن تذكر دائمًا: ما يُدخل هو ما يخرج! لن يجعل أي تحويل صورة سيئة جيدة.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_epsgraphics">
+
+		<title
+>رسوميات EPS</title>
+
+		<para
+>ملفات رسوميات EPS هي الطريقة التقليدية لإدراج ملفات الرسوميات في مستندات لاتخ. نظرًا لأن القوائم البريدية مليئة بالأسئلة المتعلقة برسوميات EPS، سنناقش بعض الجوانب المهمة ونوضح كيف يدعمها كايل.</para>
+
+		<sect2 id="build_graphics_eps">
+
+		<title
+>لاتخ ورسوميات EPS</title>
+
+		<para
+>إذا قررت استخدام لاتخ التقليدي لإنتاج مخرجات PS أو PDF، فستواجه على الأرجح بعض المشاكل مع الرسوميات. يجب عليك استخدام رسوميات EPS (بوستسكريبت مغلفة)؛ لا ملفات JPEG أو PNG. لا ينبغي أن تكون هذه مشكلة، حيث توجد الكثير من <link linkend="build_graphics_conversion"
+>المحوّلات</link
+> مثل <command
+>convert</command
+> من حزمة &imagemagick; الممتازة <ulink url="http://www.imagemagick.org/"
+></ulink
+>. لكن، يحتاج ذلك بعض الوقت بالطبع.</para>
+
+		<para
+>تُستخدم ملفات EPS من قبل كل من لاتخ ومحوّل &DVI;-PS:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>يمسح لاتخ ملف EPS بحثًا عن سطر الصندوق المحيط، الذي يخبر لاتخ بمقدار المساحة التي يجب حجزها للرسوميات.</para
+></listitem>
+
+		<listitem
+><para
+>يقرأ محوّل &DVI;-PS بعد ذلك ملف EPS ويدرج الرسوميات في ملف PS.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>لهذا بعض الآثار:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>لا يقرأ لاتخ ملف EPS أبدًا إذا حُددت وسائط الصندوق المحيط في أمر إدراج الرسوميات.</para
+></listitem>
+
+		<listitem
+><para
+>بما أن لاتخ لا يستطيع قراءة ملفات غير ASCII، فلا يمكنه قراءة معلومات الصندوق المحيط من ملفات رسوميات مضغوطة أو غير EPS.</para
+></listitem>
+
+		<listitem
+><para
+>لا تُضمن رسوميات EPS في ملف &DVI;. بما أن ملفات EPS يجب أن تكون موجودة عند تحويل ملف &DVI; إلى PS، يجب أن ترافق ملفات EPS ملفات &DVI; كلما نُقلت.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>يمكنك الآن استدعاء لاتخ، ومحوّل &DVI;-PS مثل <application
+>dvips</application
+> لإنشاء مستند بوستسكريبت الخاص بك. إذا كان هدفك مستند PDF، فيجب عليك تشغيل <command
+>dvips</command
+> مع الخيار <option
+>-Ppdf</option
+> ثم استدعاء <command
+>ps2pdf</command
+>. ستجد الكثير من المستندات التي تصف هذا الحل.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_epskile">
+
+		<title
+>طريقة بوستسكريبت في كايل</title>
+
+		<para
+>يساعدك كايل في الحصول على معلومات الصندوق المحيط. إذا كنت قد ثبّت حزمة <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>، فسيستخرج كايل هذه المعلومات من ملف EPS ويدرجها كخيار. يُفعل ذلك آليًا عند تحديد ملف الرسوميات. هناك ميزتان للمتابعة بهذه الطريقة:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>المعلومات ممسوحة ضوئيًا بالفعل في الحوار، ولا تحتاج أن تُفعل بواسطة لاتخ لاحقًا.</para
+></listitem>
+		<listitem
+><para
+>الأهم من ذلك هو أنه يمكن حساب عرض وارتفاع الصورة، عندما تكون الدقة معروفة. ستُعرض هذه المعلومات بالقرب من أعلى الحوار، وقد تخدم كدليل عندما تريد تغيير مقياس الرسوميات.</para
+></listitem>
+		<listitem
+><para
+>يمكن لـكايل أيضًا دعم ملفات EPS المضغوطة بصيغة zip أو gzip، وهي أصغر بكثير من ملفات EPS غير المضغوطة. لكن، لا يمكن استخدام هذه الميزة إلا مع إعداد نظام خاص وتغيير في تهيئة الرسوميات المحلية لديك، كما هو موصوف في قسم <link linkend="build_graphics_bitmap"
+>رسوميات الصور النقطية</link
+>.</para
+></listitem>
+		</itemizedlist>
+	<!-- FIXME I don't understand the following sentence, tbraun
+		<para
+> The <emphasis
+>&PostScript; Way of &kile;</emphasis
+> can be turned off or on in
+		<menuchoice
+><guimenu
+>Settings</guimenu
+><guisubmenu
+>Configure Kile...</guisubmenu>
+		<guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>General</guilabel
+></menuchoice
+>.</para>
+		-->
+	</sect2>
+
+	<sect2 id="build_graphics_bitmap">
+
+		<title
+>طريقة بوستسكريبت ورسوميات الصور النقطية</title>
+
+		<para
+>إذا كان نظامك يسمح بـ<userinput
+>هروب-الصدفة</userinput
+>، يدعم كايل أيضًا طريقة سهلة لتضمين رسوميات الصور النقطية، إذا ضبطت نظام تخ لديك بشكل صحيح. لا حاجة لتحويل رسوميات JPEG أو PNG، يمكن فعل ذلك آليًا عند تحويل ملف &DVI; إلى PS.</para>
+
+		<para
+>يحتاج لاتخ إلى بعض المعلومات حول لواحق الملفات. تبحث الحزمة <userinput
+>graphicx</userinput
+> عن ملف <filename
+>graphics.cfg</filename
+>، الذي يجب أن يكون في مكان ما في مسار البحث الخاص بمستندات لاتخ. ابحث عن مدخلات مثل:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+</programlisting>
+
+		<para
+>واستبدل هذه الأسطر بـ:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+</programlisting>
+
+		<para
+>ستجد هذا الملف، مثلًا في دبيان، في <filename
+>/etc/texmf/latex/graphics.cfg</filename
+>. أفضل طريقة للمتابعة هي نسخ هذا الملف إلى مسار تخ المحلي لديك ثم تغيير هذه النسخة. راجع دليل توزيعة تخ الخاصة بك لتعلم كيفية الحصول على قائمة بمجلدات تخ الخاصة بك.</para>
+
+		<para
+>باستخدام ملف التهيئة هذا، يمكنك إدراج رسوميات الصور النقطية وملفات EPS المضغوطة بصيغة zip أو gzip في لاتخ. يُعطى أمر التحويل بواسطة <command
+>dvips</command
+>. عندما تنظر إلى أمر التحويل، سترى أنه لا يُنشأ ملف إضافي. تُوجّه نتيجة عملية التحويل مباشرة إلى ملف PS. الشيء الوحيد الذي يجب أن يعرفه لاتخ هو حجم الرسوميات، ولذلك نحتاج إلى الصندوق المحيط، الذي يوفره كايل.</para>
+
+		<para
+>يقول البعض إن هذه الطريقة غير آمنة؛ عليك أن تقرر كيفية العمل. في أي حال، لا تحتاج إلى صندوق محيط، حيث سيستخرج كايل هذه المعلومات من جميع أنواع الرسوميات.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_pdflatex">
+
+		<title
+>&pdflatex; ورسوميات EPS</title>
+
+		<para
+>كما ذُكر سابقًا، لا يستطيع &pdflatex; التعامل مع ملفات رسوميات EPS، لكن المحوّلات مثل <link linkend="build_graphics_epstopdf"
+>epstopdf</link
+> ستساعد. أفضل طريقة هي تضمين الحزمة <filename
+>epstopdf</filename
+>، التي يجب أن تتبع الحزمة <userinput
+>graphicx</userinput
+>.</para>
+
+<programlisting
+>\usepackage[pdftex]{graphicx}
+</programlisting>
+
+		<para
+>يمكنك الآن تضمين رسوميات EPS بالفعل، إذا شغّلت <command
+>pdflatex</command
+> مع الخيار <option
+>--shell-escape</option
+>، لكن يمكننا جعله أفضل أيضًا ومعالجة ملفات EPS المضغوطة بصيغة zip أو gzip. مرة أخرى، علينا تغيير ملف تهيئة الرسوميات <filename
+>graphics.cfg</filename
+> كما سبق. هذه المرة نبحث عن:</para>
+
+<programlisting
+>% pdfTeX يعمل في وضع pdf
+</programlisting>
+
+		<para
+>ونضيف ببساطة بعض الأسطر:</para>
+
+<programlisting
+>% pdfTeX يعمل في وضع pdf
+</programlisting>
+
+		<para
+>بهذه الأسطر، يستطيع &pdflatex; معالجة ملفات EPS، ونأمل ألا تكون هناك مشكلات أخرى بخصوص الرسوميات.</para>
+
+	</sect2>
+
+	</sect1>
+
+	<sect1 id="build_master">
+
+		<title
+>مستند رئيس</title>
+
+		<para
+>يتيح لك تعريف مستندك كمستند رئيس العمل بملفات منفصلة، مما يمنحك مستندًا أبويًا (أو مستندًا رئيسًا)، ومستندات فرعية تشكل عملًا كاملًا. بعد تعريف مستندك الرئيس، باستخدام الأمر المناسب في قائمة <guimenu
+>الإعدادات</guimenu
+>، ستطبق جميع أوامر قائمة <guimenu
+>الأدوات</guimenu
+> على هذا المستند فقط، حتى عند العمل على المستندات الفرعية. يمكنك حتى إغلاق المستند الرئيس.</para>
+	</sect1>
+
+	<sect1 id="build_errorhandling">
+
+		<title
+>معالجة الأخطاء</title>
+
+		<para
+>بعد أن تترجم شيئًا، يفحص كايل رسائل الخطأ التي وُلدت. إذا وُجدت أي أخطاء أو تحذيرات، فسيُبلغ عنها بإيجاز في نافذة <guilabel
+>السجل والرسائل</guilabel
+>. يمكن للمرء إلقاء نظرة أقرب على الرسائل باختيار <menuchoice
+><guimenu
+>بناء</guimenu
+><guimenuitem
+>عرض ملف السجل</guimenuitem
+></menuchoice
+>، أو باستخدام الاختصار اللوحي <keycombo
+>&Alt;<keycap
+>0</keycap
+></keycombo
+>. يُعرض السجل المولد بعد ذلك في عرض <guilabel
+>السجل والرسائل</guilabel
+>؛ وتُبرز الأخطاء والتحذيرات.</para>
+
+		<screenshot>
+			<screeninfo
+>عرض السجل</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_compile_error.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>عرض السجل</phrase>
+			</textobject>
+			<caption
+><para
+>عرض السجل</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>يمكنك القفز بسهولة من رسالة إلى أخرى في ملف السجل باستخدام عناصر القائمة <menuchoice
+><guimenu
+>بناء</guimenu
+><guimenuitem
+>التالي / السابق خطأ / تحذير لاتخ</guimenuitem
+></menuchoice
+>، أو باستخدام أزرار شريط الأدوات المقابلة.</para>
+
+		<para
+>للقفز إلى السطر في مصدر لاتخ حيث حدث الخطأ أو التحذير، انقر على الخطأ أو التحذير في عرض <guilabel
+>السجل والرسائل</guilabel
+>. سينقلك كايل آليًا إلى السطر المخالف.</para>
+
+	</sect1>
+
+	<sect1 id="build_watch">
+
+			<title
+>وضع مراقبة الملف</title>
+
+			<para
+>عند تشغيل أمر <guibutton
+>البناء السريع</guibutton
+>، يُستدعى عادة عارض ما بعد الترجمة. إذا كنت لا تستخدم عارضًا مضمنًا، فستُفتح نافذة جديدة في كل مرة.</para>
+
+			<para
+>إذا كنت تضبط مظهر مستندك، فقد تشغل <guibutton
+>البناء السريع</guibutton
+> كثيرًا، وتكون لديك نوافذ عارض كثيرة مفتوحة على سطح المكتب؛ لتجنب هذا الارتباك، يمكنك تفعيل وضع <guibutton
+>مراقبة الملف</guibutton
+>، الذي سيمنع <guibutton
+>البناء السريع</guibutton
+> من تشغيل عارض.</para>
+
+			<para
+>هذا الوضع عديم الفائدة بالطبع مع العارضات المضمنة، حيث يجب عليك إغلاقها على أي حال للعودة إلى تحرير المستند وإعادة الترجمة.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="navigating">
+
+	<title
+>التنقل في مصدر لاتخ</title>
+
+	<sect1 id="navigating_struct">
+
+		<title
+>استخدام عرض الهيكل</title>
+
+		<para
+>يُظهر عرض <guilabel
+>الهيكل</guilabel
+> تسلسل المستند الذي يُنشأ في كايل، ويسمح لك بالتنقل فيه بسرعة، مظهرًا تجزئته. للتنقل في مستندك، كل ما عليك فعله هو النقر بزر الفأرة الأيسر على أي لصيقة، فصل، قسم، قسم فرعي، إلخ، وسيُنقلك إلى بداية المنطقة المقابلة.</para>
+
+		<para
+>إذا أدرجت ملف لاتخ منفصلًا في مصدرك باستخدام وسمي <userinput
+>\input</userinput
+> أو <userinput
+>\include</userinput
+>، فستُشار إلى هذه الملفات في عرض <guilabel
+>الهيكل</guilabel
+>؛ النقر المزدوج على أسمائها سيجعل كايل يستحضر الملف المُدرج في نافذة المحرر.</para>
+
+		<para
+>لشجرة التسلسل أيضًا فرع منفصل للصائق المستخدمة في النص.</para>
+
+<!--		<screenshot>
+			<screeninfo
+>Using the Structure View</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_structview_label.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Using the Structure View</phrase>
+			</textobject>
+			<caption
+><para
+>Using the Structure View</para
+></caption>
+			</mediaobject>
+		</screenshot
+>-->
+
+		<sect2 id="navigating_contextmenu">
+
+			<title
+>استخدام قائمة السياق</title>
+
+			<para
+>معظم المدخلات في عرض الهيكل تحتوي على العديد من المدخلات في قائمة السياق، التي يمكنك فتحها بنقرة زر الفأرة الأيمن. لذا انظر إلى عرض الهيكل في الصورة التالية.</para>
+
+			<screenshot>
+				<screeninfo
+>استخدام عرض الهيكل</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>استخدام عرض الهيكل</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>ستجد بعض اللصائق، بعض مدخلات التقسيم، بيئتي شكل وثلاث صور. إذا نقرت بزر الفأرة الأيمن على أحد مدخلات التقسيم، ستظهر قائمة ببعض الأوامر المفيدة. جميع الأوامر مثل <guibutton
+>تحديد</guibutton
+>، <guibutton
+>حذف</guibutton
+> أو <guibutton
+>تعليق</guibutton
+> ستعمل مع جميع الأسطر التي تنتمي إلى هذا القسم.</para>
+
+			<screenshot>
+				<screeninfo
+>قائمة السياق لمدخلات التقسيم</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>قائمة السياق لمدخلات التقسيم</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>النقر على مدخل شكل أو جدول سيعرض بعض الإجراءات المتعلقة بالمراجع، والنقر بزر الفأرة الأيمن على مدخل رسوميات سيعرض بعض البرامج لفتح الرسوميات.</para>
+
+			<screenshot>
+				<screeninfo
+>قائمة السياق لمدخلات الأشكال/الجداول والرسوميات</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>قائمة السياق لمدخلات الأشكال/الجداول والرسوميات</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			</sect2>
+
+		<sect2 id="navigating_update">
+
+			<title
+>تحديث عرض الهيكل</title>
+
+			<para
+>لتحديث عرض الهيكل الخاص بك، يمكنك إما الذهاب إلى <menuchoice
+><guimenu
+>تحرير</guimenu
+><guimenuitem
+>تحديث الهيكل</guimenuitem
+></menuchoice
+>، أو الضغط على <keycombo
+><keycap
+>F12</keycap
+></keycombo
+>، أو يمكنك حفظ مستندك، مما سيجعل كايل يحدث عرض <guilabel
+>الهيكل</guilabel
+> الخاص به.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="navigating_bookmarks">
+
+		<title
+>العلامات</title>
+
+		<para
+>العلامات هي مرجعك إلى مقطع من النص أو سطر داخل بيئة كايل. لاستخدام علامة، حدد سطرًا معينًا من مستندك تريد العودة إليه، ثم اضغط <keycombo
+>&Ctrl; <keycap
+>B</keycap
+></keycombo
+>، وسيضيف كايل علامة إلى هذا السطر. بدلًا من ذلك، يمكنك أيضًا تعيين علامة بتظليل سطر واختيار القائمة المسماة <menuchoice
+><guimenu
+>العلامات</guimenu
+><guimenuitem
+>تعيين علامة</guimenuitem
+></menuchoice
+>.</para>
+
+		<para
+>لإزالة جميع علاماتك، اختر <menuchoice
+><guimenu
+>العلامات</guimenu
+> <guimenuitem
+>مسح جميع العلامات</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="projects">
+
+	<title
+>المشاريع</title>
+
+	<sect1 id="projects_working">
+
+		<title
+>العمل مع المشاريع</title>
+
+		<para
+>في كايل يمكنك إنشاء والعمل مع <emphasis
+>مشاريع</emphasis
+>. المشروع هو مجموعة من ملفات لاتخ، ورسوميات، و&bibtex;، أو ملفات أخرى تحتوي على كل المعلومات المستخدمة لبناء مستندك الكامل. مشروع نموذجي سيكون مستندًا يتكون من عدة فصول، مكتوبة في ملفات <literal role="extension"
+>.tex</literal
+> مختلفة؛ يمكن تضمينها جميعًا في مشروع، لتسهيل إدارة المستند بأكمله. تُخزَّن مواصفات المشروع في ملف خاص، بامتداد <literal role="extension"
+>.kilepr</literal
+>.</para>
+
+		<para
+>يضيف المشروع الوظائف التالية:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>لا تحتاج لتعيين مستند رئيس، كايل يفعل ذلك آليًا.</para
+></listitem>
+			<listitem
+><para
+>يمكن أرشفة ملفات المشروع معًا بسهولة بالذهاب إلى <menuchoice
+><guimenu
+>مشروع</guimenu
+><guimenuitem
+>أرشفة</guimenuitem
+></menuchoice
+></para
+></listitem>
+			<listitem
+><para
+>يُظهر عرض <guilabel
+>الملفات والمشاريع</guilabel
+> الملفات المضمنة في المشروع.</para
+></listitem>
+			<listitem
+><para
+>بعد فتح مشروع، ستُستعاد أي ملفات فُتحت سابقًا بالترميز والإبراز الأصليين.</para
+></listitem>
+      <listitem
+><para
+>يعمل إكمال الكود عبر جميع ملفات المشروع.</para
+></listitem>
+      <listitem
+><para
+>يعمل إكمال المراجع عبر جميع ملفات المشروع.</para
+></listitem>
+      <listitem
+><para
+>يعمل إكمال الاستشهادات عبر جميع ملفات المشروع.</para
+></listitem>
+      <listitem
+><para
+>ابحث في جميع ملفات المشروع</para
+></listitem>
+      <listitem
+><para
+>حدد أمر quickbuild المخصص وأمر &makeidx;.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>يمكنك العثور على جميع الأوامر المتعلقة بالمشروع في قائمة <guilabel
+>المشروع</guilabel
+>. ومن هناك يمكنك فتح مشاريعك وإغلاقها وإدارتها.</para>
+
+	</sect1>
+
+	<sect1 id="projects_creating">
+
+		<title
+>إنشاء مشروع</title>
+
+		<para
+>لإنشاء مشروع، حدد <menuchoice
+><guimenu
+>مشروع</guimenu
+> <guimenuitem
+>مشروع جديد...</guimenuitem
+></menuchoice
+>.</para>
+		<screenshot>
+		  <screeninfo
+>نافذة إنشاء مشروع</screeninfo>
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="project-creation.png" format="PNG"/>
+		    </imageobject>
+		    <textobject>
+		      <phrase
+>نافذة إنشاء مشروع</phrase>
+		    </textobject>
+		  </mediaobject>
+		</screenshot>
+		<para
+>سيُطلب منك تقديم المعلومات التالية لإنشاء مشروعك:</para>
+		<itemizedlist>
+		  <listitem>
+		    <para
+>عنوان مشروعك (حقل نص <guilabel
+>عنوان المشروع</guilabel
+>). </para>
+		    <para
+>سيُستخدم عنوان المشروع لإنشاء اسم ملف المشروع بتحويله إلى أحرف صغيرة وإضافة الامتداد <filename role="extension"
+>.kilepr</filename
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>مجلد سيُخزَّن فيه ملف المشروع (حقل نص <guilabel
+>مجلد المشروع</guilabel
+>). </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>إذا أردت إنشاء ملف رئيس جديد للمشروع، فعِّل العنصر <guilabel
+>إنشاء ملف جديد وإضافته إلى هذا المشروع</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>عند ملء مربع <guilabel
+>اسم الملف</guilabel
+>، يجب تضمين مسار نسبي من مكان تخزين ملف المشروع <filename role="extension"
+>.kilepr</filename
+> (انظر العنصر <guilabel
+>مجلد المشروع</guilabel
+>). </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>يمكن اختيار نوع الملف الذي تم إنشاؤه، <guilabel
+>ملف فارغ</guilabel
+>، <guilabel
+>مقالة</guilabel
+>، <guilabel
+>كتاب</guilabel
+>، <guilabel
+>رسالة</guilabel
+>، <guilabel
+>تقرير</guilabel
+>، إلخ؛ من قائمة مرئية في أسفل لوحة <guilabel
+>ملف</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>يمكنك تحديد امتدادات الملفات الافتراضية في المشروع باستخدام لوحة <guilabel
+>الامتدادات</guilabel
+>. سيُستخدم اختيارك لتحديد الملفات التي يجب فتحها عند اختيار عنصر القائمة <menuchoice
+><guimenu
+>المشروع</guimenu
+><guimenuitem
+>فتح جميع ملفات المشروع</guimenuitem
+></menuchoice
+> وفي معالجات كايل. يجب فصل الامتدادات في حقل النص بمسافات. </para>
+		  </listitem>
+		</itemizedlist>
+	</sect1>
+
+	<sect1 id="projects_view">
+
+		<title
+>عرض الملفات والمشاريع</title>
+
+		<para
+>يُعد عرض <guilabel
+>الملفات والمشاريع</guilabel
+> زرًا في قائمة الشريط الجانبي. من هذه الواجهة، يمكنك رؤية بنية مشروعك وملفاته واسم ملف <literal role="extension"
+>.kilepr</literal
+> الذي يخزن معلومات المشروع. تتم إضافة الخيارات أو إزالتها أو تغييرها في مشروعك عبر عرض <guilabel
+>الملفات والمشاريع</guilabel
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>عرض الملفات والمشاريع</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>عرض الملفات والمشاريع</phrase>
+			</textobject>
+			<caption
+><para
+>عرض الملفات والمشاريع</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="projects_adding">
+
+		<title
+>إضافة وإزالة الملفات</title>
+
+		<para
+>لإضافة ملف إلى مشروعك، افتح أي ملف تخ، وانقر بزر الفأرة الأيمن على اسمه في عرض <guilabel
+>الملفات والمشاريع</guilabel
+>، واختر <guilabel
+>أضف إلى المشروع</guilabel
+>. إذا فتحت مشاريع متعددة، ستظهر نافذة حوار يمكنك فيها تحديد المشروع الذي يجب إضافة الملف إليه.</para>
+		<!-- duplicated see next para
+		<para
+>If you have multiple files to be added to a project, you can select the
+		project from the <guilabel
+>Files and Projects</guilabel
+> view and right-click then select
+		<guilabel
+>Add Files...</guilabel
+>; you will then be able to select your files in a dialog box.</para>
+		-->
+		<para
+>يمكنك أيضًا النقر بزر الفأرة الأيمن على اسم المشروع في عرض <guilabel
+>الملفات والمشاريع</guilabel
+>، واختيار <guilabel
+>أضف ملفات...</guilabel
+> لإظهار نافذة حوار اختيار الملفات.</para>
+
+		<screenshot>
+			<screeninfo
+>إضافة ملف إلى مشروع</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview_add.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>إضافة ملف إلى مشروع</phrase>
+			</textobject>
+			<caption
+><para
+>إضافة ملف إلى مشروع</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>لإزالة ملف من مشروع، انقر بزر الفأرة الأيمن عليه واختر <guilabel
+>أزل الملف</guilabel
+>. هذا <emphasis
+>لا</emphasis
+> يحذف ملفك (ولا يغلقه أيضًا)، بل يزيله فقط من قائمة الملفات الموجودة في امتداد <literal role="extension"
+>.kilepr</literal
+>.</para>
+
+		<sect2 id="projects_archive">
+
+			<title
+>أرشفة مشروعك</title>
+
+			<para
+>كايل تسمح لك بنسخ مشروعك احتياطيًا بسهولة بتخزين جميع ملفاته في أرشيف واحد (يُعرف غالبًا باسم <emphasis
+>tarball</emphasis
+>). لأرشفة مشروعك، انقر بزر الفأرة الأيمن على اسمه في عرض <guilabel
+>الملفات والمشاريع</guilabel
+>، أو اختر <menuchoice
+><guimenu
+>مشروع</guimenu
+><guimenuitem
+>أرشفة</guimenuitem
+></menuchoice
+>.</para>
+
+			<para
+>بشكل مبدئي، تُضاف جميع الملفات في المشروع إلى الأرشيف. إذا كنت لا تريد تضمين ملف معين في الأرشيف، انقر بزر الفأرة الأيمن عليه في عرض <guilabel
+>الملفات والمشاريع</guilabel
+>، وألغِ تحديد خيار <guilabel
+>ضمّن في الأرشيف</guilabel
+>.</para>
+
+			<para
+>تُنفذ عملية الأرشفة حاليًا بتشغيل الأمر <command
+>tar</command
+> من مجلد المشروع (حيث يوجد ملف <literal role="extension"
+>.kilepr</literal
+>).</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="projects_options">
+
+		<title
+>خيارات المشروع</title>
+
+		<para
+>كايل لديها بعض الخيارات المتعلقة بمشروعك يمكن ضبطها. لتغييرها، انقر بزر الفأرة الأيمن على عنوان مشروعك واختر <guilabel
+>خيارات المشروع</guilabel
+>، وستتاح لك خيارات تغيير:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>عنوان مشروعك.</para
+></listitem>
+			<listitem
+><para
+>امتدادات الملفات المبدئية.</para
+></listitem>
+ 			<listitem
+><para
+>المستند الرئيس.</para
+></listitem>
+ 			<listitem
+><para
+>أمر البناء السريع.</para
+></listitem>
+ 			<listitem
+><para
+>خيارات &makeidx;.</para
+></listitem>
+		</itemizedlist>
+
+
+<!-- FIXME not working in kile, tbraun 11/3/2007
+		<sect2 id="projects_ext">
+
+			<title
+>Extensions for Non-Source Files</title>
+
+			<para
+>Non-source files are files such as pictures, PDF or &PostScript; files, etc. that are
+			to be included in the project, but are not source files with the extension <literal role="extension"
+>.tex</literal
+>. You have
+			the option to use your own regular expressions to match non-source files.</para>
+		</sect2>
+-->
+
+	</sect1>
+
+	<sect1 id="projects_closing">
+
+		<title
+>إغلاق مشروع</title>
+
+		<para
+>لإغلاق مشروع، اختر عرض <guilabel
+>الملفات والمشاريع</guilabel
+> من شريط الأدوات العمودي، وانقر بزر الفأرة الأيمن على عنوان مشروعك، ثم اختر <guimenuitem
+>إغلاق</guimenuitem
+>. سيؤدي هذا إلى إغلاق مشروعك وجميع الملفات المرتبطة به، وسيضيف أيضًا اسم المشروع الذي أغلقتَه للتو إلى <guisubmenu
+>افتح مشروعًا حديثًا...</guisubmenu
+> في قائمة <guimenu
+>مشروع</guimenu
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="lang">
+
+	<title
+>ترميز الوثيقة</title>
+
+	<para
+>يسمح لك محرر كايل بقراءة النص وتحويله وحفظه بترميز الأحرف الذي يحتاجه مستندك. بهذا يمكن، على سبيل المثال، استخدام الأحرف المُشكّلة، مثل تلك الشائعة في الإيطالية أو الفرنسية، مباشرة في مستندات لاتخ. يمكن اختيار الترميز لمستندك بطريقتين:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>إحدى طرق ضبط ترميز المستند هي باستخدام القائمة الفرعية <menuchoice
+><guimenu
+>إعدادات</guimenu
+><guisubmenu
+>اضبط Kile...</guisubmenu
+><guimenuitem
+>محرر</guimenuitem
+></menuchoice
+>، حيث يمكنك ضبط ترميز الأحرف المبدئي لجميع الملفات.</para>
+		<screenshot>
+			<screeninfo
+>اضبط ترميز الأحرف المبدئي</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-encoding.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>اضبط ترميز الأحرف المبدئي</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		<listitem
+><para
+>طريقة ثانية لضبط الترميز لمستند هي اختيار الترميز المطلوب داخل المعالج لإنشاء مستند جديد.</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>لاتخ نفسها تفهم فقط ASCII، الذي يمثل مجموعة محدودة جدًا من الأحرف. وبالتالي، ليس من الممكن استخدام الأحرف المُشكّلة مباشرة. لاستخدامها مع ذلك، اُخترعت صياغة خاصة: مثل <userinput
+>"e</userinput
+> لـ <computeroutput
+>ë</computeroutput
+>. حزمة <application
+>inputenc</application
+> متاحة لمساعدتك في هذا. تُضمّن في الديباجة باستخدام <userinput
+>\usepackage[latin1]{inputenc}</userinput
+>، حيث تحدد الوسيطة الاختيارية الترميز الذي ترغب في استخدامه (في الوقت الحاضر في معظم الحالات <userinput
+>utf8</userinput
+>). هذا يخبر لاتخ بترجمة جميع <userinput
+>ë</userinput
+> التي كتبتها إلى <userinput
+>"e</userinput
+> قبل التجميع. يُرجى الرجوع إلى وثائق <application
+>inputenc</application
+> مباشرة لمزيد من المعلومات. أخيرًا وليس آخرًا: تذكر التأكد من أن ملفك <emphasis
+>مُحفوظ فعليًا</emphasis
+> بنفس الترميز الذي حددته لحزمة <application
+>inputenc</application
+>!</para>
+
+	<para
+>هذه الكثرة من جداول ترميز الأحرف المختلفة خلقت مشاكل عديدة: على سبيل المثال، لا يمكنك كتابة دورة تركية بالفرنسية دون فقدان الأحرف الخاصة للغة واحدة. هناك اتفاق عام على أن الجميع سيتحولون، عاجلًا أم آجلًا، إلى <ulink url="http://www.unicode.org"
+>يونيكود</ulink
+>. هناك العديد من تطبيقات يونيكود، و<abbrev
+>UTF-8</abbrev
+> هو الأكثر نجاحًا في لينكس; بينما يعتمد &Windows;&reg; بدلًا من ذلك على <abbrev
+>UCS-2</abbrev
+> الأكثر تعقيدًا والأقل مرونة. بدأت معظم التوزيعات بالفعل في ضبط ترميزها المبدئي على <abbrev
+>UTF-8</abbrev
+>، وبالتالي قد تكون مهتمًا جدًا باستخدام وسيطة <userinput
+>utf8</userinput
+> لحزمة <userinput
+>inputenc</userinput
+>.</para>
+
+	<sect1 id="ucs">
+
+		<title
+>حزمة &ucs;</title>
+		<para
+>إذا لم تكن حزمة &ucs; مثبتة لديك، يمكنك المتابعة كالتالي:</para>
+		<itemizedlist>
+		<listitem
+><para
+>احصل على حزمة &ucs; من <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/unicode/"
+>CTAN</ulink
+>. </para
+></listitem>
+		<listitem>
+		<para
+>لتثبيتها، فك ضغط الملف المُنزّل وضعه في مجلد مُدرج في متغير البيئة $<envar
+>TEXINPUTS</envar
+> لديك. يمكن ضبط هذا أيضًا داخل كايل.</para>
+		</listitem>
+		</itemizedlist>
+
+<programlisting
+>\usepackage{ucs}</programlisting>
+
+	</sect1>
+
+	<sect1 id="xelatex">
+
+		<title
+>XeLaTeX</title>
+
+		<para
+>إذا كنت تستخدم <userinput
+>XeLaTeX</userinput
+>، يمكنك ببساطة تحميل حزمة <userinput
+>xltxtra</userinput
+>. ستقوم بالإضافة إلى ذلك بتحميل جميع الحزم المطلوبة.</para>
+		<programlisting
+>\usepackage{xltxtra}</programlisting>
+
+	</sect1>
+
+	<sect1 id="cjk">
+
+		<title
+>دعم &cjk;</title>
+
+		<para
+>إضافة دعم اللغات التصويرية صعب جدًا. ومع ذلك، بمجرد الانتهاء من ذلك، سيعمل بشكل جيد. إلى جانب تثبيت الحزم، هناك بعض أعمال الضبط الإضافية التي يجب القيام بها.</para>
+
+		<tip
+><para
+>قد يكون توزيع لينكس الخاص بك يحتوي بالفعل على حزمة &cjk; (صينية، يابانية، كورية) جاهزة لك، لذلك قد توفر على نفسك عناء تثبيت كل شيء يدويًا. تحقق قبل المضي قدمًا!</para
+></tip>
+
+		<para
+>هناك إمكانية استخدام حزمة &ucs; لكتابة مقاطع قصيرة من نص &cjk;، لكن هذا الخيار محدود جدًا لأنه لا يتعامل، من بين أمور أخرى، مع الأسطر الجديدة. بدلًا من ذلك، سنقوم بتثبيت حزمة &cjk;-لاتخ الكاملة وجعلها تعمل لكل من لاتخ و &pdflatex;. الكثير من هذه المواد مستوحى من <ulink url="http://www.ece.uci.edu/~chou/"
+>Pai H. Chou</ulink
+>'s <ulink url="http://www.ece.uci.edu/~chou/unicode-tex.html"
+>صفحة حول كيفية إعداد &pdflatex;</ulink
+>.</para>
+
+		<orderedlist>
+
+		<listitem
+><para
+>نزّل حزمة <ulink url="http://www.ctan.org/tex-archive/help/Catalogue/entries/cjk.html"
+>&cjk;</ulink
+>. انسخ ملفاتها المفكوكة إلى مجلد فرعي مناسب من $<envar
+>TEXMF</envar
+>، تمامًا كما فعلت مع حزمة &ucs; سابقًا (انظر <xref linkend="ucs" role="select: title pageabbrv"/>). سيتم فك الملفات في مجلد <filename
+>CJK/X_Y.Z</filename
+>؛ ليس من المهم أن تخرجها، رغم أنه سيكون أكثر ترتيبًا وأسهل لك للصيانة.</para
+></listitem>
+
+		<listitem
+><para
+>الآن عليك تنزيل خط يدعم جميع أحرف &cjk; التي تحتاجها. يمكنك اختيار أي ملف <literal role="extension"
+>*.ttf</literal
+> يغطيها، لكن في هذا الدليل سنستخدم <ulink url="ftp://ftp.wu-wien.ac.at/pub/www/Netscape/communicator/extras/fonts/windows/Cyberbit.ZIP"
+>Cyberbit</ulink
+>. فك ضغط الملف وأعد تسمية <filename
+>Cyberbit.ttf</filename
+> إلى <filename
+>cyberbit.ttf</filename
+>، لأن الأحرف الكبيرة قد تربك نظامك.</para>
+		<para
+>ضع <filename
+>cyberbit.ttf</filename
+> في مجلد مع <ulink url="http://delloye.free.fr/Unicode.sfd"
+><filename
+>Unicode.sfd</filename
+></ulink
+>، وولّد ملفات <literal role="extension"
+>*.tfm</literal
+> و <literal role="extension"
+>*.enc</literal
+> بالأمر <userinput
+><command
+>$ ttf2tfm cyberbit.ttf -w cyberbit@Unicode@</command
+></userinput
+>. لسبب ما، أحيانًا لا ينتج هذا المئات من الملفات التي يجب أن ينتجها. إذا حدث ذلك في حالتك، يمكنك تنزيل ملفات <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-tfm.tgz"
+><literal role="extension"
+>*.tfm</literal
+></ulink
+> و <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-enc.tgz"
+><literal role="extension"
+>*.enc</literal
+></ulink
+>.</para>
+		<para
+>ضع ملفات <literal role="extension"
+>*.tfm</literal
+> في مجلد مناسب، مثل <filename
+>$<envar
+>TEXMF</envar
+>/fonts/tfm/bitstream/cyberbit/</filename
+>؛ يمكن تثبيت ملفات <literal role="extension"
+>*.enc</literal
+> في <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/enc/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>الآن نحتاج إلى ملف خريطة لربط ملفات <literal role="extension"
+>*.enc</literal
+> بالخط. نزّل <ulink url="http://delloye.free.fr/cyberbit.map"
+><filename
+>cyberbit.map</filename
+></ulink
+> وقم بتثبيته في <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>نزّل ملفًا آخر، <ulink url="http://delloye.free.fr/c70cyberbit.fd"
+><filename
+>c70cyberbit.fd</filename
+></ulink
+>، وضعه في مجلد مناسب. يمكنك اختيار، على سبيل المثال، <filename
+>$<envar
+>TEXMF</envar
+>/tex/misc/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>آخر ملف علينا توليده هو خط &PostScript; Type 1، ضروري لقراءة ملفات &DVI; المولدة بـ لاتخ. شغّل الأمر <userinput
+><command
+>$ ttf2pfb cyberbit.ttf -o cyberbit.pfb</command
+></userinput
+>، وانسخ الملف الناتج <filename
+>cyberbit.pfb</filename
+> إلى مجلد مثل <filename
+>$<envar
+>TEXMF</envar
+>/fonts/type1/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>لنضع الآن <filename
+>cyberbit.ttf</filename
+> بين الخطوط حيث يمكن لـ لاتخ العثور عليه. يمكنك وضعه في مجلد باسم <filename
+>$<envar
+>TEXMF</envar
+>/fonts/truetype/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>تحقق من ملف الضبط الموجود في <filename
+>$<envar
+>TEXMF</envar
+>/web2c/texmf.cnf</filename
+>، وتأكد من أن السطر الذي يذكر <envar
+>TTFONTS</envar
+> غير معلّق ويشير إلى المجلد حيث حفظت <filename
+>cyberbit.ttf</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>لجعل من الممكن لـ &pdflatex; استخدام خطوط &cjk; الخاصة بك، من الضروري إضافة سطر في ملف الضبط <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/pdftex.cfg</filename
+>. أضف <userinput
+>map +cyberbit.map</userinput
+> في الملف لإكمال الضبط لـ &pdflatex;.</para
+></listitem>
+
+		<listitem
+><para
+>لضبط لاتخ بحيث يمكنك إنتاج ملفات &DVI; بأحرف &cjk;، عليك إضافة سطر في ملف <filename
+>ttfonts.map</filename
+>. قد يكون الملف في مجلد باسم <filename
+>$<envar
+>TEXMF</envar
+>/ttf2pk/</filename
+>، لكن ربما ستحتاج إلى البحث عنه. ألحق السطر <userinput
+>cyberbit@Unicode@ cyberbit.ttf</userinput
+> به.</para
+></listitem>
+
+		<listitem
+><para
+>الآن، عليك فقط تشغيل <userinput
+><command
+>texhash</command
+></userinput
+> ويجب أن يكون النظام جاهزًا.</para
+></listitem>
+
+		</orderedlist>
+
+		<para
+>لاختبار ما إذا كان ضبطك صحيحًا، يمكنك محاولة ترجمة <ulink url="http://www.math.nus.edu.sg/aslaksen/cs/sample-utf8.tex"
+>ملف الاختبار هذا</ulink
+>.</para>
+
+		<sect2>
+			<title
+>استكشاف أخطاء &cjk; وإصلاحها</title>
+
+			<para
+>هناك العديد من الأشياء التي يمكن أن تسوء عند إضافة دعم &cjk; يدويًا. إذا بدا أن شيئًا لا يعمل، قد تساعدك قائمة التحقق التالية.</para>
+
+			<itemizedlist>
+
+			<listitem
+><para
+>من الواضح، بما أنك تشغل لاتخ كمستخدم وليس كجذر، يجب عليك <emphasis
+>السماح</emphasis
+> للمستخدمين العاديين بالوصول إلى الملفات الجديدة. تأكد من أن جميع المجلدات والملفات قابلة للوصول باستخدام أمر <command
+>chmod</command
+>.</para
+></listitem>
+
+			<listitem
+><para
+>إذا كتب لاتخ ملف &DVI; دون مشاكل، لكن لا يمكنك عرضه، فذلك بالتأكيد بسبب بعض المشاكل في التوليد التلقائي لخطوط <literal role="extension"
+>*.pk</literal
+>. من المفترض أن تُولّد أثناء العرض عند عرض ملف &DVI;، لكن هذا قد يفشل لعدة أسباب: تحقق من <filename
+>ttfonts.map</filename
+> لسطرك المخصص أولًا. ومع ذلك، قد يحدث أن أمر <command
+>ttf2pk</command
+> الخاص بك، الذي يُستدعى عادة بواسطة عارض &DVI;، قد جُمّع <emphasis
+>بدون</emphasis
+> دعم لمكتبات <application
+>kpathsea</application
+>. إذا كان هذا هو الحال، فإن <userinput
+><command
+>ttf2pk</command
+> <option
+>--version</option
+></userinput
+> لن يذكر <application
+>kpathsea</application
+>. نظرًا لأن دعم هذه المكتبات ضروري، قد تحتاج إلى العثور على حزمة جديدة، أو إعادة ترجمة <application
+>FreeType 1</application
+> بنفسك.</para
+></listitem>
+
+			</itemizedlist>
+
+		</sect2>
+
+
+		<sect2>
+
+			<title
+>كيف أدخل &cjk; في Unicode؟</title>
+
+			<para
+>هناك عدد من محركات الإدخال المختلفة، والاختيار يمكن أن يعتمد أيضًا على التفضيل الشخصي. يستخدم المؤلف <ulink url="http://www.scim-im.org/projects/skim"
+><application
+>Skim</application
+></ulink
+>، وهو منفذ إلى كيدي لمحرك <ulink url="http://www.scim-im.org"
+><application
+>Scim</application
+></ulink
+>. ارجع إلى وثائق توزيعك لتعلم كيفية تثبيت هذه البرامج. قد يكون ضبط هذه البرامج صعبًا أيضًا، في حالة <application
+>Skim</application
+> ستحتاج إلى تعريف متغير بيئة <userinput
+><envar
+>XMODIFIERS</envar
+>="@im=SCIM"</userinput
+> <emphasis
+>قبل</emphasis
+> بدء تشغيل <application
+>X</application
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+
+&include-section-scripting;
+
+<chapter id="help">
+
+	<title
+>مساعدة</title>
+
+	<sect1 id="help_documents">
+
+		<title
+>مستندات المساعدة</title>
+
+		<para
+>لاتخ هو نظام متطور إلى حد ما، حيث يمكن توسيع الميزات الأساسية بمجموعة كبيرة ومتنوعة من الحزم الإضافية. يوفر كايل العديد من الطرق المختلفة لمساعدة المستخدم.</para>
+
+		<para
+>تتضمن القائمة الفرعية <menuchoice
+><guimenu
+>مساعدة</guimenu
+> <guisubmenu
+>وثائق LaTeX</guisubmenu
+></menuchoice
+> روابط لوثائق جميع الحزم المضمنة ومرجع لاتخ إضافي. </para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+><guimenu
+>متصفّح التّوثيق</guimenu
+></term>
+		<listitem
+><para
+>أداة مفيدة لتصفح جميع مواضيع لاتخ. يرجى تثبيت حزم مساعدة لاتخ لتوزيعك إذا كنت بحاجة إلى مجموعة الوثائق الكاملة.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>لاتخ</guimenu
+></term>
+		<listitem
+><para
+>مرجع غير رسمي كامل لـ تخ وأصدقائه. هذا ليس فقط وصفًا لجميع البرامج، بل بعض الحزم المهمة مذكورة أيضًا. يتضمن أيضًا دليل مرجعي كامل لأوامر لاتخ—مثالي للبحث عن جزء معين من التنسيق أثناء كتابة مستند. نظرًا لأن هذا المستند واسع جدًا، فهو مشار إليه في كايل بثلاث علامات مرجعية.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>أوامر لاتخ</guimenu
+></term>
+		<listitem
+><para
+>فهرس أبجدي آخر لأوامر لاتخ الأكثر شيوعًا.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>بيئات لاتخ</guimenu
+></term>
+		<listitem
+><para
+>فهرس أبجدي لبيئات لاتخ الأكثر شيوعًا.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="help_contextsentitive">
+
+		<title
+>مساعدة حساسة للسياق</title>
+
+		<para
+>يدعم كايل أيضًا مساعدة سياقية، تُستدعى بـ <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>H</keycap
+></keycombo
+>,<keycap
+>K</keycap
+>. في <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+> <guimenuitem
+>كايل</guimenuitem
+><guilabel
+>المساعدة</guilabel
+></menuchoice
+> يمكنك اختيار ما إذا كنت تريد استخدام مرجع لاتخ الخاص بـ كايل أم نظام المساعدة الخاص بـ &tetex;/&texlive;، وهو الإعداد المبدئي.</para>
+
+		<screenshot>
+			<screeninfo
+>نقطيات</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>نقطيات</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="help_search">
+
+		<title
+>البحث عن كلمات مفتاحية</title>
+
+		<para
+>ليس من السهل دائمًا العثور على المستند الصحيح لأن &tetex;/&texlive; يأتي مع عدد هائل من مستندات المساعدة. لتسهيل هذه العملية، يوفر &tetex;/&texlive; برنامجًا صغيرًا يُدعى <application
+>texdoctk</application
+>. يوفر قاعدة بيانات لجميع مستندات المساعدة، والتي يقدم كايل لها واجهة سهلة الاستخدام.</para>
+
+		<screenshot>
+			<screeninfo
+>نقطيات</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>نقطيات</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>تُجمّع جميع المستندات في فئات. بالإضافة إلى ذلك، يمكن البحث عن أسماء حزم أو كلمات مفتاحية. سيعرض كايل بعد ذلك مستندات المساعدة المطابقة لسلسلة البحث فقط.</para>
+
+		<screenshot>
+			<screeninfo
+>نقطيات</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>نقطيات</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>نقرة مزدوجة بالفأرة أو مفتاح <keycap
+>المسافة</keycap
+> سيُشغّل عارضًا للمستند المحدد. يمكن أن يكون هذا أي مستند عشوائي، وليس فقط مستند &DVI; أو PS أو PDF أو &HTML;. يراعي كايل إعدادات كيدي لتشغيل عارض مناسب.</para>
+
+
+	</sect1>
+
+	<sect1 id="help_userdefined">
+
+		<title
+>مساعدة معرفة من المستخدم</title>
+
+		<para
+>إلى جانب توثيق &tetex;/&texlive; الثابت هذا، يدعم كايل أيضًا طريقة متغيرة أكثر مرونة لمستندات المساعدة. في قائمة <guimenu
+>المساعدة</guimenu
+>، لدى كايل قائمة فرعية خاصة <guimenu
+>مساعدة المستخدم</guimenu
+>، حيث يمكن للمستخدم إضافة مستندات من اختياره. يمكن أن تكون هذه أهم مستندات توثيق &tetex;/&texlive;، أو حتى مستندات مكتوبة ذاتيًا. من الممكن أيضًا إدخال عناوين URL.</para>
+
+		<para
+>اذهب إلى <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guisubmenu
+>اضبط كايل...</guisubmenu
+> <guimenuitem
+>كايل</guimenuitem
+><guilabel
+>المساعدة</guilabel
+></menuchoice
+> واختر زر <guibutton
+>اضبط</guibutton
+> لضبط قائمة <guimenu
+>مساعدة المستخدم</guimenu
+> هذه. يمكنك إضافة أو إزالة أو نقل مدخلات القائمة، وإدراج فواصل لتحسين هيكل القائمة.</para>
+
+		<screenshot>
+			<screeninfo
+>حوار: ضبط مدخلات المساعدة المعرفة من المستخدم</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>حوار: ضبط مدخلات المساعدة المعرفة من المستخدم</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>الضغط على زر <guibutton
+>أضف</guibutton
+> سيفتح حوارًا آخر، حيث يمكنك تحرير اسم مدخل القائمة، واختيار الملف أو &URL; المقابل. الزر الثاني على يمين حقل النص يُشغّل &konqueror;، والذي يمكن استخدامه لتحديد &URL; الصحيح.</para>
+
+		<screenshot>
+			<screeninfo
+>حوار: أضف مدخل مساعدة جديد</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-addhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>حوار: أضف مدخل مساعدة جديد</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>بعد الانتهاء من الضبط، ستظهر جميع المدخلات في قائمة <guimenu
+>المساعدة</guimenu
+> الخاصة بـ كايل كمدخل قائمة خاص <guimenu
+>مساعدة المستخدم</guimenu
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>قائمة مساعدة المستخدم</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="menu-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>قائمة مساعدة المستخدم</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="credits">
+
+	<title
+>الحقوق والترخيص</title>
+
+	<para
+>كايل هو محرر شيفرة مصدرية مفتوح المصدر وسهل الاستخدام لـ لاتخ / تخ. يعمل على الأنظمة التي لديها بيئة سطح المكتب كيدي مثبتة. كيدي متاح لعدة معماريات بما في ذلك لينكس وأنظمة شبيهة بيونكس أخرى.</para>
+
+	<para
+>العديد من الشكر واجب للأشخاص الذين يسعون لمواصلة مشروع كايل ولأولئك الذين يضحون بساعات عديدة من وقتهم لتطوير أدوات يمكننا جميعًا استخدامها تحت ترخيص &GNU;. يمكن العثور على معلومات محدثة عن المساهمين في حوار <guimenuitem
+>حول كايل</guimenuitem
+> من قائمة <guimenu
+>المساعدة</guimenu
+>. </para>
+
+	<para
+>شكر جزيل لجميع المشاركين!</para>
+
+<para
+>الترجمة: زايد السعيدي <email
+>zayed.alsaidi@gmail.com</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+
+&documentation.index;
+
+</book>
+
+<!--
+Local Variables:
+mode: xml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab
+-->

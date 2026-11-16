@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-08 02:58+0000\n"
-"PO-Revision-Date: 2026-11-10 21:38+0300\n"
+"POT-Creation-Date: 2026-11-16 01:06+0000\n"
+"PO-Revision-Date: 2026-11-15 20:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3563,17 +3563,17 @@ msgstr "Bir satırlık adlar için özel bir durum kullanma"
 #: dialogs/quickdocumentdialog.cpp:702
 #, kde-format
 msgid "Normal great title font sizes"
-msgstr "Normal büyük başlık yazıtipi puntosu"
+msgstr "Normal büyük başlık yazı tipi puntosu"
 
 #: dialogs/quickdocumentdialog.cpp:703
 #, kde-format
 msgid "Small font sizes for titles"
-msgstr "Başlıklar için küçük yazıtipi puntosu"
+msgstr "Başlıklar için küçük yazı tipi puntosu"
 
 #: dialogs/quickdocumentdialog.cpp:704
 #, kde-format
 msgid "Even smaller font sizes for titles"
-msgstr "Başlıklar için daha küçük yazıtipi puntosu"
+msgstr "Başlıklar için daha küçük yazı tipi puntosu"
 
 #: dialogs/quickdocumentdialog.cpp:705
 #, kde-format
@@ -3800,32 +3800,32 @@ msgstr "amsthm’ı ve amsmath’i yükleme"
 #: dialogs/quickdocumentdialog.cpp:769
 #, kde-format
 msgid "Needed when using the CJK package for Asian fonts"
-msgstr "Asya yazıtipleri için CJK paketini kullanırken gereklidir"
+msgstr "Asya yazı tipleri için CJK paketini kullanırken gereklidir"
 
 #: dialogs/quickdocumentdialog.cpp:770
 #, kde-format
 msgid "Use a sans-serif font during the presentation"
-msgstr "Sunum sırasında sans serif yazıtipi kullan"
+msgstr "Sunum sırasında sans serif yazı tipi kullan"
 
 #: dialogs/quickdocumentdialog.cpp:771
 #, kde-format
 msgid "Use a serif font during the presentation"
-msgstr "Sunum sırasında serif yazıtipi kullan"
+msgstr "Sunum sırasında serif yazı tipi kullan"
 
 #: dialogs/quickdocumentdialog.cpp:772
 #, kde-format
 msgid "Override the math font to be a sans-serif font"
-msgstr "Matematik yazıtipi yerine sans serif yazıtipi kullan"
+msgstr "Matematik yazı tipi yerine sans serif yazı tipi kullan"
 
 #: dialogs/quickdocumentdialog.cpp:773
 #, kde-format
 msgid "Override the math font to be a serif font"
-msgstr "Matematik yazıtipi yerine serif yazıtipi kullan"
+msgstr "Matematik yazı tipi yerine serif yazı tipi kullan"
 
 #: dialogs/quickdocumentdialog.cpp:774
 #, kde-format
 msgid "Deactivate internal font replacements for math text"
-msgstr "Matematik metni için dahili yazıtipi değişikliklerini etkisizleştir"
+msgstr "Matematik metni için dahili yazı tipi değişikliklerini etkisizleştir"
 
 #: dialogs/quickdocumentdialog.cpp:775
 #, kde-format
@@ -3885,7 +3885,7 @@ msgstr "Özel matematik ortam ve komutları (AMS)"
 #: dialogs/quickdocumentdialog.cpp:1033
 #, kde-format
 msgid "Collection of fonts and symbols for math mode (AMS)"
-msgstr "Matematik Kipi (AMS) için özel yazıtipleri ve semboller kolleksiyonu"
+msgstr "Matematik Kipi (AMS) için özel yazı tipleri ve semboller kolleksiyonu"
 
 #: dialogs/quickdocumentdialog.cpp:1034
 #, kde-format
@@ -3981,13 +3981,13 @@ msgstr "PDF Başlığı alanı için metin"
 #, kde-format
 msgid "Use Palatino font as roman font (both text and math mode)"
 msgstr ""
-"Palatino yazıtipini roman yazıtipi olarak kullan (metin ve matematik kipi)"
+"Palatino yazı tipini roman yazı tipi olarak kullan (metin ve matematik kipi)"
 
 #: dialogs/quickdocumentdialog.cpp:1056
 #, kde-format
 msgid "Use Times font as roman font (both text and math mode)"
 msgstr ""
-"Times yazıtipini roman yazıtipi olarak kullan (metin ve matematik kipi)"
+"Times yazı tipini roman yazı tipi olarak kullan (metin ve matematik kipi)"
 
 #: dialogs/quickdocumentdialog.cpp:1057
 #, kde-format
@@ -4032,7 +4032,7 @@ msgstr "Dile özel destek ekler"
 #: dialogs/quickdocumentdialog.cpp:1132
 #, kde-format
 msgid "Use a font encoding scheme"
-msgstr "Bir yazıtipi kodlama şeması kullan"
+msgstr "Bir yazı tipi kodlama şeması kullan"
 
 #: dialogs/quickdocumentdialog.cpp:1162
 #, kde-format
@@ -4084,7 +4084,7 @@ msgstr "&Tüm seçenekleri bu standart sınıftan al (isteğe bağlı):"
 #: dialogs/quickdocumentdialog.cpp:1664
 #, kde-format
 msgid "Use standard &fontsizes"
-msgstr "Standart &yazıtipi boyutlarını kullan"
+msgstr "Standart &yazı tipi boyutlarını kullan"
 
 #: dialogs/quickdocumentdialog.cpp:1665
 #, kde-format
@@ -4104,22 +4104,22 @@ msgstr "Belge Sınıfını Kaldır"
 #: dialogs/quickdocumentdialog.cpp:1766
 #, kde-format
 msgid "Add Fontsize"
-msgstr "Yazıtipi Puntosu Ekle"
+msgstr "Yazı Tipi Puntosu Ekle"
 
 #: dialogs/quickdocumentdialog.cpp:1768
 #, kde-format
 msgid "Please enter the &fontsizes (comma-separated list):"
-msgstr "Lüt&fen yazıtipi puntolarını girin (virgülle ayırarak):"
+msgstr "Lüt&fen yazı tipi puntolarını girin (virgülle ayırarak):"
 
 #: dialogs/quickdocumentdialog.cpp:1786
 #, kde-format
 msgid "Do you want to remove \"%1\" from the fontsize list?"
-msgstr "“%1”, yazıtipi puntosu listesinden silinsin mi?"
+msgstr "“%1”, yazı tipi puntosu listesinden silinsin mi?"
 
 #: dialogs/quickdocumentdialog.cpp:1786
 #, kde-format
 msgid "Remove Fontsize"
-msgstr "Yazıtipi Puntosunu Kaldır"
+msgstr "Yazı Tipi Puntosunu Kaldır"
 
 #: dialogs/quickdocumentdialog.cpp:1803
 #, kde-format
@@ -4550,17 +4550,17 @@ msgstr ""
 #: dialogs/tabular/newtabulardialog.cpp:182
 #, kde-format
 msgid "Set bold font series."
-msgstr "Kalın yazıtipi serisi seç."
+msgstr "Kalın yazı tipi serisi seç."
 
 #: dialogs/tabular/newtabulardialog.cpp:183
 #, kde-format
 msgid "Set italic font shape."
-msgstr "Yatık yazıtipini ayarla."
+msgstr "Yatık yazı tipini ayarla."
 
 #: dialogs/tabular/newtabulardialog.cpp:184
 #, kde-format
 msgid "Set underlined font shape."
-msgstr "Altı çizili yazıtipi şeklini ayarla."
+msgstr "Altı çizili yazı tipi şeklini ayarla."
 
 #: dialogs/tabular/newtabulardialog.cpp:185
 #, kde-format
@@ -4612,7 +4612,7 @@ msgid ""
 "Clears the text of the selected cells but keeps attributes such as alignment "
 "and font shape."
 msgstr ""
-"Seçili hücrelerin içeriğini sıfırlar; ancak hizalama ve yazıtipi şekli gibi "
+"Seçili hücrelerin içeriğini sıfırlar; ancak hizalama ve yazı tipi şekli gibi "
 "öznitelikleri korur."
 
 #: dialogs/tabular/newtabulardialog.cpp:194
@@ -5793,7 +5793,7 @@ msgstr "%1  %2  %3"
 msgid "No information about warnings or errors is available."
 msgstr "Uyarılar veya hatalar hakkında bir bilgi bulunmuyor."
 
-#: errorhandler.cpp:455 parser/latexoutputparser.cpp:664
+#: errorhandler.cpp:455 parser/latexoutputparser.cpp:701
 #, kde-format
 msgid "Cannot open log file; did you run LaTeX?"
 msgstr "Günlük dosyası (log) açılamıyor. LaTeX’i mi çalıştırdınız?"
@@ -8122,7 +8122,7 @@ msgid ""
 msgstr ""
 "Açıklama ortamı, etiketli listeler hazırlamak için kullanılır.\n"
 "Etiketli listenin her girdisi \\item[label] komutu ile başlar.\n"
-"“Etiket”, kalın yazıtipi ile yazılır ve sağa hizalıdır."
+"“Etiket”, kalın yazı tipi ile yazılır ve sağa hizalıdır."
 
 #: kilestdactions.cpp:108
 #, kde-format
@@ -10747,7 +10747,7 @@ msgstr "AMS Okları"
 #: kileui.rc:344
 #, kde-format
 msgid "Math &Font Styles"
-msgstr "&Matematik Yazıtipi Stilleri"
+msgstr "&Matematik Yazı Tipi Stilleri"
 
 #. i18n: ectx: Menu (menu_mathaccents)
 #: kileui.rc:354
@@ -10807,25 +10807,25 @@ msgstr "breqn Matematik Ortamları"
 #: kileui.rc:438
 #, kde-format
 msgid "&Font Styles"
-msgstr "&Yazıtipi Stilleri"
+msgstr "&Yazı Tipi Stilleri"
 
 #. i18n: ectx: Menu (menu_fontfamily)
 #: kileui.rc:448
 #, kde-format
 msgid "Font Family"
-msgstr "Yazıtipi Ailesi"
+msgstr "Yazı Tipi Ailesi"
 
 #. i18n: ectx: Menu (menu_fontseries)
 #: kileui.rc:453
 #, kde-format
 msgid "Font Series"
-msgstr "Yazıtipi Serisi"
+msgstr "Yazı Tipi Serisi"
 
 #. i18n: ectx: Menu (menu_fontshape)
 #: kileui.rc:457
 #, kde-format
 msgid "Font Shape"
-msgstr "Yazıtipi Şekli"
+msgstr "Yazı Tipi Şekli"
 
 #. i18n: ectx: Menu (menu_spacing)
 #: kileui.rc:464

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-08 02:58+0000\n"
+"POT-Creation-Date: 2026-11-16 01:06+0000\n"
 "PO-Revision-Date: 2025-04-20 16:32+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -5792,7 +5792,7 @@ msgstr "%1  %2  %3"
 msgid "No information about warnings or errors is available."
 msgstr "Lisätietoa varoituksista tai virheistä ei ole saatavilla."
 
-#: errorhandler.cpp:455 parser/latexoutputparser.cpp:664
+#: errorhandler.cpp:455 parser/latexoutputparser.cpp:701
 #, kde-format
 msgid "Cannot open log file; did you run LaTeX?"
 msgstr "Lokitiedostoa ei saatu avatuksi: ajoitko LaTeXin?"

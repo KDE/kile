@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-08 02:58+0000\n"
+"POT-Creation-Date: 2026-11-16 01:06+0000\n"
 "PO-Revision-Date: 2024-12-25 19:37+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -5746,7 +5746,7 @@ msgstr "%1 %2 %3"
 msgid "No information about warnings or errors is available."
 msgstr "चेतावनीनां दोषाणां वा विषये कोऽपि सूचना उपलब्धा नास्ति ।"
 
-#: errorhandler.cpp:455 parser/latexoutputparser.cpp:664
+#: errorhandler.cpp:455 parser/latexoutputparser.cpp:701
 #, kde-format
 msgid "Cannot open log file; did you run LaTeX?"
 msgstr "लॉग् सञ्चिकां उद्घाटयितुं न शक्यते; किं भवता LaTeX चालितम्?"

@@ -1160,6 +1160,13 @@ void Kile::rebuildBibliographyMenu() {
     }
 
     KileConfig::setBibliographyType(name);
+
+    const QList<QAction*> oldActions = m_bibTagActionMenu->menu()->actions();
+    for(QAction *oldAction : oldActions) {
+        if(qobject_cast<KileAction::Tag*>(oldAction)) {
+            delete oldAction;
+        }
+    }
     m_bibTagActionMenu->menu()->clear();
 
     KileStdActions::setupBibTags(this, actionCollection(),m_bibTagActionMenu);

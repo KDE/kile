@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-16 01:06+0000\n"
-"PO-Revision-Date: 2026-11-15 20:14+0300\n"
+"PO-Revision-Date: 2026-11-16 19:18+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -174,7 +174,7 @@ msgstr "Desteklenmiyor"
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr ""
-"PNG önizlemeleri alttaki önizleme panelinde mathgroups için kullanılamaz"
+"PNG ön izlemeleri alttaki ön izleme panelinde mathgroups için kullanılamaz"
 
 #: configtester.cpp:805
 #, kde-format
@@ -182,8 +182,8 @@ msgid ""
 "PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' "
 "in the bottom preview pane"
 msgstr ""
-"PNG önizlemeleri alttaki önizleme panelinde “dvi → ps → png” ve “pdf → png” "
-"dönüştürmeleri ile kullanılamaz"
+"PNG ön izlemeleri alttaki ön izleme panelinde “dvi → ps → png” ve “pdf → "
+"png” dönüştürmeleri ile kullanılamaz"
 
 #: dialogs/abbreviationinputdialog.cpp:44
 #, kde-format
@@ -330,7 +330,7 @@ msgstr ""
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr ""
-"Gömülü belge görüntüleyicisi kullanılabilir ve canlı önizleme destekleniyor."
+"Gömülü belge görüntüleyicisi kullanılabilir ve canlı ön izleme destekleniyor."
 
 #: dialogs/configcheckerdialog.cpp:259
 #, kde-format
@@ -339,7 +339,7 @@ msgid ""
 "PDFLaTeX is<br/><b>not compatible</b> with live preview."
 msgstr ""
 "Gömülü belge görüntüleyicisi kullanılabilir; ancak kurulu PDFLaTeX sürümü<br/"
-">canlı önizleme ile <b>uyumlu değil</b>."
+">canlı ön izleme ile <b>uyumlu değil</b>."
 
 #: dialogs/configcheckerdialog.cpp:267
 #, kde-format
@@ -349,7 +349,7 @@ msgid ""
 "hence not supported."
 msgstr ""
 "Gömülü belge görüntüleyicisi <b>kullanılamaz</b> (Okular ya kurulu değil ya "
-"da eski sürümü kurulu).<br/>Bu nedenle canlı önizleme desteklenmiyor."
+"da eski sürümü kurulu).<br/>Bu nedenle canlı ön izleme desteklenmiyor."
 
 #: dialogs/configcheckerdialog.cpp:291
 #, kde-format
@@ -445,12 +445,12 @@ msgstr "Kod Tamamlama"
 #: dialogs/configurationdialog.cpp:251 kileui.rc:150
 #, kde-format
 msgid "Quick Preview"
-msgstr "Tez Önizleme"
+msgstr "Tez Ön İzleme"
 
 #: dialogs/configurationdialog.cpp:251 kile.cpp:752
 #, kde-format
 msgid "Preview"
-msgstr "Önizleme"
+msgstr "Ön İzleme"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetHelpConfig)
 #: dialogs/configurationdialog.cpp:259 kilehelp.cpp:171
@@ -463,7 +463,7 @@ msgstr "Yardım"
 #: dialogs/configurationdialog.cpp:267 kileui.rc:147
 #, kde-format
 msgid "Live Preview"
-msgstr "Canlı Önizleme"
+msgstr "Canlı Ön İzleme"
 
 #: dialogs/configurationdialog.cpp:275
 #, kde-format
@@ -6659,7 +6659,7 @@ msgstr ""
 #: kile.kcfg:126
 #, kde-format
 msgid "Holds the TEXINPUTS environment variable for QuickPreview tools."
-msgstr "TEXINPUTS çevre değişkenini Tez Önizleme araçları için tutar."
+msgstr "TEXINPUTS çevre değişkenini Tez Ön İzleme araçları için tutar."
 
 #. i18n: ectx: whatsthis, entry (PreviewTeXPaths), group (Tools)
 #: kile.kcfg:127
@@ -6670,7 +6670,7 @@ msgid ""
 "additional packages and/or files. You do not have to add :$TEXINPUTS at the "
 "end."
 msgstr ""
-"Tez Önizleme araçları için TEXINPUTS değişkenini burada belirleyin. "
+"Tez Ön İzleme araçları için TEXINPUTS değişkenini burada belirleyin. "
 "TEXINPUTS, TeX’in ek paketler/dosyalar için arayacağı yolların tümünün "
 "listesidir. Girdiler iki nokta üst üste karakteri ile ayrılır. Sonuna :"
 "$TEXINPUTS eklemenize gerek yoktur."
@@ -6698,7 +6698,7 @@ msgstr ""
 #: kile.kcfg:136
 #, kde-format
 msgid "Holds the BIBINPUTS environment variable for QuickPreview tools."
-msgstr "Tez Önizleme araçları için BIBINPUTS çevre değişkenini tutar."
+msgstr "Tez Ön İzleme araçları için BIBINPUTS çevre değişkenini tutar."
 
 #. i18n: ectx: whatsthis, entry (PreviewBibInputPaths), group (Tools)
 #: kile.kcfg:137
@@ -6709,7 +6709,7 @@ msgid ""
 "bibliography tool (e.g. BibTeX or Biber) should look for additional packages "
 "and/or files. You do not have to add :$BIBINPUTS at the end."
 msgstr ""
-"Tez Önizleme araçları için BIBINPUTS çevre değişkenini burada ayarlayın. "
+"Tez Ön İzleme araçları için BIBINPUTS çevre değişkenini burada ayarlayın. "
 "BIBINPUTS, BibTeX veya Biber’in ek paketler ve/veya dosyalar için bakacağı "
 "bütün yolları sütunlarla ayrılmış liste şeklinde tutmalıdır. Sonuna :"
 "$BIBINPUTS eklemeniz gerekmez."
@@ -7071,43 +7071,43 @@ msgstr "Convert’in kurulup kurulmadığı."
 #: kile.kcfg:460
 #, kde-format
 msgid "Show preview of environments in bottom bar."
-msgstr "Ortamların önizlemesini alt çubukta göster."
+msgstr "Ortamların ön izlemesini alt çubukta göster."
 
 #. i18n: ectx: label, entry (selPreviewInWidget), group (QuickPreview)
 #: kile.kcfg:464
 #, kde-format
 msgid "Show preview of selected text in bottom bar."
-msgstr "Seçili metnin önizlemesini alt çubukta göster."
+msgstr "Seçili metnin ön izlemesini alt çubukta göster."
 
 #. i18n: ectx: label, entry (mathgroupPreviewInWidget), group (QuickPreview)
 #: kile.kcfg:468
 #, kde-format
 msgid "Show preview of mathgroups in bottom bar."
-msgstr "Matematik gruplarının önizlemesini alt çubukta göster."
+msgstr "Matematik gruplarının ön izlemesini alt çubukta göster."
 
 #. i18n: ectx: label, entry (envPreviewTool), group (QuickPreview)
 #: kile.kcfg:472
 #, kde-format
 msgid "Conversion tool for preview of environments in bottom bar."
-msgstr "Ortamların önizlemesi için dönüştürme aracı alt çubukta."
+msgstr "Ortamların ön izlemesi için dönüştürme aracı alt çubukta."
 
 #. i18n: ectx: label, entry (selPreviewTool), group (QuickPreview)
 #: kile.kcfg:476
 #, kde-format
 msgid "Conversion tool for preview of selected text in bottom bar."
-msgstr "Seçili metnin önizlemesi için dönüştürme aracı alt çubukta."
+msgstr "Seçili metnin ön izlemesi için dönüştürme aracı alt çubukta."
 
 #. i18n: ectx: label, entry (mathgroupPreviewTool), group (QuickPreview)
 #: kile.kcfg:480
 #, kde-format
 msgid "Conversion tool for preview of mathgroups in bottom bar."
-msgstr "Mathgroups önizlemesi için dönüştürme aracı alt çubukta."
+msgstr "Mathgroups ön izlemesi için dönüştürme aracı alt çubukta."
 
 #. i18n: ectx: label, entry (previewPaneBackgroundColor), group (QuickPreview)
 #: kile.kcfg:484
 #, kde-format
 msgid "The background color of the quick preview pane."
-msgstr "Tez önizleme panelinin arka plan rengi."
+msgstr "Tez ön izleme panelinin arka plan rengi."
 
 #. i18n: ectx: label, entry (ScriptingEnabled), group (Scripting)
 #: kile.kcfg:564
@@ -7185,7 +7185,7 @@ msgstr ""
 #: kile.kcfg:616
 #, kde-format
 msgid "Activate live preview functionality."
-msgstr "Canlı önizleme işlevini etkinleştir."
+msgstr "Canlı ön izleme işlevini etkinleştir."
 
 #. i18n: ectx: label, entry (synchronizeCursorWithView), group (LivePreview)
 #: kile.kcfg:620
@@ -7197,7 +7197,7 @@ msgstr "İmleç konumunu görünümle eşzamanlayın."
 #: kile.kcfg:624
 #, kde-format
 msgid "Enable preview for freshly opened documents."
-msgstr "Yeni açılan belgelerin önizlemesini etkinleştir."
+msgstr "Yeni açılan belgelerin ön izlemesini etkinleştir."
 
 #. i18n: ectx: label, entry (livePreviewCompilationDelay), group (LivePreview)
 #: kile.kcfg:628
@@ -7218,7 +7218,7 @@ msgstr "Belgeleri yalnızca kaydettikten sonra derle."
 #: kile.kcfg:636
 #, kde-format
 msgid "default livepreview tool."
-msgstr "Öntanımlı canlı önizleme aracı."
+msgstr "Öntanımlı canlı ön izleme aracı."
 
 #: kileactions.cpp:336
 #, kde-format
@@ -7800,7 +7800,7 @@ msgstr "Belge görüntüleyicisi kullanılabilir değil"
 #: kilelauncher.cpp:358
 #, kde-format
 msgid "Please disable the live preview before launching this tool"
-msgstr "Lütfen bu aracı çalıştırmadan önce canlı önizlemeyi kapatın"
+msgstr "Lütfen bu aracı çalıştırmadan önce canlı ön izlemeyi kapatın"
 
 #: kilelyxserver.cpp:241
 #, kde-format
@@ -10919,17 +10919,17 @@ msgstr "Sonlandırıcı Hata"
 #: kileviewmanager.cpp:842
 #, kde-format
 msgid "&QuickPreview Selection"
-msgstr "Seçiliyi &Tez Önizle"
+msgstr "Seçiliyi &Tez Ön İzle"
 
 #: kileviewmanager.cpp:843
 #, kde-format
 msgid "&QuickPreview Environment"
-msgstr "&Tez Önizleme Ortamı"
+msgstr "&Tez Ön İzleme Ortamı"
 
 #: kileviewmanager.cpp:844
 #, kde-format
 msgid "&QuickPreview Math"
-msgstr "&Matematik Tez Önizleme"
+msgstr "&Matematik Tez Ön İzleme"
 
 #: kileviewmanager.cpp:1132
 #, kde-format
@@ -10939,17 +10939,17 @@ msgstr "Derlenen Belgeyi Yazdır…"
 #: kileviewmanager.cpp:1138
 #, kde-format
 msgid "Print Preview For Compiled Document..."
-msgstr "Derlenen Dosyanın Yazdırma Önizlemesi…"
+msgstr "Derlenen Dosyanın Yazdırma Ön İzlemesi…"
 
 #: livepreview.cpp:187
 #, kde-format
 msgid "Live Preview for Current Document or Project"
-msgstr "Geçerli Belge veya Proje için Canlı Önizleme"
+msgstr "Geçerli Belge veya Proje için Canlı Ön İzleme"
 
 #: livepreview.cpp:192
 #, kde-format
 msgid "Recompile Live Preview"
-msgstr "Canlı Önizlemeyi Yeniden Derle"
+msgstr "Canlı Ön İzlemeyi Yeniden Derle"
 
 #: livepreview.cpp:197
 #, kde-format
@@ -10965,7 +10965,7 @@ msgstr "Bazı belgeler doğru kaydedilemedi"
 #, kde-format
 msgid ""
 "The document must have been saved before the live preview can be started"
-msgstr "Canlı önizlemeden önce belgelerin kaydedilmesi gereklidir"
+msgstr "Canlı ön izlemeden önce belgelerin kaydedilmesi gereklidir"
 
 #: livepreview.cpp:948
 #, kde-format
@@ -10975,7 +10975,7 @@ msgid ""
 "Live preview for this project has been disabled"
 msgstr ""
 "Projenin ögelerinden birinin konumu projenin ana diziniyle ilgili değil\n"
-"Bu projenin canlı önizlemesi kapatıldı"
+"Bu projenin canlı ön izlemesi kapatıldı"
 
 #: livepreview.cpp:952
 #, kde-format
@@ -10985,7 +10985,7 @@ msgstr "Alt dizin yapısı oluşturulamadı"
 #: livepreview.cpp:1412
 #, kde-format
 msgid "LivePreview"
-msgstr "Canlı Önizleme"
+msgstr "Canlı Ön İzleme"
 
 #: main.cpp:57
 #, kde-format
@@ -11237,7 +11237,7 @@ msgid ""
 "Could not run QuickPreview:\n"
 "unknown task '%1'"
 msgstr ""
-"Tez Önizleme çalıştırılamadı:\n"
+"Tez Ön İzleme çalıştırılamadı:\n"
 "Bilinmeyen görev: “%1”"
 
 #: quickpreview.cpp:201 widgets/previewwidget.cpp:126
@@ -11245,19 +11245,19 @@ msgstr ""
 msgid ""
 "There is already a preview running that has to be finished to run this one."
 msgstr ""
-"Zaten bir önizleme çalışıyor, bunu çalıştırmak için önce çalışan önizlemenin "
-"bitmesi gerekir."
+"Zaten bir ön izleme çalışıyor, bunu çalıştırmak için önce çalışan ön "
+"izlemenin bitmesi gerekir."
 
 #: quickpreview.cpp:207
 #, kde-format
 msgid "There is nothing to compile and preview."
-msgstr "Derlenecek ve önizlenecek bir şey yok."
+msgstr "Derlenecek ve ön izlenecek bir şey yok."
 
 #: quickpreview.cpp:229 quickpreview.cpp:239 quickpreview.cpp:250
 #: widgets/previewwidget.cpp:178
 #, kde-format
 msgid "Could not run '%1' for QuickPreview."
-msgstr "Tez Önizleme için “%1” çalıştırılamadı."
+msgstr "Tez Ön İzleme için “%1” çalıştırılamadı."
 
 #: quickpreview.cpp:321
 #, kde-format
@@ -11277,7 +11277,7 @@ msgstr "“\\begin{document}” komutu bulunamadı."
 #: quickpreview.cpp:385 widgets/previewwidget.cpp:235
 #, kde-format
 msgid "QuickPreview"
-msgstr "Tez Önizleme"
+msgstr "Tez Ön İzleme"
 
 #: scripting/kilescriptobject.cpp:42
 #, kde-format
@@ -12083,19 +12083,19 @@ msgstr "Ek araçları kendiliğinden çalıştır"
 #: widgets/livepreviewconfigwidget.ui:14
 #, kde-format
 msgid "Live Preview Configuration"
-msgstr "Canlı Önizleme Yapılandırması"
+msgstr "Canlı Ön İzleme Yapılandırması"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_livePreviewEnabled)
 #: widgets/livepreviewconfigwidget.ui:29
 #, kde-format
 msgid "Enable &live preview"
-msgstr "Canlı öniz&lemeyi etkinleştir"
+msgstr "&Canlı ön izlemeyi etkinleştir"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_previewEnabledForFreshlyOpenedDocuments)
 #: widgets/livepreviewconfigwidget.ui:41
 #, kde-format
 msgid "Enable live preview for newly-opened documents"
-msgstr "Yeni açılan dosyalar için canlı önizlemeyi etkinleştir"
+msgstr "Yeni açılan dosyalar için canlı ön izlemeyi etkinleştir"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_compileBehaviorGroupBox)
 #: widgets/livepreviewconfigwidget.ui:48
@@ -12125,7 +12125,7 @@ msgstr " ms"
 #: widgets/livepreviewconfigwidget.ui:104
 #, kde-format
 msgid "Set default live preview tool"
-msgstr "Öntanımlı canlı önizleme aracını ayarla"
+msgstr "Öntanımlı canlı ön izleme aracını ayarla"
 
 #: widgets/logwidget.cpp:369
 #, kde-format
@@ -12261,7 +12261,7 @@ msgstr "Boş bir LaTeX dosyası oluştururken Tez Başlangıç sihirbazını ba�
 #: widgets/previewconfigwidget.cpp:50
 #, kde-format
 msgid "Quick Preview in a Separate Window"
-msgstr "Ayrı Bir Pencerede Tez Önizle"
+msgstr "Ayrı Bir Pencerede Tez Ön İzle"
 
 #: widgets/previewconfigwidget.cpp:58
 #, kde-format
@@ -12271,7 +12271,7 @@ msgstr "Bir yapılandırma seçin:"
 #: widgets/previewconfigwidget.cpp:68
 #, kde-format
 msgid "Quick Preview in Bottom Bar"
-msgstr "Alt Çubukta Tez Önizle"
+msgstr "Alt Çubukta Tez Ön İzle"
 
 #: widgets/previewconfigwidget.cpp:76
 #, kde-format
@@ -12341,7 +12341,7 @@ msgstr "dönüştür:"
 #: widgets/previewconfigwidget.cpp:127
 #, kde-format
 msgid "Show preview in bottom bar:"
-msgstr "Önizlemeyi alt çubukta göster:"
+msgstr "Ön izlemeyi alt çubukta göster:"
 
 #: widgets/previewconfigwidget.cpp:128
 #, kde-format
@@ -12484,7 +12484,7 @@ msgstr ""
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">%res:</span> kile-&gt;tools-&gt;preview yapılandırmasında "
-"ayarlanan tez önizleme çözünürlüğü</p>\n"
+"ayarlanan tez ön izleme çözünürlüğü</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">%AFL</span>: Arşivlenmek için işaretlenmiş bir projenin tüm "
@@ -12995,7 +12995,7 @@ msgstr "Y&orum"
 #: widgets/structurewidget.cpp:785
 #, kde-format
 msgid "Run QuickPreview"
-msgstr "Tez Önizlemeyi Çalıştır"
+msgstr "Tez Ön İzlemeyi Çalıştır"
 
 #: widgets/structurewidget.cpp:812
 #, kde-format

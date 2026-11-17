@@ -1444,11 +1444,19 @@ void Manager::removeFromProject(KileProjectItem *item)
         Q_EMIT removeItemFromProjectView(item, m_ki->isOpen(item->url()));
 
         KileProject *project = item->project();
+        TextInfo *docinfo = item->getInfo();
         project->remove(item);
 
         // update undefined references in all project files
         updateProjectReferences(project);
         project->buildProjectTree();
+
+        // if the file isn't open, its TextInfo object was only kept for the project item;
+        // 'removeTextDocumentInfo' won't delete it if it is still used by another project
+        if(docinfo && !docinfo->getDoc()) {
+            removeTextDocumentInfo(docinfo);
+        }
+        delete item;
     }
 }
 

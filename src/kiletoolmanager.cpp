@@ -306,7 +306,7 @@ void Manager::started(Base *tool)
 
     if (tool->isViewer()) {
         if(tool == m_queue.tool()) {
-            m_queue.dequeue();
+            delete m_queue.dequeue();
         }
         setEnabledStopButton(false);
         QTimer::singleShot(100, this, SLOT(runNextInQueue()));

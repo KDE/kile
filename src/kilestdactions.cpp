@@ -516,19 +516,16 @@ void setupBibTags(const QObject *receiver, KActionCollection *actionCollection, 
         return;
     }
 
-    KConfig *bibCfg = new KConfig(filename, KConfig::SimpleConfig);
+    KConfig bibCfg(filename, KConfig::SimpleConfig);
 
-    if(bibCfg == nullptr )
-        return;
-
-    const QStringList groupList = bibCfg->groupList();
+    const QStringList groupList = bibCfg.groupList();
 
     // check if a non-deleted group exists
     // groupList.count() == 0 is not enough due to bug 384039
     {
         bool allDeleted = false;
         for (const auto& group : groupList) {
-            if(bibCfg->hasGroup(group)) {
+            if(bibCfg.hasGroup(group)) {
                 allDeleted = false;
                 break;
             }
@@ -543,14 +540,14 @@ void setupBibTags(const QObject *receiver, KActionCollection *actionCollection, 
     QString altText, optText, compText;
 
     for (const auto& group : groupList) {
-        if(!bibCfg->hasGroup(group)) { // 'group' might have been deleted
+        if(!bibCfg.hasGroup(group)) { // 'group' might have been deleted
             continue;                // work around bug 384039
         }
         altKeyList.clear();
         keyList.clear();
         optKeyList.clear();
 
-        KConfigGroup grp = bibCfg->group(group);
+        KConfigGroup grp = bibCfg.group(group);
 
 // 		KILE_DEBUG_MAIN << "group " <<  grp.name();
 

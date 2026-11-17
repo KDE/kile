@@ -99,9 +99,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 Manager::~Manager()
 {
     KILE_DEBUG_MAIN << "==KileDocument::Manager::~Manager()=========";
-    if(m_progressDialog.isNull()) {
-        delete m_progressDialog.data();
-    }
+    delete m_progressDialog.data();
 }
 
 void Manager::readConfig()

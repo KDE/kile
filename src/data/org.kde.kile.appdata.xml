@@ -114,7 +114,7 @@
     <p xml:lang="sk">Kile je užívateľsky príjemný editor TeX/LaTeX od KDE. Kile vám dáva možnosť používať všetky funkcie LaTeXu v grafickom rozhraní a má interaktívne mechanizmy náhľadu, aby ste mohli okamžite vidieť výsledky úprav.</p>
     <p xml:lang="sl">Kile je uporabniku prijazen TeX/LaTeX urejevalnik na namizju KDE. Kile omogoča uporabo vseh funkcij LaTeX v grafičnem vmesniku in imainteraktivne predogledne mehanizmi za lažji ogled rezultatov urejanja.</p>
     <p xml:lang="sv">Kile är en användarvänlig Tex- och Latex-editor av KDE. Kile ger dig möjlighet att använda hela Latex funktionalitet i ett grafiskt gränssnitt, och har en interaktiv förhandsgranskningsmekanism för att enkelt kunna se redigeringsresultatet.</p>
-    <p xml:lang="tr">Kile, KDE tarafından yapılan kullanıcı dostu bir TeX/LaTeX düzenleyicisidir. Kile, LaTeX’in tüm işlevselliğini grafik bir arabirimde kullanmanıza izin verir ve düzenlemenizin sonuçlarını anında görebilmeniz için etkileşimli önizleme mekanizmaları sunar.</p>
+    <p xml:lang="tr">Kile, KDE tarafından yapılan kullanıcı dostu bir TeX/LaTeX düzenleyicisidir. Kile, LaTeX’in tüm işlevselliğini grafik bir arabirimde kullanmanıza izin verir ve düzenlemenizin sonuçlarını anında görebilmeniz için etkileşimli ön izleme mekanizmaları sunar.</p>
     <p xml:lang="uk">Kile — дружня до користувача програма для редагування коду TeX/LaTeX від KDE. Kile надає вам змогу скористатися усіма функціональними можливостями LaTeX за допомогою графічного інтерфейсу та має механізми інтерактивного попереднього перегляду для негайного отримання результатів редагування.</p>
     <p xml:lang="zh-CN">Kile 是一款 KDE 开发的 TeX/LaTeX 编辑器。Kile 能够让您在图形界面中使用 LaTeX 的所有功能，并且拥有交互式预览机制以便随时查看编辑结果。</p>
     <p xml:lang="zh-TW">Kile 是來自 KDE 的使用者友善 TeX/LaTeX 編輯器。Kile 讓您利用圖形介面使用 LaTeX 各種功能，並且提供互動式預覽讓您即時檢視編輯的結果。</p>
@@ -502,7 +502,7 @@
       <li xml:lang="sk">QuickPreview: ukážka vybranej časti dokumentu</li>
       <li xml:lang="sl">QuickPreview: predogled izbranega dela dokumenta</li>
       <li xml:lang="sv">Snabbgranskning: Förhandsgranska en markerad del av dokumentet</li>
-      <li xml:lang="tr">QuickPreview: Belgenizin seçili bir bölümünü önizleyin</li>
+      <li xml:lang="tr">QuickPreview: Belgenizin seçili bir bölümünü ön izleyin</li>
       <li xml:lang="uk">Швидкий перегляд: можливість швидко переглянути частину вашого документа.</li>
       <li xml:lang="zh-CN">快速预览：预览文档中选中的部分</li>
       <li xml:lang="zh-TW">快速預覽：預覽您文件中選取的部分</li>

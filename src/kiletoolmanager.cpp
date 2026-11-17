@@ -79,16 +79,16 @@ void Queue::enqueueNext(QueueItem *item)
     }
     else {
         QueueItem *headitem = dequeue();
-        Queue *oldqueue = new Queue(*this);
+        Queue oldqueue(*this);
 
         clear();
         KILE_DEBUG_MAIN << "\tenqueueing: " << headitem->tool()->name() << Qt::endl;
         enqueue(headitem);
         KILE_DEBUG_MAIN << "\tenqueueing: " << item->tool()->name() << Qt::endl;
         enqueue(item);
-        while(!oldqueue->isEmpty()) {
-            KILE_DEBUG_MAIN << "\tenqueueing: " << oldqueue->head()->tool()->name() << Qt::endl;
-            enqueue(oldqueue->dequeue());
+        while(!oldqueue.isEmpty()) {
+            KILE_DEBUG_MAIN << "\tenqueueing: " << oldqueue.head()->tool()->name() << Qt::endl;
+            enqueue(oldqueue.dequeue());
         }
     }
 }

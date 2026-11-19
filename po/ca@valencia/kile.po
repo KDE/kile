@@ -3612,27 +3612,27 @@ msgstr "Mida de les lletres dels títols encara més xicoteta"
 #: dialogs/quickdocumentdialog.cpp:705
 #, kde-format
 msgid "Include lists of figures and tables in the TOC"
-msgstr "Inclou llistes de figures i taules en la taula de continguts"
+msgstr "Inclou llistes de figures i taules en l'índex de continguts"
 
 #: dialogs/quickdocumentdialog.cpp:706
 #, kde-format
 msgid "Include the bibliography in the TOC"
-msgstr "Inclou la bibliografia en la taula de continguts"
+msgstr "Inclou la bibliografia en l'índex de continguts"
 
 #: dialogs/quickdocumentdialog.cpp:707
 #, kde-format
 msgid "Include the index in the TOC"
-msgstr "Inclou l'índex en la taula de continguts"
+msgstr "Inclou l'índex en l'índex de continguts"
 
 #: dialogs/quickdocumentdialog.cpp:708
 #, kde-format
 msgid "Number the lists of figures and tables in the TOC"
-msgstr "Numera les llistes de figures i taules en la taula de continguts"
+msgstr "Numera les llistes de figures i taules en l'índex de continguts"
 
 #: dialogs/quickdocumentdialog.cpp:709
 #, kde-format
 msgid "Number the bibliography in the TOC"
-msgstr "Numera la bibliografia en la taula de continguts"
+msgstr "Numera la bibliografia en l'índex de continguts"
 
 #: dialogs/quickdocumentdialog.cpp:710
 #, kde-format
@@ -4764,7 +4764,7 @@ msgstr "Navegador de documentació"
 #: kilestdactions.cpp:53
 #, kde-format
 msgid "Table of Contents"
-msgstr "Taula de contingut"
+msgstr "Índex de continguts"
 
 #: dialogs/texdocumentationdialog.cpp:84
 #, kde-format
@@ -8038,12 +8038,12 @@ msgstr ""
 #: kilestdactions.cpp:53
 #, kde-format
 msgid "Table of Contents - \\tableofcontents"
-msgstr "Taula de continguts – \\tableofcontents"
+msgstr "Índex de continguts – \\tableofcontents"
 
 #: kilestdactions.cpp:56
 #, kde-format
 msgid "Put this command where you want the table of contents to go"
-msgstr "Poseu esta ordre allà on vulgueu que vaja la taula de continguts"
+msgstr "Poseu esta ordre allà on vulgueu que vaja l'índex de continguts"
 
 #: kilestdactions.cpp:57
 #, kde-format
@@ -8755,8 +8755,8 @@ msgid ""
 "table of contents\n"
 msgstr ""
 "\\part{títol}\n"
-"\\part*{títol}: no incloure cap número, i no crear cap entrada en la taula "
-"de continguts\n"
+"\\part*{títol}: no incloure cap número, i no crear cap entrada en l'índex de "
+"continguts\n"
 
 #: kilestdactions.cpp:221
 #, kde-format
@@ -8779,8 +8779,8 @@ msgid ""
 "Only for 'report' and 'book' class document."
 msgstr ""
 "\\chapter{títol}\n"
-"\\chapter*{títol}: no incloure cap número, i no crear cap entrada en la "
-"taula de continguts\n"
+"\\chapter*{títol}: no incloure cap número, i no crear cap entrada en l'índex "
+"de continguts\n"
 "Només per a documents de classe «informe» o «llibre»."
 
 #: kilestdactions.cpp:226
@@ -8796,8 +8796,8 @@ msgid ""
 "table of contents"
 msgstr ""
 "\\section{títol}\n"
-"\\section*{títol}: no incloure cap número, i no crear cap entrada en la "
-"taula de continguts"
+"\\section*{títol}: no incloure cap número, i no crear cap entrada en l'índex "
+"de continguts"
 
 #: kilestdactions.cpp:230
 #, kde-format
@@ -8812,8 +8812,8 @@ msgid ""
 "the table of contents"
 msgstr ""
 "\\subsection{títol}\n"
-"\\subsection*{títol}: no incloure cap número, i no crear cap entrada en la "
-"taula de continguts"
+"\\subsection*{títol}: no incloure cap número, i no crear cap entrada en "
+"l'índex de continguts"
 
 #: kilestdactions.cpp:234
 #, kde-format
@@ -8829,7 +8829,7 @@ msgid ""
 msgstr ""
 "\\subsubsection{títol}\n"
 "\\subsubsection*{títol}: no incloure cap número, i no crear cap entrada en "
-"la taula de continguts"
+"l'índex de continguts"
 
 #: kilestdactions.cpp:238
 #, kde-format
@@ -8844,8 +8844,8 @@ msgid ""
 "the table of contents"
 msgstr ""
 "\\paragraph{títol}\n"
-"\\paragraph*{títol}: no incloure cap número, i no crear cap entrada en la "
-"taula de continguts"
+"\\paragraph*{títol}: no incloure cap número, i no crear cap entrada en "
+"l'índex de continguts"
 
 #: kilestdactions.cpp:243
 #, kde-format
@@ -8860,8 +8860,8 @@ msgid ""
 "the table of contents"
 msgstr ""
 "\\subparagraph{títol}\n"
-"\\subparagraph*{títol}: no incloure cap número, i no crear cap entrada en la "
-"taula de continguts"
+"\\subparagraph*{títol}: no incloure cap número, i no crear cap entrada en "
+"l'índex de continguts"
 
 #: kilestdactions.cpp:247
 #, kde-format

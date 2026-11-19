@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-16 01:06+0000\n"
-"PO-Revision-Date: 2026-11-16 19:18+0300\n"
+"PO-Revision-Date: 2026-11-18 19:20+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -10939,7 +10939,7 @@ msgstr "Derlenen Belgeyi Yazdır…"
 #: kileviewmanager.cpp:1138
 #, kde-format
 msgid "Print Preview For Compiled Document..."
-msgstr "Derlenen Dosyanın Yazdırma Ön İzlemesi…"
+msgstr "Derlenen Dosya için Baskı Ön İzleme…"
 
 #: livepreview.cpp:187
 #, kde-format

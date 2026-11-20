@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-16 01:06+0000\n"
-"PO-Revision-Date: 2026-09-06 18:04+0200\n"
+"PO-Revision-Date: 2026-11-19 17:36+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -697,8 +697,9 @@ msgid ""
 msgstr ""
 "Per als primers tres modes, podeu seleccionar una plantilla per al patró del "
 "quadre combinat i editar-la aquí. La cadena %s en la plantilla és "
-"substituïda pel patró del camp d'entrada, resultant en una expressió regular "
-"que s'ha de cercar. En tots els altres modes aquesta plantilla s'ignora."
+"substituïda pel patró del camp d'entrada, donant com a resultat una "
+"expressió regular que s'ha de cercar. En tots els altres modes aquesta "
+"plantilla s'ignora."
 
 #: dialogs/findfilesdialog.cpp:300
 #, kde-format
@@ -3743,7 +3744,7 @@ msgstr "Les diapositives usen un joc restringit de colors"
 #: dialogs/quickdocumentdialog.cpp:744
 #, kde-format
 msgid "Display the number of the current slide and the total number"
-msgstr "Mostra el número de la diapositiva actual i el número total"
+msgstr "Mostra el número de la diapositiva actual i el nombre total"
 
 #: dialogs/quickdocumentdialog.cpp:745
 #, kde-format
@@ -6549,8 +6550,7 @@ msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr ""
-"Per tal de poder definir el document actual com a document mestre, primer "
-"s'ha de desar."
+"Per a definir el document actual com a document mestre, primer s'ha de desar."
 
 #: kile.cpp:3068
 #, kde-format
@@ -12905,7 +12905,7 @@ msgstr "Valor per &defecte"
 #: widgets/structureviewconfigwidget.ui:112
 #, kde-format
 msgid "(&1=part, 2=chapter, 3=section, 4=subsection, 5=subsubsection, ...)"
-msgstr "(&1=part, 2=capítol, 3=secció, 4=subsecció, 5=subsubsecció,...)"
+msgstr "(&1=part, 2=capítol, 3=secció, 4=subsecció, 5=subsubsecció...)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowLabels)
 #: widgets/structureviewconfigwidget.ui:137

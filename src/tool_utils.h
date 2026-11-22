@@ -16,6 +16,7 @@
 
 #include <utility>
 
+#include <QHashFunctions>
 #include <QMetaType>
 #include <QString>
 
@@ -54,6 +55,11 @@ public:
 
     static ToolConfigPair fromConfigStringRepresentation(const QString& s);
 };
+
+inline size_t qHash(const ToolConfigPair& p, size_t seed = 0) noexcept
+{
+    return qHashMulti(seed, p.first, p.second);
+}
 
 }
 

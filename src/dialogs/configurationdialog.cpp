@@ -345,10 +345,8 @@ void Config::slotAcceptChanges()
 
     // editor settings are only available, when at least one document is opened
     if(m_editorSettingsChanged) {
-        QMapIterator<KPageWidgetItem*, KTextEditor::ConfigPage*> i(m_editorPages);
-        while (i.hasNext()) {
-            i.next();
-            i.value()->apply();
+        for(KTextEditor::ConfigPage *page : std::as_const(m_editorPages)) {
+            page->apply();
         }
     }
 

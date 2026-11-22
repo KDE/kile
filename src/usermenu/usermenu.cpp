@@ -576,7 +576,10 @@ void UserMenu::updateXmlFile(const QString &filename)
     // read content of xml file
     QDomDocument doc(QStringLiteral("UserMenu"));
     QFile file(filename);
-    file.open(QFile::ReadOnly | QFile::Text);
+    if(!file.open(QFile::ReadOnly | QFile::Text)) {
+        KILE_WARNING_MAIN << "Could not open" << filename << ":" << file.errorString();
+        return;
+    }
     doc.setContent(&file);
     file.close();
 
@@ -602,7 +605,10 @@ void UserMenu::updateXmlFile(const QString &filename)
     if ( changed ) {
         KILE_DEBUG_MAIN << "found changes, so write updated xml file ";
         QFile outfile(filename);
-        outfile.open(QFile::WriteOnly | QFile::Text);
+        if(!outfile.open(QFile::WriteOnly | QFile::Text)) {
+            KILE_WARNING_MAIN << "Could not write" << filename << ":" << outfile.errorString();
+            return;
+        }
         QTextStream stream(&outfile);
         doc.save(stream,3);
         outfile.close();

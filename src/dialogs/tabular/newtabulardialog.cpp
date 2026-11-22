@@ -608,10 +608,9 @@ void NewTabularDialog::slotAccepted()
         m_td.tagEnd += QStringLiteral("\\end{center}\n");
     }
 
-    QHashIterator<QString, QString> itColorName(properties.colorNames());
+    const QHash<QString, QString> &colorNameHash = properties.colorNames();
     QString colorNames = QString();
-    while(itColorName.hasNext()) {
-        itColorName.next();
+    for(auto itColorName = colorNameHash.cbegin(); itColorName != colorNameHash.cend(); ++itColorName) {
         colorNames += QStringLiteral("\\definecolor{") + itColorName.value() + QStringLiteral("}{rgb}{");
         QColor color(itColorName.key());
         colorNames += QString::number(color.redF()) + QLatin1Char(',')

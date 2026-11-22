@@ -354,13 +354,9 @@ int LaTeXCompletionModel::rowCount(const QModelIndex &parent) const
 
 void LaTeXCompletionModel::filterModel(const QString& text)
 {
-    QMutableStringListIterator it(m_completionList);
-    while(it.hasNext()) {
-        QString string = it.next();
-        if(!string.startsWith(text)) {
-            it.remove();
-        }
-    }
+    m_completionList.removeIf([&text](const QString &string) {
+        return !string.startsWith(text);
+    });
 }
 
 void LaTeXCompletionModel::executeCompletionItem(KTextEditor::View *view,

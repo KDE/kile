@@ -95,9 +95,8 @@ void Base::setMsg(long n, const KLocalizedString& msg)
 
 void Base::translate(QString &str, bool quoteForShell)
 {
-    QHashIterator<QString,QString> it(paramDict());
-    while(it.hasNext()) {
-        it.next();
+    const QHash<QString,QString> &dict = paramDict();
+    for(auto it = dict.cbegin(); it != dict.cend(); ++it) {
         QString value;
         // the file names in %AFL are quoted already
         if(quoteForShell && it.key() != QStringLiteral("%AFL")) {

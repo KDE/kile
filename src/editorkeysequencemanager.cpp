@@ -154,7 +154,7 @@ std::pair<int, QString> Manager::checkSequence(const QString& seq, const QString
             return std::pair<int, QString>(3, entry);
         }
     }
-    return qMakePair<int, QString>(0, QString());
+    return std::pair<int, QString>(0, QString());
 }
 
 Recorder::Recorder(KTextEditor::View *view, Manager *manager) : QObject(view), m_manager(manager), m_view(view)

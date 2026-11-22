@@ -49,7 +49,9 @@ QString readDataFromStdin()
     QByteArray fileData;
     QFile qstdin;
 
-    qstdin.open( stdin, QIODevice::ReadOnly );
+    if(!qstdin.open(stdin, QIODevice::ReadOnly)) {
+        KILE_WARNING_MAIN << "Could not read from the standard input:" << qstdin.errorString();
+    }
     fileData = qstdin.readAll();
     qstdin.close();
 

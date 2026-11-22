@@ -390,9 +390,7 @@ void LatexCommands::commandList(QStringList &list, uint attr, bool userdefined)
 {
     list.clear();
 
-    QMapIterator<QString,QString> it(m_latexCommands);
-    while(it.hasNext()) {
-        it.next();
+    for(auto it = m_latexCommands.cbegin(); it != m_latexCommands.cend(); ++it) {
         // first check, if we need really need all environments and commands
         // or if a restriction to some attributes is given
         if(attr != (uint)CmdAttrNone) {

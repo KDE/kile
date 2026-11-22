@@ -519,7 +519,7 @@ KTextEditor::Document* Manager::createDocument(const QUrl &url, TextInfo *docinf
     doc = m_editor->createDocument(nullptr);
     KILE_DEBUG_MAIN << "appending document " <<  doc;
 
-    connect(doc, &KTextEditor::Document::canceled, [this,url] (const QString &errMsg) {
+    connect(doc, &KTextEditor::Document::canceled, this, [this,url] (const QString &errMsg) {
         if(!errMsg.isEmpty()) {
             KMessageBox::error(m_ki->mainWindow(), i18n("The URL \"%1\" couldn't be opened.\n\n%2", url.toDisplayString(), errMsg),
                                i18n("Cannot open URL"));
@@ -782,7 +782,9 @@ void Manager::fileNew(const QUrl &url)
     dir.mkpath(QStringLiteral("."));
     
     //create an empty file
-    file.open(QIODevice::ReadWrite);
+    if(!file.open(QIODevice::ReadWrite)) {
+        KILE_WARNING_MAIN << "Could not create the file" << file.fileName() << ":" << file.errorString();
+    }
     file.close();
 
     fileOpen(url, QString());

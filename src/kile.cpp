@@ -518,7 +518,11 @@ void Kile::setupProjectView()
             this, [this](const QUrl& url) { runArchiveTool(url); });
 
     connect(projectView, &KileWidget::ProjectView::removeFromProject,
-            docManager(), &KileDocument::Manager::removeFromProject);
+            docManager(), [this](KileProjectItem *item) {
+                if(docManager()->removeFromProject(item)) {
+                    delete item;
+                }
+            });
 
     connect(projectView, &KileWidget::ProjectView::addFiles,
             docManager(), [this](const QUrl &url) { docManager()->projectAddFiles(url); });

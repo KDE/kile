@@ -1431,25 +1431,34 @@ void Manager::addToProject(KileProject* project, const QUrl &url)
     buildProjectTree(project);
 }
 
-void Manager::removeFromProject(KileProjectItem *item)
+bool Manager::removeFromProject(KileProjectItem *item)
 {
     if (item && item->project()) {
         KILE_DEBUG_MAIN << "\tprojecturl = " << item->project()->url().toLocalFile() << ", url = " << item->url().toLocalFile();
 
         if (item->project()->url() == item->url()) {
             KMessageBox::error(m_ki->mainWindow(), i18n("This file is the project file, which holds all the information about your project.  As such, it cannot be removed from the project."), i18n("Cannot Remove File From Project"));
-            return;
+            return false;
         }
 
         Q_EMIT removeItemFromProjectView(item, m_ki->isOpen(item->url()));
 
         KileProject *project = item->project();
+        TextInfo *docinfo = item->getInfo();
         project->remove(item);
 
         // update undefined references in all project files
         updateProjectReferences(project);
         project->buildProjectTree();
+
+        // if the file isn't open, its TextInfo object was only kept for the project item;
+        // 'removeTextDocumentInfo' won't delete it if it is still used by another project
+        if(docinfo && !docinfo->getDoc()) {
+            removeTextDocumentInfo(docinfo);
+        }
+        return true;
     }
+    return false;
 }
 
 // WARNING: 'item' must have been set up with a TextInfo* object already
@@ -2104,7 +2113,9 @@ void Manager::projectRemoveFiles()
 {
     const QList<KileProjectItem*> itemsList = selectProjectFileItems(i18n("Select Files to Remove"));
     for(KileProjectItem* item : itemsList) {
-        removeFromProject(item);
+        if(removeFromProject(item)) {
+            delete item;
+        }
     }
 }
 

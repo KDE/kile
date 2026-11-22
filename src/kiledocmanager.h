@@ -147,7 +147,10 @@ public Q_SLOTS:
     void addProject(KileProject *project);
     void addToProject(const QUrl&);
     void addToProject(KileProject*, const QUrl&);
-    void removeFromProject(KileProjectItem *item);
+    /**
+     * Removes 'item' from its project. The caller has to delete 'item' if 'true' is returned.
+     **/
+    bool removeFromProject(KileProjectItem *item);
     void storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc);
 
     void cleanUpTempFiles(const QUrl &url, bool silent = false);

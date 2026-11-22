@@ -2678,7 +2678,7 @@ void EditorExtension::initDoubleQuotes()
 
     m_leftDblQuote = m_quoteList[index].first;
     m_rightDblQuote = m_quoteList[index].second;
-    KILE_DEBUG_MAIN << "new quotes: " << m_dblQuotes << " left=" << m_leftDblQuote << " right=" << m_rightDblQuote<< Qt::endl;
+    KILE_DEBUG_MAIN << "new quotes: " << m_dblQuotes << " left=" << m_leftDblQuote << " right=" << m_rightDblQuote;
 }
 
 bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)

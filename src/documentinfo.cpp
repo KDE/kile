@@ -377,7 +377,7 @@ void Info::count(const QString& line, long *stat)
             break;
 
         default :
-            qWarning() << "Unhandled state in getStatistics " << state;
+            KILE_WARNING_MAIN << "Unhandled state in getStatistics " << state;
             break;
         }
     }
@@ -809,7 +809,7 @@ void TextInfo::slotViewDestroyed(QObject *object)
 
 void TextInfo::activateDefaultMode()
 {
-    KILE_DEBUG_MAIN << "m_defaultMode = " <<  m_defaultMode << Qt::endl;
+    KILE_DEBUG_MAIN << "m_defaultMode = " <<  m_defaultMode;
 
     if(m_doc && !m_defaultMode.isEmpty()) {
         m_doc->setMode(m_defaultMode);
@@ -1060,7 +1060,7 @@ void LaTeXInfo::updateStruct()
 void LaTeXInfo::checkChangedDeps()
 {
     if(m_depsPrev != m_deps) {
-        KILE_DEBUG_MAIN << "===void LaTeXInfo::checkChangedDeps()===, deps have changed"<< Qt::endl;
+        KILE_DEBUG_MAIN << "===void LaTeXInfo::checkChangedDeps()===, deps have changed";
         Q_EMIT(depChanged());
         m_depsPrev = m_deps;
     }

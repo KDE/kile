@@ -490,7 +490,7 @@ bool PostscriptDialog::checkParameter()
 
 void PostscriptDialog::comboboxChanged(int index)
 {
-    KILE_DEBUG_MAIN << index << Qt::endl;
+    KILE_DEBUG_MAIN << index;
     if (index == PS_COPY_SORTED || index == PS_COPY_UNSORTED) {
         m_PostscriptDialog.m_lbParameter->setEnabled(true);
         m_PostscriptDialog.m_lbParameter->setText(i18n("Copies:"));

@@ -82,12 +82,12 @@ void Queue::enqueueNext(QueueItem *item)
         Queue *oldqueue = new Queue(*this);
 
         clear();
-        KILE_DEBUG_MAIN << "\tenqueueing: " << headitem->tool()->name() << Qt::endl;
+        KILE_DEBUG_MAIN << "\tenqueueing: " << headitem->tool()->name();
         enqueue(headitem);
-        KILE_DEBUG_MAIN << "\tenqueueing: " << item->tool()->name() << Qt::endl;
+        KILE_DEBUG_MAIN << "\tenqueueing: " << item->tool()->name();
         enqueue(item);
         while(!oldqueue->isEmpty()) {
-            KILE_DEBUG_MAIN << "\tenqueueing: " << oldqueue->head()->tool()->name() << Qt::endl;
+            KILE_DEBUG_MAIN << "\tenqueueing: " << oldqueue->head()->tool()->name();
             enqueue(oldqueue->dequeue());
         }
     }
@@ -190,7 +190,7 @@ void Manager::handleDocumentParsingComplete()
 
 int Manager::runImmediately(Base *tool, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= nullptr*/)
 {
-    KILE_DEBUG_MAIN << "==KileTool::Manager::runImmediately(Base *)============" << Qt::endl;
+    KILE_DEBUG_MAIN << "==KileTool::Manager::runImmediately(Base *)============";
     if(m_bClear && (m_queue.count() == 0)) {
         m_ki->errorHandler()->clearMessages();
         m_output->clear();
@@ -221,7 +221,7 @@ int Manager::runImmediately(Base *tool, bool insertNext /*= false*/, bool block 
         Q_EMIT(childToolSpawned(parent,tool));
     }
 
-    KILE_DEBUG_MAIN << "\tin queue: " << m_queue.count() << Qt::endl;
+    KILE_DEBUG_MAIN << "\tin queue: " << m_queue.count();
     if(m_queue.count() == 1) {
         return runNextInQueue();
     }
@@ -301,7 +301,7 @@ void Manager::initTool(Base *tool)
 
 void Manager::started(Base *tool)
 {
-    KILE_DEBUG_MAIN << "STARTING tool: " << tool->name() << Qt::endl;
+    KILE_DEBUG_MAIN << "STARTING tool: " << tool->name();
     setEnabledStopButton(true);
 
     if (tool->isViewer()) {
@@ -433,8 +433,8 @@ bool Manager::retrieveEntryMap(const QString & name, Config & map, bool usequeue
 {
     QString group = (cfg.isEmpty()) ? currentGroup(name, usequeue, useproject) : groupFor(name, cfg);
 
-    KILE_DEBUG_MAIN << "==KileTool::Manager::retrieveEntryMap=============" << Qt::endl;
-    KILE_DEBUG_MAIN << "\t" << name << " => " << group << Qt::endl;
+    KILE_DEBUG_MAIN << "==KileTool::Manager::retrieveEntryMap=============";
+    KILE_DEBUG_MAIN << "\t" << name << " => " << group;
     if(m_config->hasGroup(group)) {
         map = m_config->entryMap(group);
 
@@ -460,9 +460,9 @@ bool Manager::retrieveEntryMap(const QString & name, Config & map, bool usequeue
 
 void Manager::saveEntryMap(const QString & name, Config & map, bool usequeue, bool useproject)
 {
-    KILE_DEBUG_MAIN << "==KileTool::Manager::saveEntryMap=============" << Qt::endl;
+    KILE_DEBUG_MAIN << "==KileTool::Manager::saveEntryMap=============";
     QString group = currentGroup(name, usequeue, useproject);
-    KILE_DEBUG_MAIN << "\t" << name << " => " << group << Qt::endl;
+    KILE_DEBUG_MAIN << "\t" << name << " => " << group;
     KConfigGroup configGroup = m_config->group(group);
 
     Config::Iterator it;
@@ -473,7 +473,7 @@ void Manager::saveEntryMap(const QString & name, Config & map, bool usequeue, bo
 
 bool Manager::configure(Base *tool, const QString& cfg /* = QString() */)
 {
-    KILE_DEBUG_MAIN << "==KileTool::Manager::configure()===============" << Qt::endl;
+    KILE_DEBUG_MAIN << "==KileTool::Manager::configure()===============";
     //configure the tool
 
     Config map;
@@ -491,7 +491,7 @@ bool Manager::configure(Base *tool, const QString& cfg /* = QString() */)
 
 void Manager::wantGUIState(const QString & state)
 {
-    KILE_DEBUG_MAIN << "REQUESTED state: " << state << Qt::endl;
+    KILE_DEBUG_MAIN << "REQUESTED state: " << state;
     Q_EMIT(requestGUIState(state));
 }
 
@@ -512,7 +512,7 @@ KileParser::Manager* Manager::parserManager()
 
 QStringList toolList(KConfig *config, bool menuOnly)
 {
-    KILE_DEBUG_MAIN << "==KileTool::toolList()==================" << Qt::endl;
+    KILE_DEBUG_MAIN << "==KileTool::toolList()==================";
 
     const QStringList groups = config->groupList();
     QStringList tools;
@@ -574,7 +574,7 @@ void Manager::setConfigName(const QString &tool, const QString &name)
 
 void setConfigName(const QString &tool, const QString &name, KConfig *config)
 {
-    KILE_DEBUG_MAIN << "==KileTool::Manager::setConfigName(" << tool << "," << name << ")===============" << Qt::endl;
+    KILE_DEBUG_MAIN << "==KileTool::Manager::setConfigName(" << tool << "," << name << ")===============";
     config->group(QStringLiteral("Tools")).writeEntry(tool, name);
 }
 
@@ -602,7 +602,7 @@ void extract(const QString &str, QString &tool, QString &cfg)
     else {
         tool = lcl;
     }
-    KILE_DEBUG_MAIN << "===void extract(const QString &str = " << str << " , QString &tool = " << tool << ", QString &cfg = " << cfg << " )===" << Qt::endl;
+    KILE_DEBUG_MAIN << "===void extract(const QString &str = " << str << " , QString &tool = " << tool << ", QString &cfg = " << cfg << " )===";
 }
 
 QString format(const QString & tool, const QString &cfg)

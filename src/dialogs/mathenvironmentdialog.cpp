@@ -183,7 +183,7 @@ bool MathEnvironmentDialog::isParameterEnv()
 
 void MathEnvironmentDialog::slotEnvironmentChanged(int index)
 {
-    KILE_DEBUG_MAIN << "environment changed: " << m_coEnvironment->itemText(index) << Qt::endl;
+    KILE_DEBUG_MAIN << "environment changed: " << m_coEnvironment->itemText(index);
     m_envname = m_coEnvironment->itemText(index);
 
     // look for environment parameter in dictionary

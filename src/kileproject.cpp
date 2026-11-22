@@ -303,7 +303,7 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 {
     if (type == KileProjectItem::ProjectFile || type >= KileProjectItem::Other)
     {
-        qWarning() << "ERROR: invalid project item type:" << type;
+        KILE_WARNING_MAIN << "ERROR: invalid project item type:" << type;
         return;
     }
 
@@ -483,7 +483,7 @@ int KileProject::getProjectFileVersion()
 //          also assumes that 'm_name' has been set correctly already if this is a fresh (empty) project!
 bool KileProject::load()
 {
-    KILE_DEBUG_MAIN << "KileProject: loading..." << Qt::endl;
+    KILE_DEBUG_MAIN << "KileProject: loading...";
 
     if(!ensurePrivateKileDirectoryExists(m_projecturl)) {
         return false;
@@ -562,7 +562,7 @@ bool KileProject::load()
 
 bool KileProject::save()
 {
-    KILE_DEBUG_MAIN << "KileProject: saving..." << Qt::endl;
+    KILE_DEBUG_MAIN << "KileProject: saving...";
 
     KConfigGroup generalGroup = m_config->group(QStringLiteral("General"));
     KConfigGroup guiGeneralGroup = m_guiConfig->group(QStringLiteral("General"));

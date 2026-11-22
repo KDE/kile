@@ -422,7 +422,7 @@ void ProjectView::makeTheConnection(ProjectViewItem *item, KileDocument::TextInf
     if (item->type() == KileType::Project) {
         KileProject *project = m_ki->docManager()->projectFor(item->url());
         if (!project) {
-            qWarning() << "makeTheConnection COULD NOT FIND AN PROJECT OBJECT FOR " << item->url().toLocalFile();
+            KILE_WARNING_MAIN << "makeTheConnection COULD NOT FIND AN PROJECT OBJECT FOR " << item->url().toLocalFile();
         }
         else {
             connect(project, SIGNAL(nameChanged(QString)), item, SLOT(nameChanged(QString)));
@@ -449,7 +449,7 @@ ProjectViewItem* ProjectView::folder(const KileProjectItem *pi, ProjectViewItem 
     ProjectViewItem *parent = parentFor(pi, item);
 
     if(!parent) {
-        qCritical() << "no parent for " << pi->url().toLocalFile();
+        KILE_CRITICAL_MAIN << "no parent for " << pi->url().toLocalFile();
         return nullptr;
     }
 
@@ -574,7 +574,7 @@ ProjectViewItem* ProjectView::parentFor(const KileProjectItem *projitem, Project
             KILE_DEBUG_MAIN << "\t\t" << vi->url().toLocalFile();
             if (vi->url() == parpi->url()) {
                 parpvi = vi;
-                KILE_DEBUG_MAIN << "\t\tfound" << Qt::endl;
+                KILE_DEBUG_MAIN << "\t\tfound";
                 break;
             }
             ++it;

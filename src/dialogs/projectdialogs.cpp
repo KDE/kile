@@ -534,7 +534,7 @@ KileProjectOptionsDialog::~KileProjectOptionsDialog()
 
 void KileProjectOptionsDialog::toggleMakeIndex(bool on)
 {
-    KILE_DEBUG_MAIN << "TOGGLED!" << Qt::endl;
+    KILE_DEBUG_MAIN << "TOGGLED!";
     m_leMakeIndex->setEnabled(on);
     m_project->setUseMakeIndexOptions(on);
     m_project->writeUseMakeIndexOptions();

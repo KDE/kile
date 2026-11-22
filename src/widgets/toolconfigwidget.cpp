@@ -323,7 +323,7 @@ void ToolConfig::switchTo(const QString & tool, bool save /* = true */)
 
     m_map.clear();
     if (!m_manager->retrieveEntryMap(m_current, m_map, false, false)) {
-        qWarning() << "no entrymap";
+        KILE_WARNING_MAIN << "no entrymap";
     }
 
     updateConfiglist();
@@ -576,7 +576,7 @@ void ToolConfig::validateToolStatus()
     QListWidgetItem *toolItem = m_configWidget->m_lstbTools->currentItem();
 
     if(toolItem == nullptr) {
-        qWarning() <<  "toolItem is nullptr, exiting validateToolStatus()";
+        KILE_WARNING_MAIN <<  "toolItem is nullptr, exiting validateToolStatus()";
         return;
     }
 

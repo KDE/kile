@@ -144,7 +144,7 @@ void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= nullptr
     for(TextInfo *textInfo : std::as_const(m_textInfoList)) {
         if((textInfo != docinfo) && (textInfo->getDoc() == doc)) {
             KMessageBox::information(nullptr, i18n("The internal structure of Kile is corrupted (probably due to a bug in Kile). Please select Save All from the File menu and close Kile.\nThe Kile team apologizes for any inconvenience and would appreciate a bug report."));
-            qWarning() << "docinfo " << textInfo << " url " << textInfo->url().fileName() << " has a wild pointer!!!";
+            KILE_WARNING_MAIN << "docinfo " << textInfo << " url " << textInfo->url().fileName() << " has a wild pointer!!!";
         }
     }
 
@@ -592,7 +592,7 @@ KTextEditor::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *i
         TextInfo *docinfo = item->getInfo();
 
         KILE_DEBUG_MAIN << "\tloadItem: docinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url());
-        if ( docinfo->getDoc() != docFor(docinfo->url()) ) qWarning() << "docinfo->getDoc() != docFor()";
+        if ( docinfo->getDoc() != docFor(docinfo->url()) ) KILE_WARNING_MAIN << "docinfo->getDoc() != docFor()";
     }
     else {
         KILE_DEBUG_MAIN << "\tloadItem: no document generated";
@@ -853,7 +853,7 @@ void Manager::saveURL(const QUrl &url)
 
 void Manager::newDocumentStatus(KTextEditor::Document *doc)
 {
-    KILE_DEBUG_MAIN << "void Manager::newDocumentStatus(Kate::Document)" << Qt::endl;
+    KILE_DEBUG_MAIN << "void Manager::newDocumentStatus(Kate::Document)";
     if(!doc) {
         return;
     }
@@ -1216,7 +1216,7 @@ bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingprojec
 
     TextInfo *docinfo= textInfoFor(doc);
     if(!docinfo) {
-        qWarning() << "no DOCINFO for " << url.url();
+        KILE_WARNING_MAIN << "no DOCINFO for " << url.url();
         return true;
     }
     bool inProject = false;

@@ -512,7 +512,7 @@ void setupBibTags(const QObject *receiver, KActionCollection *actionCollection, 
     }
 
     if(filename.isEmpty()) {
-        KILE_DEBUG_MAIN << "found no filename" << Qt::endl;
+        KILE_DEBUG_MAIN << "found no filename";
         return;
     }
 

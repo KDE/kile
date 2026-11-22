@@ -445,7 +445,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 
 Kile::~Kile()
 {
-    KILE_DEBUG_MAIN << "cleaning up..." << Qt::endl;
+    KILE_DEBUG_MAIN << "cleaning up...";
 
     guiFactory()->removeClient(viewManager()->viewerPart());
 
@@ -1188,7 +1188,7 @@ void Kile::createToolActions()
 
 void Kile::setupTools()
 {
-    KILE_DEBUG_MAIN << "==Kile::setupTools()===================" << Qt::endl;
+    KILE_DEBUG_MAIN << "==Kile::setupTools()===================";
 
     if(!m_buildMenuCompile || !m_buildMenuConvert ||  !m_buildMenuTopLevel || !m_buildMenuQuickPreview || !m_buildMenuViewer || !m_buildMenuOther) {
         KILE_DEBUG_MAIN << "BUG, menu pointers are nullptr"
@@ -1255,7 +1255,7 @@ void Kile::setupTools()
             pSelectAction = nullptr;
         }
 
-        KILE_DEBUG_MAIN << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << Qt::endl;
+        KILE_DEBUG_MAIN << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count();
 
         QAction *act = actionCollection()->action(QStringLiteral("tool_") + tools[i]);
         if(!act) {
@@ -1314,7 +1314,7 @@ void Kile::initSelectActions() {
 
 void Kile::saveLastSelectedAction() {
 
-    KILE_DEBUG_MAIN << "Kile::saveLastSelectedAction()" << Qt::endl;
+    KILE_DEBUG_MAIN << "Kile::saveLastSelectedAction()";
     const QStringList list =
         {QLatin1String("Compile"), QLatin1String("Convert"), QLatin1String("View"), QLatin1String("Quick")};
 
@@ -1423,7 +1423,7 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
     m_listDocsOpenOnStart.clear();
     m_listEncodingsOfDocsOpenOnStart.clear();
 
-    KILE_DEBUG_MAIN << "lastDocument=" << KileConfig::lastDocument() << Qt::endl;
+    KILE_DEBUG_MAIN << "lastDocument=" << KileConfig::lastDocument();
     KTextEditor::Document *doc = docManager()->docFor(QUrl::fromUserInput(KileConfig::lastDocument()));
     if (doc) {
         viewManager()->switchToTextView(doc->url(), true); // request the focus on the view
@@ -1433,7 +1433,7 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 
 void Kile::setActive()
 {
-    KILE_DEBUG_MAIN << "Activating" << Qt::endl;
+    KILE_DEBUG_MAIN << "Activating";
     raise();
     activateWindow();
     show();
@@ -1493,7 +1493,7 @@ void Kile::runArchiveTool(const QUrl &url)
 //TODO: move to KileView::Manager
 void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
-    //KILE_DEBUG_MAIN << "==Kile::activateView==========================" << Qt::endl;
+    //KILE_DEBUG_MAIN << "==Kile::activateView==========================";
     if (!w || !w->inherits("KTextEditor::View")) {
         return;
     }
@@ -1652,7 +1652,7 @@ bool Kile::queryClose()
     }
 
     //don't close Kile if embedded viewers are present
-    KILE_DEBUG_MAIN << "==bool Kile::queryClose==========" << Qt::endl;
+    KILE_DEBUG_MAIN << "==bool Kile::queryClose==========";
 
     m_listProjectsOpenOnStart.clear();
     m_listDocsOpenOnStart.clear();
@@ -1668,7 +1668,7 @@ bool Kile::queryClose()
         m_listEncodingsOfDocsOpenOnStart.append(doc->encoding());
     }
 
-    KILE_DEBUG_MAIN << "#projects = " << docManager()->projects().count() << Qt::endl;
+    KILE_DEBUG_MAIN << "#projects = " << docManager()->projects().count();
     const QList<KileProject*> projectList = docManager()->projects();
     for(const KileProject* project : projectList) {
         const QUrl url = project->url();
@@ -1713,7 +1713,7 @@ void Kile::showDocInfo(KTextEditor::View *view)
         delete dlg;
     }
     else {
-        qWarning() << "There is no KileDocument::Info object belonging to this document!";
+        KILE_WARNING_MAIN << "There is no KileDocument::Info object belonging to this document!";
     }
 }
 
@@ -1819,7 +1819,7 @@ void Kile::newCaption()
 void Kile::grepItemSelected(const QString &abs_filename, int line)
 {
     KILE_DEBUG_MAIN << "Open file: "
-                    << abs_filename << " (" << line << ")" << Qt::endl;
+                    << abs_filename << " (" << line << ")";
     docManager()->fileOpen(QUrl::fromUserInput(abs_filename));
     setLine(QString::number(line));
 }
@@ -1829,13 +1829,13 @@ void Kile::findInFiles()
     static QPointer<KileDialog::FindFilesDialog> dlg = nullptr;
 
     if (!dlg) {
-        KILE_DEBUG_MAIN << "grep guard: create findInFiles dlg" << Qt::endl;
+        KILE_DEBUG_MAIN << "grep guard: create findInFiles dlg";
         dlg = new KileDialog::FindFilesDialog(mainWindow(), this, KileGrep::Directory);
         dlg->show();
         connect(dlg, &KileDialog::FindFilesDialog::itemSelected, this, &Kile::grepItemSelected);
     }
     else {
-        KILE_DEBUG_MAIN << "grep guard: show findInFiles dlg" << Qt::endl;
+        KILE_DEBUG_MAIN << "grep guard: show findInFiles dlg";
         dlg->activateWindow();
         dlg->raise();
     }
@@ -1846,13 +1846,13 @@ void Kile::findInProjects()
     static QPointer<KileDialog::FindFilesDialog> project_dlg = nullptr;
 
     if(!project_dlg) {
-        KILE_DEBUG_MAIN << "grep guard: create findInProjects dlg" << Qt::endl;
+        KILE_DEBUG_MAIN << "grep guard: create findInProjects dlg";
         project_dlg = new KileDialog::FindFilesDialog(mainWindow(), this, KileGrep::Project);
         project_dlg->show();
         connect(project_dlg, &KileDialog::FindFilesDialog::itemSelected, this, &Kile::grepItemSelected);
     }
     else {
-        KILE_DEBUG_MAIN << "grep guard: show findInProjects dlg" << Qt::endl;
+        KILE_DEBUG_MAIN << "grep guard: show findInProjects dlg";
         project_dlg->activateWindow();
         project_dlg->raise();
     }
@@ -1861,7 +1861,7 @@ void Kile::findInProjects()
 /////////////////// PART & EDITOR WIDGET //////////
 bool Kile::resetPart()
 {
-    KILE_DEBUG_MAIN << "==Kile::resetPart()=============================" << Qt::endl;
+    KILE_DEBUG_MAIN << "==Kile::resetPart()=============================";
 
     statusBar()->reset();
     updateModeStatus();
@@ -2090,7 +2090,7 @@ void Kile::setMenuItems(const QStringList &list, QMap<QString,bool> &dict)
 
 void Kile::updateMenu()
 {
-    KILE_DEBUG_MAIN << "==Kile::updateMenu()====================" << Qt::endl;
+    KILE_DEBUG_MAIN << "==Kile::updateMenu()====================";
 
     // update project menus
     m_actRecentProjects->setEnabled( m_actRecentProjects->items().count() > 0 );
@@ -2112,7 +2112,7 @@ void Kile::updateMenu()
     // update file menus
     m_actRecentFiles->setEnabled( m_actRecentFiles->items().count() > 0 );
     bool file_open = ( viewManager()->currentTextView() );
-    KILE_DEBUG_MAIN << "\tprojectopen=" << project_open << " fileopen=" << file_open << Qt::endl;
+    KILE_DEBUG_MAIN << "\tprojectopen=" << project_open << " fileopen=" << file_open;
 
     enableGUI(file_open);
 }
@@ -2126,7 +2126,7 @@ bool Kile::updateMenuActivationStatus(QMenu *menu)
 bool Kile::updateMenuActivationStatus(QMenu *menu, const QSet<QMenu*>& visited)
 {
     if(visited.contains(menu)) {
-        qWarning() << "Recursive menu structure detected - aborting!";
+        KILE_WARNING_MAIN << "Recursive menu structure detected - aborting!";
         return true;
     }
     if (menu->objectName() == QStringLiteral("usermenu-submenu")) {
@@ -2251,7 +2251,7 @@ void Kile::insertTag(const KileAction::TagData& data,const QList<Package> &pkgs)
 
 void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 {
-    KILE_DEBUG_MAIN << "void Kile::insertTag(const KileAction::TagData& data,const QStringList " << pkgs.join(QStringLiteral(",")) << ")" << Qt::endl;
+    KILE_DEBUG_MAIN << "void Kile::insertTag(const KileAction::TagData& data,const QStringList " << pkgs.join(QStringLiteral(",")) << ")";
     insertTag(data);
 
     KileDocument::TextInfo *docinfo = docManager()->textInfoFor(getCompileName());
@@ -2700,7 +2700,7 @@ void Kile::setMasterDocumentFileName(const QString& fileName)
     m_singlemode = false;
     updateModeStatus();
     Q_EMIT masterDocumentChanged();
-    KILE_DEBUG_MAIN << "SETTING master to " << m_masterDocumentFileName << " singlemode = " << m_singlemode << Qt::endl;
+    KILE_DEBUG_MAIN << "SETTING master to " << m_masterDocumentFileName << " singlemode = " << m_singlemode;
 }
 
 void Kile::clearMasterDocument()
@@ -2986,7 +2986,7 @@ void Kile::slotToggleFullScreen()
 
 void Kile::slotQuickPreview(int type)
 {
-    KILE_DEBUG_MAIN << "==Kile::slotQuickPreview()=========================="  << Qt::endl;
+    KILE_DEBUG_MAIN << "==Kile::slotQuickPreview()==========================";
 
     KTextEditor::View *view = viewManager()->currentTextView();
     if ( ! view) return;

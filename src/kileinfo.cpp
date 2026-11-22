@@ -104,7 +104,7 @@ KTextEditor::Document * KileInfo::activeTextDocument() const
 
 QString KileInfo::getName(KTextEditor::Document *doc, bool shrt) const
 {
-    KILE_DEBUG_MAIN << "===KileInfo::getName(KTextEditor::Document *doc, bool " << shrt << ")===" << Qt::endl;
+    KILE_DEBUG_MAIN << "===KileInfo::getName(KTextEditor::Document *doc, bool " << shrt << ")===";
     QString title;
 
     if (!doc) {
@@ -112,7 +112,7 @@ QString KileInfo::getName(KTextEditor::Document *doc, bool shrt) const
     }
     if (doc) {
         QUrl url = doc->url();
-        KILE_DEBUG_MAIN << "url " << url << Qt::endl;
+        KILE_DEBUG_MAIN << "url " << url;
         if(url.isLocalFile()) {
             title = shrt ? doc->url().fileName() : doc->url().toLocalFile();
         }
@@ -292,43 +292,43 @@ QStringList KileInfo::retrieveList(QStringList (KileDocument::Info::*getit)() co
 
 QStringList KileInfo::allLabels(KileDocument::TextInfo *info)
 {
-    KILE_DEBUG_MAIN << "Kile::allLabels()" << Qt::endl;
+    KILE_DEBUG_MAIN << "Kile::allLabels()";
     return retrieveList(&KileDocument::Info::labels, info);
 }
 
 QStringList KileInfo::allBibItems(KileDocument::TextInfo *info)
 {
-    KILE_DEBUG_MAIN << "Kile::allBibItems()" << Qt::endl;
+    KILE_DEBUG_MAIN << "Kile::allBibItems()";
     return retrieveList(&KileDocument::Info::bibItems, info);
 }
 
 QStringList KileInfo::allBibliographies(KileDocument::TextInfo *info)
 {
-    KILE_DEBUG_MAIN << "Kile::bibliographies()" << Qt::endl;
+    KILE_DEBUG_MAIN << "Kile::bibliographies()";
     return retrieveList(&KileDocument::Info::bibliographies, info);
 }
 
 QStringList KileInfo::allDependencies(KileDocument::TextInfo *info)
 {
-    KILE_DEBUG_MAIN << "Kile::dependencies()" << Qt::endl;
+    KILE_DEBUG_MAIN << "Kile::dependencies()";
     return retrieveList(&KileDocument::Info::dependencies, info);
 }
 
 QStringList KileInfo::allNewCommands(KileDocument::TextInfo *info)
 {
-    KILE_DEBUG_MAIN << "Kile::newCommands()" << Qt::endl;
+    KILE_DEBUG_MAIN << "Kile::newCommands()";
     return retrieveList(&KileDocument::Info::newCommands, info);
 }
 
 QStringList KileInfo::allAsyFigures(KileDocument::TextInfo *info)
 {
-    KILE_DEBUG_MAIN << "Kile::asyFigures()" << Qt::endl;
+    KILE_DEBUG_MAIN << "Kile::asyFigures()";
     return retrieveList(&KileDocument::Info::asyFigures, info);
 }
 
 QStringList KileInfo::allPackages(KileDocument::TextInfo *info)
 {
-    KILE_DEBUG_MAIN << "Kile::allPackages()" << Qt::endl;
+    KILE_DEBUG_MAIN << "Kile::allPackages()";
     return retrieveList(&KileDocument::Info::packages, info);
 }
 
@@ -375,7 +375,7 @@ bool KileInfo::similarOrEqualURL(const QUrl &validurl, const QUrl &testurl)
 
 bool KileInfo::isOpen(const QUrl &url)
 {
-    KILE_DEBUG_MAIN << "==bool KileInfo::isOpen(const QUrl &url)=============" << Qt::endl;
+    KILE_DEBUG_MAIN << "==bool KileInfo::isOpen(const QUrl &url)=============";
 
     for (int i = 0; i < viewManager()->textViewCount(); ++i) {
         KTextEditor::View *view = viewManager()->textView(i);
@@ -431,7 +431,7 @@ QString KileInfo::expandEnvironmentVars(const QString &str)
 
 QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int type)
 {
-    KILE_DEBUG_MAIN << "QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int type)" << Qt::endl;
+    KILE_DEBUG_MAIN << "QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int type)";
     QStringList inputpaths;
     QString configpaths;
     QFileInfo info;
@@ -448,7 +448,7 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
         configpaths = KileConfig::bstInputPaths() + LIST_SEPARATOR + QStringLiteral("$BSTINPUTS");
         break;
     default:
-        KILE_DEBUG_MAIN << "Unknown type in checkOtherPaths" << Qt::endl;
+        KILE_DEBUG_MAIN << "Unknown type in checkOtherPaths";
         return QString();
         break;
     }
@@ -458,10 +458,10 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
 
     // the first match is supposed to be the correct one
     for(const QString &string: std::as_const(inputpaths)) {
-        KILE_DEBUG_MAIN << "path is " << string << "and file is " << file << Qt::endl;
+        KILE_DEBUG_MAIN << "path is " << string << "and file is " << file;
         info.setFile(string + QLatin1Char('/') + file);
         if(info.exists()) {
-            KILE_DEBUG_MAIN << "filepath after correction is: " << info.path() << Qt::endl;
+            KILE_DEBUG_MAIN << "filepath after correction is: " << info.path();
             return info.absoluteFilePath();
         }
     }

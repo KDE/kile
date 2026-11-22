@@ -48,7 +48,7 @@ class KileProjectItem : public QObject
 public:
     explicit KileProjectItem(KileProject *project = nullptr, const QUrl &url = QUrl(), int type = Source);
     ~KileProjectItem() {
-        KILE_DEBUG_MAIN << "DELETING PROJITEM " << m_path << Qt::endl;
+        KILE_DEBUG_MAIN << "DELETING PROJITEM " << m_path;
     }
 
     bool operator==(const KileProjectItem& item) {

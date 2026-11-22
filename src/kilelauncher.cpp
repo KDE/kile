@@ -98,11 +98,11 @@ void ProcessLauncher::setOptions(const QString& opt)
 bool ProcessLauncher::launch()
 {
     if(tool() == nullptr) {
-        qWarning() << "tool() is nullptr which is a BUG";
+        KILE_WARNING_MAIN << "tool() is nullptr which is a BUG";
         return false;
     }
     if(m_proc == nullptr) {
-        qWarning() << "m_proc is nullptr which is a BUG";
+        KILE_WARNING_MAIN << "m_proc is nullptr which is a BUG";
         return false;
     }
 
@@ -293,7 +293,7 @@ void ProcessLauncher::slotProcessExited(int exitCode, QProcess::ExitStatus exitS
         }
     }
     else {
-        qWarning() << "\tNO PROCESS, emitting done";
+        KILE_WARNING_MAIN << "\tNO PROCESS, emitting done";
         Q_EMIT(done(Success));
     }
 }

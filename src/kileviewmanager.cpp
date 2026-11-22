@@ -1190,7 +1190,7 @@ void Manager::handleActivatedSourceReference(const QString& absFileName, int lin
 
     QFileInfo fileInfo(absFileName);
     if(!fileInfo.isFile() || !fileInfo.isReadable()) {
-        qWarning() << "Got passed an unreadable file:" << absFileName;
+        KILE_WARNING_MAIN << "Got passed an unreadable file:" << absFileName;
         return;
     }
 

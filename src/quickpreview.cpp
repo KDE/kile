@@ -195,7 +195,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 
 bool QuickPreview::run(const QString &text,const QString &textfilename,int startrow,const QString &spreviewlist)
 {
-    KILE_DEBUG_MAIN << "==QuickPreview::run()=========================="  << Qt::endl;
+    KILE_DEBUG_MAIN << "==QuickPreview::run()==========================";
     m_ki->errorHandler()->clearMessages();
     if(m_running > 0) {
         showError( i18n("There is already a preview running that has to be finished to run this one.") );
@@ -212,7 +212,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
     m_tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') + QStringLiteral("kile-preview"));
     m_tempDir->setAutoRemove(true);
     m_tempFile = QFileInfo(m_tempDir->path(), QStringLiteral("preview.tex")).absoluteFilePath();
-    KILE_DEBUG_MAIN << "\tdefine tempfile: " << m_tempFile << Qt::endl;
+    KILE_DEBUG_MAIN << "\tdefine tempfile: " << m_tempFile;
 
     // create the temporary file with preamble and text
     int preamblelines = createTempfile(text);
@@ -223,7 +223,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
     QStringList previewlist = spreviewlist.split(QLatin1Char(','), Qt::KeepEmptyParts);
 
     // create preview tools
-    KILE_DEBUG_MAIN << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << Qt::endl;
+    KILE_DEBUG_MAIN << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex];
     KileTool::PreviewLaTeX *latex = dynamic_cast<KileTool::PreviewLaTeX*>(m_ki->toolManager()->createTool(previewlist[pvLatex], QString(), false));
     if(!latex) {
         showError(i18n("Could not run '%1' for QuickPreview.", QStringLiteral("LaTeX")));
@@ -232,7 +232,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 
     KileTool::Base *dvips = nullptr;
     if(!previewlist[1].isEmpty()) {
-        KILE_DEBUG_MAIN << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << Qt::endl;
+        KILE_DEBUG_MAIN << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips];
         dvips = m_ki->toolManager()->createTool(previewlist[pvDvips], previewlist[pvDvipsCfg]);
         if(!dvips) {
             QString dvipstool = previewlist[pvDvips] + QStringLiteral(" (") + previewlist[pvDvipsCfg] + QLatin1Char(')');
@@ -244,7 +244,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
     KileTool::Base *viewer = nullptr;
     if(!previewlist[pvViewer].isEmpty()) {
         QString viewertool = previewlist[pvViewer] + QStringLiteral(" (") + previewlist[pvViewerCfg] + QLatin1Char(')');
-        KILE_DEBUG_MAIN << "\tcreate viewer for QuickPreview: "  << viewertool << Qt::endl;
+        KILE_DEBUG_MAIN << "\tcreate viewer for QuickPreview: "  << viewertool;
         viewer = m_ki->toolManager()->createTool(previewlist[pvViewer], previewlist[pvViewerCfg], false);
         if(!viewer) {
             showError(i18n("Could not run '%1' for QuickPreview.",viewertool));
@@ -259,7 +259,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
         inputdir += LIST_SEPARATOR + texinputpath;
     }
     KileConfig::setPreviewTeXPaths(inputdir);
-    KILE_DEBUG_MAIN << "\tQuickPreview: inputdir is '" << inputdir << "'" << Qt::endl;
+    KILE_DEBUG_MAIN << "\tQuickPreview: inputdir is '" << inputdir << "'";
 
     // prepare tools: previewlatex
     QString filepath = m_tempFile.left(m_tempFile.length() - 3);
@@ -295,7 +295,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 
 void QuickPreview::toolDestroyed()
 {
-    KILE_DEBUG_MAIN << "\tQuickPreview: tool destroyed" << Qt::endl;
+    KILE_DEBUG_MAIN << "\tQuickPreview: tool destroyed";
     if(m_running > 0) {
         --m_running;
     }
@@ -328,7 +328,7 @@ int QuickPreview::createTempfile(const QString &text)
         showError(i18n("Could not read the preamble."));
         return 0;
     }
-    KILE_DEBUG_MAIN << "\tcreate a temporary file: "  << m_tempFile << Qt::endl;
+    KILE_DEBUG_MAIN << "\tcreate a temporary file: "  << m_tempFile;
 
     // use a textstream
     QTextStream preamble(&fin);

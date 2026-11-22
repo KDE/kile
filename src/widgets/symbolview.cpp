@@ -191,7 +191,7 @@ void SymbolView::initPage(int page)
         break;
 
     default:
-        qWarning() << "wrong argument in initPage()";
+        KILE_WARNING_MAIN << "wrong argument in initPage()";
         break;
     }
 }

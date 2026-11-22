@@ -190,7 +190,7 @@ void ConvertIOFile::writeText()
         qf.close();
     }
     else {
-        qWarning() << "Could not open " << m_url.toLocalFile();
+        KILE_WARNING_MAIN << "Could not open " << m_url.toLocalFile();
     }
 }
 

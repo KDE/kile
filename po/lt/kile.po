@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-16 01:06+0000\n"
+"POT-Creation-Date: 2026-11-23 01:03+0000\n"
 "PO-Revision-Date: 2017-06-25 14:30+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -358,7 +358,7 @@ msgstr "Failas %1/%2 neegzistuoja. Jei nustebote, patikrinkite failo leidimus."
 msgid "Configure"
 msgstr "Konfigūruoti"
 
-#: dialogs/configurationdialog.cpp:68 main.cpp:97
+#: dialogs/configurationdialog.cpp:68 main.cpp:99
 #, kde-format
 msgid "Kile"
 msgstr "Kile"
@@ -557,13 +557,13 @@ msgid "Image"
 msgstr "Paveikslėlis"
 
 #: dialogs/findfilesdialog.cpp:149 kilestdactions.cpp:281
-#: kilestdactions.cpp:284 usermenu/usermenu.cpp:909
+#: kilestdactions.cpp:284 usermenu/usermenu.cpp:915
 #, kde-format
 msgid "Label"
 msgstr "Žymė"
 
 #: dialogs/findfilesdialog.cpp:150 kilestdactions.cpp:296
-#: usermenu/usermenu.cpp:914
+#: usermenu/usermenu.cpp:920
 #, kde-format
 msgid "Reference"
 msgstr "Nuoroda"
@@ -4566,16 +4566,16 @@ msgstr ""
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr ""
 
-#: dialogs/tabular/newtabulardialog.cpp:654
-#: dialogs/tabular/newtabulardialog.cpp:676
+#: dialogs/tabular/newtabulardialog.cpp:653
+#: dialogs/tabular/newtabulardialog.cpp:675
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
 "the new size?"
 msgstr ""
 
-#: dialogs/tabular/newtabulardialog.cpp:654
-#: dialogs/tabular/newtabulardialog.cpp:676
+#: dialogs/tabular/newtabulardialog.cpp:653
+#: dialogs/tabular/newtabulardialog.cpp:675
 #, kde-format
 msgid "Resizing table"
 msgstr ""
@@ -4818,7 +4818,7 @@ msgid ""
 "dvi *.epub);;All Files (*)"
 msgstr ""
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2113
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2115
 #, kde-format
 msgid "Select File"
 msgstr "Pasirinkti failą"
@@ -6037,8 +6037,8 @@ msgstr "Atverti visus projekto failus"
 msgid "Find in &Project..."
 msgstr "Rasti &projekte..."
 
-#: kile.cpp:911 kile.cpp:1042 kile.cpp:2194 kiledocmanager.cpp:1967
-#: kiledocmanager.cpp:1977
+#: kile.cpp:911 kile.cpp:1042 kile.cpp:2194 kiledocmanager.cpp:1969
+#: kiledocmanager.cpp:1979
 #, kde-format
 msgid "Clean"
 msgstr "Valyti"
@@ -7180,53 +7180,53 @@ msgstr "Sukurti šabloną iš dokumento"
 msgid "Remove Template"
 msgstr "Pašalinti šabloną"
 
-#: kiledocmanager.cpp:815
+#: kiledocmanager.cpp:817
 #, kde-format
 msgid "Open Files"
 msgstr "Atverti projektą"
 
-#: kiledocmanager.cpp:896
+#: kiledocmanager.cpp:898
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
 "disk space left?"
 msgstr ""
 
-#: kiledocmanager.cpp:897
+#: kiledocmanager.cpp:899
 #, kde-format
 msgid "Saving"
 msgstr "Išsaugoma"
 
-#: kiledocmanager.cpp:930
+#: kiledocmanager.cpp:932
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "Any files (*)"
 msgstr "Visi failai"
 
-#: kiledocmanager.cpp:932
+#: kiledocmanager.cpp:934
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Save Compiled Document As..."
 msgstr "Sukurti šabloną iš dokumento..."
 
-#: kiledocmanager.cpp:957
+#: kiledocmanager.cpp:959
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
 "as it is a directory."
 msgstr ""
 
-#: kiledocmanager.cpp:958
+#: kiledocmanager.cpp:960
 #, kde-format
 msgid "Cannot open directory"
 msgstr ""
 
-#: kiledocmanager.cpp:1076
+#: kiledocmanager.cpp:1078
 #, kde-format
 msgid "Save File"
 msgstr "Išsaugoti failą"
 
-#: kiledocmanager.cpp:1112
+#: kiledocmanager.cpp:1114
 #, fuzzy, kde-format
 #| msgid ""
 #| "A file with the name \"%1\" exists already. Do you want to overwrite it ?"
@@ -7234,17 +7234,17 @@ msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "Failas pavadinimu „%1“ jau egzistuoja. Ar tikrai norite jį perrašyti?"
 
-#: kiledocmanager.cpp:1113
+#: kiledocmanager.cpp:1115
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Perrašyti failą?"
 
-#: kiledocmanager.cpp:1283
+#: kiledocmanager.cpp:1285
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "Atnaujinti projekto medį"
 
-#: kiledocmanager.cpp:1291
+#: kiledocmanager.cpp:1293
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7252,34 +7252,34 @@ msgid ""
 "then choose Refresh Project Tree again."
 msgstr ""
 
-#: kiledocmanager.cpp:1291
+#: kiledocmanager.cpp:1293
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "Nepavyksta atnaujinti projekto medžio"
 
-#: kiledocmanager.cpp:1375 kiledocmanager.cpp:2134 kiledocmanager.cpp:2204
-#: kiledocmanager.cpp:2239
+#: kiledocmanager.cpp:1377 kiledocmanager.cpp:2136 kiledocmanager.cpp:2206
+#: kiledocmanager.cpp:2241
 #, kde-format
 msgid "Select Project"
 msgstr "Pasirinkite projektą"
 
-#: kiledocmanager.cpp:1400 kiledocmanager.cpp:1415 kiledocmanager.cpp:1422
+#: kiledocmanager.cpp:1402 kiledocmanager.cpp:1417 kiledocmanager.cpp:1424
 #, kde-format
 msgid "Add to Project"
 msgstr "Pridėti į projektą"
 
-#: kiledocmanager.cpp:1414
+#: kiledocmanager.cpp:1416
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "Failas %1 jau yra projekte %2"
 
-#: kiledocmanager.cpp:1421
+#: kiledocmanager.cpp:1423
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr ""
 
-#: kiledocmanager.cpp:1440
+#: kiledocmanager.cpp:1442
 #, fuzzy, kde-format
 #| msgid ""
 #| "This file is the project file, it holds all the information about your "
@@ -7291,12 +7291,12 @@ msgstr ""
 "Šis failas yra projekto failas ir saugo visą informaciją apie projektą. Dėl "
 "to neleidžiama šio failo pašalinti iš projekto."
 
-#: kiledocmanager.cpp:1440
+#: kiledocmanager.cpp:1442
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "Nepavyksta pašalinti failo iš projekto"
 
-#: kiledocmanager.cpp:1508
+#: kiledocmanager.cpp:1510
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project file for this project does not exists or is not readable. "
@@ -7308,12 +7308,12 @@ msgstr ""
 "Projekto failas neegzistuoja arba nenuskaitomas. Pašalinti projektą iš "
 "neseniai naudotų projektų sąrašo?"
 
-#: kiledocmanager.cpp:1510
+#: kiledocmanager.cpp:1512
 #, kde-format
 msgid "Project Already Open"
 msgstr "Projektas jau atvertas"
 
-#: kiledocmanager.cpp:1521
+#: kiledocmanager.cpp:1523
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project file for this project does not exists or is not readable. "
@@ -7326,39 +7326,39 @@ msgstr ""
 "Projekto failas neegzistuoja arba nenuskaitomas. Pašalinti projektą iš "
 "neseniai naudotų projektų sąrašo?"
 
-#: kiledocmanager.cpp:1524
+#: kiledocmanager.cpp:1526
 #, fuzzy, kde-format
 #| msgid "Could Not Close Project"
 msgid "Could Not Open Project"
 msgstr "Nepavyksta užverti projekto"
 
-#: kiledocmanager.cpp:1542
+#: kiledocmanager.cpp:1544
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
 "file.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1544
+#: kiledocmanager.cpp:1546
 #, fuzzy, kde-format
 #| msgid "Open Project"
 msgid "Impossible to Open Project File"
 msgstr "Atverti projektą"
 
-#: kiledocmanager.cpp:1554
+#: kiledocmanager.cpp:1556
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
 "version of Kile.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1556
+#: kiledocmanager.cpp:1558
 #, fuzzy, kde-format
 #| msgid "Open Project"
 msgid "Impossible to Open Project"
 msgstr "Atverti projektą"
 
-#: kiledocmanager.cpp:1566
+#: kiledocmanager.cpp:1568
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7366,12 +7366,12 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1569
+#: kiledocmanager.cpp:1571
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr ""
 
-#: kiledocmanager.cpp:1576
+#: kiledocmanager.cpp:1578
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project file for this project does not exists or is not readable. "
@@ -7383,23 +7383,23 @@ msgstr ""
 "Projekto failas neegzistuoja arba nenuskaitomas. Pašalinti projektą iš "
 "neseniai naudotų projektų sąrašo?"
 
-#: kiledocmanager.cpp:1578
+#: kiledocmanager.cpp:1580
 #, fuzzy, kde-format
 #| msgid "Could Not Load Project File"
 msgid "Could Not Update Project File"
 msgstr "Nepavyksta atverti projekto failo"
 
-#: kiledocmanager.cpp:1678
+#: kiledocmanager.cpp:1680
 #, kde-format
 msgid "Open Project"
 msgstr "Atverti projektą"
 
-#: kiledocmanager.cpp:1697
+#: kiledocmanager.cpp:1699
 #, kde-format
 msgid "Save Project"
 msgstr "Išsaugoti projektą"
 
-#: kiledocmanager.cpp:1747
+#: kiledocmanager.cpp:1749
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7407,45 +7407,45 @@ msgid ""
 "Save Project again."
 msgstr ""
 
-#: kiledocmanager.cpp:1747
+#: kiledocmanager.cpp:1749
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "Nepavyksta nustatyti aktyvaus projekto"
 
-#: kiledocmanager.cpp:1768
+#: kiledocmanager.cpp:1770
 #, kde-format
 msgid "Add Files to Project"
 msgstr "Pridėti failus į projektą"
 
-#: kiledocmanager.cpp:1781
+#: kiledocmanager.cpp:1783
 #, kde-format
 msgid "Add Files"
 msgstr "Pridėti failus"
 
-#: kiledocmanager.cpp:1784
+#: kiledocmanager.cpp:1786
 #, fuzzy, kde-format
 #| msgid "&Add"
 msgid "Add"
 msgstr "&Pridėti"
 
-#: kiledocmanager.cpp:1799
+#: kiledocmanager.cpp:1801
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
 "to, then choose Add Files again."
 msgstr ""
 
-#: kiledocmanager.cpp:1799 kiledocmanager.cpp:1834
+#: kiledocmanager.cpp:1801 kiledocmanager.cpp:1836
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "Nepavyksta nustatyti aktyvaus projekto"
 
-#: kiledocmanager.cpp:1825
+#: kiledocmanager.cpp:1827
 #, kde-format
 msgid "Project Options For"
 msgstr ""
 
-#: kiledocmanager.cpp:1834
+#: kiledocmanager.cpp:1836
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7456,12 +7456,12 @@ msgstr ""
 "kuris susietas su projektu, kurį norite keisti, tada vėl spauskite Projekto "
 "nustatymai."
 
-#: kiledocmanager.cpp:1860
+#: kiledocmanager.cpp:1862
 #, kde-format
 msgid "Close Project"
 msgstr "Užverti projektą"
 
-#: kiledocmanager.cpp:1911
+#: kiledocmanager.cpp:1913
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7472,77 +7472,77 @@ msgstr ""
 "kuris susietas su projektu, kurį norite užverti, tada vėl spauskite Užverti "
 "projektą."
 
-#: kiledocmanager.cpp:1911
+#: kiledocmanager.cpp:1913
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "Nepavyksta užverti projekto"
 
-#: kiledocmanager.cpp:1966
+#: kiledocmanager.cpp:1968
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr ""
 
-#: kiledocmanager.cpp:1976
+#: kiledocmanager.cpp:1978
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "Valoma %1: %2"
 
-#: kiledocmanager.cpp:2049
+#: kiledocmanager.cpp:2051
 #, fuzzy, kde-format
 msgid "Switch Project"
 msgstr "Pasirinkite projektą"
 
-#: kiledocmanager.cpp:2105
+#: kiledocmanager.cpp:2107
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "Pasirinkti failus šalinimui"
 
-#: kiledocmanager.cpp:2116 kiledocmanager.cpp:2119
+#: kiledocmanager.cpp:2118 kiledocmanager.cpp:2121
 #, kde-format
 msgid "Show Project Files"
 msgstr "Rodyti projekto failus"
 
-#: kiledocmanager.cpp:2116 kiledocmanager.cpp:2162
+#: kiledocmanager.cpp:2118 kiledocmanager.cpp:2164
 #, kde-format
 msgid "project configuration file"
 msgstr "projekto konfigūracijos failas"
 
-#: kiledocmanager.cpp:2119 kiledocmanager.cpp:2165
+#: kiledocmanager.cpp:2121 kiledocmanager.cpp:2167
 #, kde-format
 msgid "graphics file"
 msgstr "grafikos failas"
 
-#: kiledocmanager.cpp:2162 kiledocmanager.cpp:2165
+#: kiledocmanager.cpp:2164 kiledocmanager.cpp:2167
 #, kde-format
 msgid "Open All Project Files"
 msgstr "Atverti visus projekto failus"
 
-#: kiledocmanager.cpp:2197
+#: kiledocmanager.cpp:2199
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "neatverta: %1 (%2)"
 
-#: kiledocmanager.cpp:2220 kiledocmanager.cpp:2255
+#: kiledocmanager.cpp:2222 kiledocmanager.cpp:2257
 #, kde-format
 msgid "Project Files"
 msgstr "Projektų failai"
 
-#: kiledocmanager.cpp:2228 kiledocmanager.cpp:2265
+#: kiledocmanager.cpp:2230 kiledocmanager.cpp:2267
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "Nepavyko nustatyti pažymėto failo."
 
-#: kiledocmanager.cpp:2228 kiledocmanager.cpp:2265
+#: kiledocmanager.cpp:2230 kiledocmanager.cpp:2267
 #, kde-format
 msgid "Project Error"
 msgstr "Projekto klaida"
 
-#: kiledocmanager.cpp:2332
+#: kiledocmanager.cpp:2334
 #, kde-format
 msgid "Opening Project..."
 msgstr "Atveriamas projektas..."
 
-#: kiledocmanager.cpp:2335
+#: kiledocmanager.cpp:2337
 #, kde-format
 msgid "Scanning project files..."
 msgstr "Skaitomi projekto failai..."
@@ -10154,23 +10154,23 @@ msgstr "Failas „%1“ neegzistuoja."
 msgid "The file %1 is not readable."
 msgstr "Failas %1 nenuskaitomas."
 
-#: kiletool.cpp:639
+#: kiletool.cpp:638
 #, kde-format
 msgid "The document %1 is not a LaTeX root document; continue anyway?"
 msgstr "Dokumentas %1 nėra LaTeX šakninis dokumentas; vis tiek tęsti?"
 
-#: kiletool.cpp:639
+#: kiletool.cpp:638
 #, kde-format
 msgid "Continue?"
 msgstr "Tęsti?"
 
-#: kiletool.cpp:651
+#: kiletool.cpp:650
 #, fuzzy, kde-format
 #| msgid "The file %2/%3 does not exist; did you compile the source file?"
 msgid "The file %1/%2 does not exist; did you compile the source file?"
 msgstr "Failas %2/%3 neegzistuoja; ar sukompiliavote pradinį failą?"
 
-#: kiletool.cpp:671
+#: kiletool.cpp:670
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -10181,17 +10181,17 @@ msgstr ""
 "kuris susietas su projektu, kurį norite archyvuoti, tada vėl spauskite "
 "Archyvuoti."
 
-#: kiletool.cpp:675
+#: kiletool.cpp:674
 #, kde-format
 msgid "No files have been chosen for archiving."
 msgstr ""
 
-#: kiletool.cpp:691
+#: kiletool.cpp:690
 #, kde-format
 msgid "Archive Project"
 msgstr "Archyvuoti projektą"
 
-#: kiletool.cpp:817 kiletoolmanager.cpp:284
+#: kiletool.cpp:816 kiletoolmanager.cpp:284
 #, kde-format
 msgid "Unknown tool %1."
 msgstr "Nežinomas įrankis %1."
@@ -10708,149 +10708,149 @@ msgstr "Nepavyko sukurti šablono."
 msgid "LivePreview"
 msgstr "Peržiūra"
 
-#: main.cpp:57
+#: main.cpp:59
 #, kde-format
 msgid "StandardInput.tex"
 msgstr ""
 
-#: main.cpp:98
+#: main.cpp:100
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
 msgstr "KDE integruota LaTeX aplinka"
 
-#: main.cpp:100
+#: main.cpp:102
 #, fuzzy, kde-format
 #| msgid "by the Kile Team (2003 - 2016)"
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
 msgstr "Kile komanda (2003 - 2016)"
 
-#: main.cpp:103
+#: main.cpp:105
 #, kde-format
 msgid "Michel Ludwig"
 msgstr "Michel Ludwig"
 
-#: main.cpp:103
+#: main.cpp:105
 #, kde-format
 msgid "Project Management/Developer"
 msgstr "Projekto tvarkymas/programuotojas"
 
-#: main.cpp:104
+#: main.cpp:106
 #, kde-format
 msgid "Holger Danielsson"
 msgstr "Holger Danielsson"
 
-#: main.cpp:104
+#: main.cpp:106
 #, kde-format
 msgid "Developer"
 msgstr "Programuotojas"
 
-#: main.cpp:105
+#: main.cpp:107
 #, kde-format
 msgid "Thomas Braun"
 msgstr "Thomas Braun"
 
-#: main.cpp:105
+#: main.cpp:107
 #, kde-format
 msgid "Former Developer"
 msgstr "Ankstesnis programuotojas"
 
-#: main.cpp:106
+#: main.cpp:108
 #, kde-format
 msgid "Jeroen Wijnhout"
 msgstr "Jeroen Wijnhout"
 
-#: main.cpp:106
+#: main.cpp:108
 #, kde-format
 msgid "Former Maintainer/Developer"
 msgstr "Ankstesnis prižiūrėtojas/programuotojas"
 
-#: main.cpp:107
+#: main.cpp:109
 #, kde-format
 msgid "Brachet Pascal"
 msgstr "Brachet Pascal"
 
-#: main.cpp:109
+#: main.cpp:111
 #, kde-format
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:109
+#: main.cpp:111
 #, kde-format
 msgid "Migration from Subversion to Git"
 msgstr "Migravimas iš Subversion į Git"
 
-#: main.cpp:110
+#: main.cpp:112
 #, kde-format
 msgid "Simon Martin"
 msgstr "Simon Martin"
 
-#: main.cpp:110
+#: main.cpp:112
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
 msgstr "KConfig XT, įvairūs patobulinimai ir ydų taisymas"
 
-#: main.cpp:111
+#: main.cpp:113
 #, kde-format
 msgid "Roland Schulz"
 msgstr "Roland Schulz"
 
-#: main.cpp:111
+#: main.cpp:113
 #, kde-format
 msgid "KatePart Integration"
 msgstr "KatePart integravimas"
 
-#: main.cpp:112
+#: main.cpp:114
 #, kde-format
 msgid "Thorsten Lück"
 msgstr "Thorsten Lück"
 
-#: main.cpp:112
+#: main.cpp:114
 #, kde-format
 msgid "Log Parsing"
 msgstr "Žurnalo nagrinėjimas"
 
-#: main.cpp:113
+#: main.cpp:115
 #, kde-format
 msgid "Jan-Marek Glogowski"
 msgstr "Jan-Marek Glogowski"
 
-#: main.cpp:113
+#: main.cpp:115
 #, kde-format
 msgid "Find-in-Files Dialog"
 msgstr "Rasti failuose dialogas"
 
-#: main.cpp:114
+#: main.cpp:116
 #, kde-format
 msgid "Jonathan Pechta"
 msgstr "Jonathan Pechta"
 
-#: main.cpp:114 main.cpp:115
+#: main.cpp:116 main.cpp:117
 #, kde-format
 msgid "Documentation"
 msgstr "Dokumentacija"
 
-#: main.cpp:115
+#: main.cpp:117
 #, kde-format
 msgid "Federico Zenith"
 msgstr "Federico Zenith"
 
-#: main.cpp:133
+#: main.cpp:135
 #, kde-format
 msgid "Jump to line"
 msgstr ""
 
-#: main.cpp:134
+#: main.cpp:136
 #, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "Paleidžia naują Kile pagrindinį langą"
 
-#: main.cpp:136
+#: main.cpp:138
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr ""
 
-#: main.cpp:167
+#: main.cpp:169
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -10859,7 +10859,7 @@ msgid ""
 "Please install the Okular library before running Kile."
 msgstr ""
 
-#: main.cpp:169
+#: main.cpp:171
 #, fuzzy, kde-format
 msgid "Okular library not found"
 msgstr "Prašom pasirinkti dokumento, kurį norite sukurti, tipą:"
@@ -11148,7 +11148,7 @@ msgstr "%1 – %2"
 msgid "The file '%1' does not exist."
 msgstr "Failas „%1“ neegzistuoja."
 
-#: usermenu/usermenu.cpp:920
+#: usermenu/usermenu.cpp:926
 #, fuzzy, kde-format
 #| msgid "Input file:"
 msgid "Input Dialog"

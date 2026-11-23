@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-16 01:06+0000\n"
+"POT-Creation-Date: 2026-11-23 01:03+0000\n"
 "PO-Revision-Date: 2024-12-25 19:37+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -356,7 +356,7 @@ msgstr ""
 msgid "Configure"
 msgstr "विन्यस्तं कुर्वन्तु"
 
-#: dialogs/configurationdialog.cpp:68 main.cpp:97
+#: dialogs/configurationdialog.cpp:68 main.cpp:99
 #, kde-format
 msgid "Kile"
 msgstr "किम्‌"
@@ -555,13 +555,13 @@ msgid "Image"
 msgstr "छवि"
 
 #: dialogs/findfilesdialog.cpp:149 kilestdactions.cpp:281
-#: kilestdactions.cpp:284 usermenu/usermenu.cpp:909
+#: kilestdactions.cpp:284 usermenu/usermenu.cpp:915
 #, kde-format
 msgid "Label"
 msgstr "नामपत्र"
 
 #: dialogs/findfilesdialog.cpp:150 kilestdactions.cpp:296
-#: usermenu/usermenu.cpp:914
+#: usermenu/usermenu.cpp:920
 #, kde-format
 msgid "Reference"
 msgstr "सन्दर्भः"
@@ -4595,8 +4595,8 @@ msgstr "चयनितकोष्ठकानां पाठं स्वच�
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "क्लिप्बोर्ड् मध्ये संगृहीतं सारणीम् अस्मिन् विजार्ड् मध्ये चिनोति ।"
 
-#: dialogs/tabular/newtabulardialog.cpp:654
-#: dialogs/tabular/newtabulardialog.cpp:676
+#: dialogs/tabular/newtabulardialog.cpp:653
+#: dialogs/tabular/newtabulardialog.cpp:675
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
@@ -4605,8 +4605,8 @@ msgstr ""
 "सारणीयाः कृते नूतनं आकारं सेट् कृत्वा सामग्रीं विलोपयिष्यति । किं भवन्तः नूतनं आकारं "
 "निश्चितरूपेण सेट् कुर्वन्ति?"
 
-#: dialogs/tabular/newtabulardialog.cpp:654
-#: dialogs/tabular/newtabulardialog.cpp:676
+#: dialogs/tabular/newtabulardialog.cpp:653
+#: dialogs/tabular/newtabulardialog.cpp:675
 #, kde-format
 msgid "Resizing table"
 msgstr "सारणीयाः आकारं परिवर्तयति"
@@ -4858,7 +4858,7 @@ msgstr ""
 "वेबसाइट् (HTML) (*.html *.htm);;दस्तावेज (PDF, PS, DVI, EPUB) (*.ps *.pdf *.dvi "
 "*.epub);;सर्व सञ्चिकाः (*)"
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2113
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2115
 #, kde-format
 msgid "Select File"
 msgstr "सञ्चिकां चिनोतु"
@@ -6090,8 +6090,8 @@ msgstr "All &Project Files उद्घाटयन्तु"
 msgid "Find in &Project..."
 msgstr "&Project इत्यत्र अन्वेष्टुम्..."
 
-#: kile.cpp:911 kile.cpp:1042 kile.cpp:2194 kiledocmanager.cpp:1967
-#: kiledocmanager.cpp:1977
+#: kile.cpp:911 kile.cpp:1042 kile.cpp:2194 kiledocmanager.cpp:1969
+#: kiledocmanager.cpp:1979
 #, kde-format
 msgid "Clean"
 msgstr "स्वच्छम्‌"
@@ -7229,12 +7229,12 @@ msgstr "दस्तावेजात् टेम्पलेट् रचय�
 msgid "Remove Template"
 msgstr "टेम्पलेट हटाएँ"
 
-#: kiledocmanager.cpp:815
+#: kiledocmanager.cpp:817
 #, kde-format
 msgid "Open Files"
 msgstr "सञ्चिकाः उद्घाटयन्तु"
 
-#: kiledocmanager.cpp:896
+#: kiledocmanager.cpp:898
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
@@ -7243,22 +7243,22 @@ msgstr ""
 "%1 सञ्चिकां रक्षन् Kile इत्यनेन समस्याः अभवन् । किं भवतः पर्याप्तं मुक्तं डिस्कस्थानं अवशिष्टम् "
 "अस्ति ?"
 
-#: kiledocmanager.cpp:897
+#: kiledocmanager.cpp:899
 #, kde-format
 msgid "Saving"
 msgstr "बचतम्"
 
-#: kiledocmanager.cpp:930
+#: kiledocmanager.cpp:932
 #, kde-format
 msgid "Any files (*)"
 msgstr "केचन सञ्चिकाः (*) ."
 
-#: kiledocmanager.cpp:932
+#: kiledocmanager.cpp:934
 #, kde-format
 msgid "Save Compiled Document As..."
 msgstr "संकलितं दस्तावेजं यथा रक्षन्तु..."
 
-#: kiledocmanager.cpp:957
+#: kiledocmanager.cpp:959
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
@@ -7267,34 +7267,34 @@ msgstr ""
 "\"%1\" इति URL उद्घाटयितुं न शक्यते\n"
 "यथा निर्देशिका अस्ति।"
 
-#: kiledocmanager.cpp:958
+#: kiledocmanager.cpp:960
 #, kde-format
 msgid "Cannot open directory"
 msgstr "निर्देशिकां उद्घाटयितुं न शक्यते"
 
-#: kiledocmanager.cpp:1076
+#: kiledocmanager.cpp:1078
 #, kde-format
 msgid "Save File"
 msgstr "सञ्चिकां रक्षतु"
 
-#: kiledocmanager.cpp:1112
+#: kiledocmanager.cpp:1114
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr ""
 "\"%1\" इति नाम्ना सञ्चिका पूर्वमेव विद्यते । किं भवन्तः तस्य अधिलेखनं कर्तुम् इच्छन्ति ?"
 
-#: kiledocmanager.cpp:1113
+#: kiledocmanager.cpp:1115
 #, kde-format
 msgid "Overwrite File?"
 msgstr "सञ्चिकां अधिलेखयतु?"
 
-#: kiledocmanager.cpp:1283
+#: kiledocmanager.cpp:1285
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "परियोजना वृक्षं ताजगीं कुर्वन्तु"
 
-#: kiledocmanager.cpp:1291
+#: kiledocmanager.cpp:1293
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7305,34 +7305,34 @@ msgstr ""
 "परियोजनायाः सह सम्बद्धं भवति यस्य कृते भवन्तः वृक्षं निर्मातुम् इच्छन्ति, ततः पुनः Refresh "
 "Project Tree इति चिनोतु ।"
 
-#: kiledocmanager.cpp:1291
+#: kiledocmanager.cpp:1293
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "परियोजनावृक्षं ताजगीं कर्तुं न शक्तवान्"
 
-#: kiledocmanager.cpp:1375 kiledocmanager.cpp:2134 kiledocmanager.cpp:2204
-#: kiledocmanager.cpp:2239
+#: kiledocmanager.cpp:1377 kiledocmanager.cpp:2136 kiledocmanager.cpp:2206
+#: kiledocmanager.cpp:2241
 #, kde-format
 msgid "Select Project"
 msgstr "Project इति चिनोतु"
 
-#: kiledocmanager.cpp:1400 kiledocmanager.cpp:1415 kiledocmanager.cpp:1422
+#: kiledocmanager.cpp:1402 kiledocmanager.cpp:1417 kiledocmanager.cpp:1424
 #, kde-format
 msgid "Add to Project"
 msgstr "परियोजनायां योजयतु"
 
-#: kiledocmanager.cpp:1414
+#: kiledocmanager.cpp:1416
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "%1 सञ्चिका पूर्वमेव %2 परियोजनायाः सदस्या अस्ति"
 
-#: kiledocmanager.cpp:1421
+#: kiledocmanager.cpp:1423
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr "%1 इति सञ्चिका नास्ति अथवा पठनीया नास्ति इति कारणेन योजयितुं न शक्यते"
 
-#: kiledocmanager.cpp:1440
+#: kiledocmanager.cpp:1442
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
@@ -7341,12 +7341,12 @@ msgstr ""
 "इयं सञ्चिका परियोजनासञ्चिका अस्ति, या भवतः परियोजनायाः विषये सर्वाणि सूचनानि धारयति "
 "।  तथा च परियोजनायाः निष्कासनं कर्तुं न शक्यते ।"
 
-#: kiledocmanager.cpp:1440
+#: kiledocmanager.cpp:1442
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "परियोजनातः सञ्चिकां निष्कासयितुं न शक्यते"
 
-#: kiledocmanager.cpp:1508
+#: kiledocmanager.cpp:1510
 #, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
@@ -7355,12 +7355,12 @@ msgstr ""
 "<p>&quot;%1&quot; इति परियोजना पूर्वमेव उद्घाटिता अस्ति ।</p><p> यदि भवान् "
 "परियोजनां पुनः लोड् कर्तुम् इच्छति तर्हि परियोजनां पुनः उद्घाटयितुं पूर्वं पिधातु ।</p>"
 
-#: kiledocmanager.cpp:1510
+#: kiledocmanager.cpp:1512
 #, kde-format
 msgid "Project Already Open"
 msgstr "परियोजना पूर्वमेव उद्घाटिता अस्ति"
 
-#: kiledocmanager.cpp:1521
+#: kiledocmanager.cpp:1523
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7370,12 +7370,12 @@ msgstr ""
 "<p>&quot;%1&quot; परियोजनायाः परियोजनासञ्चिका नास्ति अथवा पठनीया नास्ति ।</"
 "p><p> किं भवान् एतत् परियोजनां अद्यतनप्रकल्पसूचिकातः हर्तुं इच्छति?</p>"
 
-#: kiledocmanager.cpp:1524
+#: kiledocmanager.cpp:1526
 #, kde-format
 msgid "Could Not Open Project"
 msgstr "परियोजनां उद्घाटयितुं न शक्तवान्"
 
-#: kiledocmanager.cpp:1542
+#: kiledocmanager.cpp:1544
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
@@ -7384,12 +7384,12 @@ msgstr ""
 "<p>&quot;%1&quot; इति सञ्चिका परियोजनासञ्चिकारूपेण न दृश्यते इति कारणतः उद्घाटयितुं न "
 "शक्यते ।</p>"
 
-#: kiledocmanager.cpp:1544
+#: kiledocmanager.cpp:1546
 #, kde-format
 msgid "Impossible to Open Project File"
 msgstr "परियोजनासञ्चिकां उद्घाटयितुं असम्भवम्"
 
-#: kiledocmanager.cpp:1554
+#: kiledocmanager.cpp:1556
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
@@ -7398,12 +7398,12 @@ msgstr ""
 "<p>&quot;%1&quot; परियोजना यथा निर्मितवती तथा उद्घाटयितुं न शक्यते<br/> किले इत्यस्य "
 "नूतनतरसंस्करणेन ।</p>"
 
-#: kiledocmanager.cpp:1556
+#: kiledocmanager.cpp:1558
 #, kde-format
 msgid "Impossible to Open Project"
 msgstr "परियोजनां उद्घाटयितुं असम्भवम्"
 
-#: kiledocmanager.cpp:1566
+#: kiledocmanager.cpp:1568
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7413,12 +7413,12 @@ msgstr ""
 "<p>परियोजनासञ्चिका &quot;%1&quot; Kile इत्यस्य पूर्वसंस्करणेन निर्मितवती ।<br/> तस्य "
 "उद्घाटनात् पूर्वं अद्यतनीकरणीयम् ।</p><p> किं भवन्तः तत् अद्यतनं कर्तुम् इच्छन्ति ?</p>"
 
-#: kiledocmanager.cpp:1569
+#: kiledocmanager.cpp:1571
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr "परियोजनासञ्चिका अद्यतनीकरणस्य आवश्यकता अस्ति"
 
-#: kiledocmanager.cpp:1576
+#: kiledocmanager.cpp:1578
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
@@ -7427,22 +7427,22 @@ msgstr ""
 "<p>परियोजनासञ्चिका &quot;%1&quot; अद्यतनं कर्तुं न शक्यते ।</p><p> किं भवान् एतत् "
 "परियोजनां अद्यतनप्रकल्पसूचिकातः हर्तुं इच्छति?</p>"
 
-#: kiledocmanager.cpp:1578
+#: kiledocmanager.cpp:1580
 #, kde-format
 msgid "Could Not Update Project File"
 msgstr "परियोजनासञ्चिकां अद्यतनीकर्तुं न शक्तवान्"
 
-#: kiledocmanager.cpp:1678
+#: kiledocmanager.cpp:1680
 #, kde-format
 msgid "Open Project"
 msgstr "Open Project इति परियोजना"
 
-#: kiledocmanager.cpp:1697
+#: kiledocmanager.cpp:1699
 #, kde-format
 msgid "Save Project"
 msgstr "परियोजना रक्षतु"
 
-#: kiledocmanager.cpp:1747
+#: kiledocmanager.cpp:1749
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7453,27 +7453,27 @@ msgstr ""
 "भवन्तः रक्षितुम् इच्छन्ति परियोजनायाः सह सम्बद्धं भवति, ततः पुनः परियोजनां रक्षन्तु इति "
 "चिनोतु ।"
 
-#: kiledocmanager.cpp:1747
+#: kiledocmanager.cpp:1749
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "सक्रिय परियोजना निर्धारयितुं शक्नोति स्म"
 
-#: kiledocmanager.cpp:1768
+#: kiledocmanager.cpp:1770
 #, kde-format
 msgid "Add Files to Project"
 msgstr "Project मध्ये Files योजयन्तु"
 
-#: kiledocmanager.cpp:1781
+#: kiledocmanager.cpp:1783
 #, kde-format
 msgid "Add Files"
 msgstr "सञ्चिकाः योजयन्तु"
 
-#: kiledocmanager.cpp:1784
+#: kiledocmanager.cpp:1786
 #, kde-format
 msgid "Add"
 msgstr "संयोजयति"
 
-#: kiledocmanager.cpp:1799
+#: kiledocmanager.cpp:1801
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
@@ -7482,17 +7482,17 @@ msgstr ""
 "परियोजनाः उद्घाटिताः न सन्ति। कृपया यस्मिन् परियोजनायां भवन्तः सञ्चिकाः योजयितुम् "
 "इच्छन्ति तत् उद्घाटयन्तु, ततः पुनः Add Files इति चिनोतु ।"
 
-#: kiledocmanager.cpp:1799 kiledocmanager.cpp:1834
+#: kiledocmanager.cpp:1801 kiledocmanager.cpp:1836
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "सक्रिय परियोजना निर्धारयितुं न शक्तवान्"
 
-#: kiledocmanager.cpp:1825
+#: kiledocmanager.cpp:1827
 #, kde-format
 msgid "Project Options For"
 msgstr "परियोजना विकल्पाः For"
 
-#: kiledocmanager.cpp:1834
+#: kiledocmanager.cpp:1836
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7503,12 +7503,12 @@ msgstr ""
 "भवन्तः परिवर्तनं कर्तुम् इच्छन्ति तस्य परियोजनायाः सह सम्बद्धं भवति, ततः पुनः परियोजना "
 "विकल्पान् चिनोतु ।"
 
-#: kiledocmanager.cpp:1860
+#: kiledocmanager.cpp:1862
 #, kde-format
 msgid "Close Project"
 msgstr "परियोजनां बन्दं कुर्वन्तु"
 
-#: kiledocmanager.cpp:1911
+#: kiledocmanager.cpp:1913
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7519,77 +7519,77 @@ msgstr ""
 "भवन्तः बन्दं कर्तुम् इच्छन्ति परियोजनायाः सह सम्बद्धं भवति, ततः पुनः Close Project इति "
 "चिनोतु ।"
 
-#: kiledocmanager.cpp:1911
+#: kiledocmanager.cpp:1913
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "परियोजनां बन्दं कर्तुं न शक्तवान्"
 
-#: kiledocmanager.cpp:1966
+#: kiledocmanager.cpp:1968
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr "%1 कृते शोधनार्थं किमपि नास्ति"
 
-#: kiledocmanager.cpp:1976
+#: kiledocmanager.cpp:1978
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "%1: %2 इत्यस्य सफाई"
 
-#: kiledocmanager.cpp:2049
+#: kiledocmanager.cpp:2051
 #, kde-format
 msgid "Switch Project"
 msgstr "स्विच परियोजना"
 
-#: kiledocmanager.cpp:2105
+#: kiledocmanager.cpp:2107
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "Files to Remove इति चिनोतु"
 
-#: kiledocmanager.cpp:2116 kiledocmanager.cpp:2119
+#: kiledocmanager.cpp:2118 kiledocmanager.cpp:2121
 #, kde-format
 msgid "Show Project Files"
 msgstr "परियोजनासञ्चिकाः दर्शयन्तु"
 
-#: kiledocmanager.cpp:2116 kiledocmanager.cpp:2162
+#: kiledocmanager.cpp:2118 kiledocmanager.cpp:2164
 #, kde-format
 msgid "project configuration file"
 msgstr "परियोजना विन्याससञ्चिका"
 
-#: kiledocmanager.cpp:2119 kiledocmanager.cpp:2165
+#: kiledocmanager.cpp:2121 kiledocmanager.cpp:2167
 #, kde-format
 msgid "graphics file"
 msgstr "ग्राफिक्स सञ्चिका"
 
-#: kiledocmanager.cpp:2162 kiledocmanager.cpp:2165
+#: kiledocmanager.cpp:2164 kiledocmanager.cpp:2167
 #, kde-format
 msgid "Open All Project Files"
 msgstr "सर्वाणि परियोजनासञ्चिकाः उद्घाटयन्तु"
 
-#: kiledocmanager.cpp:2197
+#: kiledocmanager.cpp:2199
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "न उद्घाटितम्: %1 (%2)"
 
-#: kiledocmanager.cpp:2220 kiledocmanager.cpp:2255
+#: kiledocmanager.cpp:2222 kiledocmanager.cpp:2257
 #, kde-format
 msgid "Project Files"
 msgstr "परियोजना सञ्चिकाः"
 
-#: kiledocmanager.cpp:2228 kiledocmanager.cpp:2265
+#: kiledocmanager.cpp:2230 kiledocmanager.cpp:2267
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "चयनितसञ्चिकां निर्धारयितुं न शक्तवान् ।"
 
-#: kiledocmanager.cpp:2228 kiledocmanager.cpp:2265
+#: kiledocmanager.cpp:2230 kiledocmanager.cpp:2267
 #, kde-format
 msgid "Project Error"
 msgstr "परियोजना त्रुटि"
 
-#: kiledocmanager.cpp:2332
+#: kiledocmanager.cpp:2334
 #, kde-format
 msgid "Opening Project..."
 msgstr "परियोजना उद्घाटनम्..."
 
-#: kiledocmanager.cpp:2335
+#: kiledocmanager.cpp:2337
 #, kde-format
 msgid "Scanning project files..."
 msgstr "परियोजनासञ्चिकानां स्कैनिङ्गं..."
@@ -10347,22 +10347,22 @@ msgstr "%1 इति सञ्चिका नास्ति ।"
 msgid "The file %1 is not readable."
 msgstr "%1 इति सञ्चिका पठनीया नास्ति ।"
 
-#: kiletool.cpp:639
+#: kiletool.cpp:638
 #, kde-format
 msgid "The document %1 is not a LaTeX root document; continue anyway?"
 msgstr "%1 इति दस्तावेजं LaTeX मूलदस्तावेजं नास्ति; तथापि निरन्तरं कुर्वन्तु?"
 
-#: kiletool.cpp:639
+#: kiletool.cpp:638
 #, kde-format
 msgid "Continue?"
 msgstr "अनुवर्तते?"
 
-#: kiletool.cpp:651
+#: kiletool.cpp:650
 #, kde-format
 msgid "The file %1/%2 does not exist; did you compile the source file?"
 msgstr "%1/%2 इति सञ्चिका नास्ति; किं भवता स्रोतसञ्चिकां संकलितवती?"
 
-#: kiletool.cpp:671
+#: kiletool.cpp:670
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -10372,17 +10372,17 @@ msgstr ""
 "वर्तमानदस्तावेजः परियोजनायाः सह सम्बद्धः नास्ति । कृपया एकं दस्तावेजं सक्रियं कुर्वन्तु यत् "
 "भवन्तः संग्रहणं कर्तुम् इच्छन्ति तस्य परियोजनायाः सह सम्बद्धं भवति, ततः पुनः संग्रहणं चिनोतु ।"
 
-#: kiletool.cpp:675
+#: kiletool.cpp:674
 #, kde-format
 msgid "No files have been chosen for archiving."
 msgstr "संग्रहणार्थं कोऽपि सञ्चिकाः न चयनिताः ।"
 
-#: kiletool.cpp:691
+#: kiletool.cpp:690
 #, kde-format
 msgid "Archive Project"
 msgstr "अभिलेखागार परियोजना"
 
-#: kiletool.cpp:817 kiletoolmanager.cpp:284
+#: kiletool.cpp:816 kiletoolmanager.cpp:284
 #, kde-format
 msgid "Unknown tool %1."
 msgstr "अज्ञातं साधनं %1."
@@ -10878,148 +10878,148 @@ msgstr "उपनिर्देशिकासंरचनायाः नि�
 msgid "LivePreview"
 msgstr "LivePreview"
 
-#: main.cpp:57
+#: main.cpp:59
 #, kde-format
 msgid "StandardInput.tex"
 msgstr "StandardInput.text"
 
-#: main.cpp:98
+#: main.cpp:100
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
 msgstr "KDE एकीकृत LaTeX वातावरणम्"
 
-#: main.cpp:100
+#: main.cpp:102
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
 msgstr "किले दलेन (२००३ - %1)"
 
-#: main.cpp:103
+#: main.cpp:105
 #, kde-format
 msgid "Michel Ludwig"
 msgstr "मिशेल लुड्विग्"
 
-#: main.cpp:103
+#: main.cpp:105
 #, kde-format
 msgid "Project Management/Developer"
 msgstr "परियोजना प्रबन्धन/विकासक"
 
-#: main.cpp:104
+#: main.cpp:106
 #, kde-format
 msgid "Holger Danielsson"
 msgstr "होल्गर डेनियल्सन"
 
-#: main.cpp:104
+#: main.cpp:106
 #, kde-format
 msgid "Developer"
 msgstr "विकासकः"
 
-#: main.cpp:105
+#: main.cpp:107
 #, kde-format
 msgid "Thomas Braun"
 msgstr "थॉमस ब्राउन"
 
-#: main.cpp:105
+#: main.cpp:107
 #, kde-format
 msgid "Former Developer"
 msgstr "पूर्व विकासक"
 
-#: main.cpp:106
+#: main.cpp:108
 #, kde-format
 msgid "Jeroen Wijnhout"
 msgstr "जेरोएन् विज्नहाउट्"
 
-#: main.cpp:106
+#: main.cpp:108
 #, kde-format
 msgid "Former Maintainer/Developer"
 msgstr "पूर्व परिपालक/विकासक"
 
-#: main.cpp:107
+#: main.cpp:109
 #, kde-format
 msgid "Brachet Pascal"
 msgstr "ब्रचेट् पास्कल"
 
-#: main.cpp:109
+#: main.cpp:111
 #, kde-format
 msgid "Andrius Štikonas"
 msgstr "आन्द्रियः ष्टिकोनसः"
 
-#: main.cpp:109
+#: main.cpp:111
 #, kde-format
 msgid "Migration from Subversion to Git"
 msgstr "Subversion तः Git - मध्ये प्रवासः"
 
-#: main.cpp:110
+#: main.cpp:112
 #, kde-format
 msgid "Simon Martin"
 msgstr "सिमोन मार्टिन्"
 
-#: main.cpp:110
+#: main.cpp:112
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
 msgstr "KConfig XT, विभिन्नानि सुधारणानि तथा दोषनिराकरणम्"
 
-#: main.cpp:111
+#: main.cpp:113
 #, kde-format
 msgid "Roland Schulz"
 msgstr "रोलाण्ड शुल्ट्ज"
 
-#: main.cpp:111
+#: main.cpp:113
 #, kde-format
 msgid "KatePart Integration"
 msgstr "केटपार्ट एकीकरण"
 
-#: main.cpp:112
+#: main.cpp:114
 #, kde-format
 msgid "Thorsten Lück"
 msgstr "थोर्स्टेन लुक्"
 
-#: main.cpp:112
+#: main.cpp:114
 #, kde-format
 msgid "Log Parsing"
 msgstr "लॉग पार्सिंग्"
 
-#: main.cpp:113
+#: main.cpp:115
 #, kde-format
 msgid "Jan-Marek Glogowski"
 msgstr "जन-मारेक ग्लोगोव्स्की"
 
-#: main.cpp:113
+#: main.cpp:115
 #, kde-format
 msgid "Find-in-Files Dialog"
 msgstr "Find-in-Files संवादः"
 
-#: main.cpp:114
+#: main.cpp:116
 #, kde-format
 msgid "Jonathan Pechta"
 msgstr "जोनाथन पेचटा"
 
-#: main.cpp:114 main.cpp:115
+#: main.cpp:116 main.cpp:117
 #, kde-format
 msgid "Documentation"
 msgstr "दस्तावेजीकरणम्"
 
-#: main.cpp:115
+#: main.cpp:117
 #, kde-format
 msgid "Federico Zenith"
 msgstr "फेडेरिको जेनिथ"
 
-#: main.cpp:133
+#: main.cpp:135
 #, kde-format
 msgid "Jump to line"
 msgstr "रेखां प्रति कूदन्तु"
 
-#: main.cpp:134
+#: main.cpp:136
 #, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "एकं नूतनं किले मुख्यविण्डो आरभत"
 
-#: main.cpp:136
+#: main.cpp:138
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr "सञ्चिकाः उद्घाटयितुं / मानकनिवेशात् पठितुं '-' निर्दिष्टुं"
 
-#: main.cpp:167
+#: main.cpp:169
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -11031,7 +11031,7 @@ msgstr ""
 "\n"
 "कृपया Kile चालयितुं पूर्वं Okular पुस्तकालयं संस्थापयन्तु ।"
 
-#: main.cpp:169
+#: main.cpp:171
 #, kde-format
 msgid "Okular library not found"
 msgstr "ओकुलर पुस्तकालयः न प्राप्तः"
@@ -11326,7 +11326,7 @@ msgstr "%1 - %2"
 msgid "The file '%1' does not exist."
 msgstr "'%1' इति सञ्चिका नास्ति ।"
 
-#: usermenu/usermenu.cpp:920
+#: usermenu/usermenu.cpp:926
 #, kde-format
 msgid "Input Dialog"
 msgstr "इनपुट संवाद"

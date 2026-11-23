@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-16 01:06+0000\n"
+"POT-Creation-Date: 2026-11-23 01:03+0000\n"
 "PO-Revision-Date: 2025-12-06 23:41+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -354,7 +354,7 @@ msgstr ""
 msgid "Configure"
 msgstr "ຕັ້ງຄ່າ"
 
-#: dialogs/configurationdialog.cpp:68 main.cpp:97
+#: dialogs/configurationdialog.cpp:68 main.cpp:99
 #, kde-format
 msgid "Kile"
 msgstr "Kile"
@@ -553,13 +553,13 @@ msgid "Image"
 msgstr "ຮູບພາບ"
 
 #: dialogs/findfilesdialog.cpp:149 kilestdactions.cpp:281
-#: kilestdactions.cpp:284 usermenu/usermenu.cpp:909
+#: kilestdactions.cpp:284 usermenu/usermenu.cpp:915
 #, kde-format
 msgid "Label"
 msgstr "ປ້າຍຊື່"
 
 #: dialogs/findfilesdialog.cpp:150 kilestdactions.cpp:296
-#: usermenu/usermenu.cpp:914
+#: usermenu/usermenu.cpp:920
 #, kde-format
 msgid "Reference"
 msgstr "ການອ້າງອີງ"
@@ -4558,16 +4558,16 @@ msgstr "ລຶບຂໍ້ຄວາມຂອງເຊວທີ່ເລືອກ
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "ວາງຕາຕະລາງທີ່ເກັບໄວ້ໃນຄລິບບອດລົງໃນຕົວຊ່ວຍສ້າງນີ້."
 
-#: dialogs/tabular/newtabulardialog.cpp:654
-#: dialogs/tabular/newtabulardialog.cpp:676
+#: dialogs/tabular/newtabulardialog.cpp:653
+#: dialogs/tabular/newtabulardialog.cpp:675
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
 "the new size?"
 msgstr "ການຕັ້ງຄ່າຂະໜາດໃໝ່ສຳລັບຕາຕະລາງຈະລຶບເນື້ອຫາ. ເຈົ້າແນ່ໃຈບໍ່ວ່າຕ້ອງການຕັ້ງຄ່າຂະໜາດໃໝ່?"
 
-#: dialogs/tabular/newtabulardialog.cpp:654
-#: dialogs/tabular/newtabulardialog.cpp:676
+#: dialogs/tabular/newtabulardialog.cpp:653
+#: dialogs/tabular/newtabulardialog.cpp:675
 #, kde-format
 msgid "Resizing table"
 msgstr "ການປັບຂະໜາດຕາຕະລາງ"
@@ -4817,7 +4817,7 @@ msgstr ""
 "ເວັບໄຊ (HTML) (*.html *.htm);;ເອກະສານ (PDF, PS, DVI, EPUB) (*.ps *.pdf *.dvi "
 "*.epub);;ແຟ້ມທັງໝົດ (*)"
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2113
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2115
 #, kde-format
 msgid "Select File"
 msgstr "ເລືອກແຟ້ມ"
@@ -6039,8 +6039,8 @@ msgstr "ເປີດແຟ້ມ&ໂຄງການທັງໝົດ"
 msgid "Find in &Project..."
 msgstr "ຄົ້ນຫາໃນ&ໂຄງການ..."
 
-#: kile.cpp:911 kile.cpp:1042 kile.cpp:2194 kiledocmanager.cpp:1967
-#: kiledocmanager.cpp:1977
+#: kile.cpp:911 kile.cpp:1042 kile.cpp:2194 kiledocmanager.cpp:1969
+#: kiledocmanager.cpp:1979
 #, kde-format
 msgid "Clean"
 msgstr "ລ້າງ"
@@ -7176,34 +7176,34 @@ msgstr "ສ້າງແມ່ແບບຈາກເອກະສານ"
 msgid "Remove Template"
 msgstr "ລຶບແມ່ແບບ"
 
-#: kiledocmanager.cpp:815
+#: kiledocmanager.cpp:817
 #, kde-format
 msgid "Open Files"
 msgstr "ເປີດໄຟລ໌"
 
-#: kiledocmanager.cpp:896
+#: kiledocmanager.cpp:898
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
 "disk space left?"
 msgstr "Kile ພົບບັນຫາຂະນະບັນທຶກໄຟລ໌ %1. ທ່ານມີພື້ນທີ່ວ່າງໃນດິດພຽງພໍຫຼືບໍ່?"
 
-#: kiledocmanager.cpp:897
+#: kiledocmanager.cpp:899
 #, kde-format
 msgid "Saving"
 msgstr "ກຳລັງບັນທຶກ"
 
-#: kiledocmanager.cpp:930
+#: kiledocmanager.cpp:932
 #, kde-format
 msgid "Any files (*)"
 msgstr "ໄຟລ໌ທຸກປະເພດ (*)"
 
-#: kiledocmanager.cpp:932
+#: kiledocmanager.cpp:934
 #, kde-format
 msgid "Save Compiled Document As..."
 msgstr "ບັນທຶກເອກະສານທີ່ປະມວນຜົນແລ້ວເປັນ..."
 
-#: kiledocmanager.cpp:957
+#: kiledocmanager.cpp:959
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
@@ -7212,33 +7212,33 @@ msgstr ""
 "ບໍ່ສາມາດເປີດ URL \"%1\" ໄດ້\n"
 "ເນື່ອງຈາກມັນເປັນໄດເລັກທໍຣີ."
 
-#: kiledocmanager.cpp:958
+#: kiledocmanager.cpp:960
 #, kde-format
 msgid "Cannot open directory"
 msgstr "ບໍ່ສາມາດເປີດໄດເລັກທໍຣີໄດ້"
 
-#: kiledocmanager.cpp:1076
+#: kiledocmanager.cpp:1078
 #, kde-format
 msgid "Save File"
 msgstr "ບັນທຶກໄຟລ໌"
 
-#: kiledocmanager.cpp:1112
+#: kiledocmanager.cpp:1114
 #, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "ມີໄຟລ໌ຊື່ \"%1\" ຢູ່ແລ້ວ. ທ່ານຕ້ອງການຂຽນທັບມັນຫຼືບໍ່?"
 
-#: kiledocmanager.cpp:1113
+#: kiledocmanager.cpp:1115
 #, kde-format
 msgid "Overwrite File?"
 msgstr "ຂຽນທັບໄຟລ໌ບໍ?"
 
-#: kiledocmanager.cpp:1283
+#: kiledocmanager.cpp:1285
 #, kde-format
 msgid "Refresh Project Tree"
 msgstr "ໂຫຼດໂຄງສ້າງໂຄງການຄືນໃໝ່"
 
-#: kiledocmanager.cpp:1291
+#: kiledocmanager.cpp:1293
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7249,34 +7249,34 @@ msgstr ""
 "ກະລຸນາເປີດໃຊ້ເອກະສານທີ່ກ່ຽວຂ້ອງກັບໂຄງການທີ່ທ່ານຕ້ອງການສ້າງໂຄງສ້າງ, ແລ້ວເລືອກ "
 "ໂຫຼດໂຄງສ້າງໂຄງການຄືນໃໝ່ ອີກຄັ້ງ."
 
-#: kiledocmanager.cpp:1291
+#: kiledocmanager.cpp:1293
 #, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "ບໍ່ສາມາດໂຫຼດໂຄງສ້າງໂຄງການຄືນໃໝ່ໄດ້"
 
-#: kiledocmanager.cpp:1375 kiledocmanager.cpp:2134 kiledocmanager.cpp:2204
-#: kiledocmanager.cpp:2239
+#: kiledocmanager.cpp:1377 kiledocmanager.cpp:2136 kiledocmanager.cpp:2206
+#: kiledocmanager.cpp:2241
 #, kde-format
 msgid "Select Project"
 msgstr "ເລືອກໂຄງການ"
 
-#: kiledocmanager.cpp:1400 kiledocmanager.cpp:1415 kiledocmanager.cpp:1422
+#: kiledocmanager.cpp:1402 kiledocmanager.cpp:1417 kiledocmanager.cpp:1424
 #, kde-format
 msgid "Add to Project"
 msgstr "ເພີ່ມໃສ່ໂຄງການ"
 
-#: kiledocmanager.cpp:1414
+#: kiledocmanager.cpp:1416
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr "ໄຟລ໌ %1 ເປັນສະມາຊິກຂອງໂຄງການ %2 ຢູ່ແລ້ວ"
 
-#: kiledocmanager.cpp:1421
+#: kiledocmanager.cpp:1423
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr "ບໍ່ສາມາດເພີ່ມໄຟລ໌ %1 ໄດ້ ເພາະມັນບໍ່ມີຢູ່ ຫຼື ບໍ່ສາມາດອ່ານໄດ້"
 
-#: kiledocmanager.cpp:1440
+#: kiledocmanager.cpp:1442
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
@@ -7285,12 +7285,12 @@ msgstr ""
 "ໄຟລ໌ນີ້ແມ່ນໄຟລ໌ໂຄງການ, ເຊິ່ງເກັບຂໍ້ມູນທັງໝົດກ່ຽວກັບໂຄງການຂອງທ່ານ. ດັ່ງນັ້ນ, "
 "ມັນບໍ່ສາມາດຖືກລຶບອອກຈາກໂຄງການໄດ້."
 
-#: kiledocmanager.cpp:1440
+#: kiledocmanager.cpp:1442
 #, kde-format
 msgid "Cannot Remove File From Project"
 msgstr "ບໍ່ສາມາດລຶບໄຟລ໌ອອກຈາກໂຄງການໄດ້"
 
-#: kiledocmanager.cpp:1508
+#: kiledocmanager.cpp:1510
 #, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
@@ -7299,12 +7299,12 @@ msgstr ""
 "<p>ໂຄງການ \"%1\" ເປີດຢູ່ແລ້ວ.</p><p>ຖ້າທ່ານຕ້ອງການໂຫຼດໂຄງການຄືນໃໝ່, "
 "ໃຫ້ປິດໂຄງການກ່ອນທີ່ທ່ານຈະເປີດມັນຄືນໃໝ່.</p>"
 
-#: kiledocmanager.cpp:1510
+#: kiledocmanager.cpp:1512
 #, kde-format
 msgid "Project Already Open"
 msgstr "ໂຄງການເປີດຢູ່ແລ້ວ"
 
-#: kiledocmanager.cpp:1521
+#: kiledocmanager.cpp:1523
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7314,24 +7314,24 @@ msgstr ""
 "<p>ໄຟລ໌ໂຄງການສຳລັບໂຄງການ \"%1\" ບໍ່ມີຢູ່ ຫຼື ບໍ່ສາມາດອ່ານໄດ້.</"
 "p><p>ທ່ານຕ້ອງການລຶບໂຄງການນີ້ອອກຈາກລາຍການໂຄງການຫຼ້າສຸດຫຼືບໍ່?</p>"
 
-#: kiledocmanager.cpp:1524
+#: kiledocmanager.cpp:1526
 #, kde-format
 msgid "Could Not Open Project"
 msgstr "ບໍ່ສາມາດເປີດໂຄງການໄດ້"
 
-#: kiledocmanager.cpp:1542
+#: kiledocmanager.cpp:1544
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
 "file.</p>"
 msgstr "<p>ບໍ່ສາມາດເປີດໄຟລ໌ \"%1\" ໄດ້ ເນື່ອງຈາກມັນບໍ່ແມ່ນໄຟລ໌ໂຄງການ.</p>"
 
-#: kiledocmanager.cpp:1544
+#: kiledocmanager.cpp:1546
 #, kde-format
 msgid "Impossible to Open Project File"
 msgstr "ເປັນໄປບໍ່ໄດ້ທີ່ຈະເປີດໄຟລ໌ໂຄງການ"
 
-#: kiledocmanager.cpp:1554
+#: kiledocmanager.cpp:1556
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
@@ -7339,12 +7339,12 @@ msgid ""
 msgstr ""
 "<p>ບໍ່ສາມາດເປີດໂຄງການ \"%1\" ໄດ້ ເນື່ອງຈາກມັນຖືກສ້າງຂຶ້ນ <br/>ໂດຍ Kile ເວີຊັນໃໝ່ກວ່າ.</p>"
 
-#: kiledocmanager.cpp:1556
+#: kiledocmanager.cpp:1558
 #, kde-format
 msgid "Impossible to Open Project"
 msgstr "ເປັນໄປບໍ່ໄດ້ທີ່ຈະເປີດໂຄງການ"
 
-#: kiledocmanager.cpp:1566
+#: kiledocmanager.cpp:1568
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7354,12 +7354,12 @@ msgstr ""
 "<p>ໄຟລ໌ໂຄງການ \"%1\" ຖືກສ້າງຂຶ້ນໂດຍ Kile ເວີຊັນເກົ່າ.<br/"
 ">ມັນຈຳເປັນຕ້ອງໄດ້ຮັບການອັບເດດກ່ອນທີ່ຈະເປີດໄດ້.</p><p>ທ່ານຕ້ອງການອັບເດດມັນຫຼືບໍ່?</p>"
 
-#: kiledocmanager.cpp:1569
+#: kiledocmanager.cpp:1571
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr "ໄຟລ໌ໂຄງການຈຳເປັນຕ້ອງໄດ້ຮັບການອັບເດດ"
 
-#: kiledocmanager.cpp:1576
+#: kiledocmanager.cpp:1578
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
@@ -7368,22 +7368,22 @@ msgstr ""
 "<p>ໄຟລ໌ໂຄງການ \"%1\" ບໍ່ສາມາດອັບເດດໄດ້.</"
 "p><p>ທ່ານຕ້ອງການລຶບໂຄງການນີ້ອອກຈາກລາຍການໂຄງການຫຼ້າສຸດຫຼືບໍ່?</p>"
 
-#: kiledocmanager.cpp:1578
+#: kiledocmanager.cpp:1580
 #, kde-format
 msgid "Could Not Update Project File"
 msgstr "ບໍ່ສາມາດອັບເດດໄຟລ໌ໂຄງການໄດ້"
 
-#: kiledocmanager.cpp:1678
+#: kiledocmanager.cpp:1680
 #, kde-format
 msgid "Open Project"
 msgstr "ເປີດໂຄງການ"
 
-#: kiledocmanager.cpp:1697
+#: kiledocmanager.cpp:1699
 #, kde-format
 msgid "Save Project"
 msgstr "ບັນທຶກໂຄງການ"
 
-#: kiledocmanager.cpp:1747
+#: kiledocmanager.cpp:1749
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7393,44 +7393,44 @@ msgstr ""
 "ເອກະສານປັດຈຸບັນບໍ່ໄດ້ກ່ຽວຂ້ອງກັບໂຄງການໃດເລີຍ. "
 "ກະລຸນາເປີດໃຊ້ເອກະສານທີ່ກ່ຽວຂ້ອງກັບໂຄງການທີ່ທ່ານຕ້ອງການບັນທຶກ, ແລ້ວເລືອກ ບັນທຶກໂຄງການ ອີກຄັ້ງ."
 
-#: kiledocmanager.cpp:1747
+#: kiledocmanager.cpp:1749
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "ສາມາດກຳນົດໂຄງການທີ່ໃຊ້ງານຢູ່ໄດ້"
 
-#: kiledocmanager.cpp:1768
+#: kiledocmanager.cpp:1770
 #, kde-format
 msgid "Add Files to Project"
 msgstr "ເພີ່ມໄຟລ໌ໃສ່ໂຄງການ"
 
-#: kiledocmanager.cpp:1781
+#: kiledocmanager.cpp:1783
 #, kde-format
 msgid "Add Files"
 msgstr "ເພີ່ມໄຟລ໌"
 
-#: kiledocmanager.cpp:1784
+#: kiledocmanager.cpp:1786
 #, kde-format
 msgid "Add"
 msgstr "ເພີ່ມ"
 
-#: kiledocmanager.cpp:1799
+#: kiledocmanager.cpp:1801
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
 "to, then choose Add Files again."
 msgstr "ບໍ່ມີໂຄງການໃດເປີດຢູ່. ກະລຸນາເປີດໂຄງການທີ່ທ່ານຕ້ອງການເພີ່ມໄຟລ໌ໃສ່, ແລ້ວເລືອກ ເພີ່ມໄຟລ໌ ອີກຄັ້ງ."
 
-#: kiledocmanager.cpp:1799 kiledocmanager.cpp:1834
+#: kiledocmanager.cpp:1801 kiledocmanager.cpp:1836
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "ບໍ່ສາມາດກຳນົດໂຄງການທີ່ໃຊ້ງານຢູ່ໄດ້"
 
-#: kiledocmanager.cpp:1825
+#: kiledocmanager.cpp:1827
 #, kde-format
 msgid "Project Options For"
 msgstr "ຕົວເລືອກໂຄງການສຳລັບ"
 
-#: kiledocmanager.cpp:1834
+#: kiledocmanager.cpp:1836
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7440,12 +7440,12 @@ msgstr ""
 "ເອກະສານປັດຈຸບັນບໍ່ໄດ້ກ່ຽວຂ້ອງກັບໂຄງການໃດເລີຍ. "
 "ກະລຸນາເປີດໃຊ້ເອກະສານທີ່ກ່ຽວຂ້ອງກັບໂຄງການທີ່ທ່ານຕ້ອງການແກ້ໄຂ, ແລ້ວເລືອກ ຕົວເລືອກໂຄງການ ອີກຄັ້ງ."
 
-#: kiledocmanager.cpp:1860
+#: kiledocmanager.cpp:1862
 #, kde-format
 msgid "Close Project"
 msgstr "ປິດໂຄງການ"
 
-#: kiledocmanager.cpp:1911
+#: kiledocmanager.cpp:1913
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7455,77 +7455,77 @@ msgstr ""
 "ເອກະສານປັດຈຸບັນບໍ່ໄດ້ກ່ຽວຂ້ອງກັບໂຄງການໃດເລີຍ. "
 "ກະລຸນາເປີດໃຊ້ເອກະສານທີ່ກ່ຽວຂ້ອງກັບໂຄງການທີ່ທ່ານຕ້ອງການປິດ, ແລ້ວເລືອກ ປິດໂຄງການ ອີກຄັ້ງ."
 
-#: kiledocmanager.cpp:1911
+#: kiledocmanager.cpp:1913
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "ບໍ່ສາມາດປິດໂຄງການໄດ້"
 
-#: kiledocmanager.cpp:1966
+#: kiledocmanager.cpp:1968
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr "ບໍ່ມີຫຍັງຕ້ອງທຳຄວາມສະອາດສຳລັບ %1"
 
-#: kiledocmanager.cpp:1976
+#: kiledocmanager.cpp:1978
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "ກຳລັງທຳຄວາມສະອາດ %1: %2"
 
-#: kiledocmanager.cpp:2049
+#: kiledocmanager.cpp:2051
 #, kde-format
 msgid "Switch Project"
 msgstr "ສະລັບໂຄງການ"
 
-#: kiledocmanager.cpp:2105
+#: kiledocmanager.cpp:2107
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "ເລືອກໄຟລ໌ທີ່ຈະລຶບ"
 
-#: kiledocmanager.cpp:2116 kiledocmanager.cpp:2119
+#: kiledocmanager.cpp:2118 kiledocmanager.cpp:2121
 #, kde-format
 msgid "Show Project Files"
 msgstr "ສະແດງໄຟລ໌ໂຄງການ"
 
-#: kiledocmanager.cpp:2116 kiledocmanager.cpp:2162
+#: kiledocmanager.cpp:2118 kiledocmanager.cpp:2164
 #, kde-format
 msgid "project configuration file"
 msgstr "ໄຟລ໌ການຕັ້ງຄ່າໂຄງການ"
 
-#: kiledocmanager.cpp:2119 kiledocmanager.cpp:2165
+#: kiledocmanager.cpp:2121 kiledocmanager.cpp:2167
 #, kde-format
 msgid "graphics file"
 msgstr "ໄຟລ໌ກຣາບຟິກ"
 
-#: kiledocmanager.cpp:2162 kiledocmanager.cpp:2165
+#: kiledocmanager.cpp:2164 kiledocmanager.cpp:2167
 #, kde-format
 msgid "Open All Project Files"
 msgstr "ເປີດໄຟລ໌ໂຄງການທັງໝົດ"
 
-#: kiledocmanager.cpp:2197
+#: kiledocmanager.cpp:2199
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "ບໍ່ໄດ້ເປີດ: %1 (%2)"
 
-#: kiledocmanager.cpp:2220 kiledocmanager.cpp:2255
+#: kiledocmanager.cpp:2222 kiledocmanager.cpp:2257
 #, kde-format
 msgid "Project Files"
 msgstr "ໄຟລ໌ໂຄງການ"
 
-#: kiledocmanager.cpp:2228 kiledocmanager.cpp:2265
+#: kiledocmanager.cpp:2230 kiledocmanager.cpp:2267
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "ບໍ່ສາມາດກຳນົດໄຟລ໌ທີ່ເລືອກໄດ້."
 
-#: kiledocmanager.cpp:2228 kiledocmanager.cpp:2265
+#: kiledocmanager.cpp:2230 kiledocmanager.cpp:2267
 #, kde-format
 msgid "Project Error"
 msgstr "ຂໍ້ຜິດພາດໂຄງການ"
 
-#: kiledocmanager.cpp:2332
+#: kiledocmanager.cpp:2334
 #, kde-format
 msgid "Opening Project..."
 msgstr "ກຳລັງເປີດໂຄງການ..."
 
-#: kiledocmanager.cpp:2335
+#: kiledocmanager.cpp:2337
 #, kde-format
 msgid "Scanning project files..."
 msgstr "ກຳລັງສະແກນໄຟລ໌ໂຄງການ..."
@@ -10248,22 +10248,22 @@ msgstr "ໄຟລ໌ %1 ບໍ່ມີຢູ່."
 msgid "The file %1 is not readable."
 msgstr "ໄຟລ໌ %1 ບໍ່ສາມາດອ່ານໄດ້."
 
-#: kiletool.cpp:639
+#: kiletool.cpp:638
 #, kde-format
 msgid "The document %1 is not a LaTeX root document; continue anyway?"
 msgstr "ເອກະສານ %1 ບໍ່ແມ່ນເອກະສານຮາກ LaTeX; ຕ້ອງການສືບຕໍ່ບໍ່?"
 
-#: kiletool.cpp:639
+#: kiletool.cpp:638
 #, kde-format
 msgid "Continue?"
 msgstr "ສືບຕໍ່?"
 
-#: kiletool.cpp:651
+#: kiletool.cpp:650
 #, kde-format
 msgid "The file %1/%2 does not exist; did you compile the source file?"
 msgstr "ໄຟລ໌ %1/%2 ບໍ່ມີຢູ່; ທ່ານໄດ້ຄອມໄພລ໌ໄຟລ໌ແຫຼ່ງຂໍ້ມູນແລ້ວບໍ່?"
 
-#: kiletool.cpp:671
+#: kiletool.cpp:670
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -10273,17 +10273,17 @@ msgstr ""
 "ເອກະສານປັດຈຸບັນບໍ່ໄດ້ເຊື່ອມໂຍງກັບໂຄງການ. "
 "ກະລຸນາເປີດເອກະສານທີ່ເຊື່ອມໂຍງກັບໂຄງການທີ່ທ່ານຕ້ອງການຈັດເກັບ, ແລ້ວເລືອກ ຈັດເກັບ ອີກຄັ້ງ."
 
-#: kiletool.cpp:675
+#: kiletool.cpp:674
 #, kde-format
 msgid "No files have been chosen for archiving."
 msgstr "ບໍ່ມີໄຟລ໌ຖືກເລືອກສຳລັບການຈັດເກັບ."
 
-#: kiletool.cpp:691
+#: kiletool.cpp:690
 #, kde-format
 msgid "Archive Project"
 msgstr "ຈັດເກັບໂຄງການ"
 
-#: kiletool.cpp:817 kiletoolmanager.cpp:284
+#: kiletool.cpp:816 kiletoolmanager.cpp:284
 #, kde-format
 msgid "Unknown tool %1."
 msgstr "ບໍ່ຮູ້ຈັກເຄື່ອງມື %1."
@@ -10779,148 +10779,148 @@ msgstr "ລົ້ມເຫຼວໃນການສ້າງໂຄງສ້າງ
 msgid "LivePreview"
 msgstr "LivePreview"
 
-#: main.cpp:57
+#: main.cpp:59
 #, kde-format
 msgid "StandardInput.tex"
 msgstr "StandardInput.tex"
 
-#: main.cpp:98
+#: main.cpp:100
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
 msgstr "ສະພາບແວດລ້ອມ LaTeX ແບບປະສົມປະສານຂອງ KDE"
 
-#: main.cpp:100
+#: main.cpp:102
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
 msgstr "ໂດຍທີມງານ Kile (2003 - %1)"
 
-#: main.cpp:103
+#: main.cpp:105
 #, kde-format
 msgid "Michel Ludwig"
 msgstr "Michel Ludwig"
 
-#: main.cpp:103
+#: main.cpp:105
 #, kde-format
 msgid "Project Management/Developer"
 msgstr "ການຈັດການໂຄງການ/ນັກພັດທະນາ"
 
-#: main.cpp:104
+#: main.cpp:106
 #, kde-format
 msgid "Holger Danielsson"
 msgstr "Holger Danielsson"
 
-#: main.cpp:104
+#: main.cpp:106
 #, kde-format
 msgid "Developer"
 msgstr "ນັກພັດທະນາ"
 
-#: main.cpp:105
+#: main.cpp:107
 #, kde-format
 msgid "Thomas Braun"
 msgstr "Thomas Braun"
 
-#: main.cpp:105
+#: main.cpp:107
 #, kde-format
 msgid "Former Developer"
 msgstr "ອະດີດນັກພັດທະນາ"
 
-#: main.cpp:106
+#: main.cpp:108
 #, kde-format
 msgid "Jeroen Wijnhout"
 msgstr "Jeroen Wijnhout"
 
-#: main.cpp:106
+#: main.cpp:108
 #, kde-format
 msgid "Former Maintainer/Developer"
 msgstr "ອະດີດຜູ້ເບິ່ງແຍງ/ນັກພັດທະນາ"
 
-#: main.cpp:107
+#: main.cpp:109
 #, kde-format
 msgid "Brachet Pascal"
 msgstr "Brachet Pascal"
 
-#: main.cpp:109
+#: main.cpp:111
 #, kde-format
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:109
+#: main.cpp:111
 #, kde-format
 msgid "Migration from Subversion to Git"
 msgstr "ການຍ້າຍຈາກ Subversion ໄປ Git"
 
-#: main.cpp:110
+#: main.cpp:112
 #, kde-format
 msgid "Simon Martin"
 msgstr "Simon Martin"
 
-#: main.cpp:110
+#: main.cpp:112
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
 msgstr "KConfig XT, ການປັບປຸງຕ່າງໆ ແລະ ການແກ້ໄຂບັກ"
 
-#: main.cpp:111
+#: main.cpp:113
 #, kde-format
 msgid "Roland Schulz"
 msgstr "Roland Schulz"
 
-#: main.cpp:111
+#: main.cpp:113
 #, kde-format
 msgid "KatePart Integration"
 msgstr "ການເຊື່ອມໂຍງ KatePart"
 
-#: main.cpp:112
+#: main.cpp:114
 #, kde-format
 msgid "Thorsten Lück"
 msgstr "Thorsten Lück"
 
-#: main.cpp:112
+#: main.cpp:114
 #, kde-format
 msgid "Log Parsing"
 msgstr "ການແຍກວິເຄາະ Log"
 
-#: main.cpp:113
+#: main.cpp:115
 #, kde-format
 msgid "Jan-Marek Glogowski"
 msgstr "Jan-Marek Glogowski"
 
-#: main.cpp:113
+#: main.cpp:115
 #, kde-format
 msgid "Find-in-Files Dialog"
 msgstr "ກ່ອງໂຕ້ຕອບ ຄົ້ນຫາໃນໄຟລ໌"
 
-#: main.cpp:114
+#: main.cpp:116
 #, kde-format
 msgid "Jonathan Pechta"
 msgstr "Jonathan Pechta"
 
-#: main.cpp:114 main.cpp:115
+#: main.cpp:116 main.cpp:117
 #, kde-format
 msgid "Documentation"
 msgstr "ເອກະສານປະກອບ"
 
-#: main.cpp:115
+#: main.cpp:117
 #, kde-format
 msgid "Federico Zenith"
 msgstr "Federico Zenith"
 
-#: main.cpp:133
+#: main.cpp:135
 #, kde-format
 msgid "Jump to line"
 msgstr "ຂ້າມໄປແຖວ"
 
-#: main.cpp:134
+#: main.cpp:136
 #, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "ເລີ່ມໜ້າຕ່າງຫຼັກ Kile ໃໝ່"
 
-#: main.cpp:136
+#: main.cpp:138
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr "ໄຟລ໌ທີ່ຈະເປີດ / ລະບຸ '-' ເພື່ອອ່ານຈາກ standard input"
 
-#: main.cpp:167
+#: main.cpp:169
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -10932,7 +10932,7 @@ msgstr ""
 "\n"
 "ກະລຸນາຕິດຕັ້ງ library Okular ກ່ອນທີ່ຈະລັນ Kile."
 
-#: main.cpp:169
+#: main.cpp:171
 #, kde-format
 msgid "Okular library not found"
 msgstr "ບໍ່ພົບ library Okular"
@@ -11226,7 +11226,7 @@ msgstr "%1 - %2"
 msgid "The file '%1' does not exist."
 msgstr "ບໍ່ມີຟາຍ '%1' ຢູ່."
 
-#: usermenu/usermenu.cpp:920
+#: usermenu/usermenu.cpp:926
 #, kde-format
 msgid "Input Dialog"
 msgstr "ກ່ອງໂຕ້ຕອບການປ້ອນຂໍ້ມູນ"

@@ -16,7 +16,6 @@
 #include "kilestdtools.h"
 
 #include <QFileInfo>
-#include <QRegExp>
 #include <QRegularExpression>
 
 #include <QAction>
@@ -448,11 +447,13 @@ void LaTeX::checkAutoRun()
         // Please (re)run Biber on the file:
         // or
         // Please (re)run Bibtex on the file:
-        QRegExp biblatexBackendMessage = QRegExp(QStringLiteral(".*Please \\(re\\)run ([A-Za-z]+) on the file"), Qt::CaseInsensitive);
+        QRegularExpression biblatexBackendMessage(QStringLiteral(".*Please \\(re\\)run ([A-Za-z]+) on the file"),
+                                                  QRegularExpression::CaseInsensitiveOption);
+        QRegularExpressionMatch biblatexBackendMatch;
         for(int i = sz-1; i >= 0; --i) { // same here, start from the end
             if (m_latexOutputInfoList[i].type() == LatexOutputInfo::itmWarning
-                    && biblatexBackendMessage.indexIn(m_latexOutputInfoList[i].message()) != -1) {
-                bibToolInLaTexOutput = biblatexBackendMessage.cap(1);
+                    && m_latexOutputInfoList[i].message().indexOf(biblatexBackendMessage, 0, &biblatexBackendMatch) != -1) {
+                bibToolInLaTexOutput = biblatexBackendMatch.captured(1);
                 KILE_DEBUG_MAIN << "Captured Bib tool: " << bibToolInLaTexOutput;
                 break;
             }
@@ -461,11 +462,12 @@ void LaTeX::checkAutoRun()
         // we look for messages like "LaTeX Warning: Citation `A' on page 234 undefined on input line 12345."
         // In that case we probably need to (re)run the bibtool.
         if (bibToolInLaTexOutput.isEmpty()) {
-            QRegExp citationUndefinedMessage = QRegExp(QStringLiteral("Citation `(.+)' on page (\\d+) undefined on input line (\\d+)"),
-                                               Qt::CaseInsensitive);
+            // the message can span several lines
+            QRegularExpression citationUndefinedMessage(QStringLiteral("Citation `(.+)' on page (\\d+) undefined on input line (\\d+)"),
+                                                        QRegularExpression::CaseInsensitiveOption | QRegularExpression::DotMatchesEverythingOption);
             for(int i = 0; i < sz; ++i) {
                 if (m_latexOutputInfoList[i].type() == LatexOutputInfo::itmWarning
-                        && citationUndefinedMessage.indexIn(m_latexOutputInfoList[i].message()) != -1) {
+                        && m_latexOutputInfoList[i].message().contains(citationUndefinedMessage)) {
                     haveUndefinedCitations = true;
                     KILE_DEBUG_MAIN << "Detected undefined citations";
                     break;

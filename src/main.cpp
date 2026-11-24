@@ -22,7 +22,6 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
-#include <QTextCodec>
 #include <QUrl>
 
 #include <KAboutData>

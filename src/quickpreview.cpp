@@ -21,7 +21,6 @@
 #include <QMap>
 #include <QFile>
 #include <QFileInfo>
-#include <QTextCodec>
 #include <QTextStream>
 
 #include <KLocalizedString>

@@ -19,7 +19,6 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QScreen>
-#include <QTextCodec>
 #include <QTimer>
 #include <QVBoxLayout>
 #include <QWindow>

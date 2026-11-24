@@ -28,7 +28,6 @@
 #include <QProgressDialog>
 #include <QPushButton>
 #include <QTemporaryFile>
-#include <QTextCodec>
 #include <QUrl>
 
 #include <KConfigGroup>

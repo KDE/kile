@@ -7,7 +7,6 @@
 	<include>QGuiApplication</include>
 	<include>QScreen</include>
 	<include>QString</include>
-	<include>QTextCodec</include>
 	<include>QDir</include>
 
 	<kcfgfile name="kilerc"/>

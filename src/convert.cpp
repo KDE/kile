@@ -16,7 +16,6 @@
 
 #include <QFile>
 #include <QRegularExpression>
-#include <QTextCodec>
 #include <QTextStream>
 
 #include <KMessageBox>

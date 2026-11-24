@@ -24,7 +24,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QStandardPaths>
-#include <QTextCodec>
 #include <QTextStream>
 #include <QTimer>
 #include <QTemporaryDir>

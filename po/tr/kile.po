@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 01:03+0000\n"
-"PO-Revision-Date: 2026-11-18 19:20+0300\n"
+"PO-Revision-Date: 2026-11-23 18:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -63,7 +63,7 @@ msgid ""
 msgstr ""
 "Araç bulunamadı.\n"
 "Kile doğru yapılandırılmamış. “Ayarlar → Kile Uygulamasını Yapılandır → "
-"Araçlar“ alanından sorunu çözün veya öntanımlı ayarlara dönün."
+"Araçlar“ alanından sorunu çözün veya varsayılan ayarlara dönün."
 
 #: configtester.cpp:269 configtester.cpp:464 dialogs/configcheckerdialog.cpp:80
 #, kde-format
@@ -1398,8 +1398,8 @@ msgid ""
 "All your 'environment' settings will be overwritten with the default "
 "settings, are you sure you want to continue?"
 msgstr ""
-"Tüm “çevre” ayarlarınızın üzerine öntanımlı ayarlar ile yazılacak. Sürdürmek "
-"istediğinizden emin misiniz?"
+"Tüm “çevre” ayarlarınızın üzerine varsayılan ayarlar ile yazılacak. "
+"Sürdürmek istediğinizden emin misiniz?"
 
 #: dialogs/latexcommanddialog.cpp:763
 #, kde-format
@@ -1407,8 +1407,8 @@ msgid ""
 "All your 'command' settings will be overwritten with the default settings, "
 "are you sure you want to continue?"
 msgstr ""
-"Tüm “komut” ayarlarınızın üzerine öntanımlı ayarlar ile yazılacak. Sürdürmek "
-"istediğinizden emin misiniz?"
+"Tüm “komut” ayarlarınızın üzerine varsayılan ayarlar ile yazılacak. "
+"Sürdürmek istediğinizden emin misiniz?"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/latexcommanddialog_base.ui:30
@@ -1871,7 +1871,7 @@ msgstr "Hizalama gruplarını ayırmak için ek LaTeX komutları tanımlayın."
 #: dialogs/mathenvironmentdialog.cpp:151
 #, kde-format
 msgid "Choose one of some predefined tabulators."
-msgstr "Öntanımlı sekme aralıklarından birini seçin."
+msgstr "Varsayılan sekme aralıklarından birini seçin."
 
 #: dialogs/mathenvironmentdialog.cpp:152
 #, kde-format
@@ -1964,7 +1964,7 @@ msgid ""
 "cause your tool to behave just like\n"
 "the standard \"LaTeX\" tool."
 msgstr ""
-"Bu aracın öntanımlı &davranışını (sınıfını) seçin.\n"
+"Bu aracın varsayılan &davranışını (sınıfını) seçin.\n"
 "Araç, üzerine yapılandırıldığı aracın\n"
 "tüm özelliklerini miras alacaktır.\n"
 "\n"
@@ -2998,7 +2998,7 @@ msgstr "(genel ayarları kullan)"
 #, kde-format
 msgid "Default graphic extension to open when none specified by file name."
 msgstr ""
-"Dosya adında belirtilmediği zaman açmak için kullanılacak öntanımlı grafik "
+"Dosya adında belirtilmediği zaman açmak için kullanılacak varsayılan grafik "
 "uzantısı."
 
 #: dialogs/projectdialogs.cpp:108
@@ -3024,12 +3024,12 @@ msgstr "Bibliyografii Dosyaları"
 #: dialogs/projectdialogs.cpp:118
 #, kde-format
 msgid "Default Graphics Extension:"
-msgstr "Öntanımlı Resim Uzantısı:"
+msgstr "Varsayılan Resim Uzantısı:"
 
 #: dialogs/projectdialogs.cpp:120
 #, kde-format
 msgid "Predefined:"
-msgstr "Öntanımlı:"
+msgstr "Varsayılan:"
 
 #: dialogs/projectdialogs.cpp:156
 #, kde-format
@@ -3162,7 +3162,8 @@ msgstr "(genel ayarları kullan)"
 #: dialogs/projectdialogs.cpp:438
 #, kde-format
 msgid "Select the default master document. Leave empty for auto detection."
-msgstr "Öntanımlı ana belgeyi seçin. Kendiliğinden bulunması için boş bırakın."
+msgstr ""
+"Varsayılan ana belgeyi seçin. Kendiliğinden bulunması için boş bırakın."
 
 #: dialogs/projectdialogs.cpp:443
 #, kde-format
@@ -3328,7 +3329,7 @@ msgstr "Geçerli paket seçeneğini kaldır"
 #: dialogs/quickdocumentdialog.cpp:317
 #, kde-format
 msgid "&Reset to Defaults"
-msgstr "Öntanımlılara Sıfı&rla"
+msgstr "Varsayılanlara Sıfı&rla"
 
 #: dialogs/quickdocumentdialog.cpp:319
 #, kde-format
@@ -3473,7 +3474,7 @@ msgstr "PDF- ve DVI- için doğru mekanizmayı kullan"
 #: dialogs/quickdocumentdialog.cpp:684
 #, kde-format
 msgid "Enables the default for an empty left page"
-msgstr "Boş bir sol sayfa için öntanımlıı etkinleştirir"
+msgstr "Boş bir sol sayfa için varsayılanı etkinleştirir"
 
 #: dialogs/quickdocumentdialog.cpp:685
 #, kde-format
@@ -3790,7 +3791,7 @@ msgstr "pdf bilgisi için bazı girdilerin oluşturulmasını engeller"
 #: dialogs/quickdocumentdialog.cpp:767
 #, kde-format
 msgid "Switches off the definition of default blocks like theorem"
-msgstr "theorem gibi bazı öntanımlı blokların tanımlamalarını kapatır"
+msgstr "theorem gibi bazı varsayılan blokların tanımlamalarını kapatır"
 
 #: dialogs/quickdocumentdialog.cpp:768
 #, kde-format
@@ -4059,7 +4060,7 @@ msgstr "Grafiklerin yalnızca çerçevelerini göster"
 #: dialogs/quickdocumentdialog.cpp:2018
 #, kde-format
 msgid "<default>"
-msgstr "<öntanımlı>"
+msgstr "<varsayılan>"
 
 #: dialogs/quickdocumentdialog.cpp:1365 dialogs/quickdocumentdialog.cpp:1372
 #, kde-format
@@ -4207,7 +4208,7 @@ msgstr "Dü&zenlenebilir"
 #: dialogs/quickdocumentdialog.cpp:1959 dialogs/quickdocumentdialog.cpp:2024
 #, kde-format
 msgid "De&fault value:"
-msgstr "Ön&tanımlı değer:"
+msgstr "&Varsayılan değer:"
 
 #: dialogs/quickdocumentdialog.cpp:1961 dialogs/quickdocumentdialog.cpp:2026
 #, kde-format
@@ -4621,7 +4622,7 @@ msgid ""
 "Resets the attributes of the selected cells to the default values but keeps "
 "the text."
 msgstr ""
-"Seçili hücrelerin özniteliklerini öntanımlı değerlere sıfırlar; ancak "
+"Seçili hücrelerin özniteliklerini varsayılan değerlere sıfırlar; ancak "
 "metinleri korur."
 
 #: dialogs/tabular/newtabulardialog.cpp:195
@@ -6592,14 +6593,14 @@ msgstr "YAPILACAK ve DÜZELTİLECEK yorumlarını göster"
 #: kile.kcfg:89
 #, kde-format
 msgid "Open the parent item for all labels in the structure view as default"
-msgstr "Öntanımlı olarak yapı görünümünde bütün etiketlerin üst ögelerini aç"
+msgstr "Varsayılan olarak yapı görünümünde bütün etiketlerin üst ögelerini aç"
 
 #. i18n: ectx: label, entry (SvOpenReferences), group (Structure)
 #: kile.kcfg:93
 #, kde-format
 msgid "Open the parent item for all undefined references in the structure view"
 msgstr ""
-"Öntanımlı olarak yapı görünümünde bütün tanımlanmamış başvuruların üst "
+"Varsayılan olarak yapı görünümünde bütün tanımlanmamış başvuruların üst "
 "ögelerini aç"
 
 #. i18n: ectx: label, entry (SvOpenBibitems), group (Structure)
@@ -6607,14 +6608,14 @@ msgstr ""
 #, kde-format
 msgid "Open the parent item for all bibitems in the structure view as default"
 msgstr ""
-"Öntanımlı olarak yapı görünümünde bütün bibitems ögelerinin üst ögelerini aç"
+"Varsayılan olarak yapı görünümünde bütün bibitems ögelerinin üst ögelerini aç"
 
 #. i18n: ectx: label, entry (SvOpenTodo), group (Structure)
 #: kile.kcfg:101
 #, kde-format
 msgid "Open the parent item for all TODO and FIXME comments as default"
 msgstr ""
-"Öntanımlı olarak yapı görünümünde bütün YAPILACAK ve DÜZELTİLECEK "
+"Varsayılan olarak yapı görünümünde bütün YAPILACAK ve DÜZELTİLECEK "
 "yorumlarının üst ögelerini aç"
 
 #. i18n: ectx: label, entry (SvDefaultGraphicExt), group (Structure)
@@ -6622,7 +6623,7 @@ msgstr ""
 #, kde-format
 msgid "Default extension to use when opening graphic files with no extension"
 msgstr ""
-"Uzantısı olmayan grafik dosyalarını açmak için kullanılacak öntanımlı uzantı"
+"Uzantısı olmayan grafik dosyalarını açmak için kullanılacak varsayılan uzantı"
 
 #. i18n: ectx: label, entry (BibliographyType), group (BibliographyMenu)
 #: kile.kcfg:111
@@ -6970,7 +6971,7 @@ msgstr "Resimden çerçeve kutusunu belirlemeye çalış."
 #: kile.kcfg:308
 #, kde-format
 msgid "The default image resolution."
-msgstr "Öntanımlı görsel çözünürlüğü."
+msgstr "Varsayılan görsel çözünürlüğü."
 
 #. i18n: ectx: label, entry (kilerefs), group (Help)
 #: kile.kcfg:314
@@ -7030,7 +7031,7 @@ msgstr "Girdi kodlama şablonu değişkeni."
 #: kile.kcfg:366
 #, kde-format
 msgid "The default location where the projects must be created."
-msgstr "Projelerin oluşturulması gereken öntanımlı konum."
+msgstr "Projelerin oluşturulması gereken varsayılan konum."
 
 #. i18n: ectx: label, entry (SyncConsoleDirWithTabs), group (User)
 #: kile.kcfg:372
@@ -7218,7 +7219,7 @@ msgstr "Belgeleri yalnızca kaydettikten sonra derle."
 #: kile.kcfg:636
 #, kde-format
 msgid "default livepreview tool."
-msgstr "Öntanımlı canlı ön izleme aracı."
+msgstr "Varsayılan canlı ön izleme aracı."
 
 #: kileactions.cpp:336
 #, kde-format
@@ -7845,13 +7846,13 @@ msgstr ""
 "kâğıt boyutu seçenekleri: a4paper, a5paper, b5paper, letterpaper, "
 "legalpaper, executivepaper\n"
 "diğer seçenekler: \n"
-"landscape — manzara görünümünü seçer; öntanımlı portredir. \n"
+"landscape — manzara görünümünü seçer; varsayılan portredir. \n"
 "titlepage, notitlepage — Ayrı bir başlık sayfası olup olmayacağını "
 "belirler.\n"
-"leqno — denklem numarasını eşitliğin solunda gösterir; öntanımlı sağ "
+"leqno — denklem numarasını eşitliğin solunda gösterir; varsayılan sağ "
 "taraftır.\n"
-"fleqn — formülleri sola hizalı olarak gösterir; öntanımlı ortalanmıştır.\n"
-"onecolumn, twocolumn — bir veya iki sütun; öntanımlı bir sütundur\n"
+"fleqn — formülleri sola hizalı olarak gösterir; varsayılan ortalanmıştır.\n"
+"onecolumn, twocolumn — bir veya iki sütun; varsayılan bir sütundur\n"
 "oneside, twoside — tek veya çift yerleşimi seçer.\n"
 
 #: kilestdactions.cpp:38
@@ -8397,7 +8398,7 @@ msgstr ""
 "sütun 1 girdi & sütun 2 girdi … & sütun n girdi \\\\\n"
 "…\n"
 "\\end{tabular}\n"
-"pos : Dikey konumu belirtir; öntanımlı hizalama ortamın ortasına tapılır.\n"
+"pos : Dikey konumu belirtir; varsayılan hizalama ortamın ortasına tapılır.\n"
 "     t — satırın üstüne hizala\n"
 "     b — satırın altına hizala\n"
 "cols : Sütun biçimlendirmesini belirtir.\n"
@@ -11753,7 +11754,7 @@ msgstr "Seçenekler"
 #: widgets/generalconfigwidget.ui:43
 #, kde-format
 msgid "&Default project location:"
-msgstr "Ö&ntanımlı proje konumu:"
+msgstr "&Varsayılan proje konumu:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Restore)
 #: widgets/generalconfigwidget.ui:64
@@ -11821,7 +11822,7 @@ msgstr ""
 #: widgets/graphicsconfigwidget.ui:29
 #, kde-format
 msgid "&Default resolution:"
-msgstr "Öntanımlı &çözünürlük:"
+msgstr "Varsayılan &çözünürlük:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolutionHelp)
 #: widgets/graphicsconfigwidget.ui:51
@@ -12125,7 +12126,7 @@ msgstr " ms"
 #: widgets/livepreviewconfigwidget.ui:104
 #, kde-format
 msgid "Set default live preview tool"
-msgstr "Öntanımlı canlı ön izleme aracını ayarla"
+msgstr "Varsayılan canlı ön izleme aracını ayarla"
 
 #: widgets/logwidget.cpp:369
 #, kde-format
@@ -12232,7 +12233,7 @@ msgstr "S&imge:"
 #: widgets/maintoolconfigwidget.ui:651
 #, kde-format
 msgid "Restore Default Tools..."
-msgstr "Öntanımlı Araçları Yükle…"
+msgstr "Varsayılan Araçları Yükle…"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/newdocumentwidget.ui:38
@@ -12570,12 +12571,12 @@ msgstr "Kapa&t"
 #: widgets/quicktoolconfigwidget.cpp:61
 #, kde-format
 msgid "Current Default (%1)"
-msgstr "Geçerli Öntanımlı (%1)"
+msgstr "Geçerli Varsayılan (%1)"
 
 #: widgets/quicktoolconfigwidget.cpp:64
 #, kde-format
 msgid "Current Default"
-msgstr "Geçerli Öntanımlı"
+msgstr "Geçerli Varsayılan"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbTool)
 #: widgets/quicktoolconfigwidget.ui:39
@@ -12754,7 +12755,7 @@ msgstr "Genişletme Düzeyi"
 #: widgets/structureviewconfigwidget.ui:52
 #, kde-format
 msgid "&Default value"
-msgstr "Ö&ntanımlı değer"
+msgstr "&Varsayılan değer"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2_2)
 #: widgets/structureviewconfigwidget.ui:112
@@ -12838,7 +12839,7 @@ msgstr "Etiketler için ek bölüm kullanma"
 #: widgets/structureviewconfigwidget.ui:229
 #, kde-format
 msgid "Default Graphic Extension:"
-msgstr "Öntanımlı Grafik Eklentisi:"
+msgstr "Varsayılan Grafik Eklentisi:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:236
@@ -13127,7 +13128,7 @@ msgid ""
 "Perhaps it is a good idea to restore the default settings."
 msgstr ""
 "Bilinmeyen araç türü, yapılandırma dosyanız bozuk.\n"
-"Sanırım öntanımlı ayarlara dönmek iyi bir fikir."
+"Sanırım varsayılan ayarlara dönmek iyi bir fikir."
 
 #: widgets/toolconfigwidget.cpp:229
 #, kde-format
@@ -13135,7 +13136,7 @@ msgid ""
 "All your tool settings will be overwritten with the default settings.\n"
 "Are you sure you want to continue?"
 msgstr ""
-"Tüm araç ayarlarınız öntanımlı ayarlar ile değiştirilecek.\n"
+"Tüm araç ayarlarınız varsayılan ayarlar ile değiştirilecek.\n"
 "Sürdürmek istediğinizden emin misiniz?"
 
 #: widgets/toolconfigwidget.cpp:355

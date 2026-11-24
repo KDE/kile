@@ -624,17 +624,18 @@ bool EditorExtension::isOpeningMathTagPosition(KTextEditor::Document *doc, uint 
 {
     QString textline = getTextLineReal(doc,row);
 
-    QRegExp reg(QStringLiteral("\\\\begin\\s*\\{([A-Za-z]+\\*?)\\}|\\\\\\[|\\\\\\("));
-    if((int)col != reg.indexIn(textline, col)) {
+    QRegularExpression reg(QStringLiteral("\\\\begin\\s*\\{([A-Za-z]+\\*?)\\}|\\\\\\[|\\\\\\("));
+    QRegularExpressionMatch match;
+    if((int)col != textline.indexOf(reg, col, &match)) {
         return false;
     }
 
-    QChar id = reg.cap(0).at(1);
-    QString envname = reg.cap(1);
+    QChar id = match.captured(0).at(1);
+    QString envname = match.captured(1);
 
     mathdata.row = row;
     mathdata.col = col;
-    mathdata.len = reg.cap(0).length();
+    mathdata.len = match.capturedLength(0);
 
     switch(id.unicode()) {
     case 'b':
@@ -655,22 +656,30 @@ bool EditorExtension::isOpeningMathTagPosition(KTextEditor::Document *doc, uint 
     return true;
 }
 
+// Like QString::lastIndexOf(), but finds nothing if 'from' lies behind the end of 'text', as
+// QRegExp::lastIndexIn() did. The cursor can be placed there if the editor allows it.
+static int lastIndexOfUpTo(const QString &text, const QRegularExpression &re, int from, QRegularExpressionMatch *match)
+{
+    return (from > text.length()) ? -1 : text.lastIndexOf(re, from, match);
+}
+
 bool EditorExtension::isClosingMathTagPosition(KTextEditor::Document *doc, uint row, uint col,MathData &mathdata)
 {
     QString textline = doc->line(row);
 
-    QRegExp reg(QStringLiteral("\\\\end\\s*\\{([A-Za-z]+\\*?)\\}|\\\\\\]|\\\\\\)"));
-    int pos = reg.lastIndexIn(textline, col);
-    if(pos < 0 || (int)col > pos + reg.matchedLength()) {
+    QRegularExpression reg(QStringLiteral("\\\\end\\s*\\{([A-Za-z]+\\*?)\\}|\\\\\\]|\\\\\\)"));
+    QRegularExpressionMatch match;
+    int pos = lastIndexOfUpTo(textline, reg, col, &match);
+    if(pos < 0 || (int)col > pos + match.capturedLength(0)) {
         return false;
     }
 
-    QChar id = reg.cap(0).at(1);
-    QString envname = reg.cap(1);
+    QChar id = match.captured(0).at(1);
+    QString envname = match.captured(1);
 
     mathdata.row = row;
     mathdata.col = pos;
-    mathdata.len = reg.cap(0).length();
+    mathdata.len = match.capturedLength(0);
 
     switch(id.unicode()) {
     case 'e':
@@ -699,7 +708,8 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
                                                 "|\\\\\\[|\\\\\\]"
                                                 "|\\\\\\(|\\\\\\)");
 
-    QRegExp reg(regExpString);
+    QRegularExpression reg(regExpString);
+    QRegularExpressionMatch match;
     int lastrow = -1, lastcol = -1;
     QString mathname;
 
@@ -711,13 +721,13 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
 
     bool continueSearch = true;
     while(continueSearch) {
-        while((column = reg.lastIndexIn(textline, col)) != -1) {
+        while((column = lastIndexOfUpTo(textline, reg, col, &match)) != -1) {
             col = column;
 
             mathdata.row = row;
             mathdata.col = col;
-            mathdata.len = reg.cap(0).length();
-            mathname = reg.cap(0).left(2);
+            mathdata.len = match.capturedLength(0);
+            mathname = match.captured(0).left(2);
 
             // should be better called 'isValidChar()', because it checks for comments
             // and escaped chars like backslash and dollar in '\\' and '\$'
@@ -748,7 +758,7 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
             }
             else if (mathname == QStringLiteral("\\b")) {
                 // save name of environment
-                QString envname = reg.cap(1);
+                QString envname = match.captured(1);
 
                 // if we found the opening tag of a math env
                 if (m_latexCommands->isMathEnv(envname) || envname == QStringLiteral("math")) {
@@ -777,7 +787,7 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
                 }
             }
             else if (mathname == QStringLiteral("\\e")) {
-                QString envname = reg.cap(2);
+                QString envname = match.captured(2);
 
                 // if we found the closing tag of a math env
                 if (m_latexCommands->isMathEnv(envname) || envname == QStringLiteral("math")) {
@@ -2731,11 +2741,11 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
     }
 
     // insert with auto mode
-    QString pattern1 = QRegExp::escape(m_leftDblQuote);
+    QString pattern1 = QRegularExpression::escape(m_leftDblQuote);
     if(m_leftDblQuote.at(m_leftDblQuote.length()-1).isLetter()) {
         pattern1 += QStringLiteral("(\\b|(\\{\\}))");
     }
-    QString pattern2 = QRegExp::escape(m_rightDblQuote);
+    QString pattern2 = QRegularExpression::escape(m_rightDblQuote);
     if(m_rightDblQuote.at(m_rightDblQuote.length()-1).isLetter()) {
         pattern2 += QStringLiteral("(\\b|(\\{\\}))");
     }
@@ -3306,9 +3316,9 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
     QString line = view->document()->line(row).left(col);
     int lineLength = view->document()->line(row).length();
 
-    int pos = m_regexpEnter.indexIn(line);
-    if (pos != -1) {
-        line = m_regexpEnter.cap(1);
+    const QRegularExpressionMatch match = m_regexpEnter.match(line);
+    if (match.hasMatch()) {
+        line = match.captured(1);
         for(int i = 0; i < line.length(); ++i) {
             if(!line[i].isSpace()) {
                 line[i] = QLatin1Char(' ');
@@ -3316,13 +3326,13 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
         }
 
         QString envname, endenv;
-        if (m_regexpEnter.cap(2) == QStringLiteral("\\[")) {
-            envname = m_regexpEnter.cap(2);
+        if (match.captured(2) == QStringLiteral("\\[")) {
+            envname = match.captured(2);
             endenv = QStringLiteral("\\]");
         }
         else {
-            envname = m_regexpEnter.cap(4);
-            endenv = m_regexpEnter.cap(2).replace(QStringLiteral("\\begin"), QStringLiteral("\\end"));
+            envname = match.captured(4);
+            endenv = match.captured(2).replace(QStringLiteral("\\begin"), QStringLiteral("\\end"));
         }
 
         if (col < lineLength) {
@@ -3489,9 +3499,9 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
 
     // FIXME tbraun make this more clever, introdoce in kiledocinfo a flag which can be easily queried for that, so that we don'
     // check, if the document was changed in the meantime
-    QRegExp reg(QStringLiteral("\\\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)\\*?\\s*(\\{|\\[)"));
+    QRegularExpression reg(QStringLiteral("\\\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)\\*?\\s*(\\{|\\[)"));
     QString textline = getTextLineReal(doc,row1);
-    if(reg.indexIn(textline, col1) != col1) {
+    if(textline.indexOf(reg, col1) != col1) {
         m_ki->errorHandler()->clearMessages();
         m_ki->errorHandler()->printMessage(KileTool::Error,
                                            i18n("The document was modified and the structure view should be updated, before starting such an operation."),

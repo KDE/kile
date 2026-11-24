@@ -19,7 +19,7 @@
 #include <utility>
 
 #include <QObject>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QString>
 #include <QStringList>
 
@@ -243,7 +243,7 @@ private:
     KileInfo	*m_ki;
 
     // complete environments
-    QRegExp m_regexpEnter;
+    QRegularExpression m_regexpEnter;
 
     // double Quotes
     bool m_dblQuotes;

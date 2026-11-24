@@ -250,7 +250,7 @@ PUBLIC
     KF6::ColorScheme
 )
 
-target_link_libraries(kile PUBLIC Qt6::Qml Qt6::Core5Compat KF6::IconWidgets)
+target_link_libraries(kile PUBLIC Qt6::Qml KF6::IconWidgets)
 # optional dependencies
 if(TARGET Poppler::Qt6)
 	target_link_libraries(kile PUBLIC Poppler::Qt6)

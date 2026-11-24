@@ -43,7 +43,7 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED
 	Test
 )
 
-find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Qml Core5Compat)
+find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Qml)
 
 find_package(KF6 6.0.0
 	REQUIRED COMPONENTS

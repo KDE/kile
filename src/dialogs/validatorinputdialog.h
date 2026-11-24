@@ -42,7 +42,7 @@ namespace KileDialog {
  * the validator doesn't return Acceptable. If there is no validator,
  * the Ok button is enabled whenever the line edit isn't empty. If you
  * want to accept empty input, create a trivial QValidator that
- * always returns acceptable, e.g. QRegExpValidator with a regexp
+ * always returns acceptable, e.g. QRegularExpressionValidator with a regexp
  * of ".*".
  *
  * @param caption   Caption of the dialog

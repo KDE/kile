@@ -31,7 +31,7 @@
 #include <QLabel>
 #include <QList>
 #include <QPushButton>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QValidator>
 #include <QVBoxLayout>
 #include <QFormLayout>
@@ -143,7 +143,7 @@ void KileProjectDialogBase::onExtensionsTextEdited(const QString &text)
 
 bool KileProjectDialogBase::acceptUserExtensions()
 {
-    QRegExp reg(QStringLiteral("\\.\\w+"));
+    QRegularExpression reg(QRegularExpression::anchoredPattern(QStringLiteral("\\.\\w+")));
 
     for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
         m_val_extensions[i-1] = m_val_extensions[i-1].trimmed();
@@ -152,7 +152,7 @@ bool KileProjectDialogBase::acceptUserExtensions()
             QStringList::ConstIterator it;
             QStringList list = m_val_extensions[i-1].split(QLatin1Char(' '));
             for (it = list.constBegin(); it != list.constEnd(); ++it) {
-                if (! reg.exactMatch(*it)) {
+                if (! reg.match(*it).hasMatch()) {
                     KMessageBox::error(this, i18n("Error in extension '%1':\nAll user-defined extensions should look like '.xyz'", *it), i18n("Invalid extension"));
                     return false;
                 }

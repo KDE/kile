@@ -18,7 +18,7 @@
 
 #include <QFileInfo>
 #include <QMenu>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTimer>
 
 #include <KActionCollection>
@@ -517,18 +517,21 @@ QStringList toolList(KConfig *config, bool menuOnly)
     const QStringList groups = config->groupList();
     QStringList tools;
 
-    QRegExp re = QRegExp(QStringLiteral("Tool/(.+)/.+"));
+    const QRegularExpression re(QRegularExpression::anchoredPattern(QStringLiteral("Tool/(.+)/.+")));
     QString name;
 
     for (const auto& group : groups) {
-        if(config->hasGroup(group) // 'group' might have been deleted
-           && re.exactMatch(group)) {
-            name = configName(re.cap(1), config);
+        if(!config->hasGroup(group)) { // 'group' might have been deleted
+            continue;
+        }
+        const QRegularExpressionMatch match = re.match(group);
+        if(match.hasMatch()) {
+            name = configName(match.captured(1), config);
 
             if(!name.isEmpty()
                && group.endsWith(name)
-               && ((!menuOnly) || (menuFor(re.cap(1), config) != QStringLiteral("none")))) {
-                tools.append(re.cap(1));
+               && ((!menuOnly) || (menuFor(match.captured(1), config) != QStringLiteral("none")))) {
+                tools.append(match.captured(1));
             }
         }
     }
@@ -543,14 +546,17 @@ QList<ToolConfigPair> toolsWithConfigurationsBasedOnClass(KConfig *config, const
 {
     const QStringList groups = config->groupList();
 
-    QRegExp re = QRegExp(QStringLiteral("Tool/(.+)/(.+)"));
+    const QRegularExpression re(QRegularExpression::anchoredPattern(QStringLiteral("Tool/(.+)/(.+)")));
     QList<ToolConfigPair> toReturn;
 
     for (const auto& group : groups) {
-        if(config->hasGroup(group) // 'group' might have been deleted
-           && re.exactMatch(group)) {
-            const QString toolName = re.cap(1);
-            const QString groupConfigName = re.cap(2);
+        if(!config->hasGroup(group)) { // 'group' might have been deleted
+            continue;
+        }
+        const QRegularExpressionMatch match = re.match(group);
+        if(match.hasMatch()) {
+            const QString toolName = match.captured(1);
+            const QString groupConfigName = match.captured(2);
 
             if(!toolName.isEmpty()
                && (config->group(group).readEntry("class", "") == className)) {
@@ -592,12 +598,13 @@ QString groupFor(const QString& tool, const QString& cfg /* = Default */ )
 
 void extract(const QString &str, QString &tool, QString &cfg)
 {
-    static QRegExp re(QStringLiteral("([^\\(]*)\\((.*)\\)"));
+    static const QRegularExpression re(QRegularExpression::anchoredPattern(QStringLiteral("([^\\(]*)\\((.*)\\)")));
     QString lcl = str.trimmed();
     cfg.clear();
-    if(re.exactMatch(lcl)) {
-        tool = re.cap(1).trimmed();
-        cfg = re.cap(2).trimmed();
+    const QRegularExpressionMatch match = re.match(lcl);
+    if(match.hasMatch()) {
+        tool = match.captured(1).trimmed();
+        cfg = match.captured(2).trimmed();
     }
     else {
         tool = lcl;
@@ -620,12 +627,15 @@ QStringList configNames(const QString &tool, KConfig *config)
     const QStringList groups = config->groupList();
     QStringList configs;
 
-    QRegExp re = QRegExp(QStringLiteral("Tool/") + tool + QStringLiteral("/(.+)"));
+    const QRegularExpression re(QRegularExpression::anchoredPattern(QStringLiteral("Tool/") + tool + QStringLiteral("/(.+)")));
 
     for (const auto& group : groups) {
-        if(config->hasGroup(group) // 'group' might have been deleted
-           && re.exactMatch(group)) {
-            configs.append(re.cap(1));
+        if(!config->hasGroup(group)) { // 'group' might have been deleted
+            continue;
+        }
+        const QRegularExpressionMatch match = re.match(group);
+        if(match.hasMatch()) {
+            configs.append(match.captured(1));
         }
     }
 

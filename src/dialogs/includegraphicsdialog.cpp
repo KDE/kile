@@ -31,7 +31,7 @@
 #include <QFileInfo>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QVBoxLayout>
 
 namespace KileDialog
@@ -524,29 +524,29 @@ void IncludeGraphics::onProcessExited(int /* exitCode */, QProcess::ExitStatus e
             m_widget.edit_bb->setText(m_output.trimmed().mid(15, m_output.length() - 15));
 
             // this regexp will extract width and height from the bounding box
-            QRegExp reg(QStringLiteral("(\\d+) (\\d+) (\\d+) (\\d+)"));
-            if(reg.indexIn(m_output) == -1) {
+            const QRegularExpressionMatch match = QRegularExpression(QStringLiteral("(\\d+) (\\d+) (\\d+) (\\d+)")).match(m_output);
+            if(!match.hasMatch()) {
                 return;
             }
 
             // determine lower-left-x (llx), lower-left-y (lly), upper-right-x (urx) and upper-right-y (ury)
             bool ok;
-            int llx = (int)reg.cap(1).toInt(&ok);
+            int llx = (int)match.captured(1).toInt(&ok);
             if (!ok) {
                 return;
             }
 
-            int lly = (int)reg.cap(2).toInt(&ok);
+            int lly = (int)match.captured(2).toInt(&ok);
             if (!ok) {
                 return;
             }
 
-            int urx = (int)reg.cap(3).toInt(&ok);
+            int urx = (int)match.captured(3).toInt(&ok);
             if (!ok) {
                 return;
             }
 
-            int ury = (int)reg.cap(4).toInt(&ok);
+            int ury = (int)match.captured(4).toInt(&ok);
             if (!ok) {
                 return;
             }
@@ -567,24 +567,25 @@ void IncludeGraphics::onProcessExited(int /* exitCode */, QProcess::ExitStatus e
                 // so the bounding box has to be calculated in a different way
 
                 // this regexp will accept floating point numbers as resolution
-                QRegExp reg(QStringLiteral("w=(\\d+)\\s+h=(\\d+)\\s+dpi=([0-9.]+) (.*)"));
-                if(reg.indexIn(m_output) == -1) {
+                const QRegularExpressionMatch match = QRegularExpression(QStringLiteral("w=(\\d+)\\s+h=(\\d+)\\s+dpi=([0-9.]+) (.*)"),
+                                                                       QRegularExpression::DotMatchesEverythingOption).match(m_output);
+                if(!match.hasMatch()) {
                     return;
                 }
 
                 // get bounding box and resolution
                 bool ok;
-                m_width = (int)reg.cap(1).toInt(&ok);
+                m_width = (int)match.captured(1).toInt(&ok);
                 if (!ok) {
                     return;
                 }
 
-                m_height = (int)reg.cap(2).toInt(&ok);
+                m_height = (int)match.captured(2).toInt(&ok);
                 if (!ok) {
                     return;
                 }
 
-                float res = (float)reg.cap(3).toFloat(&ok);
+                float res = (float)match.captured(3).toFloat(&ok);
                 if (!ok) {
                     return;
                 }
@@ -593,7 +594,7 @@ void IncludeGraphics::onProcessExited(int /* exitCode */, QProcess::ExitStatus e
                 }
 
                 // look, if resolution is in PixelsPerCentimeter
-                if (reg.cap(4).trimmed() == QStringLiteral("PixelsPerCentimeter")) {
+                if (match.captured(4).trimmed() == QStringLiteral("PixelsPerCentimeter")) {
                     m_resolution *= 2.54f;
                 }
 

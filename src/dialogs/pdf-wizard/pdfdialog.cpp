@@ -28,7 +28,7 @@
 #include <QLocale>
 #include <QProcess>
 #include <QPushButton>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QStringList>
 #include <QTemporaryFile>
@@ -456,9 +456,9 @@ void PdfDialog::readNumberOfPages(int scriptmode, const QString &output)
             determineNumberOfPages(m_PdfDialog.m_edInfile->lineEdit()->text().trimmed(),true);
             return;
         } else {
-            QRegExp re(QStringLiteral("\\d+"));
-            if ( re.indexIn(output) >= 0) {
-                numpages = re.cap(0).toInt(&ok);
+            const QRegularExpressionMatch match = QRegularExpression(QStringLiteral("\\d+")).match(output);
+            if (match.hasMatch()) {
+                numpages = match.captured(0).toInt(&ok);
             }
         }
 
@@ -479,11 +479,11 @@ bool PdfDialog::readEncryption(const QString &filename)
     }
 
     KILE_DEBUG_MAIN << "search for encryption ";
-    QRegExp re(QStringLiteral("/Encrypt(\\W|\\s|$)"));
+    QRegularExpression re(QStringLiteral("/Encrypt(\\W|\\s|$)"));
     QTextStream in(&file);
     QString line = in.readLine();
     while ( !line.isNull() ) {
-        if ( re.indexIn(line) >= 0 ) {
+        if ( line.contains(re) ) {
             KILE_DEBUG_MAIN << "pdf file is encrypted !!!";
             return  true;
         }
@@ -1543,16 +1543,17 @@ QString PdfDialog::buildDeletePageList()
 {
     // m_numpages is known
     QString param = m_PdfDialog.m_edParameter->text().trimmed();
-    QRegExp re(QStringLiteral("(\\d+)-(\\d+)"));
+    QRegularExpression re(QStringLiteral("(\\d+)-(\\d+)"));
+    QRegularExpressionMatch match;
 
     // analyze delete list
     bool ok;
     QBitArray arr(m_numpages + 1,false);
     QStringList pagelist = param.split(QLatin1Char(','));
     for(const QString &s: std::as_const(pagelist)) {
-        if (s.contains(QLatin1Char('-')) && re.indexIn(s) >= 0) {
-            int from = re.cap(1).toInt(&ok);
-            int to = re.cap(2).toInt(&ok);
+        if (s.contains(QLatin1Char('-')) && s.indexOf(re, 0, &match) >= 0) {
+            int from = match.captured(1).toInt(&ok);
+            int to = match.captured(2).toInt(&ok);
             for (int i=from; i<=to; ++i) {
                 arr.setBit(i);
             }
@@ -1620,15 +1621,16 @@ bool PdfDialog::checkParameter()
     if ( taskindex==PDF_SELECT || taskindex==PDF_DELETE ) {
         // m_numpages is known
         QString param = m_PdfDialog.m_edParameter->text().trimmed();
-        QRegExp re(QStringLiteral("(\\d+)-(\\d+)"));
+        QRegularExpression re(QStringLiteral("(\\d+)-(\\d+)"));
+        QRegularExpressionMatch match;
 
         // analyze page list
         bool ok;
         QStringList pagelist = param.split(QLatin1Char(','));
         for(const QString &s: std::as_const(pagelist)) {
-            if (s.contains(QLatin1Char('-')) && re.indexIn(s) >= 0) {
-                int from = re.cap(1).toInt(&ok);
-                int to = re.cap(2).toInt(&ok);
+            if (s.contains(QLatin1Char('-')) && s.indexOf(re, 0, &match) >= 0) {
+                int from = match.captured(1).toInt(&ok);
+                int to = match.captured(2).toInt(&ok);
                 if ( from > to ) {
                     showError(i18n("Illegal page list 'from-to': %1 is bigger than %2.",from,to));
                     return false;

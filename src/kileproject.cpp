@@ -395,7 +395,7 @@ void KileProject::setType(KileProjectItem *projectItem)
 
     bool unknown = true;
     for(int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
-        if(m_reExtensions[i-1].indexIn(projectItem->url().fileName()) != -1) {
+        if(projectItem->url().fileName().contains(m_reExtensions[i-1])) {
             projectItem->setType(i);
             unknown = false;
             break;

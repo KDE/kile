@@ -2913,8 +2913,9 @@ void Kile::cleanBib()
     if ( ! view )
         return;
 
-    QRegExp reOptional(QStringLiteral("(ALT|OPT)(\\w+)\\s*=\\s*(\\S.*)"));
-    QRegExp reNonEmptyEntry(QStringLiteral(".*\\w.*"));
+    QRegularExpression reOptional(QStringLiteral("(ALT|OPT)(\\w+)\\s*=\\s*(\\S.*)"));
+    QRegularExpression reNonEmptyEntry(QStringLiteral(".*\\w.*"));
+    QRegularExpressionMatch optionalMatch;
 
     QString s;
     int i = 0;
@@ -2922,13 +2923,13 @@ void Kile::cleanBib()
         s = view->document()->line(i);
 
         // do we have a line that starts with ALT or OPT?
-        if(reOptional.indexIn(s) >= 0) {
+        if(s.indexOf(reOptional, 0, &optionalMatch) >= 0) {
             // yes! capture type and entry
-            QString type = reOptional.cap( 2 );
-            QString entry = reOptional.cap( 3 );
+            QString type = optionalMatch.captured(2);
+            QString entry = optionalMatch.captured(3);
             view->document()->removeLine( i );
             view->document()->setModified(true);
-            if(reNonEmptyEntry.indexIn(entry) >= 0) {
+            if(entry.contains(reNonEmptyEntry)) {
                 type.append(QStringLiteral(" = "));
                 type.append(entry);
                 view->document()->insertLine(i, type);

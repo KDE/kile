@@ -19,7 +19,7 @@
 #include <QFileInfo>
 #include <QList>
 #include <QObject>
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include <KConfig>
 #include <QUrl>
@@ -390,7 +390,7 @@ private:
     QList<KileProjectItem*>	m_projectItems;
 
     QString		m_extensions[4];
-    QRegExp		m_reExtensions[4];
+    QRegularExpression	m_reExtensions[4];
 
     QString				m_masterDocument, m_makeIndexOptions;
     bool				m_useMakeIndexOptions;

@@ -92,9 +92,10 @@ void Manager::executeScript(const Script *script)
     QRegularExpression endOfLineExp(QStringLiteral("(\r\n)|\n|\r"));
     int i = code.indexOf(endOfLineExp);
     QString firstLine = (i >= 0 ? code.left(i) : code);
-    QRegExp requiredVersionTagExp(QStringLiteral("(kile-version:\\s*)(\\d+\\.\\d+(.\\d+)?)"));
-    if(requiredVersionTagExp.indexIn(firstLine) != -1) {
-        QString requiredKileVersion = requiredVersionTagExp.cap(2);
+    QRegularExpression requiredVersionTagExp(QStringLiteral("(kile-version:\\s*)(\\d+\\.\\d+(.\\d+)?)"));
+    const QRegularExpressionMatch requiredVersionTagMatch = requiredVersionTagExp.match(firstLine);
+    if(requiredVersionTagMatch.hasMatch()) {
+        QString requiredKileVersion = requiredVersionTagMatch.captured(2);
         if(compareVersionStrings(requiredKileVersion, QLatin1StringView(KILE_VERSION_STRING)) > 0) {
             KMessageBox::error(m_kileInfo->mainWindow(), i18n("Version %1 of Kile is at least required to execute the script \"%2\". The execution has been aborted.",
                                                               requiredKileVersion, script->getName()), i18n("Version Error"));
@@ -250,17 +251,18 @@ void Manager::registerScript(const QString& fileName, QMap<QString, unsigned int
     QString editorKeySequence = QString();
     QString seq = configGroup.readEntry(QStringLiteral("Script") + QString::number(id) + QStringLiteral("KeySequence"));
     if(!seq.isEmpty()) {
-        QRegExp re(QStringLiteral("(\\d+)-(.*)"));
-        if(re.exactMatch(seq))  {
-            sequenceType = re.cap(1).toInt();
+        QRegularExpression re(QRegularExpression::anchoredPattern(QStringLiteral("(\\d+)-(.*)")));
+        const QRegularExpressionMatch match = re.match(seq);
+        if(match.hasMatch())  {
+            sequenceType = match.captured(1).toInt();
             if(sequenceType<Script::KEY_SEQUENCE || sequenceType>Script::KEY_SHORTCUT) {
                 sequenceType = Script::KEY_SEQUENCE;
             }
-            editorKeySequence = re.cap(2);
+            editorKeySequence = match.captured(2);
         }
         else {
             sequenceType = Script::KEY_SEQUENCE;
-            editorKeySequence = re.cap(1);
+            editorKeySequence = match.captured(1);
         }
     }
     KILE_DEBUG_MAIN << "script type=" << sequenceType << " seq=" << editorKeySequence;

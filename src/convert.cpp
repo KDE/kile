@@ -15,7 +15,7 @@
 #include "convert.h"
 
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextCodec>
 #include <QTextStream>
 
@@ -282,7 +282,7 @@ bool ConvertASCIIToEnc::isModifier(const QString& seq)
 QString ConvertASCIIToEnc::getSequence(int &i)
 {
     QString seq = nextSequence(i);
-    static QRegExp reBraces(QLatin1String("\\{([a-zA-Z]?)\\}"));
+    static const QRegularExpression reBraces(QRegularExpression::anchoredPattern(QLatin1String("\\{([a-zA-Z]?)\\}")));
 
     if(isModifier(seq)) {
         KILE_DEBUG_MAIN << "\tisModifier true : " << seq;
@@ -302,10 +302,11 @@ QString ConvertASCIIToEnc::getSequence(int &i)
             seq += nextSequence(i);
         }
         else {
-            if(reBraces.exactMatch(m_io->currentLine().mid(i, 3))) {
+            const QRegularExpressionMatch match = reBraces.match(m_io->currentLine().mid(i, 3));
+            if(match.hasMatch()) {
                 KILE_DEBUG_MAIN << "\tbraces detected";
                 i = i + 3;
-                seq += reBraces.cap(1);
+                seq += match.captured(1);
             }
             else {
                 QChar nextChar = m_io->currentLine()[i++];

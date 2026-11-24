@@ -25,7 +25,7 @@ copyright            : Thomas Fischer <t-fisch@users.sourceforge.net>
 #include <QLayout>
 #include <QPainter>
 #include <QPalette>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStringList>
 #include <QStyle>
 #include <QTreeWidget>
@@ -530,7 +530,8 @@ void QuickDocument::writeDocumentClassConfig()
     KileConfig::setOptionsBeamer(m_dictDocumentClasses[QStringLiteral("beamer")][qd_SelectedOptions]);
 
     // write config of user packages
-    QRegExp reg(QStringLiteral("(\\S+)\\s+=>\\s+(.*)"));
+    QRegularExpression reg(QStringLiteral("(\\S+)\\s+=>\\s+(.*)"));
+    QRegularExpressionMatch match;
     for (int i = 0; i < userclasses.count(); ++i) {
         // get the stringlist with all information
         KILE_DEBUG_MAIN << "\twrite user class: " << userclasses[i];
@@ -546,13 +547,13 @@ void QuickDocument::writeDocumentClassConfig()
         // write user-defined options
         QString options;
         for (int j = qd_OptionsStart; j < list.count(); ++j) {
-            int pos = reg.indexIn(list[j]);
+            int pos = list[j].indexOf(reg, 0, &match);
             if (pos != -1) {
-                configGroup.writeEntry(reg.cap(1), reg.cap(2));
+                configGroup.writeEntry(match.captured(1), match.captured(2));
                 if (!options.isEmpty()) {
                     options += QLatin1Char(',');
                 }
-                options += reg.cap(1);
+                options += match.captured(1);
             }
         }
         configGroup.writeEntry(QStringLiteral("options"), options);
@@ -839,25 +840,26 @@ void QuickDocument::setSelectedClassOptions(const QString &selectedoptions)
 //  - if the option is in the selectedOptions-dictionary, set the 'checked' symbol
 void QuickDocument::setClassOptions(const QStringList &list, uint start)
 {
-    QRegExp reg(QStringLiteral("(\\S+)\\s+=>\\s+(.*)"));
+    QRegularExpression reg(QStringLiteral("(\\S+)\\s+=>\\s+(.*)"));
+    QRegularExpressionMatch match;
 
     m_lvClassOptions->clear();
     for (int i = start; i < list.count(); ++i) {
-        int pos = reg.indexIn(list[i]);
+        int pos = list[i].indexOf(reg, 0, &match);
         if (pos != -1) {
-            QTreeWidgetItem *twi = new QTreeWidgetItem(m_lvClassOptions, QStringList(reg.cap(1)));
+            QTreeWidgetItem *twi = new QTreeWidgetItem(m_lvClassOptions, QStringList(match.captured(1)));
             twi->setFlags(twi->flags() | Qt::ItemIsUserCheckable);
 
             // see if it is a default option
-            if (isDefaultClassOption(reg.cap(1))) {
-                twi->setText(1, reg.cap(2) + QStringLiteral(" [default]"));
+            if (isDefaultClassOption(match.captured(1))) {
+                twi->setText(1, match.captured(2) + QStringLiteral(" [default]"));
             }
             else {
-                twi->setText(1, reg.cap(2));
+                twi->setText(1, match.captured(2));
             }
 
             // check it if this option is set by th user
-            twi->setCheckState(0, isSelectedClassOption(reg.cap(1)) ? Qt::Checked : Qt::Unchecked);
+            twi->setCheckState(0, isSelectedClassOption(match.captured(1)) ? Qt::Checked : Qt::Unchecked);
         }
     }
 }
@@ -1186,7 +1188,8 @@ bool QuickDocument::readPackagesListview()
         return false;
 
     // regular expression to split the string from the config file
-    QRegExp reg(QStringLiteral("([^,]*),([^,]*),([^,]*),([^,]*),(.*)"));
+    QRegularExpression reg(QRegularExpression::anchoredPattern(QStringLiteral("([^,]*),([^,]*),([^,]*),([^,]*),(.*)")));
+    QRegularExpressionMatch match;
 
     KConfigGroup configGroup = config()->group(QStringLiteral("QuickDocument/Packages"));
     for (QStringList::Iterator it = elements.begin(); it != elements.end(); ++it) {
@@ -1199,12 +1202,12 @@ bool QuickDocument::readPackagesListview()
             item = new QTreeWidgetItem(m_lvPackages, QStringList(*it));
             item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
             item->setCheckState(0, Qt::Unchecked);
-            if (reg.exactMatch(configGroup.readEntry(*it))) {
-                if (reg.cap(1) == QStringLiteral("1"))          // selected state (entry 1)
+            if ((match = reg.match(configGroup.readEntry(*it))).hasMatch()) {
+                if (match.captured(1) == QStringLiteral("1"))          // selected state (entry 1)
                     item->setCheckState(0, Qt::Checked);
-                if (reg.cap(2) == QStringLiteral("1"))          // open state (entry 2)
+                if (match.captured(2) == QStringLiteral("1"))          // open state (entry 2)
                     item->setExpanded(true);
-                item->setText(2, reg.cap(5));    // description (entry 5)
+                item->setText(2, match.captured(5));    // description (entry 5)
             } else {
                 KILE_DEBUG_MAIN << "\twrong config entry for package " << item->text(0);
             }
@@ -1212,17 +1215,17 @@ bool QuickDocument::readPackagesListview()
             QList<QTreeWidgetItem*> items = m_lvPackages->findItems((*it).left(pos), Qt::MatchExactly);
             if (items.count() > 0) {
                 item = items[0];
-                if (reg.exactMatch(configGroup.readEntry(*it))) {
+                if ((match = reg.match(configGroup.readEntry(*it))).hasMatch()) {
                     QTreeWidgetItem *clichild;
-                    if (reg.cap(2) == QStringLiteral("1")) {                                       // editable state
-                        clichild = insertEditableTreeWidget(item, (*it).mid(pos + 1), reg.cap(5), reg.cap(4), reg.cap(3));
+                    if (match.captured(2) == QStringLiteral("1")) {                                       // editable state
+                        clichild = insertEditableTreeWidget(item, (*it).mid(pos + 1), match.captured(5), match.captured(4), match.captured(3));
                     } else {
                         clichild = new QTreeWidgetItem(item, QStringList((*it).mid(pos + 1)));
                         clichild->setFlags(clichild->flags() | Qt::ItemIsUserCheckable);
                         clichild->setCheckState(0, Qt::Unchecked);
-                        clichild->setText(2, reg.cap(5));                           // description
+                        clichild->setText(2, match.captured(5));                           // description
                     }
-                    if (reg.cap(1) == QStringLiteral("1"))                                         // selected state
+                    if (match.captured(1) == QStringLiteral("1"))                                         // selected state
                         clichild->setCheckState(0, Qt::Checked);
                 } else {
                     KILE_DEBUG_MAIN << "\twrong config entry for package option " << item->text(0);
@@ -1403,17 +1406,18 @@ QString QuickDocument::addPackageDefault(const QString &option, const QString &d
 
 QString QuickDocument::stripPackageDefault(const QString &option, const QString &description)
 {
-    QRegExp reg(QStringLiteral("(.*) \\[([^\\[]*)\\]"));
+    QRegularExpression reg(QRegularExpression::anchoredPattern(QStringLiteral("(.*) \\[([^\\[]*)\\]")));
 
     if (description.right(4) == QStringLiteral(" [ ]"))
         return description.left(description.length() - 4);
 
-    if (! reg.exactMatch(description))
+    const QRegularExpressionMatch match = reg.match(description);
+    if (! match.hasMatch())
         return description;
 
-    return (reg.cap(2).isEmpty() ||
-            (m_dictPackagesDefaultvalues.contains(option) && m_dictPackagesDefaultvalues[option] == reg.cap(2))
-           ) ? reg.cap(1) : description;
+    return (match.captured(2).isEmpty() ||
+            (m_dictPackagesDefaultvalues.contains(option) && m_dictPackagesDefaultvalues[option] == match.captured(2))
+           ) ? match.captured(1) : description;
 }
 
 ////////////////////////////// hyperref tab //////////////////////////////
@@ -1620,11 +1624,12 @@ void QuickDocument::printBeamerTheme()
     KILE_DEBUG_MAIN << "\tbeamer theme";
 
     QString theme = m_cbPaperSize->currentText();
-    QRegExp reg(QStringLiteral("(\\w+)\\s+\\((.*)\\)$"));
+    QRegularExpression reg(QStringLiteral("(\\w+)\\s+\\((.*)\\)$"));
+    QRegularExpressionMatch match;
 
-    if (reg.indexIn(theme) >= 0) {
-        QStringList optionlist = reg.cap(2).split(QLatin1Char(','));
-        m_td.tagBegin += QStringLiteral("\\usepackage[") + optionlist.join(QStringLiteral(",")) + QStringLiteral("]{beamertheme") + reg.cap(1) + QStringLiteral("}\n\n");
+    if (theme.indexOf(reg, 0, &match) >= 0) {
+        QStringList optionlist = match.captured(2).split(QLatin1Char(','));
+        m_td.tagBegin += QStringLiteral("\\usepackage[") + optionlist.join(QStringLiteral(",")) + QStringLiteral("]{beamertheme") + match.captured(1) + QStringLiteral("}\n\n");
     }
     else {
         m_td.tagBegin += QStringLiteral("\\usepackage{beamertheme") + theme + QStringLiteral("}\n\n");
@@ -2273,8 +2278,9 @@ void QuickDocumentInputDialog::getResults(QStringList &list)
 // get the package name from string 'Option: (package: name)'
 QString QuickDocumentInputDialog::getPackageName(const QString &text)
 {
-    QRegExp reg(i18n("package:") + QStringLiteral(" ([^\\)]+)"));
-    return (reg.indexIn(text) >= 0) ? reg.cap(1) : QString();
+    QRegularExpression reg(i18n("package:") + QStringLiteral(" ([^\\)]+)"));
+    QRegularExpressionMatch match;
+    return (text.indexOf(reg, 0, &match) >= 0) ? match.captured(1) : QString();
 }
 
 bool QuickDocumentInputDialog::checkListEntries(const QString &title, const QString &textlist,
@@ -2286,8 +2292,8 @@ bool QuickDocumentInputDialog::checkListEntries(const QString &title, const QStr
     for (int i = 0; i < list.count(); ++i) {
         QString s = list[i].trimmed();
         // entries must match a regular expression
-        QRegExp reg(pattern);
-        if (!reg.exactMatch(s)) {
+        QRegularExpression reg(QRegularExpression::anchoredPattern(pattern));
+        if (!reg.match(s).hasMatch()) {
             KMessageBox::error(this, i18n("%1 '%2' is not allowed.", title, s));
             return false;
         }
@@ -2316,8 +2322,8 @@ void QuickDocumentInputDialog::slotAccepted()
                 return;
             }
 
-            QRegExp reg(QStringLiteral("\\w+"));
-            if (!reg.exactMatch(input)) {
+            QRegularExpression reg(QRegularExpression::anchoredPattern(QStringLiteral("\\w+")));
+            if (!reg.match(input).hasMatch()) {
                 KMessageBox::error(this, i18n("This name is not allowed for a document class."));
                 return;
             }

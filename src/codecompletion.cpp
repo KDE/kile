@@ -19,7 +19,6 @@
 #include <QFile>
 #include <QList>
 #include <QRegularExpression>
-#include <QRegExp>
 #include <QTimer>
 
 #include <KConfig>
@@ -236,18 +235,21 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
         int openBracketIndex = completionString.indexOf(QLatin1Char('{'));
         if(openBracketIndex != -1) {
             // TeX allows '.' characters inside citation labels (bug 266670)
-            QRegExp labelListRegExp(QLatin1String("\\s*(([:.\\w]+)|([:.\\w]+(\\s*,\\s*[:.\\w]*)+))"));
-            labelListRegExp.setMinimal(false);
+            // the label list has to reach from the opening bracket to the end of 'completionString'
+            QRegularExpression labelListRegExp(QLatin1String("\\s*(([:.\\w]+)|([:.\\w]+(\\s*,\\s*[:.\\w]*)+))\\z"));
             int column = openBracketIndex + 1;
             KILE_DEBUG_CODECOMPLETION << "open bracket column + 1: " << column;
-            KILE_DEBUG_CODECOMPLETION << labelListRegExp.indexIn(completionString, openBracketIndex + 1);
-            if(labelListRegExp.indexIn(completionString, openBracketIndex + 1) == openBracketIndex + 1
-                    && labelListRegExp.matchedLength() + openBracketIndex + 1 == completionString.length()) {
-                QRegExp lastCommaRegExp(QLatin1String(",\\s*"));
-                int lastCommaIndex = lastCommaRegExp.lastIndexIn(completionString);
+            const QRegularExpressionMatch labelListMatch = labelListRegExp.match(completionString, openBracketIndex + 1,
+                                                                                 QRegularExpression::NormalMatch,
+                                                                                 QRegularExpression::AnchorAtOffsetMatchOption);
+            KILE_DEBUG_CODECOMPLETION << labelListMatch.hasMatch();
+            if(labelListMatch.hasMatch()) {
+                QRegularExpression lastCommaRegExp(QLatin1String(",\\s*"));
+                QRegularExpressionMatch lastCommaMatch;
+                int lastCommaIndex = completionString.lastIndexOf(lastCommaRegExp, completionString.length(), &lastCommaMatch);
                 if(lastCommaIndex >= 0) {
                     KILE_DEBUG_CODECOMPLETION << "last comma found at: " << lastCommaIndex;
-                    column =  lastCommaIndex + lastCommaRegExp.matchedLength();
+                    column =  lastCommaIndex + lastCommaMatch.capturedLength();
                 }
             }
             KILE_DEBUG_CODECOMPLETION << labelListRegExp.errorString();
@@ -364,13 +366,13 @@ void LaTeXCompletionModel::executeCompletionItem(KTextEditor::View *view,
 {
     KTextEditor::Document *document = view->document();
     KTextEditor::Cursor startCursor = word.start();
-    const static QRegExp reEnv = QRegExp(QStringLiteral("^\\\\(begin|end)[^a-zA-Z]+"));
+    const static QRegularExpression reEnv(QStringLiteral("^\\\\(begin|end)[^a-zA-Z]+"));
 
     int cursorXPos = -1, cursorYPos = -1;
     QString completionText = data(index.sibling(index.row(), Name), Qt::DisplayRole).toString();
 
     QString textToInsert;
-    int envIndex = reEnv.indexIn(completionText);
+    int envIndex = completionText.indexOf(reEnv);
     if(completionText != QStringLiteral("\\begin{}") && envIndex != -1) { // we are completing an environment
         QString prefix;
         prefix = document->text(KTextEditor::Range(startCursor.line(), 0,
@@ -419,11 +421,11 @@ void LaTeXCompletionModel::executeCompletionItem(KTextEditor::View *view,
 
 QString LaTeXCompletionModel::filterLatexCommand(const QString &text, int &cursorYPos, int &cursorXPos)
 {
-    const static QRegExp reEnv = QRegExp(QStringLiteral("^\\\\(begin|end)[^a-zA-Z]+"));
+    const static QRegularExpression reEnv(QStringLiteral("^\\\\(begin|end)[^a-zA-Z]+"));
 
     cursorXPos = -1, cursorYPos = -1;
     QString textToInsert;
-    int envIndex = reEnv.indexIn(text);
+    int envIndex = text.indexOf(reEnv);
     if(text != QStringLiteral("\\begin{}") && envIndex != -1) {
         textToInsert = buildEnvironmentCompletedText(text, QString(), cursorYPos, cursorXPos);
     }
@@ -918,10 +920,14 @@ void Manager::startLaTeXEnvironment(KTextEditor::View *view)
     KTextEditor::Cursor cursor = view->cursorPosition();
     QString line = view->document()->line(cursor.line()).left(cursor.column());
 
-    QRegExp regexp(QLatin1String("\\\\b|\\\\be|\\\\beg|\\\\begi|\\\\begin|\\\\begin\\{|\\\\begin\\{([a-zA-z]*)"));
-    int pos = regexp.lastIndexIn(line);
+    // matches the longest of "\b", "\be", "\beg", "\begi", "\begin", "\begin{", and "\begin{env"
+    QRegularExpression regexp(QLatin1String("\\\\b(?:e(?:g(?:i(?:n(?:\\{([a-zA-z]*))?)?)?)?)?"));
+    // every match starts with "\b", so the last match starts at the last "\b"
+    int pos = line.lastIndexOf(QLatin1String("\\b"));
     if(pos >= 0) {
-        view->document()->replaceText(KTextEditor::Range(cursor.line(), pos, cursor.line(), cursor.column()), QLatin1String("\\begin{") + regexp.cap(1));
+        const QRegularExpressionMatch match = regexp.match(line, pos, QRegularExpression::NormalMatch,
+                                                           QRegularExpression::AnchorAtOffsetMatchOption);
+        view->document()->replaceText(KTextEditor::Range(cursor.line(), pos, cursor.line(), cursor.column()), QLatin1String("\\begin{") + match.captured(1));
     }
     else {
         // environment completion will start with "\begin{en" when the cursor is placed
@@ -936,10 +942,10 @@ void Manager::startLaTeXEnvironment(KTextEditor::View *view)
         // \en
         // it\en
         // \aen
-        QRegExp re(QLatin1String("(^|[^\\\\A-Za-z])([a-zA-Z]+)$"));
-        pos = re.indexIn(line);
-        if(pos >= 0) {
-            view->document()->replaceText(KTextEditor::Range(cursor.line(), re.pos(2), cursor.line(), cursor.column()), QLatin1String("\\begin{") + re.cap(2));
+        QRegularExpression re(QLatin1String("(^|[^\\\\A-Za-z])([a-zA-Z]+)$"));
+        const QRegularExpressionMatch match = re.match(line);
+        if(match.hasMatch()) {
+            view->document()->replaceText(KTextEditor::Range(cursor.line(), match.capturedStart(2), cursor.line(), cursor.column()), QLatin1String("\\begin{") + match.captured(2));
         }
         else {
             view->document()->insertText(cursor, QLatin1String("\\begin{"));

@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 01:03+0000\n"
-"PO-Revision-Date: 2026-09-06 18:04+0200\n"
+"PO-Revision-Date: 2026-11-19 17:36+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -509,7 +509,7 @@ msgstr "Vista de l'estructura"
 #: dialogs/configurationdialog.cpp:314 widgets/symbolviewconfigwidget.ui:14
 #, kde-format
 msgid "Symbol View"
-msgstr "Visualització dels símbols"
+msgstr "Visualitzeu els símbols"
 
 #: dialogs/findfilesdialog.cpp:97 dialogs/projectdialogs.cpp:57
 #, kde-format
@@ -696,8 +696,8 @@ msgid ""
 msgstr ""
 "Per als primers tres modes, podeu seleccionar una plantilla per al patró del "
 "quadro combinat i editar-la ací. La cadena %s en la plantilla és substituïda "
-"pel patró del camp d'entrada, resultant en una expressió regular que s'ha de "
-"buscar. En tots els altres modes esta plantilla s'ignora."
+"pel patró del camp d'entrada, donant com a resultat una expressió regular "
+"que s'ha de buscar. En tots els altres modes esta plantilla s'ignora."
 
 #: dialogs/findfilesdialog.cpp:300
 #, kde-format
@@ -3736,7 +3736,7 @@ msgstr "Les diapositives utilitzen un joc restringit de colors"
 #: dialogs/quickdocumentdialog.cpp:744
 #, kde-format
 msgid "Display the number of the current slide and the total number"
-msgstr "Mostra el número de la diapositiva actual i el número total"
+msgstr "Mostra el número de la diapositiva actual i el nombre total"
 
 #: dialogs/quickdocumentdialog.cpp:745
 #, kde-format
@@ -5772,7 +5772,7 @@ msgstr "S'ha produït un error en la vista de l'estructura"
 #: editorkeysequencemanager.cpp:251
 #, kde-format
 msgid "Script execution of %1"
-msgstr "Execució de l'script de %1"
+msgstr "Executeu l'script de %1"
 
 #: errorhandler.cpp:77
 #, kde-format
@@ -6544,8 +6544,8 @@ msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr ""
-"Per tal de poder definir el document actual com a document mestre, primer "
-"s'ha de guardar."
+"Per a definir el document actual com a document mestre, primer s'ha de "
+"guardar."
 
 #: kile.cpp:3068
 #, kde-format

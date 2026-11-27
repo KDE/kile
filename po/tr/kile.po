@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-23 01:03+0000\n"
-"PO-Revision-Date: 2026-11-23 18:14+0300\n"
+"PO-Revision-Date: 2026-11-26 19:10+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1288,7 +1288,7 @@ msgstr "Bir LaTeX Komutunu Düzenle"
 #: dialogs/latexcommanddialog.cpp:308 dialogs/quickdocumentdialog.cpp:2308
 #, kde-format
 msgid "An empty string is not allowed."
-msgstr "Boş bir dizi kullanılamaz."
+msgstr "Boş bir dizge kullanılamaz."
 
 #: dialogs/latexcommanddialog.cpp:318
 #, kde-format
